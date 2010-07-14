@@ -7,11 +7,15 @@ begin
     gem.name = "earth"
     gem.summary = %Q{Land, sky, and sea}
     gem.description = %Q{An earth-simulation environment with ActiveRecord models and data}
-    gem.email = "andy@rossmeissl.net"
-    gem.homepage = "http://github.com/brighterplanet/earth"
+    gem.email = 'andy@rossmeissl.net'
+    gem.homepage = 'http://github.com/brighterplanet/earth'
     gem.authors = ['Seamus Abshere', 'Derek Kastner', "Andy Rossmeissl"]
-    gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
-    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
+    gem.add_dependency 'activerecord', '~ 3.0'
+    gem.add_development_dependency 'rspec'
+    gem.add_development_dependency 'rake'
+    gem.add_development_dependency 'jeweler'
+    gem.add_development_dependency 'rcov'
+    gem.add_development_dependency 'rdoc'
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
