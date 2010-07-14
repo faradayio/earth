@@ -1,0 +1,8 @@
+require 'earth/air'
+require 'earth/automobile'
+require 'earth/bus'
+require 'earth/diet'
+require 'earth/locality'
+require 'earth/pet'
+require 'earth/rail'
+require 'earth/residence'
