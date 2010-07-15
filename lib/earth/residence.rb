@@ -1,8 +1,3 @@
-module Earth
-  module Residence
-  end
-end
-
 require 'earth/residence/air_conditioner_use'
 require 'earth/residence/clothes_machine_use'
 require 'earth/residence/dishwasher_use'

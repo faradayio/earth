@@ -1,8 +1,3 @@
-module Earth
-  module Locality
-  end
-end
-
 require 'earth/locality/census_division'
 require 'earth/locality/census_region'
 require 'earth/locality/climate_division'
