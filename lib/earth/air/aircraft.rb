@@ -21,4 +21,12 @@ class Aircraft < ActiveRecord::Base
                 :seats =>         lambda {
     weighted_average(:seats,         :weighted_by => [:segments, :passengers])
   } # 62.1741
+
+  data_miner do
+    tap "Brighter Planet's sanitized aircraft data", Earth.taps_server
+    
+    process "pull dependencies" do
+      run_data_miner_on_belongs_to_associations
+    end
+  end
 end
