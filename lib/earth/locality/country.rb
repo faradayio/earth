@@ -4,7 +4,7 @@ class Country < ActiveRecord::Base
   extend Cacheable if Switches.caching?
   
   data_miner do
-    tap "Brighter Planet's sanitized countries list", TAPS_SERVER
+    tap "Brighter Planet's sanitized countries list", Earth.taps_server
   end
   
   class << self

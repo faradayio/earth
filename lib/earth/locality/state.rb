@@ -12,7 +12,7 @@ class State < ActiveRecord::Base
   end
 
   data_miner do
-    tap "Brighter Planet's sanitized states", TAPS_SERVER
+    tap "Brighter Planet's sanitized states", Earth.taps_server
     
     process "pull dependencies" do
       run_data_miner_on_belongs_to_associations

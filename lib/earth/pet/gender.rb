@@ -5,6 +5,6 @@ class Gender < ActiveRecord::Base
   has_many :breed_genders, :foreign_key => 'gender_name'
   
   data_miner do
-    tap "Brighter Planet's gender info", TAPS_SERVER
+    tap "Brighter Planet's gender info", Earth.taps_server
   end
 end

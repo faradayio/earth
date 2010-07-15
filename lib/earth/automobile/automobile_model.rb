@@ -5,7 +5,7 @@ class AutomobileModel < ActiveRecord::Base
   belongs_to :make, :class_name => 'AutomobileMake', :foreign_key => 'make_name'
   
   data_miner do
-    tap "Brighter Planet's auto model data", TAPS_SERVER
+    tap "Brighter Planet's auto model data", Earth.taps_server
     
     process "bring in dependencies" do
       run_data_miner_on_belongs_to_associations

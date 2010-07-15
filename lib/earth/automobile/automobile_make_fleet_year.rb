@@ -6,7 +6,7 @@ class AutomobileMakeFleetYear < ActiveRecord::Base
   belongs_to :make_year, :class_name => 'AutomobileMakeYear', :foreign_key => 'make_year_name'
 
   data_miner do
-    tap "Brighter Planet's sanitized auto make fleet year data", TAPS_SERVER
+    tap "Brighter Planet's sanitized auto make fleet year data", Earth.taps_server
     
     process "bring in dependencies" do
       run_data_miner_on_belongs_to_associations

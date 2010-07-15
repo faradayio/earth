@@ -4,6 +4,6 @@ class AircraftManufacturer < ActiveRecord::Base
   has_many :aircraft, :foreign_key => 'manufacturer_name'
   
   data_miner do
-    tap "Brighter Planet's aircraft manufacturer data", TAPS_SERVER
+    tap "Brighter Planet's aircraft manufacturer data", Earth.taps_server
   end
 end

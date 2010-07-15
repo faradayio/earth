@@ -20,7 +20,7 @@ class FlightSegment < ActiveRecord::Base
                 :seats => lambda { weighted_average :seats, :weighted_by => :passengers }
 
   data_miner do
-    tap "Brighter Planet's sanitized T100 data", TAPS_SERVER
+    tap "Brighter Planet's sanitized T100 data", Earth.taps_server
     
     process "rename certain columns so that we can use them as association names" do
       connection.rename_column :flight_segments, :domesticity, :domesticity_id

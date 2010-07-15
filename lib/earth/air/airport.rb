@@ -39,7 +39,7 @@ class Airport < ActiveRecord::Base
                    :lng_column_name => :longitude
 
   data_miner do
-    tap "Brighter Planet's sanitized airports data", TAPS_SERVER
+    tap "Brighter Planet's sanitized airports data", Earth.taps_server
     
     process "pull dependencies" do
       run_data_miner_on_belongs_to_associations

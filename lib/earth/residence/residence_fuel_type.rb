@@ -6,7 +6,7 @@ class ResidenceFuelType < ActiveRecord::Base
   has_many :prices, :class_name => 'ResidenceFuelPrice', :foreign_key => 'residence_fuel_type_name'
   
   data_miner do
-    tap "Brighter Planet's residence fuel types data", TAPS_SERVER
+    tap "Brighter Planet's residence fuel types data", Earth.taps_server
   end
   
   def price_per_unit(relaxations = [])

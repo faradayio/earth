@@ -9,6 +9,6 @@ class AutomobileMake < ActiveRecord::Base
   scope :major, :conditions => { :major => true }, :order => :name
 
   data_miner do
-    tap "Brighter Planet's make year data", TAPS_SERVER
+    tap "Brighter Planet's make year data", Earth.taps_server
   end
 end

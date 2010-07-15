@@ -5,6 +5,6 @@ class AircraftClass < ActiveRecord::Base
 #  has_many :airline_aircraft_seat_classes, :through => :aircraft
 
   data_miner do
-    tap "Brighter Planet's aircraft class data", TAPS_SERVER
+    tap "Brighter Planet's aircraft class data", Earth.taps_server
   end
 end

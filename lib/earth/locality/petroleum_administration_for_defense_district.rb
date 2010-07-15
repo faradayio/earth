@@ -2,7 +2,7 @@ class PetroleumAdministrationForDefenseDistrict < ActiveRecord::Base
   set_primary_key :code
   
   data_miner do
-    tap "Brighter Planet's PADD info", TAPS_SERVER
+    tap "Brighter Planet's PADD info", Earth.taps_server
   end
   
   def name

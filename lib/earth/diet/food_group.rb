@@ -5,7 +5,7 @@ class FoodGroup < ActiveRecord::Base
   index :name
   
   data_miner do
-    tap "Brighter Planet's food group data", TAPS_SERVER
+    tap "Brighter Planet's food group data", Earth.taps_server
   end
   
   class << self

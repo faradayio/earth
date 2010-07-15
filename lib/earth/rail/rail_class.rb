@@ -4,7 +4,7 @@ class RailClass < ActiveRecord::Base
   has_many :rail_trips
 
   data_miner do
-    tap "Brighter Planet's rail class data", TAPS_SERVER
+    tap "Brighter Planet's rail class data", Earth.taps_server
   end
   
   # speed is missing

@@ -30,7 +30,7 @@ class ResidentialEnergyConsumptionSurveyResponse < ActiveRecord::Base
   ]
   
   data_miner do
-    tap "Brighter Planet's sanitized RECS 2005", TAPS_SERVER
+    tap "Brighter Planet's sanitized RECS 2005", Earth.taps_server
         
     process "rename certain columns so that we can use them as association names" do
       connection.rename_column :residential_energy_consumption_survey_responses, :residence_class, :residence_class_id

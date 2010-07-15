@@ -9,6 +9,6 @@ class AutomobileSizeClass < ActiveRecord::Base
                 :conventional_fuel_efficiency_highway_multiplier => 0.996
   
   data_miner do
-    tap "Brighter Planet's sanitized automobile size class data", TAPS_SERVER
+    tap "Brighter Planet's sanitized automobile size class data", Earth.taps_server
   end
 end

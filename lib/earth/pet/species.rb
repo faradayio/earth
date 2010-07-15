@@ -11,7 +11,7 @@ class Species < ActiveRecord::Base
                 :weight => lambda { weighted_average :weight, :weighted_by => :population } # kg
 
   data_miner do
-    tap "Brighter Planet's species data", TAPS_SERVER
+    tap "Brighter Planet's species data", Earth.taps_server
   end
   
   class << self

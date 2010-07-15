@@ -5,7 +5,7 @@ class DietClass < ActiveRecord::Base
   has_many :diets
   
   data_miner do
-    tap "Brighter Planet's diet class data", TAPS_SERVER
+    tap "Brighter Planet's diet class data", Earth.taps_server
   end
   
   class << self

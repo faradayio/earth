@@ -4,7 +4,7 @@ class EgridRegion < ActiveRecord::Base
   has_many :egrid_subregions, :foreign_key => 'egrid_region_name'
   
   data_miner do
-    tap "Brighter Planet's egrid region data", TAPS_SERVER
+    tap "Brighter Planet's egrid region data", Earth.taps_server
 
     process "pull dependencies" do
       run_data_miner_on_belongs_to_associations

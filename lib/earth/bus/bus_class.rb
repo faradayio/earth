@@ -14,6 +14,6 @@ class BusClass < ActiveRecord::Base
                 :fugitive_air_conditioning_emission => 0.0203.pounds_per_mile.to(:kilograms_per_kilometre)
 
   data_miner do
-    tap "Brighter Planet's sanitized bus class data", TAPS_SERVER
+    tap "Brighter Planet's sanitized bus class data", Earth.taps_server
   end
 end
