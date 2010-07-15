@@ -105,7 +105,7 @@ AutomobileVariant.class_eval do
     '(GM-PONT)' => nil,
   }
   
-  class ParserB
+  class AutomobileVariant::ParserB
     attr_accessor :year
     def initialize(options = {})
       @year = options[:year]
@@ -189,7 +189,7 @@ AutomobileVariant.class_eval do
       end
     end
   end
-  class ParserC
+  class AutomobileVariant::ParserC
     attr_accessor :year
     def initialize(options = {})
       @year = options[:year]
@@ -214,7 +214,7 @@ AutomobileVariant.class_eval do
       row
     end
   end
-  class ParserD
+  class AutomobileVariant::ParserD
     attr_accessor :year
     def initialize(options = {})
       @year = options[:year]
@@ -238,7 +238,7 @@ AutomobileVariant.class_eval do
       row
     end
   end
-  class ParserE
+  class AutomobileVariant::ParserE
     OLD_FUEL_CODES = {
       'CNG' => 'C',
       'DU' => 'D',

@@ -1,4 +1,75 @@
 Aircraft.class_eval do
+  class Aircraft::BtsMatcher
+    attr_reader :wants
+    def initialize(wants)
+      @wants = wants
+    end
+    def match(raw_faa_icao_record)
+      @_match ||= Hash.new
+      return @_match[raw_faa_icao_record] if @_match.has_key?(raw_faa_icao_record)
+      faa_icao_record = [ raw_faa_icao_record['Manufacturer'] + ' ' + raw_faa_icao_record['Model'] ]
+      bts_record = Aircraft.bts_name_dictionary.left_to_right faa_icao_record
+      retval = case wants
+      when :bts_aircraft_type_code
+        bts_record['Code']
+      when :bts_name
+        bts_record['Description']
+      end if bts_record
+      @_match[raw_faa_icao_record] = retval
+    end
+  end
+
+  class Aircraft::FuelUseMatcher
+    def match(raw_fuel_use_record)
+      @_match ||= Hash.new
+      return @_match[raw_fuel_use_record] if @_match.has_key?(raw_fuel_use_record)
+
+      aircraft_record = if raw_fuel_use_record['ICAO'] =~ /\A[0-9A-Z]+\z/
+        Aircraft.find_by_icao_code raw_fuel_use_record['ICAO']
+      end
+      
+      aircraft_record ||= if raw_fuel_use_record['Aircraft Name'].present?
+        Aircraft.icao_name_dictionary.left_to_right [ raw_fuel_use_record['Aircraft Name'] ]
+      end
+      
+      if aircraft_record
+        @_match[raw_fuel_use_record] = aircraft_record.icao_code
+      else
+        raise "Didn't find a match for #{raw_fuel_use_record['Aircraft Name']} (#{raw_fuel_use_record['ICAO']}), which we found in the fuel use spreadsheet"
+      end
+    end
+  end
+
+  class Aircraft::Guru
+    # for errata
+    def is_a_dc_plane?(row)
+      row['Designator'] =~ /^DC\d/i
+    end
+    
+    # def is_a_crj_900?(row)
+    #   row['Designator'].downcase == 'crj9'
+    # end
+    
+    def is_a_g159?(row)
+      row['Designator'] =~ /^G159$/
+    end
+
+    def is_a_galx?(row)
+      row['Designator'] =~ /^GALX$/
+    end
+    
+    def method_missing(method_id, *args, &block)
+      if method_id.to_s =~ /\Ais_n?o?t?_?attributed_to_([^\?]+)/
+        manufacturer_name = $1
+        manufacturer_regexp = Regexp.new(manufacturer_name.gsub('_', ' ?'), Regexp::IGNORECASE)
+        matches = manufacturer_regexp.match(args.first['Manufacturer']) # row['Manufacturer'] =~ /mcdonnell douglas/i
+        method_id.to_s.include?('not_attributed') ? matches.nil? : !matches.nil?
+      else
+        super
+      end
+    end
+  end
+
   data_miner do
     process "Don't re-import too often" do
       raise DataMiner::Skip unless DataMiner::Run.allowed? Aircraft

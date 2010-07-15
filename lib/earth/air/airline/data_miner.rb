@@ -1,4 +1,15 @@
 Airline.class_eval do
+  class Airline::Guru
+    # needed by errata
+    def is_not_coral_air?(row); row['Code'].to_i != 19155; end                # 19155 Coral Air Inc.: COR
+    def is_not_aviacion_y_comercio?(row); row['Code'].to_i != 19452; end      # 19452 Aviacion Y Comercio S.A.: AO
+    def is_not_air_china?(row); row['Code'].to_i != 19543; end                # 19543 Air China: CA
+    def is_not_south_african_airways?(row); row['Code'].to_i != 19570; end    # 19570 South African Airways: SA
+    def is_not_continental_airlines?(row); row['Code'].to_i != 19704; end     # 19704 Continental Air Lines Inc.: CO
+    def is_not_sallee_s_aviation?(row); row['Code'].to_i != 19740; end        # 19740 Sallee's Aviation: SAL
+    def is_not_air_berlin?(row); row['Code'].to_i != 21361; end               # "21361","Air Berlin PLC and CO: AB"
+  end
+
   data_miner do
     schema :options => 'ENGINE=InnoDB default charset=utf8' do
       string   'iata_code'

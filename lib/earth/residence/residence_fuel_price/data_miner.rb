@@ -1,4 +1,121 @@
 ResidenceFuelPrice.class_eval do
+  class FuelOilParser
+    def initialize(options = {})
+      # nothing
+    end
+    def add_hints!(bus)
+      bus[:sheet] = 'Data 1'
+      bus[:skip] = 2
+      bus[:select] = lambda { |row| row['year'].to_i > 1989 }
+    end
+    def apply(row)
+      virtual_rows = []
+      row.keys.grep(/(.*) Residual Fuel Oil/) do |location_column_name|
+        match_1 = $1
+        next if (price = row[location_column_name]).blank? or (date = row['Date']).blank?
+        if match_1.starts_with?('U.S.')
+          locatable_id = 'US'
+          locatable_type = 'Country'
+        elsif match_1.include?('PADD')
+          /\(PADD (.*)\)/.match match_1
+          match_2 = $1
+          next if match_2 == '1' # skip PADD 1 because we always prefer subdistricts
+          locatable_id = match_2
+          locatable_type = 'PetroleumAdministrationForDefenseDistrict'
+        else
+          locatable_id = match_1
+          locatable_type = 'State'
+        end
+        date = Time.parse(date)
+        new_row = ActiveSupport::OrderedHash.new
+        new_row['locatable_id'] = locatable_id
+        new_row['locatable_type'] = locatable_type
+        new_row['price'] = price.to_f.cents.to(:dollars)
+        new_row['year'] = date.year
+        new_row['month'] = date.month
+        row_hash = RemoteTable::Transform.row_hash new_row
+        new_row['row_hash'] = row_hash
+        virtual_rows << new_row
+      end
+      virtual_rows
+    end
+  end
+
+  class PropaneParser
+    def initialize(options = {})
+      # nothing
+    end
+    def add_hints!(bus)
+      bus[:sheet] = 'Data 1'
+      bus[:skip] = 2
+      bus[:select] = lambda { |row| row['year'].to_i > 1989 }
+    end
+    def apply(row)
+      virtual_rows = []
+      row.keys.grep(/(.*) Propane Residential Price/) do |location_column_name|
+        match_1 = $1
+        next if (price = row[location_column_name]).blank? or (date = row['Date']).blank?
+        if match_1.starts_with?('U.S.')
+          locatable_id = 'US'
+          locatable_type = 'Country'
+        else
+          /\(PADD (.*)\)/.match match_1
+          match_2 = $1
+          next if match_2 == '1' # skip PADD 1 because we always prefer subdistricts
+          locatable_id = match_2
+          locatable_type = 'PetroleumAdministrationForDefenseDistrict'
+        end
+        date = Time.parse(date)
+        new_row = ActiveSupport::OrderedHash.new
+        new_row['locatable_id'] = locatable_id
+        new_row['locatable_type'] = locatable_type
+        new_row['price'] = price.to_f.cents.to(:dollars)
+        new_row['year'] = date.year
+        new_row['month'] = date.month
+        row_hash = RemoteTable::Transform.row_hash new_row
+        new_row['row_hash'] = row_hash
+        virtual_rows << new_row
+      end
+      virtual_rows
+    end
+  end
+
+  class NaturalGasParser
+    def initialize(options = {})
+      # nothing
+    end
+    def add_hints!(bus)
+      bus[:sheet] = 'Data 1'
+      bus[:skip] = 2
+      bus[:select] = lambda { |row| row['year'].to_i > 1989 }
+    end
+    def apply(row)
+      virtual_rows = []
+      row.keys.grep(/\A(.*) Natural Gas/) do |location_column_name|
+        match_1 = $1
+        next if (price = row[location_column_name]).blank? or (date = row['Date']).blank?
+        if match_1 == 'U.S.'
+          locatable_id = 'US'
+          locatable_type = 'Country'
+        else
+          locatable_id = match_1 # name
+          locatable_type = 'State'
+        end
+        date = Time.parse(date)
+        new_row = ActiveSupport::OrderedHash.new
+        new_row['locatable_id'] = locatable_id
+        new_row['locatable_type'] = locatable_type
+        new_row['price'] = price
+        new_row['year'] = date.year
+        new_row['month'] = date.month
+        row_hash = RemoteTable::Transform.row_hash new_row
+        new_row['row_hash'] = row_hash
+        virtual_rows << new_row
+      end
+      virtual_rows
+    end
+  end
+
   data_miner do
     schema :options => 'ENGINE=InnoDB default charset=utf8' do
       string  'row_hash'
