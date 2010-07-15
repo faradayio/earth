@@ -1,4 +1,6 @@
 require 'active_record'
+require 'cohort_scope'
+require 'earth/conversions_ext'
 require 'data_miner'
 require 'falls_back_on'
 require 'falls_back_on/active_record_ext'
@@ -68,4 +70,21 @@ module Earth
       ZipCode
     ]
   end
+
+  def root 
+    File.join(File.dirname(__FILE__), '..')
+  end
+
+  def init
+    load_plugins
+  end
+
+  def load_plugins
+    Dir[File.join(Earth.root, 'vendor', '**', 'init.rb')].each do |pluginit|
+      $:.unshift File.join(File.dirname(pluginit), 'lib')
+      load pluginit
+    end
+  end
 end
+
+Earth.init
