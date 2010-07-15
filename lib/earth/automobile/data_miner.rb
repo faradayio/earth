@@ -1,0 +1,8 @@
+require 'earth/automobile/automobile_fuel_type/data_miner'
+require 'earth/automobile/automobile_make/data_miner'
+require 'earth/automobile/automobile_make_fleet_year/data_miner'
+require 'earth/automobile/automobile_make_year/data_miner'
+require 'earth/automobile/automobile_model/data_miner'
+require 'earth/automobile/automobile_model_year/data_miner'
+require 'earth/automobile/automobile_size_class/data_miner'
+require 'earth/automobile/automobile_variant/data_miner'

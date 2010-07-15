@@ -1,0 +1,46 @@
+Airline.class_eval do
+  data_miner do
+    schema :options => 'ENGINE=InnoDB default charset=utf8' do
+      string   'iata_code'
+      string   'name'
+      string   'dot_airline_id_code'
+      boolean  'international'
+      float    'seats'
+      float    'distance'
+      string   'distance_units'
+      float    'load_factor'
+      float    'freight_share'
+      float    'payload'
+      string   'payload_units'
+    end
+    
+    import "the T100 AIRLINE_ID lookup table, which also includes IATA codes",
+           :url => 'http://www.transtats.bts.gov/Download_Lookup.asp?Lookup=L_AIRLINE_ID',
+           :errata => Errata.new(:url => 'http://static.brighterplanet.com/science/data/transport/air/airlines/errata.csv',
+                                 :responder => Airline::Guru.new) do
+      key 'iata_code', :field_name => 'Description', :split => { :pattern => /:/, :keep => 1 }
+      store 'dot_airline_id_code', :field_name => 'Code'
+      store 'name', :field_name => 'Description', :split => { :pattern => /:/, :keep => 0 }
+    end
+    
+    process "Determine whether airlines fly internationally by looking at flight segments" do
+      FlightSegment.run_data_miner!
+      update_all 'international = 1', '(SELECT COUNT(*) FROM flight_segments WHERE flight_segments.airline_iata_code = airlines.iata_code AND flight_segments.origin_country_iso_3166_code != flight_segments.dest_country_iso_3166_code AND flight_segments.origin_country_iso_3166_code IS NOT NULL AND flight_segments.dest_country_iso_3166_code IS NOT NULL) > 0'
+    end
+    
+    process "Derive some average flight characteristics from flight segments" do
+      FlightSegment.run_data_miner!
+      airlines = Airline.arel_table
+      segments = FlightSegment.arel_table
+      
+      conditional_relation = airlines[:iata_code].eq(segments[:airline_iata_code])
+
+      update_all "seats                    = (#{FlightSegment.weighted_average_relation(:seats,               :weighted_by => :passengers                                           ).where(conditional_relation).to_sql})"
+      update_all "distance                 = (#{FlightSegment.weighted_average_relation(:distance,            :weighted_by => :passengers                                           ).where(conditional_relation).to_sql})"
+      update_all "load_factor              = (#{FlightSegment.weighted_average_relation(:load_factor,         :weighted_by => :passengers                                           ).where(conditional_relation).to_sql})"
+      update_all "freight_share            = (#{FlightSegment.weighted_average_relation(:freight_share,       :weighted_by => :passengers                                           ).where(conditional_relation).to_sql})"
+      update_all "payload                  = (#{FlightSegment.weighted_average_relation(:payload,             :weighted_by => :passengers, :disaggregate_by => :departures_performed).where(conditional_relation).to_sql})"
+    end
+  end
+end
+
