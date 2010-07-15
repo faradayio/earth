@@ -10,12 +10,15 @@ begin
     gem.email = 'andy@rossmeissl.net'
     gem.homepage = 'http://github.com/brighterplanet/earth'
     gem.authors = ['Seamus Abshere', 'Derek Kastner', "Andy Rossmeissl"]
-    gem.add_dependency 'activerecord', '~ 3.0'
-    gem.add_development_dependency 'rspec'
+    gem.add_dependency 'activerecord', '>= 3.0.0.beta4'
+    gem.add_dependency 'data_miner', '= 0.4.44'
+    gem.add_dependency 'falls_back_on', '= 0.0.2'
+    gem.add_development_dependency 'rspec', '= 2.0.0.beta.17'
     gem.add_development_dependency 'rake'
     gem.add_development_dependency 'jeweler'
     gem.add_development_dependency 'rcov'
     gem.add_development_dependency 'rdoc'
+    gem.add_development_dependency 'sqlite3-ruby', '1.3.0'
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError

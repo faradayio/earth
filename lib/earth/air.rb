@@ -1,6 +1,4 @@
 module Earth
-  module Air
-  end
 end
 
 require 'earth/air/aircraft'
