@@ -13,14 +13,6 @@ class ZipCode < ActiveRecord::Base
                    :lat_column_name => :latitude,
                    :lng_column_name => :longitude
 
-  def description_with_state_postal_abbreviation
-    [ description, state.andand.postal_abbreviation ].select(&:present?).join ', '
-  end
-  
-  def description_with_state_name
-    [ description, state.andand.name ].select(&:present?).join ', '
-  end
-  
   def set_latitude_and_longitude
     return if latitude.present? and longitude.present?
     a = Geokit::Geocoders::YahooGeocoder.geocode name

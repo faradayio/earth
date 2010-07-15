@@ -1,21 +1,6 @@
 class Airport < ActiveRecord::Base
   set_primary_key :iata_code
   
-  class << self
-    def loose_search_columns
-      @_loose_search_columns ||= [primary_key, :city]
-    end
-
-    # search by name
-    def loose_right_reader
-      @_loose_right_reader ||= lambda { |record| record[1] }
-    end
-  end
-  
-  def name_and_location
-    [ name.to_s.titleize, city, country.andand.name ].select(&:present?).join ', '
-  end
-  
   # --------------------------------
   # virtual has_many association
   # has_many :segments won't work because there's no general way to specify the correct conditions

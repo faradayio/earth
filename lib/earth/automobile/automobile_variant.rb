@@ -14,20 +14,4 @@ class AutomobileVariant < ActiveRecord::Base
       run_data_miner_on_belongs_to_associations
     end
   end
-  
-  # def name
-  #   extra = []
-  #   extra << "V#{cylinders}" if cylinders
-  #   extra << "#{displacement}L" if displacement
-  #   extra << "turbo" if turbo
-  #   extra << "FI" if injection
-  #   extra << "#{speeds}spd" if speeds.present?
-  #   extra << transmission if transmission.present?
-  #   extra << "(#{fuel_type.name})" if fuel_type
-  #   extra.join(' ')
-  # end
-  
-  def fuel_economy_description
-    [ fuel_efficiency_city, fuel_efficiency_highway ].map { |f| f.kilometres_per_litre.to(:miles_per_gallon).round }.join('/')
-  end
 end

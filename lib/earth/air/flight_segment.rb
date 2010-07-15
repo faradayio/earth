@@ -33,13 +33,4 @@ class FlightSegment < ActiveRecord::Base
       run_data_miner_on_belongs_to_associations
     end
   end
-
-  INPUT_CHARACTERISTICS = [
-    :origin_airport,
-    :destination_airport,
-    :aircraft,
-    :airline,
-    :propulsion,
-    :domesticity
-  ]
 end
