@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{earth}
-  s.version = "0.0.1"
+  s.version = "0.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Seamus Abshere", "Derek Kastner", "Andy Rossmeissl"]
@@ -77,6 +77,7 @@ Gem::Specification.new do |s|
      "lib/earth/bus/bus_class.rb",
      "lib/earth/bus/bus_class/data_miner.rb",
      "lib/earth/bus/data_miner.rb",
+     "lib/earth/conversions_ext.rb",
      "lib/earth/data_miner.rb",
      "lib/earth/diet.rb",
      "lib/earth/diet/data_miner.rb",
@@ -138,9 +139,52 @@ Gem::Specification.new do |s|
      "lib/earth/residence/residence_fuel_type/data_miner.rb",
      "lib/earth/residence/residential_energy_consumption_survey_response.rb",
      "lib/earth/residence/residential_energy_consumption_survey_response/data_miner.rb",
+     "spec/lib/earth_spec.rb",
      "spec/spec_helper.rb",
      "test/helper.rb",
-     "test/test_earth.rb"
+     "test/test_earth.rb",
+     "vendor/geokit-rails/CHANGELOG.rdoc",
+     "vendor/geokit-rails/MIT-LICENSE",
+     "vendor/geokit-rails/README.markdown",
+     "vendor/geokit-rails/Rakefile",
+     "vendor/geokit-rails/about.yml",
+     "vendor/geokit-rails/assets/api_keys_template",
+     "vendor/geokit-rails/init.rb",
+     "vendor/geokit-rails/install.rb",
+     "vendor/geokit-rails/lib/geokit-rails.rb",
+     "vendor/geokit-rails/lib/geokit-rails/acts_as_mappable.rb",
+     "vendor/geokit-rails/lib/geokit-rails/adapters/abstract.rb",
+     "vendor/geokit-rails/lib/geokit-rails/adapters/mysql.rb",
+     "vendor/geokit-rails/lib/geokit-rails/adapters/postgresql.rb",
+     "vendor/geokit-rails/lib/geokit-rails/adapters/sqlserver.rb",
+     "vendor/geokit-rails/lib/geokit-rails/defaults.rb",
+     "vendor/geokit-rails/lib/geokit-rails/geocoder_control.rb",
+     "vendor/geokit-rails/lib/geokit-rails/ip_geocode_lookup.rb",
+     "vendor/geokit-rails/test/acts_as_mappable_test.rb",
+     "vendor/geokit-rails/test/boot.rb",
+     "vendor/geokit-rails/test/database.yml",
+     "vendor/geokit-rails/test/fixtures/companies.yml",
+     "vendor/geokit-rails/test/fixtures/custom_locations.yml",
+     "vendor/geokit-rails/test/fixtures/locations.yml",
+     "vendor/geokit-rails/test/fixtures/mock_addresses.yml",
+     "vendor/geokit-rails/test/fixtures/mock_families.yml",
+     "vendor/geokit-rails/test/fixtures/mock_houses.yml",
+     "vendor/geokit-rails/test/fixtures/mock_organizations.yml",
+     "vendor/geokit-rails/test/fixtures/mock_people.yml",
+     "vendor/geokit-rails/test/fixtures/stores.yml",
+     "vendor/geokit-rails/test/ip_geocode_lookup_test.rb",
+     "vendor/geokit-rails/test/models/company.rb",
+     "vendor/geokit-rails/test/models/custom_location.rb",
+     "vendor/geokit-rails/test/models/location.rb",
+     "vendor/geokit-rails/test/models/mock_address.rb",
+     "vendor/geokit-rails/test/models/mock_family.rb",
+     "vendor/geokit-rails/test/models/mock_house.rb",
+     "vendor/geokit-rails/test/models/mock_organization.rb",
+     "vendor/geokit-rails/test/models/mock_person.rb",
+     "vendor/geokit-rails/test/models/store.rb",
+     "vendor/geokit-rails/test/schema.rb",
+     "vendor/geokit-rails/test/tasks.rake",
+     "vendor/geokit-rails/test/test_helper.rb"
   ]
   s.homepage = %q{http://github.com/brighterplanet/earth}
   s.rdoc_options = ["--charset=UTF-8"]
