@@ -8,7 +8,6 @@ class ZipCode < ActiveRecord::Base
 #  has_one :census_region, :through => :state
   has_many :residences
 
-  index :name
   
   acts_as_mappable :default_units => :miles,  # FIXME imperial
                    :lat_column_name => :latitude,

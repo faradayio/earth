@@ -1,7 +1,6 @@
 class ResidenceFuelType < ActiveRecord::Base
   set_primary_key :name
   
-  index :name
   
   has_many :prices, :class_name => 'ResidenceFuelPrice', :foreign_key => 'residence_fuel_type_name'
   

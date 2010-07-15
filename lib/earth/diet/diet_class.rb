@@ -1,7 +1,6 @@
 class DietClass < ActiveRecord::Base
   set_primary_key :name
   
-  index :name
   has_many :diets
   
   data_miner do

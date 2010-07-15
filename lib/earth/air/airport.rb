@@ -1,6 +1,5 @@
 class Airport < ActiveRecord::Base
   set_primary_key :iata_code
-  index :iata_code
   
   class << self
     def loose_search_columns
