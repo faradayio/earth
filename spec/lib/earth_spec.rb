@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Earth do
   before :all do
-    Earth.init :earth => :all, :load_schemas => true
+    Earth.init :earth => :all, :test_schemas => true
   end
 
   it 'should require all Earth models' do

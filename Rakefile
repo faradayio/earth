@@ -11,7 +11,7 @@ begin
     gem.homepage = 'http://github.com/brighterplanet/earth'
     gem.authors = ['Seamus Abshere', 'Derek Kastner', "Andy Rossmeissl"]
     gem.add_dependency 'activerecord', '>= 3.0.0.beta4'
-    gem.add_dependency 'data_miner', '= 0.4.45'
+    gem.add_dependency 'data_miner', '= 0.5.0'
     gem.add_dependency 'falls_back_on', '= 0.0.2'
     gem.add_dependency 'geokit', '= 1.5.0'
     gem.add_dependency 'cohort_scope', '= 0.0.5'

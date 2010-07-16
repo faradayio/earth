@@ -205,7 +205,7 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<activerecord>, [">= 3.0.0.beta4"])
-      s.add_runtime_dependency(%q<data_miner>, ["= 0.4.45"])
+      s.add_runtime_dependency(%q<data_miner>, ["= 0.5.0"])
       s.add_runtime_dependency(%q<falls_back_on>, ["= 0.0.2"])
       s.add_runtime_dependency(%q<geokit>, ["= 1.5.0"])
       s.add_runtime_dependency(%q<cohort_scope>, ["= 0.0.5"])
@@ -218,7 +218,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<sqlite3-ruby>, ["= 1.3.0"])
     else
       s.add_dependency(%q<activerecord>, [">= 3.0.0.beta4"])
-      s.add_dependency(%q<data_miner>, ["= 0.4.45"])
+      s.add_dependency(%q<data_miner>, ["= 0.5.0"])
       s.add_dependency(%q<falls_back_on>, ["= 0.0.2"])
       s.add_dependency(%q<geokit>, ["= 1.5.0"])
       s.add_dependency(%q<cohort_scope>, ["= 0.0.5"])
@@ -232,7 +232,7 @@ Gem::Specification.new do |s|
     end
   else
     s.add_dependency(%q<activerecord>, [">= 3.0.0.beta4"])
-    s.add_dependency(%q<data_miner>, ["= 0.4.45"])
+    s.add_dependency(%q<data_miner>, ["= 0.5.0"])
     s.add_dependency(%q<falls_back_on>, ["= 0.0.2"])
     s.add_dependency(%q<geokit>, ["= 1.5.0"])
     s.add_dependency(%q<cohort_scope>, ["= 0.0.5"])

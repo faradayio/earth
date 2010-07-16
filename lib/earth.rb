@@ -79,27 +79,22 @@ module Earth
     %w{air automobile bus diet locality pet rail residence}
   end
 
-  def init(options = {})
+  def init(*args)
     load_plugins
 
-    chosen_domains = case options[:earth]
-    when nil then
-      []
-    when :none then
-      []
-    when :all then
-      domains.map(&:to_sym)
-    else
-      [options[:earth]]
+    domains = []
+    options = {}
+    args.each do |arg|
+      if arg.is_a?(Hash)
+        options = arg
+      else
+        domains << arg
+      end
     end
-
+    domains << :all if domains.empty?
     domains.each { |domain| require "earth/#{domain}" }
 
-    if options[:load_schemas]
-      read_schema File.join(File.dirname(__FILE__),'earth', 'schema.rb')
-      chosen_domains.each { |d| read_schema d }
-      load_all_schemas unless chosen_domains.empty?
-    end
+    load_schemas if options[:test_schemas]
   end
 
   def load_plugins
@@ -109,31 +104,17 @@ module Earth
     end
   end
 
-  def read_schema(domain)
-    schema_path = File.join File.dirname(__FILE__),'earth', domain.to_s, 'schema.rb'
-    load schema_path if File.exist? schema_path
-  end
-
-  def define_schema(&blk)
-    @schemas = [] unless defined?(@schemas)
-    @schemas << blk
-  end
-
-  def schemas
-    @schemas
-  end
-
-  def load_all_schemas
-    orig_std_out = STDOUT.clone
-    STDOUT.reopen File.open(File.join('/tmp', 'schema_output'), 'w') 
-
-    ActiveRecord::Schema.define(:version => 1) do
-      ar_schema = self
-      Earth.schemas.each do |s|
-        ar_schema.instance_eval &s
+  def load_schemas
+    models = Module.constants.select do |k|
+      const = Object.const_get(k)
+      if const.instance_of?(Class)
+        const.superclass == ActiveRecord::Base
+      else
+        false
       end
     end
-  ensure
-    STDOUT.reopen(orig_std_out)
+    models.each do |model|
+      model.execute_schema if model.respond_to?(:execute_schema) and !model.table_exists?
+    end
   end
 end
