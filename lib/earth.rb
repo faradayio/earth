@@ -83,6 +83,8 @@ module Earth
     load_plugins
 
     chosen_domains = case options[:earth]
+    when nil then
+      []
     when :none then
       []
     when :all then
@@ -90,9 +92,14 @@ module Earth
     else
       [options[:earth]]
     end
-    read_schema File.join(File.dirname(__FILE__),'earth', 'schema.rb')
-    chosen_domains.each { |d| read_schema d }
-    load_all_schemas unless chosen_domains.empty?
+
+    domains.each { |domain| require "earth/#{domain}" }
+
+    if options[:load_schemas]
+      read_schema File.join(File.dirname(__FILE__),'earth', 'schema.rb')
+      chosen_domains.each { |d| read_schema d }
+      load_all_schemas unless chosen_domains.empty?
+    end
   end
 
   def load_plugins

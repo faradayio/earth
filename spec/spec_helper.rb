@@ -9,4 +9,3 @@ ActiveRecord::Base.establish_connection :adapter => 'sqlite3',
 
 $:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 require 'earth' # we do require Earth to live
-Earth.init :earth => :all
