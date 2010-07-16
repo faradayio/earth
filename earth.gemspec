@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{earth}
-  s.version = "0.0.2"
+  s.version = "0.0.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Seamus Abshere", "Derek Kastner", "Andy Rossmeissl"]
-  s.date = %q{2010-07-15}
+  s.date = %q{2010-07-16}
   s.description = %q{An earth-simulation environment with ActiveRecord models and data}
   s.email = %q{andy@rossmeissl.net}
   s.extra_rdoc_files = [
@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
   s.files = [
     ".document",
      ".gitignore",
+     ".rvmrc",
      "Gemfile",
      "LICENSE",
      "README.rdoc",
@@ -54,6 +55,7 @@ Gem::Specification.new do |s|
      "lib/earth/air/flight_segment/data_miner.rb",
      "lib/earth/air/flight_service.rb",
      "lib/earth/air/flight_service/data_miner.rb",
+     "lib/earth/air/schema.rb",
      "lib/earth/all.rb",
      "lib/earth/automobile.rb",
      "lib/earth/automobile/automobile_fuel_type.rb",
@@ -101,6 +103,7 @@ Gem::Specification.new do |s|
      "lib/earth/locality/egrid_subregion/data_miner.rb",
      "lib/earth/locality/petroleum_administration_for_defense_district.rb",
      "lib/earth/locality/petroleum_administration_for_defense_district/data_miner.rb",
+     "lib/earth/locality/schema.rb",
      "lib/earth/locality/state.rb",
      "lib/earth/locality/state/data_miner.rb",
      "lib/earth/locality/urbanity.rb",
@@ -115,6 +118,7 @@ Gem::Specification.new do |s|
      "lib/earth/pet/data_miner.rb",
      "lib/earth/pet/gender.rb",
      "lib/earth/pet/gender/data_miner.rb",
+     "lib/earth/pet/schema.rb",
      "lib/earth/pet/species.rb",
      "lib/earth/pet/species/data_miner.rb",
      "lib/earth/rail.rb",
@@ -139,10 +143,9 @@ Gem::Specification.new do |s|
      "lib/earth/residence/residence_fuel_type/data_miner.rb",
      "lib/earth/residence/residential_energy_consumption_survey_response.rb",
      "lib/earth/residence/residential_energy_consumption_survey_response/data_miner.rb",
+     "lib/earth/schema.rb",
      "spec/lib/earth_spec.rb",
      "spec/spec_helper.rb",
-     "test/helper.rb",
-     "test/test_earth.rb",
      "vendor/geokit-rails/CHANGELOG.rdoc",
      "vendor/geokit-rails/MIT-LICENSE",
      "vendor/geokit-rails/README.markdown",
@@ -193,9 +196,7 @@ Gem::Specification.new do |s|
   s.summary = %q{Land, sky, and sea}
   s.test_files = [
     "spec/lib/earth_spec.rb",
-     "spec/spec_helper.rb",
-     "test/helper.rb",
-     "test/test_earth.rb"
+     "spec/spec_helper.rb"
   ]
 
   if s.respond_to? :specification_version then
