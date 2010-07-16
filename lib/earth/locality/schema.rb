@@ -1,4 +1,4 @@
-Earth::Database.define_schema do
+Earth.define_schema do
   create_table "census_divisions", :primary_key => "number", :id => false, :force => true do |t|
     t.string   "number"
     t.string   "name"

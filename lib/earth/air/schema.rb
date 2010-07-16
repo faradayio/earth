@@ -1,4 +1,4 @@
-Earth::Database.define_schema do
+Earth.define_schema do
   create_table "aircraft", :primary_key => "icao_code", :id => false, :force => true do |t|
     t.string 'icao_code'
     t.string   "manufacturer_name"

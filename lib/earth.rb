@@ -75,11 +75,24 @@ module Earth
     File.join(File.dirname(__FILE__), '..')
   end
 
+  def domains
+    %w{air automobile bus diet locality pet rail residence}
+  end
+
   def init(options = {})
     load_plugins
 
-    require 'earth/database'
-    Database.init options
+    chosen_domains = case options[:earth]
+    when :none then
+      []
+    when :all then
+      domains.map(&:to_sym)
+    else
+      [options[:earth]]
+    end
+    read_schema File.join(File.dirname(__FILE__),'earth', 'schema.rb')
+    chosen_domains.each { |d| read_schema d }
+    load_all_schemas unless chosen_domains.empty?
   end
 
   def load_plugins
@@ -87,5 +100,33 @@ module Earth
       $:.unshift File.join(File.dirname(pluginit), 'lib')
       load pluginit
     end
+  end
+
+  def read_schema(domain)
+    schema_path = File.join File.dirname(__FILE__),'earth', domain.to_s, 'schema.rb'
+    load schema_path if File.exist? schema_path
+  end
+
+  def define_schema(&blk)
+    @schemas = [] unless defined?(@schemas)
+    @schemas << blk
+  end
+
+  def schemas
+    @schemas
+  end
+
+  def load_all_schemas
+    orig_std_out = STDOUT.clone
+    STDOUT.reopen File.open(File.join('/tmp', 'schema_output'), 'w') 
+
+    ActiveRecord::Schema.define(:version => 1) do
+      ar_schema = self
+      Earth.schemas.each do |s|
+        ar_schema.instance_eval &s
+      end
+    end
+  ensure
+    STDOUT.reopen(orig_std_out)
   end
 end

@@ -1,4 +1,4 @@
-Earth::Database.define_schema do
+Earth.define_schema do
   create_table "fallbacks", :force => true do |t|
     t.string   "name"
     t.text     "values"
