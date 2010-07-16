@@ -75,8 +75,11 @@ module Earth
     File.join(File.dirname(__FILE__), '..')
   end
 
-  def init
+  def init(options = {})
     load_plugins
+
+    require 'earth/database'
+    Database.init options
   end
 
   def load_plugins
@@ -86,5 +89,3 @@ module Earth
     end
   end
 end
-
-Earth.init
