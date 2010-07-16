@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{earth}
-  s.version = "0.0.4"
+  s.version = "0.0.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Seamus Abshere", "Derek Kastner", "Andy Rossmeissl"]
@@ -55,7 +55,6 @@ Gem::Specification.new do |s|
      "lib/earth/air/flight_segment/data_miner.rb",
      "lib/earth/air/flight_service.rb",
      "lib/earth/air/flight_service/data_miner.rb",
-     "lib/earth/air/schema.rb",
      "lib/earth/all.rb",
      "lib/earth/automobile.rb",
      "lib/earth/automobile/automobile_fuel_type.rb",
@@ -103,7 +102,6 @@ Gem::Specification.new do |s|
      "lib/earth/locality/egrid_subregion/data_miner.rb",
      "lib/earth/locality/petroleum_administration_for_defense_district.rb",
      "lib/earth/locality/petroleum_administration_for_defense_district/data_miner.rb",
-     "lib/earth/locality/schema.rb",
      "lib/earth/locality/state.rb",
      "lib/earth/locality/state/data_miner.rb",
      "lib/earth/locality/urbanity.rb",
@@ -118,7 +116,6 @@ Gem::Specification.new do |s|
      "lib/earth/pet/data_miner.rb",
      "lib/earth/pet/gender.rb",
      "lib/earth/pet/gender/data_miner.rb",
-     "lib/earth/pet/schema.rb",
      "lib/earth/pet/species.rb",
      "lib/earth/pet/species/data_miner.rb",
      "lib/earth/rail.rb",
