@@ -92,9 +92,18 @@ module Earth
       end
     end
     domains << :all if domains.empty?
-    domains.each { |domain| require "earth/#{domain}" }
+    domains.select { |domain| domain != :none }.each do |domain| 
+      require "earth/#{domain}"
+      if options[:apply_schemas]
+        if domain == :all
+          require "earth/data_miner" 
+        else
+          require "earth/#{domain}/data_miner" 
+        end
+      end
+    end
 
-    load_schemas if options[:test_schemas]
+    load_schemas if options[:apply_schemas]
   end
 
   def load_plugins
