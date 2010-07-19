@@ -1,6 +1,6 @@
 Gender.class_eval do
   data_miner do
-    schema :options => 'ENGINE=InnoDB default charset=utf8' do
+    schema Earth.database_options do
       string 'name'
     end
     import "a list of genders derived from pet breed genders",

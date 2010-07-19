@@ -277,7 +277,7 @@ AutomobileVariant.class_eval do
       raise DataMiner::Skip unless DataMiner::Run.allowed? AutomobileVariant
     end
     
-    schema :options => 'ENGINE=InnoDB default charset=utf8' do
+    schema Earth.database_options do
       string   'row_hash'
       string   'name' # short name!
       string   'make_name'

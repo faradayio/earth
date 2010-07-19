@@ -1,6 +1,6 @@
 Species.class_eval do
   data_miner do
-    schema :options => 'ENGINE=InnoDB default charset=utf8' do
+    schema Earth.database_options do
       string   'name'
       integer  'population'
       float    'diet_emission_intensity'

@@ -4,7 +4,7 @@ AutomobileMake.class_eval do
       connection.drop_table table_name
     end
     
-    schema :options => 'ENGINE=InnoDB default charset=utf8' do
+    schema Earth.database_options do
       string  'name'
       boolean 'major'
       float   'fuel_efficiency'

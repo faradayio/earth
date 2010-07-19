@@ -1,6 +1,6 @@
 AutomobileSizeClass.class_eval do
   data_miner do
-    schema :options => 'ENGINE=InnoDB default charset=utf8' do
+    schema Earth.database_options do
       string   'name'
       float    'fuel_efficiency_city'
       string   'fuel_efficiency_city_units'

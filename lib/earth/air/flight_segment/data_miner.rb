@@ -163,7 +163,7 @@ FlightSegment.class_eval do
       raise DataMiner::Skip unless DataMiner::Run.allowed? FlightSegment
     end
     
-    schema :options => 'ENGINE=InnoDB default charset=utf8' do
+    schema Earth.database_options do
       string   'row_hash'
       string   'propulsion'
       integer  'bts_aircraft_group_code'

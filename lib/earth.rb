@@ -113,8 +113,19 @@ module Earth
         false
       end
     end
-    models.each do |model|
-      model.execute_schema if model.respond_to?(:execute_schema) and !model.table_exists?
+    models.sort.each do |model|
+      klass = Object.const_get(model)
+      if klass.respond_to?(:execute_schema) and !klass.table_exists?
+        klass.execute_schema 
+      end
+    end
+  end
+
+  def database_options
+    if ActiveRecord::Base.connection.adapter_name.downcase == 'sqlite'
+      {}
+    else
+      { :options => 'ENGINE=InnoDB default charset=utf8' }
     end
   end
 end

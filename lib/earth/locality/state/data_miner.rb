@@ -1,6 +1,6 @@
 State.class_eval do
   data_miner do
-    schema :options => 'ENGINE=InnoDB default charset=utf8' do
+    schema Earth.database_options do
       string   'postal_abbreviation'
       integer  'fips_code'
       string   'name'

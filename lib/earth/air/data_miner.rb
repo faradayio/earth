@@ -1,3 +1,5 @@
+require 'earth/locality'
+require 'earth/locality/data_miner'
 require 'earth/air/aircraft/data_miner'
 require 'earth/air/aircraft_class/data_miner'
 require 'earth/air/aircraft_manufacturer/data_miner'

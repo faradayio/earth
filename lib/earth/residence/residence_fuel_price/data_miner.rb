@@ -117,7 +117,7 @@ ResidenceFuelPrice.class_eval do
   end
 
   data_miner do
-    schema :options => 'ENGINE=InnoDB default charset=utf8' do
+    schema Earth.database_options do
       string  'row_hash'
       string 'residence_fuel_type_name'
       integer 'year'

@@ -1,6 +1,6 @@
 ResidenceFuelType.class_eval do
   data_miner do
-    schema :options => 'ENGINE=InnoDB default charset=utf8' do
+    schema Earth.database_options do
       string   'name'
       float    'emission_factor'
       string   'emission_factor_units'

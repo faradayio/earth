@@ -1,6 +1,6 @@
 ClimateDivision.class_eval do
   data_miner do
-    schema :options => 'ENGINE=InnoDB default charset=utf8' do
+    schema Earth.database_options do
       string   'name'
       float    'heating_degree_days'
       float    'cooling_degree_days'

@@ -1,6 +1,6 @@
 AircraftClass.class_eval do
   data_miner do
-    schema :options => 'ENGINE=InnoDB default charset=utf8' do
+    schema Earth.database_options do
       string  'brighter_planet_aircraft_class_code'
       string  'name'
       float   'm1'

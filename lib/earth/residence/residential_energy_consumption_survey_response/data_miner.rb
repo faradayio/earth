@@ -4,7 +4,7 @@ ResidentialEnergyConsumptionSurveyResponse.class_eval do
       raise DataMiner::Skip unless DataMiner::Run.allowed? ResidentialEnergyConsumptionSurveyResponse
     end
     
-    schema :options => 'ENGINE=InnoDB default charset=utf8' do
+    schema Earth.database_options do
       integer  'department_of_energy_identifier'
       string   'residence_class'
       date     'construction_year'

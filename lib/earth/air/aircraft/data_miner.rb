@@ -75,7 +75,7 @@ Aircraft.class_eval do
       raise DataMiner::Skip unless DataMiner::Run.allowed? Aircraft
     end
     
-    schema :options => 'ENGINE=InnoDB default charset=utf8' do
+    schema Earth.database_options do
       string   'icao_code'
       string   'manufacturer_name'
       string   'name'
