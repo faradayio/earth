@@ -1,6 +1,7 @@
 require 'active_record'
 require 'cohort_scope'
 require 'earth/conversions_ext'
+require 'earth/inflectors'
 require 'data_miner'
 require 'falls_back_on'
 require 'falls_back_on/active_record_ext'
@@ -91,19 +92,21 @@ module Earth
         domains << arg
       end
     end
-    domains << :all if domains.empty?
-    domains.select { |domain| domain != :none }.each do |domain| 
-      require "earth/#{domain}"
-      if options[:apply_schemas]
-        if domain == :all
-          require "earth/data_miner" 
-        else
-          require "earth/#{domain}/data_miner" 
-        end
+
+    load_domains(domains, options[:apply_schemas])
+    load_schemas if options[:apply_schemas]
+  end
+
+  def load_domains(domains, apply_schemas)
+    if domains.empty? or domains.include?(:all)
+      require 'earth/all'
+      require 'earth/data_miner' if apply_schemas
+    elsif !domains.include?(:none)
+      domains.each do |domain| 
+        require "earth/#{domain}"
+        require "earth/#{domain}/data_miner" if apply_schemas
       end
     end
-
-    load_schemas if options[:apply_schemas]
   end
 
   def load_plugins
@@ -114,6 +117,20 @@ module Earth
   end
 
   def load_schemas
+    load_ar_schema
+    load_data_miner_schemas
+  end
+
+  def load_ar_schema
+    orig_std_out = STDOUT.clone
+    STDOUT.reopen File.open(File.join('/tmp', 'schema_output'), 'w') 
+
+    load File.join(File.dirname(__FILE__), 'earth', 'schema.rb')
+  ensure
+    STDOUT.reopen(orig_std_out)
+  end
+
+  def load_data_miner_schemas
     models = Module.constants.select do |k|
       const = Object.const_get(k)
       if const.instance_of?(Class)
