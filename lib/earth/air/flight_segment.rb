@@ -22,15 +22,17 @@ class FlightSegment < ActiveRecord::Base
   data_miner do
     tap "Brighter Planet's sanitized T100 data", Earth.taps_server
     
-    process "rename certain columns so that we can use them as association names" do
-      connection.rename_column :flight_segments, :domesticity, :domesticity_id
-      connection.rename_column :flight_segments, :service_class, :service_class_id
-      connection.rename_column :flight_segments, :configuration, :configuration_id
-      connection.rename_column :flight_segments, :propulsion, :propulsion_id
-    end
-    
     process "pull dependencies" do
       run_data_miner_on_belongs_to_associations
     end
   end
+
+  INPUT_CHARACTERISTICS = [
+    :origin_airport,
+    :destination_airport,
+    :aircraft,
+    :airline,
+    :propulsion,
+    :domesticity
+  ]
 end

@@ -33,8 +33,6 @@ class ResidentialEnergyConsumptionSurveyResponse < ActiveRecord::Base
     tap "Brighter Planet's sanitized RECS 2005", Earth.taps_server
         
     process "rename certain columns so that we can use them as association names" do
-      connection.rename_column :residential_energy_consumption_survey_responses, :residence_class, :residence_class_id
-      connection.rename_column :residential_energy_consumption_survey_responses, :urbanity, :urbanity_id
       connection.rename_column :residential_energy_consumption_survey_responses, :dishwasher_use, :dishwasher_use_id
     end
     

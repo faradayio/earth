@@ -165,15 +165,15 @@ FlightSegment.class_eval do
     
     schema Earth.database_options do
       string   'row_hash'
-      string   'propulsion'
+      string   'propulsion_id'
       integer  'bts_aircraft_group_code'
-      string   'configuration'
+      string   'configuration_id'
       integer  'bts_aircraft_configuration_code'
       string   'distance_group'
       integer  'bts_distance_group_code'
-      string   'service_class'
+      string   'service_class_id'
       string   'bts_service_class_code'
-      string   'domesticity'
+      string   'domesticity_id'
       string   'bts_data_source_code'
       integer  'departures_performed'
       integer  'payload'
@@ -227,7 +227,7 @@ FlightSegment.class_eval do
       index    'bts_aircraft_type_code'
       index    'origin_airport_iata_code'
       index    'dest_airport_iata_code'
-      index    'domesticity'
+      index    'domesticity_id'
       # add_index "flight_segments", ["flight_airline_id", "origin_airport_id", "destination_airport_id", "flight_configuration_id", "flight_aircraft_id", "flight_propulsion_id", "flight_service_id", "origin_country_id", "destination_country_id"], :name => "super_4_index"
     end
     
@@ -259,19 +259,19 @@ FlightSegment.class_eval do
         
         key 'row_hash'
         
-        store 'propulsion', :field_name => 'AIRCRAFT_GROUP', :dictionary => propulsion_dictionary
+        store 'propulsion_id', :field_name => 'AIRCRAFT_GROUP', :dictionary => propulsion_dictionary
         store 'bts_aircraft_group_code', :field_name => 'AIRCRAFT_GROUP'
         
-        store 'configuration', :field_name => 'AIRCRAFT_CONFIG', :dictionary => configuration_dictionary
+        store 'configuration_id', :field_name => 'AIRCRAFT_CONFIG', :dictionary => configuration_dictionary
         store 'bts_aircraft_configuration_code', :field_name => 'AIRCRAFT_CONFIG'
         
         store 'distance_group', :field_name => 'DISTANCE_GROUP', :dictionary => distance_group_dictionary
         store 'bts_distance_group_code', :field_name => 'DISTANCE_GROUP'
         
-        store 'service_class', :field_name => 'CLASS', :dictionary => service_class_dictionary
+        store 'service_class_id', :field_name => 'CLASS', :dictionary => service_class_dictionary
         store 'bts_service_class_code', :field_name => 'CLASS'
         
-        store 'domesticity', :field_name => 'DATA_SOURCE', :dictionary => domesticity_dictionary
+        store 'domesticity_id', :field_name => 'DATA_SOURCE', :dictionary => domesticity_dictionary
         store 'bts_data_source_code', :field_name => 'DATA_SOURCE'
         
         store 'departures_scheduled', :field_name => 'DEPARTURES_SCHEDULED'
