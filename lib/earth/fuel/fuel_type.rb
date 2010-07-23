@@ -9,7 +9,7 @@ class FuelType < ActiveRecord::Base
                 :average_purchase_volume_units => 'FIXME'
   
   data_miner do
-    tap "Brighter Planet's fuel types data", TAPS_SERVER
+    tap "Brighter Planet's fuel types data", Earth.taps_server
   end
   
   def price
