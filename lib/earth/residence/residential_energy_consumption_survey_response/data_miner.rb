@@ -93,6 +93,8 @@ ResidentialEnergyConsumptionSurveyResponse.class_eval do
       integer  'efficient_lights_on_over_12_hours'
       integer  'outdoor_all_night_lights'
       integer  'outdoor_all_night_gas_lights'
+      integer  'air_conditioner_use_id'
+      integer  'clothes_machine_use_id'
     end
     
     process "Define some unit conversions" do
