@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{earth}
-  s.version = "0.0.8"
+  s.version = "0.0.9"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Seamus Abshere", "Derek Kastner", "Andy Rossmeissl"]
@@ -86,6 +86,12 @@ Gem::Specification.new do |s|
      "lib/earth/diet/diet_class/data_miner.rb",
      "lib/earth/diet/food_group.rb",
      "lib/earth/diet/food_group/data_miner.rb",
+     "lib/earth/fuel.rb",
+     "lib/earth/fuel/data_miner.rb",
+     "lib/earth/fuel/fuel_price.rb",
+     "lib/earth/fuel/fuel_price/data_miner.rb",
+     "lib/earth/fuel/fuel_type.rb",
+     "lib/earth/fuel/fuel_type/data_miner.rb",
      "lib/earth/inflectors.rb",
      "lib/earth/locality.rb",
      "lib/earth/locality/census_division.rb",
