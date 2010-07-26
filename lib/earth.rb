@@ -77,7 +77,7 @@ module Earth
   end
 
   def domains
-    %w{air automobile bus diet locality pet rail residence}
+    %w{air automobile bus diet fuel locality pet rail residence}
   end
 
   def init(*args)
