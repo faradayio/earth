@@ -6,6 +6,8 @@ require 'data_miner'
 require 'falls_back_on'
 require 'falls_back_on/active_record_ext'
 
+# The earth module is an interface for establishing a taps server (used to fetch 
+# data) and for loading data models from various domains.
 module Earth
   extend self
 
@@ -16,6 +18,8 @@ module Earth
       @taps_server = nil
     end
   end
+
+  # taps_server is a URL. See the data_miner gem docs
   def taps_server=(val)
     @taps_server = val
   end
@@ -80,6 +84,13 @@ module Earth
     %w{air automobile bus diet fuel locality pet rail residence}
   end
 
+  # Earth.init will load any specified domains, any needed ActiveRecord plugins, 
+  # and will apply each domain model's schema to the database if the 
+  # :apply_schemas option is given. See #domains for the list of allowable 
+  # domains.
+  #
+  # #init should be performed after a connection is made to the database and 
+  # before any domain models are referenced.
   def init(*args)
     load_plugins
 
