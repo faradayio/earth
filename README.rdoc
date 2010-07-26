@@ -1,6 +1,30 @@
 = earth
 
-Description goes here.
+Earth is a collection of data models that represent various things found here on Earth, such as pet breeds, kinds of rail travel, zip codes, and Petroleum Administration for Defense Districts.
+
+The data that these models represent can be pulled from http://data.brighterplanet.com
+
+== Usage
+
+<tt>require 'earth'
+
+Earth.init :automobile, :locality
+
+
+ft = AutomobileFuelType.first
+
+...</tt>
+
+You can also run data imports via the data_miner gem.
+
+<tt>require 'earth'
+
+Earth.init :fuel
+
+Earth.taps_server = 'http://user:pass@data.brighterplanet.com'
+
+
+DataMiner.run :resource_names => [FuelPrice]</tt>
 
 == Note on Patches/Pull Requests
  
