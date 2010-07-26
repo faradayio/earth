@@ -97,6 +97,7 @@ module Earth
     load_schemas if options[:apply_schemas]
   end
 
+private
   def load_domains(domains, apply_schemas)
     if domains.empty? or domains.include?(:all)
       require 'earth/all'
