@@ -86,10 +86,10 @@ module Earth
 
   # Earth.init will load any specified domains, any needed ActiveRecord plugins, 
   # and will apply each domain model's schema to the database if the 
-  # :apply_schemas option is given. See #domains for the list of allowable 
+  # :apply_schemas option is given. See Earth.domains for the list of allowable 
   # domains.
   #
-  # #init should be performed after a connection is made to the database and 
+  # Earth.init should be performed after a connection is made to the database and 
   # before any domain models are referenced.
   def init(*args)
     load_plugins
