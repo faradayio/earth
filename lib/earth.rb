@@ -108,6 +108,14 @@ module Earth
     load_schemas if options[:apply_schemas]
   end
 
+  def database_options
+    if ActiveRecord::Base.connection.adapter_name.downcase == 'sqlite'
+      {}
+    else
+      { :options => 'ENGINE=InnoDB default charset=utf8' }
+    end
+  end
+
 private
   def load_domains(domains, apply_schemas)
     if domains.empty? or domains.include?(:all)
@@ -156,14 +164,6 @@ private
       if klass.respond_to?(:execute_schema) and !klass.table_exists?
         klass.execute_schema 
       end
-    end
-  end
-
-  def database_options
-    if ActiveRecord::Base.connection.adapter_name.downcase == 'sqlite'
-      {}
-    else
-      { :options => 'ENGINE=InnoDB default charset=utf8' }
     end
   end
 end
