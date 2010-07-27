@@ -5,6 +5,6 @@ class MerchantCategoriesIndustries < ActiveRecord::Base
   belongs_to :industry,          :foreign_key => 'naics_code'
   
   data_miner do
-    tap "Brighter Planet's merchant category to industry dictionary", TAPS_SERVER
+    tap "Brighter Planet's merchant category to industry dictionary", Earth.taps_server
   end
 end

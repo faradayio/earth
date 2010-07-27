@@ -5,6 +5,6 @@ class IndustriesProductLines < ActiveRecord::Base
   belongs_to :product_line, :foreign_key => 'pscode'
   
   data_miner do
-    tap "Brighter Planet's industry to product line dictionary", TAPS_SERVER
+    tap "Brighter Planet's industry to product line dictionary", Earth.taps_server
   end
 end
