@@ -5,16 +5,16 @@
 
 Gem::Specification.new do |s|
   s.name = %q{earth}
-  s.version = "0.0.12"
+  s.version = "0.0.13"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Seamus Abshere", "Derek Kastner", "Andy Rossmeissl"]
-  s.date = %q{2010-07-23}
+  s.date = %q{2010-07-27}
   s.description = %q{An earth-simulation environment with ActiveRecord models and data}
   s.email = %q{andy@rossmeissl.net}
   s.extra_rdoc_files = [
     "LICENSE",
-     "README.rdoc"
+     "README.markdown"
   ]
   s.files = [
     ".document",
@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
      ".rvmrc",
      "Gemfile",
      "LICENSE",
-     "README.rdoc",
+     "README.markdown",
      "Rakefile",
      "VERSION",
      "earth.gemspec",
@@ -92,6 +92,26 @@ Gem::Specification.new do |s|
      "lib/earth/fuel/fuel_price/data_miner.rb",
      "lib/earth/fuel/fuel_type.rb",
      "lib/earth/fuel/fuel_type/data_miner.rb",
+     "lib/earth/industry.rb",
+     "lib/earth/industry/data_miner.rb",
+     "lib/earth/industry/industries_product_lines.rb",
+     "lib/earth/industry/industries_product_lines/data_miner.rb",
+     "lib/earth/industry/industries_sectors.rb",
+     "lib/earth/industry/industries_sectors/data_miner.rb",
+     "lib/earth/industry/industry.rb",
+     "lib/earth/industry/industry/data_miner.rb",
+     "lib/earth/industry/merchant.rb",
+     "lib/earth/industry/merchant/data_miner.rb",
+     "lib/earth/industry/merchant_categories_industries.rb",
+     "lib/earth/industry/merchant_categories_industries/data_miner.rb",
+     "lib/earth/industry/merchant_category.rb",
+     "lib/earth/industry/merchant_category/data_miner.rb",
+     "lib/earth/industry/product_line.rb",
+     "lib/earth/industry/product_line/data_miner.rb",
+     "lib/earth/industry/product_lines_sectors.rb",
+     "lib/earth/industry/product_lines_sectors/data_miner.rb",
+     "lib/earth/industry/sector.rb",
+     "lib/earth/industry/sector/data_miner.rb",
      "lib/earth/inflectors.rb",
      "lib/earth/locality.rb",
      "lib/earth/locality/census_division.rb",
