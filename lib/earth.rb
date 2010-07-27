@@ -104,7 +104,7 @@ module Earth
       end
     end
 
-    load_domains(domains, options[:apply_schemas])
+    load_domains(domains, options)
     load_schemas if options[:apply_schemas]
   end
 
@@ -117,14 +117,14 @@ module Earth
   end
 
 private
-  def load_domains(domains, apply_schemas)
+  def load_domains(domains, options)
     if domains.empty? or domains.include?(:all)
       require 'earth/all'
-      require 'earth/data_miner' if apply_schemas
+      require 'earth/data_miner' if options[:apply_schemas] or options[:load_data_miner]
     elsif !domains.include?(:none)
       domains.each do |domain| 
         require "earth/#{domain}"
-        require "earth/#{domain}/data_miner" if apply_schemas
+        require "earth/#{domain}/data_miner" if options[:apply_schemas] or options[:load_data_miner]
       end
     end
   end
