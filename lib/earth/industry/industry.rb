@@ -4,6 +4,6 @@ class Industry < ActiveRecord::Base
   has_many :merchant_categories, :through => :merchant_categories_industries
   
   data_miner do
-    tap "Brighter Planet's industry data", TAPS_SERVER
+    tap "Brighter Planet's industry data", Earth.taps_server
   end
 end

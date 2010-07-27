@@ -1,4 +1,4 @@
-IndustriesIoSectors.class_eval do
+IndustriesSectors.class_eval do
   data_miner do
     schema :options => 'ENGINE=InnoDB default charset=utf8' do
       string 'row_hash'
