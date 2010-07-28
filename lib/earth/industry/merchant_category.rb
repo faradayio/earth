@@ -1,6 +1,7 @@
 class MerchantCategory < ActiveRecord::Base
   set_primary_key :mcc
 
+  has_many :merchant_categories_industries, :foreign_key => 'mcc'
   has_many :industries, :through => :merchant_categories_industries
 
   data_miner do
