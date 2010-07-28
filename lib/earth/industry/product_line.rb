@@ -1,7 +1,7 @@
 class ProductLine < ActiveRecord::Base
   set_primary_key :pscode
   
-  has_many :industries, :through => :industries_product_lines
+  has_many :sectors, :through => :product_lines_sectors
   
   data_miner do
     tap "Brighter Planet's product line data", Earth.taps_server
