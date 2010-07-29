@@ -4,7 +4,7 @@ IndustriesProductLines.class_eval do
       string 'row_hash'
       string 'naics_code'
       float  'ratio'
-      string 'pscode'
+      string 'ps_code'
       float  'revenue_allocated'
     end
     
@@ -13,7 +13,7 @@ IndustriesProductLines.class_eval do
       key 'row_hash'
       store 'naics_code'
       store 'ratio'
-      store 'pscode'
+      store 'ps_code'
       store 'revenue_allocated'
     end
   end
