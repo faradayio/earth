@@ -1,7 +1,7 @@
 class ProductLine < ActiveRecord::Base
-  set_primary_key :pscode
+  set_primary_key :ps_code
   
-  has_many :product_lines_sectors, :foreign_key => 'pscode'
+  has_many :product_lines_sectors, :foreign_key => 'ps_code'
   has_many :sectors, :through => :product_lines_sectors
   
   data_miner do
