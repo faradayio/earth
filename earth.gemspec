@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{earth}
-  s.version = "0.0.17"
+  s.version = "0.0.18"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Seamus Abshere", "Derek Kastner", "Andy Rossmeissl"]
@@ -95,23 +95,16 @@ Gem::Specification.new do |s|
      "lib/earth/industry.rb",
      "lib/earth/industry/data_miner.rb",
      "lib/earth/industry/industries_product_lines.rb",
-     "lib/earth/industry/industries_product_lines/data_miner.rb",
      "lib/earth/industry/industries_sectors.rb",
-     "lib/earth/industry/industries_sectors/data_miner.rb",
      "lib/earth/industry/industry.rb",
      "lib/earth/industry/industry/data_miner.rb",
      "lib/earth/industry/merchant.rb",
-     "lib/earth/industry/merchant/data_miner.rb",
      "lib/earth/industry/merchant_categories_industries.rb",
-     "lib/earth/industry/merchant_categories_industries/data_miner.rb",
      "lib/earth/industry/merchant_category.rb",
-     "lib/earth/industry/merchant_category/data_miner.rb",
      "lib/earth/industry/product_line.rb",
      "lib/earth/industry/product_line/data_miner.rb",
      "lib/earth/industry/product_lines_sectors.rb",
-     "lib/earth/industry/product_lines_sectors/data_miner.rb",
      "lib/earth/industry/sector.rb",
-     "lib/earth/industry/sector/data_miner.rb",
      "lib/earth/inflectors.rb",
      "lib/earth/locality.rb",
      "lib/earth/locality/census_division.rb",
