@@ -3,8 +3,4 @@ class ProductLinesSectors < ActiveRecord::Base
   
   belongs_to :product_line, :foreign_key => 'ps_code'
   belongs_to :sector,       :foreign_key => 'io_code'
-  
-  data_miner do
-    tap "Brighter Planet's product line to input-output sector dictionary", Earth.taps_server
-  end
 end
