@@ -1,5 +1,4 @@
 require 'rubygems'
-require 'rake/testtask'
 require 'rake/rdoctask'
 require 'jeweler'
 if ENV['BUNDLE'] == 'true'
@@ -32,12 +31,6 @@ Jeweler::Tasks.new do |gem|
   gem.add_development_dependency 'sqlite3-ruby', '>=1.3.0'
 end
 Jeweler::GemcutterTasks.new
-
-Rake::TestTask.new(:test) do |test|
-  test.libs << 'lib' << 'test'
-  test.pattern = 'test/**/test_*.rb'
-  test.verbose = true
-end
 
 begin
   require 'rcov/rcovtask'
