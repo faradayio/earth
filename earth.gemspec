@@ -17,15 +17,8 @@ Gem::Specification.new do |s|
      "README.markdown"
   ]
   s.files = [
-    ".document",
-     ".gitignore",
-     "Gemfile",
-     "LICENSE",
+    "LICENSE",
      "README.markdown",
-     "Rakefile",
-     "VERSION",
-     "dot.rvmrc",
-     "earth.gemspec",
      "lib/earth.rb",
      "lib/earth/air.rb",
      "lib/earth/air/aircraft.rb",
@@ -161,8 +154,6 @@ Gem::Specification.new do |s|
      "lib/earth/residence/residential_energy_consumption_survey_response.rb",
      "lib/earth/residence/residential_energy_consumption_survey_response/data_miner.rb",
      "lib/earth/schema.rb",
-     "spec/lib/earth_spec.rb",
-     "spec/spec_helper.rb",
      "vendor/geokit-rails/CHANGELOG.rdoc",
      "vendor/geokit-rails/MIT-LICENSE",
      "vendor/geokit-rails/README.markdown",
@@ -213,7 +204,9 @@ Gem::Specification.new do |s|
   s.summary = %q{Land, sky, and sea}
   s.test_files = [
     "spec/lib/earth_spec.rb",
-     "spec/spec_helper.rb"
+     "spec/spec_helper.rb",
+     "Gemfile",
+     "Gemfile.lock"
   ]
 
   if s.respond_to? :specification_version then
