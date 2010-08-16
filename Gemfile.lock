@@ -112,14 +112,14 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord (>= 3.0.0.beta4)
-  cohort_scope (= 0.0.6)
-  conversions (= 1.4.5)
-  data_miner (= 0.5.2)
-  falls_back_on (= 0.0.2)
-  geokit (= 1.5.0)
+  cohort_scope (>= 0.0.6)
+  conversions (>= 1.4.5)
+  data_miner (>= 0.5.2)
+  falls_back_on (>= 0.0.2)
+  geokit (>= 1.5.0)
   jeweler
   rake
   rcov
   rdoc
-  rspec (= 2.0.0.beta.17)
-  sqlite3-ruby (= 1.3.0)
+  rspec (>= 2.0.0.beta.17)
+  sqlite3-ruby (>= 1.3.0)
