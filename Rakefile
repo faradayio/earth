@@ -17,6 +17,14 @@ Jeweler::Tasks.new do |gem|
   gem.email = 'andy@rossmeissl.net'
   gem.homepage = 'http://github.com/brighterplanet/earth'
   gem.authors = ['Seamus Abshere', 'Derek Kastner', "Andy Rossmeissl"]
+  gem.files = ['LICENSE', 'README.markdown'] + 
+    Dir.glob(File.join('lib', '**','*.rb')) +
+    Dir.glob(File.join('vendor', '**','*')) - 
+    ['.gitignore','Gemfile','Gemfile.lock']
+  gem.test_files = Dir.glob(File.join('features', '**', '*.rb')) +
+    Dir.glob(File.join('spec', '**', '*.rb')) +
+    Dir.glob(File.join('lib', 'test_support', '**/*.rb')) +
+    ['Gemfile','Gemfile.lock']
   gem.add_dependency 'activerecord', '>=3.0.0.beta4'
   gem.add_dependency 'data_miner', '>=0.5.2' unless ENV['LOCAL_DATA_MINER']
   gem.add_dependency 'falls_back_on', '>=0.0.2'
