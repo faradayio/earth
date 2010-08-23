@@ -2,7 +2,7 @@ class FlightSegment < ActiveRecord::Base
   set_primary_key :row_hash
   
   extend CohortScope
-  self.minimum_cohort_size = 5 #FIXME ??
+  self.minimum_cohort_size = 1
   
   belongs_to :airline,             :foreign_key => 'airline_iata_code'
   belongs_to :origin_airport,      :foreign_key => "origin_airport_iata_code",     :class_name => 'Airport'
