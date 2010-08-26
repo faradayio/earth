@@ -7,8 +7,6 @@ class Sector < ActiveRecord::Base
     schema Earth.database_options do
       string 'io_code'
       string 'description'
-      float  'emission_factor'
-      string 'emission_factor_units'
     end
   end
 end
