@@ -4,6 +4,17 @@ class ClothesMachineUse < ActiveRecord::Base
   has_many :residences
   has_many :residential_energy_consumption_survey_responses
 
+  class << self
+    def derive_annual_energy_from_electricity_for_clothes_driers
+      find_in_batches do |batch|
+        batch.each do |record|
+          record.annual_energy_from_electricity_for_clothes_driers = ResidenceSurveyResponse.cohort(:clothes_drier_use => record).weighted_average :annual_energy_from_electricity_for_clothes_driers
+          record.save
+        end
+      end
+    end
+  end
+
   data_miner do
     schema do
       string 'name'
