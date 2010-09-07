@@ -67,6 +67,7 @@ Gem::Specification.new do |s|
      "lib/earth/automobile/automobile_variant.rb",
      "lib/earth/automobile/automobile_variant/data_miner.rb",
      "lib/earth/automobile/data_miner.rb",
+     "lib/earth/base.rb",
      "lib/earth/bus.rb",
      "lib/earth/bus/bus_class.rb",
      "lib/earth/bus/bus_class/data_miner.rb",
