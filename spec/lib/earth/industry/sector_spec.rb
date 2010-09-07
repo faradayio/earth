@@ -77,5 +77,18 @@ describe Sector do
       }
     end
   end
+
+  describe 'data_miner import' do
+    before :all do
+      require 'data_miner'
+      require 'earth/industry/sector/data_miner'
+    end
+    it 'should import data' do
+      Sector.destroy_all
+      DataMiner.run :resource_names => 'Sector'
+      Sector.count.should > 1
+      Sector.first.emission_factor_units.should == 'kilograms_per_2002_dollar'
+    end
+  end
 end
 
