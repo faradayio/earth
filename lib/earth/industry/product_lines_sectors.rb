@@ -1,15 +1,17 @@
-class ProductLinesSectors < ActiveRecord::Base
-  set_primary_key :row_hash
-  
+class ProductLinesSectors < Earth::Base
   belongs_to :product_line, :foreign_key => 'ps_code'
   belongs_to :sector,       :foreign_key => 'io_code'
 
-  data_miner do
-    schema Earth.database_options do
+  def self.schema_definition
+    lambda do
       string 'row_hash'
       string 'ps_code'
       float  'ratio'
       string 'io_code'
     end
+  end
+
+  data_miner do
+    ProductLinesSectors.define_schema(self)
   end
 end

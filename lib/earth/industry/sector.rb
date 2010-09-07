@@ -1,4 +1,4 @@
-class Sector < ActiveRecord::Base
+class Sector < Earth::Base
   set_primary_key :io_code
 
   has_many :product_lines_sectors, :class_name => 'ProductLinesSectors', :foreign_key => 'io_code'
@@ -16,10 +16,16 @@ class Sector < ActiveRecord::Base
     end
   end
 
-  data_miner do
-    schema Earth.database_options do
+  def self.schema_definition
+    lambda do
       string 'io_code'
       string 'description'
+      float 'emission_factor'
+      string 'emission_factor_units'
     end
+  end
+
+  data_miner do
+    Sector.define_schema(self)
   end
 end

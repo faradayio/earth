@@ -1,5 +1,6 @@
 require 'active_record'
 require 'cohort_scope'
+require 'earth/base'
 require 'earth/conversions_ext'
 require 'earth/inflectors'
 require 'data_miner'
@@ -152,9 +153,10 @@ private
 
   def load_data_miner_schemas
     models = Module.constants.select do |k|
-      const = Object.const_get(k)
+      const = Object.const_get(k) if Object.const_defined?(k)
       if const.instance_of?(Class)
-        const.superclass == ActiveRecord::Base
+        const.superclass == ActiveRecord::Base || 
+          const.superclass == Earth::Base
       else
         false
       end

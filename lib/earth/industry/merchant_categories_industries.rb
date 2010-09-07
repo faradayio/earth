@@ -1,4 +1,4 @@
-class MerchantCategoriesIndustries < ActiveRecord::Base
+class MerchantCategoriesIndustries < Earth::Base
   set_primary_key :row_hash
   
   belongs_to :merchant_category, :foreign_key => 'mcc'
@@ -6,12 +6,15 @@ class MerchantCategoriesIndustries < ActiveRecord::Base
   has_many :industries_product_lines, :through => :industry, :class_name => 'IndustriesProductLines'
   has_many :industries_sectors, :through => :industry, :class_name => 'IndustriesSectors'
 
-  data_miner do
-    schema Earth.database_options do
-      string 'row_hash'
+  def self.schema_definition
+    lambda do
       string 'mcc'
       float  'ratio'
       string 'naics_code'
     end
+  end
+
+  data_miner do
+    MerchantCategoriesIndustries.define_schema(self)
   end
 end
