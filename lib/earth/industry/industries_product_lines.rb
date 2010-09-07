@@ -1,4 +1,5 @@
-class IndustriesProductLines < Earth::Base
+class IndustriesProductLines < ActiveRecord::Base
+  extend Earth::Base
   set_primary_key :row_hash
   
   belongs_to :industry,     :foreign_key => 'naics_code'

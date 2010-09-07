@@ -1,4 +1,5 @@
-class Merchant < Earth::Base
+class Merchant < ActiveRecord::Base
+  extend Earth::Base
   set_primary_key :id
   
   belongs_to :merchant_category, :foreign_key => 'mcc'

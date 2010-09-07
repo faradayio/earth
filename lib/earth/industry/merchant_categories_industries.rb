@@ -1,5 +1,5 @@
-class MerchantCategoriesIndustries < Earth::Base
-  set_primary_key :row_hash
+class MerchantCategoriesIndustries < ActiveRecord::Base
+  extend Earth::Base
   
   belongs_to :merchant_category, :foreign_key => 'mcc'
   belongs_to :industry,          :foreign_key => 'naics_code'

@@ -1,4 +1,5 @@
-class IndustriesSectors < Earth::Base
+class IndustriesSectors < ActiveRecord::Base
+  extend Earth::Base
   belongs_to :industry,  :foreign_key => 'naics_code'
   belongs_to :sector,    :foreign_key => 'io_code'
 

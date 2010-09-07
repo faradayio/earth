@@ -1,4 +1,5 @@
-class Sector < Earth::Base
+class Sector < ActiveRecord::Base
+  extend Earth::Base
   set_primary_key :io_code
 
   has_many :product_lines_sectors, :class_name => 'ProductLinesSectors', :foreign_key => 'io_code'
