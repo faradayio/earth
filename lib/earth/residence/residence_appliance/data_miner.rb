@@ -8,7 +8,8 @@ ResidenceAppliance.class_eval do
 
     process "Derive from residential energy consumption survey responses" do
       ResidentialEnergyConsumptionSurveyResponse.run_data_miner!
-      ResidentialEnergyConsumptionSurveyResponse.column_names.select { |column| column.match(/annual.*_count/) }.map { |column| column.gsub '_count', '' }.each do |appliance_name|
+      ResidentialEnergyConsumptionSurveyResponse.column_names.grep(/_count$/).each do |column_name|
+        appliance_name = column_name.sub '_count', ''
         appliance = find_or_create_by_name appliance_name
         appliance.annual_energy_from_electricity = ResidentialEnergyConsumptionSurveyResponse.weighted_average "annual_energy_from_electricity_for_#{appliance_name.pluralize}"
         appliance.save!
