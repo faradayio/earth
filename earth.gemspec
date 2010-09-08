@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{earth}
-  s.version = "0.0.32"
+  s.version = "0.0.33"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Seamus Abshere", "Derek Kastner", "Andy Rossmeissl"]
@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
     "LICENSE",
      "README.markdown",
      "lib/earth.rb",
+     "lib/earth/active_record_ext.rb",
      "lib/earth/air.rb",
      "lib/earth/air/aircraft.rb",
      "lib/earth/air/aircraft/data_miner.rb",
