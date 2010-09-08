@@ -2,7 +2,6 @@ require 'active_record'
 require 'cohort_scope'
 require 'earth/base'
 require 'earth/conversions_ext'
-require 'earth/active_record_ext'
 require 'earth/inflectors'
 require 'data_miner'
 require 'falls_back_on'
@@ -132,6 +131,7 @@ private
   end
 
   def load_plugins
+    require 'earth/active_record_ext'
     Dir[File.join(Earth.root, 'vendor', '**', 'init.rb')].each do |pluginit|
       $:.unshift File.join(File.dirname(pluginit), 'lib')
       load pluginit
