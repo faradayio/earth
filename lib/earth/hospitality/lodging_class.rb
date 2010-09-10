@@ -7,6 +7,6 @@ class LodgingClass < ActiveRecord::Base
     tap "Brighter Planet's lodging class data", Earth.taps_server
   end
   
-  # FIXME TODO need reall emission_factor
-  falls_back_on :emission_factor => 1.0
+  # based on science/emitters/lodging/lodging_classes.xls
+  falls_back_on :emission_factor => 20.976.pounds.to(:kilograms)
 end
