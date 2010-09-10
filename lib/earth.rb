@@ -63,6 +63,7 @@ module Earth
       FlightService,
       FoodGroup,
       Gender,
+      LodgingClass,
       PetroleumAdministrationForDefenseDistrict,
       RailClass,
       ResidenceAppliance,
