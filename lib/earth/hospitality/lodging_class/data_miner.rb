@@ -10,7 +10,7 @@ LodgingClass.class_eval do
       Conversions.register :pounds_co2e_per_room_night, :kilograms_co2e_per_room_night, 0.45359237
     end
 
-    import "a list of rail classes and pre-calculated trip and fuel use characteristics",
+    import "a list of lodging classes and pre-calculated emission factors",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdGZZWmZtWEJlYzhRNXlPdWpBTldlcUE&hl=en&output=csv' do
       key   'name'
       store 'emission_factor', :from_units => :pounds_co2e_per_room_night, :to_units => :kilograms_co2e_per_room_night
