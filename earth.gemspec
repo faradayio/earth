@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{earth}
-  s.version = "0.0.35"
+  s.version = "0.0.36"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Seamus Abshere", "Derek Kastner", "Andy Rossmeissl"]
-  s.date = %q{2010-09-08}
+  s.date = %q{2010-09-10}
   s.description = %q{An earth-simulation environment with ActiveRecord models and data}
   s.email = %q{andy@rossmeissl.net}
   s.extra_rdoc_files = [
@@ -87,6 +87,10 @@ Gem::Specification.new do |s|
      "lib/earth/fuel/fuel_price/data_miner.rb",
      "lib/earth/fuel/fuel_type.rb",
      "lib/earth/fuel/fuel_type/data_miner.rb",
+     "lib/earth/hospitality.rb",
+     "lib/earth/hospitality/data_miner.rb",
+     "lib/earth/hospitality/lodging_class.rb",
+     "lib/earth/hospitality/lodging_class/data_miner.rb",
      "lib/earth/industry.rb",
      "lib/earth/industry/data_miner.rb",
      "lib/earth/industry/industries_product_lines.rb",
