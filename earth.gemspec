@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{earth}
-  s.version = "0.0.39"
+  s.version = "0.0.40"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Seamus Abshere", "Derek Kastner", "Andy Rossmeissl"]
-  s.date = %q{2010-09-14}
+  s.date = %q{2010-09-15}
   s.description = %q{An earth-simulation environment with ActiveRecord models and data}
   s.email = %q{andy@rossmeissl.net}
   s.extra_rdoc_files = [
