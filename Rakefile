@@ -26,11 +26,13 @@ Jeweler::Tasks.new do |gem|
     Dir.glob(File.join('lib', 'test_support', '**/*.rb')) +
     ['Gemfile','Gemfile.lock']
   gem.add_dependency 'activerecord', '>=3.0.0.beta4'
-  gem.add_dependency 'data_miner', '>=0.5.2' unless ENV['LOCAL_DATA_MINER']
-  gem.add_dependency 'falls_back_on', '>=0.0.2'
+  gem.add_dependency 'data_miner', '>=0.5.3' unless ENV['LOCAL_DATA_MINER']
+  gem.add_dependency 'falls_back_on', '>=0.0.3'
   gem.add_dependency 'geokit', '>=1.5.0'
-  gem.add_dependency 'cohort_scope', '>=0.0.6'
+  gem.add_dependency 'cohort_scope', '>=0.0.7'
   gem.add_dependency 'conversions', '>=1.4.5'
+  gem.add_dependency 'weighted_average', '>=0.0.4'
+  gem.add_dependency 'loose_tight_dictionary', '>=0.0.8'
   gem.add_development_dependency 'rspec', '>=2.0.0.beta.17'
   gem.add_development_dependency 'rake'
   gem.add_development_dependency 'jeweler'
