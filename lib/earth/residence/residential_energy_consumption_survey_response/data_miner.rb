@@ -1,9 +1,5 @@
 ResidentialEnergyConsumptionSurveyResponse.class_eval do
   data_miner do
-    process "Don't re-import too often" do
-      raise DataMiner::Skip unless DataMiner::Run.allowed? ResidentialEnergyConsumptionSurveyResponse
-    end
-    
     schema Earth.database_options do
       integer  'department_of_energy_identifier'
       string   'residence_class_id'

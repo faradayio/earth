@@ -159,10 +159,6 @@ FlightSegment.class_eval do
   }.gsub /[\s]+/,''
 
   data_miner do
-    process "Don't re-import too often" do
-      raise DataMiner::Skip unless DataMiner::Run.allowed? FlightSegment
-    end
-    
     schema Earth.database_options do
       string   'row_hash'
       string   'propulsion_id'
