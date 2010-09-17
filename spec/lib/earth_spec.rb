@@ -7,13 +7,13 @@ describe Earth do
 
   it 'should require all Earth models' do
     lambda do
-      Earth.classes.each { |k| k }
+      Earth.resource_names.each { |k| k.constantize }
     end.should_not raise_error(NameError)
   end
 
   it 'should include data_miner definitions' do
     lambda do
-      Earth.classes.each { |k| k.should_receive(:data_miner) }
+      Earth.resource_names.each { |k| k.constantize.should_receive(:data_miner) }
     end
     require 'earth/data_miner'
   end

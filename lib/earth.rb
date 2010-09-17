@@ -24,62 +24,18 @@ module Earth
   def taps_server=(val)
     @taps_server = val
   end
-
-  def classes
-    [
-      AirConditionerUse,
-      Aircraft,
-      AircraftClass,
-      AircraftManufacturer,
-      Airline,
-      Airport,
-      AutomobileFuelType,
-      AutomobileMake,
-      AutomobileMakeFleetYear,
-      AutomobileMakeYear,
-      AutomobileModel,
-      AutomobileModelYear,
-      AutomobileSizeClass,
-      AutomobileVariant,
-      Breed,
-      BreedGender,
-      BusClass,
-      CensusDivision,
-      CensusRegion,
-      ClimateDivision,
-      ClothesMachineUse,
-      Country,
-      DietClass,
-      DishwasherUse,
-      EgridRegion,
-      EgridSubregion,
-      FlightConfiguration,
-      FlightDistanceClass,
-      FlightDomesticity,
-      FlightFuelType,
-      FlightPropulsion,
-      FlightSeatClass,
-      FlightSegment,
-      FlightService,
-      FoodGroup,
-      Gender,
-      LodgingClass,
-      PetroleumAdministrationForDefenseDistrict,
-      RailClass,
-      ResidenceAppliance,
-      ResidenceClass,
-      ResidenceFuelPrice,
-      ResidenceFuelType,
-      ResidentialEnergyConsumptionSurveyResponse,
-      Species,
-      State,
-      Urbanity,
-      ZipCode
-    ]
+  
+  # Takes argument like Earth.resource_names(['air'])
+  # Default is search all domains
+  # For example, <tt>[ 'Aircraft', 'Airline' ]</tt>
+  def resource_names(search_domains = nil)
+    (search_domains || domains).map do |domain|
+      Dir[File.join(Earth.gem_root, 'lib', 'earth', domain, '*.rb')]
+    end.flatten.uniq.map { |p| File.basename(p, '.rb').camelcase } - %w{ DataMiner }
   end
 
-  def root 
-    File.join(File.dirname(__FILE__), '..')
+  def gem_root 
+    File.expand_path File.join(File.dirname(__FILE__), '..')
   end
 
   def domains
@@ -121,6 +77,7 @@ module Earth
 private
   def load_domains(domains, options)
     if domains.empty? or domains.include?(:all)
+      # sabshere 9/16/10 why maintain this separately?
       require 'earth/all'
       require 'earth/data_miner' if options[:apply_schemas] or options[:load_data_miner]
     elsif !domains.include?(:none)
@@ -133,24 +90,33 @@ private
 
   def load_plugins
     require 'earth/active_record_ext'
-    Dir[File.join(Earth.root, 'vendor', '**', 'init.rb')].each do |pluginit|
+    Dir[File.join(Earth.gem_root, 'vendor', '**', 'init.rb')].each do |pluginit|
       $:.unshift File.join(File.dirname(pluginit), 'lib')
       load pluginit
     end
   end
 
   def load_schemas
-    load_ar_schema
+    force_fallback_table
     load_data_miner_schemas
   end
-
-  def load_ar_schema
-    orig_std_out = STDOUT.clone
-    STDOUT.reopen File.open(File.join('/tmp', 'schema_output'), 'w') 
-
-    load File.join(File.dirname(__FILE__), 'earth', 'schema.rb')
-  ensure
-    STDOUT.reopen(orig_std_out)
+  
+  # sabshere 9/17/10 this sucks. the falls_back_on gem sucks.
+  def force_fallback_table
+    c = ActiveRecord::Base.connection
+    if c.table_exists? 'fallbacks'
+      raise "The earth gem expects a different schema for the fallbacks table." unless  c.column_exists?('fallbacks', 'name') and
+                                                                                        c.column_exists?('fallbacks', 'values') and
+                                                                                        c.column_exists?('fallbacks', 'created_at') and
+                                                                                        c.column_exists?('fallbacks', 'updated_at')
+    else
+      c.create_table 'fallbacks' do |t|
+        t.string   'name'
+        t.text     'values'
+        t.datetime 'created_at'
+        t.datetime 'updated_at'
+      end
+    end
   end
 
   def load_data_miner_schemas

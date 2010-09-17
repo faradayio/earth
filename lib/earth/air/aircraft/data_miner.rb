@@ -1,4 +1,24 @@
 Aircraft.class_eval do
+  
+  # TODO use http://www.transtats.bts.gov/Download_Lookup.asp?Lookup=L_AIRCRAFT_TYPE
+  def self.bts_name_dictionary
+    @_bts_dictionary ||= LooseTightDictionary.new RemoteTable.new(:url => 'http://www.transtats.bts.gov/Download_Lookup.asp?Lookup=L_AIRCRAFT_TYPE', :select => lambda { |record| record['Code'].to_i.between?(1, 998) }),
+                                                  :tightenings  => RemoteTable.new(:url => 'http://spreadsheets.google.com/pub?key=tiS_6CCDDM_drNphpYwE_iw&single=true&gid=0&output=csv', :headers => false),
+                                                  :identities   => RemoteTable.new(:url => 'http://spreadsheets.google.com/pub?key=tiS_6CCDDM_drNphpYwE_iw&single=true&gid=3&output=csv', :headers => false),
+                                                  :blockings    => RemoteTable.new(:url => 'http://spreadsheets.google.com/pub?key=tiS_6CCDDM_drNphpYwE_iw&single=true&gid=4&output=csv', :headers => false),
+                                                  :blocking_only => true,
+                                                  :right_reader => lambda { |record| record['Description'] }
+  end
+  
+  # warning: self-referential, assumes it will be used once first import step is done
+  def self.icao_name_dictionary
+    @_icao_dictionary ||= LooseTightDictionary.new Aircraft.all,
+                                                   :tightenings  => RemoteTable.new(:url => 'http://spreadsheets.google.com/pub?key=tiS_6CCDDM_drNphpYwE_iw&single=true&gid=0&output=csv', :headers => false),
+                                                   :identities   => RemoteTable.new(:url => 'http://spreadsheets.google.com/pub?key=tiS_6CCDDM_drNphpYwE_iw&single=true&gid=3&output=csv', :headers => false),
+                                                   :blockings    => RemoteTable.new(:url => 'http://spreadsheets.google.com/pub?key=tiS_6CCDDM_drNphpYwE_iw&single=true&gid=4&output=csv', :headers => false),
+                                                   :right_reader => lambda { |record| record.manufacturer_name.to_s + ' ' + record.name.to_s }
+  end
+
   class Aircraft::BtsMatcher
     attr_reader :wants
     def initialize(wants)
@@ -71,10 +91,6 @@ Aircraft.class_eval do
   end
 
   data_miner do
-    process "Don't re-import too often" do
-      raise DataMiner::Skip unless DataMiner::Run.allowed? Aircraft
-    end
-    
     schema Earth.database_options do
       string   'icao_code'
       string   'manufacturer_name'
@@ -161,11 +177,8 @@ Aircraft.class_eval do
       update_all "weighting = (#{segments.project(segments[:passengers].sum).where(aircraft[:bts_aircraft_type_code].eq(segments[:bts_aircraft_type_code])).to_sql})"
     end
     
-    [ AircraftManufacturer ].each do |synthetic_resource|
-      process "Synthesize #{synthetic_resource}" do
-        synthetic_resource.run_data_miner!
-      end
+    process "Synthesize AircraftManufacturer" do
+      AircraftManufacturer.run_data_miner!
     end
-    
   end
 end
