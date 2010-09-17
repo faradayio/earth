@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{earth}
-  s.version = "0.0.40"
+  s.version = "0.0.41"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Seamus Abshere", "Derek Kastner", "Andy Rossmeissl"]
-  s.date = %q{2010-09-15}
+  s.date = %q{2010-09-17}
   s.description = %q{An earth-simulation environment with ActiveRecord models and data}
   s.email = %q{andy@rossmeissl.net}
   s.extra_rdoc_files = [
@@ -166,7 +166,6 @@ Gem::Specification.new do |s|
      "lib/earth/residence/residence_fuel_type/data_miner.rb",
      "lib/earth/residence/residential_energy_consumption_survey_response.rb",
      "lib/earth/residence/residential_energy_consumption_survey_response/data_miner.rb",
-     "lib/earth/schema.rb",
      "vendor/geokit-rails/CHANGELOG.rdoc",
      "vendor/geokit-rails/MIT-LICENSE",
      "vendor/geokit-rails/README.markdown",
