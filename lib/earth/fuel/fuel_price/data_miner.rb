@@ -4,7 +4,7 @@ FuelPrice.class_eval do
   # month/year
 
   data_miner do
-    schema :options => Earth.database_options do
+    schema Earth.database_options do
       string  'name'
       float   'price'
       string  'price_units'

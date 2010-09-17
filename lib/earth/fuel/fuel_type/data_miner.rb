@@ -5,7 +5,7 @@ FuelType.class_eval do
   # gas-specific emissions factors
 
   data_miner do
-    schema :options => Earth.database_options do
+    schema Earth.database_options do
       string 'name'
       float  'emission_factor'
       string 'emission_factor_units'
