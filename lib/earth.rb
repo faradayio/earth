@@ -6,6 +6,8 @@ require 'earth/inflectors'
 require 'data_miner'
 require 'falls_back_on'
 require 'falls_back_on/active_record_ext'
+require 'weighted_average'
+require 'loose_tight_dictionary'
 
 # The earth module is an interface for establishing a taps server (used to fetch 
 # data) and for loading data models from various domains.
