@@ -85,7 +85,12 @@ private
     elsif !domains.include?(:none)
       domains.each do |domain| 
         require "earth/#{domain}"
-        require "earth/#{domain}/data_miner" if options[:apply_schemas] or options[:load_data_miner]
+        if options[:apply_schemas] or options[:load_data_miner]
+          begin
+            require "earth/#{domain}/data_miner"
+          rescue LoadError
+          end
+        end
       end
     end
   end
