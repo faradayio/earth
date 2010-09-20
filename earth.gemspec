@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{earth}
-  s.version = "0.0.43"
+  s.version = "0.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Seamus Abshere", "Derek Kastner", "Andy Rossmeissl"]
-  s.date = %q{2010-09-17}
+  s.date = %q{2010-09-20}
   s.description = %q{An earth-simulation environment with ActiveRecord models and data}
   s.email = %q{andy@rossmeissl.net}
   s.extra_rdoc_files = [
@@ -91,26 +91,6 @@ Gem::Specification.new do |s|
      "lib/earth/hospitality/data_miner.rb",
      "lib/earth/hospitality/lodging_class.rb",
      "lib/earth/hospitality/lodging_class/data_miner.rb",
-     "lib/earth/industry.rb",
-     "lib/earth/industry/data_miner.rb",
-     "lib/earth/industry/industries_product_lines.rb",
-     "lib/earth/industry/industries_product_lines/data_miner.rb",
-     "lib/earth/industry/industries_sectors.rb",
-     "lib/earth/industry/industries_sectors/data_miner.rb",
-     "lib/earth/industry/industry.rb",
-     "lib/earth/industry/industry/data_miner.rb",
-     "lib/earth/industry/merchant.rb",
-     "lib/earth/industry/merchant/data_miner.rb",
-     "lib/earth/industry/merchant_categories_industries.rb",
-     "lib/earth/industry/merchant_categories_industries/data_miner.rb",
-     "lib/earth/industry/merchant_category.rb",
-     "lib/earth/industry/merchant_category/data_miner.rb",
-     "lib/earth/industry/product_line.rb",
-     "lib/earth/industry/product_line/data_miner.rb",
-     "lib/earth/industry/product_lines_sectors.rb",
-     "lib/earth/industry/product_lines_sectors/data_miner.rb",
-     "lib/earth/industry/sector.rb",
-     "lib/earth/industry/sector/data_miner.rb",
      "lib/earth/inflectors.rb",
      "lib/earth/locality.rb",
      "lib/earth/locality/census_division.rb",
@@ -215,17 +195,7 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.7}
   s.summary = %q{Land, sky, and sea}
   s.test_files = [
-    "spec/lib/earth/industry/industries_product_lines_spec.rb",
-     "spec/lib/earth/industry/industries_sectors_spec.rb",
-     "spec/lib/earth/industry/industry_spec.rb",
-     "spec/lib/earth/industry/merchant_categories_industries_spec.rb",
-     "spec/lib/earth/industry/merchant_category_spec.rb",
-     "spec/lib/earth/industry/merchant_spec.rb",
-     "spec/lib/earth/industry/product_line_spec.rb",
-     "spec/lib/earth/industry/product_lines_sectors_spec.rb",
-     "spec/lib/earth/industry/sector_spec.rb",
-     "spec/lib/earth_spec.rb",
-     "spec/lib/industries_sectors_spec.rb",
+    "spec/lib/earth_spec.rb",
      "spec/spec_helper.rb",
      "Gemfile",
      "Gemfile.lock"
