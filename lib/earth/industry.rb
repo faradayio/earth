@@ -1,0 +1,10 @@
+require 'earth/industry/industries_product_lines'
+require 'earth/industry/industries_sectors'
+require 'earth/industry/industry'
+require 'earth/industry/merchant'
+require 'earth/industry/merchant_categories_industries'
+require 'earth/industry/merchant_category'
+require 'earth/industry/product_line'
+require 'earth/industry/product_lines_sectors'
+require 'earth/industry/sector'
+
