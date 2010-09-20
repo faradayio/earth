@@ -20,7 +20,7 @@ FlightDomesticity.class_eval do
       FlightSegment.run_data_miner!
       connection.execute %{
         INSERT IGNORE INTO flight_domesticities(name, bts_data_source_code)
-        SELECT flight_segments.domesticity, flight_segments.bts_data_source_code FROM flight_segments WHERE LENGTH(flight_segments.domesticity) > 0
+        SELECT flight_segments.domesticity_id, flight_segments.bts_data_source_code FROM flight_segments WHERE LENGTH(flight_segments.domesticity_id) > 0
       }
     end
     
@@ -29,7 +29,7 @@ FlightDomesticity.class_eval do
       segments = FlightSegment.arel_table
       flight_domesticities = FlightDomesticity.arel_table
       ## slow, all-in-one method
-      # conditional_relation = flight_domesticities[:name].eq(segments[:domesticity])
+      # conditional_relation = flight_domesticities[:name].eq(segments[:domesticity_id])
       # update_all "seats         = (#{FlightSegment.weighted_average_relation(:seats,         :weighted_by => :passengers                                           ).where(conditional_relation).to_sql})"
       # update_all "distance      = (#{FlightSegment.weighted_average_relation(:distance,      :weighted_by => :passengers                                           ).where(conditional_relation).to_sql})"
       # update_all "load_factor   = (#{FlightSegment.weighted_average_relation(:load_factor,   :weighted_by => :passengers                                           ).where(conditional_relation).to_sql})"
@@ -39,7 +39,7 @@ FlightDomesticity.class_eval do
       find_in_batches do |batch|
         batch.each do |flight_domesticity|
           targeting_relation = flight_domesticities[:name].eq flight_domesticity.name
-          conditional_relation = segments[:domesticity].eq flight_domesticity.name
+          conditional_relation = segments[:domesticity_id].eq flight_domesticity.name
           connection.execute "CREATE TEMPORARY TABLE tmp1 #{FlightSegment.where(conditional_relation).to_sql}"
           update_all "seats                    = (#{FlightSegment.weighted_average_relation(:seats,         :weighted_by => :passengers                                           ).to_sql.gsub('flight_segments', 'tmp1')})", targeting_relation.to_sql
           update_all "distance                 = (#{FlightSegment.weighted_average_relation(:distance,      :weighted_by => :passengers                                           ).to_sql.gsub('flight_segments', 'tmp1')})", targeting_relation.to_sql
