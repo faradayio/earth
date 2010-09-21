@@ -1,10 +1,10 @@
 require 'earth/industry/industry_product_line'
 require 'earth/industry/industry_sector'
 require 'earth/industry/industry'
+require 'earth/industry/industry_product'
 require 'earth/industry/merchant'
 require 'earth/industry/merchant_category_industry'
 require 'earth/industry/merchant_category'
 require 'earth/industry/product_line'
-require 'earth/industry/product_line_sector'
+require 'earth/industry/product_line_industry_product'
 require 'earth/industry/sector'
-

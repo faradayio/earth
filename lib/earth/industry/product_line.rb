@@ -2,8 +2,10 @@ class ProductLine < ActiveRecord::Base
   extend Earth::Base
   set_primary_key :ps_code
   
-  has_many :product_line_sectors, :foreign_key => 'ps_code'
-  has_many :sectors, :through => :product_line_sectors
+  has_many :industry_product_lines,         :foreign_key => 'ps_code'
+  
+  has_many :product_line_industry_products, :foreign_key => 'ps_code'
+  has_many :industry_products, :through => :product_line_industry_products
   
   def self.schema_definition
     lambda do
