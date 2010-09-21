@@ -256,7 +256,6 @@ ResidentialEnergyConsumptionSurveyResponse.class_eval do
     end
     
     process "synthesize air conditioner use from central AC and window AC use" do
-      connection.add_column :residential_energy_consumption_survey_responses, :air_conditioner_use_id, :string
       update_all "air_conditioner_use_id = 'Turned on just about all summer'",                        " central_ac_use = 'Turned on just about all summer'                        OR window_ac_use = 'Turned on just about all summer'"
       update_all "air_conditioner_use_id = 'Turned on quite a bit'",                                  "(central_ac_use = 'Turned on quite a bit'                                  OR window_ac_use = 'Turned on quite a bit')                                  AND air_conditioner_use_id IS NULL"
       update_all "air_conditioner_use_id = 'Turned on only a few days or nights when really needed'", "(central_ac_use = 'Turned on only a few days or nights when really needed' OR window_ac_use = 'Turned on only a few days or nights when really needed') AND air_conditioner_use_id IS NULL"
@@ -264,7 +263,6 @@ ResidentialEnergyConsumptionSurveyResponse.class_eval do
     end
     
     process "synthesize clothes machine use from washer and dryer use" do
-      connection.add_column :residential_energy_consumption_survey_responses, :clothes_machine_use_id, :string
       update_all "clothes_machine_use_id = clothes_washer_use",         "                                                    clothes_dryer_use = 'Use it every time you wash clothes'"
       update_all "clothes_machine_use_id = NULL",                       "clothes_washer_use IS NULL                      AND clothes_dryer_use = 'Use it for some, but not all, loads of wash'"
       update_all "clothes_machine_use_id = '1 load or less each week'", "clothes_washer_use = '1 load or less each week' AND clothes_dryer_use = 'Use it for some, but not all, loads of wash'"
