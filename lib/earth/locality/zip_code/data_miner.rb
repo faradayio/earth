@@ -1,4 +1,11 @@
 ZipCode.class_eval do
+  # sabshere 9/20/10 this isn't called anywhere
+  # def set_latitude_and_longitude
+  #   return if latitude.present? and longitude.present?
+  #   a = Geokit::Geocoders::YahooGeocoder.geocode name
+  #   update_attributes! :latitude => a.lat, :longitude => a.lng
+  # end
+  
   data_miner do
     schema Earth.database_options do
       string   'name'
