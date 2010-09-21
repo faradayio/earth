@@ -4,8 +4,6 @@ class MerchantCategoryIndustry < ActiveRecord::Base
   
   belongs_to :merchant_category, :foreign_key => 'mcc'
   belongs_to :industry,          :foreign_key => 'naics_code'
-  has_many :industry_product_lines, :through => :industry
-  has_many :industry_sectors, :through => :industry
 
   def self.schema_definition
     lambda do
