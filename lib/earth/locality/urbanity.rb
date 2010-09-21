@@ -5,16 +5,6 @@ class Urbanity < ActiveRecord::Base
   has_many :residential_energy_consumption_survey_responses
 
   data_miner do
-    schema do
-      string :name
-    end
-
-    process "derive from ResidentialEnergyConsumptionSurveyResponse" do
-      ResidentialEnergyConsumptionSurveyResponse.run_data_miner!
-      connection.execute %{
-        INSERT IGNORE INTO urbanities(name)
-        SELECT DISTINCT residential_energy_consumption_survey_responses.urbanity_id FROM residential_energy_consumption_survey_responses WHERE LENGTH(residential_energy_consumption_survey_responses.urbanity_id) > 0
-      }
-    end
+    tap "Brighter Planet's sanitized urbanity data", Earth.taps_server
   end
 end

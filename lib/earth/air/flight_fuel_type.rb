@@ -5,12 +5,7 @@ class FlightFuelType < ActiveRecord::Base
                 :density =>                   3.057                                                   # kg / gal
   
   data_miner do
-    schema do
-      string 'name'
-      float  'emission_factor'
-      float  'radiative_forcing_index'
-      float  'density'
-    end
+    tap "Brighter Planet's sanitized flight fuel type data", Earth.taps_server
     
     # we just always use the fallback
   end
