@@ -1,4 +1,4 @@
-class ProductLinesSectors < ActiveRecord::Base
+class ProductLineSector < ActiveRecord::Base
   extend Earth::Base
   belongs_to :product_line, :foreign_key => 'ps_code'
   belongs_to :sector,       :foreign_key => 'io_code'
@@ -13,6 +13,6 @@ class ProductLinesSectors < ActiveRecord::Base
   end
 
   data_miner do
-    ProductLinesSectors.define_schema(self)
+    ProductLineSector.define_schema(self)
   end
 end

@@ -2,7 +2,7 @@ class Sector < ActiveRecord::Base
   extend Earth::Base
   set_primary_key :io_code
 
-  has_many :product_lines_sectors, :class_name => 'ProductLinesSectors', :foreign_key => 'io_code'
+  has_many :product_line_sectors, :foreign_key => 'io_code'
 
   def self.schema_definition
     lambda do

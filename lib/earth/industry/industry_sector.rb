@@ -1,4 +1,4 @@
-class IndustriesSectors < ActiveRecord::Base
+class IndustrySector < ActiveRecord::Base
   extend Earth::Base
   belongs_to :industry,  :foreign_key => 'naics_code'
   belongs_to :sector,    :foreign_key => 'io_code'
@@ -12,6 +12,6 @@ class IndustriesSectors < ActiveRecord::Base
   end
 
   data_miner do
-    IndustriesSectors.define_schema(self)
+    IndustrySector.define_schema(self)
   end
 end

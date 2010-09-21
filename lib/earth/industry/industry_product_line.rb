@@ -1,4 +1,4 @@
-class IndustriesProductLines < ActiveRecord::Base
+class IndustryProductLine < ActiveRecord::Base
   extend Earth::Base
   set_primary_key :row_hash
   
@@ -16,6 +16,6 @@ class IndustriesProductLines < ActiveRecord::Base
   end
 
   data_miner do
-    IndustriesProductLines.define_schema(self)
+    IndustryProductLine.define_schema(self)
   end
 end
