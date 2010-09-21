@@ -8,11 +8,15 @@ class MerchantCategory < ActiveRecord::Base
   def name
     description
   end
-
-  data_miner do
-    schema Earth.database_options do
+  
+  def self.schema_definition
+    lambda do
       string 'mcc'
       string 'description'
     end
+  end
+  
+  data_miner do
+    MerchantCategory.define_schema(self)
   end
 end
