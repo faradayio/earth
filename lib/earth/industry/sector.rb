@@ -6,8 +6,7 @@ class Sector < ActiveRecord::Base
     lambda do
       string 'io_code'
       string 'description'
-      float 'emission_factor'
-      string 'emission_factor_units'
+      float  'value'
     end
   end
 

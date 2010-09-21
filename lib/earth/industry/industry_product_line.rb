@@ -11,7 +11,6 @@ class IndustryProductLine < ActiveRecord::Base
       string 'naics_code'
       float  'ratio'
       string 'ps_code'
-      float  'revenue_allocated'
     end
   end
 
