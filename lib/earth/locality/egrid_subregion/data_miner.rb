@@ -9,18 +9,57 @@ EgridSubregion.class_eval do
       string 'egrid_region_name'
     end
     
-    process "Define some unit conversions" do
-      Conversions.register :kilograms_per_kilowatt_hour, :kilograms_per_megawatt_hour, 1_000.0
-    end
+    # process "define some unit conversions" do
+    #   Conversions.register :pounds_per_megawatt_hour, :kilograms_per_kilowatt_hour, 0.00045359237
+    #   Conversions.register :pounds_per_gigawatt_hour, :kilograms_per_kilowatt_hour, 0.00000045359237
+    # end
+    # 
+    # NOTE: the following import uses an 18 Mb zip - don't know if two imports will cause it to be downloaded twice...
+    # 
+    # import "eGRID regions and electricity emission factors derived from eGRID 2007 data",
+    #        :url => 'http://www.epa.gov/cleanenergy/documents/egridzips/eGRID2007_Version1-1.zip',
+    #        :filename => 'eGRID2007V1_1_year05_aggregation.xls',
+    #        :sheet => 'SRL05',
+    #        :skip => 3,
+    #        :select => lambda { |row| row['eGRID2007 2005 file eGRID subregion location (operator)-based sequence number'].to_i.between?(1, 26) } do
+    #   key   'abbreviation', :field_name => 'eGRID subregion acronym'
+    #   store 'name', :field_name => 'eGRID subregion name associated with eGRID subregion acronym'
+    #   store 'nerc_abbreviation', :field_name => 'NERC region acronym associated with the eGRID subregion acronym'
+    #   store 'electricity_ef_co2', :field_name => 'eGRID subregion annual CO2 output emission rate (lb/MWh)', :from_units => :pounds_per_megawatt_hour, :to_units => :kilograms_per_kilowatt_hour
+    #   store 'electricity_ef_ch4', :field_name => 'eGRID subregion annual CH4 output emission rate (lb/GWh)', :from_units => :pounds_per_gigawatt_hour, :to_units => :kilograms_per_kilowatt_hour
+    #   store 'electricity_ef_n2o', :field_name => 'eGRID subregion annual N2O output emission rate (lb/GWh)', :from_units => :pounds_per_gigawatt_hour, :to_units => :kilograms_per_kilowatt_hour
+    # end
+    # 
+    # import "US average electricity emission factors derived from eGRID 2007 data",
+    #        :url => 'http://www.epa.gov/cleanenergy/documents/egridzips/eGRID2007_Version1-1.zip',
+    #        :filename => 'eGRID2007V1_1_year05_aggregation.xls',
+    #        :sheet => 'US05',
+    #        :skip => 3,
+    #        :select => lambda { |row| row['eGRID2007 2005 file US sequence number'].to_i.is?(1) } do
+    #   key   # the single row should be keyed 'US'
+    #   store 'name' # the single row should be named 'United States Average'
+    #   store 'electricity_ef_co2', :field_name => 'US annual CO2 output emission rate (lb/MWh)', :from_units => :pounds_per_megawatt_hour, :to_units => :kilograms_per_kilowatt_hour
+    #   store 'electricity_ef_ch4', :field_name => 'US annual CH4 output emission rate (lb/GWh)', :from_units => :pounds_per_gigawatt_hour, :to_units => :kilograms_per_kilowatt_hour
+    #   store 'electricity_ef_n2o', :field_name => 'US annual N2O output emission rate (lb/GWh)', :from_units => :pounds_per_gigawatt_hour, :to_units => :kilograms_per_kilowatt_hour
+    # end
+    # 
+    # import "the eGRID regions associated with each subregion" do
+    #        :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdGRORTJNSWRMQ1puRVprYlAtZHhDaFE&hl=en&single=true&gid=0&output=csv' do
+    #   key 'abbreviation'
+    #   store 'egrid_region_name'
+    # end
+    # 
+    # process "Calculate CO2e emission factor"
+    #   # multiply each gas ef by the gas GWP and sum
+    # end
     
-    import "a list of eGRID subregions and pre-calculated emissions factors",
-           :url => 'http://static.brighterplanet.com/science/data/electricity/egrid/models_export/egrid_subregions.csv' do
+    import "a list of eGRID subregions and emissions factors derived from eGRID 2007 data",
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdGRORTJNSWRMQ1puRVprYlAtZHhDaFE&hl=en&single=true&gid=0&output=csv' do
       key   'abbreviation'
       store 'name'
-      store 'electricity_emission_factor', :from_units => :kilograms_per_megawatt_hour, :to_units => :kilograms_per_kilowatt_hour
       store 'nerc_abbreviation'
       store 'egrid_region_name'
+      store 'electricity_emission_factor', :units_field_name => 'electricity_emission_factor_units'
     end
   end
 end
-
