@@ -7,6 +7,7 @@ class Sector < ActiveRecord::Base
       string 'io_code'
       string 'description'
       float  'value'
+      string 'value_units'
     end
   end
 

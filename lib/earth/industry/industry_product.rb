@@ -11,6 +11,7 @@ class IndustryProduct < ActiveRecord::Base
       string 'naics_product_code'
       string 'description'
       float  'value'
+      string 'value_units'
       string 'naics_code'
     end
   end
