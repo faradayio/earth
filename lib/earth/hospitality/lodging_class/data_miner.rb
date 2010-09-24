@@ -1,16 +1,6 @@
 LodgingClass.class_eval do
   data_miner do
-    schema Earth.database_options do
-      string 'name'
-      float  'natural_gas_intensity'
-      string 'natural_gas_intensity_units'
-      float  'fuel_oil_intensity'
-      string 'fuel_oil_intensity_units'
-      float  'electricity_intensity'
-      string 'electricity_intensity_units'
-      float  'district_heat_intensity'
-      string 'district_heat_intensity_units'
-    end
+    LodgingClass.define_schema(self)
     
     process "Define some unit conversions" do
       Conversions.register :hundred_cubic_feet_per_room_night, :cubic_metres_per_room_night,        2.831685
