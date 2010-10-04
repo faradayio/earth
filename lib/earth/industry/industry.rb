@@ -20,4 +20,9 @@ class Industry < ActiveRecord::Base
   data_miner do
     Industry.define_schema(self)
   end
+
+  def trade_industry?
+    prefix = naics_code.to_s[0,2]
+    %w{42 44 45}.include?(prefix)
+  end
 end
