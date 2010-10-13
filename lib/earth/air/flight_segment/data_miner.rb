@@ -181,7 +181,7 @@ FlightSegment.class_eval do
       integer  'air_time'
       float    'load_factor'
       float    'freight_share'
-      integer  'distance'
+      float    'distance'
       integer  'departures_scheduled'
       string   'airline_iata_code'
       string   'dot_airline_id_code'
