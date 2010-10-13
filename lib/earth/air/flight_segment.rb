@@ -15,9 +15,9 @@ class FlightSegment < ActiveRecord::Base
   belongs_to :service_class,                                                       :class_name => 'FlightService'
   belongs_to :domesticity,                                                         :class_name => 'FlightDomesticity'
   
-  falls_back_on :load_factor =>   lambda { weighted_average(:load_factor,   :weighted_by => :passengers) }, # 0.78222911236768
-                :freight_share => lambda { weighted_average(:freight_share, :weighted_by => :passengers) },  # 0.024017329363736
-                :seats => lambda { weighted_average :seats, :weighted_by => :passengers }
+  falls_back_on :seats             => lambda { weighted_average(:seats,         :weighted_by => :passengers) }, # 144.15653537046   data1 10-12-2010
+                :load_factor       => lambda { weighted_average(:load_factor,   :weighted_by => :passengers) }, # 0.78073233770097  data1 10-12-2010
+                :freight_share     => lambda { weighted_average(:freight_share, :weighted_by => :passengers) }  # 0.022567224170157 data1 10-12-2010
 
   data_miner do
     tap "Brighter Planet's sanitized T100 data", Earth.taps_server
