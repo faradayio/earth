@@ -9,6 +9,8 @@ FuelType.class_eval do
       string 'name'
       float  'emission_factor'
       string 'emission_factor_units'
+      float  'density'
+      string 'density_units'
       float  'average_purchase_volume'
       string 'average_purchase_volume_units'
       # float    'energy_content'
@@ -25,11 +27,12 @@ FuelType.class_eval do
     #   Conversions.register :carbon,                                          :carbon_dioxide,              3.66666667
     # end
     
-    import "a list of fuels and their emissions factors",
-           :url => 'http://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdDR3RjlTcWlsLTc2TzQ0cERTMElJbHc' do
+    import "a list of fuels and their emissions factors and densities",
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdDR3RjlTcWlsLTc2TzQ0cERTMElJbHc&single=true&gid=0&output=csv' do
       key 'name', :field_name => 'fuel'
       store 'emission_factor', :units_field_name => 'emission_factor_units'
       store 'average_purchase_volume', :units_field_name => 'average_purchase_volume_units'
+      store 'density', :units_field_name => 'density_units'
       # store 'energy_content', :field_name => 'energy_content', :units_field_name => 'energy_content_units', :to_units => 'FIXME' # FIXME need different conversions for different rows...
       # store 'carbon_content', :field_name => 'carbon_content', :units_field_name => 'carbon_content_units', :to_units => :kilograms_per_joule
     end
