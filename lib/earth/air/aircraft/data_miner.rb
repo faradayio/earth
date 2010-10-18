@@ -1,79 +1,73 @@
 Aircraft.class_eval do
+  # def self.bts_name_dictionary
+  #   @_bts_dictionary ||= LooseTightDictionary.new RemoteTable.new(:url => 'http://www.transtats.bts.gov/Download_Lookup.asp?Lookup=L_AIRCRAFT_TYPE', :select => lambda { |record| record['Code'].to_i.between?(1, 998) }),
+  #                                                 :tightenings  => RemoteTable.new(:url => 'http://spreadsheets.google.com/pub?key=tiS_6CCDDM_drNphpYwE_iw&single=true&gid=0&output=csv', :headers => false),
+  #                                                 :identities   => RemoteTable.new(:url => 'http://spreadsheets.google.com/pub?key=tiS_6CCDDM_drNphpYwE_iw&single=true&gid=3&output=csv', :headers => false),
+  #                                                 :blockings    => RemoteTable.new(:url => 'http://spreadsheets.google.com/pub?key=tiS_6CCDDM_drNphpYwE_iw&single=true&gid=4&output=csv', :headers => false),
+  #                                                 :blocking_only => true,
+  #                                                 :right_reader => lambda { |record| record['Description'] }
+  # end
+  # 
+  # # warning: self-referential, assumes it will be used once first import step is done
+  # def self.icao_name_dictionary
+  #   @_icao_dictionary ||= LooseTightDictionary.new Aircraft.all,
+  #                                                  :tightenings  => RemoteTable.new(:url => 'http://spreadsheets.google.com/pub?key=tiS_6CCDDM_drNphpYwE_iw&single=true&gid=0&output=csv', :headers => false),
+  #                                                  :identities   => RemoteTable.new(:url => 'http://spreadsheets.google.com/pub?key=tiS_6CCDDM_drNphpYwE_iw&single=true&gid=3&output=csv', :headers => false),
+  #                                                  :blockings    => RemoteTable.new(:url => 'http://spreadsheets.google.com/pub?key=tiS_6CCDDM_drNphpYwE_iw&single=true&gid=4&output=csv', :headers => false),
+  #                                                  :right_reader => lambda { |record| record.manufacturer_name.to_s + ' ' + record.name.to_s }
+  # end
+  # 
+  # class Aircraft::BtsMatcher
+  #   attr_reader :wants
+  #   def initialize(wants)
+  #     @wants = wants
+  #   end
+  #   def match(raw_faa_icao_record)
+  #     @_match ||= Hash.new
+  #     return @_match[raw_faa_icao_record] if @_match.has_key?(raw_faa_icao_record)
+  #     faa_icao_record = [ raw_faa_icao_record['Manufacturer'] + ' ' + raw_faa_icao_record['Model'] ]
+  #     bts_record = Aircraft.bts_name_dictionary.left_to_right faa_icao_record
+  #     retval = case wants
+  #     when :bts_aircraft_type_code
+  #       bts_record['Code']
+  #     when :bts_name
+  #       bts_record['Description']
+  #     end if bts_record
+  #     @_match[raw_faa_icao_record] = retval
+  #   end
+  # end
+  # 
+  # class Aircraft::FuelUseMatcher
+  #   def match(raw_fuel_use_record)
+  #     @_match ||= Hash.new
+  #     return @_match[raw_fuel_use_record] if @_match.has_key?(raw_fuel_use_record)
+  #     
+  #     aircraft_record = if raw_fuel_use_record['ICAO'] =~ /\A[0-9A-Z]+\z/
+  #       Aircraft.find_by_icao_code raw_fuel_use_record['ICAO']
+  #     end
+  #     
+  #     aircraft_record ||= if raw_fuel_use_record['Aircraft Name'].present?
+  #       Aircraft.icao_name_dictionary.left_to_right [ raw_fuel_use_record['Aircraft Name'] ]
+  #     end
+  #     
+  #     if aircraft_record
+  #       @_match[raw_fuel_use_record] = aircraft_record.icao_code
+  #     else
+  #       raise "Didn't find a match for #{raw_fuel_use_record['Aircraft Name']} (#{raw_fuel_use_record['ICAO']}), which we found in the fuel use spreadsheet"
+  #     end
+  #   end
+  # end
   
-  # TODO use http://www.transtats.bts.gov/Download_Lookup.asp?Lookup=L_AIRCRAFT_TYPE
-  def self.bts_name_dictionary
-    @_bts_dictionary ||= LooseTightDictionary.new RemoteTable.new(:url => 'http://www.transtats.bts.gov/Download_Lookup.asp?Lookup=L_AIRCRAFT_TYPE', :select => lambda { |record| record['Code'].to_i.between?(1, 998) }),
-                                                  :tightenings  => RemoteTable.new(:url => 'http://spreadsheets.google.com/pub?key=tiS_6CCDDM_drNphpYwE_iw&single=true&gid=0&output=csv', :headers => false),
-                                                  :identities   => RemoteTable.new(:url => 'http://spreadsheets.google.com/pub?key=tiS_6CCDDM_drNphpYwE_iw&single=true&gid=3&output=csv', :headers => false),
-                                                  :blockings    => RemoteTable.new(:url => 'http://spreadsheets.google.com/pub?key=tiS_6CCDDM_drNphpYwE_iw&single=true&gid=4&output=csv', :headers => false),
-                                                  :blocking_only => true,
-                                                  :right_reader => lambda { |record| record['Description'] }
-  end
-  
-  # warning: self-referential, assumes it will be used once first import step is done
-  def self.icao_name_dictionary
-    @_icao_dictionary ||= LooseTightDictionary.new Aircraft.all,
-                                                   :tightenings  => RemoteTable.new(:url => 'http://spreadsheets.google.com/pub?key=tiS_6CCDDM_drNphpYwE_iw&single=true&gid=0&output=csv', :headers => false),
-                                                   :identities   => RemoteTable.new(:url => 'http://spreadsheets.google.com/pub?key=tiS_6CCDDM_drNphpYwE_iw&single=true&gid=3&output=csv', :headers => false),
-                                                   :blockings    => RemoteTable.new(:url => 'http://spreadsheets.google.com/pub?key=tiS_6CCDDM_drNphpYwE_iw&single=true&gid=4&output=csv', :headers => false),
-                                                   :right_reader => lambda { |record| record.manufacturer_name.to_s + ' ' + record.name.to_s }
-  end
-
-  class Aircraft::BtsMatcher
-    attr_reader :wants
-    def initialize(wants)
-      @wants = wants
-    end
-    def match(raw_faa_icao_record)
-      @_match ||= Hash.new
-      return @_match[raw_faa_icao_record] if @_match.has_key?(raw_faa_icao_record)
-      faa_icao_record = [ raw_faa_icao_record['Manufacturer'] + ' ' + raw_faa_icao_record['Model'] ]
-      bts_record = Aircraft.bts_name_dictionary.left_to_right faa_icao_record
-      retval = case wants
-      when :bts_aircraft_type_code
-        bts_record['Code']
-      when :bts_name
-        bts_record['Description']
-      end if bts_record
-      @_match[raw_faa_icao_record] = retval
-    end
-  end
-
-  class Aircraft::FuelUseMatcher
-    def match(raw_fuel_use_record)
-      @_match ||= Hash.new
-      return @_match[raw_fuel_use_record] if @_match.has_key?(raw_fuel_use_record)
-
-      aircraft_record = if raw_fuel_use_record['ICAO'] =~ /\A[0-9A-Z]+\z/
-        Aircraft.find_by_icao_code raw_fuel_use_record['ICAO']
-      end
-      
-      aircraft_record ||= if raw_fuel_use_record['Aircraft Name'].present?
-        Aircraft.icao_name_dictionary.left_to_right [ raw_fuel_use_record['Aircraft Name'] ]
-      end
-      
-      if aircraft_record
-        @_match[raw_fuel_use_record] = aircraft_record.icao_code
-      else
-        raise "Didn't find a match for #{raw_fuel_use_record['Aircraft Name']} (#{raw_fuel_use_record['ICAO']}), which we found in the fuel use spreadsheet"
-      end
-    end
-  end
-
+  # for errata
   class Aircraft::Guru
-    # for errata
     def is_a_dc_plane?(row)
       row['Designator'] =~ /^DC\d/i
     end
     
-    # def is_a_crj_900?(row)
-    #   row['Designator'].downcase == 'crj9'
-    # end
-    
     def is_a_g159?(row)
       row['Designator'] =~ /^G159$/
     end
-
+    
     def is_a_galx?(row)
       row['Designator'] =~ /^GALX$/
     end
@@ -89,14 +83,14 @@ Aircraft.class_eval do
       end
     end
   end
-
+  
   data_miner do
     schema Earth.database_options do
       string   'icao_code'
       string   'manufacturer_name'
       string   'name'
-      string   'bts_name'
-      string   'bts_aircraft_type_code'
+      # string   'bts_name'
+      # string   'bts_aircraft_type_code'
       string   'brighter_planet_aircraft_class_code'
       string   'fuel_use_aircraft_name'
       float    'm3'
@@ -114,11 +108,10 @@ Aircraft.class_eval do
       float    'freight_share'
       float    'payload'
       float    'weighting'
-      index    'bts_aircraft_type_code'
+      # index    'bts_aircraft_type_code'
     end
     
     ('A'..'Z').each do |letter|
-    # ('Z'..'Z').each do |letter|
       import( "ICAO aircraft codes starting with the letter #{letter} used by the FAA",
               :url => "http://www.faa.gov/air_traffic/publications/atpubs/CNT/5-2-#{letter}.htm",
               :errata => Errata.new(:url => 'http://spreadsheets.google.com/pub?key=tObVAGyqOkCBtGid0tJUZrw',
@@ -127,15 +120,20 @@ Aircraft.class_eval do
               :row_xpath => '//table/tr[2]/td/table/tr',
               :column_xpath => 'td' ) do
         key 'icao_code', :field_name => 'Designator'
-        store 'bts_aircraft_type_code', :matcher => Aircraft::BtsMatcher.new(:bts_aircraft_type_code)
-        store 'bts_name', :matcher => Aircraft::BtsMatcher.new(:bts_name)
+        # store 'bts_aircraft_type_code', :matcher => Aircraft::BtsMatcher.new(:bts_aircraft_type_code)
+        # store 'bts_name', :matcher => Aircraft::BtsMatcher.new(:bts_name)
         store 'manufacturer_name', :field_name => 'Manufacturer'
         store 'name', :field_name => 'Model'
       end
     end
     
-    # TODO fixme need to remake aircraft classes dictionary based on ICAO codes
-    # sabshere 5/17/10 or maybe we can replace this with typ/weight class from FAA (?)
+    import 'specific manufacturers and models for some icao codes',
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdHRNaVpSUWw2Z2VhN3RUV25yYWdQX2c&hl=en&single=true&gid=0&output=csv' do
+      key 'icao_code'
+      store 'manufacturer_name'
+      store 'name'
+    end
+    
     import "Brighter Planet's aircraft class codes",
            :url => 'http://static.brighterplanet.com/science/data/transport/air/bts_aircraft_type/bts_aircraft_types-brighter_planet_aircraft_classes.csv' do
       key   'bts_aircraft_type_code', :field_name => 'bts_aircraft_type'
