@@ -1,4 +1,5 @@
 require 'earth/air/aircraft'
+require 'earth/air/aircraft_bts_aircraft_type'
 require 'earth/air/aircraft_class'
 require 'earth/air/aircraft_manufacturer'
 require 'earth/air/airline'
