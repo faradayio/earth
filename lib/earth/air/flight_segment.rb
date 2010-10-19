@@ -10,6 +10,7 @@ class FlightSegment < ActiveRecord::Base
   belongs_to :origin_country,      :foreign_key => 'origin_country_iso_3166_code', :class_name => 'Country'
   belongs_to :destination_country, :foreign_key => 'dest_country_iso_3166_code',   :class_name => 'Country'
   belongs_to :aircraft_type,       :foreign_key => 'aircraft_type_code'
+  has_many   :aircraft, :through => :aircraft_type
   # belongs_to :propulsion,                                                          :class_name => 'FlightPropulsion'
   # belongs_to :configuration,                                                       :class_name => 'FlightConfiguration'
   # belongs_to :service_class,                                                       :class_name => 'FlightService'
