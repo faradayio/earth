@@ -102,11 +102,11 @@ Aircraft.class_eval do
       float    'endpoint_fuel'
       string   'endpoint_fuel_units'
       float    'seats'
-      float    'distance'
-      string   'distance_units'
-      float    'load_factor'
-      float    'freight_share'
-      float    'payload'
+      # float    'distance'
+      # string   'distance_units'
+      # float    'load_factor'
+      # float    'freight_share'
+      # float    'payload'
       float    'weighting'
       # index    'bts_aircraft_type_code'
     end
@@ -127,7 +127,7 @@ Aircraft.class_eval do
       end
     end
     
-    import 'specific manufacturers and models for some icao codes',
+    import 'some missing icao codes and some hand-picked manufacturers and models',
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdHRNaVpSUWw2Z2VhN3RUV25yYWdQX2c&hl=en&single=true&gid=0&output=csv' do
       key 'icao_code'
       store 'manufacturer_name'
@@ -166,10 +166,10 @@ Aircraft.class_eval do
       
       conditional_relation = aircraft[:bts_aircraft_type_code].eq(segments[:bts_aircraft_type_code])
       update_all "seats         = (#{FlightSegment.weighted_average_relation(:seats,         :weighted_by => :passengers                                           ).where(conditional_relation).to_sql})"
-      update_all "distance      = (#{FlightSegment.weighted_average_relation(:distance,      :weighted_by => :passengers                                           ).where(conditional_relation).to_sql})"
-      update_all "load_factor   = (#{FlightSegment.weighted_average_relation(:load_factor,   :weighted_by => :passengers                                           ).where(conditional_relation).to_sql})"
-      update_all "freight_share = (#{FlightSegment.weighted_average_relation(:freight_share, :weighted_by => :passengers                                           ).where(conditional_relation).to_sql})"
-      update_all "payload       = (#{FlightSegment.weighted_average_relation(:payload,       :weighted_by => :passengers, :disaggregate_by => :departures_performed).where(conditional_relation).to_sql})"
+      # update_all "distance      = (#{FlightSegment.weighted_average_relation(:distance,      :weighted_by => :passengers                                           ).where(conditional_relation).to_sql})"
+      # update_all "load_factor   = (#{FlightSegment.weighted_average_relation(:load_factor,   :weighted_by => :passengers                                           ).where(conditional_relation).to_sql})"
+      # update_all "freight_share = (#{FlightSegment.weighted_average_relation(:freight_share, :weighted_by => :passengers                                           ).where(conditional_relation).to_sql})"
+      # update_all "payload       = (#{FlightSegment.weighted_average_relation(:payload,       :weighted_by => :passengers, :disaggregate_by => :departures_performed).where(conditional_relation).to_sql})"
       
       update_all "weighting = (#{segments.project(segments[:passengers].sum).where(aircraft[:bts_aircraft_type_code].eq(segments[:bts_aircraft_type_code])).to_sql})"
     end
