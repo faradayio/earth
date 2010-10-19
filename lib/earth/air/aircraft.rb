@@ -1,7 +1,7 @@
 class Aircraft < ActiveRecord::Base
   set_primary_key :icao_code
   
-  belongs_to :aircraft_class, :foreign_key => 'brighter_planet_aircraft_class_code'
+  belongs_to :aircraft_class, :foreign_key => 'aircraft_class_code'
   belongs_to :manufacturer,   :foreign_key => 'manufacturer_name',                  :class_name => 'AircraftManufacturer'
   has_many   :segments,       :foreign_key => 'bts_aircraft_type_code',             :class_name => "FlightSegment", :primary_key => 'bts_aircraft_type_code'
 

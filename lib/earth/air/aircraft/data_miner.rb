@@ -91,7 +91,7 @@ Aircraft.class_eval do
       string   'name'
       # string   'bts_name'
       # string   'bts_aircraft_type_code'
-      string   'brighter_planet_aircraft_class_code'
+      string   'aircraft_class_code'
       string   'fuel_use_aircraft_name'
       float    'm3'
       string   'm3_units'
