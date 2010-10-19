@@ -135,12 +135,11 @@ Aircraft.class_eval do
     end
     
     import "Brighter Planet's aircraft class codes",
-           :url => 'http://static.brighterplanet.com/science/data/transport/air/bts_aircraft_type/bts_aircraft_types-brighter_planet_aircraft_classes.csv' do
-      key   'bts_aircraft_type_code', :field_name => 'bts_aircraft_type'
-      store 'brighter_planet_aircraft_class_code'
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdHhMRkV6dkVhM1A3T05OSEIwdlY0ZkE&hl=en&single=true&gid=0&output=csv' do
+      key   'icao_code', :field_name => 'icao_code'
+      store 'aircraft_class_code'
     end
-
-    # EEA
+    
     import "pre-calculated fuel use equation coefficients",
            :url => 'http://static.brighterplanet.com/science/data/transport/air/fuel_use/aircraft_fuel_use_formulae.ods',
            :select => lambda { |row| row['ICAO'].present? or row['Aircraft Name'].present? } do
@@ -156,7 +155,7 @@ Aircraft.class_eval do
       FlightSegment.run_data_miner!
       aircraft = Aircraft.arel_table
       segments = FlightSegment.arel_table
-
+      
       # non-working joins method
       # update_all "aircraft.distance_1            = (SELECT * FROM (#{FlightSegment.joins(:aircraft).weighted_average_relation(:distance,            :weighted_by => :passengers                                           ).to_sql}) AS anonymous_1)"
       # update_all "aircraft.load_factor_1         = (SELECT * FROM (#{FlightSegment.joins(:aircraft).weighted_average_relation(:load_factor,         :weighted_by => :passengers                                           ).to_sql}) AS anonymous_1)"
@@ -164,7 +163,7 @@ Aircraft.class_eval do
       #   update aircraft as t1
       #   set t1.distance_1 = (SELECT * FROM (#{FlightSegment.joins(:aircraft).weighted_average_relation(:distance,            :weighted_by => :passengers                                           ).where('t1.bts_aircraft_type_code = flight_segments.bts_aircraft_type_code').to_sql}) AS anonymous_1)
       # }
-
+      
       conditional_relation = aircraft[:bts_aircraft_type_code].eq(segments[:bts_aircraft_type_code])
       update_all "seats         = (#{FlightSegment.weighted_average_relation(:seats,         :weighted_by => :passengers                                           ).where(conditional_relation).to_sql})"
       update_all "distance      = (#{FlightSegment.weighted_average_relation(:distance,      :weighted_by => :passengers                                           ).where(conditional_relation).to_sql})"
