@@ -26,7 +26,7 @@ Jeweler::Tasks.new do |gem|
     Dir.glob(File.join('lib', 'test_support', '**/*.rb')) +
     ['Gemfile','Gemfile.lock']
   gem.add_dependency 'activerecord', '>=3.0.0.beta4'
-  gem.add_dependency 'data_miner', '>=0.5.3' unless ENV['LOCAL_DATA_MINER']
+  gem.add_dependency 'data_miner', '~>0.5.5' unless ENV['LOCAL_DATA_MINER']
   gem.add_dependency 'falls_back_on', '>=0.0.3'
   gem.add_dependency 'geokit', '>=1.5.0'
   gem.add_dependency 'cohort_scope', '>=0.0.7'
