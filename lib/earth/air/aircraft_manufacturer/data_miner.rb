@@ -7,7 +7,7 @@ AircraftManufacturer.class_eval do
     schema Earth.database_options do
       string 'name'
     end
-
+    
     process "Derive a list of aircraft manufacturers from aircraft" do
       Aircraft.run_data_miner!
       connection.execute %{
@@ -17,4 +17,3 @@ AircraftManufacturer.class_eval do
     end
   end
 end
-
