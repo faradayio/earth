@@ -164,14 +164,14 @@ Aircraft.class_eval do
       #   set t1.distance_1 = (SELECT * FROM (#{FlightSegment.joins(:aircraft).weighted_average_relation(:distance,            :weighted_by => :passengers                                           ).where('t1.bts_aircraft_type_code = flight_segments.bts_aircraft_type_code').to_sql}) AS anonymous_1)
       # }
       
-      conditional_relation = aircraft[:bts_aircraft_type_code].eq(segments[:bts_aircraft_type_code])
+      conditional_relation = aircraft[:aircraft_type_code].eq(segments[:aircraft_type_code])
       update_all "seats         = (#{FlightSegment.weighted_average_relation(:seats,         :weighted_by => :passengers                                           ).where(conditional_relation).to_sql})"
       # update_all "distance      = (#{FlightSegment.weighted_average_relation(:distance,      :weighted_by => :passengers                                           ).where(conditional_relation).to_sql})"
       # update_all "load_factor   = (#{FlightSegment.weighted_average_relation(:load_factor,   :weighted_by => :passengers                                           ).where(conditional_relation).to_sql})"
       # update_all "freight_share = (#{FlightSegment.weighted_average_relation(:freight_share, :weighted_by => :passengers                                           ).where(conditional_relation).to_sql})"
       # update_all "payload       = (#{FlightSegment.weighted_average_relation(:payload,       :weighted_by => :passengers, :disaggregate_by => :departures_performed).where(conditional_relation).to_sql})"
       
-      update_all "weighting = (#{segments.project(segments[:passengers].sum).where(aircraft[:bts_aircraft_type_code].eq(segments[:bts_aircraft_type_code])).to_sql})"
+      update_all "weighting = (#{segments.project(segments[:passengers].sum).where(aircraft[:aircraft_type_code].eq(segments[:aircraft_type_code])).to_sql})"
     end
     
     process "Synthesize AircraftManufacturer" do

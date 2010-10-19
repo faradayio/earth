@@ -175,7 +175,7 @@ FlightSegment.class_eval do
       float    'seats'
       float    'distance'
       string   'distance_units'
-      string   'bts_aircraft_type_code'
+      string   'aircraft_type_code'
       string   'airline_iata_code'
       string   'origin_airport_iata_code'
       string   'origin_country_iso_3166_code'
@@ -220,7 +220,7 @@ FlightSegment.class_eval do
       # string   'dest_country_name'
       # integer  'dest_wac'
       index    'airline_iata_code'
-      index    'bts_aircraft_type_code'
+      index    'aircraft_type_code'
       index    'origin_airport_iata_code'
       index    'dest_airport_iata_code'
       # index    'domesticity_id'
@@ -278,7 +278,7 @@ FlightSegment.class_eval do
         store 'freight',                      :field_name => 'FREIGHT',       :from_units => :pounds, :to_units => :kilograms
         store 'mail',                         :field_name => 'MAIL',          :from_units => :pounds, :to_units => :kilograms
         store 'distance',                     :field_name => 'DISTANCE',      :from_units => :miles,  :to_units => :kilometres
-        store 'bts_aircraft_type_code',       :field_name => 'AIRCRAFT_TYPE'
+        store 'aircraft_type_code',       :field_name => 'AIRCRAFT_TYPE'
         store 'airline_iata_code',            :field_name => 'UNIQUE_CARRIER'
         store 'origin_airport_iata_code',     :field_name => 'ORIGIN'
         store 'origin_country_iso_3166_code', :field_name => 'ORIGIN_COUNTRY'

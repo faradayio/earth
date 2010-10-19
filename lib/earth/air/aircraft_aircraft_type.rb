@@ -1,8 +1,8 @@
-class AircraftBtsAircraftType < ActiveRecord::Base
+class AircraftAircraftType < ActiveRecord::Base
   set_primary_key :row_hash
   
-  belongs_to :aircraft,          :foreign_key => 'icao_code'
-  belongs_to :bts_aircraft_type, :foreign_key => 'bts_aircraft_type_code'
+  belongs_to :aircraft,      :foreign_key => 'icao_code'
+  belongs_to :aircraft_type, :foreign_key => 'aircraft_type_code'
   
   data_miner do
     tap "Brighter Planet's aircraft to BTS aircraft type dictionary", Earth.taps_server
