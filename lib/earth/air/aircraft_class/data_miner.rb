@@ -21,23 +21,21 @@ AircraftClass.class_eval do
       aircraft = Aircraft.arel_table
       aircraft_classes = AircraftClass.arel_table
       conditional_relation = aircraft_classes[:aircraft_class_code].eq(aircraft[:aircraft_class_code])
-      %w{ m1 m2 m3 endpoint_fuel }.each do |column|
-        relation = Aircraft.weighted_average_relation(column).
-                            where(conditional_relation)
+      %w{ m1 m2 m3 endpoint_fuel seats }.each do |column|
+        relation = Aircraft.weighted_average_relation(column).where(conditional_relation)
         update_all "#{column} = (#{relation.to_sql})"
       end
     end
     
-    process "Derive some average aircraft characteristics from flight segments" do # FIXME TODO why not derive this from aircraft?
-      FlightSegment.run_data_miner!
-      aircraft = Aircraft.arel_table
-      aircraft_classes = AircraftClass.arel_table
-      segments = FlightSegment.arel_table
-      relation = FlightSegment.joins(:aircraft). # this requires associations
-                               weighted_average_relation(:seats, :weighted_by => :passengers).
-                               where(aircraft_classes[:aircraft_class_code].eq(aircraft[:aircraft_class_code]))
-      update_all "seats = (#{relation.to_sql})"
-    end
+    # process "Derive some average aircraft characteristics from flight segments" do # FIXME TODO why not derive this from aircraft?
+    #   FlightSegment.run_data_miner!
+    #   aircraft = Aircraft.arel_table
+    #   aircraft_classes = AircraftClass.arel_table
+    #   segments = FlightSegment.arel_table
+    #   relation = FlightSegment.joins(:aircraft). # this requires associations
+    #                            weighted_average_relation(:seats, :weighted_by => :passengers).
+    #                            where(aircraft_classes[:aircraft_class_code].eq(aircraft[:aircraft_class_code]))
+    #   update_all "seats = (#{relation.to_sql})"
+    # end
   end
 end
-
