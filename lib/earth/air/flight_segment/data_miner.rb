@@ -317,9 +317,13 @@ FlightSegment.class_eval do
     process "Derive freight share as a fraction of payload" do
       update_all 'freight_share = (freight + mail) / payload', 'payload > 0'
     end
-
+    
     process "Derive load factor, which is passengers divided by the total seats available" do
-      update_all 'load_factor = passengers / total_seats', 'passengers <= total_seats'
+      update_all 'load_factor = passengers / total_seats', 'total_seats > 0'
+    end
+    
+    process "Assume a load factor of 1 where passengers > total seats available" do
+      update_all 'load_factor = 1', 'passengers > total_seats AND total_seats > 0'
     end
     
     process "Derive average seats per departure" do
