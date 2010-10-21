@@ -3,6 +3,7 @@ class AircraftAircraftType < ActiveRecord::Base
   
   belongs_to :aircraft,      :foreign_key => 'icao_code'
   belongs_to :aircraft_type, :foreign_key => 'aircraft_type_code'
+  has_many   :segments,      :foreign_key => 'aircraft_type_code', :class_name => 'FlightSegment'
   
   data_miner do
     tap "Brighter Planet's aircraft to BTS aircraft type dictionary", Earth.taps_server
