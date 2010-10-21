@@ -134,21 +134,20 @@ Aircraft.class_eval do
       store 'name'
     end
     
-    import "Brighter Planet's aircraft class codes",
+    import "aircraft class codes defined by Brighter Planet",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdHhMRkV6dkVhM1A3T05OSEIwdlY0ZkE&hl=en&single=true&gid=0&output=csv' do
       key   'icao_code', :field_name => 'icao_code'
       store 'aircraft_class_code'
     end
     
     import "pre-calculated fuel use equation coefficients",
-           :url => 'http://static.brighterplanet.com/science/data/transport/air/fuel_use/aircraft_fuel_use_formulae.ods',
-           :select => lambda { |row| row['ICAO'].present? or row['Aircraft Name'].present? } do
-      key   'icao_code', :matcher => Aircraft::FuelUseMatcher.new
-      store 'fuel_use_aircraft_name', :field_name => 'Aircraft Name'
-      store 'm3'
-      store 'm2'
-      store 'm1'
-      store 'endpoint_fuel', :field_name => 'b'
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdG9tSC1RczJOdjliWTdjT2ZpdV9RTnc&hl=en&single=true&gid=0&output=csv' do
+      key   'icao_code'
+      store 'fuel_use_aircraft_name'
+      store 'm3', :units => :kilograms_per_cubic_nautical_mile
+      store 'm2', :units => :kilograms_per_square_nautical_mile
+      store 'm1', :units => :kilograms_per_nautical_mile
+      store 'endpoint_fuel', :field_name => 'b', :units => :kilograms
     end
     
     process "Derive some average flight characteristics from flight segments" do
