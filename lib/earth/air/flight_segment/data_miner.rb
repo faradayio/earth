@@ -278,7 +278,7 @@ FlightSegment.class_eval do
         store 'freight',                      :field_name => 'FREIGHT',       :from_units => :pounds, :to_units => :kilograms
         store 'mail',                         :field_name => 'MAIL',          :from_units => :pounds, :to_units => :kilograms
         store 'distance',                     :field_name => 'DISTANCE',      :from_units => :miles,  :to_units => :kilometres
-        store 'aircraft_type_code',       :field_name => 'AIRCRAFT_TYPE'
+        store 'aircraft_type_code',           :field_name => 'AIRCRAFT_TYPE'
         store 'airline_iata_code',            :field_name => 'UNIQUE_CARRIER'
         store 'origin_airport_iata_code',     :field_name => 'ORIGIN'
         store 'origin_country_iso_3166_code', :field_name => 'ORIGIN_COUNTRY'
