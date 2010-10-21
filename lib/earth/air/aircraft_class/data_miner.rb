@@ -21,6 +21,14 @@ AircraftClass.class_eval do
       aircraft = Aircraft.arel_table
       aircraft_classes = AircraftClass.arel_table
       conditional_relation = aircraft_classes[:aircraft_class_code].eq(aircraft[:aircraft_class_code])
+      
+      # FIXME TODO
+      # Make sure that the weighted average relation does:
+      # SELECT aircraft_classes.aircraft_class_code, aircraft.icao_code, aircraft.m3
+      # FROM aircraft_classes
+      # INNER JOIN aircraft ON aircraft_classes.aircraft_class_code = aircraft.aircraft_class_code
+      # WHERE aircraft.m3 IS NOT NULL
+      
       %w{ m1 m2 m3 endpoint_fuel seats }.each do |column|
         relation = Aircraft.weighted_average_relation(column).where(conditional_relation)
         update_all "#{column} = (#{relation.to_sql})"
