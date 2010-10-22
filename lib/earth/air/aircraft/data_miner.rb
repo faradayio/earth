@@ -86,64 +86,69 @@ Aircraft.class_eval do
   
   data_miner do
     schema Earth.database_options do
-      string   'icao_code'
-      string   'manufacturer_name'
-      string   'name'
-      # string   'bts_name'
-      # string   'bts_aircraft_type_code'
-      string   'aircraft_class_code'
-      string   'fuel_use_aircraft_name'
-      float    'm3'
-      string   'm3_units'
-      float    'm2'
-      string   'm2_units'
-      float    'm1'
-      string   'm1_units'
-      float    'endpoint_fuel'
-      string   'endpoint_fuel_units'
-      float    'seats'
-      # float    'distance'
-      # string   'distance_units'
-      # float    'load_factor'
-      # float    'freight_share'
-      # float    'payload'
-      float    'weighting'
-      # index    'bts_aircraft_type_code'
+      string 'bp_code'
+      string 'aircraft_icao_code'
+      string 'aircraft_bts_code'
+      string 'aircraft_class_code'
+      string 'aircraft_fuel_use_code'
+      string 'icao_manufacturer_name'
+      string 'icao_name'
+      string 'bts_name'
+      string 'fuel_use_name'
+      float  'm3'
+      string 'm3_units'
+      float  'm2'
+      string 'm2_units'
+      float  'm1'
+      string 'm1_units'
+      float  'endpoint_fuel'
+      string 'endpoint_fuel_units'
+      float  'seats'
+      float  'weighting'
+      index  'aircraft_bts_code'
+    end
+    
+    import "a list of aircraft and their associated icao, bts, class, and fuel use codes",
+            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdDJFblR4MDE1RGtnLVM1S2JHRGZpT3c&hl=en&single=true&gid=0&output=csv' do
+      key 'bp_code'
+      store 'aircraft_icao_code', :field_name => 'icao_code'
+      store 'aircraft_bts_code', :field_name => 'bts_code'
+      store 'aircraft_class_code', :field_name => 'class_code'
+      store 'aircraft_fuel_use_code', :field_name => 'fuel_use_code'
     end
     
     ('A'..'Z').each do |letter|
-      import( "ICAO aircraft codes starting with the letter #{letter} used by the FAA",
+      import( "ICAO manufacturers and names for aircraft with an ICAO code starting with the letter #{letter} from the FAA",
               :url => "http://www.faa.gov/air_traffic/publications/atpubs/CNT/5-2-#{letter}.htm",
               :errata => Errata.new(:url => 'http://spreadsheets.google.com/pub?key=tObVAGyqOkCBtGid0tJUZrw',
                                     :responder => Aircraft::Guru.new),
               :encoding => 'windows-1252',
               :row_xpath => '//table/tr[2]/td/table/tr',
               :column_xpath => 'td' ) do
-        key 'icao_code', :field_name => 'Designator'
-        # store 'bts_aircraft_type_code', :matcher => Aircraft::BtsMatcher.new(:bts_aircraft_type_code)
-        # store 'bts_name', :matcher => Aircraft::BtsMatcher.new(:bts_name)
-        store 'manufacturer_name', :field_name => 'Manufacturer'
-        store 'name', :field_name => 'Model'
+        key 'aircraft_icao_code', :field_name => 'Designator'
+        store 'icao_manufacturer_name', :field_name => 'Manufacturer'
+        store 'icao_name', :field_name => 'Model'
       end
     end
     
-    import 'some missing icao codes and some hand-picked manufacturers and models',
+    import "some hand-picked ICAO manufacturers and names, including some for ICAO codes not used by the FAA",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdHRNaVpSUWw2Z2VhN3RUV25yYWdQX2c&hl=en&single=true&gid=0&output=csv' do
-      key 'icao_code'
-      store 'manufacturer_name'
-      store 'name'
+      key 'aircraft_icao_code', :field_name => 'icao_code'
+      store 'icao_manufacturer_name', :field_name => 'manufacturer_name'
+      store 'icao_name', :field_name => 'name'
     end
     
-    import "aircraft class codes defined by Brighter Planet",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdHhMRkV6dkVhM1A3T05OSEIwdlY0ZkE&hl=en&single=true&gid=0&output=csv' do
-      key   'icao_code', :field_name => 'icao_code'
-      store 'aircraft_class_code'
+    import "aircraft BTS names",
+           :url => 'http://www.transtats.bts.gov/Download_Lookup.asp?Lookup=L_AIRCRAFT_TYPE',
+           :errata => Errata.new(:url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdEZ2d3JQMzV5T1o1T3JmVlFyNUZxdEE&hl=en&single=true&gid=0&output=csv') do
+      key 'aircraft_bts_code', :field_name => 'Code'
+      store 'bts_name', :field_name => 'Description'
     end
     
-    import "pre-calculated fuel use equation coefficients",
+    import "the fuel use equations associated with each fuel use code",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdG9tSC1RczJOdjliWTdjT2ZpdV9RTnc&hl=en&single=true&gid=0&output=csv' do
-      key   'icao_code'
-      store 'fuel_use_aircraft_name'
+      key   'aircraft_fuel_use_code', :field_name => 'fuel_use_code'
+      store 'fuel_use_name', :field_name => 'aircraft_name'
       store 'm3', :units => :kilograms_per_cubic_nautical_mile
       store 'm2', :units => :kilograms_per_square_nautical_mile
       store 'm1', :units => :kilograms_per_nautical_mile
@@ -151,11 +156,9 @@ Aircraft.class_eval do
     end
     
     process "Derive some average flight characteristics from flight segments" do
-      AircraftAircraftType.run_data_miner!
       FlightSegment.run_data_miner!
       
       aircraft = Aircraft.arel_table
-      aa_types = AircraftAircraftType.arel_table
       segments = FlightSegment.arel_table
       
       # non-working joins method
@@ -175,17 +178,9 @@ Aircraft.class_eval do
       # INNER JOIN aircraft ON aircraft_aircraft_types.icao_code = aircraft.icao_code
       # GROUP BY aircraft.icao_code
       
-      conditional_relation = aa_types[:icao_code].eq(aircraft[:icao_code])
-      
-      update_all "seats     = (#{FlightSegment.weighted_average_relation(:seats, :weighted_by => :passengers).
-                                 join(aa_types).on(segments[:aircraft_type_code].eq(aa_types[:aircraft_type_code])).
-                                 join(aircraft).on(aa_types[:icao_code].eq(aa_types[:icao_code])).
-                                 where(conditional_relation).to_sql})"
-      
-      update_all "weighting = (#{segments.project(segments[:passengers].sum).
-                                join(aa_types).on(segments[:aircraft_type_code].eq(aa_types[:aircraft_type_code])).
-                                join(aircraft).on(aa_types[:icao_code].eq(aa_types[:icao_code])).
-                                where(conditional_relation).to_sql})"
+      conditional_relation = segments[:aircraft_bts_code].eq(aircraft[:aircraft_bts_code])
+      update_all "seats     = (#{segment.weighted_average_relation(:seats, :weighted_by => :passengers).where(conditional_relation).to_sql})"
+      update_all "weighting = (#{segments.project(segments[:passengers].sum).where(conditional_relation).to_sql})"
       
       # conditional_relation = aircraft[:aircraft_type_code].eq(segments[:aircraft_type_code])
       
@@ -200,7 +195,7 @@ Aircraft.class_eval do
     end
     
     process "Synthesize AircraftManufacturer" do
-      AircraftManufacturer.run_data_miner!
-    end
-  end
+       AircraftManufacturer.run_data_miner!
+     end
+   end
 end
