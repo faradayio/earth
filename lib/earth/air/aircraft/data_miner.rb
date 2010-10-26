@@ -87,14 +87,14 @@ Aircraft.class_eval do
   data_miner do
     schema Earth.database_options do
       string 'bp_code'
-      string 'aircraft_icao_code'
       string 'aircraft_bts_code'
-      string 'aircraft_class_code'
-      string 'aircraft_fuel_use_code'
+      string 'icao_code'
+      string 'class_code'
+      string 'fuel_use_code'
       string 'icao_manufacturer_name'
       string 'icao_name'
       string 'bts_name'
-      string 'fuel_use_name'
+      string 'fuel_use_aircraft_name'
       float  'm3'
       string 'm3_units'
       float  'm2'
@@ -111,10 +111,10 @@ Aircraft.class_eval do
     import "a list of aircraft and their associated icao, bts, class, and fuel use codes",
             :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdDJFblR4MDE1RGtnLVM1S2JHRGZpT3c&hl=en&single=true&gid=0&output=csv' do
       key 'bp_code'
-      store 'aircraft_icao_code', :field_name => 'icao_code'
-      store 'aircraft_bts_code', :field_name => 'bts_code'
-      store 'aircraft_class_code', :field_name => 'class_code'
-      store 'aircraft_fuel_use_code', :field_name => 'fuel_use_code'
+      store 'icao_code',     :field_name => 'icao_code'
+      store 'bts_code',      :field_name => 'bts_code'
+      store 'class_code',    :field_name => 'class_code'
+      store 'fuel_use_code', :field_name => 'fuel_use_code'
     end
     
     ('A'..'Z').each do |letter|
@@ -125,30 +125,30 @@ Aircraft.class_eval do
               :encoding => 'windows-1252',
               :row_xpath => '//table/tr[2]/td/table/tr',
               :column_xpath => 'td' ) do
-        key 'aircraft_icao_code', :field_name => 'Designator'
+        key 'icao_code',       :field_name => 'Designator'
         store 'icao_manufacturer_name', :field_name => 'Manufacturer'
-        store 'icao_name', :field_name => 'Model'
+        store 'icao_name',     :field_name => 'Model'
       end
     end
     
     import "some hand-picked ICAO manufacturers and names, including some for ICAO codes not used by the FAA",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdHRNaVpSUWw2Z2VhN3RUV25yYWdQX2c&hl=en&single=true&gid=0&output=csv' do
-      key 'aircraft_icao_code', :field_name => 'icao_code'
+      key 'icao_code',       :field_name => 'icao_code'
       store 'icao_manufacturer_name', :field_name => 'manufacturer_name'
-      store 'icao_name', :field_name => 'name'
+      store 'icao_name',     :field_name => 'name'
     end
     
     import "aircraft BTS names",
            :url => 'http://www.transtats.bts.gov/Download_Lookup.asp?Lookup=L_AIRCRAFT_TYPE',
            :errata => Errata.new(:url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdEZ2d3JQMzV5T1o1T3JmVlFyNUZxdEE&hl=en&single=true&gid=0&output=csv') do
-      key 'aircraft_bts_code', :field_name => 'Code'
+      key 'bts_code',   :field_name => 'Code'
       store 'bts_name', :field_name => 'Description'
     end
     
     import "the fuel use equations associated with each fuel use code",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdG9tSC1RczJOdjliWTdjT2ZpdV9RTnc&hl=en&single=true&gid=0&output=csv' do
-      key   'aircraft_fuel_use_code', :field_name => 'fuel_use_code'
-      store 'fuel_use_name', :field_name => 'aircraft_name'
+      key   'fuel_use_code', :field_name => 'fuel_use_code'
+      store 'fuel_use_aircraft_name', :field_name => 'aircraft_name'
       store 'm3', :units => :kilograms_per_cubic_nautical_mile
       store 'm2', :units => :kilograms_per_square_nautical_mile
       store 'm1', :units => :kilograms_per_nautical_mile
@@ -178,7 +178,7 @@ Aircraft.class_eval do
       # INNER JOIN aircraft ON aircraft_aircraft_types.icao_code = aircraft.icao_code
       # GROUP BY aircraft.icao_code
       
-      conditional_relation = segments[:aircraft_bts_code].eq(aircraft[:aircraft_bts_code])
+      conditional_relation = segments[:aircraft_bts_code].eq(aircraft[:bts_code])
       update_all "seats     = (#{segment.weighted_average_relation(:seats, :weighted_by => :passengers).where(conditional_relation).to_sql})"
       update_all "weighting = (#{segments.project(segments[:passengers].sum).where(conditional_relation).to_sql})"
       
