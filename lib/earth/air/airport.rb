@@ -17,7 +17,7 @@ class Airport < ActiveRecord::Base
   end
   # --------------------------------
   
-  belongs_to :country, :foreign_key => 'country_iso_3166_code'
+  belongs_to :country, :foreign_key => 'country_iso_3166_code', :primary_key => 'iso_3166_code'
   acts_as_mappable :default_units => :nms,
                    :lat_column_name => :latitude,
                    :lng_column_name => :longitude

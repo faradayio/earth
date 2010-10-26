@@ -3,7 +3,7 @@ class Airline < ActiveRecord::Base
 
 #  has_many :airline_aircraft, :class_name => 'AirlineAircraft'
 #  has_many :seat_classes, :class_name => 'AirlineSeatClass'
-  has_many :segments, :class_name => "FlightSegment", :foreign_key => 'iata_code'
+  has_many :segments, :foreign_key => 'iata_code', :primary_key => 'row_hash', :class_name => "FlightSegment"
 #  has_many :airline_aircraft_seat_classes, :class_name => 'AirlineAircraftSeatClass'
 
   data_miner do
