@@ -179,8 +179,8 @@ FlightSegment.class_eval do
       string   'airline_iata_code'
       string   'origin_airport_iata_code'
       string   'origin_country_iso_3166_code'
-      string   'dest_airport_iata_code'
-      string   'dest_country_iso_3166_code'
+      string   'destination_airport_iata_code'
+      string   'destination_country_iso_3166_code'
       integer  'year'
       integer  'quarter'
       integer  'month'
@@ -222,7 +222,7 @@ FlightSegment.class_eval do
       index    'airline_iata_code'
       index    'aircraft_bts_code'
       index    'origin_airport_iata_code'
-      index    'dest_airport_iata_code'
+      index    'destination_airport_iata_code'
       # index    'domesticity_id'
       # add_index "flight_segments", ["flight_airline_id", "origin_airport_id", "destination_airport_id", "flight_configuration_id", "flight_aircraft_id", "flight_propulsion_id", "flight_service_id", "origin_country_id", "destination_country_id"], :name => "super_4_index"
     end
@@ -271,22 +271,22 @@ FlightSegment.class_eval do
         #       store 'bts_data_source_code', :field_name => 'DATA_SOURCE'
         
         # store 'departures_scheduled', :field_name => 'DEPARTURES_SCHEDULED'
-        store 'departures_performed',         :field_name => 'DEPARTURES_PERFORMED'
-        store 'passengers',                   :field_name => 'PASSENGERS'
-        store 'total_seats',                  :field_name => 'SEATS'
-        store 'payload',                      :field_name => 'PAYLOAD',       :from_units => :pounds, :to_units => :kilograms
-        store 'freight',                      :field_name => 'FREIGHT',       :from_units => :pounds, :to_units => :kilograms
-        store 'mail',                         :field_name => 'MAIL',          :from_units => :pounds, :to_units => :kilograms
-        store 'distance',                     :field_name => 'DISTANCE',      :from_units => :miles,  :to_units => :kilometres
-        store 'aircraft_bts_code',            :field_name => 'AIRCRAFT_TYPE'
-        store 'airline_iata_code',            :field_name => 'UNIQUE_CARRIER'
-        store 'origin_airport_iata_code',     :field_name => 'ORIGIN'
-        store 'origin_country_iso_3166_code', :field_name => 'ORIGIN_COUNTRY'
-        store 'dest_airport_iata_code',       :field_name => 'DEST'
-        store 'dest_country_iso_3166_code',   :field_name => 'DEST_COUNTRY'
-        store 'year',                         :field_name => 'YEAR'
-        store 'quarter',                      :field_name => 'QUARTER'
-        store 'month',                        :field_name => 'MONTH'
+        store 'departures_performed',              :field_name => 'DEPARTURES_PERFORMED'
+        store 'passengers',                        :field_name => 'PASSENGERS'
+        store 'total_seats',                       :field_name => 'SEATS'
+        store 'payload',                           :field_name => 'PAYLOAD',       :from_units => :pounds, :to_units => :kilograms
+        store 'freight',                           :field_name => 'FREIGHT',       :from_units => :pounds, :to_units => :kilograms
+        store 'mail',                              :field_name => 'MAIL',          :from_units => :pounds, :to_units => :kilograms
+        store 'distance',                          :field_name => 'DISTANCE',      :from_units => :miles,  :to_units => :kilometres
+        store 'aircraft_bts_code',                 :field_name => 'AIRCRAFT_TYPE'
+        store 'airline_iata_code',                 :field_name => 'UNIQUE_CARRIER'
+        store 'origin_airport_iata_code',          :field_name => 'ORIGIN'
+        store 'origin_country_iso_3166_code',      :field_name => 'ORIGIN_COUNTRY'
+        store 'destination_airport_iata_code',     :field_name => 'DEST'
+        store 'destination_country_iso_3166_code', :field_name => 'DEST_COUNTRY'
+        store 'year',                              :field_name => 'YEAR'
+        store 'quarter',                           :field_name => 'QUARTER'
+        store 'month',                             :field_name => 'MONTH'
         # store 'ramp_to_ramp', :field_name => 'RAMP_TO_RAMP'
         # store 'air_time', :field_name => 'AIR_TIME'
         # store 'dot_airline_id_code', :field_name => 'AIRLINE_ID'
