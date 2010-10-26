@@ -7,7 +7,7 @@ AircraftClass.class_eval do
       float   'm2'
       float   'm3'
       float   'endpoint_fuel'
-      integer 'seats'
+      float   'seats'
     end
     
     import "Brighter Planet's aircraft classes",
