@@ -88,7 +88,7 @@ Aircraft.class_eval do
     schema Earth.database_options do
       string 'bp_code'
       string 'icao_code'
-      string 'aircraft_bts_code'
+      string 'bts_code'
       string 'class_code'
       string 'fuel_use_code'
       string 'icao_manufacturer_name'
@@ -105,7 +105,7 @@ Aircraft.class_eval do
       string 'endpoint_fuel_units'
       float  'seats'
       float  'weighting'
-      index  'aircraft_bts_code'
+      index  'bts_code'
     end
     
     import "a list of aircraft and their associated icao, bts, class, and fuel use codes",
