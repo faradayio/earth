@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Seamus Abshere", "Derek Kastner", "Andy Rossmeissl"]
-  s.date = %q{2010-10-19}
+  s.date = %q{2010-11-01}
   s.description = %q{An earth-simulation environment with ActiveRecord models and data}
   s.email = %q{andy@rossmeissl.net}
   s.extra_rdoc_files = [
@@ -206,7 +206,8 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.7}
   s.summary = %q{Land, sky, and sea}
   s.test_files = [
-    "spec/lib/earth_spec.rb",
+    "spec/earth/air/aircraft_spec.rb",
+     "spec/earth_spec.rb",
      "spec/spec_helper.rb",
      "Gemfile",
      "Gemfile.lock"
@@ -218,7 +219,7 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<activerecord>, [">= 3.0.0.beta4"])
-      s.add_runtime_dependency(%q<data_miner>, ["~> 0.5.5"])
+      s.add_runtime_dependency(%q<data_miner>, ["~> 0.5.6"])
       s.add_runtime_dependency(%q<falls_back_on>, [">= 0.0.3"])
       s.add_runtime_dependency(%q<geokit>, [">= 1.5.0"])
       s.add_runtime_dependency(%q<cohort_scope>, [">= 0.0.7"])
@@ -233,7 +234,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<sqlite3-ruby>, [">= 1.3.0"])
     else
       s.add_dependency(%q<activerecord>, [">= 3.0.0.beta4"])
-      s.add_dependency(%q<data_miner>, ["~> 0.5.5"])
+      s.add_dependency(%q<data_miner>, ["~> 0.5.6"])
       s.add_dependency(%q<falls_back_on>, [">= 0.0.3"])
       s.add_dependency(%q<geokit>, [">= 1.5.0"])
       s.add_dependency(%q<cohort_scope>, [">= 0.0.7"])
@@ -249,7 +250,7 @@ Gem::Specification.new do |s|
     end
   else
     s.add_dependency(%q<activerecord>, [">= 3.0.0.beta4"])
-    s.add_dependency(%q<data_miner>, ["~> 0.5.5"])
+    s.add_dependency(%q<data_miner>, ["~> 0.5.6"])
     s.add_dependency(%q<falls_back_on>, [">= 0.0.3"])
     s.add_dependency(%q<geokit>, [">= 1.5.0"])
     s.add_dependency(%q<cohort_scope>, [">= 0.0.7"])
