@@ -11,11 +11,11 @@ AutomobileMake.class_eval do
       string  'fuel_efficiency_units'
     end
 
-    process "Derive automobile makes from automobile variants" do
-      AutomobileVariant.run_data_miner!
+    process "Derive automobile makes from automobile make model year variants" do
+      AutomobileMakeModelYearVariant.run_data_miner!
       connection.execute %{
         INSERT IGNORE INTO automobile_makes(name)
-        SELECT automobile_variants.make_name FROM automobile_variants WHERE LENGTH(automobile_variants.make_name) > 0
+        SELECT automobile_make_model_year_variants.make_name FROM automobile_make_model_year_variants WHERE LENGTH(automobile_make_model_year_variants.make_name) > 0
       }
     end
     

@@ -1,7 +1,7 @@
 class AutomobileFuelType < ActiveRecord::Base
   set_primary_key :code
   
-  has_many :automobiles, :foreign_key => 'fuel_type_id'
+  has_many :automobiles, :foreign_key => 'fuel_type_code'
   
   scope :ordered, :order => 'name'
   

@@ -1,4 +1,4 @@
-AutomobileVariant.class_eval do
+AutomobileMakeModelYearVariant.class_eval do
   class << self
     def transmission_is_blank?(row)
       row['transmission'].blank?
@@ -105,7 +105,7 @@ AutomobileVariant.class_eval do
     '(GM-PONT)' => nil,
   }
   
-  class AutomobileVariant::ParserB
+  class AutomobileMakeModelYearVariant::ParserB
     attr_accessor :year
     def initialize(options = {})
       @year = options[:year]
@@ -189,7 +189,7 @@ AutomobileVariant.class_eval do
       end
     end
   end
-  class AutomobileVariant::ParserC
+  class AutomobileMakeModelYearVariant::ParserC
     attr_accessor :year
     def initialize(options = {})
       @year = options[:year]
@@ -214,7 +214,7 @@ AutomobileVariant.class_eval do
       row
     end
   end
-  class AutomobileVariant::ParserD
+  class AutomobileMakeModelYearVariant::ParserD
     attr_accessor :year
     def initialize(options = {})
       @year = options[:year]
@@ -238,7 +238,7 @@ AutomobileVariant.class_eval do
       row
     end
   end
-  class AutomobileVariant::ParserE
+  class AutomobileMakeModelYearVariant::ParserE
     OLD_FUEL_CODES = {
       'CNG' => 'C',
       'DU' => 'D',
@@ -277,9 +277,9 @@ AutomobileVariant.class_eval do
       string   'row_hash'
       string   'name' # short name!
       string   'make_name'
-      string   'model_name' # make + model
+      string   'make_model_name' # make + model
       string   'make_year_name' # make + year
-      string   'model_year_name' # make + model + year
+      string   'make_model_year_name' # make + model + year
       integer  'year'
       float    'fuel_efficiency_city'
       string   'fuel_efficiency_city_units'
@@ -304,9 +304,9 @@ AutomobileVariant.class_eval do
       string   'carline_class_name'
       string   'speeds'
       index    'make_name'
-      index    'model_name'
+      index    'make_model_name'
       index    'make_year_name'
-      index    'model_year_name'
+      index    'make_model_year_name'
     end
     
     # # 1985---1997
@@ -315,7 +315,7 @@ AutomobileVariant.class_eval do
       import("19#{ yy } Fuel Economy Guide",
              :url => "http://www.fueleconomy.gov/FEG/epadata/#{yy}mfgui.zip",
              :filename => filename,
-             :transform => { :class => AutomobileVariant::ParserB, :year => "19#{yy}".to_i },
+             :transform => { :class => AutomobileMakeModelYearVariant::ParserB, :year => "19#{yy}".to_i },
              :errata => 'http://static.brighterplanet.com/science/data/transport/automobiles/fuel_economy_guide/errata.csv') do
         key   'row_hash'
         store 'name', :field_name => 'model'
@@ -353,7 +353,7 @@ AutomobileVariant.class_eval do
       2005 => { :url => 'http://www.fueleconomy.gov/FEG/epadata/05data.zip', :filename => 'guide2005-2004oct15.csv' }
     }.sort { |a, b| a.first <=> b.first }.each do |year, options|
       import "#{ year } Fuel Economy Guide",
-             options.merge(:transform => { :class => AutomobileVariant::ParserC, :year => year },
+             options.merge(:transform => { :class => AutomobileMakeModelYearVariant::ParserC, :year => year },
                            :errata => 'http://static.brighterplanet.com/science/data/transport/automobiles/fuel_economy_guide/errata.csv') do
         key   'row_hash'
         store 'name', :field_name => 'model'
@@ -385,7 +385,7 @@ AutomobileVariant.class_eval do
       2009 => { :url => 'http://www.fueleconomy.gov/FEG/epadata/09data.zip', :filename => '2009_FE_guide for DOE_ALL-rel dates-no-sales-8-28-08download.csv' },
     }.sort { |a, b| a.first <=> b.first }.each do |year, options|
       import "#{ year } Fuel Economy Guide",
-             options.merge(:transform => { :class => AutomobileVariant::ParserD, :year => year },
+             options.merge(:transform => { :class => AutomobileMakeModelYearVariant::ParserD, :year => year },
                            :errata => 'http://static.brighterplanet.com/science/data/transport/automobiles/fuel_economy_guide/errata.csv') do
         key   'row_hash'
         store 'name', :field_name => 'model'
@@ -450,7 +450,7 @@ AutomobileVariant.class_eval do
       update_all 'fuel_efficiency_highway = 1 / ((0.001376 / 0.425143707) + (1.3466 / raw_fuel_efficiency_highway))'
     end
     
-    %w{ AutomobileMake AutomobileModelYear AutomobileModel }.each do |synthetic_resource|
+    %w{ AutomobileMake AutomobileMakeModelYear AutomobileMakeModel }.each do |synthetic_resource|
       process "Synthesize #{synthetic_resource}" do
         synthetic_resource.constantize.run_data_miner!
       end

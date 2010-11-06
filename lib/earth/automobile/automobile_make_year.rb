@@ -1,7 +1,7 @@
 class AutomobileMakeYear < ActiveRecord::Base
   set_primary_key :name
   
-  belongs_to :make, :class_name => 'AutomobileMake', :foreign_key => 'make_name'
+  belongs_to :make,      :class_name => 'AutomobileMake',          :foreign_key => 'make_name'
   has_many :fleet_years, :class_name => 'AutomobileMakeFleetYear', :foreign_key => 'make_year_name'
 
   data_miner do
