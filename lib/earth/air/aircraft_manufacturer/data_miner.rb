@@ -12,7 +12,7 @@ AircraftManufacturer.class_eval do
       Aircraft.run_data_miner!
       connection.execute %{
         INSERT IGNORE INTO aircraft_manufacturers(name)
-        SELECT aircraft.icao_manufacturer_name FROM aircraft WHERE aircraft.icao_manufacturer_name IS NOT NULL
+        SELECT aircraft.manufacturer_name FROM aircraft WHERE aircraft.manufacturer_name IS NOT NULL
       }
     end
   end
