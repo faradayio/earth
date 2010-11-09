@@ -8,9 +8,6 @@ class FlightSegment < ActiveRecord::Base
   belongs_to :origin_airport,      :foreign_key => 'origin_airport_iata_code',          :primary_key => 'iata_code',     :class_name => 'Airport'
   belongs_to :destination_airport, :foreign_key => 'destination_airport_iata_code',     :primary_key => 'iata_code',     :class_name => 'Airport'
   belongs_to :aircraft,            :foreign_key => 'aircraft_bts_code',                 :primary_key => 'bts_code'
-  # belongs_to :origin_country,      :foreign_key => 'origin_country_iso_3166_code',      :primary_key => 'iso_3166_code', :class_name => 'Country'
-  # belongs_to :destination_country, :foreign_key => 'destination_country_iso_3166_code', :primary_key => 'iso_3166_code', :class_name => 'Country'
-  # belongs_to :configuration,                                                       :class_name => 'FlightConfiguration'
   # belongs_to :service_class,                                                       :class_name => 'FlightService'
   # belongs_to :domesticity,                                                         :class_name => 'FlightDomesticity'
   
