@@ -1,25 +1,53 @@
 require 'spec_helper'
 
 describe Earth do
-  before :all do
-    Earth.init :all, :apply_schemas => true
-  end
-
-  it 'should require all Earth models' do
-    lambda do
-      Earth.resource_names.each { |k| k.constantize }
-    end.should_not raise_error(NameError)
-  end
-
-  it 'should include data_miner definitions' do
-    lambda do
-      Earth.resource_names.each { |k| k.constantize.should_receive(:data_miner) }
+  describe '.init' do
+    before :all do
+      Earth.init :all, :apply_schemas => true
     end
-    require 'earth/data_miner'
+
+    it 'should require all Earth models' do
+      lambda do
+        Earth.resource_names.each { |k| k.constantize }
+      end.should_not raise_error(NameError)
+    end
+
+    it 'should include data_miner definitions' do
+      lambda do
+        Earth.resource_names.each { |k| k.constantize.should_receive(:data_miner) }
+      end
+      require 'earth/data_miner'
+    end
+
+    it 'should create a fallbacks table' do
+      Fallback.should be_table_exists
+    end
   end
 
-  it 'should create a fallbacks table' do
-    Fallback.should be_table_exists
+  describe '.resources' do
+    it 'should get a list of resources' do
+      resources = Earth.resources
+      puts resources.inspect
+      resources.keys.count.should == 49
+      resources['FuelType'][:domain].should == 'fuel'
+    end
+  end
+
+  describe '.resource_names' do
+    it 'should get a list of all resource names' do
+      Earth.resource_names.count.should == 49
+      Earth.resource_names.should include('Aircraft')
+    end
+    it 'should filter resources by domain' do
+      Earth.resource_names(['fuel']).count.should == 2
+      Earth.resource_names(['fuel']).should include('FuelType')
+    end
+  end
+
+  describe '.domains' do
+    it 'should return a list of all domains' do
+      Earth.domains.should == %w{air automobile bus diet fuel hospitality industry locality pet rail residence}
+    end
   end
 end
 

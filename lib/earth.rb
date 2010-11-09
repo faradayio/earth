@@ -31,9 +31,7 @@ module Earth
   # Default is search all domains
   # For example, <tt>[ 'Aircraft', 'Airline' ]</tt>
   def resource_names(search_domains = nil)
-    (search_domains || domains).map do |domain|
-      Dir[File.join(Earth.gem_root, 'lib', 'earth', domain, '*.rb')]
-    end.flatten.uniq.map { |p| File.basename(p, '.rb').camelcase } - %w{ DataMiner }
+    resources.keys
   end
 
   def gem_root 
@@ -42,6 +40,21 @@ module Earth
 
   def domains
     %w{air automobile bus diet fuel locality pet rail residence}
+  end
+
+  def resources
+    return @resources unless @resources.nil?
+    earth_files = Dir[File.join(Earth.gem_root, 'lib', 'earth', '*')]
+    domain_dirs = earth_files.find_all { |f| File.directory?(f) }
+    @resources = domain_dirs.inject({}) do |hsh, domain_dir|
+      Dir[File.join(domain_dir, '*.rb')].each do |resource_file|
+        resource_camel = File.basename(resource_file, '.rb').camelcase
+        unless resource_camel == 'DataMiner'
+          hsh[resource_camel] = { :domain => File.basename(domain_dir) }
+        end
+      end
+      hsh
+    end
   end
 
   # Earth.init will load any specified domains, any needed ActiveRecord plugins, 
