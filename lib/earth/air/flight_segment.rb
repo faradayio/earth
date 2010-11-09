@@ -8,7 +8,6 @@ class FlightSegment < ActiveRecord::Base
   belongs_to :origin_airport,      :foreign_key => 'origin_airport_iata_code',          :primary_key => 'iata_code',     :class_name => 'Airport'
   belongs_to :destination_airport, :foreign_key => 'destination_airport_iata_code',     :primary_key => 'iata_code',     :class_name => 'Airport'
   belongs_to :aircraft,            :foreign_key => 'aircraft_bts_code',                 :primary_key => 'bts_code'
-  # belongs_to :domesticity,                                                         :class_name => 'FlightDomesticity'
   
   falls_back_on :distance      => lambda { weighted_average(:distance,      :weighted_by => :passengers) }, # 2077.1205         data1 10-12-2010
                 :seats         => lambda { weighted_average(:seats,         :weighted_by => :passengers) }, # 144.15653537046   data1 10-12-2010

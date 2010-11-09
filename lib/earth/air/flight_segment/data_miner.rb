@@ -189,7 +189,6 @@ FlightSegment.class_eval do
       # integer  'bts_aircraft_configuration_code'
       # string   'distance_group'
       # integer  'bts_distance_group_code'
-      # string   'domesticity_id'
       # string   'bts_data_source_code'
       # integer  'ramp_to_ramp'
       # integer  'air_time'
@@ -220,7 +219,6 @@ FlightSegment.class_eval do
       index    'aircraft_bts_code'
       index    'origin_airport_iata_code'
       index    'destination_airport_iata_code'
-      # index    'domesticity_id'
     end
     
     months = Hash.new
@@ -238,7 +236,6 @@ FlightSegment.class_eval do
     end
     # creating dictionaries by hand so that a new one doesn't get created for every month
     # distance_group_dictionary = DataMiner::Dictionary.new :input => 'Code', :output => 'Description', :url => 'http://www.transtats.bts.gov/Download_Lookup.asp?Lookup=L_DISTANCE_GROUP_500'
-    # domesticity_dictionary = DataMiner::Dictionary.new :input => 'Code', :output => 'Description', :url => 'http://www.transtats.bts.gov/Download_Lookup.asp?Lookup=L_DATA_SOURCE'
     months.each do |month, form_data|
       import "T100 flight segment data from #{month.strftime('%B %Y')}",
              :url => URL,
@@ -256,7 +253,6 @@ FlightSegment.class_eval do
         # store 'distance_group', :field_name => 'DISTANCE_GROUP', :dictionary => distance_group_dictionary
         #         store 'bts_distance_group_code', :field_name => 'DISTANCE_GROUP'
         
-        # store 'domesticity_id', :field_name => 'DATA_SOURCE', :dictionary => domesticity_dictionary
         #       store 'bts_data_source_code', :field_name => 'DATA_SOURCE'
         
         # store 'departures_scheduled', :field_name => 'DEPARTURES_SCHEDULED'
