@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{earth}
-  s.version = "0.2.7"
+  s.version = "0.2.8"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Seamus Abshere", "Derek Kastner", "Andy Rossmeissl"]
-  s.date = %q{2010-11-01}
+  s.date = %q{2010-11-09}
   s.description = %q{An earth-simulation environment with ActiveRecord models and data}
   s.email = %q{andy@rossmeissl.net}
   s.extra_rdoc_files = [
@@ -33,22 +33,14 @@ Gem::Specification.new do |s|
      "lib/earth/air/airport.rb",
      "lib/earth/air/airport/data_miner.rb",
      "lib/earth/air/data_miner.rb",
-     "lib/earth/air/flight_configuration.rb",
-     "lib/earth/air/flight_configuration/data_miner.rb",
      "lib/earth/air/flight_distance_class.rb",
      "lib/earth/air/flight_distance_class/data_miner.rb",
-     "lib/earth/air/flight_domesticity.rb",
-     "lib/earth/air/flight_domesticity/data_miner.rb",
      "lib/earth/air/flight_fuel_type.rb",
      "lib/earth/air/flight_fuel_type/data_miner.rb",
-     "lib/earth/air/flight_propulsion.rb",
-     "lib/earth/air/flight_propulsion/data_miner.rb",
      "lib/earth/air/flight_seat_class.rb",
      "lib/earth/air/flight_seat_class/data_miner.rb",
      "lib/earth/air/flight_segment.rb",
      "lib/earth/air/flight_segment/data_miner.rb",
-     "lib/earth/air/flight_service.rb",
-     "lib/earth/air/flight_service/data_miner.rb",
      "lib/earth/all.rb",
      "lib/earth/automobile.rb",
      "lib/earth/automobile/automobile_fuel_type.rb",
@@ -206,8 +198,8 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.7}
   s.summary = %q{Land, sky, and sea}
   s.test_files = [
-    "spec/earth/air/aircraft_spec.rb",
-     "spec/earth_spec.rb",
+    "spec/earth_spec.rb",
+     "spec/earth/air/aircraft_spec.rb",
      "spec/spec_helper.rb",
      "Gemfile",
      "Gemfile.lock"
