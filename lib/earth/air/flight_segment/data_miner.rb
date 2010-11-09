@@ -184,7 +184,6 @@ FlightSegment.class_eval do
       integer  'year'
       integer  'quarter'
       integer  'month'
-      # string   'propulsion_id'
       # integer  'bts_aircraft_group_code'
       # string   'configuration_id'
       # integer  'bts_aircraft_configuration_code'
@@ -224,7 +223,6 @@ FlightSegment.class_eval do
       index    'origin_airport_iata_code'
       index    'destination_airport_iata_code'
       # index    'domesticity_id'
-      # add_index "flight_segments", ["flight_airline_id", "origin_airport_id", "destination_airport_id", "flight_configuration_id", "flight_aircraft_id", "flight_propulsion_id", "flight_service_id", "origin_country_id", "destination_country_id"], :name => "super_4_index"
     end
     
     months = Hash.new
@@ -241,8 +239,6 @@ FlightSegment.class_eval do
       end
     end
     # creating dictionaries by hand so that a new one doesn't get created for every month
-    # propulsion_dictionary = DataMiner::Dictionary.new :input => 'Code', :output => 'Description', :url => 'http://www.transtats.bts.gov/Download_Lookup.asp?Lookup=L_AIRCRAFT_GROUP'
-    # configuration_dictionary = DataMiner::Dictionary.new :input => 'Code', :output => 'Description', :url => 'http://www.transtats.bts.gov/Download_Lookup.asp?Lookup=L_AIRCRAFT_CONFIG'
     # distance_group_dictionary = DataMiner::Dictionary.new :input => 'Code', :output => 'Description', :url => 'http://www.transtats.bts.gov/Download_Lookup.asp?Lookup=L_DISTANCE_GROUP_500'
     # service_class_dictionary = DataMiner::Dictionary.new :input => 'Code', :output => 'Description', :url => 'http://www.transtats.bts.gov/Download_Lookup.asp?Lookup=L_SERVICE_CLASS'
     # domesticity_dictionary = DataMiner::Dictionary.new :input => 'Code', :output => 'Description', :url => 'http://www.transtats.bts.gov/Download_Lookup.asp?Lookup=L_DATA_SOURCE'
@@ -255,7 +251,6 @@ FlightSegment.class_eval do
         
         key 'row_hash'
         
-        # store 'propulsion_id', :field_name => 'AIRCRAFT_GROUP', :dictionary => propulsion_dictionary
         # store 'bts_aircraft_group_code', :field_name => 'AIRCRAFT_GROUP'
         
         # store 'configuration_id', :field_name => 'AIRCRAFT_CONFIG', :dictionary => configuration_dictionary
