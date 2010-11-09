@@ -36,7 +36,7 @@ Airline.class_eval do
     
     process "Determine whether airlines fly internationally by looking at flight segments" do
       FlightSegment.run_data_miner!
-      update_all 'international = 1', '(SELECT COUNT(*) FROM flight_segments WHERE flight_segments.airline_iata_code = airlines.iata_code AND flight_segments.origin_country_iso_3166_code != flight_segments.dest_country_iso_3166_code AND flight_segments.origin_country_iso_3166_code IS NOT NULL AND flight_segments.dest_country_iso_3166_code IS NOT NULL) > 0'
+      update_all 'international = 1', '(SELECT COUNT(*) FROM flight_segments WHERE flight_segments.airline_iata_code = airlines.iata_code AND flight_segments.origin_country_iso_3166_code != flight_segments.destination_country_iso_3166_code AND flight_segments.origin_country_iso_3166_code IS NOT NULL AND flight_segments.destination_country_iso_3166_code IS NOT NULL) > 0'
     end
     
     process "Derive some average flight characteristics from flight segments" do

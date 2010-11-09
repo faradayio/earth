@@ -51,11 +51,11 @@ Airport.class_eval do
 
     process "Determine whether each airport serves international flights" do
       FlightSegment.run_data_miner!
-      update_all 'international_origin = 1',      '(SELECT COUNT(*) FROM flight_segments WHERE flight_segments.origin_airport_iata_code = airports.iata_code AND flight_segments.origin_country_iso_3166_code != flight_segments.dest_country_iso_3166_code AND flight_segments.origin_country_iso_3166_code IS NOT NULL AND flight_segments.dest_country_iso_3166_code IS NOT NULL LIMIT 1) > 0'
-      update_all 'international_destination = 1', '(SELECT COUNT(*) FROM flight_segments WHERE flight_segments.dest_airport_iata_code   = airports.iata_code AND flight_segments.origin_country_iso_3166_code != flight_segments.dest_country_iso_3166_code AND flight_segments.origin_country_iso_3166_code IS NOT NULL AND flight_segments.dest_country_iso_3166_code IS NOT NULL LIMIT 1) > 0'
+ c     update_all 'international_origin = 1','(SELECT COUNT(*) FROM flight_segments WHERE flight_segments.origin_airport_iata_code = airports.iata_code AND flight_segments.origin_country_iso_3166_code != flight_segments.destination_country_iso_3166_code AND flight_segments.origin_country_iso_3166_code IS NOT NULL AND flight_segments.destination_country_iso_3166_code IS NOT NULL LIMIT 1) > 0'
+      update_all 'international_destination = 1', '(SELECT COUNT(*) FROM flight_segments WHERE flight_segments.destination_airport_iata_code   = airports.iata_code AND flight_segments.origin_country_iso_3166_code != flight_segments.destination_country_iso_3166_code AND flight_segments.origin_country_iso_3166_code IS NOT NULL AND flight_segments.destination_country_iso_3166_code IS NOT NULL LIMIT 1) > 0'
     end
     
-    # sabshere 5/24/10 using temporary tables because the WHERE clause has a very slow OR condition: iata_code = dest_iata_code OR iata_code = origin_iata_code
+    # sabshere 5/24/10 using temporary tables because the WHERE clause has a very slow OR condition: iata_code = destination_iata_code OR iata_code = origin_iata_code
     process "Derive some average flight characteristics from flight segments" do
       FlightSegment.run_data_miner!
       segments = FlightSegment.arel_table
@@ -64,7 +64,7 @@ Airport.class_eval do
       find_in_batches do |batch|
         batch.each do |airport|
           targeting_relation = airports[:iata_code].eq airport.iata_code
-          conditional_relation = segments[:origin_airport_iata_code].eq(airport.iata_code).or(segments[:dest_airport_iata_code].eq(airport.iata_code))
+          conditional_relation = segments[:origin_airport_iata_code].eq(airport.iata_code).or(segments[:destination_airport_iata_code].eq(airport.iata_code))
           connection.execute "CREATE TEMPORARY TABLE tmp1 #{FlightSegment.where(conditional_relation).to_sql}"
           update_all "seats                    = (#{FlightSegment.weighted_average_relation(:seats,         :weighted_by => :passengers                                           ).to_sql.gsub('flight_segments', 'tmp1')})", targeting_relation.to_sql
           update_all "distance                 = (#{FlightSegment.weighted_average_relation(:distance,      :weighted_by => :passengers                                           ).to_sql.gsub('flight_segments', 'tmp1')})", targeting_relation.to_sql
