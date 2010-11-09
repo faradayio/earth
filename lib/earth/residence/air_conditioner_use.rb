@@ -8,6 +8,6 @@ class AirConditionerUse < ActiveRecord::Base
                 :fugitive_emission_units => 'kilograms_per_square_metre'
   
   data_miner do
-    tap "Brighter Planet's sanitized flight service data", Earth.taps_server
+    tap "Brighter Planet's air conditioner use data", Earth.taps_server
   end
 end
