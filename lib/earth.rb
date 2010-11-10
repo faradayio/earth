@@ -31,7 +31,14 @@ module Earth
   # Default is search all domains
   # For example, <tt>[ 'Aircraft', 'Airline' ]</tt>
   def resource_names(search_domains = nil)
-    resources.keys
+    if search_domains.nil?
+      resources.keys
+    else
+      resources.inject([]) do |list, (name, data)|
+        list << name if search_domains.include? data[:domain]
+        list
+      end
+    end
   end
 
   def gem_root 
@@ -39,7 +46,7 @@ module Earth
   end
 
   def domains
-    %w{air automobile bus diet fuel locality pet rail residence}
+    @domains ||= resources.map { |(name, data)| data[:domain] }.uniq.sort
   end
 
   def resources

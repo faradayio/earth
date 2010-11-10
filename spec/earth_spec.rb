@@ -27,16 +27,19 @@ describe Earth do
   describe '.resources' do
     it 'should get a list of resources' do
       resources = Earth.resources
-      puts resources.inspect
-      resources.keys.count.should == 49
+      resources.keys.count.should == 56
       resources['FuelType'][:domain].should == 'fuel'
+    end
+    it 'should exclude data_miner files' do
+      Earth.resources.keys.should_not include('DataMiner')
     end
   end
 
   describe '.resource_names' do
     it 'should get a list of all resource names' do
-      Earth.resource_names.count.should == 49
+      Earth.resource_names.count.should == 56
       Earth.resource_names.should include('Aircraft')
+      Earth.resource_names.should include('Industry')
     end
     it 'should filter resources by domain' do
       Earth.resource_names(['fuel']).count.should == 2
