@@ -51,7 +51,7 @@ Airport.class_eval do
 
     process "Determine whether each airport serves international flights" do
       FlightSegment.run_data_miner!
- c     update_all 'international_origin = 1','(SELECT COUNT(*) FROM flight_segments WHERE flight_segments.origin_airport_iata_code = airports.iata_code AND flight_segments.origin_country_iso_3166_code != flight_segments.destination_country_iso_3166_code AND flight_segments.origin_country_iso_3166_code IS NOT NULL AND flight_segments.destination_country_iso_3166_code IS NOT NULL LIMIT 1) > 0'
+      update_all 'international_origin = 1','(SELECT COUNT(*) FROM flight_segments WHERE flight_segments.origin_airport_iata_code = airports.iata_code AND flight_segments.origin_country_iso_3166_code != flight_segments.destination_country_iso_3166_code AND flight_segments.origin_country_iso_3166_code IS NOT NULL AND flight_segments.destination_country_iso_3166_code IS NOT NULL LIMIT 1) > 0'
       update_all 'international_destination = 1', '(SELECT COUNT(*) FROM flight_segments WHERE flight_segments.destination_airport_iata_code   = airports.iata_code AND flight_segments.origin_country_iso_3166_code != flight_segments.destination_country_iso_3166_code AND flight_segments.origin_country_iso_3166_code IS NOT NULL AND flight_segments.destination_country_iso_3166_code IS NOT NULL LIMIT 1) > 0'
     end
     
