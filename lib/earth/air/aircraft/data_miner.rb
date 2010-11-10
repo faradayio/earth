@@ -185,7 +185,7 @@ Aircraft.class_eval do
       # GROUP BY aircraft.icao_code
       
       conditional_relation = segments[:aircraft_bts_code].eq(aircraft[:bts_code])
-      update_all "seats     = (#{segment.weighted_average_relation(:seats, :weighted_by => :passengers).where(conditional_relation).to_sql})"
+      update_all "seats = (#{FlightSegment.weighted_average_relation(:seats, :weighted_by => :passengers).where(conditional_relation).to_sql})"
       update_all "weighting = (#{segments.project(segments[:passengers].sum).where(conditional_relation).to_sql})"
       
       # conditional_relation = aircraft[:aircraft_type_code].eq(segments[:aircraft_type_code])
