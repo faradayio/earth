@@ -7,35 +7,23 @@ BusClass.class_eval do
       float  'passengers'
       float  'speed'
       string 'speed_units'
-      float  'duration'
-      string 'duration_units'
       float  'diesel_intensity'
       string 'diesel_intensity_units'
-      float  'gasoline_intensity'
-      string 'gasoline_intensity_units'
       float  'alternative_fuels_intensity'
       string 'alternative_fuels_intensity_units'
-      float  'fugitive_air_conditioning_emission'
-      string 'fugitive_air_conditioning_emission_units'
-    end
-    
-    process "Define some necessary conversions" do
-      Conversions.register :gallons_per_mile, :litres_per_kilometre, 2.35214583
-      Conversions.register :pounds_per_mile, :kilograms_per_kilometre, 0.281849232
+      float  'air_conditioning_emission_factor'
+      string 'air_conditioning_emission_factor_units'
     end
     
     import "a list of bus classes and pre-calculated trip and fuel use characteristics",
-           :url => 'http://static.brighterplanet.com/science/data/transport/bus/bus_classes.csv' do
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdGRsSnJoS1hraGJvR012cDROWXFPbVE&hl=en&single=true&gid=0&output=csv' do
       key   'name'
-      store 'distance', :from_units => :miles, :to_units => :kilometres
+      store 'distance', :units_field_name => 'distance_units'
       store 'passengers'
-      store 'speed', :from_units => :miles, :to_units => :kilometres
-      store 'duration', :units => :minutes
-      store 'diesel_intensity', :field_name => 'diesel_per_vehicle_mile', :from_units => :gallons_per_mile, :to_units => :litres_per_kilometre
-      store 'gasoline_intensity', :field_name => 'gasoline_per_vehicle_mile', :from_units => :gallons_per_mile, :to_units => :litres_per_kilometre
-      store 'alternative_fuels_intensity', :field_name => 'alternative_fuels_per_vehicle_mile', :from_units => :gallons_per_mile, :to_units => :litres_per_kilometre
-      store 'fugitive_air_conditioning_emission', :field_name => 'fugitive_air_conditioning_emission_per_vehicle_mile', :from_units => :pounds_per_mile, :to_units => :kilograms_per_kilometre
+      store 'speed', :units_field_name => 'speed_units'
+      store 'diesel_intensity', :units_field_name => 'diesel_intensity_units'
+      store 'alternative_fuels_intensity', :units_field_name => 'alternative_fuels_intensity_units'
+      store 'air_conditioning_emission_factor', :units_field_name => 'air_conditioning_emission_factor_units'
     end
   end
 end
-
