@@ -11,6 +11,7 @@ class RailClass < ActiveRecord::Base
   # https://brighterplanet.sifterapp.com/projects/30/issues/455
   falls_back_on :passengers => 25.06,
                 :distance => 8.57.miles.to(:kilometres),
+                :speed => 25.04.miles.to(:kilometres),
                 :diesel_intensity => 0.05.gallons_per_mile.to(:litres_per_kilometre),
                 :electricity_intensity => 8.89.miles.to(:kilometres)
 end
