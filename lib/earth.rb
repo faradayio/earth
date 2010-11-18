@@ -15,11 +15,7 @@ module Earth
   extend self
 
   def taps_server
-    if defined?(@taps_server)
-      @taps_server
-    else
-      @taps_server = nil
-    end
+    @taps_server || 'http://carbon:neutral@data.brighterplanet.com'
   end
 
   # taps_server is a URL. See the data_miner gem docs
