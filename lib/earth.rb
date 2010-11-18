@@ -15,7 +15,7 @@ module Earth
   extend self
 
   def taps_server
-    @taps_server || 'http://carbon:neutral@data.brighterplanet.com'
+    @taps_server || 'http://carbon:neutral@data.brighterplanet.com:5001'
   end
 
   # taps_server is a URL. See the data_miner gem docs
