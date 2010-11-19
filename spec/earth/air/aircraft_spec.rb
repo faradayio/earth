@@ -3,7 +3,7 @@ require 'earth/air/aircraft'
 require 'earth/air/aircraft/data_miner'
 
 describe Aircraft do
-  describe 'import' do
+  describe 'import', :slow => true do
     it 'should treat empty cells as null' do
       Aircraft.execute_schema
       Aircraft.run_data_miner!
