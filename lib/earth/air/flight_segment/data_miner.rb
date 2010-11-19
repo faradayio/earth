@@ -164,7 +164,7 @@ FlightSegment.class_eval do
       integer  'departures_performed'
       integer  'passengers'
       integer  'total_seats'
-      float    'payload'        # this needs to be a float because the import includes a units conversion
+      float    'payload'        # theoretical max freight + mail + passengers; needs to be a float because the import includes a units conversion
       string   'payload_units'
       float    'freight'        # this needs to be a float because the import includes a units conversion
       string   'freight_units'
@@ -299,8 +299,8 @@ FlightSegment.class_eval do
       end
     end
     
-    process "Derive freight share as a fraction of payload" do
-      update_all 'freight_share = (freight + mail) / payload', 'payload > 0'
+    process "Derive freight share as a fraction of the total weight carried" do
+      update_all 'freight_share = (freight + mail) / (freight + mail + (passengers * 90.718474))', '(freight + mail + passengers) > 0'
     end
     
     process "Derive load factor, which is passengers divided by the total seats available" do
