@@ -1,5 +1,6 @@
 class PetroleumAdministrationForDefenseDistrict < ActiveRecord::Base
   set_primary_key :code
+  set_table_name :petrolem_districts
   
   data_miner do
     tap "Brighter Planet's PADD info", Earth.taps_server
