@@ -440,9 +440,9 @@ AutomobileMakeModelYearVariant.class_eval do
     # end
     
     process "Derive model and model year names" do
-      update_all "model_name = CONCAT(make_name, ' ', name)"
+      update_all "make_model_name = CONCAT(make_name, ' ', name)"
       update_all "make_year_name = CONCAT(make_name, ' ', year)"
-      update_all "model_year_name = CONCAT(make_name, ' ', name, ' ', year)"
+      update_all "make_model_year_name = CONCAT(make_name, ' ', name, ' ', year)"
     end
     
     process "Calculate adjusted fuel efficiency using the latest EPA equations" do

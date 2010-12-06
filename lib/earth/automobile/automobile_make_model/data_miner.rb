@@ -17,7 +17,7 @@ AutomobileMakeModel.class_eval do
       AutomobileMakeModelYearVariant.run_data_miner!
       connection.execute %{
         INSERT IGNORE INTO automobile_make_models(name, make_name)
-        SELECT automobile_make_model_year_variants.model_name, automobile_make_model_year_variants.make_name FROM automobile_make_model_year_variants WHERE LENGTH(automobile_make_model_year_variants.model_name) > 0 AND LENGTH(automobile_make_model_year_variants.make_name) > 0
+        SELECT automobile_make_model_year_variants.make_model_name, automobile_make_model_year_variants.make_name FROM automobile_make_model_year_variants WHERE LENGTH(automobile_make_model_year_variants.make_model_name) > 0 AND LENGTH(automobile_make_model_year_variants.make_name) > 0
       }
     end
     
@@ -26,9 +26,10 @@ AutomobileMakeModel.class_eval do
       AutomobileMakeModelYearVariant.run_data_miner!
       automobile_make_models = AutomobileMakeModel.arel_table
       automobile_make_model_year_variants = AutomobileMakeModelYearVariant.arel_table
-      conditional_relation = automobile_make_models[:name].eq(automobile_make_model_year_variants[:model_name])
+      conditional_relation = automobile_make_models[:name].eq(automobile_make_model_year_variants[:make_model_name])
       %w{ city highway }.each do |i|
-        relation = AutomobileMakeModelYearVariant.where(conditional_relation).where("`automobile_make_model_year_variants`.`fuel_efficiency_#{i}` IS NOT NULL").project("AVG(`automobile_make_model_year_variants`.`fuel_efficiency_#{i}`)")
+        # sabshere 12/6/10 careful, don't use AutomobileMakeModelYearVariant.where here or you will be forced into projecting *
+        relation = automobile_make_model_year_variants.where(conditional_relation).where("`automobile_make_model_year_variants`.`fuel_efficiency_#{i}` IS NOT NULL").project("AVG(`automobile_make_model_year_variants`.`fuel_efficiency_#{i}`)")
         update_all "fuel_efficiency_#{i} = (#{relation.to_sql})"
         update_all "fuel_efficiency_#{i}_units = 'kilometres_per_litre'"
       end

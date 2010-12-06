@@ -41,7 +41,7 @@ require_or_fail('jeweler', 'Jeweler (or a dependency) not available. Install it 
       Dir.glob(File.join('spec', '**', '*.rb')) +
       Dir.glob(File.join('lib', 'test_support', '**/*.rb')) +
       ['Gemfile','Gemfile.lock']
-    gem.add_dependency 'activerecord', '>=3.0.0.beta4'
+    gem.add_dependency 'activerecord', '~>3'
     gem.add_dependency 'data_miner', '~>0.5.6' unless ENV['LOCAL_DATA_MINER']
     gem.add_dependency 'falls_back_on', '>=0.0.3'
     gem.add_dependency 'geokit', '>=1.5.0'
@@ -49,12 +49,12 @@ require_or_fail('jeweler', 'Jeweler (or a dependency) not available. Install it 
     gem.add_dependency 'conversions', '>=1.4.5'
     gem.add_dependency 'weighted_average', '>=0.0.4'
     gem.add_dependency 'loose_tight_dictionary', '>=0.0.8'
-    gem.add_development_dependency 'rspec', '>=2.0.0.beta.17'
+    gem.add_development_dependency 'rspec', '~>2'
     gem.add_development_dependency 'rake'
-    gem.add_development_dependency 'jeweler', '1.5.0'
+    gem.add_development_dependency 'jeweler', '~>1.5'
     gem.add_development_dependency 'rcov'
     gem.add_development_dependency 'rdoc'
-    gem.add_development_dependency 'sqlite3-ruby', '>=1.3.0'
+    gem.add_development_dependency 'sqlite3-ruby'
   end
   Jeweler::GemcutterTasks.new
 end
