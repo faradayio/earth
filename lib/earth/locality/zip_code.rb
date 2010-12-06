@@ -6,8 +6,6 @@ class ZipCode < ActiveRecord::Base
   belongs_to :state, :foreign_key => 'state_postal_abbreviation'
 #  has_one :census_division, :through => :state
 #  has_one :census_region, :through => :state
-  has_many :residences
-
   
   acts_as_mappable :default_units => :miles,  # FIXME imperial
                    :lat_column_name => :latitude,

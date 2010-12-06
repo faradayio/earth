@@ -1,8 +1,6 @@
 class Species < ActiveRecord::Base
   set_primary_key :name
   
-  has_many :pets
-  
   scope :thoroughly_researched, :conditions => 'marginal_dietary_requirement IS NOT NULL'
   
   falls_back_on :diet_emission_intensity => lambda { weighted_average :diet_emission_intensity, :weighted_by => :population }, # kg CO2 / joule

@@ -1,8 +1,6 @@
 class BusClass < ActiveRecord::Base
   set_primary_key :name
   
-  has_many :bus_trips
-  
   # https://brighterplanet.sifterapp.com/projects/30/issues/454
   falls_back_on :distance => 5.45.miles.to(:kilometres),
                 :passengers => 8.25,

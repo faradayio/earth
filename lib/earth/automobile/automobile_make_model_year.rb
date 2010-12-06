@@ -3,7 +3,6 @@ class AutomobileMakeModelYear < ActiveRecord::Base
   
   belongs_to :make_year,              :class_name => 'AutomobileMakeYear',             :foreign_key => 'make_year_name'
   has_many :make_model_year_variants, :class_name => 'AutomobileMakeModelYearVariant', :foreign_key => 'make_model_year_name'
-  has_many :automobiles,                                                               :foreign_key => 'make_model_year_name'
   
   data_miner do
     tap "Brighter Planet's model year data", Earth.taps_server

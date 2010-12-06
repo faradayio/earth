@@ -3,8 +3,6 @@ class LodgingClass < ActiveRecord::Base
 
   set_primary_key :name
   
-  has_many :lodgings
-
   def self.schema_definition
     lambda do
       string 'name'
