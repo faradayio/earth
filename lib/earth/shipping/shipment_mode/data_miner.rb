@@ -5,8 +5,6 @@ ShipmentMode.class_eval do
       float  'route_inefficiency_factor'
       float  'transport_emission_factor'
       string 'transport_emission_factor_units'
-      float  'intermodal_emission_factor'
-      string 'intermodal_emission_factor_units'
     end
   end
 end
