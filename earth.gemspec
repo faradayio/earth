@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Seamus Abshere", "Derek Kastner", "Andy Rossmeissl"]
-  s.date = %q{2010-12-07}
+  s.date = %q{2010-12-10}
   s.description = %q{An earth-simulation environment with ActiveRecord models and data}
   s.email = %q{andy@rossmeissl.net}
   s.extra_rdoc_files = [
@@ -149,6 +149,12 @@ Gem::Specification.new do |s|
      "lib/earth/residence/residence_fuel_type/data_miner.rb",
      "lib/earth/residence/residential_energy_consumption_survey_response.rb",
      "lib/earth/residence/residential_energy_consumption_survey_response/data_miner.rb",
+     "lib/earth/shipping.rb",
+     "lib/earth/shipping/carrier.rb",
+     "lib/earth/shipping/carrier/data_miner.rb",
+     "lib/earth/shipping/data_miner.rb",
+     "lib/earth/shipping/shipment_mode.rb",
+     "lib/earth/shipping/shipment_mode/data_miner.rb",
      "vendor/geokit-rails/CHANGELOG.rdoc",
      "vendor/geokit-rails/MIT-LICENSE",
      "vendor/geokit-rails/README.markdown",
@@ -198,8 +204,8 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.7}
   s.summary = %q{Land, sky, and sea}
   s.test_files = [
-    "spec/earth/air/aircraft_spec.rb",
-     "spec/earth_spec.rb",
+    "spec/earth_spec.rb",
+     "spec/earth/air/aircraft_spec.rb",
      "spec/spec_helper.rb",
      "Gemfile",
      "Gemfile.lock"
