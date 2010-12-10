@@ -51,7 +51,7 @@ require_or_fail('jeweler', 'Jeweler (or a dependency) not available. Install it 
     gem.add_dependency 'loose_tight_dictionary', '>=0.0.8'
     gem.add_development_dependency 'rspec', '~>2'
     gem.add_development_dependency 'rake'
-    gem.add_development_dependency 'jeweler', '~>1.5'
+    gem.add_development_dependency 'jeweler', '~>1.4'
     gem.add_development_dependency 'rcov'
     gem.add_development_dependency 'rdoc'
     gem.add_development_dependency 'sqlite3-ruby'

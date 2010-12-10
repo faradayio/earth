@@ -132,7 +132,7 @@ DEPENDENCIES
   earth!
   falls_back_on (>= 0.0.3)
   geokit (>= 1.5.0)
-  jeweler (~> 1.5)
+  jeweler (~> 1.4)
   loose_tight_dictionary (>= 0.0.8)
   rake
   rcov
