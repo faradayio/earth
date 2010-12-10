@@ -1,4 +1,4 @@
-class ShippingCompany < ActiveRecord::Base
+class Carrier < ActiveRecord::Base
   set_primary_key :name
   
   data_miner do
