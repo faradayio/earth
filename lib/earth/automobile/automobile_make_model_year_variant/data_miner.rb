@@ -139,7 +139,7 @@ AutomobileMakeModelYearVariant.class_eval do
       bus[:format] = :fixed_width
       bus[:cut] = '13-' if year == 1995
       bus[:schema_name] = :fuel_economy_guide_b
-      bus[:select] = lambda { |row| row['supress_code'].blank? and row['state_code'] == 'F' }
+      bus[:select] = lambda { |row| row['suppress_code'].blank? and row['state_code'] == 'F' }
       Slither.define :fuel_economy_guide_b do |d|
         d.rows do |row|
           row.trap { true } # there's only one section
