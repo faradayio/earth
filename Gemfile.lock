@@ -1,22 +1,14 @@
 PATH
   remote: .
   specs:
-    earth (0.3.7)
-      activerecord (~> 3)
+    earth (0.3.8)
       activerecord (~> 3)
       cohort_scope (>= 0.0.7)
-      cohort_scope (>= 0.0.7)
-      conversions (>= 1.4.5)
       conversions (>= 1.4.5)
       data_miner (~> 0.5.6)
-      data_miner (~> 0.5.6)
-      falls_back_on (>= 0.0.3)
       falls_back_on (>= 0.0.3)
       geokit (>= 1.5.0)
-      geokit (>= 1.5.0)
       loose_tight_dictionary (>= 0.0.8)
-      loose_tight_dictionary (>= 0.0.8)
-      weighted_average (>= 0.0.4)
       weighted_average (>= 0.0.4)
 
 GEM
