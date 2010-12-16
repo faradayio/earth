@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{earth}
-  s.version = "0.3.8"
+  s.version = "0.3.9"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Seamus Abshere", "Derek Kastner", "Andy Rossmeissl"]
-  s.date = %q{2010-12-12}
+  s.date = %q{2010-12-16}
   s.description = %q{An earth-simulation environment with ActiveRecord models and data}
   s.email = %q{andy@rossmeissl.net}
   s.extra_rdoc_files = [
@@ -152,6 +152,8 @@ Gem::Specification.new do |s|
      "lib/earth/shipping.rb",
      "lib/earth/shipping/carrier.rb",
      "lib/earth/shipping/carrier/data_miner.rb",
+     "lib/earth/shipping/carrier_mode.rb",
+     "lib/earth/shipping/carrier_mode/data_miner.rb",
      "lib/earth/shipping/data_miner.rb",
      "lib/earth/shipping/shipment_mode.rb",
      "lib/earth/shipping/shipment_mode/data_miner.rb",
