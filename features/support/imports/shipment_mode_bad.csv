@@ -1,0 +1,3 @@
+name,route_inefficiency_factor,transport_emission_factor,transport_emission_factor_units
+ground,1.0,0.1,kilograms_per_kilogram_kilometre
+air,0.9,0.0

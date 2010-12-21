@@ -33,13 +33,52 @@ Carrier.class_eval do
     #   what about transport_emission_factor_units?
     # end
     
-    # TODO: verification
-    # all entries should have name
-    # all entries should have package_volume
-    # all entries should have route_inefficiency_factor
-    # all entries should have transport_emission_factor > 0
-    # all entries should have transport_emission_factor_units
-    # all entries should have corporate_emission_factor > 0
-    # all entries should have corporate_emission_factor_units
+    verify "Package volume should be greater than zero" do
+      Carrier.all.each do |carrier|
+        unless carrier.package_volume > 0
+          raise "Invalid package volume for Carrier #{carrier.name}: #{carrier.package_volume} (should be > 0)"
+        end
+      end
+    end
+    
+    verify "Route inefficiency factor should be one or more" do
+      Carrier.all.each do |carrier|
+        unless carrier.route_inefficiency_factor >= 1.0
+          raise "Invalid route inefficiency factor for Carrier #{carrier.name}: #{carrier.route_inefficiency_factor} (should be >= 1.0)"
+        end
+      end
+    end
+    
+    verify "Transport emission factor should be greater than zero" do
+      Carrier.all.each do |carrier|
+        unless carrier.transport_emission_factor > 0
+          raise "Invalid transport emission factor for Carrier #{carrier.name}: #{carrier.transport_emission_factor} (should be > 0)"
+        end
+      end
+    end
+    
+    verify "Transport emission factor units should never be missing" do
+      Carrier.all.each do |carrier|
+        if carrier.transport_emission_factor_units.nil?
+          raise "Missing transport emission factor units for Carrier #{carrier.name}"
+        end
+      end
+    end
+    
+    verify "Corporate emission factor should be greater than zero" do
+      Carrier.all.each do |carrier|
+        unless carrier.corporate_emission_factor > 0
+          raise "Invalid corporate emission factor for Carrier #{carrier.name}: #{carrier.corporate_emission_factor} (should be > 0)"
+        end
+      end
+    end
+    
+    verify "Corporate emission factor units should never be missing" do
+      Carrier.all.each do |carrier|
+        if carrier.corporate_emission_factor_units.nil?
+          raise "Missing corporate emission factor units for Carrier #{carrier.name}"
+        end
+      end
+    end
   end
 end
