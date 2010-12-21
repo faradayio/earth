@@ -6,7 +6,7 @@ def require_or_fail(gems, message, failure_results_in_death = false)
   begin
     gems.each { |gem| require gem }
     yield
-  rescue LoadError
+  rescue LoadError => e
     puts message
     exit if failure_results_in_death
   end
@@ -69,6 +69,13 @@ require_or_fail('rcov', 'RSpec gem not found, RSpec tasks unavailable') do
     test.libs << 'spec'
     test.pattern = 'spec/**/*.rb'
     test.verbose = true
+  end
+end
+
+require_or_fail('sniff', 'Sniff gem not found, sniff tasks unavailable') do
+  require 'sniff/rake_tasks'
+  Sniff::RakeTasks.define_tasks do |t|
+    t.earth_domains = :all
   end
 end
 
