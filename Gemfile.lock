@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    earth (0.3.8)
+    earth (0.3.9)
       activerecord (~> 3)
       cohort_scope (>= 0.0.7)
       conversions (>= 1.4.5)
