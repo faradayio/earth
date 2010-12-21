@@ -1,0 +1,3 @@
+name,annual_distance,fuel_efficiency_city,fuel_efficiency_highway,hybrid_fuel_efficiency_city_multiplier,hybrid_fuel_efficiency_highway_multiplier,conventional_fuel_efficiency_city_multiplier,conventional_fuel_efficiency_highway_multiplier,annual_distance_units,fuel_efficiency_city_units,fuel_efficiency_highway_units
+small,1000,10.0,15.0,1.1,1.2,0.9,0.95,kilometres,kilometres_per_litre,kilometres_per_litre
+large,-100,-1,0,0,-1,0,-10
