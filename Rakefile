@@ -12,6 +12,8 @@ def require_or_fail(gems, message, failure_results_in_death = false)
   end
 end
 
+test_tasks = []
+
 unless ENV['NOBUNDLE']
   message = <<-MESSAGE
 In order to run tests, you must:
@@ -49,11 +51,13 @@ require_or_fail('jeweler', 'Jeweler (or a dependency) not available. Install it 
     gem.add_dependency 'conversions', '>=1.4.5'
     gem.add_dependency 'weighted_average', '>=0.0.4'
     gem.add_dependency 'loose_tight_dictionary', '>=0.0.8'
+    gem.add_development_dependency 'cucumber'
     gem.add_development_dependency 'rspec', '~>2'
     gem.add_development_dependency 'rake'
-    gem.add_development_dependency 'jeweler', '~>1.4'
+    gem.add_development_dependency 'jeweler', '~>1.4.0'
     gem.add_development_dependency 'rcov'
     gem.add_development_dependency 'rdoc'
+    gem.add_development_dependency 'sniff', '~> 0.4.9'
     gem.add_development_dependency 'sqlite3-ruby'
   end
   Jeweler::GemcutterTasks.new
@@ -74,9 +78,24 @@ require_or_fail('rspec', 'RSpec gem not found, RSpec tasks unavailable') do
   desc "Run all examples"
   RSpec::Core::RakeTask.new('examples')
 
-  task :default => :examples
-  task :test => :examples
+  test_tasks << :examples
 end
+
+require_or_fail('cucumber', 'Cucumber gem not found, tasks unavailable') do
+  require 'cucumber/rake/task'
+  desc 'Run all cucumber tests'
+  Cucumber::Rake::Task.new(:features) do |t|
+    if ENV['CUCUMBER_FORMAT']
+      t.cucumber_opts = "features --format #{ENV['CUCUMBER_FORMAT']}"
+    else
+      t.cucumber_opts = 'features --format pretty'
+    end
+  end
+  test_tasks << :features
+end
+
+task :test => test_tasks unless test_tasks.empty?
+task :default => :test
 
 Rake::RDocTask.new do |rdoc|
   version = File.exist?('VERSION') ? File.read('VERSION') : ""

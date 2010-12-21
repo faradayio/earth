@@ -1,0 +1,4 @@
+name,corporate_emission_factor,corporate_emission_factor_units
+FedEx,1.2,kilograms_per_meter
+UPS,1.12,kilograms_per_meter
+USPS,1.3,kilograms_per_meter
