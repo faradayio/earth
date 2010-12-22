@@ -455,6 +455,46 @@ AutomobileMakeModelYearVariant.class_eval do
         synthetic_resource.constantize.run_data_miner!
       end
     end
+    
+    verify "Year should be between 1985 and 2009" do
+      AutomobileMakeModelYearVariant.all.each do |variant|
+        unless variant.year > 1984 and variant.year < 2010
+          raise "Invalid year for AutomobileMakeModelYearVariant #{variant.row_hash}: #{variant.year} (should be between 1985 and 2009)"
+        end
+      end
+    end
+    
+    # FIXME TODO
+    # verify "Fuel type code should be found in AutomobileFuelType" do
+    #   valid_codes = AutomobileFuelType.all.map(&:code)
+    #   puts valid_codes
+    #   AutomobileMakeModelVariant.all.each do |variant|
+    #     unless valid_codes.include? variant.fuel_type_code
+    #       raise "Invalid fuel type code for AutomobileMakeModelYearVariant #{variant.row_hash}: #{variant.fuel_type_code} (should be found in AutomobileFuelType)"
+    #     end
+    #   end
+    # end
+    # 
+    verify "Fuel efficiencies should be greater than zero" do
+      AutomobileMakeModelYearVariant.all.each do |variant|
+        %w{ city highway }.each do |type|
+          fuel_efficiency = variant.send(:"fuel_efficiency_#{type}")
+          unless fuel_efficiency > 0
+            raise "Invalid fuel efficiency #{type} for AutomobileMakeModelYearVariant #{variant.row_hash}: #{fuel_efficiency} (should be < 0)"
+          end
+        end
+      end
+    end
+    
+    verify "Fuel efficiency units should be kilometres per litre" do
+      AutomobileMakeModelYearVariant.all.each do |variant|
+        %w{ city highway }.each do |type|
+          units = variant.send(:"fuel_efficiency_#{type}_units")
+          unless units == "kilometres_per_litre"
+            raise "Invalid fuel efficiency #{type} units for AutomobileMakeModelYearVariant #{variant.row_hash}: #{units} (should be kilometres_per_litre)"
+          end
+        end
+      end
+    end
   end
 end
-
