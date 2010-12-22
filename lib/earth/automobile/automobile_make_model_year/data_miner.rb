@@ -47,6 +47,35 @@ AutomobileMakeModelYear.class_eval do
       update_all "fuel_efficiency = 1 / ((0.43 / fuel_efficiency_city) + (0.57 / fuel_efficiency_highway))"
       update_all "fuel_efficiency_units = 'kilometres_per_litre'"
     end
+    
+    verify "Year should be between 1985 and 2009" do
+      AutomobileMakeModelYear.all.each do |model_year|
+        unless model_year.year > 1984 and model_year.year < 2010
+          raise "Invalid year for AutomobileMakeModelYear #{model_year.name}: #{model_year.year} (should be between 1985 and 2009)"
+        end
+      end
+    end
+    
+    verify "Fuel efficiencies should be greater than zero" do
+      AutomobileMakeModelYear.all.each do |model_year|
+        %w{ city highway }.each do |type|
+          fuel_efficiency = model_year.send(:"fuel_efficiency_#{type}")
+          unless fuel_efficiency > 0
+            raise "Invalid fuel efficiency #{type} for AutomobileMakeModelYear #{model_year.name}: #{fuel_efficiency} (should be > 0)"
+          end
+        end
+      end
+    end
+    
+    verify "Fuel efficiency units should be kilometres per litre" do
+      AutomobileMakeModelYear.all.each do |model_year|
+        %w{ city highway }.each do |type|
+          units = model_year.send(:"fuel_efficiency_#{type}_units")
+          unless units == "kilometres_per_litre"
+            raise "Invalid fuel efficiency #{type} units for AutomobileMakeModelYear #{model_year.name}: #{units} (should be kilometres_per_litre)"
+          end
+        end
+      end
+    end
   end
 end
-
