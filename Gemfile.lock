@@ -130,7 +130,7 @@ GEM
     sinatra (1.0)
       rack (>= 1.0)
     slither (0.99.4)
-    sniff (0.4.9)
+    sniff (0.4.10)
       aaronh-chronic (~> 0.3.9)
       activerecord (~> 3.0.0)
       activesupport (~> 3.0.0)
@@ -171,17 +171,10 @@ DEPENDENCIES
   activerecord (~> 3)
   cohort_scope (>= 0.0.7)
   conversions (>= 1.4.5)
-  cucumber
   data_miner (~> 0.5.6)
   earth!
   falls_back_on (>= 0.0.3)
   geokit (>= 1.5.0)
-  jeweler (~> 1.4.0)
   loose_tight_dictionary (>= 0.0.8)
-  rake
-  rcov
-  rdoc
-  rspec (~> 2)
   sniff (~> 0.4.9)
-  sqlite3-ruby
   weighted_average (>= 0.0.4)
