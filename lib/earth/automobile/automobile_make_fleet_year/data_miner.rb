@@ -24,6 +24,37 @@ AutomobileMakeFleetYear.class_eval do
       store 'fuel_efficiency', :from_units => :miles_per_gallon, :to_units => :kilometres_per_litre
       store 'volume'
     end
+    
+    verify "Year should be between 1978 and 2007" do
+      AutomobileMakeFleetYear.all.each do |fleet_year|
+        unless fleet_year.year > 1977 and fleet_year.year < 2008
+          raise "Invalid year for AutomobileMakeFleetYear #{fleet_year.name}: #{fleet_year.year} (should be between 1978 and 2007)"
+        end
+      end
+    end
+    
+    verify "Fuel efficiency should be greater than zero" do
+      AutomobileMakeFleetYear.all.each do |fleet_year|
+        unless fleet_year.fuel_efficiency > 0
+          raise "Invalid fuel efficiency for AutomobileMakeFleetYear #{fleet_year.name}: #{fleet_year.fuel_efficiency} (should be > 0)"
+        end
+      end
+    end
+    
+    verify "Fuel efficiency units should be kilometres per litre" do
+      AutomobileMakeFleetYear.all.each do |fleet_year|
+        unless fleet_year.fuel_efficiency_units == "kilometres_per_litre"
+          raise "Invalid fuel efficiency units for AutomobileMakeFleetYear #{fleet_year.name}: #{fleet_year.fuel_efficiency_units} (should be kilometres_per_litre)"
+        end
+      end
+    end
+    
+    verify "Volume should be greater than zero" do
+      AutomobileMakeFleetYear.all.each do |fleet_year|
+        unless fleet_year.volume > 0
+          raise "Invalid volume for AutomobileMakeFleetYear #{fleet_year.name}: #{fleet_year.volume} (should be > 0)"
+        end
+      end
+    end
   end
 end
-
