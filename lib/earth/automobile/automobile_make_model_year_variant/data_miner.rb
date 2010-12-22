@@ -450,7 +450,7 @@ AutomobileMakeModelYearVariant.class_eval do
       update_all 'fuel_efficiency_highway = 1 / ((0.001376 / 0.425143707) + (1.3466 / raw_fuel_efficiency_highway))'
     end
     
-    %w{ AutomobileMake AutomobileMakeModelYear AutomobileMakeModel }.each do |synthetic_resource|
+    %w{ AutomobileMakeModelYear AutomobileMakeModel }.each do |synthetic_resource|
       process "Synthesize #{synthetic_resource}" do
         synthetic_resource.constantize.run_data_miner!
       end

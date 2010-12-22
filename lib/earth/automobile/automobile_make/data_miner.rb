@@ -11,11 +11,11 @@ AutomobileMake.class_eval do
       string  'fuel_efficiency_units'
     end
 
-    process "Derive automobile makes from automobile make model year variants" do
-      AutomobileMakeModelYearVariant.run_data_miner!
+    process "Derive automobile makes from automobile make years" do
+      AutomobileMakeYear.run_data_miner!
       connection.execute %{
         INSERT IGNORE INTO automobile_makes(name)
-        SELECT automobile_make_model_year_variants.make_name FROM automobile_make_model_year_variants WHERE LENGTH(automobile_make_model_year_variants.make_name) > 0
+        SELECT DISTINCT automobile_make_years.make_name FROM automobile_make_years
       }
     end
     
@@ -25,7 +25,7 @@ AutomobileMake.class_eval do
       store 'major'
     end
     
-    process "Derive average fuel efficiency from automobile makes and years" do
+    process "Derive average fuel efficiency from automobile make years" do
       AutomobileMakeYear.run_data_miner!
       make_years = AutomobileMakeYear.arel_table
       makes = AutomobileMake.arel_table
@@ -33,6 +33,22 @@ AutomobileMake.class_eval do
       relation = AutomobileMakeYear.weighted_average_relation(:fuel_efficiency, :weighted_by => :volume).where(conditional_relation)
       update_all "fuel_efficiency = (#{relation.to_sql})"
       update_all "fuel_efficiency_units = 'kilometres_per_litre'"
+    end
+    
+    verify "Fuel efficiency should be greater than zero" do
+      AutomobileMake.all.each do |make|
+        unless make.fuel_efficiency > 0
+          raise "Invalid fuel efficiency for AutomobileMake #{make.name}: #{make.fuel_efficiency} (should be > 0)"
+        end
+      end
+    end
+    
+    verify "Fuel efficiency units should be kilometres per litre" do
+      AutomobileMake.all.each do |make|
+        unless make.fuel_efficiency_units == "kilometres_per_litre"
+          raise "Invalid fuel efficiency units for AutomobileMake #{make.name}: #{make.fuel_efficiency_units} (should be kilometres_per_litre)"
+        end
+      end
     end
   end
 end
@@ -65,4 +81,3 @@ end
 #   'Maybach' => 'Mercedes',
 #   'Hummer' => 'GM'
 # }
-
