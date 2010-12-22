@@ -11,11 +11,11 @@ AutomobileMake.class_eval do
       string  'fuel_efficiency_units'
     end
 
-    process "Derive automobile makes from automobile make years" do
-      AutomobileMakeYear.run_data_miner!
+    process "Derive manufacturer names from automobile make fleet years" do
+      AutomobileMakeFleetYear.run_data_miner!
       connection.execute %{
         INSERT IGNORE INTO automobile_makes(name)
-        SELECT DISTINCT automobile_make_years.make_name FROM automobile_make_years
+        SELECT DISTINCT automobile_make_fleet_years.make_name FROM automobile_make_fleet_years
       }
     end
     
@@ -25,12 +25,12 @@ AutomobileMake.class_eval do
       store 'major'
     end
     
-    process "Derive average fuel efficiency from automobile make years" do
-      AutomobileMakeYear.run_data_miner!
-      make_years = AutomobileMakeYear.arel_table
+    process "Derive average fuel efficiency from automobile make fleet years" do
+      AutomobileMakeFleetYear.run_data_miner!
+      make_fleet_years = AutomobileMakeFleetYear.arel_table
       makes = AutomobileMake.arel_table
-      conditional_relation = makes[:name].eq(make_years[:make_name])
-      relation = AutomobileMakeYear.weighted_average_relation(:fuel_efficiency, :weighted_by => :volume).where(conditional_relation)
+      conditional_relation = makes[:name].eq(make_fleet_years[:make_name])
+      relation = AutomobileMakeFleetYear.weighted_average_relation(:fuel_efficiency, :weighted_by => :volume).where(conditional_relation)
       update_all "fuel_efficiency = (#{relation.to_sql})"
       update_all "fuel_efficiency_units = 'kilometres_per_litre'"
     end
