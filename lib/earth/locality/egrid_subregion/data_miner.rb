@@ -61,5 +61,31 @@ EgridSubregion.class_eval do
       store 'egrid_region_name'
       store 'electricity_emission_factor', :units_field_name => 'electricity_emission_factor_units'
     end
+    
+    # FIXME TODO make this work
+    # verify "eGRID region name should appear in egrid_regions" do
+    #   regions = EgridRegion.all.map { |region| region.name }
+    #   EgridSubregion.all.each do |subregion|
+    #     unless regions.includes? subregion.egrid_region_name
+    #       raise "Invalid eGRID region name for EgridSubregion #{subregion.name}: #{subregion.egrid_region_name} (not found in egrid_regions)"
+    #     end
+    #   end
+    # end
+    
+    verify "Electricity emission factor should be greater than zero" do
+      EgridSubregion.all.each do |subregion|
+        unless subregion.electricity_emission_factor > 0
+          raise "Invalid electricity emission factor for EgridSubregion #{subregion.name}: #{subregion.electricity_emission_factor} (should be > 0)"
+        end
+      end
+    end
+    
+    verify "Electricity emission factor units should be kilograms per kilowatt hour" do
+      EgridSubregion.all.each do |subregion|
+        unless subregion.electricity_emission_factor_units == "kilograms_per_kilowatt_hour"
+          raise "Invalid electricity emission factor units for EgridSubregion #{subregion.name}: #{subregion.electricity_emission_factor_units} (should be kilograms_per_kilowatt_hour)"
+        end
+      end
+    end
   end
 end

@@ -1,0 +1,3 @@
+name,egrid_region_name,electricity_emission_factor,electricity_emission_factor_units
+US,US,1.2,kilograms_per_kilowatt_hour
+AKGD,AK,0.9,kilograms_per_kilowatt_hour
