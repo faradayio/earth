@@ -309,7 +309,7 @@ AutomobileMakeModelYearVariant.class_eval do
       index    'make_model_year_name'
     end
     
-    # # 1985---1997
+    # 1985---1997
     (85..97).each do |yy|
       filename = (yy == 96) ? "#{yy}MFGUI.ASC" : "#{yy}MFGUI.DAT"
       import("19#{ yy } Fuel Economy Guide",
@@ -410,34 +410,33 @@ AutomobileMakeModelYearVariant.class_eval do
     end
     
     # 2010--?
-    # sabshere 5/17/10 apparently needs update
-    # {
-    #   2010 => { :url => 'http://www.fueleconomy.gov/FEG/epadata/10data.zip', :filename => '2010FEguide-for DOE-rel dates before 10-16-09-no-sales10-8-09public.xls' }
-    # }.sort { |a, b| a.first <=> b.first }.each do |year, options|
-    #   import "#{ year } Fuel Economy Guide",
-    #          options.merge(:transform => { :class => AutomobileVariant::ParserE, :year => year },
-    #                        :errata => 'http://static.brighterplanet.com/science/data/transport/automobiles/fuel_economy_guide/errata.csv') do
-    #     key   'row_hash'
-    #     store 'name', :field_name => 'model'
-    #     store 'make_name', :field_name => 'make'
-    #     store 'fuel_type_code'
-    #     store 'fuel_efficiency_highway', :static => nil, :units => :kilometres_per_litre
-    #     store 'fuel_efficiency_city', :static => nil, :units => :kilometres_per_litre
-    #     store 'raw_fuel_efficiency_highway', :field_name => 'Hwy Unadj FE - Conventional Fuel', :from_units => :miles_per_gallon, :to_units => :kilometres_per_litre
-    #     store 'raw_fuel_efficiency_city', :field_name => 'City Unadj FE - Conventional Fuel', :from_units => :miles_per_gallon, :to_units => :kilometres_per_litre
-    #     store 'cylinders', :field_name => '# Cyl'
-    #     store 'displacement', :field_name => 'Eng Displ'
-    #     store 'carline_class_code', :field_name => 'Carline Class'
-    #     store 'carline_class_name', :field_name => 'Carline Class Desc'
-    #     store 'year'
-    #     store 'transmission'
-    #     store 'speeds'
-    #     store 'turbo'
-    #     store 'supercharger'
-    #     store 'injection'
-    #     store 'drive'
-    #   end
-    # end
+    {
+      2010 => { :url => 'http://www.fueleconomy.gov/FEG/epadata/10data.zip', :filename => '2010FE Guide for DOE-all rel dates-no-sales 4-9-10public.xls' }
+    }.sort { |a, b| a.first <=> b.first }.each do |year, options|
+      import "#{ year } Fuel Economy Guide",
+             options.merge(:transform => { :class => AutomobileMakeModelYearVariant::ParserE, :year => year },
+                           :errata => 'http://static.brighterplanet.com/science/data/transport/automobiles/fuel_economy_guide/errata.csv') do
+        key   'row_hash'
+        store 'name', :field_name => 'model'
+        store 'make_name', :field_name => 'make'
+        store 'fuel_type_code'
+        store 'fuel_efficiency_highway', :static => nil, :units => :kilometres_per_litre
+        store 'fuel_efficiency_city', :static => nil, :units => :kilometres_per_litre
+        store 'raw_fuel_efficiency_highway', :field_name => 'Hwy Unadj FE - Conventional Fuel', :from_units => :miles_per_gallon, :to_units => :kilometres_per_litre
+        store 'raw_fuel_efficiency_city', :field_name => 'City Unadj FE - Conventional Fuel', :from_units => :miles_per_gallon, :to_units => :kilometres_per_litre
+        store 'cylinders', :field_name => '# Cyl'
+        store 'displacement', :field_name => 'Eng Displ'
+        store 'carline_class_code', :field_name => 'Carline Class'
+        store 'carline_class_name', :field_name => 'Carline Class Desc'
+        store 'year'
+        store 'transmission'
+        store 'speeds'
+        store 'turbo'
+        store 'supercharger'
+        store 'injection'
+        store 'drive'
+      end
+    end
     
     process "Derive model and model year names" do
       update_all "make_model_name = CONCAT(make_name, ' ', name)"
