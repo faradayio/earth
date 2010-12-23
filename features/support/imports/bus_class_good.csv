@@ -1,0 +1,3 @@
+name,distance,distance_units,passengers,speed,speed_units,diesel_intensity,diesel_intensity_units,alternative_fuels_intensity,alternative_fuels_intensity_units,air_conditioning_emission_factor,air_conditioning_emission_factor_units
+transit,10,kilometres,15,20,kilometres_per_hour,0.5,litres_per_kilometre,0,litres_per_kilometre,0,kilograms_per_kilometre
+regional,100,kilometres,30,80,kilometres_per_hour,0.1,litres_per_kilometre,0.2,litres_per_kilometre,0.5,kilograms_per_kilometre
