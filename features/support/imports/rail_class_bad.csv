@@ -1,0 +1,3 @@
+name,passengers,distance,distance_units,speed,speed_units,electricity_intensity,electricity_intensity_units,diesel_intensity,diesel_intensity_units
+commuter,100,50,kilometres,100,kilometres_per_hour,0.7,kilowatt_hours_per_kilometre,0,litres_per_kilometre
+intercity,0,-20,distance_units,-1,speed_units,,elec_intense_units,-1
