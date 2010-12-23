@@ -31,5 +31,13 @@ EgridRegion.class_eval do
       key 'name'
       store 'loss_factor'
     end
+    
+    verify "Loss factor should be greater than zero and less than one" do
+      EgridRegion.all.each do |region|
+        unless region.loss_factor > 0 and region.loss_factor < 1
+          raise "Invalid loss factor for EgridRegion #{region.name}: #{region.loss_factor} (should be > 0 and < 1)"
+        end
+      end
+    end
   end
 end
