@@ -9,7 +9,7 @@ AutomobileMakeModelYearVariant.class_eval do
     end
 
     def is_a_porsche?(row)
-      row['make'].upcase == 'PORSCHE'
+      row['make'] and row['make'].upcase == 'PORSCHE'
     end
 
     def is_not_a_porsche?(row)
@@ -17,19 +17,19 @@ AutomobileMakeModelYearVariant.class_eval do
     end
 
     def is_a_mercedes_benz?(row)
-      row['make'] =~ /MERCEDES/i
+      row['make'] and row['make'] =~ /MERCEDES/i
     end
 
     def is_a_lexus?(row)
-      row['make'].upcase == 'LEXUS'
+      row['make'] and row['make'].upcase == 'LEXUS'
     end
 
     def is_a_bmw?(row)
-      row['make'].upcase == 'BMW'
+      row['make'] and row['make'].upcase == 'BMW'
     end
 
     def is_a_ford?(row)
-      row['make'].upcase == 'FORD'
+      row['make'] and row['make'].upcase == 'FORD'
     end
 
     def is_a_rolls_royce_and_model_contains_bentley?(row)
@@ -37,11 +37,11 @@ AutomobileMakeModelYearVariant.class_eval do
     end
 
     def is_a_bentley?(row)
-      row['make'].upcase == 'BENTLEY'
+      row['make'] and row['make'].upcase == 'BENTLEY'
     end
 
     def is_a_rolls_royce?(row)
-      row['make'] =~ /ROLLS/i
+      row['make'] and row['make'] =~ /ROLLS/i
     end
 
     def is_a_turbo_brooklands?(row)
@@ -139,7 +139,9 @@ AutomobileMakeModelYearVariant.class_eval do
       bus[:format] = :fixed_width
       bus[:cut] = '13-' if year == 1995
       bus[:schema_name] = :fuel_economy_guide_b
-      bus[:select] = lambda { |row| row['suppress_code'].blank? and row['state_code'] == 'F' }
+      bus[:select] = lambda do |row|
+        (row['suppress_code'].blank? or row['suppress_code'].to_i == 0) and row['state_code'] == 'F'
+      end
       Slither.define :fuel_economy_guide_b do |d|
         d.rows do |row|
           row.trap { true } # there's only one section
