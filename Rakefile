@@ -7,6 +7,7 @@ def require_or_fail(gems, message, failure_results_in_death = false)
     gems.each { |gem| require gem }
     yield
   rescue LoadError => e
+    puts e.inspect
     puts message
     exit if failure_results_in_death
   end
@@ -51,7 +52,7 @@ require_or_fail('jeweler', 'Jeweler (or a dependency) not available. Install it 
     gem.add_dependency 'conversions', '>=1.4.5'
     gem.add_dependency 'weighted_average', '>=0.0.4'
     gem.add_dependency 'loose_tight_dictionary', '>=0.0.8'
-    gem.add_development_dependency 'sniff', '~> 0.4.9'
+    gem.add_development_dependency 'sniff', '~> 0.4.11'
   end
   Jeweler::GemcutterTasks.new
 end

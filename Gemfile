@@ -4,3 +4,7 @@ gem 'sniff', :path => ENV['LOCAL_SNIFF'] if ENV['LOCAL_SNIFF']
 source :rubygems
 
 gemspec :path => '.'
+
+if RUBY_VERSION =~ /^1\.8/
+  gem 'fastercsv'
+end
