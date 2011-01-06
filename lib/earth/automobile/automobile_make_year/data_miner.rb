@@ -10,22 +10,22 @@ AutomobileMakeYear.class_eval do
       integer  'year'
       float    'fuel_efficiency'
       string   'fuel_efficiency_units'
-      integer  'volume'
+      integer  'volume' # This will sometimes be null because not all make_years have CAFE data
     end
-
-    process "Derive manufacturer names and years from automobile make fleet years" do
-      AutomobileMakeFleetYear.run_data_miner!
+    
+    process "Derive manufacturer names and years from automobile make model year variants" do
+      AutomobileMakeModelYearVariant.run_data_miner!
       connection.execute %{
         INSERT IGNORE INTO automobile_make_years(name, make_name, year)
         SELECT
-          automobile_make_fleet_years.make_year_name,
-          automobile_make_fleet_years.make_name,
-          automobile_make_fleet_years.year
-        FROM automobile_make_fleet_years
+          automobile_make_model_year_variants.make_year_name,
+          automobile_make_model_year_variants.make_name,
+          automobile_make_model_year_variants.year
+        FROM automobile_make_model_year_variants
       }
     end
     
-    process "Derive annual corporate average fuel economy across all vehicles from automobile make fleet years" do
+    process "Calculate fuel efficiency from make fleet years for makes with CAFE data" do
       AutomobileMakeFleetYear.run_data_miner!
       make_fleet_years = AutomobileMakeFleetYear.arel_table
       make_years = AutomobileMakeYear.arel_table
@@ -35,16 +35,29 @@ AutomobileMakeYear.class_eval do
       update_all "fuel_efficiency_units = 'kilometres_per_litre'"
     end
     
-    process "Derive sales volume across all vehicles from automobile make fleet years" do
+    process "Calculate fuel effeciency from automobile make model year variants for makes without CAFE data" do
+      connection.execute %{
+        UPDATE automobile_make_years
+        SET automobile_make_years.fuel_efficiency = (SELECT AVG(automobile_make_model_year_variants.fuel_efficiency) FROM automobile_make_model_year_variants WHERE automobile_make_years.name = automobile_make_model_year_variants.make_year_name)
+        WHERE automobile_make_years.fuel_efficiency IS NULL
+      }
+      connection.execute %{
+        UPDATE automobile_make_years
+        SET automobile_make_years.fuel_efficiency_units = 'kilometres_per_litre'
+        WHERE automobile_make_years.fuel_efficiency_units IS NULL
+      }
+    end
+    
+    process "Calculate sales volume from automobile make fleet years for makes with CAFE data" do
       connection.execute %{
         UPDATE automobile_make_years SET automobile_make_years.volume = (SELECT SUM(automobile_make_fleet_years.volume) FROM automobile_make_fleet_years WHERE automobile_make_fleet_years.make_year_name = automobile_make_years.name)
       }
     end
     
-    verify "Year should be between 1978 and 2007" do
+    verify "Year should be between 1985 and 2010" do
       AutomobileMakeYear.all.each do |make_year|
-        unless make_year.year > 1977 and make_year.year < 2008
-          raise "Invalid year for AutomobileMakeYear #{make_year.name}: #{make_year.year} (should be between 1978 and 2007)"
+        unless make_year.year > 1984 and make_year.year < 2011
+          raise "Invalid year for AutomobileMakeYear #{make_year.name}: #{make_year.year} (should be between 1985 and 2010)"
         end
       end
     end
@@ -61,14 +74,6 @@ AutomobileMakeYear.class_eval do
       AutomobileMakeYear.all.each do |make_year|
         unless make_year.fuel_efficiency_units == "kilometres_per_litre"
           raise "Invalid fuel efficiency units for AutomobileMakeYear #{make_year.name}: #{make_year.fuel_efficiency_units} (should be kilometres_per_litre)"
-        end
-      end
-    end
-    
-    verify "Volume should be greater than zero" do
-      AutomobileMakeYear.all.each do |make_year|
-        unless make_year.volume > 0
-          raise "Invalid volume for AutomobileMakeYear #{make_year.name}: #{make_year.volume} (should be > 0)"
         end
       end
     end
