@@ -6,8 +6,6 @@ class AutomobileMake < ActiveRecord::Base
   has_many :fleet_years,              :class_name => 'AutomobileMakeFleetYear',        :foreign_key => 'make_name'
   has_many :make_model_year_variants, :class_name => 'AutomobileMakeModelYearVariant', :foreign_key => 'make_name'
   
-  scope :major, :conditions => { :major => true }, :order => :name
-
   data_miner do
     tap "Brighter Planet's make year data", Earth.taps_server
   end

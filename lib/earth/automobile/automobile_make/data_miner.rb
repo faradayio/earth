@@ -6,7 +6,6 @@ AutomobileMake.class_eval do
     
     schema Earth.database_options do
       string  'name'
-      boolean 'major'
       float   'fuel_efficiency'
       string  'fuel_efficiency_units'
     end
@@ -17,12 +16,6 @@ AutomobileMake.class_eval do
         INSERT IGNORE INTO automobile_makes(name)
         SELECT DISTINCT automobile_make_fleet_years.make_name FROM automobile_make_fleet_years
       }
-    end
-    
-    import "a Brighter-Planet defined list of major automobile manufacturers",
-           :url => 'http://static.brighterplanet.com/science/data/transport/automobiles/makes/make_importance.csv' do
-      key 'name'
-      store 'major'
     end
     
     process "Derive average fuel efficiency from automobile make fleet years" do
