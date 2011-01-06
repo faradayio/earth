@@ -49,10 +49,10 @@ AutomobileMakeModelYear.class_eval do
       update_all "fuel_efficiency_units = 'kilometres_per_litre'"
     end
     
-    verify "Year should be between 1985 and 2009" do
+    verify "Year should be between 1985 and 2010" do
       AutomobileMakeModelYear.all.each do |model_year|
-        unless model_year.year > 1984 and model_year.year < 2010
-          raise "Invalid year for AutomobileMakeModelYear #{model_year.name}: #{model_year.year} (should be between 1985 and 2009)"
+        unless model_year.year > 1984 and model_year.year < 2011
+          raise "Invalid year for AutomobileMakeModelYear #{model_year.name}: #{model_year.year} (should be between 1985 and 2010)"
         end
       end
     end
