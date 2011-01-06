@@ -283,6 +283,8 @@ AutomobileMakeModelYearVariant.class_eval do
       string   'make_year_name' # make + year
       string   'make_model_year_name' # make + model + year
       integer  'year'
+      float    'fuel_efficiency'
+      string   'fuel_efficiency_units'
       float    'fuel_efficiency_city'
       string   'fuel_efficiency_city_units'
       float    'fuel_efficiency_highway'
@@ -451,6 +453,12 @@ AutomobileMakeModelYearVariant.class_eval do
       update_all 'fuel_efficiency_highway = 1 / ((0.001376 / 0.425143707) + (1.3466 / raw_fuel_efficiency_highway))'
     end
     
+    # This will be useful later for calculating MakeModel and Make fuel efficiency based on Variant
+    process "Calculate combined adjusted fuel efficiency using the latest EPA equation" do
+      update_all "fuel_efficiency = 1 / ((0.43 / fuel_efficiency_city) + (0.57 / fuel_efficiency_highway))"
+      update_all "fuel_efficiency_units = 'kilometres_per_litre'"
+    end
+    
     %w{ AutomobileMakeModelYear AutomobileMakeModel }.each do |synthetic_resource|
       process "Synthesize #{synthetic_resource}" do
         synthetic_resource.constantize.run_data_miner!
@@ -478,8 +486,8 @@ AutomobileMakeModelYearVariant.class_eval do
     # 
     verify "Fuel efficiencies should be greater than zero" do
       AutomobileMakeModelYearVariant.all.each do |variant|
-        %w{ city highway }.each do |type|
-          fuel_efficiency = variant.send(:"fuel_efficiency_#{type}")
+        [:fuel_efficiency, :fuel_efficiency_city, :fuel_efficiency_highway].each do |type|
+          fuel_efficiency = variant.send(type)
           unless fuel_efficiency > 0
             raise "Invalid fuel efficiency #{type} for AutomobileMakeModelYearVariant #{variant.row_hash}: #{fuel_efficiency} (should be < 0)"
           end
@@ -489,8 +497,8 @@ AutomobileMakeModelYearVariant.class_eval do
     
     verify "Fuel efficiency units should be kilometres per litre" do
       AutomobileMakeModelYearVariant.all.each do |variant|
-        %w{ city highway }.each do |type|
-          units = variant.send(:"fuel_efficiency_#{type}_units")
+        [:fuel_efficiency_units, :fuel_efficiency_city_units, :fuel_efficiency_highway_units].each do |type|
+          units = variant.send(type)
           unless units == "kilometres_per_litre"
             raise "Invalid fuel efficiency #{type} units for AutomobileMakeModelYearVariant #{variant.row_hash}: #{units} (should be kilometres_per_litre)"
           end
