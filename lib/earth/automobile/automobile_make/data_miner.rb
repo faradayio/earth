@@ -11,7 +11,7 @@ AutomobileMake.class_eval do
     end
     
     process "Derive manufacturer names from automobile make model year variants" do
-      # AutomobileMakeModelYearVariant.run_data_miner!
+      AutomobileMakeModelYearVariant.run_data_miner!
       connection.execute %{
         INSERT IGNORE INTO automobile_makes(name)
         SELECT DISTINCT automobile_make_model_year_variants.make_name
@@ -20,7 +20,7 @@ AutomobileMake.class_eval do
     end
     
     process "Calculate fuel efficiency from automobile make fleet years for makes with CAFE data" do
-      # AutomobileMakeFleetYear.run_data_miner!
+      AutomobileMakeFleetYear.run_data_miner!
       make_fleet_years = AutomobileMakeFleetYear.arel_table
       makes = AutomobileMake.arel_table
       conditional_relation = makes[:name].eq(make_fleet_years[:make_name])
