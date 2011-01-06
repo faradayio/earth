@@ -9,23 +9,37 @@ AutomobileMake.class_eval do
       float   'fuel_efficiency'
       string  'fuel_efficiency_units'
     end
-
-    process "Derive manufacturer names from automobile make fleet years" do
-      AutomobileMakeFleetYear.run_data_miner!
+    
+    process "Derive manufacturer names from automobile make model year variants" do
+      # AutomobileMakeModelYearVariant.run_data_miner!
       connection.execute %{
         INSERT IGNORE INTO automobile_makes(name)
-        SELECT DISTINCT automobile_make_fleet_years.make_name FROM automobile_make_fleet_years
+        SELECT DISTINCT automobile_make_model_year_variants.make_name
+        FROM automobile_make_model_year_variants
       }
     end
     
-    process "Derive average fuel efficiency from automobile make fleet years" do
-      AutomobileMakeFleetYear.run_data_miner!
+    process "Calculate fuel efficiency from automobile make fleet years for makes with CAFE data" do
+      # AutomobileMakeFleetYear.run_data_miner!
       make_fleet_years = AutomobileMakeFleetYear.arel_table
       makes = AutomobileMake.arel_table
       conditional_relation = makes[:name].eq(make_fleet_years[:make_name])
       relation = AutomobileMakeFleetYear.weighted_average_relation(:fuel_efficiency, :weighted_by => :volume).where(conditional_relation)
       update_all "fuel_efficiency = (#{relation.to_sql})"
       update_all "fuel_efficiency_units = 'kilometres_per_litre'"
+    end
+    
+    process "Calculate fuel effeciency from automobile make model year variants for makes without CAFE data" do
+      connection.execute %{
+        UPDATE automobile_makes
+        SET automobile_makes.fuel_efficiency = (SELECT AVG(automobile_make_model_year_variants.fuel_efficiency) FROM automobile_make_model_year_variants WHERE automobile_makes.name = automobile_make_model_year_variants.make_name)
+        WHERE automobile_makes.fuel_efficiency IS NULL
+      }
+      connection.execute %{
+        UPDATE automobile_makes
+        SET automobile_makes.fuel_efficiency_units = 'kilometres_per_litre'
+        WHERE automobile_makes.fuel_efficiency_units IS NULL
+      }
     end
     
     verify "Fuel efficiency should be greater than zero" do
