@@ -10,8 +10,6 @@ AutomobileMakeModelYear.class_eval do
       string   'make_model_name'
       integer  'year'
       string   'make_year_name'
-      float    'fuel_efficiency'
-      string   'fuel_efficiency_units'
       float    'fuel_efficiency_city'
       string   'fuel_efficiency_city_units'
       float    'fuel_efficiency_highway'
@@ -42,11 +40,6 @@ AutomobileMakeModelYear.class_eval do
         update_all "fuel_efficiency_#{i} = (#{relation.to_sql})"
         update_all "fuel_efficiency_#{i}_units = 'kilometres_per_litre'"
       end
-    end
-    
-    process "Calculate overall fuel efficiency using the latest EPA equation" do
-      update_all "fuel_efficiency = 1 / ((0.43 / fuel_efficiency_city) + (0.57 / fuel_efficiency_highway))"
-      update_all "fuel_efficiency_units = 'kilometres_per_litre'"
     end
     
     verify "Year should be between 1985 and 2010" do
