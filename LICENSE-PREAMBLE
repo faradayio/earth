@@ -1,0 +1,54 @@
+BRIGHTER PLANET ADDITIONAL PREAMBLE TO THE GNU AFFERO GENERAL PUBLIC LICENSE
+January 7, 2011
+
+This preamble is meant to help the licensee understand exactly what
+software is being received under the license and set expectations as to
+what is not covered.
+
+IDENTITY OF THE SOFTWARE MODULE COVERED BY LICENSE:
+
+This license covers the Brighter Planet reference data import module,
+referred to as 'earth,' officially distributed from
+http://github.com/brighterplanet/earth.
+
+SCOPE OF THE SOFTWARE MODULE COVERED BY LICENSE:
+
+The scope of the license includes only those files included in the
+official Brighter Planet distribution package for the reference data
+import module, including only the reference data import scripts.
+
+WHAT IS NOT COVERED BY LICENSE:
+
+This license does not extend to the following:
+
+  * Any element of any Brighter Planet website, including but not
+    limited the copyrights, trademarks, graphic design, text,
+    documentation, method of interaction with clients, runtime
+    environment, technical infrastructure, and software code associated
+    therewith;
+
+  * Any element of any Brighter Planet website user interface, including
+    but not limited to the copyrights, trademarks, graphic design, text,
+    documentation, method of interaction with clients, runtime
+    environment, technical infrastructure, and software code associated
+    therewith;
+
+  * Any element of other software modules licensed under any form of
+    license including but not limited to other forms of open source
+    license, commercial license, and the like;
+
+  * Any element of any Brighter Planet Carbon Middleware web service,
+    including but not limited to the copyrights, trademarks, graphic
+    design, text, documentation, method of interaction with clients,
+    runtime environment, technical infrastructure, and software code, is
+    not covered by the license; and
+
+  * Any aspect or use of http://data.brighterplanet.com.
+
+  * Any use of the imported data that would infringe on the rights of
+    the original copyright holder of the imported data, such as resale
+    for profit.
+
+If you have any questions, please contact licensing@brighterplanet.com
+
+Copyright 2010, 2011 Brighter Planet, Inc.
