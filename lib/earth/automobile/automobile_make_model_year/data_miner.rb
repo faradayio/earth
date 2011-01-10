@@ -44,7 +44,7 @@ AutomobileMakeModelYear.class_eval do
     
     verify "Year should be between 1985 and 2010" do
       AutomobileMakeModelYear.all.each do |model_year|
-        unless model_year.year > 1984 and model_year.year < 2011
+        unless model_year.year.to_i > 1984 and model_year.year.to_i < 2011
           raise "Invalid year for AutomobileMakeModelYear #{model_year.name}: #{model_year.year} (should be between 1985 and 2010)"
         end
       end
@@ -54,7 +54,7 @@ AutomobileMakeModelYear.class_eval do
       AutomobileMakeModelYear.all.each do |model_year|
         %w{ city highway }.each do |type|
           fuel_efficiency = model_year.send(:"fuel_efficiency_#{type}")
-          unless fuel_efficiency > 0
+          unless fuel_efficiency.to_f > 0
             raise "Invalid fuel efficiency #{type} for AutomobileMakeModelYear #{model_year.name}: #{fuel_efficiency} (should be > 0)"
           end
         end
