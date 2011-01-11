@@ -257,8 +257,7 @@ Gem::Specification.new do |s|
      "spec/earth_spec.rb",
      "spec/earth/air/aircraft_spec.rb",
      "spec/spec_helper.rb",
-     "Gemfile",
-     "Gemfile.lock"
+     "Gemfile"
   ]
 
   if s.respond_to? :specification_version then
