@@ -1,0 +1,8 @@
+origin_airport_iata_code,destination_airport_iata_code,airline_iata_code,aircraft_bts_code,distance,distance_units,departures_performed,passengers,total_seats,seats,freight,freight_units,payload,payload_units,load_factor,freight_share
+ADA,AIA,DA,1,185.2,kilometres,1,100,125,125,100,kilograms,10100,kilograms,0.8,0.00990
+ADA,AIA,DA,2,185.2,kilometres,1,100,120,120,200,kilograms,10200,kilograms,0.833333333,0.01961
+AIA,WEA,IA,2,1852,kilometres,1,100,120,120,500,kilograms,10500,kilograms,0.833333333,0.04762
+AIA,WEA,IA,,1852,kilometres,1,100,120,120,500,kilograms,10500,kilograms,0.833333333,0.04762
+AIA,WEA,EA,3,1852,kilometres,1,100,130,130,1000,kilograms,11000,kilograms,0.769230769,0.09091
+AZP,BZP,ZA,,185.2,kilometres,1,0,110,110,100,kilograms,10100,kilograms,0.8,0.009990
+AZP,BZP,ZA,6,185.2,kilometres,1,0,110,110,100,kilograms,10100,kilograms,0.8,0.009990
