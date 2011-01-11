@@ -1,6 +1,7 @@
 require 'earth/air'
 require 'earth/automobile'
 require 'earth/bus'
+require 'earth/computation'
 require 'earth/diet'
 require 'earth/fuel'
 require 'earth/hospitality'

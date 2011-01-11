@@ -1,6 +1,7 @@
 require 'earth/air/data_miner'
 require 'earth/automobile/data_miner'
 require 'earth/bus/data_miner'
+require 'earth/computation/data_miner'
 require 'earth/diet/data_miner'
 require 'earth/fuel/data_miner'
 require 'earth/hospitality/data_miner'
