@@ -1,0 +1,3 @@
+name,ch4_emission_factor,ch4_emission_factor_units,n2o_emission_factor,n2o_emission_factor_units,type_name,fuel_common_name,control_name
+Passenger cars gasoline epa tier 2,0.2,kilograms_per_kilometre,0.1,kilograms_per_kilometre,Passenger cars,gasoline,epa tier 2
+Light-duty trucks diesel advanced,1,kilograms_per_litre,-1,grams
