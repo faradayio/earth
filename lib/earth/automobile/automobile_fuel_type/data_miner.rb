@@ -3,6 +3,7 @@ AutomobileFuelType.class_eval do
     schema Earth.database_options do
       string   'code'
       string   'name'
+      string   'fuel_common_name'
       float    'emission_factor'
       string   'emission_factor_units'
       float    'annual_distance'
@@ -27,8 +28,17 @@ AutomobileFuelType.class_eval do
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdDlqeU9vQkVkNG1NZXV4WklKTjJkU3c&hl=en&single=true&gid=0&output=csv' do
       key   'code'
       store 'name'
-      store 'annual_distance', :units_field_name => 'annual_distance_units'
+      store 'fuel_common_name'
       store 'emission_factor', :units_field_name => 'emission_factor_units'
+    end
+    
+    process "Calculate annual distance from AutomobileTypeFuelAge" do
+      AutomobileTypeFuelAge.run_data_miner!
+      ages = AutomobileTypeFuelAge.arel_table
+      types = AutomobileFuelType.arel_table
+      conditional_relation = ages[:fuel_common_name].eq(types[:fuel_common_name])
+      update_all "annual_distance = (#{AutomobileTypeFuelAge.weighted_average_relation(:annual_distance, :weighted_by => :vehicles).where(conditional_relation).to_sql})"
+      update_all "annual_distance_units = 'kilometres'"
     end
     
     verify "Annual distance should be greater than zero" do
