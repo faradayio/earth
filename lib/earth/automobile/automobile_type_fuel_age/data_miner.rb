@@ -127,6 +127,7 @@ AutomobileTypeFuelAge.class_eval do
     end
     
     process "Calculate number of vehicles from total travel and total travel percent" do
+      AutomobileTypeFuelYear.run_data_miner!
       connection.execute %{
         UPDATE automobile_type_fuel_ages
         SET automobile_type_fuel_ages.vehicles =
