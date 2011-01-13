@@ -72,7 +72,7 @@ AutomobileTypeFuelAge.class_eval do
       store 'total_travel_percent', :synthesize => lambda { |row| row['LDGT'].to_f / 100 }
     end
     
-    import "toal travel distribution of diesel passenger cars from the 2010 EPA GHG Inventory",
+    import "total travel distribution of diesel passenger cars from the 2010 EPA GHG Inventory",
            :url => 'http://www.epa.gov/climatechange/emissions/downloads10/2010-Inventory-Annex-Tables.zip',
            :filename => 'Annex Tables/Annex 3/Table A-93.csv',
            :skip => 1 do
