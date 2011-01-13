@@ -1,4 +1,4 @@
-Feature: Data import for AutomobileTypeFuelAge
+Feature: Data import for FlightSegment
   As a data user
   I want to import FlightSegment data
   So that I can look up T-100 flight segment data
