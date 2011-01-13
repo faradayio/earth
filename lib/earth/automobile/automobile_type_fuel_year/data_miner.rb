@@ -3,7 +3,7 @@ AutomobileTypeFuelYear.class_eval do
     schema Earth.database_options do
       string  'name'
       string  'type_name'
-      string  'fuel_name'
+      string  'fuel_common_name'
       integer 'year'
       float   'total_travel'
       string  'total_travel_units'
@@ -15,7 +15,7 @@ AutomobileTypeFuelYear.class_eval do
            :skip => 1 do
       key   'name', :synthesize => lambda { |row| "Passenger cars gasoline #{row['Year']}" if row['Year'].length < 5 }
       store 'type_name', :static => 'Passenger cars'
-      store 'fuel_name', :static => 'Gasoline'
+      store 'fuel_common_name', :static => 'gasoline'
       store 'year', :field_name => 'Year'
       store 'total_travel', :field_name => 'Passenger Cars', :units => :billion_miles
     end
@@ -26,7 +26,7 @@ AutomobileTypeFuelYear.class_eval do
            :skip => 1 do
       key   'name', :synthesize => lambda { |row| "Light-duty trucks gasoline #{row['Year']}" if row['Year'].length < 5 }
       store 'type_name', :static => 'Light-duty trucks'
-      store 'fuel_name', :static => 'Gasoline'
+      store 'fuel_common_name', :static => 'gasoline'
       store 'year', :field_name => 'Year'
       store 'total_travel', :field_name => 'Light-Duty Trucks', :units => :billion_miles
     end
@@ -37,7 +37,7 @@ AutomobileTypeFuelYear.class_eval do
            :skip => 1 do
       key   'name', :synthesize => lambda { |row| "Passenger cars diesel #{row['Year']}" if row['Year'].length < 5 }
       store 'type_name', :static => 'Passenger cars'
-      store 'fuel_name', :static => 'Diesel'
+      store 'fuel_common_name', :static => 'diesel'
       store 'year', :field_name => 'Year'
       store 'total_travel', :field_name => 'Passenger Cars', :units => :billion_miles
     end
@@ -48,7 +48,7 @@ AutomobileTypeFuelYear.class_eval do
            :skip => 1 do
       key   'name', :synthesize => lambda { |row| "Light-duty trucks diesel #{row['Year']}" if row['Year'].length < 5 }
       store 'type_name', :static => 'Light-duty trucks'
-      store 'fuel_name', :static => 'Diesel'
+      store 'fuel_common_name', :static => 'diesel'
       store 'year', :field_name => 'Year'
       store 'total_travel', :field_name => 'Light-Duty Trucks', :units => :billion_miles
     end
@@ -59,9 +59,9 @@ AutomobileTypeFuelYear.class_eval do
       update_all "total_travel_units = 'kilometres'"
     end
     
-    verify "Type name and fuel name should never be missing" do
+    verify "Type name and fuel common name should never be missing" do
       AutomobileTypeFuelYear.all.each do |record|
-        %w{ type_name fuel_name }.each do |attribute|
+        %w{ type_name fuel_common_name }.each do |attribute|
           value = record.send(:"#{attribute}")
           if value.nil?
             raise "Missing #{attribute} for AutomobileTypeFuelYear '#{record.name}'"

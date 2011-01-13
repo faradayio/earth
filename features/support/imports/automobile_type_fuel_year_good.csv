@@ -1,3 +1,2 @@
-name,year,total_travel,total_travel_units,type_name,fuel_name
-Passenger cars gasoline 2000,2000,1000000.0,kilometres,Passenger cars,Gasoline
-Light-duty trucks diesel 2002,2002,2000000.0,kilometres,Light-duty trucks,Diesel
+name,year,total_travel,total_travel_units,type_name,fuel_common_name
+Passenger cars gasoline 2000,2000,1000,kilometres,Passenger cars,gasoline

@@ -3,9 +3,9 @@ Feature: Data import for AutomobileTypeFuelAge
   I want to import AutomobileTypeFuelAge data
   So that I can perform type fuel age-based calculations
   
-  Scenario: Successfully verifying that type name and fuel name are not missing
+  Scenario: Successfully verifying that type name and fuel common name are not missing
     Given a "AutomobileTypeFuelAge" data import fetches results listed in "automobile_type_fuel_age_good"
-    When a data import verifies "Type name and fuel name should never be missing"
+    When a data import verifies "Type name and fuel common name should never be missing"
     Then the verification should be successful
   
   Scenario: Successfully verifying that age is between zero and thirty
@@ -28,9 +28,9 @@ Feature: Data import for AutomobileTypeFuelAge
     When a data import verifies "Annual distance units should be kilometres"
     Then the verification should be successful
   
-  Scenario: Failing to verify that type name and fuel name are not missing
+  Scenario: Failing to verify that type name and fuel common name are not missing
     Given a "AutomobileTypeFuelAge" data import fetches results listed in "automobile_type_fuel_age_bad"
-    When a data import verifies "Type name and fuel name should never be missing"
+    When a data import verifies "Type name and fuel common name should never be missing"
     Then the verification should not be successful
   
   Scenario: Failing to verify that age is between zero and thirty

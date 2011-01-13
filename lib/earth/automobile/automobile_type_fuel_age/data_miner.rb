@@ -3,7 +3,7 @@ AutomobileTypeFuelAge.class_eval do
     schema Earth.database_options do
       string  'name'
       string  'type_name'
-      string  'fuel_name'
+      string  'fuel_common_name'
       integer 'age'
       float   'age_percent'
       float   'total_travel_percent'
@@ -18,7 +18,7 @@ AutomobileTypeFuelAge.class_eval do
            :skip => 1 do
       key 'name', :synthesize => lambda { |row| "Passenger cars gasoline age #{row['Vehicle Age']}" if row['Vehicle Age'].length < 3 }
       store 'type_name', :static => 'Passenger cars'
-      store 'fuel_name', :static => 'Gasoline'
+      store 'fuel_common_name', :static => 'gasoline'
       store 'age', :field_name => 'Vehicle Age'
       store 'age_percent', :synthesize => lambda { |row| row['LDGV'].to_f / 100 }
     end
@@ -29,7 +29,7 @@ AutomobileTypeFuelAge.class_eval do
            :skip => 1 do
       key 'name', :synthesize => lambda { |row| "Light-duty trucks gasoline age #{row['Vehicle Age']}" if row['Vehicle Age'].length < 3 }
       store 'type_name', :static => 'Light-duty trucks'
-      store 'fuel_name', :static => 'Gasoline'
+      store 'fuel_common_name', :static => 'gasoline'
       store 'age', :field_name => 'Vehicle Age'
       store 'age_percent', :synthesize => lambda { |row| row['LDGT'].to_f / 100 }
     end
@@ -40,7 +40,7 @@ AutomobileTypeFuelAge.class_eval do
            :skip => 1 do
       key 'name', :synthesize => lambda { |row| "Passenger cars diesel age #{row['Vehicle Age']}" if row['Vehicle Age'].length < 3 }
       store 'type_name', :static => 'Passenger cars'
-      store 'fuel_name', :static => 'Diesel'
+      store 'fuel_common_name', :static => 'diesel'
       store 'age', :field_name => 'Vehicle Age'
       store 'age_percent', :synthesize => lambda { |row| row['LDDV'].to_f / 100 }
     end
@@ -51,7 +51,7 @@ AutomobileTypeFuelAge.class_eval do
            :skip => 1 do
       key 'name', :synthesize => lambda { |row| "Light-duty trucks diesel age #{row['Vehicle Age']}" if row['Vehicle Age'].length < 3 }
       store 'type_name', :static => 'Light-duty trucks'
-      store 'fuel_name', :static => 'Diesel'
+      store 'fuel_common_name', :static => 'diesel'
       store 'age', :field_name => 'Vehicle Age'
       store 'age_percent', :synthesize => lambda { |row| row['LDDT'].to_f / 100 }
     end
@@ -135,14 +135,14 @@ AutomobileTypeFuelAge.class_eval do
           WHERE automobile_type_fuel_years.year =
           (SELECT max(automobile_type_fuel_years.year) FROM automobile_type_fuel_years)
           AND automobile_type_fuel_years.type_name = automobile_type_fuel_ages.type_name
-          AND automobile_type_fuel_years.fuel_name = automobile_type_fuel_ages.fuel_name
+          AND automobile_type_fuel_years.fuel_common_name = automobile_type_fuel_ages.fuel_common_name
           ) * automobile_type_fuel_ages.total_travel_percent / automobile_type_fuel_ages.annual_distance )
       }
     end
     
-    verify "Type name and fuel name should never be missing" do
+    verify "Type name and fuel common name should never be missing" do
       AutomobileTypeFuelAge.all.each do |record|
-        %w{ type_name fuel_name }.each do |attribute|
+        %w{ type_name fuel_common_name }.each do |attribute|
           value = record.send(:"#{attribute}")
           if value.nil?
             raise "Missing #{attribute} for AutomobileTypeFuelAge '#{record.name}'"
