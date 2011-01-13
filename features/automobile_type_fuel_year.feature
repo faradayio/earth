@@ -13,14 +13,14 @@ Feature: Data import for AutomobileTypeFuelYear
     When a data import verifies "Year should be between 1990 and 2008"
     Then the verification should be successful
 
-  Scenario: Successfully verifying that total travel is greater than zero
+  Scenario: Successfully verifying that total travel, fuel consumption, and emission factors are greater than zero
     Given a "AutomobileTypeFuelYear" data import fetches results listed in "automobile_type_fuel_year_good"
-    When a data import verifies "Total travel should be greater than zero"
+    When a data import verifies "Total travel, fuel consumption, and emission factors should be greater than zero"
     Then the verification should be successful
 
-  Scenario: Successfully verifying that total travel units are kilometres
+  Scenario: Successfully verifying that units are correct
     Given a "AutomobileTypeFuelYear" data import fetches results listed in "automobile_type_fuel_year_good"
-    When a data import verifies "Total travel units should be kilometres"
+    When a data import verifies "Units should be correct"
     Then the verification should be successful
 
   Scenario: Failing to verify that type name and fuel common name are not missing
@@ -33,12 +33,12 @@ Feature: Data import for AutomobileTypeFuelYear
     When a data import verifies "Year should be between 1990 and 2008"
     Then the verification should not be successful
 
-  Scenario: Failing to verify that total travel is greater than zero
+  Scenario: Failing to verify that total travel, fuel consumption, and emission factors are greater than zero
     Given a "AutomobileTypeFuelYear" data import fetches results listed in "automobile_type_fuel_year_bad"
-    When a data import verifies "Total travel should be greater than zero"
+    When a data import verifies "Total travel, fuel consumption, and emission factors should be greater than zero"
     Then the verification should not be successful
 
-  Scenario: Failing to verify that total travel units are kilometres
+  Scenario: Failing to verify that units are correct
     Given a "AutomobileTypeFuelYear" data import fetches results listed in "automobile_type_fuel_year_bad"
-    When a data import verifies "Total travel units should be kilometres"
+    When a data import verifies "Units should be correct"
     Then the verification should not be successful
