@@ -25,10 +25,10 @@ AutomobileMakeFleetYear.class_eval do
       store 'volume'
     end
     
-    verify "Year should be between 1978 and 2007" do
+    verify "Year should be from 1978 to 2007" do
       AutomobileMakeFleetYear.all.each do |fleet_year|
         unless fleet_year.year > 1977 and fleet_year.year < 2008
-          raise "Invalid year for AutomobileMakeFleetYear #{fleet_year.name}: #{fleet_year.year} (should be between 1978 and 2007)"
+          raise "Invalid year for AutomobileMakeFleetYear #{fleet_year.name}: #{fleet_year.year} (should be from 1978 to 2007)"
         end
       end
     end

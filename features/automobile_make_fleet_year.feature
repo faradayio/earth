@@ -3,9 +3,9 @@ Feature: Data import for AutomobileMakeFleetYear
   I want to import MakeFleetYear data
   So that I can perform year-based calculations
 
-  Scenario: Successfully verifying that year is between 1978 and 2007
+  Scenario: Successfully verifying that year is from 1978 to 2007
     Given a "AutomobileMakeFleetYear" data import fetches results listed in "automobile_make_fleet_year_good"
-    When a data import verifies "Year should be between 1978 and 2007"
+    When a data import verifies "Year should be from 1978 to 2007"
     Then the verification should be successful
   
   Scenario: Successfully verifying that fuel efficiency is greater than zero
@@ -23,9 +23,9 @@ Feature: Data import for AutomobileMakeFleetYear
     When a data import verifies "Fuel efficiency units should be kilometres per litre"
     Then the verification should be successful
   
-  Scenario: Failing to verify that year is between 1978 and 2007
+  Scenario: Failing to verify that year is from 1978 to 2007
     Given a "AutomobileMakeFleetYear" data import fetches results listed in "automobile_make_fleet_year_bad"
-    When a data import verifies "Year should be between 1978 and 2007"
+    When a data import verifies "Year should be from 1978 to 2007"
     Then the verification should not be successful
   
   Scenario: Failing to verify that fuel efficiency is greater than zero

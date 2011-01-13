@@ -8,9 +8,9 @@ Feature: Data import for AutomobileTypeFuelYear
     When a data import verifies "Type name and fuel common name should never be missing"
     Then the verification should be successful
 
-  Scenario: Successfully verifying that year is between 1990 and 2008
+  Scenario: Successfully verifying that year is from 1990 to 2008
     Given a "AutomobileTypeFuelYear" data import fetches results listed in "automobile_type_fuel_year_good"
-    When a data import verifies "Year should be between 1990 and 2008"
+    When a data import verifies "Year should be from 1990 to 2008"
     Then the verification should be successful
 
   Scenario: Successfully verifying that total travel, fuel consumption, and emission factors are greater than zero
@@ -28,9 +28,9 @@ Feature: Data import for AutomobileTypeFuelYear
     When a data import verifies "Type name and fuel common name should never be missing"
     Then the verification should not be successful
 
-  Scenario: Failing to verify that year is between 1990 and 2008
+  Scenario: Failing to verify that year is from 1990 to 2008
     Given a "AutomobileTypeFuelYear" data import fetches results listed in "automobile_type_fuel_year_bad"
-    When a data import verifies "Year should be between 1990 and 2008"
+    When a data import verifies "Year should be from 1990 to 2008"
     Then the verification should not be successful
 
   Scenario: Failing to verify that total travel, fuel consumption, and emission factors are greater than zero

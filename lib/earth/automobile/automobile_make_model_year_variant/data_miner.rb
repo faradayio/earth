@@ -465,10 +465,10 @@ AutomobileMakeModelYearVariant.class_eval do
       end
     end
     
-    verify "Year should be between 1985 and 2010" do
+    verify "Year should be from 1985 to 2010" do
       AutomobileMakeModelYearVariant.all.each do |variant|
         unless variant.year > 1984 and variant.year < 2011
-          raise "Invalid year for AutomobileMakeModelYearVariant #{variant.row_hash}: #{variant.year} (should be between 1985 and 2010)"
+          raise "Invalid year for AutomobileMakeModelYearVariant #{variant.row_hash}: #{variant.year} (should be from 1985 to 2010)"
         end
       end
     end

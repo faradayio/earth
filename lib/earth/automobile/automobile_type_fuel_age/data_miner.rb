@@ -152,21 +152,21 @@ AutomobileTypeFuelAge.class_eval do
       end
     end
     
-    verify "Age should be between zero and thirty" do
+    verify "Age should be from zero to thirty" do
       AutomobileTypeFuelAge.all.each do |record|
         value = record.send(:age)
         unless value >= 0 and value < 31
-          raise "Invalid age for AutomobileTypeFuelAge '#{record.name}': #{value} (should be between 0 and 30)"
+          raise "Invalid age for AutomobileTypeFuelAge '#{record.name}': #{value} (should be from 0 to 30)"
         end
       end
     end
     
-    verify "Age and total travel percent should be between zero and one" do
+    verify "Age percent and total travel percent should be from zero to one" do
       AutomobileTypeFuelAge.all.each do |record|
         %w{ age_percent total_travel_percent }.each do |attribute|
           percent = record.send(:"#{attribute}")
           unless percent > 0 and percent < 1
-            raise "Invalid #{attribute} for AutomobileTypeFuelAge '#{record.name}': #{percent} (should be between 0 and 1)"
+            raise "Invalid #{attribute} for AutomobileTypeFuelAge '#{record.name}': #{percent} (should be from 0 to 1)"
           end
         end
       end

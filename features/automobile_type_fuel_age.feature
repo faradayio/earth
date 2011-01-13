@@ -8,14 +8,14 @@ Feature: Data import for AutomobileTypeFuelAge
     When a data import verifies "Type name and fuel common name should never be missing"
     Then the verification should be successful
   
-  Scenario: Successfully verifying that age is between zero and thirty
+  Scenario: Successfully verifying that age is from zero to thirty
     Given a "AutomobileTypeFuelAge" data import fetches results listed in "automobile_type_fuel_age_good"
-    When a data import verifies "Age should be between zero and thirty"
+    When a data import verifies "Age should be from zero to thirty"
     Then the verification should be successful
   
-  Scenario: Successfully verifying that age and total travel percent are between zero and one
+  Scenario: Successfully verifying that age percent and total travel percent are from zero to one
     Given a "AutomobileTypeFuelAge" data import fetches results listed in "automobile_type_fuel_age_good"
-    When a data import verifies "Age and total travel percent should be between zero and one"
+    When a data import verifies "Age percent and total travel percent should be from zero to one"
     Then the verification should be successful
   
   Scenario: Successfully verifying that age annual distance and vehicles are greater than zero
@@ -33,14 +33,14 @@ Feature: Data import for AutomobileTypeFuelAge
     When a data import verifies "Type name and fuel common name should never be missing"
     Then the verification should not be successful
   
-  Scenario: Failing to verify that age is between zero and thirty
+  Scenario: Failing to verify that age is from zero to thirty
     Given a "AutomobileTypeFuelAge" data import fetches results listed in "automobile_type_fuel_age_bad"
-    When a data import verifies "Age should be between zero and thirty"
+    When a data import verifies "Age should be from zero to thirty"
     Then the verification should not be successful
   
-  Scenario: Failing to verify that age and total travel percent are between zero and one
+  Scenario: Failing to verify that age percent and total travel percent are from zero to one
     Given a "AutomobileTypeFuelAge" data import fetches results listed in "automobile_type_fuel_age_bad"
-    When a data import verifies "Age and total travel percent should be between zero and one"
+    When a data import verifies "Age percent and total travel percent should be from zero to one"
     Then the verification should not be successful
   
   Scenario: Failing to verify that annual distance and vehicles are greater than zero

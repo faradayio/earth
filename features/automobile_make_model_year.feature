@@ -3,9 +3,9 @@ Feature: Data import for AutomobileMakeModelYear
   I want to import MakeModelYear data
   So that I can perform model year-based calculations
 
-  Scenario: Successfully verifying that year is between 1985 and 2010
+  Scenario: Successfully verifying that year is from 1985 to 2010
     Given a "AutomobileMakeModelYear" data import fetches results listed in "automobile_make_model_year_good"
-    When a data import verifies "Year should be between 1985 and 2010"
+    When a data import verifies "Year should be from 1985 to 2010"
     Then the verification should be successful
 
   Scenario: Successfully verifying that fuel efficiences are greater than zero
@@ -18,9 +18,9 @@ Feature: Data import for AutomobileMakeModelYear
     When a data import verifies "Fuel efficiency units should be kilometres per litre"
     Then the verification should be successful
 
-  Scenario: Failing to verify that year is between 1985 and 2010
+  Scenario: Failing to verify that year is from 1985 to 2010
     Given a "AutomobileMakeModelYear" data import fetches results listed in "automobile_make_model_year_bad"
-    When a data import verifies "Year should be between 1985 and 2010"
+    When a data import verifies "Year should be from 1985 to 2010"
     Then the verification should not be successful
 
   Scenario: Failing to verify that fuel efficiences are greater than zero

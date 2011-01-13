@@ -104,11 +104,11 @@ AutomobileTypeFuelYear.class_eval do
       end
     end
     
-    verify "Year should be between 1990 and 2008" do
+    verify "Year should be from 1990 to 2008" do
       AutomobileTypeFuelYear.all.each do |record|
         year = record.send(:year)
         unless year > 1989 and year < 2009
-          raise "Invalid year for AutomobileTypeFuelYear '#{record.name}': #{year} (should be between 1990 and 2008)"
+          raise "Invalid year for AutomobileTypeFuelYear '#{record.name}': #{year} (should be from 1990 to 2008)"
         end
       end
     end
