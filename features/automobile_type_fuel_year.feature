@@ -18,6 +18,11 @@ Feature: Data import for AutomobileTypeFuelYear
     When a data import verifies "Total travel, fuel consumption, and emission factors should be greater than zero"
     Then the verification should be successful
 
+  Scenario: Successfully verifying that HFC emissions are zero or more
+    Given a "AutomobileTypeFuelYear" data import fetches results listed in "automobile_type_fuel_year_good"
+    When a data import verifies "HFC emission factor should be zero or more"
+    Then the verification should be successful
+
   Scenario: Successfully verifying that units are correct
     Given a "AutomobileTypeFuelYear" data import fetches results listed in "automobile_type_fuel_year_good"
     When a data import verifies "Units should be correct"
@@ -36,6 +41,11 @@ Feature: Data import for AutomobileTypeFuelYear
   Scenario: Failing to verify that total travel, fuel consumption, and emission factors are greater than zero
     Given a "AutomobileTypeFuelYear" data import fetches results listed in "automobile_type_fuel_year_bad"
     When a data import verifies "Total travel, fuel consumption, and emission factors should be greater than zero"
+    Then the verification should not be successful
+
+  Scenario: Failing to vefify that HFC emissions are zero or more
+    Given a "AutomobileTypeFuelYear" data import fetches results listed in "automobile_type_fuel_year_bad"
+    When a data import verifies "HFC emission factor should be zero or more"
     Then the verification should not be successful
 
   Scenario: Failing to verify that units are correct

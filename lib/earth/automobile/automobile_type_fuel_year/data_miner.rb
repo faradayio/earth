@@ -13,6 +13,8 @@ AutomobileTypeFuelYear.class_eval do
       string  'ch4_emission_factor_units'
       float   'n2o_emission_factor'
       string  'n2o_emission_factor_units'
+      float   'hfc_emission_factor'
+      string  'hfc_emission_factor_units'
     end
     
     import "total vehicle miles travelled by gasoline passenger cars from the 2010 EPA GHG Inventory",
@@ -93,6 +95,19 @@ AutomobileTypeFuelYear.class_eval do
       end
     end
     
+    process "Calculate HFC emission factor from AutomobileTypeYear" do
+      AutomobileTypeYear.run_data_miner!
+      type_fuel_years = AutomobileTypeFuelYear.arel_table
+      type_years = AutomobileTypeYear.arel_table
+      
+      AutomobileTypeFuelYear.all.each do |record|
+        fuel_consumption = AutomobileTypeFuelYear.find_all_by_type_name_and_year(record.type_name, record.year).map{|x| x.fuel_consumption}.sum
+        hfc_emissions_sql = type_years.project(type_years[:hfc_emissions]).where(type_years[:type_name].eq(record.type_name).and(type_years[:year].eq(record.year))).to_sql
+        connection.execute "UPDATE automobile_type_fuel_years SET hfc_emission_factor = ((#{hfc_emissions_sql}) / #{fuel_consumption}) WHERE type_name = '#{record.type_name}' AND year = #{record.year}"
+      end
+      update_all "hfc_emission_factor_units = 'kilograms_co2e_per_litre'"
+    end
+    
     verify "Type name and fuel common name should never be missing" do
       AutomobileTypeFuelYear.all.each do |record|
         %w{ type_name fuel_common_name }.each do |attribute|
@@ -124,14 +139,23 @@ AutomobileTypeFuelYear.class_eval do
       end
     end
     
+    verify "HFC emission factor should be zero or more" do
+      AutomobileTypeFuelYear.all.each do |record|
+        value = record.send(:hfc_emission_factor)
+        unless value >= 0
+          raise "Invalid HFC emission factor for AutomobileTypeFuelYear '#{record.name}': #{value} (should be >= 0)"
+        end
+      end
+    end
+    
     verify "Units should be correct" do
       AutomobileTypeFuelYear.all.each do |record|
-        ["total_travel_units kilometres", "fuel_consumption_units litres", "ch4_emission_factor_units kilograms_per_litre", "n2o_emission_factor_units kilograms_per_litre"].each do |pair|
+        ["total_travel_units kilometres", "fuel_consumption_units litres", "ch4_emission_factor_units kilograms_per_litre", "n2o_emission_factor_units kilograms_per_litre", "hfc_emission_factor_units kilograms_co2e_per_litre"].each do |pair|
           attribute = pair.split[0]
-          test_units = pair.split[1]
+          proper_units = pair.split[1]
           units = record.send(:"#{attribute}")
-          unless units == test_units
-            raise "Invalid #{attribute} for AutomobileTypeFuelYear '#{record.name}': #{units} (should be #{test_units})"
+          unless units == proper_units
+            raise "Invalid #{attribute} for AutomobileTypeFuelYear '#{record.name}': #{units} (should be #{proper_units})"
           end
         end
       end
