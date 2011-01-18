@@ -10,20 +10,6 @@ AutomobileFuelType.class_eval do
       string   'annual_distance_units'
     end
     
-    import("the fuels used in the 2000 EPA fuel economy guide",
-           :url => 'http://www.fueleconomy.gov/FEG/epadata/00data.zip',
-           :filename => 'Gd6-dsc.txt',
-           :format => :fixed_width,
-           :crop => 21..26, # inclusive
-           :cut => '2-',
-           :select => lambda { |row| /\A[A-Z]/.match row[:code] },
-           :schema => [[ 'code',   2,  { :type => :string }  ],
-                       [ 'spacer', 2 ],
-                       [ 'name',   52, { :type => :string } ]]) do
-      key   'code'
-      store 'name'
-    end
-    
     import "a pre-calculated emission factor and average annual distance for each fuel",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdDlqeU9vQkVkNG1NZXV4WklKTjJkU3c&hl=en&single=true&gid=0&output=csv' do
       key   'code'
