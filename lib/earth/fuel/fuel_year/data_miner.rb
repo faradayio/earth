@@ -9,7 +9,6 @@ FuelYear.class_eval do
       string  'carbon_content_units'
       float   'energy_content'
       string  'energy_content_units'
-      float   'conversion_factor'
       float   'co2_emission_factor'
       string  'co2_emission_factor_units'
     end
@@ -25,9 +24,9 @@ FuelYear.class_eval do
     end
     
     process "Calculate CO2 emission factor" do
-      conversion_factor = (1000000/1000000000000000)*(1000000000000/1000)*(1/158.987295)*(44/12)
+      conversion_factor = (1000000.0 / 1000000000000000.0) * (1000000000000.0 / 1000.0) * (1.0 / 158.987295) * (44.0 / 12.0)
       update_all "co2_emission_factor = carbon_content * energy_content * #{conversion_factor}"
-      update_all "co2_emission_factor_units = kilograms_per_litre"
+      update_all "co2_emission_factor_units = 'kilograms_per_litre'"
     end
     
     verify "Fuel name and fuel common name should never be missing" do
