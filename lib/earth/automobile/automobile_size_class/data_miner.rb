@@ -1,37 +1,39 @@
 AutomobileSizeClass.class_eval do
   data_miner do
     schema Earth.database_options do
-      string   'name'
-      string   'emblem'
-      float    'annual_distance'
-      string   'annual_distance_units'
-      float    'fuel_efficiency_city'
-      string   'fuel_efficiency_city_units'
-      float    'fuel_efficiency_highway'
-      string   'fuel_efficiency_highway_units'
-      float    'hybrid_fuel_efficiency_city_multiplier'
-      float    'hybrid_fuel_efficiency_highway_multiplier'
-      float    'conventional_fuel_efficiency_city_multiplier'
-      float    'conventional_fuel_efficiency_highway_multiplier'
+      string 'name'
+      string 'type_name'
+      float  'annual_distance'
+      string 'annual_distance_units'
+      float  'fuel_efficiency_city'
+      string 'fuel_efficiency_city_units'
+      float  'fuel_efficiency_highway'
+      string 'fuel_efficiency_highway_units'
+      float  'hybrid_fuel_efficiency_city_multiplier'
+      float  'hybrid_fuel_efficiency_highway_multiplier'
+      float  'conventional_fuel_efficiency_city_multiplier'
+      float  'conventional_fuel_efficiency_highway_multiplier'
     end
-
-    import "a list of size classes and pre-calculated annual distances and fuel efficiencies",
-           :url => 'http://static.brighterplanet.com/science/data/transport/automobiles/models_export/automobile_size_class.csv' do
+    
+    import "A list of size classes and pre-calculated fuel efficiencies",
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdHlRUE5IcWlrRENhN0EtUldPTy1rX1E&single=true&gid=0&output=csv' do
       key 'name'
-      store 'annual_distance', :units => :kilometres
-      store 'fuel_efficiency_city', :units => :kilometres_per_litre
-      store 'fuel_efficiency_highway', :units => :kilometres_per_litre
+      store 'type_name'
+      store 'fuel_efficiency_city', :units_field_name => 'fuel_efficiency_city_units'
+      store 'fuel_efficiency_highway', :units_field_name => 'fuel_efficiency_highway_units'
     end
-
-    # Ian 5/27/2010 I'm pretty sure we don't need emblems in middleware
-    # import "",
-    #        :url => 'http://static.brighterplanet.com/science/data/transport/automobiles/models_export/automobile_size_class_emblems.csv' do
-    #   key 'name'
-    #   store 'emblem'
-    # end
+    
+    process "Calculate annual distance from AutomobileTypeFuelAge" do
+      AutomobileTypeFuelAge.run_data_miner!
+      ages = AutomobileTypeFuelAge.arel_table
+      classes = AutomobileSizeClass.arel_table
+      conditional_relation = ages[:type_name].eq(classes[:type_name])
+      update_all "annual_distance = (#{AutomobileTypeFuelAge.weighted_average_relation(:annual_distance, :weighted_by => :vehicles).where(conditional_relation).to_sql})"
+      update_all "annual_distance_units = 'kilometres'"
+    end
     
     import "pre-calculated hybridity multipliers",
-           :url => 'http://static.brighterplanet.com/science/data/transport/automobiles/vehicle_classes/fuel_efficiency_multipliers.csv' do
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdGt2NnhXLXUxNFRJSzczU3BkSHB3enc&hl=en&single=true&gid=0&output=csv' do
       key 'name'
       store 'hybrid_fuel_efficiency_city_multiplier'
       store 'hybrid_fuel_efficiency_highway_multiplier'
