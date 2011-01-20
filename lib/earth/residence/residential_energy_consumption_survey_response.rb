@@ -1,6 +1,5 @@
 class ResidentialEnergyConsumptionSurveyResponse < ActiveRecord::Base
   set_primary_key :department_of_energy_identifier
-  set_table_name :res_surveys
     
   belongs_to :census_division,     :foreign_key => 'census_division_number'
   belongs_to :census_region,       :foreign_key => 'census_region_number'
