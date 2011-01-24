@@ -12,7 +12,7 @@ AutomobileMakeModel.class_eval do
       float   'fuel_efficiency_highway'
       string  'fuel_efficiency_highway_units'
     end
-
+    
     process "Derive model names from automobile make model year variants" do
       AutomobileMakeModelYearVariant.run_data_miner!
       connection.execute %{
@@ -23,7 +23,6 @@ AutomobileMakeModel.class_eval do
     
     # TODO not weighted until we get weightings on auto variants
     process "Derive average fuel economy from automobile make model year variants" do
-      AutomobileMakeModelYearVariant.run_data_miner!
       models = AutomobileMakeModel.arel_table
       variants = AutomobileMakeModelYearVariant.arel_table
       conditional_relation = models[:name].eq(variants[:make_model_name])

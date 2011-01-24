@@ -15,7 +15,7 @@ AutomobileMakeModelYear.class_eval do
       float    'fuel_efficiency_highway'
       string   'fuel_efficiency_highway_units'
     end
-
+    
     process "Derive model year names from automobile make model year variants" do
       AutomobileMakeModelYearVariant.run_data_miner!
       connection.execute %{
@@ -29,7 +29,6 @@ AutomobileMakeModelYear.class_eval do
     # even without volume-weighting, the values are much better.
     # for example, 20km/l for a toyota prius 2006 vs. 13km/l if you use make years
     process "Calculate city and highway fuel efficiency from automobile make model year variants" do
-      AutomobileMakeModelYearVariant.run_data_miner!
       model_years = AutomobileMakeModelYear.arel_table
       variants = AutomobileMakeModelYearVariant.arel_table
       conditional_relation = model_years[:name].eq(variants[:make_model_year_name])
