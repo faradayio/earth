@@ -314,6 +314,8 @@ AutomobileMakeModelYearVariant.class_eval do
     end
     
     # 1985---1997
+    # FIXME TODO one Jaguar in the 1990 FEG has no model name
+    # FIXME TODO 14 records in the 1995 FEG are missing fuel efficiencies
     (85..97).each do |yy|
       filename = (yy == 96) ? "#{yy}MFGUI.ASC" : "#{yy}MFGUI.DAT"
       import("19#{ yy } Fuel Economy Guide",
@@ -382,6 +384,7 @@ AutomobileMakeModelYearVariant.class_eval do
     end
     
     # 2006--2009
+    # FIXME TODO the 2007 FEG import fails: ArgumentError: unknown encoding name - WINDOWS-936
     {
       2006 => { :url => 'http://www.fueleconomy.gov/FEG/epadata/06data.zip', :filename => '2006_FE_Guide_14-Nov-2005_download.csv' },
       2007 => { :url => 'http://www.fueleconomy.gov/FEG/epadata/07data.zip', :filename => '2007_FE_guide_ALL_no_sales_May_01_2007.xls' },
@@ -459,6 +462,7 @@ AutomobileMakeModelYearVariant.class_eval do
       update_all "fuel_efficiency_units = 'kilometres_per_litre'"
     end
     
+    # FIXME TODO this step fails if the tables to be synthesized do not already exist
     %w{ AutomobileMakeModelYear AutomobileMakeModel }.each do |synthetic_resource|
       process "Synthesize #{synthetic_resource}" do
         synthetic_resource.constantize.run_data_miner!
