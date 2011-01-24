@@ -10,7 +10,9 @@ FlightSeatClass.class_eval do
       key   'name'
       store 'multiplier'
     end
-
+    
+    # FIXME TODO verify this
+    
     # sabshere 5/21/10 in case we ever need this
     # class << self
     #   def refresh

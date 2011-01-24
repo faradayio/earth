@@ -11,5 +11,7 @@ FlightDistanceClass.class_eval do
       key   'name'
       store 'distance', :units_field_name => 'distance_units'
     end
+    
+    # FIXME TODO verify this
   end
 end

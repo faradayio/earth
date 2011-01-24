@@ -8,6 +8,12 @@ Feature: Data import for EgridRegion
     When a data import verifies "Loss factor should be greater than zero and less than one"
     Then the verification should be successful
 
+  # FIXME TODO get this to work
+  # Scenario: Successfully verifying that fallback loss factor is greater than zero and less than one
+  #   Given a "EgridRegion" data import fetches results listed in "egrid_region_good"
+  #   When a data import verifies "Fallback loss factor should be greater than zero and less than one"
+  #   Then the verification should be successful
+
   Scenario: Failing to verify that loss factor is greater than zero and less than one
     Given a "EgridRegion" data import fetches results listed in "egrid_region_bad"
     When a data import verifies "Loss factor should be greater than zero and less than one"

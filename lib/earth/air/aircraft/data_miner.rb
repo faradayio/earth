@@ -200,4 +200,6 @@ Aircraft.class_eval do
       # update_all "weighting = (#{segments.project(segments[:passengers].sum).where(aircraft[:aircraft_type_code].eq(segments[:aircraft_type_code])).to_sql})"
     end
     
+    # FIXME TODO verify this
+  end
 end

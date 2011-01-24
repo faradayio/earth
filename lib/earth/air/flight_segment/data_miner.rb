@@ -314,9 +314,12 @@ FlightSegment.class_eval do
     process "Derive average seats per departure" do
       update_all 'seats = total_seats / departures_performed', 'departures_performed > 0'
     end
-
+    
+    # FIXME TODO make this verification check actual aircraft codes in Aircraft
     verify 'All segments have an associated aircraft' do
       FlightSegment.where(:aircraft_bts_code => [nil, '']).first.nil?
     end
+    
+    # FIXME TODO finish verification
   end
 end

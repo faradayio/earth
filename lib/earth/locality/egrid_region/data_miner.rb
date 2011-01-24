@@ -39,5 +39,13 @@ EgridRegion.class_eval do
         end
       end
     end
+    
+    # FIXME TODO get this verification to work
+    # verify "Fallback loss factor should be greater than zero and less than one" do
+    #   factor = EgridRegion.fallback.loss_factor
+    #   unless factor > 0 and factor < 1
+    #     raise "Invalid EgridRegion fallback loss factor: #{factor} (should be 0 < loss_factor < 1)"
+    #   end
+    # end
   end
 end

@@ -27,5 +27,7 @@ AircraftClass.class_eval do
         update_all "#{column} = (#{relation.to_sql})"
       end
     end
+    
+    # FIXME TODO verify this
   end
 end

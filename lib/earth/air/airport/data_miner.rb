@@ -48,7 +48,7 @@ Airport.class_eval do
     #     end
     #   end
     # end
-
+    
     process "Determine whether each airport serves international flights" do
       FlightSegment.run_data_miner!
       update_all 'international_origin = 1','(SELECT COUNT(*) FROM flight_segments WHERE flight_segments.origin_airport_iata_code = airports.iata_code AND flight_segments.origin_country_iso_3166_code != flight_segments.destination_country_iso_3166_code AND flight_segments.origin_country_iso_3166_code IS NOT NULL AND flight_segments.destination_country_iso_3166_code IS NOT NULL LIMIT 1) > 0'
@@ -60,7 +60,7 @@ Airport.class_eval do
       FlightSegment.run_data_miner!
       segments = FlightSegment.arel_table
       airports = Airport.arel_table
-
+      
       find_in_batches do |batch|
         batch.each do |airport|
           targeting_relation = airports[:iata_code].eq airport.iata_code
@@ -75,6 +75,7 @@ Airport.class_eval do
         end
       end
     end
+    
+    # FIXME TODO verify this
   end
 end
-
