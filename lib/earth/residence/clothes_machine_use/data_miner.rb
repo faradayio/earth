@@ -5,15 +5,15 @@ ClothesMachineUse.class_eval do
       float  'annual_energy_from_electricity_for_clothes_driers'
       string 'annual_energy_from_electricity_for_clothes_driers_units'
     end
-
+    
     process "derive from ResidentialEnergyConsumptionSurveyResponse" do
       ResidentialEnergyConsumptionSurveyResponse.run_data_miner!
       connection.execute %{
         INSERT IGNORE INTO clothes_machine_uses(name)
-        SELECT DISTINCT residential_energy_consumption_survey_responses.clothes_washer_use FROM residential_energy_consumption_survey_responses WHERE LENGTH(residential_energy_consumption_survey_responses.clothes_washer_use) > 0
+        SELECT DISTINCT recs_responses.clothes_washer_use FROM recs_responses WHERE LENGTH(recs_responses.clothes_washer_use) > 0
       }
     end
-
+    
     # sabshere 5/20/10 weird that this uses cohort
     process "precalculate annual energy use" do
       find_in_batches do |batch|

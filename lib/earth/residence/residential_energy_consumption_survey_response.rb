@@ -1,6 +1,7 @@
 class ResidentialEnergyConsumptionSurveyResponse < ActiveRecord::Base
-  set_primary_key :department_of_energy_identifier
-    
+  set_primary_key :id
+  set_table_name :recs_responses
+  
   belongs_to :census_division,     :foreign_key => 'census_division_number'
   belongs_to :census_region,       :foreign_key => 'census_region_number'
   # what follows are entirely derived here
@@ -31,7 +32,7 @@ class ResidentialEnergyConsumptionSurveyResponse < ActiveRecord::Base
   
   data_miner do
     tap "Brighter Planet's sanitized RECS 2005", Earth.taps_server
-
+    
     process "pull dependencies" do
       run_data_miner_on_belongs_to_associations
     end

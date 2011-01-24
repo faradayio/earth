@@ -2,7 +2,7 @@ ResidentialEnergyConsumptionSurveyResponse.class_eval do
   data_miner do
     # sabshere 9/20/10 sorted with sort -d -t "'" -k 2 ~/Desktop/parts.txt
     schema Earth.database_options do
-      integer  'department_of_energy_identifier'
+      integer  'id'
       integer  'air_conditioner_use_id'
       float    'annual_energy_from_electricity_for_air_conditioners'
       string   'annual_energy_from_electricity_for_air_conditioners_units'
@@ -98,13 +98,13 @@ ResidentialEnergyConsumptionSurveyResponse.class_eval do
       Conversions.register :kbtus, :joules, 1_000.0 * 1_055.05585
       Conversions.register :square_feet, :square_metres, 0.09290304
     end
-
+    
     # conversions are NOT performed here, since we first have to zero out legitimate skips
     # otherwise you will get values like "999 pounds = 453.138778 kilograms" (where 999 is really a legit skip)
     import 'the 2005 EIA Residential Energy Consumption Survey microdata',
            :url => 'http://www.eia.doe.gov/emeu/recs/recspubuse05/datafiles/RECS05alldata.csv',
            :headers => :upcase do
-      key   'department_of_energy_identifier', :field_name => 'DOEID'
+      key   'id', :field_name => 'DOEID'
       
       store 'residence_class_id', :field_name => 'TYPEHUQ', :dictionary => { :input => 'Code', :output => 'Description', :url => 'http://github.com/brighterplanet/manually_curated_data/raw/master/typehuq/typehuq.csv' }
       store 'construction_year', :field_name => 'YEARMADE', :dictionary => { :input => 'Code', :sprintf => '%02d', :output => 'Date in the middle (synthetic)', :url => 'http://github.com/brighterplanet/manually_curated_data/raw/master/yearmade/yearmade.csv' }
@@ -280,4 +280,3 @@ ResidentialEnergyConsumptionSurveyResponse.class_eval do
     # FIXME add precalc bathrooms per https://github.com/brighterplanet/cm1/commit/77df97c50311f3c59aad891f018bf3d487afeb98
   end
 end
-

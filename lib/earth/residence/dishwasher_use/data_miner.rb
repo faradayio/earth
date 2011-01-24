@@ -10,7 +10,7 @@ DishwasherUse.class_eval do
       ResidentialEnergyConsumptionSurveyResponse.run_data_miner!
       connection.execute %{
         INSERT IGNORE INTO dishwasher_uses(name)
-        SELECT DISTINCT residential_energy_consumption_survey_responses.dishwasher_use_id FROM residential_energy_consumption_survey_responses WHERE LENGTH(residential_energy_consumption_survey_responses.dishwasher_use_id) > 0
+        SELECT DISTINCT recs_responses.dishwasher_use_id FROM recs_responses WHERE LENGTH(recs_responses.dishwasher_use_id) > 0
       }
     end
     
