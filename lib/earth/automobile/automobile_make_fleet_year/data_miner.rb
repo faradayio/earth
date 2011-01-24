@@ -10,10 +10,9 @@ AutomobileMakeFleetYear.class_eval do
       string   'fuel_efficiency_units'
       integer  'volume'
     end
-
-    # CAFE data privately emailed to Andy from Terry Anderson at the DOT/NHTSA
+    
     import "annual corporate average fuel economy data for domestic and imported vehicle fleets from the NHTSA",
-           :url => 'http://static.brighterplanet.com/science/data/transport/automobiles/make_fleet_years/make_fleet_years.csv',
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdEdXWXB6dkVLWkowLXhYSFVUT01sS2c&hl=en&single=true&gid=0&output=csv',
            :errata => 'http://static.brighterplanet.com/science/data/transport/automobiles/make_fleet_years/errata.csv',
            :select => lambda { |row| row['volume'].to_i > 0 } do
       key   'name', :synthesize => lambda { |row| [ row['manufacturer_name'], row['year_content'], row['fleet'][2,2] ].join ' ' }
@@ -25,10 +24,10 @@ AutomobileMakeFleetYear.class_eval do
       store 'volume'
     end
     
-    verify "Year should be from 1978 to 2007" do
+    verify "Year should be from 1978 to 2009" do
       AutomobileMakeFleetYear.all.each do |fleet_year|
-        unless fleet_year.year > 1977 and fleet_year.year < 2008
-          raise "Invalid year for AutomobileMakeFleetYear #{fleet_year.name}: #{fleet_year.year} (should be from 1978 to 2007)"
+        unless fleet_year.year > 1977 and fleet_year.year < 2010
+          raise "Invalid year for AutomobileMakeFleetYear #{fleet_year.name}: #{fleet_year.year} (should be from 1978 to 2009)"
         end
       end
     end
