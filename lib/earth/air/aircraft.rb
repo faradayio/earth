@@ -1,9 +1,9 @@
 class Aircraft < ActiveRecord::Base
   set_primary_key :bp_code
   
+  belongs_to :manufacturer,   :foreign_key => 'manufacturer_name', :primary_key => 'name',     :class_name => 'AircraftManufacturer'
   belongs_to :aircraft_class, :foreign_key => 'class_code',        :primary_key => 'code'
   has_many   :segments,       :foreign_key => 'aircraft_bts_code', :primary_key => 'bts_code', :class_name => 'FlightSegment'
-  # belongs_to :manufacturer,   :foreign_key => 'icao_manufacturer_name', :primary_key => 'name',     :class_name => 'AircraftManufacturer'
   
   falls_back_on :m3            => lambda { weighted_average(:m3,            :weighted_by => [:segments, :passengers]) }, # 9.73423082858437e-08   r7110: 8.6540464368905e-8      r6972: 8.37e-8
                 :m2            => lambda { weighted_average(:m2,            :weighted_by => [:segments, :passengers]) }, # -0.000134350543484608  r7110: -0.00015337661447817    r6972: -4.09e-5

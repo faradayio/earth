@@ -200,8 +200,4 @@ Aircraft.class_eval do
       # update_all "weighting = (#{segments.project(segments[:passengers].sum).where(aircraft[:aircraft_type_code].eq(segments[:aircraft_type_code])).to_sql})"
     end
     
-    process "Synthesize AircraftManufacturer" do
-       AircraftManufacturer.run_data_miner!
-     end
-   end
 end
