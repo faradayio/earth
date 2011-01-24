@@ -10,7 +10,7 @@ AircraftClass.class_eval do
       float   'seats'
     end
     
-    import "Brighter Planet's aircraft classes",
+    import "a list of Brighter Planet-defined aircraft classes",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdGNBbHFibmxJUFprQkUwZHp6VU51Smc&hl=en&single=true&gid=0&output=csv' do
       key 'code', :field_name => 'aircraft_class_code'
       store 'name'
