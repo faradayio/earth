@@ -16,7 +16,7 @@ Country.class_eval do
       store 'name', :field_number => 0
     end
     
-    import 'country-specific flight route inefficiency factors derived from Ketteunen et al. (2005)',
+    import "country-specific flight route inefficiency factors derived from Kettunen et al. (2005)",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdG0yc3BxYUkybWV5M3RKb2t4X0JUOFE&hl=en&single=true&gid=0&output=csv' do
       key   'iso_3166_code'
       store 'flight_route_inefficiency_factor'
