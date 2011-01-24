@@ -14,9 +14,9 @@ Feature: Data import for EgridSubregion
     When a data import verifies "Electricity emission factor should be greater than zero"
     Then the verification should be successful
 
-  Scenario: Successfully verifying that electricity emission factor units are kilograms per kilowatt hour
+  Scenario: Successfully verifying that electricity emission factor units are kilograms co2e per kilowatt hour
     Given a "EgridSubregion" data import fetches results listed in "egrid_subregion_good"
-    When a data import verifies "Electricity emission factor units should be kilograms per kilowatt hour"
+    When a data import verifies "Electricity emission factor units should be kilograms co2e per kilowatt hour"
     Then the verification should be successful
 
   # FIXME TODO
@@ -30,7 +30,7 @@ Feature: Data import for EgridSubregion
     When a data import verifies "Electricity emission factor should be greater than zero"
     Then the verification should not be successful
 
-  Scenario: Failing to verify that electricity emission factor units are kilograms per kilowatt hour
+  Scenario: Failing to verify that electricity emission factor units are kilograms co2e per kilowatt hour
     Given a "EgridSubregion" data import fetches results listed in "egrid_subregion_bad"
-    When a data import verifies "Electricity emission factor units should be kilograms per kilowatt hour"
+    When a data import verifies "Electricity emission factor units should be kilograms co2e per kilowatt hour"
     Then the verification should not be successful

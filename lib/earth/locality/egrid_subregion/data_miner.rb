@@ -80,10 +80,10 @@ EgridSubregion.class_eval do
       end
     end
     
-    verify "Electricity emission factor units should be kilograms per kilowatt hour" do
+    verify "Electricity emission factor units should be kilograms co2e per kilowatt hour" do
       EgridSubregion.all.each do |subregion|
-        unless subregion.electricity_emission_factor_units == "kilograms_per_kilowatt_hour"
-          raise "Invalid electricity emission factor units for EgridSubregion #{subregion.name}: #{subregion.electricity_emission_factor_units} (should be kilograms_per_kilowatt_hour)"
+        unless subregion.electricity_emission_factor_units == "kilograms_co2e_per_kilowatt_hour"
+          raise "Invalid electricity emission factor units for EgridSubregion #{subregion.name}: #{subregion.electricity_emission_factor_units} (should be kilograms_co2e_per_kilowatt_hour)"
         end
       end
     end
