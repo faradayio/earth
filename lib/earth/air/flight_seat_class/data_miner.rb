@@ -3,11 +3,10 @@ FlightSeatClass.class_eval do
     schema Earth.database_options do
       string   'name'
       float    'multiplier'
-      integer  'seats'
     end
     
     import "a list of Brighter Planet-defined seat classes and pre-calculated multipliers",
-           :url => 'http://static.brighterplanet.com/science/data/transport/air/seat_classes/seat_classes.csv' do
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdG5zSER1QmFVVkhNcTM2cmhCMEJtWVE&hl=en&single=true&gid=0&output=csv' do
       key   'name'
       store 'multiplier'
     end
@@ -33,4 +32,3 @@ FlightSeatClass.class_eval do
     # end
   end
 end
-
