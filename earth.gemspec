@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Seamus Abshere", "Derek Kastner", "Andy Rossmeissl"]
-  s.date = %q{2011-01-18}
+  s.date = %q{2011-01-24}
   s.description = %q{An earth-simulation environment with ActiveRecord models and data}
   s.email = %q{andy@rossmeissl.net}
   s.extra_rdoc_files = [
@@ -60,6 +60,8 @@ Gem::Specification.new do |s|
      "lib/earth/automobile/automobile_make_year/data_miner.rb",
      "lib/earth/automobile/automobile_size_class.rb",
      "lib/earth/automobile/automobile_size_class/data_miner.rb",
+     "lib/earth/automobile/automobile_size_class_year.rb",
+     "lib/earth/automobile/automobile_size_class_year/data_miner.rb",
      "lib/earth/automobile/automobile_type_fuel_age.rb",
      "lib/earth/automobile/automobile_type_fuel_age/data_miner.rb",
      "lib/earth/automobile/automobile_type_fuel_control.rb",
@@ -239,6 +241,7 @@ Gem::Specification.new do |s|
      "features/automobile_make_model_year_variant.feature",
      "features/automobile_make_year.feature",
      "features/automobile_size_class.feature",
+     "features/automobile_size_class_year.feature",
      "features/automobile_type_fuel_age.feature",
      "features/automobile_type_fuel_control.feature",
      "features/automobile_type_fuel_year.feature",
@@ -277,6 +280,8 @@ Gem::Specification.new do |s|
      "features/support/imports/automobile_make_year_good.csv",
      "features/support/imports/automobile_size_class_bad.csv",
      "features/support/imports/automobile_size_class_good.csv",
+     "features/support/imports/automobile_size_class_year_bad.csv",
+     "features/support/imports/automobile_size_class_year_good.csv",
      "features/support/imports/automobile_type_fuel_age_bad.csv",
      "features/support/imports/automobile_type_fuel_age_good.csv",
      "features/support/imports/automobile_type_fuel_control_bad.csv",
