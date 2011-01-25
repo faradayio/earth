@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version     = Earth::VERSION
   s.date = %q{2011-01-24}
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ['Derek Kastner', 'Ian Hough', 'Seamus Abshere', "Andy Rossmeissl"]
+  s.authors = ["Seamus Abshere", "Derek Kastner", "Andy Rossmeissl"]
   s.email       = ["dkastner@gmail.com"]
   s.homepage    = "https://github.com/brighterplanet/earth"
   s.summary     = %Q{Land, sky, and sea}
