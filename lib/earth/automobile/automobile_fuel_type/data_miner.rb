@@ -46,9 +46,9 @@ AutomobileFuelType.class_eval do
       fuel_types = AutomobileFuelType.arel_table
       
       AutomobileFuelType.all.each do |fuel_type|
-        current_name = fuel_type.fuel_name_for_efs
+        current_name = fuel_type.name
         
-        if current_name.present?
+        if fuel_type.fuel_name_for_efs.present?
           co2_factor_sql = fuel_years.project(fuel_years[:co2_emission_factor]).where(fuel_years[:fuel_common_name].eq(fuel_types[:fuel_name_for_efs]).and(fuel_years[:year].eq(latest_year))).to_sql
           ch4_factor_sql = AutomobileTypeFuelYear.weighted_average_relation(:ch4_emission_factor, :weighted_by => :total_travel).where(type_fuel_years[:fuel_common_name].eq(fuel_types[:fuel_name_for_efs]).and(type_fuel_years[:year].eq(latest_year))).to_sql
           n2o_factor_sql = AutomobileTypeFuelYear.weighted_average_relation(:n2o_emission_factor, :weighted_by => :total_travel).where(type_fuel_years[:fuel_common_name].eq(fuel_types[:fuel_name_for_efs]).and(type_fuel_years[:year].eq(latest_year))).to_sql
@@ -57,12 +57,12 @@ AutomobileFuelType.class_eval do
           connection.execute %{
             UPDATE automobile_fuel_types
             SET emission_factor = (((#{co2_factor_sql}) * #{co2_gwp} * (1 - blend_portion)) + ((#{ch4_factor_sql}) * #{ch4_gwp}) + ((#{n2o_factor_sql}) * #{n2o_gwp}) + (#{hfc_factor_sql}))
-            WHERE automobile_fuel_types.fuel_name_for_efs = '#{current_name}'
+            WHERE automobile_fuel_types.name = '#{current_name}'
           }
           connection.execute %{
             UPDATE automobile_fuel_types
             SET emission_factor_units = 'kilograms_co2e_per_litre'
-            WHERE automobile_fuel_types.fuel_name_for_efs = '#{current_name}'
+            WHERE automobile_fuel_types.name = '#{current_name}'
           }
         end
       end
@@ -75,6 +75,11 @@ AutomobileFuelType.class_eval do
       connection.execute %{
         UPDATE automobile_fuel_types
         SET emission_factor = #{electricity_ef}
+        WHERE automobile_fuel_types.name = 'electricity'
+      }
+      connection.execute %{
+        UPDATE automobile_fuel_types
+        SET emission_factor_units = 'kilograms_co2e_per_kilowatt_hour'
         WHERE automobile_fuel_types.name = 'electricity'
       }
     end
