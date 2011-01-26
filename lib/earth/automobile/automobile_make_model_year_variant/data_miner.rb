@@ -298,8 +298,8 @@ AutomobileMakeModelYearVariant.class_eval do
     # 1985---1997
     # FIXME TODO one Jaguar in the 1990 FEG has no model name
     # FIXME TODO 14 records in the 1995 FEG are missing fuel efficiencies
-    # (85..97).each do |yy|
-    [85, 95, 96].each do |yy|
+    (85..97).each do |yy|
+    # [85, 95, 96].each do |yy|
       filename = (yy == 96) ? "#{yy}MFGUI.ASC" : "#{yy}MFGUI.DAT"
       import("19#{ yy } Fuel Economy Guide",
              :url => "http://www.fueleconomy.gov/FEG/epadata/#{yy}mfgui.zip",
