@@ -45,7 +45,8 @@ require_or_fail('jeweler', 'Jeweler (or a dependency) not available. Install it 
       Dir.glob(File.join('lib', 'test_support', '**/*.rb')) +
       ['Gemfile','Gemfile.lock']
     gem.add_dependency 'activerecord', '~>3'
-    gem.add_dependency 'data_miner', '~>0.5.6' unless ENV['LOCAL_DATA_MINER']
+    gem.add_dependency 'data_miner', '~>1' unless ENV['LOCAL_DATA_MINER']
+    gem.add_dependency 'errata', '>=1'
     gem.add_dependency 'falls_back_on', '>=0.0.3'
     gem.add_dependency 'geokit', '>=1.5.0'
     gem.add_dependency 'cohort_scope', '>=0.0.7'

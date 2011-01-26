@@ -27,8 +27,7 @@ Airline.class_eval do
     
     import "the T100 AIRLINE_ID lookup table, which also includes IATA codes",
            :url => 'http://www.transtats.bts.gov/Download_Lookup.asp?Lookup=L_AIRLINE_ID',
-           :errata => Errata.new(:url => 'http://static.brighterplanet.com/science/data/transport/air/airlines/errata.csv',
-                                 :responder => Airline::Guru.new) do
+           :errata => { :url => 'http://static.brighterplanet.com/science/data/transport/air/airlines/errata.csv', :responder => Airline::Guru.new } do
       key 'iata_code', :field_name => 'Description', :split => { :pattern => /:/, :keep => 1 }
       store 'dot_airline_id_code', :field_name => 'Code'
       store 'name', :field_name => 'Description', :split => { :pattern => /:/, :keep => 0 }

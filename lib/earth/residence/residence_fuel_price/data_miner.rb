@@ -3,11 +3,6 @@ ResidenceFuelPrice.class_eval do
     def initialize(options = {})
       # nothing
     end
-    def add_hints!(bus)
-      bus[:sheet] = 'Data 1'
-      bus[:skip] = 2
-      bus[:select] = lambda { |row| row['year'].to_i > 1989 }
-    end
     def apply(row)
       virtual_rows = []
       row.keys.grep(/(.*) Residual Fuel Oil/) do |location_column_name|
@@ -45,11 +40,6 @@ ResidenceFuelPrice.class_eval do
     def initialize(options = {})
       # nothing
     end
-    def add_hints!(bus)
-      bus[:sheet] = 'Data 1'
-      bus[:skip] = 2
-      bus[:select] = lambda { |row| row['year'].to_i > 1989 }
-    end
     def apply(row)
       virtual_rows = []
       row.keys.grep(/(.*) Propane Residential Price/) do |location_column_name|
@@ -83,11 +73,6 @@ ResidenceFuelPrice.class_eval do
   class NaturalGasParser
     def initialize(options = {})
       # nothing
-    end
-    def add_hints!(bus)
-      bus[:sheet] = 'Data 1'
-      bus[:skip] = 2
-      bus[:select] = lambda { |row| row['year'].to_i > 1989 }
     end
     def apply(row)
       virtual_rows = []
@@ -154,6 +139,9 @@ ResidenceFuelPrice.class_eval do
     # breaks if date-performance is enabled because DateTime.parse(...1899...) dies
     import 'residential natural gas prices from the EIA',
            :url => 'http://tonto.eia.doe.gov/dnav/ng/xls/ng_pri_sum_a_EPG0_FWA_DMcf_a.xls',
+           :sheet => 'Data 1',
+           :skip => 2,
+           :select => lambda { |row| row['year'].to_i > 1989 },
            :transform => { :class => NaturalGasParser } do
       key 'row_hash'
       store 'residence_fuel_type_name', :static => 'natural gas'
@@ -168,6 +156,9 @@ ResidenceFuelPrice.class_eval do
     # dollars per litre
     import "residential fuel oil prices from the EIA",
            :url => 'http://tonto.eia.doe.gov/dnav/pet/xls/PET_PRI_RESID_A_EPPR_PTA_CPGAL_M.xls',
+           :sheet => 'Data 1',
+           :skip => 2,
+           :select => lambda { |row| row['year'].to_i > 1989 },
            :transform => { :class => FuelOilParser } do
       key 'row_hash'
       store 'residence_fuel_type_name', :static => 'fuel oil'
@@ -182,6 +173,9 @@ ResidenceFuelPrice.class_eval do
     # dollars per litre
     import "residential propane prices from the EIA",
            :url => 'http://tonto.eia.doe.gov/dnav/pet/xls/PET_PRI_PROP_A_EPLLPA_PRT_CPGAL_M.xls',
+           :sheet => 'Data 1',
+           :skip => 2,
+           :select => lambda { |row| row['year'].to_i > 1989 },
            :transform => { :class => PropaneParser } do
       key 'row_hash'
       store 'residence_fuel_type_name', :static => 'propane'
