@@ -48,7 +48,7 @@ AutomobileFuelType.class_eval do
       AutomobileFuelType.all.each do |fuel_type|
         current_name = fuel_type.fuel_name_for_efs
         
-        unless current_name.nil?
+        if current_name.present?
           co2_factor_sql = fuel_years.project(fuel_years[:co2_emission_factor]).where(fuel_years[:fuel_common_name].eq(fuel_types[:fuel_name_for_efs]).and(fuel_years[:year].eq(latest_year))).to_sql
           ch4_factor_sql = AutomobileTypeFuelYear.weighted_average_relation(:ch4_emission_factor, :weighted_by => :total_travel).where(type_fuel_years[:fuel_common_name].eq(fuel_types[:fuel_name_for_efs]).and(type_fuel_years[:year].eq(latest_year))).to_sql
           n2o_factor_sql = AutomobileTypeFuelYear.weighted_average_relation(:n2o_emission_factor, :weighted_by => :total_travel).where(type_fuel_years[:fuel_common_name].eq(fuel_types[:fuel_name_for_efs]).and(type_fuel_years[:year].eq(latest_year))).to_sql
