@@ -5,10 +5,10 @@ require "earth/version"
 Gem::Specification.new do |s|
   s.name        = "earth"
   s.version     = Earth::VERSION
-  s.date = %q{2011-01-25}
+  s.date = "2011-01-27"
   s.platform    = Gem::Platform::RUBY
   s.authors = ["Seamus Abshere", "Derek Kastner", "Andy Rossmeissl"]
-  s.email       = ["dkastner@gmail.com"]
+  s.email = %q{andy@rossmeissl.net}
   s.homepage    = "https://github.com/brighterplanet/earth"
   s.summary     = %Q{Land, sky, and sea}
   s.description = %Q{An earth-simulation environment with ActiveRecord models and data}
@@ -23,11 +23,9 @@ Gem::Specification.new do |s|
   ]
   s.require_paths = ["lib"]
   
-  s.homepage = %q{http://github.com/brighterplanet/earth}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.7}
-  s.summary = %q{Land, sky, and sea}
 
   s.add_runtime_dependency 'activerecord', '~> 3'
   s.add_runtime_dependency 'data_miner', '~> 1.1.1'
