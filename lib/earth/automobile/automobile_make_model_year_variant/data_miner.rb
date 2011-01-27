@@ -309,7 +309,7 @@ AutomobileMakeModelYearVariant.class_eval do
              :select => lambda { |row| (row['suppress_code'].blank? or row['suppress_code'].to_f == 0) and row['state_code'] == 'F' },
              :filename => filename,
              :transform => { :class => AutomobileMakeModelYearVariant::ParserB, :year => "19#{yy}".to_i },
-             :errata => { :url => 'http://static.brighterplanet.com/science/data/transport/automobiles/fuel_economy_guide/errata.csv' }) do
+             :errata => { 'url' => 'http://static.brighterplanet.com/science/data/transport/automobiles/fuel_economy_guide/errata.csv' }) do
         key   'row_hash'
         store 'name', :field_name => 'model'
         store 'make_name', :field_name => 'make'
@@ -347,7 +347,7 @@ AutomobileMakeModelYearVariant.class_eval do
     }.sort { |a, b| a.first <=> b.first }.each do |year, options|
       import "#{ year } Fuel Economy Guide",
              options.merge(:transform => { :class => AutomobileMakeModelYearVariant::ParserC, :year => year },
-                           :errata => { :url => 'http://static.brighterplanet.com/science/data/transport/automobiles/fuel_economy_guide/errata.csv' }) do
+                           :errata => { 'url' => 'http://static.brighterplanet.com/science/data/transport/automobiles/fuel_economy_guide/errata.csv' }) do
         key   'row_hash'
         store 'name', :field_name => 'model'
         store 'make_name', :field_name => 'make'
@@ -380,7 +380,7 @@ AutomobileMakeModelYearVariant.class_eval do
     }.sort { |a, b| a.first <=> b.first }.each do |year, options|
       import "#{ year } Fuel Economy Guide",
              options.merge(:transform => { :class => AutomobileMakeModelYearVariant::ParserD, :year => year },
-                           :errata => { :url => 'http://static.brighterplanet.com/science/data/transport/automobiles/fuel_economy_guide/errata.csv' }) do
+                           :errata => { 'url' => 'http://static.brighterplanet.com/science/data/transport/automobiles/fuel_economy_guide/errata.csv' }) do
         key   'row_hash'
         store 'name', :field_name => 'model'
         store 'make_name', :field_name => 'make'
@@ -409,7 +409,7 @@ AutomobileMakeModelYearVariant.class_eval do
     }.sort { |a, b| a.first <=> b.first }.each do |year, options|
       import "#{ year } Fuel Economy Guide",
              options.merge(:transform => { :class => AutomobileMakeModelYearVariant::ParserE, :year => year },
-                           :errata => { :url => 'http://static.brighterplanet.com/science/data/transport/automobiles/fuel_economy_guide/errata.csv' }) do
+                           :errata => { 'url' => 'http://static.brighterplanet.com/science/data/transport/automobiles/fuel_economy_guide/errata.csv' }) do
         key   'row_hash'
         store 'name', :field_name => 'model'
         store 'make_name', :field_name => 'make'

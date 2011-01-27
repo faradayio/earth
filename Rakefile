@@ -1,7 +1,9 @@
 require 'bundler'
+Bundler.setup
 Bundler::GemHelper.install_tasks
 
-require 'rake'
+require 'bueller'
+Bueller::Tasks.new
 
 begin
   require 'rake/rdoctask'
@@ -16,6 +18,7 @@ rescue LoadError
    puts "Rdoc is not available"
 end
 
+require 'sniff'
 require 'sniff/rake_tasks'
 Sniff::RakeTasks.define_tasks do |t|
   t.earth_domains = :all

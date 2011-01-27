@@ -5,9 +5,10 @@ require "earth/version"
 Gem::Specification.new do |s|
   s.name        = "earth"
   s.version     = Earth::VERSION
+  s.date = "2011-01-27"
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ['Derek Kastner', 'Ian Hough', 'Seamus Abshere', "Andy Rossmeissl"]
-  s.email       = ["dkastner@gmail.com"]
+  s.authors = ["Seamus Abshere", "Derek Kastner", "Andy Rossmeissl"]
+  s.email = %q{andy@rossmeissl.net}
   s.homepage    = "https://github.com/brighterplanet/earth"
   s.summary     = %Q{Land, sky, and sea}
   s.description = %Q{An earth-simulation environment with ActiveRecord models and data}
@@ -15,22 +16,26 @@ Gem::Specification.new do |s|
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
+  s.extra_rdoc_files = [
+    "LICENSE",
+     "LICENSE-PREAMBLE",
+     "README.markdown"
+  ]
   s.require_paths = ["lib"]
   
-  s.add_dependency 'activerecord'
-  s.add_dependency 'data_miner' unless ENV['LOCAL_DATA_MINER']
-  s.add_dependency 'errata'
-  s.add_dependency 'falls_back_on'
-  s.add_dependency 'geokit'
-  s.add_dependency 'cohort_scope'
-  s.add_dependency 'conversions'
-  s.add_dependency 'weighted_average'
-  s.add_dependency 'loose_tight_dictionary'
+  s.rdoc_options = ["--charset=UTF-8"]
+  s.require_paths = ["lib"]
+  s.rubygems_version = %q{1.3.7}
 
-  s.add_development_dependency 'sniff'
-  if RUBY_VERSION >= '1.9'
-    s.add_development_dependency 'ruby-debug19'
-  else
-    s.add_development_dependency 'ruby-debug'
-  end
+  s.add_runtime_dependency 'activerecord', '~> 3'
+  s.add_runtime_dependency 'data_miner', '~> 1.1.1'
+  s.add_runtime_dependency 'errata'
+  s.add_runtime_dependency 'falls_back_on', '>= 0.0.3'
+  s.add_runtime_dependency 'geokit', '>= 1.5.0'
+  s.add_runtime_dependency 'cohort_scope', '>= 0.0.7'
+  s.add_runtime_dependency 'conversions', '>= 1.4.5'
+  s.add_runtime_dependency 'weighted_average', '>= 0.0.4'
+  s.add_runtime_dependency 'loose_tight_dictionary', '>= 0.0.8'
+  s.add_development_dependency 'sniff', '~> 0.5.3'
+  s.add_development_dependency 'bueller'
 end
