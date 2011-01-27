@@ -3,7 +3,7 @@ Bundler.setup
 Bundler::GemHelper.install_tasks
 
 require 'bueller'
-Bueller::RakeTasks.new
+Bueller::Tasks.new
 
 begin
   require 'rake/rdoctask'

@@ -17,4 +17,7 @@ DataMiner.logger = Logger.new test_log
 
 RSpec.configure do |c|
   c.filter_run_excluding :slow => true
+  c.before(:all) do
+    DataMiner.logger = Logger.new(nil)
+  end
 end

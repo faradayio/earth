@@ -1,3 +1,5 @@
+require 'errata'
+
 Airline.class_eval do
   class Airline::Guru
     # needed by errata

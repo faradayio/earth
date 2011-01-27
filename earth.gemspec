@@ -29,19 +29,15 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.7}
   s.summary = %q{Land, sky, and sea}
 
-  s.add_runtime_dependency('activerecord', '~> 3')
-  s.add_runtime_dependency('data_miner', '~> 1.1.0')
-  s.add_runtime_dependency('falls_back_on', '>= 0.0.3')
-  s.add_runtime_dependency('geokit', '>= 1.5.0')
-  s.add_runtime_dependency('cohort_scope', '>= 0.0.7')
-  s.add_runtime_dependency('conversions', '>= 1.4.5')
-  s.add_runtime_dependency('weighted_average', '>= 0.0.4')
-  s.add_runtime_dependency('loose_tight_dictionary', '>= 0.0.8')
-  s.add_development_dependency('sniff', '~> 0.5.0')
-  s.add_development_dependency('bueller')
-  if RUBY_VERSION >= '1.9'
-    s.add_development_dependency 'ruby-debug19'
-  else
-    s.add_development_dependency 'ruby-debug'
-  end
+  s.add_runtime_dependency 'activerecord', '~> 3'
+  s.add_runtime_dependency 'data_miner', '~> 1.1.1'
+  s.add_runtime_dependency 'errata'
+  s.add_runtime_dependency 'falls_back_on', '>= 0.0.3'
+  s.add_runtime_dependency 'geokit', '>= 1.5.0'
+  s.add_runtime_dependency 'cohort_scope', '>= 0.0.7'
+  s.add_runtime_dependency 'conversions', '>= 1.4.5'
+  s.add_runtime_dependency 'weighted_average', '>= 0.0.4'
+  s.add_runtime_dependency 'loose_tight_dictionary', '>= 0.0.8'
+  s.add_development_dependency 'sniff', '~> 0.5.3'
+  s.add_development_dependency 'bueller'
 end
