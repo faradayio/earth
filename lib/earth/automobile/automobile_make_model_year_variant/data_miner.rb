@@ -438,7 +438,8 @@ AutomobileMakeModelYearVariant.class_eval do
       update_all "make_model_year_name = CONCAT(make_name, ' ', name, ' ', year)"
     end
     
-    process "Calculate adjusted fuel efficiency using the latest EPA equations" do
+    # Note: need to divide by 0.425143707 b/c equation is designed for miles / gallon not km / l
+    process "Calculate adjusted fuel efficiency using the latest EPA equations from EPA Fuel Economy Trends report Appendix A including conversion from miles per gallon to kilometres per litre" do
       update_all 'fuel_efficiency_city = 1 / ((0.003259 / 0.425143707) + (1.1805 / raw_fuel_efficiency_city))'
       update_all 'fuel_efficiency_highway = 1 / ((0.001376 / 0.425143707) + (1.3466 / raw_fuel_efficiency_highway))'
     end
