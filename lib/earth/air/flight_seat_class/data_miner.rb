@@ -2,12 +2,16 @@ FlightSeatClass.class_eval do
   data_miner do
     schema Earth.database_options do
       string   'name'
+      string   'distance_class_name'
+      string   'seat_class_name'
       float    'multiplier'
     end
     
     import "a list of Brighter Planet-defined seat classes and pre-calculated multipliers",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdG5zSER1QmFVVkhNcTM2cmhCMEJtWVE&hl=en&single=true&gid=0&output=csv' do
       key   'name'
+      store 'distance_class_name'
+      store 'seat_class_name'
       store 'multiplier'
     end
     
