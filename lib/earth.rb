@@ -83,7 +83,7 @@ module Earth
     end
 
     load_domains(domains, options)
-    load_schemas if options[:apply_schemas]
+    load_schemas(options) if options[:apply_schemas]
   end
 
   def database_options
@@ -121,9 +121,9 @@ private
     end
   end
 
-  def load_schemas
+  def load_schemas(options = {})
     force_fallback_table
-    load_data_miner_schemas
+    load_data_miner_schemas(options)
   end
   
   # sabshere 9/17/10 this sucks. the falls_back_on gem sucks.
@@ -144,7 +144,7 @@ private
     end
   end
 
-  def load_data_miner_schemas
+  def load_data_miner_schemas(options = {})
     models = Module.constants.select do |k|
       const = Object.const_get(k) if Object.const_defined?(k)
       if const.instance_of?(Class)
@@ -156,7 +156,7 @@ private
     end
     models.sort.each do |model|
       klass = Object.const_get(model)
-      if klass.respond_to?(:execute_schema) and !klass.table_exists?
+      if klass.respond_to?(:execute_schema) and (!klass.table_exists? || options[:force_schema])
         klass.execute_schema 
       end
     end
