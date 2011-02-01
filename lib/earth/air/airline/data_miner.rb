@@ -47,6 +47,7 @@ Airline.class_eval do
       
       conditional_relation = airlines[:iata_code].eq(segments[:airline_iata_code])
 
+      # sabshere 2/1/11 these need units
       update_all "seats                    = (#{FlightSegment.weighted_average_relation(:seats,               :weighted_by => :passengers                                           ).where(conditional_relation).to_sql})"
       update_all "distance                 = (#{FlightSegment.weighted_average_relation(:distance,            :weighted_by => :passengers                                           ).where(conditional_relation).to_sql})"
       update_all "load_factor              = (#{FlightSegment.weighted_average_relation(:load_factor,         :weighted_by => :passengers                                           ).where(conditional_relation).to_sql})"
