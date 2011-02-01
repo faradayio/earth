@@ -19,6 +19,16 @@ AutomobileMake.class_eval do
       }
     end
     
+    # sabshere 1/31/11 add Avanti, DaimlerChrysler, IHC, Tesla, etc.
+    process "Derive extra manufacturer names from CAFE data" do
+      AutomobileMakeFleetYear.run_data_miner!
+      connection.execute %{
+        INSERT IGNORE INTO automobile_makes(name)
+        SELECT DISTINCT automobile_make_fleet_years.make_name
+        FROM automobile_make_fleet_years
+      }
+    end
+    
     process "Calculate fuel efficiency from automobile make fleet years for makes with CAFE data" do
       AutomobileMakeFleetYear.run_data_miner!
       make_fleet_years = AutomobileMakeFleetYear.arel_table
