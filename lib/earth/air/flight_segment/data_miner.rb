@@ -184,6 +184,7 @@ FlightSegment.class_eval do
       integer  'year'
       integer  'quarter'
       integer  'month'
+      date 'approximate_date'
       # integer  'bts_aircraft_group_code'
       # string   'configuration_id'
       # integer  'bts_aircraft_configuration_code'
@@ -313,6 +314,10 @@ FlightSegment.class_eval do
     
     process "Derive average seats per departure" do
       update_all 'seats = total_seats / departures_performed', 'departures_performed > 0'
+    end
+    
+    process "Add a useful date field" do
+      update_all 'approximate_date = DATE(CONCAT_WS("-", year, month, "14"))'
     end
     
     # FIXME TODO make this verification check actual aircraft codes in Aircraft
