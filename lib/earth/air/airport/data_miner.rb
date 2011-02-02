@@ -20,7 +20,7 @@ Airport.class_eval do
     end
     
     import "the OpenFlights.org airports database",
-           :url => 'http://openflights.svn.sourceforge.net/viewvc/openflights/openflights/data/airports.dat',
+           :url => 'https://openflights.svn.sourceforge.net/svnroot/openflights/openflights/data/airports.dat',
            :headers => false,
            :select => lambda { |row| row[4].present? } do
       key   'iata_code', :field_number => 4
