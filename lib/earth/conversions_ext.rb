@@ -43,3 +43,5 @@ Conversions.register :kilocalories_per_pound, :joules_per_kilogram, 9_224.14105
 Conversions.register :grams_per_kilocalorie, :kilograms_per_joule, 2.39005736e-7
 # 1 joule = 0.000239005736 kilocalories
 Conversions.register :joules, :kilocalories, 0.000239005736
+
+Conversions.register :carbon, :co2, (44.0 / 12.0)
