@@ -23,6 +23,7 @@ AutomobileSizeClass.class_eval do
       store 'fuel_efficiency_highway', :units_field_name => 'fuel_efficiency_highway_units'
     end
     
+    # FIXME TODO make this a method on AutomobileSizeClass?
     process "Calculate annual distance from AutomobileTypeFuelAge" do
       AutomobileTypeFuelAge.run_data_miner!
       ages = AutomobileTypeFuelAge.arel_table

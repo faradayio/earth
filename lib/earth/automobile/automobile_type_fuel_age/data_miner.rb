@@ -126,6 +126,7 @@ AutomobileTypeFuelAge.class_eval do
       update_all "annual_distance_units = 'kilometres'"
     end
     
+    # FIXME TODO maybe make this a method on AutomobileTypeFuelAge?
     process "Calculate number of vehicles from total travel and total travel percent" do
       AutomobileTypeFuelYear.run_data_miner!
       connection.execute %{
