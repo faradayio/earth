@@ -73,6 +73,7 @@ AutomobileTypeFuelYear.class_eval do
       store 'fuel_consumption', :units_field_name => 'fuel_consumption_units'
     end
     
+    # FIXME TODO maybe make this a method on AutomobileTypeFuelYear?
     process "Calculate CH4 and N2O emision factors from AutomobileTypeFuelYearControl and AutomobileTypeFuelControl" do
       AutomobileTypeFuelYearControl.run_data_miner!
       AutomobileTypeFuelControl.run_data_miner!
@@ -95,6 +96,7 @@ AutomobileTypeFuelYear.class_eval do
       end
     end
     
+    # FIXME TODO maybe make this a method on AutomobileTypeFuelYear?
     process "Calculate HFC emission factor from AutomobileTypeYear" do
       AutomobileTypeYear.run_data_miner!
       type_fuel_years = AutomobileTypeFuelYear.arel_table
