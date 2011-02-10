@@ -2,19 +2,31 @@ LodgingClass.class_eval do
   data_miner do
     LodgingClass.define_schema(self)
     
-    process "Define some unit conversions" do
-      Conversions.register :hundred_cubic_feet_per_room_night, :cubic_metres_per_room_night,        2.831685
-      Conversions.register :gallons_per_room_night,            :litres_per_room_night,              3.785412
-      Conversions.register :thousand_btu_per_room_night,       :joules_per_room_night,      1_055_056
-    end
-    
     import "a list of lodging classes and pre-calculated emission factors",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdGZZWmZtWEJlYzhRNXlPdWpBTldlcUE&hl=en&output=csv' do
       key   'name'
-      store 'natural_gas_intensity', :from_units => :hundred_cubic_feet_per_room_night, :to_units => :cubic_metres_per_room_night
-      store 'fuel_oil_intensity', :from_units => :gallons_per_room_night, :to_units => :litres_per_room_night
+      store 'natural_gas_intensity', :units_field_name => 'natural_gas_intensity_units'
+      store 'fuel_oil_intensity', :units_field_name => 'fuel_oil_intensity_units'
       store 'electricity_intensity', :units_field_name => 'electricity_intensity_units'
-      store 'district_heat_intensity', :from_units => :thousand_btu_per_room_night, :to_units => :joules_per_room_night
+      store 'district_heat_intensity', :units_field_name => 'district_heat_intensity_units'
+    end
+    
+    process "Convert natural gas intensities to metric units" do
+      conversion_factor = 2.83168466 # Google: 2.83168466 cubic m / 100 cubic ft
+      update_all "natural_gas_intensity = natural_gas_intensity * #{conversion_factor}"
+      update_all "natural_gas_intensity_units = 'cubic_metres_per_room_night'"
+    end
+    
+    process "Convert fuel oil intensities to metric units" do
+      conversion_factor = 3.78541178 # Google: 3.78541178 l / gal
+      update_all "fuel_oil_intensity = fuel_oil_intensity * #{conversion_factor}"
+      update_all "fuel_oil_intensity_units = 'litres_per_room_night'"
+    end
+    
+    process "Convert district heat intensities to metric units" do
+      conversion_factor = 1.05505585 # Google: 1.05505585 MJ / 1000 Btu
+      update_all "district_heat_intensity = district_heat_intensity * #{conversion_factor}"
+      update_all "district_heat_intensity_units = 'megajoules_per_room_night'"
     end
   end
 end
