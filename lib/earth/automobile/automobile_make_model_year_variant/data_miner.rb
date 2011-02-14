@@ -272,6 +272,7 @@ AutomobileMakeModelYearVariant.class_eval do
       float    'fuel_efficiency_highway'
       string   'fuel_efficiency_highway_units'
       string   'fuel_type_code'
+      string   'fuel_code'
       string   'transmission'
       string   'drive'
       boolean  'turbo'
@@ -315,6 +316,7 @@ AutomobileMakeModelYearVariant.class_eval do
         store 'make_name', :field_name => 'make'
         store 'year'
         store 'fuel_type_code', :field_name => 'fuel_type'
+        store 'fuel_code', :field_name => 'fuel_type'
         store 'fuel_efficiency_highway', :static => nil, :units => :kilometres_per_litre
         store 'fuel_efficiency_city', :static => nil, :units => :kilometres_per_litre
         store 'raw_fuel_efficiency_highway', :field_name => 'unadj_hwy_mpg', :from_units => :miles_per_gallon, :to_units => :kilometres_per_litre
@@ -353,6 +355,7 @@ AutomobileMakeModelYearVariant.class_eval do
         store 'name', :field_name => 'model'
         store 'make_name', :field_name => 'make'
         store 'fuel_type_code', :field_name => 'fl'
+        store 'fuel_code', :field_name => 'fl'
         store 'fuel_efficiency_highway', :static => nil, :units => :kilometres_per_litre
         store 'fuel_efficiency_city', :static => nil, :units => :kilometres_per_litre
         store 'raw_fuel_efficiency_highway', :field_name => 'uhwy', :from_units => :miles_per_gallon, :to_units => :kilometres_per_litre
@@ -387,6 +390,7 @@ AutomobileMakeModelYearVariant.class_eval do
         store 'name', :field_name => 'model'
         store 'make_name', :field_name => 'make'
         store 'fuel_type_code', :field_name => 'FUEL TYPE'
+        store 'fuel_code', :field_name => 'FUEL TYPE'
         store 'fuel_efficiency_highway', :static => nil, :units => :kilometres_per_litre
         store 'fuel_efficiency_city', :static => nil, :units => :kilometres_per_litre
         store 'raw_fuel_efficiency_highway', :field_name => 'UNRND HWY (EPA)', :from_units => :miles_per_gallon, :to_units => :kilometres_per_litre
@@ -417,6 +421,7 @@ AutomobileMakeModelYearVariant.class_eval do
         store 'name', :field_name => 'model'
         store 'make_name', :field_name => 'make'
         store 'fuel_type_code'
+        store 'fuel_code', :field_name => 'fuel_type_code'
         store 'fuel_efficiency_highway', :static => nil, :units => :kilometres_per_litre
         store 'fuel_efficiency_city', :static => nil, :units => :kilometres_per_litre
         store 'raw_fuel_efficiency_highway', :field_name => 'Hwy Unadj FE - Conventional Fuel', :from_units => :miles_per_gallon, :to_units => :kilometres_per_litre
