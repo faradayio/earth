@@ -13,7 +13,7 @@ ComputationPlatform.class_eval do
     
     verify "Data center company name should never be missing" do
       ComputationPlatform.all.each do |platform|
-        if platform.data_center_company_name.nil?
+        unless platform.data_center_company_name.present?
           raise "Invalid data center company name for DataCenterCompany #{platform.name}: #{platform.data_center_company_name}"
         end
       end

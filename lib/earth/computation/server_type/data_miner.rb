@@ -24,7 +24,7 @@ ServerType.class_eval do
     
     verify "Data center company name should never be missing" do
       ServerType.all.each do |server|
-        if server.data_center_company_name.nil?
+        unless server.data_center_company_name.present?
           raise "Invalid data center company name for ServerType #{server.name}: #{server.data_center_company_name}"
         end
       end

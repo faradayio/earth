@@ -20,7 +20,7 @@ ServerTypeAlias.class_eval do
       ServerTypeAlias.all.each do |server_alias|
         [:server_type_name, :platform_name].each do |x|
           test_item = server_alias.send(x)
-          if test_item.nil?
+          unless test_item.present?
             raise "Invalid #{x} for ServerTypeAlias #{server_alias.name}: #{test_item}"
           end
         end
