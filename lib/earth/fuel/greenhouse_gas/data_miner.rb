@@ -22,7 +22,7 @@ GreenhouseGas.class_eval do
       GreenhouseGas.all.each do |record|
         %w{ abbreviation ipcc_report }.each do |attribute|
           value = record.send(:"#{attribute}")
-          if value.nil?
+          unless value.present?
             raise "Missing #{attribute} for GreenhouseGas '#{record.name}'"
           end
         end

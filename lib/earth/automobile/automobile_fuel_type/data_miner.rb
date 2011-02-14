@@ -105,7 +105,7 @@ AutomobileFuelType.class_eval do
     
     verify "Emission factor units should never be missing" do
       AutomobileFuelType.all.each do |fuel_type|
-        if fuel_type.emission_factor_units.nil?
+        unless fuel_type.emission_factor_units.present?
           raise "Missing emission factor units for AutomobileFuelType #{fuel_type.name}"
         end
       end

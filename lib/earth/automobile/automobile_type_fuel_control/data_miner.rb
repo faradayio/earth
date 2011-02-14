@@ -25,7 +25,7 @@ AutomobileTypeFuelControl.class_eval do
       AutomobileTypeFuelControl.all.each do |record|
         %w{ type_name fuel_common_name control_name }.each do |attribute|
           value = record.send(:"#{attribute}")
-          if value.nil?
+          unless value.present?
             raise "Missing #{attribute} for AutomobileTypeFuelControl '#{record.name}'"
           end
         end

@@ -19,7 +19,7 @@ AutomobileTypeYear.class_eval do
     verify "Type name should never be missing" do
       AutomobileTypeYear.all.each do |record|
         value = record.send(:type_name)
-        if value.nil?
+        unless value.present?
           raise "Missing type name for AutomobileTypeYear '#{record.name}'"
         end
       end

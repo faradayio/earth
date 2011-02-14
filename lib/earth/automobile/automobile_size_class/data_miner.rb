@@ -85,7 +85,7 @@ AutomobileSizeClass.class_eval do
         %w{ hybrid conventional }.each do |hybridity|
           %w{ city highway }.each do |type|
             multiplier = size_class.send(:"#{hybridity}_fuel_efficiency_#{type}_multiplier")
-            if not multiplier.nil?
+            if multiplier.present?
               unless multiplier > 0
                 raise "Invalid #{hybridity} fuel efficiency #{type} multiplier for AutomobileSizeClass #{size_class.name}: #{multiplier} (should be > 0)"
               end
