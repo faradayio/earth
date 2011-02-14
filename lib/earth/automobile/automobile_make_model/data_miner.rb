@@ -21,6 +21,7 @@ AutomobileMakeModel.class_eval do
       }
     end
     
+    # FIXME TODO make this a method on AutomobileMakeModel?
     # TODO not weighted until we get weightings on auto variants
     process "Derive average fuel economy from automobile make model year variants" do
       models = AutomobileMakeModel.arel_table

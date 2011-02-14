@@ -24,6 +24,7 @@ AutomobileMakeModelYear.class_eval do
       }
     end
     
+    # FIXME TODO make this a method on AutomobileMakeModelYear?
     # TODO: weight by volume somehow
     # note that we used to derive averages from make years, but here we get it from variants
     # even without volume-weighting, the values are much better.

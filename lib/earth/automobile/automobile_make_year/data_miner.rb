@@ -25,6 +25,7 @@ AutomobileMakeYear.class_eval do
       }
     end
     
+    # FIXME TODO make this a method on AutomobileMakeYear?
     process "Calculate fuel efficiency from make fleet years for makes with CAFE data" do
       AutomobileMakeFleetYear.run_data_miner!
       make_fleet_years = AutomobileMakeFleetYear.arel_table

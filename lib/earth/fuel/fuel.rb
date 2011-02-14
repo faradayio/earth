@@ -10,16 +10,18 @@ class Fuel < ActiveRecord::Base
   def energy_content
     if non_variable_energy_content = super
       non_variable_energy_content
-    elsif latest_fuel_year = fuel_years.last
-      latest_fuel_year.energy_content
+    elsif fuel_years.present?
+      latest_year = fuel_years.maximum('year')
+      fuel_years.find_by_year(latest_year).energy_content
     end
   end
   
   def carbon_content
     if non_variable_carbon_content = super
       non_variable_carbon_content
-    elsif latest_fuel_year = fuel_years.last
-      latest_fuel_year.carbon_content
+    elsif fuel_years.present?
+      latest_year = fuel_years.maximum('year')
+      fuel_years.find_by_year(latest_year).carbon_content
     end
   end
 end
