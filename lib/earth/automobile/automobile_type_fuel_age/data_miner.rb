@@ -12,6 +12,7 @@ AutomobileTypeFuelAge.class_eval do
       integer 'vehicles'
     end
     
+    # FIXME TODO clean up these imports so they don't pull from all rows in the table - just the data rows
     import "age distribution of gasoline passenger cars from the 2010 EPA GHG Inventory",
            :url => 'http://www.epa.gov/climatechange/emissions/downloads10/2010-Inventory-Annex-Tables.zip',
            :filename => 'Annex Tables/Annex 3/Table A-91.csv',
