@@ -8,20 +8,19 @@ class AutomobileFuel < ActiveRecord::Base
   belongs_to :base_fuel,                :foreign_key => 'base_fuel_name',  :class_name => 'Fuel'
   belongs_to :blend_fuel,               :foreign_key => 'blend_fuel_name', :class_name => 'Fuel'
   
-  # for fallback: look up the total fuel consumption of gasoline vehicles in the latest year
-  def self.gasoline_weighting
-    AutomobileTypeFuelYear.where(:year => AutomobileTypeFuelYear.maximum('year'), :fuel_common_name => 'gasoline').map(&:fuel_consumption).sum
-  end
-  
-  # for fallback: look up the total diesel consumption of diesel vehicles in the latest year
-  def self.diesel_weighting
-    AutomobileTypeFuelYear.where(:year => AutomobileTypeFuelYear.maximum('year'), :fuel_common_name => 'diesel').map(&:fuel_consumption).sum
+  class << self
+    def fallback_blend_portion
+      latest_year = AutomobileTypeFuelYear.maximum('year')
+      gas_use = AutomobileTypeFuelYear.where(:year => latest_year, :fuel_common_name => 'gasoline').sum('fuel_consumption')
+      diesel_use = AutomobileTypeFuelYear.where(:year => latest_year, :fuel_common_name => 'diesel').sum('fuel_consumption')
+      diesel_use / (gas_use + diesel_use)
+    end
   end
   
   falls_back_on :name => 'fallback',
                 :base_fuel_name => 'Motor Gasoline',
                 :blend_fuel_name => 'Distillate Fuel Oil No. 2',
-                :blend_portion => lambda { diesel_weighting / (gasoline_weighting + diesel_weighting) },
+                :blend_portion => lambda { AutomobileFuel.fallback_blend_portion },
                 :distance_fuel_common_name => 'fallback',
                 :ef_fuel_common_name => 'fallback'
   

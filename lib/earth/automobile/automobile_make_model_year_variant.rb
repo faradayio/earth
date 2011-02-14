@@ -5,7 +5,8 @@ class AutomobileMakeModelYearVariant < ActiveRecord::Base
   belongs_to :make_model,      :class_name => 'AutomobileMakeModel',     :foreign_key => 'make_model_name'
   belongs_to :make_model_year, :class_name => 'AutomobileMakeModelYear', :foreign_key => 'make_model_year_name'
   belongs_to :fuel_type,       :class_name => 'AutomobileFuelType',      :foreign_key => 'fuel_type_code'
-
+  belongs_to :fuel,            :class_name => 'AutomobileFuel',          :foreign_key => 'fuel_code'
+  
   data_miner do
     tap "Brighter Planet's sanitized automobile make model year variant data", Earth.taps_server
     
