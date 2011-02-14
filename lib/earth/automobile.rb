@@ -1,3 +1,4 @@
+require 'earth/automobile/automobile_fuel'
 require 'earth/automobile/automobile_fuel_type'
 require 'earth/automobile/automobile_make'
 require 'earth/automobile/automobile_make_fleet_year'
