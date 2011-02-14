@@ -3,7 +3,7 @@ FuelType.class_eval do
   # annual emissions factors
   # annual energy contents
   # gas-specific emissions factors
-
+  
   data_miner do
     schema Earth.database_options do
       string 'name'
@@ -27,7 +27,7 @@ FuelType.class_eval do
     #   Conversions.register :carbon,                                          :carbon_dioxide,              3.66666667
     # end
     
-    import "a list of fuels and their emissions factors and densities",
+    import "a list of fuels and their emission factors and densities",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdDR3RjlTcWlsLTc2TzQ0cERTMElJbHc&single=true&gid=0&output=csv' do
       key 'name', :field_name => 'fuel'
       store 'emission_factor', :units_field_name => 'emission_factor_units'

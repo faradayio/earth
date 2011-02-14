@@ -127,7 +127,7 @@ AutomobileTypeFuelAge.class_eval do
     end
     
     # FIXME TODO maybe make this a method on AutomobileTypeFuelAge?
-    process "Calculate number of vehicles from total travel and total travel percent" do
+    process "Calculate number of vehicles from total travel percent and AutomobileTypeFuelYear" do
       AutomobileTypeFuelYear.run_data_miner!
       connection.execute %{
         UPDATE automobile_type_fuel_ages
