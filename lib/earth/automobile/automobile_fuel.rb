@@ -10,7 +10,6 @@ class AutomobileFuel < ActiveRecord::Base
   
   class << self
     def fallback_blend_portion
-      AutomobileTypeFuelYear.run_data_miner!
       latest_year = AutomobileTypeFuelYear.maximum('year')
       gas_use = AutomobileTypeFuelYear.where(:year => latest_year, :fuel_common_name => 'gasoline').sum('fuel_consumption')
       diesel_use = AutomobileTypeFuelYear.where(:year => latest_year, :fuel_common_name => 'diesel').sum('fuel_consumption')
@@ -21,7 +20,7 @@ class AutomobileFuel < ActiveRecord::Base
   falls_back_on :name => 'fallback',
                 :base_fuel_name => 'Motor Gasoline',
                 :blend_fuel_name => 'Distillate Fuel Oil No. 2',
-                :blend_portion => AutomobileFuel.fallback_blend_portion,
+                :blend_portion => lambda { AutomobileFuel.fallback_blend_portion },
                 :distance_fuel_common_name => 'fallback',
                 :ef_fuel_common_name => 'fallback'
   
