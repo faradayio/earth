@@ -44,7 +44,7 @@ ShipmentMode.class_eval do
     
     verify "Transport emission factor units should never be missing" do
       ShipmentMode.all.each do |mode|
-        if mode.transport_emission_factor_units.nil?
+        unless mode.transport_emission_factor_units.present?
           raise "Missing transport emission factor units for ShipmentMode #{mode.name}"
         end
       end
