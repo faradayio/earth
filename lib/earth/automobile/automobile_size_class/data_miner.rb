@@ -15,7 +15,7 @@ AutomobileSizeClass.class_eval do
       float  'conventional_fuel_efficiency_highway_multiplier'
     end
     
-    import "A list of size classes and pre-calculated fuel efficiencies",
+    import "a list of size classes and pre-calculated fuel efficiencies",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdHlRUE5IcWlrRENhN0EtUldPTy1rX1E&single=true&gid=0&output=csv' do
       key 'name'
       store 'type_name'
@@ -33,7 +33,7 @@ AutomobileSizeClass.class_eval do
       update_all "annual_distance_units = 'kilometres'"
     end
     
-    import "pre-calculated hybridity multipliers",
+    import "pre-calculated fuel efficiency multipliers",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdGt2NnhXLXUxNFRJSzczU3BkSHB3enc&hl=en&single=true&gid=0&output=csv' do
       key 'name'
       store 'hybrid_fuel_efficiency_city_multiplier'

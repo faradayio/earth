@@ -59,7 +59,7 @@ Carrier.class_eval do
     
     verify "Transport emission factor units should never be missing" do
       Carrier.all.each do |carrier|
-        if carrier.transport_emission_factor_units.nil?
+        unless carrier.transport_emission_factor_units.present?
           raise "Missing transport emission factor units for Carrier #{carrier.name}"
         end
       end
@@ -75,7 +75,7 @@ Carrier.class_eval do
     
     verify "Corporate emission factor units should never be missing" do
       Carrier.all.each do |carrier|
-        if carrier.corporate_emission_factor_units.nil?
+        unless carrier.corporate_emission_factor_units.present?
           raise "Missing corporate emission factor units for Carrier #{carrier.name}"
         end
       end
