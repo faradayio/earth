@@ -12,12 +12,12 @@ AutomobileTypeFuelAge.class_eval do
       integer 'vehicles'
     end
     
-    # FIXME TODO clean up these imports so they don't pull from all rows in the table - just the data rows
     import "age distribution of gasoline passenger cars from the 2010 EPA GHG Inventory",
            :url => 'http://www.epa.gov/climatechange/emissions/downloads10/2010-Inventory-Annex-Tables.zip',
            :filename => 'Annex Tables/Annex 3/Table A-91.csv',
-           :skip => 1 do
-      key 'name', :synthesize => lambda { |row| "Passenger cars gasoline age #{row['Vehicle Age']}" if row['Vehicle Age'].length < 3 }
+           :skip => 1,
+           :select => lambda { |row| row['Vehicle Age'].to_i.to_s == row['Vehicle Age'] } do
+      key 'name', :synthesize => lambda { |row| "Passenger cars gasoline age #{row['Vehicle Age']}" }
       store 'type_name', :static => 'Passenger cars'
       store 'fuel_common_name', :static => 'gasoline'
       store 'age', :field_name => 'Vehicle Age'
@@ -27,8 +27,9 @@ AutomobileTypeFuelAge.class_eval do
     import "age distribution of gasoline light-duty trucks from the 2010 EPA GHG Inventory",
            :url => 'http://www.epa.gov/climatechange/emissions/downloads10/2010-Inventory-Annex-Tables.zip',
            :filename => 'Annex Tables/Annex 3/Table A-91.csv',
-           :skip => 1 do
-      key 'name', :synthesize => lambda { |row| "Light-duty trucks gasoline age #{row['Vehicle Age']}" if row['Vehicle Age'].length < 3 }
+           :skip => 1,
+           :select => lambda { |row| row['Vehicle Age'].to_i.to_s == row['Vehicle Age'] } do
+      key 'name', :synthesize => lambda { |row| "Light-duty trucks gasoline age #{row['Vehicle Age']}" }
       store 'type_name', :static => 'Light-duty trucks'
       store 'fuel_common_name', :static => 'gasoline'
       store 'age', :field_name => 'Vehicle Age'
@@ -38,8 +39,9 @@ AutomobileTypeFuelAge.class_eval do
     import "age distribution of diesel passenger cars from the 2010 EPA GHG Inventory",
            :url => 'http://www.epa.gov/climatechange/emissions/downloads10/2010-Inventory-Annex-Tables.zip',
            :filename => 'Annex Tables/Annex 3/Table A-91.csv',
-           :skip => 1 do
-      key 'name', :synthesize => lambda { |row| "Passenger cars diesel age #{row['Vehicle Age']}" if row['Vehicle Age'].length < 3 }
+           :skip => 1,
+           :select => lambda { |row| row['Vehicle Age'].to_i.to_s == row['Vehicle Age'] } do
+      key 'name', :synthesize => lambda { |row| "Passenger cars diesel age #{row['Vehicle Age']}" }
       store 'type_name', :static => 'Passenger cars'
       store 'fuel_common_name', :static => 'diesel'
       store 'age', :field_name => 'Vehicle Age'
@@ -49,8 +51,9 @@ AutomobileTypeFuelAge.class_eval do
     import "age distribution of diesel light-duty trucks from the 2010 EPA GHG Inventory",
            :url => 'http://www.epa.gov/climatechange/emissions/downloads10/2010-Inventory-Annex-Tables.zip',
            :filename => 'Annex Tables/Annex 3/Table A-91.csv',
-           :skip => 1 do
-      key 'name', :synthesize => lambda { |row| "Light-duty trucks diesel age #{row['Vehicle Age']}" if row['Vehicle Age'].length < 3 }
+           :skip => 1,
+           :select => lambda { |row| row['Vehicle Age'].to_i.to_s == row['Vehicle Age'] } do
+      key 'name', :synthesize => lambda { |row| "Light-duty trucks diesel age #{row['Vehicle Age']}" }
       store 'type_name', :static => 'Light-duty trucks'
       store 'fuel_common_name', :static => 'diesel'
       store 'age', :field_name => 'Vehicle Age'
@@ -60,64 +63,72 @@ AutomobileTypeFuelAge.class_eval do
     import "total travel distribution of gasoline passenger cars from the 2010 EPA GHG Inventory",
            :url => 'http://www.epa.gov/climatechange/emissions/downloads10/2010-Inventory-Annex-Tables.zip',
            :filename => 'Annex Tables/Annex 3/Table A-93.csv',
-           :skip => 1 do
-      key 'name', :synthesize => lambda { |row| "Passenger cars gasoline age #{row['Vehicle Age']}" if row['Vehicle Age'].length < 3 }
+           :skip => 1,
+           :select => lambda { |row| row['Vehicle Age'].to_i.to_s == row['Vehicle Age'] } do
+      key 'name', :synthesize => lambda { |row| "Passenger cars gasoline age #{row['Vehicle Age']}" }
       store 'total_travel_percent', :synthesize => lambda { |row| row['LDGV'].to_f / 100 }
     end
     
     import "total travel distribution of gasoline light-duty trucks from the 2010 EPA GHG Inventory",
            :url => 'http://www.epa.gov/climatechange/emissions/downloads10/2010-Inventory-Annex-Tables.zip',
            :filename => 'Annex Tables/Annex 3/Table A-93.csv',
-           :skip => 1 do
-      key 'name', :synthesize => lambda { |row| "Light-duty trucks gasoline age #{row['Vehicle Age']}" if row['Vehicle Age'].length < 3 }
+           :skip => 1,
+           :select => lambda { |row| row['Vehicle Age'].to_i.to_s == row['Vehicle Age'] } do
+      key 'name', :synthesize => lambda { |row| "Light-duty trucks gasoline age #{row['Vehicle Age']}" }
       store 'total_travel_percent', :synthesize => lambda { |row| row['LDGT'].to_f / 100 }
     end
     
     import "total travel distribution of diesel passenger cars from the 2010 EPA GHG Inventory",
            :url => 'http://www.epa.gov/climatechange/emissions/downloads10/2010-Inventory-Annex-Tables.zip',
            :filename => 'Annex Tables/Annex 3/Table A-93.csv',
-           :skip => 1 do
-      key 'name', :synthesize => lambda { |row| "Passenger cars diesel age #{row['Vehicle Age']}" if row['Vehicle Age'].length < 3 }
+           :skip => 1,
+           :select => lambda { |row| row['Vehicle Age'].to_i.to_s == row['Vehicle Age'] } do
+      key 'name', :synthesize => lambda { |row| "Passenger cars diesel age #{row['Vehicle Age']}" }
       store 'total_travel_percent', :synthesize => lambda { |row| row['LDDV'].to_f / 100 }
     end
     
     import "total travel distribution of diesel light-duty trucks from the 2010 EPA GHG Inventory",
            :url => 'http://www.epa.gov/climatechange/emissions/downloads10/2010-Inventory-Annex-Tables.zip',
            :filename => 'Annex Tables/Annex 3/Table A-93.csv',
-           :skip => 1 do
-      key 'name', :synthesize => lambda { |row| "Light-duty trucks diesel age #{row['Vehicle Age']}" if row['Vehicle Age'].length < 3 }
+           :skip => 1,
+           :select => lambda { |row| row['Vehicle Age'].to_i.to_s == row['Vehicle Age'] } do
+      key 'name', :synthesize => lambda { |row| "Light-duty trucks diesel age #{row['Vehicle Age']}" }
       store 'total_travel_percent', :synthesize => lambda { |row| row['LDDT'].to_f / 100 }
     end
     
     import "average annual distance for gasoline passenger cars from the 2010 EPA GHG Inventory",
            :url => 'http://www.epa.gov/climatechange/emissions/downloads10/2010-Inventory-Annex-Tables.zip',
            :filename => 'Annex Tables/Annex 3/Table A-92.csv',
-           :skip => 1 do
-      key 'name', :synthesize => lambda { |row| "Passenger cars gasoline age #{row['Vehicle Age']}" if row['Vehicle Age'].length < 3 }
+           :skip => 1,
+           :select => lambda { |row| row['Vehicle Age'].to_i.to_s == row['Vehicle Age'] } do
+      key 'name', :synthesize => lambda { |row| "Passenger cars gasoline age #{row['Vehicle Age']}" }
       store 'annual_distance', :synthesize => lambda { |row| row['LDGV'].to_s.sub(',', '') }, :units => :miles
     end
     
     import "average annual distance for gasoline light-duty trucks from the 2010 EPA GHG Inventory",
            :url => 'http://www.epa.gov/climatechange/emissions/downloads10/2010-Inventory-Annex-Tables.zip',
            :filename => 'Annex Tables/Annex 3/Table A-92.csv',
-           :skip => 1 do
-      key 'name', :synthesize => lambda { |row| "Light-duty trucks gasoline age #{row['Vehicle Age']}" if row['Vehicle Age'].length < 3 }
+           :skip => 1,
+           :select => lambda { |row| row['Vehicle Age'].to_i.to_s == row['Vehicle Age'] } do
+      key 'name', :synthesize => lambda { |row| "Light-duty trucks gasoline age #{row['Vehicle Age']}" }
       store 'annual_distance', :synthesize => lambda { |row| row['LDGT'].to_s.sub(',', '') }, :units => :miles
     end
     
     import "average annual distance for diesel passenger cars from the 2010 EPA GHG Inventory",
            :url => 'http://www.epa.gov/climatechange/emissions/downloads10/2010-Inventory-Annex-Tables.zip',
            :filename => 'Annex Tables/Annex 3/Table A-92.csv',
-           :skip => 1 do
-      key 'name', :synthesize => lambda { |row| "Passenger cars diesel age #{row['Vehicle Age']}" if row['Vehicle Age'].length < 3 }
+           :skip => 1,
+           :select => lambda { |row| row['Vehicle Age'].to_i.to_s == row['Vehicle Age'] } do
+      key 'name', :synthesize => lambda { |row| "Passenger cars diesel age #{row['Vehicle Age']}" }
       store 'annual_distance', :synthesize => lambda { |row| row['LDDV'].to_s.sub(',', '') }, :units => :miles
     end
     
     import "average annual distance for diesel light-duty trucks from the 2010 EPA GHG Inventory",
            :url => 'http://www.epa.gov/climatechange/emissions/downloads10/2010-Inventory-Annex-Tables.zip',
            :filename => 'Annex Tables/Annex 3/Table A-92.csv',
-           :skip => 1 do
-      key 'name', :synthesize => lambda { |row| "Light-duty trucks diesel age #{row['Vehicle Age']}" if row['Vehicle Age'].length < 3 }
+           :skip => 1,
+           :select => lambda { |row| row['Vehicle Age'].to_i.to_s == row['Vehicle Age'] } do
+      key 'name', :synthesize => lambda { |row| "Light-duty trucks diesel age #{row['Vehicle Age']}" }
       store 'annual_distance', :synthesize => lambda { |row| row['LDDT'].to_s.sub(',', '') }, :units => :miles
     end
     

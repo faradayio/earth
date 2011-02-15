@@ -20,8 +20,9 @@ AutomobileTypeFuelYear.class_eval do
     import "total vehicle miles travelled by gasoline passenger cars from the 2010 EPA GHG Inventory",
            :url => 'http://www.epa.gov/climatechange/emissions/downloads10/2010-Inventory-Annex-Tables.zip',
            :filename => 'Annex Tables/Annex 3/Table A-87.csv',
-           :skip => 1 do
-      key   'name', :synthesize => lambda { |row| "Passenger cars gasoline #{row['Year']}" if row['Year'].length < 5 }
+           :skip => 1,
+           :select => lambda { |row| row['Year'].to_i.to_s == row['Year'] } do
+      key   'name', :synthesize => lambda { |row| "Passenger cars gasoline #{row['Year']}" }
       store 'type_name', :static => 'Passenger cars'
       store 'fuel_common_name', :static => 'gasoline'
       store 'year', :field_name => 'Year'
@@ -31,8 +32,9 @@ AutomobileTypeFuelYear.class_eval do
     import "total vehicle miles travelled by gasoline light-duty trucks from the 2010 EPA GHG Inventory",
            :url => 'http://www.epa.gov/climatechange/emissions/downloads10/2010-Inventory-Annex-Tables.zip',
            :filename => 'Annex Tables/Annex 3/Table A-87.csv',
-           :skip => 1 do
-      key   'name', :synthesize => lambda { |row| "Light-duty trucks gasoline #{row['Year']}" if row['Year'].length < 5 }
+           :skip => 1,
+           :select => lambda { |row| row['Year'].to_i.to_s == row['Year'] } do
+      key   'name', :synthesize => lambda { |row| "Light-duty trucks gasoline #{row['Year']}" }
       store 'type_name', :static => 'Light-duty trucks'
       store 'fuel_common_name', :static => 'gasoline'
       store 'year', :field_name => 'Year'
@@ -42,8 +44,9 @@ AutomobileTypeFuelYear.class_eval do
     import "total vehicle miles travelled by diesel passenger cars from the 2010 EPA GHG Inventory",
            :url => 'http://www.epa.gov/climatechange/emissions/downloads10/2010-Inventory-Annex-Tables.zip',
            :filename => 'Annex Tables/Annex 3/Table A-88.csv',
-           :skip => 1 do
-      key   'name', :synthesize => lambda { |row| "Passenger cars diesel #{row['Year']}" if row['Year'].length < 5 }
+           :skip => 1,
+           :select => lambda { |row| row['Year'].to_i.to_s == row['Year'] } do
+      key   'name', :synthesize => lambda { |row| "Passenger cars diesel #{row['Year']}" }
       store 'type_name', :static => 'Passenger cars'
       store 'fuel_common_name', :static => 'diesel'
       store 'year', :field_name => 'Year'
@@ -53,8 +56,9 @@ AutomobileTypeFuelYear.class_eval do
     import "total vehicle miles travelled by diesel light-duty trucks from the 2010 EPA GHG Inventory",
            :url => 'http://www.epa.gov/climatechange/emissions/downloads10/2010-Inventory-Annex-Tables.zip',
            :filename => 'Annex Tables/Annex 3/Table A-88.csv',
-           :skip => 1 do
-      key   'name', :synthesize => lambda { |row| "Light-duty trucks diesel #{row['Year']}" if row['Year'].length < 5 }
+           :skip => 1,
+           :select => lambda { |row| row['Year'].to_i.to_s == row['Year'] } do
+      key   'name', :synthesize => lambda { |row| "Light-duty trucks diesel #{row['Year']}" }
       store 'type_name', :static => 'Light-duty trucks'
       store 'fuel_common_name', :static => 'diesel'
       store 'year', :field_name => 'Year'
