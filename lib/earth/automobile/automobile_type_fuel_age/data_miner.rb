@@ -143,14 +143,18 @@ AutomobileTypeFuelAge.class_eval do
       AutomobileTypeFuelYear.run_data_miner!
       connection.execute %{
         UPDATE automobile_type_fuel_ages
-        SET automobile_type_fuel_ages.vehicles =
-          ((SELECT automobile_type_fuel_years.total_travel
-          FROM automobile_type_fuel_years
-          WHERE automobile_type_fuel_years.year =
-          (SELECT max(automobile_type_fuel_years.year) FROM automobile_type_fuel_years)
-          AND automobile_type_fuel_years.type_name = automobile_type_fuel_ages.type_name
-          AND automobile_type_fuel_years.fuel_common_name = automobile_type_fuel_ages.fuel_common_name
-          ) * automobile_type_fuel_ages.total_travel_percent / automobile_type_fuel_ages.annual_distance )
+        SET vehicles =
+          (
+            (
+              SELECT automobile_type_fuel_years.total_travel
+              FROM automobile_type_fuel_years
+              WHERE automobile_type_fuel_years.`year` =
+              (SELECT max(automobile_type_fuel_years.`year`) FROM automobile_type_fuel_years)
+              AND automobile_type_fuel_years.`type_name` = automobile_type_fuel_ages.`type_name`
+              AND automobile_type_fuel_years.fuel_common_name = automobile_type_fuel_ages.fuel_common_name
+            ) *
+            automobile_type_fuel_ages.total_travel_percent / automobile_type_fuel_ages.annual_distance
+          )
       }
     end
     
