@@ -1,3 +1,8 @@
+require 'earth/automobile/automobile_type_fuel_age'
+require 'earth/automobile/automobile_type_fuel_year'
+require 'earth/automobile/automobile_type_year'
+require 'earth/fuel/greenhouse_gas'
+
 class AutomobileFuel < ActiveRecord::Base
   set_primary_key :code
   
