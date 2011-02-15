@@ -5,6 +5,7 @@ AutomobileTypeFuelYear.class_eval do
       string  'type_name'
       string  'fuel_common_name'
       integer 'year'
+      string  'type_year_name'
       float   'total_travel'
       string  'total_travel_units'
       float   'fuel_consumption'
@@ -75,6 +76,10 @@ AutomobileTypeFuelYear.class_eval do
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdHBCMFhLRTFTZENsd0dPUGUyYlJna0E&hl=en&output=csv' do
       key 'name'
       store 'fuel_consumption', :units_field_name => 'fuel_consumption_units'
+    end
+    
+    process "Derive type year name for association with AutomobileTypeYear" do
+      update_all "type_year_name = CONCAT(type_name, ' ', year)"
     end
     
     # FIXME TODO maybe make this a method on AutomobileTypeFuelYear?
