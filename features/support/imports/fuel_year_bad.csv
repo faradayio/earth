@@ -1,2 +1,2 @@
-name,year,energy_content,carbon_content,energy_content_units,carbon_content_units,fuel_name
-Motor Gasoline 2008,2009,0,-1,foo,bar
+name,year,energy_content,carbon_content,co2_emission_factor,co2_biogenic_emission_factor,energy_content_units,carbon_content_units,co2_emission_factor_units,co2_biogenic_emission_factor_units,fuel_name
+Motor Gasoline 2008,2009,0,-1,-1,-2,foo,bar,foo,bar

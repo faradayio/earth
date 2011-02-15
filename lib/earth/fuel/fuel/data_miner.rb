@@ -2,34 +2,41 @@ Fuel.class_eval do
   data_miner do
     schema Earth.database_options do
       string 'name'
+      float  'density'
+      string 'density_units'
       float  'energy_content'
       string 'energy_content_units'
       float  'carbon_content'
       string 'carbon_content_units'
-      float  'density'
-      string 'density_units'
       float  'oxidation_factor'
       float  'biogenic_fraction'
+      float  'co2_emission_factor'
+      string 'co2_emission_factor_units'
+      float  'co2_biogenic_emission_factor'
+      string 'co2_biogenic_emission_factor_units'
     end
     
-    import "fuels with non-variable energy and carbon contents",
+    process "Derive fuel names from FuelYear" do
+      FuelYear.run_data_miner!
+      connection.execute %{
+        INSERT IGNORE INTO fuels(name)
+        SELECT DISTINCT fuel_years.fuel_name FROM fuel_years
+      }
+    end
+    
+    import "fuels with non-variable characteristics",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdGJmYkdtajZyV3Byb0lrd21xLVhXUGc&hl=en&output=csv' do
       key 'name'
       store 'energy_content', :units_field_name => 'energy_content_units'
       store 'carbon_content', :units_field_name => 'carbon_content_units'
+      store 'oxidation_factor'
+      store 'biogenic_fraction'
     end
     
     import "densities for aircraft fuels",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdHBjTVE4NmRlc05iUHVZR1E3eEJwOGc&hl=en&output=csv' do
       key 'name'
       store 'density', :units_field_name => 'density_units'
-    end
-    
-    import "fuel oxidation factors and biogenic fractions",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdEt3QmpsSzQ0VWRJdGZGSllYYWtJVnc&hl=en&output=csv' do
-      key 'name'
-      store 'oxidation_factor'
-      store 'biogenic_fraction'
     end
     
     process "Convert energy content of liquid fuels to metric units" do
@@ -56,6 +63,33 @@ Fuel.class_eval do
         UPDATE fuels
         SET carbon_content = carbon_content * #{conversion_factor}, carbon_content_units = 'grams_per_megajoule'
         WHERE carbon_content_units = 'teragrams_per_quadrillion_btu'
+      }
+    end
+    
+    process "Calculate CO2 and CO2 biogenic emission factors" do
+      conversion_factor = (1.0 / 1_000.0) * (44.0 / 12.0) # Google: 1 kg / 1e3 g * 44 CO2 / 12 C
+      connection.execute %{
+        UPDATE fuels
+        SET co2_emission_factor = carbon_content * energy_content * oxidation_factor * (1 - biogenic_fraction) * #{conversion_factor},
+            co2_biogenic_emission_factor = carbon_content * energy_content * oxidation_factor * biogenic_fraction * #{conversion_factor}
+      }
+    end
+    
+    process "Update emission factor units for liquid fuels" do
+      connection.execute %{
+        UPDATE fuels
+        SET co2_emission_factor_units = 'kilograms_per_litre',
+            co2_biogenic_emission_factor_units = 'kilograms_per_litre'
+        WHERE energy_content_units = 'megajoules_per_litre'
+      }
+    end
+    
+    process "Update emission factor units for gaseous fuels" do
+      connection.execute %{
+        UPDATE fuels
+        SET co2_emission_factor_units = 'kilograms_per_cubic_metre',
+            co2_biogenic_emission_factor_units = 'kilograms_per_cubic_metre'
+        WHERE energy_content_units = 'megajoules_per_cubic_metre'
       }
     end
     

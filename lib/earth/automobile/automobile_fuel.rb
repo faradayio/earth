@@ -45,23 +45,19 @@ class AutomobileFuel < ActiveRecord::Base
   
   # returns kg co2 / litre
   def co2_emission_factor
-    base_fuel_ef = (base_fuel.energy_content * base_fuel.carbon_content * base_fuel.oxidation_factor * (1 - base_fuel.biogenic_fraction)).grams.to(:kilograms).carbon.to(:co2)
-    if blend_fuel.nil?
-      base_fuel_ef
+    if blend_fuel.present?
+      (base_fuel.co2_emission_factor * (1 - blend_portion)) + (blend_fuel.co2_emission_factor * blend_portion)
     else
-      blend_fuel_ef = (blend_fuel.energy_content * blend_fuel.carbon_content * blend_fuel.oxidation_factor * (1 - blend_fuel.biogenic_fraction)).grams.to(:kilograms).carbon.to(:co2)
-      (base_fuel_ef * (1 - blend_portion)) + (blend_fuel_ef * blend_portion)
+      base_fuel.co2_emission_factor
     end
   end
   
   # returns kg co2 / litre
   def co2_biogenic_emission_factor
-    base_fuel_ef = (base_fuel.energy_content * base_fuel.carbon_content * base_fuel.oxidation_factor * base_fuel.biogenic_fraction).grams.to(:kilograms).carbon.to(:co2)
-    if blend_fuel.nil?
-      base_fuel_ef
+    if blend_fuel.present?
+      (base_fuel.co2_biogenic_emission_factor * (1 - blend_portion)) + (blend_fuel.co2_biogenic_emission_factor * blend_portion)
     else
-      blend_fuel_ef = (blend_fuel.energy_content * blend_fuel.carbon_content * blend_fuel.oxidation_factor * blend_fuel.biogenic_fraction).grams.to(:kilograms).carbon.to(:co2)
-      (base_fuel_ef * (1 - blend_portion)) + (blend_fuel_ef * blend_portion)
+      base_fuel.co2_biogenic_emission_factor
     end
   end
   
