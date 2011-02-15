@@ -77,7 +77,11 @@ AutomobileTypeFuelYear.class_eval do
     end
     
     process "Derive type year name for association with AutomobileTypeYear" do
-      update_all "type_year_name = CONCAT(type_name, ' ', year)"
+      if ActiveRecord::Base.connection.adapter_name.downcase == 'sqlite'
+        update_all "type_year_name = type_name || ' ' || year"
+      else
+        update_all "type_year_name = CONCAT(type_name, ' ', year)"
+      end
     end
     
     # FIXME TODO maybe make this a method on AutomobileTypeFuelYear?
