@@ -441,9 +441,9 @@ AutomobileMakeModelYearVariant.class_eval do
     end
     
     process "Derive model and model year names" do
-      update_all "make_model_name = CONCAT(make_name, ' ', name)"
-      update_all "make_year_name = CONCAT(make_name, ' ', year)"
-      update_all "make_model_year_name = CONCAT(make_name, ' ', name, ' ', year)"
+      update_all "make_model_name = make_name + ' ' + name"
+      update_all "make_year_name = make_name + ' ' + year"
+      update_all "make_model_year_name = make_name + ' ' + name + ' ' + year"
     end
     
     # Note: need to divide by 0.425143707 b/c equation is designed for miles / gallon not km / l
