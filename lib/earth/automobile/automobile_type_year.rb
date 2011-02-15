@@ -11,6 +11,11 @@ class AutomobileTypeYear < ActiveRecord::Base
     end
   end
   
+  # AutomobileFuel needs this to calculate weighted average hfc emission factor
+  def total_travel
+    automobile_type_fuel_years.map(&:total_travel).sum
+  end
+  
   def hfc_emission_factor
     hfc_emissions / automobile_type_fuel_years.map(&:fuel_consumption).sum
   end

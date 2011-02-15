@@ -77,7 +77,7 @@ class AutomobileFuel < ActiveRecord::Base
   
   # returns kg co2e / litre (hfc emission factor is already in co2e)
   def hfc_emission_factor
-    latest_type_fuel_years.weighted_average(:hfc_emission_factor, :weighted_by => :total_travel)
+    AutomobileTypeYear.where(:year => AutomobileTypeYear.all.map(&:year).max).weighted_average(:hfc_emission_factor, :weighted_by => :total_travel)
   end
   
   CODES = {
