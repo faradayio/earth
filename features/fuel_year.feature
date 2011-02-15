@@ -18,6 +18,11 @@ Feature: Data import for FuelYear
     When a data import verifies "Carbon content and energy content should be greater than zero"
     Then the verification should be successful
 
+  Scenario: Successfully verifying that emission factors are zero or more
+    Given a "FuelYear" data import fetches results listed in "fuel_year_good"
+    When a data import verifies "Emission factors should be zero or more"
+    Then the verification should be successful
+
   # Scenario: Successfully verifying that units are correct
   #   Given a "FuelYear" data import fetches results listed in "fuel_year_good"
   #   When a data import verifies "Units should be correct"
@@ -36,6 +41,11 @@ Feature: Data import for FuelYear
   Scenario: Failing to verify that carbon content and energy content are greater than zero
     Given a "FuelYear" data import fetches results listed in "fuel_year_bad"
     When a data import verifies "Carbon content and energy content should be greater than zero"
+    Then the verification should not be successful
+
+  Scenario: Failing to verify that emission factors are zero or more
+    Given a "FuelYear" data import fetches results listed in "fuel_year_bad"
+    When a data import verifies "Emission factors should be zero or more"
     Then the verification should not be successful
 
   # Scenario: Failing to verify that units are correct

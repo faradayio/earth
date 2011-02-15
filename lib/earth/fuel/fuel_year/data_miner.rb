@@ -8,15 +8,23 @@ FuelYear.class_eval do
       string  'energy_content_units'
       float   'carbon_content'
       string  'carbon_content_units'
+      float   'oxidation_factor'
+      float   'biogenic_fraction'
+      float   'co2_emission_factor'
+      string  'co2_emission_factor_units'
+      float   'co2_biogenic_emission_factor'
+      string  'co2_biogenic_emission_factor_units'
     end
     
-    import "fuels with annually variable energy and carbon contents, derived from the 2010 EPA GHG Inventory",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdFVERUFhUnpJOHJBQndHZnhQY2dsQmc&hl=en&output=csv' do
+    import "fuels with annually variable characteristics, derived from the 2010 EPA GHG Inventory",
+           :url => 'https://spreadsheets.google.com/pub?hl=en&hl=en&key=0AoQJbWqPrREqdFZVSlZ3SUZsTzZLVTB5bVk5THdBN2c&output=csv' do
       key 'name'
       store 'fuel_name'
       store 'year'
       store 'energy_content', :units_field_name => 'energy_content_units'
       store 'carbon_content', :units_field_name => 'carbon_content_units'
+      store 'oxidation_factor'
+      store 'biogenic_fraction'
     end
     
     process "Convert energy content of solid fuels to metric units" do
@@ -55,6 +63,43 @@ FuelYear.class_eval do
       }
     end
     
+    process "Calculate CO2 and CO2 biogenic emission factors" do
+      conversion_factor = (1.0 / 1_000.0) * (44.0 / 12.0) # Google: 1 kg / 1e3 g * 44 CO2 / 12 C
+      connection.execute %{
+        UPDATE fuel_years
+        SET co2_emission_factor = carbon_content * energy_content * oxidation_factor * (1 - biogenic_fraction) * #{conversion_factor},
+            co2_biogenic_emission_factor = carbon_content * energy_content * oxidation_factor * biogenic_fraction * #{conversion_factor}
+      }
+    end
+    
+    process "Update emission factor units for solid fuels" do
+      connection.execute %{
+        UPDATE fuel_years
+        SET co2_emission_factor_units = 'kilograms_per_kilogram',
+            co2_biogenic_emission_factor_units = 'kilograms_per_kilogram'
+        WHERE energy_content_units = 'megajoules_per_kilogram'
+      }
+    end
+    
+    process "Update emission factor units for liquid fuels" do
+      connection.execute %{
+        UPDATE fuel_years
+        SET co2_emission_factor_units = 'kilograms_per_litre',
+            co2_biogenic_emission_factor_units = 'kilograms_per_litre'
+        WHERE energy_content_units = 'megajoules_per_litre'
+      }
+    end
+    
+    process "Update emission factor units for gaseous fuels" do
+      connection.execute %{
+        UPDATE fuel_years
+        SET co2_emission_factor_units = 'kilograms_per_cubic_metre',
+            co2_biogenic_emission_factor_units = 'kilograms_per_cubic_metre'
+        WHERE energy_content_units = 'megajoules_per_cubic_metre'
+      }
+    end
+    
+    # FIXME TODO verify fuel name is in Fuel
     verify "Fuel name should never be missing" do
       FuelYear.all.each do |record|
         fuel_name = record.send(:fuel_name)
@@ -84,6 +129,17 @@ FuelYear.class_eval do
       end
     end
     
-    # FIXME TODO fix units test
+    verify "Emission factors should be zero or more" do
+      FuelYear.all.each do |record|
+        %w{ co2_emission_factor co2_biogenic_emission_factor }.each do |attribute|
+          value = record.send(:"#{attribute}")
+          unless value >= 0
+            raise "Invalid #{attribute} for FuelYear '#{record.name}': #{value} (should be >= 0)"
+          end
+        end
+      end
+    end
+    
+    # FIXME TODO verify units
   end
 end

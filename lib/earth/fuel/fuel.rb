@@ -7,21 +7,71 @@ class Fuel < ActiveRecord::Base
     tap "Brighter Planet's fuels data", Earth.taps_server
   end
   
+  def latest_year
+    fuel_years.find_by_year(fuel_years.maximum('year'))
+  end
+  
   def energy_content
-    if non_variable_energy_content = super
-      non_variable_energy_content
+    if content = super
+      content
     elsif fuel_years.present?
-      latest_year = fuel_years.maximum('year')
-      fuel_years.find_by_year(latest_year).energy_content
+      latest_year.energy_content
+    end
+  end
+  
+  def energy_content_units
+    if units = super
+      units
+    elsif fuel_years.present?
+      latest_year.energy_content_units
     end
   end
   
   def carbon_content
-    if non_variable_carbon_content = super
-      non_variable_carbon_content
+    if content = super
+      content
     elsif fuel_years.present?
-      latest_year = fuel_years.maximum('year')
-      fuel_years.find_by_year(latest_year).carbon_content
+      latest_year.carbon_content
+    end
+  end
+  
+  def carbon_content_units
+    if units = super
+      units
+    elsif fuel_years.present?
+      latest_year.carbon_content_units
+    end
+  end
+  
+  def co2_emission_factor
+    if ef = super
+      ef
+    elsif fuel_years.present?
+      latest_year.co2_emission_factor
+    end
+  end
+  
+  def co2_emission_factor_units
+    if units = super
+      units
+    elsif fuel_years.present?
+      latest_year.co2_emission_factor_units
+    end
+  end
+  
+  def co2_biogenic_emission_factor
+    if ef = super
+      ef
+    elsif fuel_years.present?
+      latest_year.co2_biogenic_emission_factor
+    end
+  end
+  
+  def co2_biogenic_emission_factor_units
+    if units = super
+      units
+    elsif fuel_years.present?
+      latest_year.co2_biogenic_emission_factor_units
     end
   end
 end
