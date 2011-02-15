@@ -1,13 +1,13 @@
 AutomobileFuel.class_eval do
   data_miner do
     schema Earth.database_options do
-      string   'code'
-      string   'name'
-      string   'base_fuel_name'
-      string   'blend_fuel_name'
-      float    'blend_portion' # the portion of the blend that is the blend fuel
-      string   'distance_fuel_common_name' # used to look up annual distance
-      string   'ef_fuel_common_name' # used to look up ch4 n2o and hfc emission factors
+      string 'code'
+      string 'name'
+      string 'base_fuel_name'
+      string 'blend_fuel_name'
+      float  'blend_portion' # the portion of the blend that is the blend fuel
+      string 'distance_fuel_common_name' # used to look up annual distance
+      string 'ef_fuel_common_name' # used to look up ch4 n2o and hfc emission factors
     end
     
     import "a list of pure automobile fuels",

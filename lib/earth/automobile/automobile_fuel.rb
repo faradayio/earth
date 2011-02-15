@@ -38,13 +38,12 @@ class AutomobileFuel < ActiveRecord::Base
   end
   
   # calculates the average distance traveled by all ages and vehicle types using the distance_fuel_common_name, weighted by vehicles
-  def annual_distance
+  def annual_distance # returns km
     scope = automobile_type_fuel_ages.any? ? automobile_type_fuel_ages : AutomobileTypeFuelAge
     scope.weighted_average(:annual_distance, :weighted_by => :vehicles)
   end
   
-  # returns kg co2 / litre
-  def co2_emission_factor
+  def co2_emission_factor # returns kg co2 / litre
     if blend_fuel.present?
       (base_fuel.co2_emission_factor * (1 - blend_portion)) + (blend_fuel.co2_emission_factor * blend_portion)
     else
@@ -52,8 +51,7 @@ class AutomobileFuel < ActiveRecord::Base
     end
   end
   
-  # returns kg co2 / litre
-  def co2_biogenic_emission_factor
+  def co2_biogenic_emission_factor # returns kg co2 / litre
     if blend_fuel.present?
       (base_fuel.co2_biogenic_emission_factor * (1 - blend_portion)) + (blend_fuel.co2_biogenic_emission_factor * blend_portion)
     else
@@ -66,18 +64,15 @@ class AutomobileFuel < ActiveRecord::Base
     scope.where(:year => scope.maximum('year'))
   end
   
-  # returns kg co2e / litre
-  def ch4_emission_factor
+  def ch4_emission_factor # returns kg co2e / litre
     latest_type_fuel_years.weighted_average(:ch4_emission_factor, :weighted_by => :total_travel) * GreenhouseGas[:ch4].global_warming_potential
   end
   
-  # returns kg co2e / litre
-  def n2o_emission_factor
+  def n2o_emission_factor # returns kg co2e / litre
     latest_type_fuel_years.weighted_average(:n2o_emission_factor, :weighted_by => :total_travel) * GreenhouseGas[:n2o].global_warming_potential
   end
   
-  # returns kg co2e / litre (hfc emission factor is already in co2e)
-  def hfc_emission_factor
+  def hfc_emission_factor # returns kg co2e / litre (hfc emission factor is already in co2e)
     AutomobileTypeYear.where(:year => AutomobileTypeYear.all.map(&:year).max).weighted_average(:hfc_emission_factor, :weighted_by => :total_travel)
   end
   
