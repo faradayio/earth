@@ -107,7 +107,7 @@ AutomobileTypeFuelYearAge.class_eval do
         UPDATE automobile_type_fuel_year_ages
         SET annual_distance = annual_distance * #{conversion_factor},
             annual_distance_units = 'kilometres'
-        WHERE annual_distance_units = 'miles'"
+        WHERE annual_distance_units = 'miles'
       }
     end
     
@@ -122,7 +122,7 @@ AutomobileTypeFuelYearAge.class_eval do
     process "Calculate number of vehicles from total travel percent and AutomobileTypeFuelYear" do
       AutomobileTypeFuelYear.run_data_miner!
       AutomobileTypeFuelYearAge.all.each do |record|
-        record.vehicles = record.total_travel_percent * record.automobile_type_fuel_year.total_travel / record.annual_distance
+        record.vehicles = record.total_travel_percent * record.type_fuel_year.total_travel / record.annual_distance
         record.save
       end
     end
@@ -154,7 +154,7 @@ AutomobileTypeFuelYearAge.class_eval do
       verify "#{attribute.humanize} should be from #{min} to #{max}" do
         AutomobileTypeFuelYearAge.all.each do |record|
           value = record.send(:"#{attribute}")
-          unless value >= min and value < max
+          unless value >= min and value <= max
             raise "Invalid #{attribute.humanize.downcase} for AutomobileTypeFuelYearAge '#{record.name}': #{value} (should be from #{min} to #{max})"
           end
         end
