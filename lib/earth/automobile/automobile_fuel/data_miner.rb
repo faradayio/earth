@@ -6,8 +6,8 @@ AutomobileFuel.class_eval do
       string 'base_fuel_name'
       string 'blend_fuel_name'
       float  'blend_portion' # the portion of the blend that is the blend fuel
-      string 'distance_fuel_common_name' # used to look up annual distance
-      string 'ef_fuel_common_name' # used to look up ch4 n2o and hfc emission factors
+      string 'distance_key' # used to look up annual distance from AutomobileTypeFuelYear
+      string 'ef_key' # used to look up ch4 n2o and hfc emission factors from AutomobileTypeFuelYear
     end
     
     import "a list of pure automobile fuels",
@@ -15,8 +15,8 @@ AutomobileFuel.class_eval do
       key   'code'
       store 'name'
       store 'base_fuel_name'
-      store 'distance_fuel_common_name'
-      store 'ef_fuel_common_name'
+      store 'distance_key'
+      store 'ef_key'
     end
     
     import "a list of blended automobile fuels",
@@ -26,8 +26,8 @@ AutomobileFuel.class_eval do
       store 'base_fuel_name'
       store 'blend_fuel_name'
       store 'blend_portion'
-      store 'distance_fuel_common_name'
-      store 'ef_fuel_common_name'
+      store 'distance_key'
+      store 'ef_key'
     end
     
     # FIXME TODO verify that base_fuel_name is always present + found in Fuel

@@ -1,4 +1,4 @@
-require 'earth/automobile/automobile_type_fuel_age'
+require 'earth/automobile/automobile_type_fuel_year_age'
 require 'earth/automobile/automobile_type_fuel_year'
 require 'earth/automobile/automobile_type_year'
 require 'earth/fuel/greenhouse_gas'
@@ -8,10 +8,10 @@ class AutomobileFuel < ActiveRecord::Base
   
   scope :ordered, :order => 'name'
   
-  has_many :automobile_type_fuel_ages,  :foreign_key => 'fuel_common_name', :primary_key => 'distance_fuel_common_name'
-  has_many :automobile_type_fuel_years, :foreign_key => 'fuel_common_name', :primary_key => 'ef_fuel_common_name'
-  belongs_to :base_fuel,                :foreign_key => 'base_fuel_name',  :class_name => 'Fuel'
-  belongs_to :blend_fuel,               :foreign_key => 'blend_fuel_name', :class_name => 'Fuel'
+  has_many :type_fuel_year_ages, :class_name => 'AutomobileTypeFuelYearAge', :foreign_key => 'fuel_common_name', :primary_key => 'distance_key'
+  has_many :type_fuel_years,     :class_name => 'AutomobileTypeFuelYear',    :foreign_key => 'fuel_common_name', :primary_key => 'ef_key'
+  belongs_to :base_fuel,         :class_name => 'Fuel',                      :foreign_key => 'base_fuel_name'
+  belongs_to :blend_fuel,        :class_name => 'Fuel',                      :foreign_key => 'blend_fuel_name'
   
   class << self
     def fallback_blend_portion
@@ -26,8 +26,8 @@ class AutomobileFuel < ActiveRecord::Base
                 :base_fuel_name => 'Motor Gasoline',
                 :blend_fuel_name => 'Distillate Fuel Oil No. 2',
                 :blend_portion => lambda { AutomobileFuel.fallback_blend_portion },
-                :distance_fuel_common_name => 'fallback',
-                :ef_fuel_common_name => 'fallback'
+                :distance_key => 'fallback',
+                :ef_key => 'fallback'
   
   data_miner do
     tap "Brighter Planet's sanitized automobile fuel type data", Earth.taps_server
@@ -37,10 +37,20 @@ class AutomobileFuel < ActiveRecord::Base
     end
   end
   
-  # calculates the average distance traveled by all ages and vehicle types using the distance_fuel_common_name, weighted by vehicles
+  # FIXME TODO should I run data miner on has_many associations?
+  # AutomobileTypeFuelYearAge
+  # => AutomobileTypeFuelYearControl
+  # => AutomobileTypeFuelControl
+  # AutomobileTypeYear
+  
+  # FIXME TODO should I run data miner on other classes we need?
+  # Fuel
+  # => FuelYear
+  # GreenhouseGas
+  
   def annual_distance # returns km
-    scope = automobile_type_fuel_ages.any? ? automobile_type_fuel_ages : AutomobileTypeFuelAge
-    scope.weighted_average(:annual_distance, :weighted_by => :vehicles)
+    scope = type_fuel_year_ages.any? ? type_fuel_year_ages : AutomobileTypeFuelYearAge
+    scope.where(:year => scope.maximum('year')).weighted_average(:annual_distance, :weighted_by => :vehicles)
   end
   
   def co2_emission_factor # returns kg co2 / litre
@@ -60,7 +70,7 @@ class AutomobileFuel < ActiveRecord::Base
   end
   
   def latest_type_fuel_years
-    scope = automobile_type_fuel_years.any? ? automobile_type_fuel_years : AutomobileTypeFuelYear
+    scope = type_fuel_years.any? ? type_fuel_years : AutomobileTypeFuelYear
     scope.where(:year => scope.maximum('year'))
   end
   
@@ -73,7 +83,9 @@ class AutomobileFuel < ActiveRecord::Base
   end
   
   def hfc_emission_factor # returns kg co2e / litre (hfc emission factor is already in co2e)
-    AutomobileTypeYear.where(:year => AutomobileTypeYear.all.map(&:year).max).weighted_average(:hfc_emission_factor, :weighted_by => :total_travel)
+    latest_type_fuel_years.map do |type_fuel_year|
+      type_fuel_year.total_travel * type_fuel_year.type_year.hfc_emission_factor
+    end.sum / latest_type_fuel_years.sum('total_travel')
   end
   
   CODES = {
