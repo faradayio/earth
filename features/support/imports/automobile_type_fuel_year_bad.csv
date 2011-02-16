@@ -1,2 +1,2 @@
-name,year,total_travel,fuel_consumption,ch4_emission_factor,n2o_emission_factor,hfc_emission_factor,total_travel_units,fuel_consumption_units,ch4_emission_factor_units,n2o_emission_factor_units,hfc_emission_factor_units,type_name,fuel_common_name
-Light-duty trucks diesel 2010,2010,0,-1,0,-1,-1,miles,gallons,grams_per_mile,grams_per_mile,co2e
+name,year,total_travel,fuel_consumption,ch4_emission_factor,n2o_emission_factor,total_travel_units,fuel_consumption_units,ch4_emission_factor_units,n2o_emission_factor_units,type_name,fuel_common_name,type_year_name
+Passenger cars gasoline 2009,2009,0,-1,0,-1,miles,gallons,grams_per_mile,grams_per_mile
