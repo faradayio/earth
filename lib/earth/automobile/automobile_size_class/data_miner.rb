@@ -15,6 +15,7 @@ AutomobileSizeClass.class_eval do
       float  'conventional_fuel_efficiency_highway_multiplier'
     end
     
+    # FIXME TODO pull this from AutomobileSizeClassYear
     import "a list of size classes and pre-calculated fuel efficiencies",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdHlRUE5IcWlrRENhN0EtUldPTy1rX1E&single=true&gid=0&output=csv' do
       key 'name'
@@ -41,6 +42,8 @@ AutomobileSizeClass.class_eval do
       store 'conventional_fuel_efficiency_city_multiplier'
       store 'conventional_fuel_efficiency_highway_multiplier'
     end
+    
+    # FIXME TODO verify type_name?
     
     verify "Annual distance should be greater than zero" do
       AutomobileSizeClass.all.each do |size_class|

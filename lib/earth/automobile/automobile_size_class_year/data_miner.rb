@@ -21,7 +21,8 @@ AutomobileSizeClassYear.class_eval do
       store 'fuel_efficiency_highway', :units_field_name => 'fuel_efficiency_highway_units'
     end
     
-    # FIXME TODO verify that type_name appears in AutomobileTypeFuelAges
+    # FIXME TODO verify that size_class_name is never missing?
+    # FIXME TODO verify that type_name appears in AutomobileTypeFuelYearAges
     
     verify "Year should be from 1975 to 2010" do
       AutomobileSizeClassYear.all.each do |record|

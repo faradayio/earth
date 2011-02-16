@@ -57,8 +57,6 @@ AutomobileTypeFuelYearControl.class_eval do
       end
     end
     
-    # FIXME TODO
-    # verify "Total travel percent for each type fuel year should sum to one" do
-    # end
+    # FIXME TODO verify "Total travel percent for each type fuel year should sum to one"
   end
 end

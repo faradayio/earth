@@ -55,6 +55,8 @@ AutomobileMakeYear.class_eval do
       }
     end
     
+    # FIXME TODO verify make_name and volume?
+    
     verify "Year should be from 1985 to 2010" do
       AutomobileMakeYear.all.each do |make_year|
         unless make_year.year > 1984 and make_year.year < 2011
