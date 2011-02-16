@@ -30,10 +30,29 @@ AutomobileFuel.class_eval do
       store 'ef_key'
     end
     
-    # FIXME TODO verify that base_fuel_name is always present + found in Fuel
-    # FIXME TODO verify that blend_fuel_name is found in Fuel if present
-    # FIXME TODO verify that blend_portion is 0 to 1 if present
-    # FIXME TODO verify that distance_fuel_common_name is always present + found in AutomobileTypeFuelAge
-    # FIXME TODO verify that ef_fuel_common_name is always present + found in AutomobileTypeFuelYear
+    %w{ base_fuel_name distance_key ef_key }.each do |attribute|
+      verify "#{attribute.humanize} should never be missing" do
+        AutomobileFuel.all.each do |fuel|
+          value = fuel.send(:"#{attribute}")
+          unless value.present?
+            raise "Missing #{attribute.humanize.downcase} for AutomobileFuel #{fuel.name}"
+          end
+        end
+      end
+    end
+    
+    # FIXME TODO verify that base_fuel_name and blend_fuel_name are found in Fuel if present
+    # FIXME TODO verify that distance_key is found in AutomobileTypeFuelYearAge
+    # FIXME TODO verify that ef_key is found in AutomobileTypeFuelYear
+    
+    verify "Blend portion should be from 0 to 1 if present" do
+      AutomobileFuel.all.each do |fuel|
+        if fuel.blend_portion.present?
+          unless fuel.blend_portion >=0 and fuel.blend_portion <= 1
+            raise "Invalid blend portion for AutomobileFuel #{fuel.name}: #{fuel.blend_portion} (should be from 0 to 1)"
+          end
+        end
+      end
+    end
   end
 end
