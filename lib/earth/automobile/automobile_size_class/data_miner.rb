@@ -25,12 +25,12 @@ AutomobileSizeClass.class_eval do
     end
     
     # FIXME TODO make this a method on AutomobileSizeClass?
-    process "Calculate annual distance from AutomobileTypeFuelAge" do
-      AutomobileTypeFuelAge.run_data_miner!
-      ages = AutomobileTypeFuelAge.arel_table
+    process "Calculate annual distance from AutomobileTypeFuelYearAge" do
+      AutomobileTypeFuelYearAge.run_data_miner!
+      ages = AutomobileTypeFuelYearAge.arel_table
       classes = AutomobileSizeClass.arel_table
       conditional_relation = ages[:type_name].eq(classes[:type_name])
-      update_all "annual_distance = (#{AutomobileTypeFuelAge.weighted_average_relation(:annual_distance, :weighted_by => :vehicles).where(conditional_relation).to_sql})"
+      update_all "annual_distance = (#{AutomobileTypeFuelYearAge.weighted_average_relation(:annual_distance, :weighted_by => :vehicles).where(conditional_relation).to_sql})"
       update_all "annual_distance_units = 'kilometres'"
     end
     
