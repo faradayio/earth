@@ -6,6 +6,8 @@ AutomobileTypeFuelYearControl.class_eval do
       string  'fuel_common_name'
       integer 'year'
       string  'control_name'
+      string  'type_fuel_control_name'
+      string  'type_fuel_year_name'
       float   'total_travel_percent'
     end
     
@@ -19,12 +21,28 @@ AutomobileTypeFuelYearControl.class_eval do
       store 'total_travel_percent'
     end
     
-    verify "Type name, fuel common name, and control name should never be missing" do
-      AutomobileTypeFuelYearControl.all.each do |record|
-        %w{ type_name fuel_common_name control_name }.each do |attribute|
+    process "Derive type fuel control name for association with AutomobileTypeFuelControl" do
+      if ActiveRecord::Base.connection.adapter_name.downcase == 'sqlite'
+        update_all "type_fuel_control_name = type_name || ' ' || fuel_common_name || ' ' || control_name"
+      else
+        update_all "type_fuel_control_name = CONCAT(type_name, ' ', fuel_common_name, ' ', control_name)"
+      end
+    end
+    
+    process "Derive type fuel year name for association with AutomobileTypeFuelYear" do
+      if ActiveRecord::Base.connection.adapter_name.downcase == 'sqlite'
+        update_all "type_fuel_year_name = type_name || ' ' || fuel_common_name || ' ' || year"
+      else
+        update_all "type_fuel_year_name = CONCAT(type_name, ' ', fuel_common_name, ' ', year)"
+      end
+    end
+    
+    %w{ type_name fuel_common_name control_name type_fuel_control_name type_fuel_year_name }.each do |attribute|
+      verify "#{attribute.humanize} should never be missing" do
+        AutomobileTypeFuelYearControl.all.each do |record|
           value = record.send(:"#{attribute}")
           unless value.present?
-            raise "Missing #{attribute} for AutomobileTypeFuelYearControl '#{record.name}'"
+            raise "Missing #{attribute.humanize.downcase} for AutomobileTypeFuelYearControl '#{record.name}'"
           end
         end
       end
