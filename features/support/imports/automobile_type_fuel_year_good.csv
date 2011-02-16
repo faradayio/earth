@@ -1,2 +1,2 @@
-name,year,total_travel,fuel_consumption,ch4_emission_factor,n2o_emission_factor,hfc_emission_factor,total_travel_units,fuel_consumption_units,ch4_emission_factor_units,n2o_emission_factor_units,hfc_emission_factor_units,type_name,fuel_common_name
-Passenger cars gasoline 2000,2000,1000,500,0.01,0.001,0,kilometres,litres,kilograms_per_litre,kilograms_per_litre,kilograms_co2e_per_litre,Passenger cars,gasoline
+name,year,total_travel,fuel_consumption,ch4_emission_factor,n2o_emission_factor,total_travel_units,fuel_consumption_units,ch4_emission_factor_units,n2o_emission_factor_units,type_name,fuel_common_name,type_year_name
+Passenger cars gasoline 2008,2008,1000,500,0.1,0.01,kilometres,litres,kilograms_per_litre,kilograms_per_litre,Passenger cars,gasoline,Passenger cars 2008

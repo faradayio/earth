@@ -66,8 +66,12 @@ AutomobileTypeFuelYear.class_eval do
     
     process "Convert total travel from billion miles to kilometres" do
       conversion_factor = 1_000_000_000.miles.to(:kilometres)
-      update_all "total_travel = total_travel * #{conversion_factor}"
-      update_all "total_travel_units = 'kilometres'"
+      connection.execute %{
+        UPDATE automobile_type_fuel_years
+        SET total_travel = total_travel * #{conversion_factor},
+            total_travel_units = 'kilometres'
+        WHERE total_travel_units = 'miles'
+      }
     end
     
     import "fuel consumption derived from the 2010 EPA GHG Inventory",
@@ -84,35 +88,32 @@ AutomobileTypeFuelYear.class_eval do
       end
     end
     
-    # FIXME TODO maybe make this a method on AutomobileTypeFuelYear?
     process "Calculate CH4 and N2O emision factors from AutomobileTypeFuelYearControl and AutomobileTypeFuelControl" do
       AutomobileTypeFuelYearControl.run_data_miner!
       AutomobileTypeFuelControl.run_data_miner!
       
-      year_controls = AutomobileTypeFuelYearControl.arel_table
-      controls = AutomobileTypeFuelControl.arel_table
-      years = AutomobileTypeFuelYear.arel_table
-      
-      join_relation = controls[:type_name].eq(year_controls[:type_name]).and(controls[:fuel_common_name].eq(year_controls[:fuel_common_name])).and(controls[:control_name].eq(year_controls[:control_name]))
-      where_relation = year_controls[:type_name].eq(years[:type_name]).and(year_controls[:fuel_common_name].eq(years[:fuel_common_name])).and(year_controls[:year].eq(years[:year]))
-      
-      %w{ ch4 n2o }.each do |gas|
-        update_all "#{gas}_emission_factor = (
-          SELECT SUM(automobile_type_fuel_year_controls.total_travel_percent * automobile_type_fuel_controls.#{gas}_emission_factor)
-          FROM automobile_type_fuel_year_controls
-          INNER JOIN automobile_type_fuel_controls
-          ON #{join_relation.to_sql}
-          WHERE #{where_relation.to_sql}) * total_travel / fuel_consumption"
-        update_all "#{gas}_emission_factor_units = 'kilograms_per_litre'"
+      AutomobileTypeFuelYear.all.each do |record|
+        record.ch4_emission_factor = record.year_controls.map do |year_control|
+          year_control.total_travel_percent * year_control.control.ch4_emission_factor
+        end.sum * record.total_travel / record.fuel_consumption
+        
+        record.n2o_emission_factor = record.year_controls.map do |year_control|
+          year_control.total_travel_percent * year_control.control.n2o_emission_factor
+        end.sum * record.total_travel / record.fuel_consumption
+        
+        record.ch4_emission_factor_units = 'kilograms_per_litre'
+        record.n2o_emission_factor_units = 'kilograms_per_litre'
+        
+        record.save
       end
     end
     
-    verify "Type name and fuel common name should never be missing" do
-      AutomobileTypeFuelYear.all.each do |record|
-        %w{ type_name fuel_common_name }.each do |attribute|
+    %w{ type_name fuel_common_name type_year_name }.each do |attribute|
+      verify "#{attribute.humanize} should never be missing" do
+        AutomobileTypeFuelYear.all.each do |record|
           value = record.send(:"#{attribute}")
           unless value.present?
-            raise "Missing #{attribute} for AutomobileTypeFuelYear '#{record.name}'"
+            raise "Missing #{attribute.humanize.downcase} for AutomobileTypeFuelYear '#{record.name}'"
           end
         end
       end
@@ -127,25 +128,28 @@ AutomobileTypeFuelYear.class_eval do
       end
     end
     
-    verify "Total travel, fuel consumption, and emission factors should be greater than zero" do
-      AutomobileTypeFuelYear.all.each do |record|
-        %w{ total_travel fuel_consumption ch4_emission_factor n2o_emission_factor }.each do |attribute|
+    %w{ total_travel fuel_consumption ch4_emission_factor n2o_emission_factor }.each do |attribute|
+      verify "#{attribute.humanize} should be greater than zero" do
+        AutomobileTypeFuelYear.all.each do |record|
           value = record.send(:"#{attribute}")
           unless value > 0
-            raise "Invalid #{attribute} for AutomobileTypeFuelYear '#{record.name}': #{value} (should be > 0)"
+            raise "Invalid #{attribute.humanize.downcase} for AutomobileTypeFuelYear '#{record.name}': #{value} (should be > 0)"
           end
         end
       end
     end
     
-    verify "Units should be correct" do
-      AutomobileTypeFuelYear.all.each do |record|
-        ["total_travel_units kilometres", "fuel_consumption_units litres", "ch4_emission_factor_units kilograms_per_litre", "n2o_emission_factor_units kilograms_per_litre"].each do |pair|
-          attribute = pair.split[0]
-          proper_units = pair.split[1]
+    [["total_travel_units", "kilometres"],
+     ["fuel_consumption_units", "litres"],
+     ["ch4_emission_factor_units", "kilograms_per_litre"],
+     ["n2o_emission_factor_units", "kilograms_per_litre"]].each do |pair|
+      attribute = pair[0]
+      proper_units = pair[1]
+      verify "#{attribute.humanize} should be #{proper_units.humanize.downcase}" do
+        AutomobileTypeFuelYear.all.each do |record|
           units = record.send(:"#{attribute}")
           unless units == proper_units
-            raise "Invalid #{attribute} for AutomobileTypeFuelYear '#{record.name}': #{units} (should be #{proper_units})"
+            raise "Invalid #{attribute.humanize.downcase} for AutomobileTypeFuelYear '#{record.name}': #{units} (should be #{proper_units})"
           end
         end
       end

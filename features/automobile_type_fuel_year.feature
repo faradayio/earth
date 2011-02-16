@@ -3,9 +3,19 @@ Feature: Data import for AutomobileTypeFuelYear
   I want to import AutomobileTypeFuelYear data
   So that I can perform type fuel year-based calculations
 
-  Scenario: Successfully verifying that type name and fuel common name are not missing
+  Scenario: Successfully verifying that type name is not missing
     Given a "AutomobileTypeFuelYear" data import fetches results listed in "automobile_type_fuel_year_good"
-    When a data import verifies "Type name and fuel common name should never be missing"
+    When a data import verifies "Type name should never be missing"
+    Then the verification should be successful
+
+  Scenario: Successfully verifying that fuel common name is not missing
+    Given a "AutomobileTypeFuelYear" data import fetches results listed in "automobile_type_fuel_year_good"
+    When a data import verifies "Fuel common name should never be missing"
+    Then the verification should be successful
+
+  Scenario: Successfully verifying that type year name is not missing
+    Given a "AutomobileTypeFuelYear" data import fetches results listed in "automobile_type_fuel_year_good"
+    When a data import verifies "Type year name should never be missing"
     Then the verification should be successful
 
   Scenario: Successfully verifying that year is from 1990 to 2008
@@ -13,24 +23,59 @@ Feature: Data import for AutomobileTypeFuelYear
     When a data import verifies "Year should be from 1990 to 2008"
     Then the verification should be successful
 
-  Scenario: Successfully verifying that total travel, fuel consumption, and emission factors are greater than zero
+  Scenario: Successfully verifying that total travel is greater than zero
     Given a "AutomobileTypeFuelYear" data import fetches results listed in "automobile_type_fuel_year_good"
-    When a data import verifies "Total travel, fuel consumption, and emission factors should be greater than zero"
+    When a data import verifies "Total travel should be greater than zero"
     Then the verification should be successful
 
-  Scenario: Successfully verifying that HFC emissions are zero or more
+  Scenario: Successfully verifying that fuel consumption is greater than zero
     Given a "AutomobileTypeFuelYear" data import fetches results listed in "automobile_type_fuel_year_good"
-    When a data import verifies "HFC emission factor should be zero or more"
+    When a data import verifies "Fuel consumption should be greater than zero"
     Then the verification should be successful
 
-  Scenario: Successfully verifying that units are correct
+  Scenario: Successfully verifying that ch4 emission factor is greater than zero
     Given a "AutomobileTypeFuelYear" data import fetches results listed in "automobile_type_fuel_year_good"
-    When a data import verifies "Units should be correct"
+    When a data import verifies "Ch4 emission factor should be greater than zero"
     Then the verification should be successful
 
-  Scenario: Failing to verify that type name and fuel common name are not missing
+  Scenario: Successfully verifying that n2o emission factor is greater than zero
+    Given a "AutomobileTypeFuelYear" data import fetches results listed in "automobile_type_fuel_year_good"
+    When a data import verifies "N2o emission factor should be greater than zero"
+    Then the verification should be successful
+
+  Scenario: Successfully verifying that total travel units are kilometres
+    Given a "AutomobileTypeFuelYear" data import fetches results listed in "automobile_type_fuel_year_good"
+    When a data import verifies "Total travel units should be kilometres"
+    Then the verification should be successful
+
+  Scenario: Successfully verifying that fuel consumption units are litres
+    Given a "AutomobileTypeFuelYear" data import fetches results listed in "automobile_type_fuel_year_good"
+    When a data import verifies "Fuel consumption units should be litres"
+    Then the verification should be successful
+
+  Scenario: Successfully verifying that ch4 emission factor units are kilograms per litre
+    Given a "AutomobileTypeFuelYear" data import fetches results listed in "automobile_type_fuel_year_good"
+    When a data import verifies "Ch4 emission factor units should be kilograms per litre"
+    Then the verification should be successful
+
+  Scenario: Successfully verifying that n2o emission factor units are kilograms per litre
+    Given a "AutomobileTypeFuelYear" data import fetches results listed in "automobile_type_fuel_year_good"
+    When a data import verifies "N2o emission factor units should be kilograms per litre"
+    Then the verification should be successful
+
+  Scenario: Failing to verify that type name is not missing
     Given a "AutomobileTypeFuelYear" data import fetches results listed in "automobile_type_fuel_year_bad"
-    When a data import verifies "Type name and fuel common name should never be missing"
+    When a data import verifies "Type name should never be missing"
+    Then the verification should not be successful
+
+  Scenario: Failing to verify that fuel common name is not missing
+    Given a "AutomobileTypeFuelYear" data import fetches results listed in "automobile_type_fuel_year_bad"
+    When a data import verifies "Fuel common name should never be missing"
+    Then the verification should not be successful
+
+  Scenario: Failing to verify that type year name is not missing
+    Given a "AutomobileTypeFuelYear" data import fetches results listed in "automobile_type_fuel_year_bad"
+    When a data import verifies "Type year name should never be missing"
     Then the verification should not be successful
 
   Scenario: Failing to verify that year is from 1990 to 2008
@@ -38,17 +83,42 @@ Feature: Data import for AutomobileTypeFuelYear
     When a data import verifies "Year should be from 1990 to 2008"
     Then the verification should not be successful
 
-  Scenario: Failing to verify that total travel, fuel consumption, and emission factors are greater than zero
+  Scenario: Failing to verify that total travel is greater than zero
     Given a "AutomobileTypeFuelYear" data import fetches results listed in "automobile_type_fuel_year_bad"
-    When a data import verifies "Total travel, fuel consumption, and emission factors should be greater than zero"
+    When a data import verifies "Total travel should be greater than zero"
     Then the verification should not be successful
 
-  Scenario: Failing to vefify that HFC emissions are zero or more
+  Scenario: Failing to verify that fuel consumption is greater than zero
     Given a "AutomobileTypeFuelYear" data import fetches results listed in "automobile_type_fuel_year_bad"
-    When a data import verifies "HFC emission factor should be zero or more"
+    When a data import verifies "Fuel consumption should be greater than zero"
     Then the verification should not be successful
 
-  Scenario: Failing to verify that units are correct
+  Scenario: Failing to verify that ch4 emission factor is greater than zero
     Given a "AutomobileTypeFuelYear" data import fetches results listed in "automobile_type_fuel_year_bad"
-    When a data import verifies "Units should be correct"
+    When a data import verifies "Ch4 emission factor should be greater than zero"
+    Then the verification should not be successful
+
+  Scenario: Failing to verify that n2o emission factor is greater than zero
+    Given a "AutomobileTypeFuelYear" data import fetches results listed in "automobile_type_fuel_year_bad"
+    When a data import verifies "N2o emission factor should be greater than zero"
+    Then the verification should not be successful
+
+  Scenario: Failing to verify that total travel units are kilometres
+    Given a "AutomobileTypeFuelYear" data import fetches results listed in "automobile_type_fuel_year_bad"
+    When a data import verifies "Total travel units should be kilometres"
+    Then the verification should not be successful
+
+  Scenario: Failing to verify that fuel consumption units are litres
+    Given a "AutomobileTypeFuelYear" data import fetches results listed in "automobile_type_fuel_year_bad"
+    When a data import verifies "Fuel consumption units should be litres"
+    Then the verification should not be successful
+
+  Scenario: Failing to verify that ch4 emission factor units are kilograms per litre
+    Given a "AutomobileTypeFuelYear" data import fetches results listed in "automobile_type_fuel_year_bad"
+    When a data import verifies "Ch4 emission factor units should be kilograms per litre"
+    Then the verification should not be successful
+
+  Scenario: Failing to verify that n2o emission factor units are kilograms per litre
+    Given a "AutomobileTypeFuelYear" data import fetches results listed in "automobile_type_fuel_year_bad"
+    When a data import verifies "N2o emission factor units should be kilograms per litre"
     Then the verification should not be successful
