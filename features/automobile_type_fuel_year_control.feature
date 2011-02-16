@@ -13,6 +13,11 @@ Feature: Data import for AutomobileTypeFuelYearControl
     When a data import verifies "Fuel common name should never be missing"
     Then the verification should be successful
 
+  Scenario: Successfully verifying that control name is not missing
+    Given a "AutomobileTypeFuelYearControl" data import fetches results listed in "automobile_type_fuel_year_control_good"
+    When a data import verifies "Control name should never be missing"
+    Then the verification should be successful
+
   Scenario: Successfully verifying that type fuel control name is not missing
     Given a "AutomobileTypeFuelYearControl" data import fetches results listed in "automobile_type_fuel_year_control_good"
     When a data import verifies "Type fuel control name should never be missing"
@@ -21,11 +26,6 @@ Feature: Data import for AutomobileTypeFuelYearControl
   Scenario: Successfully verifying that type fuel year name is not missing
     Given a "AutomobileTypeFuelYearControl" data import fetches results listed in "automobile_type_fuel_year_control_good"
     When a data import verifies "Type fuel year name should never be missing"
-    Then the verification should be successful
-
-  Scenario: Successfully verifying that control name is not missing
-    Given a "AutomobileTypeFuelYearControl" data import fetches results listed in "automobile_type_fuel_year_control_good"
-    When a data import verifies "Control name should never be missing"
     Then the verification should be successful
 
   Scenario: Successfully verifying that year is from 1990 to 2008
@@ -48,6 +48,11 @@ Feature: Data import for AutomobileTypeFuelYearControl
     When a data import verifies "Fuel common name should never be missing"
     Then the verification should not be successful
 
+  Scenario: Failing to verify that control name is not missing
+    Given a "AutomobileTypeFuelYearControl" data import fetches results listed in "automobile_type_fuel_year_control_bad"
+    When a data import verifies "Control name should never be missing"
+    Then the verification should not be successful
+
   Scenario: Failing to verify that type fuel control name is not missing
     Given a "AutomobileTypeFuelYearControl" data import fetches results listed in "automobile_type_fuel_year_control_bad"
     When a data import verifies "Type fuel control name should never be missing"
@@ -56,11 +61,6 @@ Feature: Data import for AutomobileTypeFuelYearControl
   Scenario: Failing to verify that type fuel year name is not missing
     Given a "AutomobileTypeFuelYearControl" data import fetches results listed in "automobile_type_fuel_year_control_bad"
     When a data import verifies "Type fuel year name should never be missing"
-    Then the verification should not be successful
-
-  Scenario: Failing to verify that control name is not missing
-    Given a "AutomobileTypeFuelYearControl" data import fetches results listed in "automobile_type_fuel_year_control_bad"
-    When a data import verifies "Control name should never be missing"
     Then the verification should not be successful
 
   Scenario: Failing to verify that year is from 1990 to 2008
