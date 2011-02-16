@@ -18,7 +18,7 @@ Feature: Data import for AutomobileTypeFuelAge
     When a data import verifies "Age percent and total travel percent should be from zero to one"
     Then the verification should be successful
   
-  Scenario: Successfully verifying that age annual distance and vehicles are greater than zero
+  Scenario: Successfully verifying that annual distance and vehicles are greater than zero
     Given a "AutomobileTypeFuelAge" data import fetches results listed in "automobile_type_fuel_age_good"
     When a data import verifies "Annual distance and vehicles should be greater than zero"
     Then the verification should be successful

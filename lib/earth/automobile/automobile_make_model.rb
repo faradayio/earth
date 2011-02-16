@@ -7,7 +7,7 @@ class AutomobileMakeModel < ActiveRecord::Base
   data_miner do
     tap "Brighter Planet's auto model data", Earth.taps_server
     
-    process "bring in dependencies" do
+    process "Pull dependencies" do
       run_data_miner_on_belongs_to_associations
     end
   end
