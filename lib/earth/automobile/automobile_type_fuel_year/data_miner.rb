@@ -70,7 +70,7 @@ AutomobileTypeFuelYear.class_eval do
         UPDATE automobile_type_fuel_years
         SET total_travel = total_travel * #{conversion_factor},
             total_travel_units = 'kilometres'
-        WHERE total_travel_units = 'miles'
+        WHERE total_travel_units = 'billion_miles'
       }
     end
     
