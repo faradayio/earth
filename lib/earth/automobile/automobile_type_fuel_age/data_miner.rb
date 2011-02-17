@@ -1,3 +1,4 @@
+# DEPRECATED - use AutomobileTypeFuelYearAge
 AutomobileTypeFuelAge.class_eval do
   data_miner do
     schema Earth.database_options do

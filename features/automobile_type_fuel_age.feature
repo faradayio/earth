@@ -1,3 +1,4 @@
+# DEPRECATED - use AutomobileTypeFuelYearAge
 Feature: Data import for AutomobileTypeFuelAge
   As a data user
   I want to import AutomobileTypeFuelAge data

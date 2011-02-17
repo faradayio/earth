@@ -1,3 +1,4 @@
+# DEPRECATED - use AutomobileTypeFuelYearAge
 class AutomobileTypeFuelAge < ActiveRecord::Base
   set_primary_key :name
   

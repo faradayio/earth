@@ -1,3 +1,4 @@
+# DEPRECATED - use AutomobileFuel
 class AutomobileFuelType < ActiveRecord::Base
   set_primary_key :code
   
