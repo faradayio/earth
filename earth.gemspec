@@ -32,10 +32,10 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'errata'
   s.add_runtime_dependency 'falls_back_on', '>= 0.0.3'
   s.add_runtime_dependency 'geokit', '>= 1.5.0'
+  s.add_runtime_dependency 'geokit-rails'
   s.add_runtime_dependency 'cohort_scope', '>= 0.0.7'
   s.add_runtime_dependency 'conversions', '>= 1.4.5'
   s.add_runtime_dependency 'weighted_average', '>= 0.0.4'
   s.add_runtime_dependency 'loose_tight_dictionary', '>= 0.0.8'
-  s.add_development_dependency 'sniff', '~> 0.5.3'
-  s.add_development_dependency 'bueller'
+  s.add_development_dependency 'sniff', '~> 0.6.1'
 end
