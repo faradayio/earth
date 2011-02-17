@@ -4,9 +4,7 @@ require 'earth/automobile/automobile_type_year'
 require 'earth/fuel/greenhouse_gas'
 
 class AutomobileFuel < ActiveRecord::Base
-  set_primary_key :code
-  
-  scope :ordered, :order => 'name'
+  set_primary_key :name
   
   has_many :type_fuel_year_ages, :class_name => 'AutomobileTypeFuelYearAge', :foreign_key => 'fuel_common_name', :primary_key => 'distance_key'
   has_many :type_fuel_years,     :class_name => 'AutomobileTypeFuelYear',    :foreign_key => 'fuel_common_name', :primary_key => 'ef_key'
