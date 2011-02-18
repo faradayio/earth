@@ -28,7 +28,7 @@ class AutomobileFuel < ActiveRecord::Base
                 :ef_key => 'fallback'
   
   data_miner do
-    tap "Brighter Planet's sanitized automobile fuel type data", Earth.taps_server
+    tap "Brighter Planet's sanitized automobile fuel data", Earth.taps_server
     
     process "pull dependencies" do
       run_data_miner_on_belongs_to_associations
