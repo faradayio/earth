@@ -59,12 +59,20 @@ class AutomobileFuel < ActiveRecord::Base
     end
   end
   
+  def co2_emission_factor_units
+    base_fuel.co2_emission_factor_units
+  end
+  
   def co2_biogenic_emission_factor # returns kg co2 / litre
     if blend_fuel.present?
       (base_fuel.co2_biogenic_emission_factor * (1 - blend_portion)) + (blend_fuel.co2_biogenic_emission_factor * blend_portion)
     else
       base_fuel.co2_biogenic_emission_factor
     end
+  end
+  
+  def co2_biogenic_emission_factor_units
+    base_fuel.co2_biogenic_emission_factor_units
   end
   
   def latest_type_fuel_years
