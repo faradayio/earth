@@ -4,12 +4,12 @@ BusFuelYearControl.class_eval do
       string  'name'
       string  'bus_fuel_name'
       integer 'year'
-      string  'bus_fuel_control'
-      string  'bus_fuel_name_control'
+      string  'control'
+      string  'bus_fuel_control_name'
       float   'total_travel_percent'
     end
-
-    process "ensure all BusFuelControls are imported" do
+    
+    process "Ensure all BusFuelControls are imported" do
       BusFuelControl.run_data_miner!
     end
     
@@ -18,15 +18,15 @@ BusFuelYearControl.class_eval do
       key   'name'
       store 'bus_fuel_name'
       store 'year'
-      store 'bus_fuel_control', :field_name => 'control'
+      store 'control'
       store 'total_travel_percent'
     end
     
     process "Derive bus fuel control name for association with BusFuelControl" do
       if ActiveRecord::Base.connection.adapter_name.downcase == 'sqlite'
-        update_all "bus_fuel_name_control = bus_fuel_name || ' ' || bus_fuel_control"
+        update_all "bus_fuel_control_name = bus_fuel_name || ' ' || control"
       else
-        update_all "bus_fuel_name_control = CONCAT(bus_fuel_name, ' ', bus_fuel_control)"
+        update_all "bus_fuel_control_name = CONCAT(bus_fuel_name, ' ', control)"
       end
     end
     
