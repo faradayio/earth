@@ -15,22 +15,4 @@ class BusFuel < ActiveRecord::Base
   def latest_year_controls
     year_controls.where(:year => year_controls.maximum('year'))
   end
-  
-  def n2o_emission_factor
-    if ef = super
-      ef
-    else
-      latest_year_controls.map do |year_control|
-        year_control.total_travel_percent * year_control.control.n2o_emission_factor
-      end.sum * GreenhouseGas[:n2o].global_warming_potential
-    end
-  end
-  
-  def n2o_emission_factor_units
-    if units = super
-      units
-    else
-      latest_year_controls.first.control.n2o_emission_factor_units
-    end
-  end
 end

@@ -131,6 +131,23 @@ BusFuel.class_eval do
       end
     end
 
+    process 'Generate N2O emission factor and units' do
+      BusFuel.all.each do |bus_fuel|
+        unless bus_fuel.n2o_emission_factor.present?
+          factors_by_year = bus_fuel.latest_year_controls.map do |year_control|
+            year_control.total_travel_percent * year_control.control.n2o_emission_factor
+          end
+          bus_fuel.n2o_emission_factor = factors_by_year.sum * GreenhouseGas[:n2o].global_warming_potential
+        end
+
+        unless bus_fuel.n2o_emission_factor_units.present?
+          bus_fuel.n2o_emission_factor_units = bus_fuel.latest_year_controls.first.control.n2o_emission_factor_units
+        end
+
+        bus_fuel.save!
+      end
+    end
+
     # FIXME TODO verify fuel_name appears in fuels
     %w{ fuel_name }.each do |attribute|
       verify "#{attribute.humanize} should never be missing" do
