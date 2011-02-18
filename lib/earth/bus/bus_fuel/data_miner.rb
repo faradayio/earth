@@ -43,17 +43,19 @@ BusFuel.class_eval do
     
     process "Convert emission factors to metric units" do
       conversion_factor = (1 / 1.609344) * (1.0 / 1_000.0 ) # Google: 1 mile / 1.609344 km * 1 kg / 1000 g
+      gwp_ch4 = GreenhouseGas[:ch4].global_warming_potential
       connection.execute %{
         UPDATE bus_fuels
-        SET ch4_emission_factor = ch4_emission_factor * #{conversion_factor},
-            ch4_emission_factor_units = 'kilograms_per_kilometre'
-        WHERE ch4_emission_factor_units = 'grams_per_mile' AND ch4_emission_factor IS NOT NULL
+        SET ch4_emission_factor = ch4_emission_factor * #{conversion_factor} * #{gwp_ch4},
+            ch4_emission_factor_units = 'kilograms_co2e_per_kilometre'
+        WHERE ch4_emission_factor_units = 'grams_per_mile'
       }
       
+      gwp_n2o = GreenhouseGas[:n2o].global_warming_potential
       connection.execute %{
         UPDATE bus_fuels
-        SET n2o_emission_factor = n2o_emission_factor * #{conversion_factor},
-            n2o_emission_factor_units = 'kilograms_per_kilometre'
+        SET n2o_emission_factor = n2o_emission_factor * #{conversion_factor} * #{gwp_n2o},
+            n2o_emission_factor_units = 'kilograms_co2e_per_kilometre'
         WHERE n2o_emission_factor_units = 'grams_per_mile'
       }
     end
