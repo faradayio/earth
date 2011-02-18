@@ -69,49 +69,32 @@ BusFuel.class_eval do
         WHERE energy_content_units = 'btu_per_gallon'
       }
     end
-
-    process 'generate CO2 emission factors and units' do
+    
+    process 'Calculate CO2 and CO2 biogenic emission factors and units' do
       BusFuel.all.each do |bus_fuel|
         fuel = bus_fuel.fuel
-
         if bus_fuel.energy_content.present?
-          factor = (bus_fuel.energy_content * fuel.carbon_content * fuel.oxidation_factor * (1 - fuel.biogenic_fraction))
-          bus_fuel.co2_emission_factor = factor.grams.to(:kilograms).carbon.to(:co2)
+          co2_factor = (bus_fuel.energy_content * fuel.carbon_content * fuel.oxidation_factor * (1 - fuel.biogenic_fraction))
+          bus_fuel.co2_emission_factor = co2_factor.grams.to(:kilograms).carbon.to(:co2)
+          
+          co2_prefix = fuel.co2_emission_factor_units.split("_per_")[0]
+          co2_suffix = bus_fuel.energy_content_units.split("_per_")[1]
+          bus_fuel.co2_emission_factor_units = co2_prefix + "_per_" + co2_suffix
+          
+          co2_biogenic_factor = (bus_fuel.energy_content * fuel.carbon_content * fuel.oxidation_factor * fuel.biogenic_fraction)
+          bus_fuel.co2_biogenic_emission_factor = co2_biogenic_factor.grams.to(:kilograms).carbon.to(:co2)
+          
+          co2_biogenic_prefix = fuel.co2_biogenic_emission_factor_units.split("_per_")[0]
+          co2_biogenic_suffix = bus_fuel.energy_content_units.split("_per_")[1]
+          bus_fuel.co2_biogenic_emission_factor_units = co2_biogenic_prefix + "_per_" + co2_biogenic_suffix
         else
           bus_fuel.co2_emission_factor = fuel.co2_emission_factor
-        end
-
-        if bus_fuel.energy_content.present?
-          prefix = fuel.co2_emission_factor_units.split("_per_")[0]
-          suffix = bus_fuel.energy_content_units.split("_per_")[1]
-          bus_fuel.co2_emission_factor_units = prefix + "_per_" + suffix
-        else
-          bus_fuel.co2_emission_factor_units = 
-            fuel.co2_emission_factor_units
-        end
-
-        bus_fuel.save!
-      end
-    end
-
-    process 'Generate CO2 biogenic emission factor and units' do
-      BusFuel.all.each do |bus_fuel|
-        fuel = bus_fuel.fuel
-        if bus_fuel.energy_content.present?
-           factor = (bus_fuel.energy_content * fuel.carbon_content * fuel.oxidation_factor * fuel.biogenic_fraction)
-          bus_fuel.co2_biogenic_emission_factor = factor.grams.to(:kilograms).carbon.to(:co2)
-        else
+          bus_fuel.co2_emission_factor_units = fuel.co2_emission_factor_units
+          
           bus_fuel.co2_biogenic_emission_factor = fuel.co2_biogenic_emission_factor
-        end
-
-        if bus_fuel.energy_content.present?
-          prefix = fuel.co2_biogenic_emission_factor_units.split("_per_")[0] 
-          suffix = bus_fuel.energy_content_units.split("_per_")[1]
-          bus_fuel.co2_biogenic_emission_factor_units = prefix + "_per_" + suffix
-        else
           bus_fuel.co2_biogenic_emission_factor_units = fuel.co2_biogenic_emission_factor_units
         end
-
+        
         bus_fuel.save!
       end
     end
