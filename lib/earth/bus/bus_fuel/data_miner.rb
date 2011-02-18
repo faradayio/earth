@@ -98,37 +98,29 @@ BusFuel.class_eval do
         bus_fuel.save!
       end
     end
-
-    process 'Generate CH4 emission factor and units' do
+    
+    process 'Calculate CH4 and N2O emission factor and units for BusFuels with BusFuelYearControls' do
       BusFuel.all.each do |bus_fuel|
-        unless bus_fuel.ch4_emission_factor.present?
-          factors_by_year = bus_fuel.latest_year_controls.map do |year_control|
-             year_control.total_travel_percent * year_control.control.ch4_emission_factor
+        if bus_fuel.latest_fuel_year_controls.present?
+          ch4_factors_by_year = bus_fuel.latest_fuel_year_controls.map do |fyc|
+             fyc.total_travel_percent * fyc.fuel_control.ch4_emission_factor
           end
-          bus_fuel.ch4_emission_factor = factors_by_year.sum * GreenhouseGas[:ch4].global_warming_potential
-        end
-
-        unless bus_fuel.ch4_emission_factor_units.present?
-          bus_fuel.ch4_emission_factor_units = bus_fuel.latest_year_controls.first.control.ch4_emission_factor_units
-        end
-
-        bus_fuel.save!
-      end
-    end
-
-    process 'Generate N2O emission factor and units' do
-      BusFuel.all.each do |bus_fuel|
-        unless bus_fuel.n2o_emission_factor.present?
-          factors_by_year = bus_fuel.latest_year_controls.map do |year_control|
-            year_control.total_travel_percent * year_control.control.n2o_emission_factor
+          bus_fuel.ch4_emission_factor = ch4_factors_by_year.sum * GreenhouseGas[:ch4].global_warming_potential
+          
+          ch4_prefix = bus_fuel.latest_fuel_year_controls.first.fuel_control.ch4_emission_factor_units.split("_per_")[0]
+          ch4_suffix = bus_fuel.latest_fuel_year_controls.first.fuel_control.ch4_emission_factor_units.split("_per_")[1]
+          bus_fuel.ch4_emission_factor_units = ch4_prefix + "_co2e_per_" + ch4_suffix
+          
+          n2o_factors_by_year = bus_fuel.latest_fuel_year_controls.map do |fyc|
+             fyc.total_travel_percent * fyc.fuel_control.n2o_emission_factor
           end
-          bus_fuel.n2o_emission_factor = factors_by_year.sum * GreenhouseGas[:n2o].global_warming_potential
+          bus_fuel.n2o_emission_factor = n2o_factors_by_year.sum * GreenhouseGas[:n2o].global_warming_potential
+          
+          n2o_prefix = bus_fuel.latest_fuel_year_controls.first.fuel_control.n2o_emission_factor_units.split("_per_")[0]
+          n2o_suffix = bus_fuel.latest_fuel_year_controls.first.fuel_control.n2o_emission_factor_units.split("_per_")[1]
+          bus_fuel.n2o_emission_factor_units = n2o_prefix + "_co2e_per_" + n2o_suffix
         end
-
-        unless bus_fuel.n2o_emission_factor_units.present?
-          bus_fuel.n2o_emission_factor_units = bus_fuel.latest_year_controls.first.control.n2o_emission_factor_units
-        end
-
+        
         bus_fuel.save!
       end
     end
