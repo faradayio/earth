@@ -8,7 +8,7 @@ describe 'BusFuel' do
   it 'is related to fuels' do
     Fuel.run_data_miner!
     BusFuel.run_data_miner!
-    BusFuel.first.fuel.should_not be_nil
+    BusFuel.last.fuel.should_not be_nil
   end
 end
 

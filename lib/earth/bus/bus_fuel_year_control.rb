@@ -1,7 +1,7 @@
 class BusFuelYearControl < ActiveRecord::Base
   set_primary_key :name
   
-  belongs_to :control, :class_name => 'BusFuelControl', :foreign_key => 'bus_fuel_control_name'
+  belongs_to :control, :class_name => 'BusFuelControl', :foreign_key => 'bus_fuel_name_control'
   
   data_miner do
     tap "Brighter Planet's sanitized bus fuel data", Earth.taps_server

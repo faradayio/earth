@@ -5,14 +5,20 @@ BusFuel.class_eval do
       string 'fuel_name'
       float  'energy_content'
       string 'energy_content_units'
+      float  'co2_emission_factor'
+      string 'co2_emission_factor_units'
+      float  'co2_biogenic_emission_factor'
+      string 'co2_biogenic_emission_factor_units'
       float  'ch4_emission_factor'
       string 'ch4_emission_factor_units'
       float  'n2o_emission_factor'
       string 'n2o_emission_factor_units'
     end
 
-    process "ensure that GreenhouseGasses are imported" do
+    process "ensure dependent datasets are imported" do
       GreenhouseGas.run_data_miner!
+      BusFuelControl.run_data_miner!
+      BusFuelYearControl.run_data_miner!
     end
     
     import "a list of bus fuels without emission factors",
@@ -41,7 +47,7 @@ BusFuel.class_eval do
         UPDATE bus_fuels
         SET ch4_emission_factor = ch4_emission_factor * #{conversion_factor},
             ch4_emission_factor_units = 'kilograms_per_kilometre'
-        WHERE ch4_emission_factor_units = 'grams_per_mile'
+        WHERE ch4_emission_factor_units = 'grams_per_mile' AND ch4_emission_factor IS NOT NULL
       }
       
       connection.execute %{
@@ -61,7 +67,70 @@ BusFuel.class_eval do
         WHERE energy_content_units = 'btu_per_gallon'
       }
     end
-    
+
+    process 'generate CO2 emission factors and units' do
+      BusFuel.all.each do |bus_fuel|
+        fuel = bus_fuel.fuel
+
+        if bus_fuel.energy_content.present?
+          factor = (bus_fuel.energy_content * fuel.carbon_content * fuel.oxidation_factor * (1 - fuel.biogenic_fraction))
+          bus_fuel.co2_emission_factor = factor.grams.to(:kilograms).carbon.to(:co2)
+        else
+          bus_fuel.co2_emission_factor = fuel.co2_emission_factor
+        end
+
+        if bus_fuel.energy_content.present?
+          prefix = fuel.co2_emission_factor_units.split("_per_")[0]
+          suffix = bus_fuel.energy_content_units.split("_per_")[1]
+          bus_fuel.co2_emission_factor_units = prefix + "_per_" + suffix
+        else
+          bus_fuel.co2_emission_factor_units = 
+            fuel.co2_emission_factor_units
+        end
+
+        bus_fuel.save!
+      end
+    end
+
+    process 'Generate CO2 biogenic emission factor and units' do
+      BusFuel.all.each do |bus_fuel|
+        fuel = bus_fuel.fuel
+        if bus_fuel.energy_content.present?
+           factor = (bus_fuel.energy_content * fuel.carbon_content * fuel.oxidation_factor * fuel.biogenic_fraction)
+          bus_fuel.co2_biogenic_emission_factor = factor.grams.to(:kilograms).carbon.to(:co2)
+        else
+          bus_fuel.co2_biogenic_emission_factor = fuel.co2_biogenic_emission_factor
+        end
+
+        if bus_fuel.energy_content.present?
+          prefix = fuel.co2_biogenic_emission_factor_units.split("_per_")[0] 
+          suffix = bus_fuel.energy_content_units.split("_per_")[1]
+          bus_fuel.co2_biogenic_emission_factor_units = prefix + "_per_" + suffix
+        else
+          bus_fuel.co2_biogenic_emission_factor_units = fuel.co2_biogenic_emission_factor_units
+        end
+
+        bus_fuel.save!
+      end
+    end
+
+    process 'Generate CH4 emission factor and units' do
+      BusFuel.all.each do |bus_fuel|
+        unless bus_fuel.ch4_emission_factor.present?
+          factors_by_year = bus_fuel.latest_year_controls.map do |year_control|
+             year_control.total_travel_percent * year_control.control.ch4_emission_factor
+          end
+          bus_fuel.ch4_emission_factor = factors_by_year.sum * GreenhouseGas[:ch4].global_warming_potential
+        end
+
+        unless bus_fuel.ch4_emission_factor_units.present?
+          bus_fuel.ch4_emission_factor_units = bus_fuel.latest_year_controls.first.control.ch4_emission_factor_units
+        end
+
+        bus_fuel.save!
+      end
+    end
+
     # FIXME TODO verify fuel_name appears in fuels
     %w{ fuel_name }.each do |attribute|
       verify "#{attribute.humanize} should never be missing" do
