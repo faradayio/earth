@@ -18,14 +18,70 @@ class AutomobileFuel < ActiveRecord::Base
       diesel_use = AutomobileTypeFuelYear.where(:year => latest_year, :fuel_common_name => 'diesel').sum('fuel_consumption')
       diesel_use / (gas_use + diesel_use)
     end
+    
+    def fallback_co2_emission_factor
+      (Fuel.find_by_name("Motor Gasoline").co2_emission_factor * (1 - AutomobileFuel.fallback_blend_portion)) +
+      (Fuel.find_by_name("Distillate Fuel Oil No. 2").co2_emission_factor * AutomobileFuel.fallback_blend_portion)
+    end
+    
+    def fallback_co2_emission_factor_units
+      Fuel.find_by_name("Motor Gasoline").co2_emission_factor_units
+    end
+    
+    def fallback_co2_biogenic_emission_factor
+      (Fuel.find_by_name("Motor Gasoline").co2_biogenic_emission_factor * (1 - AutomobileFuel.fallback_blend_portion)) +
+      (Fuel.find_by_name("Distillate Fuel Oil No. 2").co2_biogenic_emission_factor * AutomobileFuel.fallback_blend_portion)
+    end
+    
+    def fallback_co2_biogenic_emission_factor_units
+      Fuel.find_by_name("Motor Gasoline").co2_biogenic_emission_factor_units
+    end
+    
+    def fallback_latest_type_fuel_years
+      AutomobileTypeFuelYear.where(:year => AutomobileTypeFuelYear.maximum('year'))
+    end
+    
+    def fallback_ch4_emission_factor
+      fallback_latest_type_fuel_years.weighted_average(:ch4_emission_factor, :weighted_by => :total_travel) * GreenhouseGas[:ch4].global_warming_potential
+    end
+    
+    def fallback_ch4_emission_factor_units
+      prefix = fallback_latest_type_fuel_years.first.ch4_emission_factor_units.split("_per_")[0]
+      suffix = fallback_latest_type_fuel_years.first.ch4_emission_factor_units.split("_per_")[1]
+      prefix + "_co2e_per_" + suffix
+    end
+    
+    def fallback_n2o_emission_factor
+      fallback_latest_type_fuel_years.weighted_average(:n2o_emission_factor, :weighted_by => :total_travel) * GreenhouseGas[:n2o].global_warming_potential
+    end
+    
+    def fallback_n2o_emission_factor_units
+      prefix = fallback_latest_type_fuel_years.first.n2o_emission_factor_units.split("_per_")[0]
+      suffix = fallback_latest_type_fuel_years.first.n2o_emission_factor_units.split("_per_")[1]
+      prefix + "_co2e_per_" + suffix
+    end
+    
+    def fallback_hfc_emission_factor
+      fallback_latest_type_fuel_years.map do |tfy|
+        tfy.total_travel * tfy.type_year.hfc_emission_factor
+      end.sum / fallback_latest_type_fuel_years.sum('total_travel')
+    end
+    
+    def fallback_hfc_emission_factor_units
+      fallback_latest_type_fuel_years.first.type_year.hfc_emission_factor_units
+    end
   end
   
-  falls_back_on :name => 'fallback',
-                :base_fuel_name => 'Motor Gasoline',
-                :blend_fuel_name => 'Distillate Fuel Oil No. 2',
-                :blend_portion => lambda { AutomobileFuel.fallback_blend_portion },
-                :distance_key => 'fallback',
-                :ef_key => 'fallback'
+  falls_back_on :co2_emission_factor => lambda { AutomobileFuel.fallback_co2_emission_factor },
+                :co2_emission_factor_units => lambda { AutomobileFuel.fallback_co2_emission_factor_units },
+                :co2_biogenic_emission_factor => lambda { AutomobileFuel.fallback_co2_biogenic_emission_factor },
+                :co2_biogenic_emission_factor_units => lambda { AutomobileFuel.fallback_co2_biogenic_emission_factor_units },
+                :ch4_emission_factor => lambda { AutomobileFuel.fallback_ch4_emission_factor },
+                :ch4_emission_factor_units => lambda { AutomobileFuel.fallback_ch4_emission_factor_units },
+                :n2o_emission_factor => lambda { AutomobileFuel.fallback_n2o_emission_factor },
+                :n2o_emission_factor_units => lambda { AutomobileFuel.fallback_n2o_emission_factor_units },
+                :hfc_emission_factor => lambda { AutomobileFuel.fallback_hfc_emission_factor },
+                :hfc_emission_factor_units => lambda { AutomobileFuel.fallback_hfc_emission_factor_units }
   
   data_miner do
     tap "Brighter Planet's sanitized automobile fuel data", Earth.taps_server
@@ -33,65 +89,6 @@ class AutomobileFuel < ActiveRecord::Base
     process "pull dependencies" do
       run_data_miner_on_belongs_to_associations
     end
-  end
-  
-  # FIXME TODO should I run data miner on has_many associations?
-  # AutomobileTypeFuelYearAge
-  # => AutomobileTypeFuelYearControl
-  # => AutomobileTypeFuelControl
-  # AutomobileTypeYear
-  
-  # FIXME TODO should I run data miner on other classes we need?
-  # Fuel
-  # => FuelYear
-  # GreenhouseGas
-  
-  def annual_distance # returns km
-    scope = type_fuel_year_ages.any? ? type_fuel_year_ages : AutomobileTypeFuelYearAge
-    scope.where(:year => scope.maximum('year')).weighted_average(:annual_distance, :weighted_by => :vehicles)
-  end
-  
-  def co2_emission_factor # returns kg co2 / litre
-    if blend_fuel.present?
-      (base_fuel.co2_emission_factor * (1 - blend_portion)) + (blend_fuel.co2_emission_factor * blend_portion)
-    else
-      base_fuel.co2_emission_factor
-    end
-  end
-  
-  def co2_emission_factor_units
-    base_fuel.co2_emission_factor_units
-  end
-  
-  def co2_biogenic_emission_factor # returns kg co2 / litre
-    if blend_fuel.present?
-      (base_fuel.co2_biogenic_emission_factor * (1 - blend_portion)) + (blend_fuel.co2_biogenic_emission_factor * blend_portion)
-    else
-      base_fuel.co2_biogenic_emission_factor
-    end
-  end
-  
-  def co2_biogenic_emission_factor_units
-    base_fuel.co2_biogenic_emission_factor_units
-  end
-  
-  def latest_type_fuel_years
-    scope = type_fuel_years.any? ? type_fuel_years : AutomobileTypeFuelYear
-    scope.where(:year => scope.maximum('year'))
-  end
-  
-  def ch4_emission_factor # returns kg co2e / litre
-    latest_type_fuel_years.weighted_average(:ch4_emission_factor, :weighted_by => :total_travel) * GreenhouseGas[:ch4].global_warming_potential
-  end
-  
-  def n2o_emission_factor # returns kg co2e / litre
-    latest_type_fuel_years.weighted_average(:n2o_emission_factor, :weighted_by => :total_travel) * GreenhouseGas[:n2o].global_warming_potential
-  end
-  
-  def hfc_emission_factor # returns kg co2e / litre (hfc emission factor is already in co2e)
-    latest_type_fuel_years.map do |type_fuel_year|
-      type_fuel_year.total_travel * type_fuel_year.type_year.hfc_emission_factor
-    end.sum / latest_type_fuel_years.sum('total_travel')
   end
   
   CODES = {
