@@ -43,6 +43,22 @@ class Fuel < ActiveRecord::Base
     end
   end
   
+  def oxidation_factor
+    if oxidation_factor = super
+      oxidation_factor
+    elsif fuel_years.present?
+      latest_year.oxidation_factor
+    end
+  end
+  
+  def biogenic_fraction
+    if biogenic_fraction = super
+      biogenic_fraction
+    elsif fuel_years.present?
+      latest_year.biogenic_fraction
+    end
+  end
+  
   def co2_emission_factor
     if ef = super
       ef
