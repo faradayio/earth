@@ -10,6 +10,10 @@ BusFuel.class_eval do
       float  'n2o_emission_factor'
       string 'n2o_emission_factor_units'
     end
+
+    process "ensure that GreenhouseGasses are imported" do
+      GreenhouseGas.run_data_miner!
+    end
     
     import "a list of bus fuels without emission factors",
            :url => 'https://spreadsheets.google.com/pub?hl=en&hl=en&key=0AoQJbWqPrREqdGNscUdpbkdBUmJkTlFxdEtfSEdJS2c&output=csv' do
@@ -73,7 +77,7 @@ BusFuel.class_eval do
     %w{ energy_content ch4_emission_factor n2o_emission_factor }.each do |attribute|
       verify "#{attribute.humanize} should be greater than zero if present" do
         BusFuel.all.each do |fuel|
-          value = fuel.send(:"#{attribute}")
+          value = fuel.send(attribute)
           if value.present?
             unless value > 0
               raise "Invalid #{attribute.humanize.downcase} for BusFuel #{fuel.name}: #{value} (should be > 0)"
