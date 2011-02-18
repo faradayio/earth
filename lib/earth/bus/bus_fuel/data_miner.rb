@@ -14,10 +14,10 @@ BusFuel.class_eval do
       float  'n2o_emission_factor'
       string 'n2o_emission_factor_units'
     end
-
-    process "ensure dependent datasets are imported" do
+    
+    process "Ensure necessary datasets are imported" do
+      Fuel.run_data_miner!
       GreenhouseGas.run_data_miner!
-      BusFuelControl.run_data_miner!
       BusFuelYearControl.run_data_miner!
     end
     
