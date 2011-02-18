@@ -1,3 +1,3 @@
-name,fuel_name,energy_content,energy_content_units,ch4_emission_factor,ch4_emission_factor_units,n2o_emission_factor,n2o_emission_factor_units
-CNG,Pipeline Natural Gas,0,btu_per_gallon,0,grams_per_mile,-1,grams_per_mile
-LNG
+name,co2_emission_factor,co2_emission_factor_units,co2_biogenic_emission_factor,co2_biogenic_emission_factor_units,ch4_emission_factor,ch4_emission_factor_units,n2o_emission_factor,n2o_emission_factor_units,fuel_name,energy_content,energy_content_units
+CNG,-1,kilograms_per_gallon,-1,kilograms_per_gallon,0,kilograms_per_kilometre,0,kilograms_per_kilometre
+LNG,1,kilograms_per_litre,0,kilograms_per_litre,0.1,kilograms_co2e_per_kilometre,0.1,kilograms_co2e_per_kilometre,Pipeline Natural Gas,0,btu_per_gallon
