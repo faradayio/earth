@@ -11,4 +11,3 @@ describe 'Species' do
     end
   end
 end
-

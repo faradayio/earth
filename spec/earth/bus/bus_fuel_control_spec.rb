@@ -10,4 +10,3 @@ describe 'BusFuelControl' do
     BusFuelControl.all.count.should > 0
   end
 end
-
