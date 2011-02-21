@@ -3,89 +3,142 @@ EgridSubregion.class_eval do
     schema Earth.database_options do
       string 'abbreviation'
       string 'name'
-      float  'electricity_emission_factor'
-      string 'electricity_emission_factor_units'
       string 'nerc_abbreviation'
       string 'egrid_region_name'
+      float  'net_generation'
+      string 'net_generation_units'
+      float  'electricity_co2_emission_factor'
+      string 'electricity_co2_emission_factor_units'
+      float  'electricity_co2_biogenic_emission_factor'
+      string 'electricity_co2_biogenic_emission_factor_units'
+      float  'electricity_ch4_emission_factor'
+      string 'electricity_ch4_emission_factor_units'
+      float  'electricity_n2o_emission_factor'
+      string 'electricity_n2o_emission_factor_units'
+      float  'electricity_emission_factor'
+      string 'electricity_emission_factor_units'
     end
     
-    # process "define some unit conversions" do
-    #   Conversions.register :pounds_per_megawatt_hour, :kilograms_per_kilowatt_hour, 0.00045359237
-    #   Conversions.register :pounds_per_gigawatt_hour, :kilograms_per_kilowatt_hour, 0.00000045359237
-    # end
-    # 
-    # NOTE: the following import uses an 18 Mb zip - don't know if two imports will cause it to be downloaded twice...
-    # 
+    # FIXME TODO for some reason this doesn't work...
     # import "eGRID regions and electricity emission factors derived from eGRID 2007 data",
     #        :url => 'http://www.epa.gov/cleanenergy/documents/egridzips/eGRID2007_Version1-1.zip',
-    #        :filename => 'eGRID2007V1_1_year05_aggregation.xls',
+    #        :filename => 'eGRID2007_Version1-1/eGRID2007V1_1_year05_aggregation.xls',
     #        :sheet => 'SRL05',
     #        :skip => 3,
     #        :select => lambda { |row| row['eGRID2007 2005 file eGRID subregion location (operator)-based sequence number'].to_i.between?(1, 26) } do
     #   key   'abbreviation', :field_name => 'eGRID subregion acronym'
     #   store 'name', :field_name => 'eGRID subregion name associated with eGRID subregion acronym'
     #   store 'nerc_abbreviation', :field_name => 'NERC region acronym associated with the eGRID subregion acronym'
-    #   store 'electricity_ef_co2', :field_name => 'eGRID subregion annual CO2 output emission rate (lb/MWh)', :from_units => :pounds_per_megawatt_hour, :to_units => :kilograms_per_kilowatt_hour
-    #   store 'electricity_ef_ch4', :field_name => 'eGRID subregion annual CH4 output emission rate (lb/GWh)', :from_units => :pounds_per_gigawatt_hour, :to_units => :kilograms_per_kilowatt_hour
-    #   store 'electricity_ef_n2o', :field_name => 'eGRID subregion annual N2O output emission rate (lb/GWh)', :from_units => :pounds_per_gigawatt_hour, :to_units => :kilograms_per_kilowatt_hour
-    # end
-    # 
-    # import "US average electricity emission factors derived from eGRID 2007 data",
-    #        :url => 'http://www.epa.gov/cleanenergy/documents/egridzips/eGRID2007_Version1-1.zip',
-    #        :filename => 'eGRID2007V1_1_year05_aggregation.xls',
-    #        :sheet => 'US05',
-    #        :skip => 3,
-    #        :select => lambda { |row| row['eGRID2007 2005 file US sequence number'].to_i.is?(1) } do
-    #   key   # the single row should be keyed 'US'
-    #   store 'name' # the single row should be named 'United States Average'
-    #   store 'electricity_ef_co2', :field_name => 'US annual CO2 output emission rate (lb/MWh)', :from_units => :pounds_per_megawatt_hour, :to_units => :kilograms_per_kilowatt_hour
-    #   store 'electricity_ef_ch4', :field_name => 'US annual CH4 output emission rate (lb/GWh)', :from_units => :pounds_per_gigawatt_hour, :to_units => :kilograms_per_kilowatt_hour
-    #   store 'electricity_ef_n2o', :field_name => 'US annual N2O output emission rate (lb/GWh)', :from_units => :pounds_per_gigawatt_hour, :to_units => :kilograms_per_kilowatt_hour
-    # end
-    # 
-    # import "the eGRID regions associated with each subregion" do
-    #        :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdGRORTJNSWRMQ1puRVprYlAtZHhDaFE&hl=en&single=true&gid=0&output=csv' do
-    #   key 'abbreviation'
-    #   store 'egrid_region_name'
-    # end
-    # 
-    # process "Calculate CO2e emission factor"
-    #   # multiply each gas ef by the gas GWP and sum
+    #   store 'net_generation', :field_name => 'eGRID subregion annual net generation (MWh)', :units => 'megawatt_hours'
+    #   store 'electricity_co2_emission_factor', :field_name => 'eGRID subregion annual CO2 output emission rate (lb/MWh)', :units => 'pounds_per_megawatt_hour'
+    #   store 'electricity_co2_biogenic_emission_factor', :static => '0.0', :units => 'kilograms_per_kilowatt_hour'
+    #   store 'electricity_ch4_emission_factor', :field_name => 'eGRID subregion annual CH4 output emission rate (lb/GWh)', :units => 'pounds_per_gigawatt_hour'
+    #   store 'electricity_n2o_emission_factor', :field_name => 'eGRID subregion annual N2O output emission rate (lb/GWh)', :units => 'pounds_per_gigawatt_hour'
     # end
     
-    import "a list of eGRID subregions and emissions factors derived from eGRID 2007 data",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdGRORTJNSWRMQ1puRVprYlAtZHhDaFE&hl=en&single=true&gid=0&output=csv' do
-      key   'abbreviation'
+    import "eGRID subregion data",
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdGRORTJNSWRMQ1puRVprYlAtZHhDaFE&hl=en&single=true&gid=0&output=csv',
+           :select => lambda { |row| row['abbreviation'].length == 4 } do
+      key 'abbreviation'
       store 'name'
       store 'nerc_abbreviation'
       store 'egrid_region_name'
-      store 'electricity_emission_factor', :units_field_name => 'electricity_emission_factor_units'
+      store 'net_generation', :units => 'megawatt_hours'
+      store 'electricity_co2_emission_factor', :field_name => 'electricty_ef_co2', :units => 'pounds_per_megawatt_hour'
+      store 'electricity_co2_biogenic_emission_factor', :static => '0.0', :units => 'kilograms_per_kilowatt_hour'
+      store 'electricity_ch4_emission_factor', :field_name => 'electricity_ef_ch4',  :units => 'pounds_per_gigawatt_hour'
+      store 'electricity_n2o_emission_factor', :field_name => 'electricity_ef_n2o',  :units => 'pounds_per_gigawatt_hour'
     end
     
-    # FIXME TODO make this work
-    # verify "eGRID region name should appear in egrid_regions" do
-    #   regions = EgridRegion.all.map { |region| region.name }
-    #   EgridSubregion.all.each do |subregion|
-    #     unless regions.includes? subregion.egrid_region_name
-    #       raise "Invalid eGRID region name for EgridSubregion #{subregion.name}: #{subregion.egrid_region_name} (not found in egrid_regions)"
-    #     end
-    #   end
-    # end
+    process "Convert co2 emission factor to metric units" do
+      conversion_factor = 1.pounds.to(:kilograms) * 1.0 / 1_000.0 # kg / lbs * MWh / kWh
+      update_all %{ electricity_co2_emission_factor = electricity_co2_emission_factor * #{conversion_factor},
+                    electricity_co2_emission_factor_units = 'kilograms_per_kilowatt_hour'
+                    WHERE electricity_co2_emission_factor_units = 'pounds_per_megawatt_hour' }
+    end
     
-    verify "Electricity emission factor should be greater than zero" do
-      EgridSubregion.all.each do |subregion|
-        unless subregion.electricity_emission_factor > 0
-          raise "Invalid electricity emission factor for EgridSubregion #{subregion.name}: #{subregion.electricity_emission_factor} (should be > 0)"
+    process "Insure necessary datasets are imported" do
+      GreenhouseGas.run_data_miner!
+    end
+    
+    process "Convert ch4 emission factor to metric units and co2e" do
+      conversion_factor = 1.pounds.to(:kilograms) * 1.0 / 1_000_000.0 # kg / lbs * GWh / kWh
+      gwp = GreenhouseGas[:ch4].global_warming_potential
+      update_all %{ electricity_ch4_emission_factor = electricity_ch4_emission_factor * #{conversion_factor} * #{gwp},
+                    electricity_ch4_emission_factor_units = 'kilograms_co2e_per_kilowatt_hour'
+                    WHERE electricity_ch4_emission_factor_units = 'pounds_per_gigawatt_hour' }
+    end
+    
+    process "Convert n2o emission factor to metric units and co2e" do
+      conversion_factor = 1.pounds.to(:kilograms) * 1.0 / 1_000_000.0 # kg / lbs * GWh / kWh
+      gwp = GreenhouseGas[:n2o].global_warming_potential
+      update_all %{ electricity_n2o_emission_factor = electricity_n2o_emission_factor * #{conversion_factor} * #{gwp},
+                    electricity_n2o_emission_factor_units = 'kilograms_co2e_per_kilowatt_hour'
+                    WHERE electricity_n2o_emission_factor_units = 'pounds_per_gigawatt_hour' }
+    end
+    
+    process "Calculate combined emission factor" do
+      update_all %{ electricity_emission_factor = electricity_co2_emission_factor + electricity_ch4_emission_factor + electricity_n2o_emission_factor,
+                    electricity_emission_factor_units = 'kilograms_co2e_per_kilowatt_hour' }
+    end
+    
+    # FIXME TODO verify egrid_region_name is found in EgridRegions
+    %w{ egrid_region_name }.each do |attribute|
+      verify "#{attribute.humanize} should never be missing" do
+        EgridSubregion.all.each do |subregion|
+          unless subregion.send("#{attribute}").present?
+            puts "Missing #{attribute.humanize.downcase} for EgridSubregion #{subregion.name}"
+            fail
+          end
         end
       end
     end
     
-    verify "Electricity emission factor units should be kilograms co2e per kilowatt hour" do
-      EgridSubregion.all.each do |subregion|
-        unless subregion.electricity_emission_factor_units == "kilograms_co2e_per_kilowatt_hour"
-          raise "Invalid electricity emission factor units for EgridSubregion #{subregion.name}: #{subregion.electricity_emission_factor_units} (should be kilograms_co2e_per_kilowatt_hour)"
+    ["net_generation",
+     "electricity_co2_emission_factor",
+     "electricity_ch4_emission_factor",
+     "electricity_n2o_emission_factor",
+     "electricity_emission_factor" ].each do |attribute|
+      verify "#{attribute.humanize} should be > 0" do
+        EgridSubregion.all.each do |subregion|
+          value = subregion.send(:"#{attribute}")
+          unless value > 0
+            puts "Invalid #{attribute.humanize.downcase} for EgridSubregion #{subregion.name}: #{value} (should be > 0)"
+            fail
+          end
         end
       end
     end
+    
+    verify "Electricity co2 biogenic emission factor should be 0" do
+      EgridSubregion.all.each do |subregion|
+        value = subregion.electricity_co2_biogenic_emission_factor
+        unless value == 0
+          puts "Invalid electricity co2 biogenic emission factor for EgridSubregion #{subregion.name}: #{value} (should be 0)"
+          fail
+        end
+      end
+    end
+    
+    [["net_generation_units","megawatt_hours"],
+     ["electricity_co2_emission_factor_units","kilograms_per_kilowatt_hour"],
+     ["electricity_co2_biogenic_emission_factor_units","kilograms_per_kilowatt_hour"],
+     ["electricity_ch4_emission_factor_units","kilograms_co2e_per_kilowatt_hour"],
+     ["electricity_n2o_emission_factor_units","kilograms_co2e_per_kilowatt_hour"],
+     ["electricity_emission_factor_units","kilograms_co2e_per_kilowatt_hour"]].each do |pair|
+      attribute = pair[0]
+      proper_units = pair[1]
+      verify "#{attribute.humanize} should be #{proper_units.humanize.downcase}" do
+        EgridSubregion.all.each do |subregion|
+          units = subregion.send(:"#{attribute}")
+          unless units == proper_units
+            puts "Invalid #{attribute.humanize.downcase} for EgridSubregion #{subregion.name}: #{units} (should be #{proper_units})"
+            fail
+          end
+        end
+      end
+    end
+    
+    # FIXME TODO verify fallbacks
   end
 end
