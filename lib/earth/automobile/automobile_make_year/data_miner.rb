@@ -22,6 +22,12 @@ AutomobileMakeYear.class_eval do
           automobile_make_model_year_variants.make_name,
           automobile_make_model_year_variants.year
         FROM automobile_make_model_year_variants
+        WHERE automobile_make_model_year_variants.make_year_name IS NOT NULL
+        AND LENGTH(automobile_make_model_year_variants.make_year_name) > 0
+        AND automobile_make_model_year_variants.make_name IS NOT NULL
+        AND LENGTH(automobile_make_model_year_variants.make_name) > 0
+        AND automobile_make_model_year_variants.year IS NOT NULL
+        AND LENGTH(automobile_make_model_year_variants.year) > 0
       }
     end
     

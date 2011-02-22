@@ -16,6 +16,8 @@ AutomobileMake.class_eval do
         INSERT IGNORE INTO automobile_makes(name)
         SELECT DISTINCT automobile_make_model_year_variants.make_name
         FROM automobile_make_model_year_variants
+        WHERE automobile_make_model_year_variants.make_name IS NOT NULL
+        AND LENGTH(automobile_make_model_year_variants.make_name) > 0
       }
     end
     
