@@ -8,8 +8,7 @@ ClothesMachineUse.class_eval do
     
     process "derive from ResidentialEnergyConsumptionSurveyResponse" do
       ResidentialEnergyConsumptionSurveyResponse.run_data_miner!
-      connection.execute %{
-        INSERT IGNORE INTO clothes_machine_uses(name)
+      INSERT_IGNORE %{INTO clothes_machine_uses(name)
         SELECT DISTINCT recs_responses.clothes_washer_use FROM recs_responses WHERE LENGTH(recs_responses.clothes_washer_use) > 0
       }
     end

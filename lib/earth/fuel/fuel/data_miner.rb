@@ -18,13 +18,7 @@ Fuel.class_eval do
     
     process "Derive fuel names from FuelYear" do
       FuelYear.run_data_miner!
-      if Fuel.connection.adapter_name.downcase == 'sqlite'
-        ignorance = ''
-      else
-        ignorance = 'IGNORE'
-      end
-      connection.execute %{
-        INSERT #{ignorance} INTO fuels(name)
+      INSERT_IGNORE %{INTO fuels(name)
         SELECT DISTINCT fuel_years.fuel_name FROM fuel_years
       }
     end

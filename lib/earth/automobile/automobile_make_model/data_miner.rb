@@ -15,8 +15,7 @@ AutomobileMakeModel.class_eval do
     
     process "Derive model names from automobile make model year variants" do
       AutomobileMakeModelYearVariant.run_data_miner!
-      connection.execute %{
-        INSERT IGNORE INTO automobile_make_models(name, make_name)
+      INSERT_IGNORE %{INTO automobile_make_models(name, make_name)
         SELECT automobile_make_model_year_variants.make_model_name, automobile_make_model_year_variants.make_name FROM automobile_make_model_year_variants WHERE LENGTH(automobile_make_model_year_variants.make_model_name) > 0 AND LENGTH(automobile_make_model_year_variants.make_name) > 0
       }
     end

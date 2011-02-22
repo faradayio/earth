@@ -8,8 +8,7 @@ DishwasherUse.class_eval do
     
     process "derive from ResidentialEnergyConsumptionSurveyResponse" do
       ResidentialEnergyConsumptionSurveyResponse.run_data_miner!
-      connection.execute %{
-        INSERT IGNORE INTO dishwasher_uses(name)
+      INSERT_IGNORE %{INTO dishwasher_uses(name)
         SELECT DISTINCT recs_responses.dishwasher_use_id FROM recs_responses WHERE LENGTH(recs_responses.dishwasher_use_id) > 0
       }
     end

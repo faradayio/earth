@@ -6,8 +6,7 @@ Urbanity.class_eval do
     
     process "derive from ResidentialEnergyConsumptionSurveyResponse" do
       ResidentialEnergyConsumptionSurveyResponse.run_data_miner!
-      connection.execute %{
-        INSERT IGNORE INTO urbanities(name)
+      INSERT_IGNORE %{INTO urbanities(name)
         SELECT DISTINCT recs_responses.urbanity_id FROM recs_responses WHERE LENGTH(recs_responses.urbanity_id) > 0
       }
     end

@@ -10,8 +10,7 @@ AircraftManufacturer.class_eval do
     
     process "Derive a list of aircraft manufacturers from aircraft" do
       Aircraft.run_data_miner!
-      connection.execute %{
-        INSERT IGNORE INTO aircraft_manufacturers(name)
+      INSERT_IGNORE %{INTO aircraft_manufacturers(name)
         SELECT aircraft.manufacturer_name FROM aircraft WHERE aircraft.manufacturer_name IS NOT NULL
       }
     end

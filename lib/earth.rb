@@ -162,3 +162,12 @@ private
     end
   end
 end
+
+def INSERT_IGNORE(cmd)
+  if ActiveRecord::Base.connection.adapter_name.downcase == 'sqlite'
+    prefix = 'INSERT'
+  else
+    prefix = 'INSERT IGNORE'
+  end
+  ActiveRecord::Base.connection.execute "#{prefix} #{cmd}"
+end
