@@ -19,14 +19,14 @@ LodgingClass.class_eval do
     
     process "Convert fuel oil intensities to metric units" do
       conversion_factor = 3.78541178 # Google: 3.78541178 l / gal
-      update_all "fuel_oil_intensity = fuel_oil_intensity * #{conversion_factor} WHERE natural_gas_intensity_units = 'gallons_per_room_night'"
-      update_all "fuel_oil_intensity_units = 'litres_per_room_night' WHERE natural_gas_intensity_units = 'gallons_per_room_night'"
+      update_all "fuel_oil_intensity = fuel_oil_intensity * #{conversion_factor} WHERE fuel_oil_intensity_units = 'gallons_per_room_night'"
+      update_all "fuel_oil_intensity_units = 'litres_per_room_night' WHERE fuel_oil_intensity_units = 'gallons_per_room_night'"
     end
     
     process "Convert district heat intensities to metric units" do
       conversion_factor = 1.05505585 # Google: 1.05505585 MJ / 1000 Btu
-      update_all "district_heat_intensity = district_heat_intensity * #{conversion_factor} WHERE natural_gas_intensity_units = 'thousand_btu_per_room_night'"
-      update_all "district_heat_intensity_units = 'megajoules_per_room_night' WHERE natural_gas_intensity_units = 'thousand_btu_per_room_night'"
+      update_all "district_heat_intensity = district_heat_intensity * #{conversion_factor} WHERE district_heat_intensity_units = 'thousand_btu_per_room_night'"
+      update_all "district_heat_intensity_units = 'megajoules_per_room_night' WHERE district_heat_intensity_units = 'thousand_btu_per_room_night'"
     end
   end
 end
