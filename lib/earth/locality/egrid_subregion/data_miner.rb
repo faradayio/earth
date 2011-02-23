@@ -37,8 +37,7 @@ EgridSubregion.class_eval do
     # end
     
     import "eGRID subregion data",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdGRORTJNSWRMQ1puRVprYlAtZHhDaFE&hl=en&single=true&gid=0&output=csv',
-           :select => lambda { |row| row['abbreviation'].length == 4 } do
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdGRORTJNSWRMQ1puRVprYlAtZHhDaFE&hl=en&single=true&gid=0&output=csv' do
       key 'abbreviation'
       store 'name'
       store 'nerc_abbreviation'
