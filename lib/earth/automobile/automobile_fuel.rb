@@ -12,6 +12,18 @@ class AutomobileFuel < ActiveRecord::Base
   belongs_to :blend_fuel,        :class_name => 'Fuel',                      :foreign_key => 'blend_fuel_name'
   
   class << self
+    def fallback_latest_type_fuel_year_ages
+      AutomobileTypeFuelYearAge.where(:year => AutomobileTypeFuelYearAge.maximum('year'))
+    end
+    
+    def fallback_annual_distance
+      fallback_latest_type_fuel_year_ages.weighted_average(:annual_distance, :weighted_by => :vehicles)
+    end
+    
+    def fallback_annual_distance_units
+      fallback_latest_type_fuel_year_ages.first.annual_distance_units
+    end
+    
     def fallback_blend_portion
       latest_year = AutomobileTypeFuelYear.maximum('year')
       gas_use = AutomobileTypeFuelYear.where(:year => latest_year, :fuel_common_name => 'gasoline').sum('fuel_consumption')
