@@ -121,26 +121,7 @@ private
   end
 
   def load_schemas(options = {})
-    force_fallback_table
     load_data_miner_schemas(options)
-  end
-  
-  # sabshere 9/17/10 this sucks. the falls_back_on gem sucks.
-  def force_fallback_table
-    c = ActiveRecord::Base.connection
-    if c.table_exists? 'fallbacks'
-      raise "The earth gem expects a different schema for the fallbacks table." unless  c.column_exists?('fallbacks', 'name') and
-                                                                                        c.column_exists?('fallbacks', 'values') and
-                                                                                        c.column_exists?('fallbacks', 'created_at') and
-                                                                                        c.column_exists?('fallbacks', 'updated_at')
-    else
-      c.create_table 'fallbacks' do |t|
-        t.string   'name'
-        t.text     'values'
-        t.datetime 'created_at'
-        t.datetime 'updated_at'
-      end
-    end
   end
 
   def load_data_miner_schemas(options = {})

@@ -18,10 +18,6 @@ describe Earth do
       end
       require 'earth/data_miner'
     end
-
-    it 'should create a fallbacks table' do
-      Fallback.should be_table_exists
-    end
   end
 
   describe '.resources' do
