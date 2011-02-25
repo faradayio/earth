@@ -4,7 +4,7 @@ require "earth/version"
 
 Gem::Specification.new do |s|
   s.name        = "earth"
-  s.version = "0.4.3"
+  s.version = "0.4.4"
   s.date = "2011-02-25"
   s.platform    = Gem::Platform::RUBY
   s.authors = ["Seamus Abshere", "Derek Kastner", "Andy Rossmeissl"]
