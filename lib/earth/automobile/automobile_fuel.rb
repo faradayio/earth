@@ -31,15 +31,6 @@ class AutomobileFuel < ActiveRecord::Base
       diesel_use / (gas_use + diesel_use)
     end
     
-    def fallback_annual_distance
-      (AutomobileFuel.find_by_code("R").annual_distance * (1 - AutomobileFuel.fallback_blend_portion)) +
-      (AutomobileFuel.find_by_code("D").annual_distance * AutomobileFuel.fallback_blend_portion)
-    end
-    
-    def fallback_annual_distance_units
-      AutomobileFuel.find_by_code("R").annual_distance_units
-    end
-    
     def fallback_co2_emission_factor
       (Fuel.find_by_name("Motor Gasoline").co2_emission_factor * (1 - AutomobileFuel.fallback_blend_portion)) +
       (Fuel.find_by_name("Distillate Fuel Oil No. 2").co2_emission_factor * AutomobileFuel.fallback_blend_portion)
