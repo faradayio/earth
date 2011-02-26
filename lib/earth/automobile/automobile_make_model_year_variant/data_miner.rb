@@ -271,7 +271,6 @@ AutomobileMakeModelYearVariant.class_eval do
       string   'fuel_efficiency_city_units'
       float    'fuel_efficiency_highway'
       string   'fuel_efficiency_highway_units'
-      string   'fuel_type_code'
       string   'fuel_code'
       string   'transmission'
       string   'drive'
@@ -315,7 +314,6 @@ AutomobileMakeModelYearVariant.class_eval do
         store 'name', :field_name => 'model'
         store 'make_name', :field_name => 'make'
         store 'year'
-        store 'fuel_type_code', :field_name => 'fuel_type'
         store 'fuel_code', :field_name => 'fuel_type'
         store 'fuel_efficiency_highway', :static => nil, :units => :kilometres_per_litre
         store 'fuel_efficiency_city', :static => nil, :units => :kilometres_per_litre
@@ -354,7 +352,6 @@ AutomobileMakeModelYearVariant.class_eval do
         key   'row_hash'
         store 'name', :field_name => 'model'
         store 'make_name', :field_name => 'make'
-        store 'fuel_type_code', :field_name => 'fl'
         store 'fuel_code', :field_name => 'fl'
         store 'fuel_efficiency_highway', :static => nil, :units => :kilometres_per_litre
         store 'fuel_efficiency_city', :static => nil, :units => :kilometres_per_litre
@@ -389,7 +386,6 @@ AutomobileMakeModelYearVariant.class_eval do
         key   'row_hash'
         store 'name', :field_name => 'model'
         store 'make_name', :field_name => 'make'
-        store 'fuel_type_code', :field_name => 'FUEL TYPE'
         store 'fuel_code', :field_name => 'FUEL TYPE'
         store 'fuel_efficiency_highway', :static => nil, :units => :kilometres_per_litre
         store 'fuel_efficiency_city', :static => nil, :units => :kilometres_per_litre
@@ -420,7 +416,6 @@ AutomobileMakeModelYearVariant.class_eval do
         key   'row_hash'
         store 'name', :field_name => 'model'
         store 'make_name', :field_name => 'make'
-        store 'fuel_type_code'
         store 'fuel_code', :field_name => 'fuel_type_code'
         store 'fuel_efficiency_highway', :static => nil, :units => :kilometres_per_litre
         store 'fuel_efficiency_city', :static => nil, :units => :kilometres_per_litre
@@ -479,17 +474,8 @@ AutomobileMakeModelYearVariant.class_eval do
       end
     end
     
-    # FIXME TODO
-    # verify "Fuel type code should be found in AutomobileFuelType" do
-    #   valid_codes = AutomobileFuelType.all.map(&:code)
-    #   puts valid_codes
-    #   AutomobileMakeModelVariant.all.each do |variant|
-    #     unless valid_codes.include? variant.fuel_type_code
-    #       raise "Invalid fuel type code for AutomobileMakeModelYearVariant #{variant.row_hash}: #{variant.fuel_type_code} (should be found in AutomobileFuelType)"
-    #     end
-    #   end
-    # end
-    # 
+    # FIXME TODO verify fuel code appears in AutomobileFuel
+    
     verify "Fuel efficiencies should be greater than zero" do
       AutomobileMakeModelYearVariant.all.each do |variant|
         [:fuel_efficiency, :fuel_efficiency_city, :fuel_efficiency_highway].each do |type|

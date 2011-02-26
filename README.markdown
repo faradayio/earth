@@ -8,7 +8,7 @@ The data that these models represent can be pulled from http://data.brighterplan
 
     require 'earth'
     Earth.init :automobile, :locality
-    ft = AutomobileFuelType.first
+    ft = AutomobileFuel.first
     ...
 
 You can also run data imports via the data_miner gem.

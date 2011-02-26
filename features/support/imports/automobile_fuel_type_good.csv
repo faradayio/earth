@@ -1,3 +1,0 @@
-code,name,annual_distance,emission_factor,annual_distance_units,emission_factor_units
-D,diesel,1000.0,0.1,kilometres,kilograms_per_kilometre
-R,regular gasoline,1.0,2.1,kilometres,kilograms_per_kilometre

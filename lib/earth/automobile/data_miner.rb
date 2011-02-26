@@ -1,5 +1,4 @@
 require 'earth/automobile/automobile_fuel/data_miner'
-require 'earth/automobile/automobile_fuel_type/data_miner'
 require 'earth/automobile/automobile_make/data_miner'
 require 'earth/automobile/automobile_make_fleet_year/data_miner'
 require 'earth/automobile/automobile_make_year/data_miner'

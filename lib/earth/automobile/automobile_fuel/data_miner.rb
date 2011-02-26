@@ -20,6 +20,8 @@ AutomobileFuel.class_eval do
       string 'n2o_emission_factor_units'
       float  'hfc_emission_factor'
       string 'hfc_emission_factor_units'
+      float  'emission_factor' # DEPRECATED but motorcycle needs this
+      string 'emission_factor_units' # DEPRECATED but motorcycle needs this
     end
     
     import "a list of pure automobile fuels",
@@ -94,6 +96,11 @@ AutomobileFuel.class_eval do
         
         record.save
       end
+    end
+    
+    process "Derive emission factor" do
+      update_all "emission_factor = co2_emission_factor + ch4_emission_factor + n2o_emission_factor,
+                  emission_factor_units = 'kilograms_co2e_per_litre'"
     end
     
     # FIXME TODO verify code somehow
