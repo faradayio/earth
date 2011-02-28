@@ -17,7 +17,7 @@ FuelYear.class_eval do
     end
     
     import "fuels with annually variable characteristics, derived from the 2010 EPA GHG Inventory",
-           :url => 'https://spreadsheets.google.com/pub?hl=en&hl=en&key=0AoQJbWqPrREqdFZVSlZ3SUZsTzZLVTB5bVk5THdBN2c&output=csv' do
+           :url => 'https://spreadsheets.google.com/pub?hl=en&hl=en&key=0AoQJbWqPrREqdFZVSlZ3SUZsTzZLVTB5bVk5THdBN2c&gid=0&output=csv' do
       key 'name'
       store 'fuel_name'
       store 'year'

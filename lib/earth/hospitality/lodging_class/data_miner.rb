@@ -3,7 +3,7 @@ LodgingClass.class_eval do
     LodgingClass.define_schema(self)
     
     import "a list of lodging classes and pre-calculated emission factors",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdGZZWmZtWEJlYzhRNXlPdWpBTldlcUE&hl=en&output=csv' do
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdGZZWmZtWEJlYzhRNXlPdWpBTldlcUE&hl=en&gid=0&output=csv' do
       key   'name'
       store 'natural_gas_intensity', :units_field_name => 'natural_gas_intensity_units'
       store 'fuel_oil_intensity', :units_field_name => 'fuel_oil_intensity_units'

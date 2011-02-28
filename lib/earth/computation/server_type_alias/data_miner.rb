@@ -7,7 +7,7 @@ ServerTypeAlias.class_eval do
     end
     
     import "a list of server type aliases and their characteristics",
-           :url => 'https://spreadsheets.google.com/pub?key=0AkCJNpm9Ks6JdDdkVlBzSUYweFN0OHBreEN6YTdTZ3c&hl=en&single=true&gid=0&output=csv' do
+           :url => 'https://spreadsheets.google.com/pub?key=0AkCJNpm9Ks6JdDdkVlBzSUYweFN0OHBreEN6YTdTZ3c&hl=en&gid=0&output=csv' do
       key   'name', :field_name => 'alias'
       store 'server_type_name'
       store 'platform_name'

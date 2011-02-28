@@ -12,7 +12,7 @@ ServerType.class_eval do
     end
     
     import "a list of server types and their characteristics",
-           :url => 'https://spreadsheets.google.com/pub?key=0AkCJNpm9Ks6JdGExaW1ic2c0d2s1ZmpzeUdOa2kyRlE&hl=en&single=true&gid=0&output=csv' do
+           :url => 'https://spreadsheets.google.com/pub?key=0AkCJNpm9Ks6JdGExaW1ic2c0d2s1ZmpzeUdOa2kyRlE&hl=en&gid=0&output=csv' do
       key   'name'
       store 'data_center_company_name'
       store 'cpu',              :units_field_name => 'cpu_units'

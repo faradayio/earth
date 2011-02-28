@@ -14,7 +14,7 @@ BusFuelYearControl.class_eval do
     end
     
     import "a list of bus fuel year controls",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdGhHQkZPZW4zbXYzZ3NkYThBWnQ2QXc&output=csv' do
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdGhHQkZPZW4zbXYzZ3NkYThBWnQ2QXc&gid=0&output=csv' do
       key   'name'
       store 'bus_fuel_name'
       store 'year'

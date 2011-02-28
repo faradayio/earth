@@ -28,7 +28,7 @@ State.class_eval do
     
     # PADD
     import 'a list of state Petroleum Administration for Defense Districts',
-           :url => 'http://spreadsheets.google.com/pub?key=t5HM1KbaRngmTUbntg8JwPA' do
+           :url => 'http://spreadsheets.google.com/pub?key=t5HM1KbaRngmTUbntg8JwPA&gid=0&output=csv' do
       key   'postal_abbreviation', :field_name => 'State'
       store 'petroleum_administration_for_defense_district_code', :field_name => 'Code'
     end

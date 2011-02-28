@@ -108,7 +108,7 @@ Aircraft.class_eval do
     end
     
     import "a curated list of aircraft",
-            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdDJFblR4MDE1RGtnLVM1S2JHRGZpT3c&hl=en&single=true&gid=0&output=csv' do
+            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdDJFblR4MDE1RGtnLVM1S2JHRGZpT3c&hl=en&gid=0&output=csv' do
       key 'bp_code'
       store 'icao_code',              :nullify => true
       store 'bts_code',               :nullify => true

@@ -7,8 +7,8 @@ FlightSeatClass.class_eval do
       float    'multiplier'
     end
     
-    import "a list of Brighter Planet-defined seat classes and pre-calculated multipliers",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdG5zSER1QmFVVkhNcTM2cmhCMEJtWVE&hl=en&single=true&gid=0&output=csv' do
+    import "seat classes used in the WRI GHG Protocol calculation tools",
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdG5zSER1QmFVVkhNcTM2cmhCMEJtWVE&hl=en&gid=0&output=csv' do
       key   'name'
       store 'distance_class_name'
       store 'seat_class_name'

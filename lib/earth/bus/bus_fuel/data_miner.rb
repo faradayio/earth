@@ -22,13 +22,13 @@ BusFuel.class_eval do
     end
     
     import "a list of bus fuels without emission factors",
-           :url => 'https://spreadsheets.google.com/pub?hl=en&hl=en&key=0AoQJbWqPrREqdGNscUdpbkdBUmJkTlFxdEtfSEdJS2c&output=csv' do
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdGNscUdpbkdBUmJkTlFxdEtfSEdJS2c&gid=0&output=csv' do
       key 'name'
       store 'fuel_name'
     end
     
     import "a list of bus fuels and their emission factors",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdHAtZ1YyWmxuS1JWUzZYSVhhdUViYmc&output=csv' do
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdHAtZ1YyWmxuS1JWUzZYSVhhdUViYmc&gid=0&output=csv' do
       key   'name'
       store 'fuel_name'
       store 'ch4_emission_factor', :units_field_name => 'ch4_emission_factor_units'
@@ -36,7 +36,7 @@ BusFuel.class_eval do
     end
     
     import "energy contents for compressed/liquified natural gas fuels",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdDFfdHMycVB6dTkyUFFNM0x4b19TQVE&output=csv' do
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdDFfdHMycVB6dTkyUFFNM0x4b19TQVE&gid=0&output=csv' do
       key   'name'
       store 'energy_content', :units_field_name => 'energy_content_units'
     end

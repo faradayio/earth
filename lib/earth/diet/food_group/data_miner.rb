@@ -16,7 +16,7 @@ FoodGroup.class_eval do
     end
     
     import "energy and units",
-           :url => 'http://spreadsheets.google.com/pub?key=trkBEq5oFnUQE76gQ6VpQgw' do
+           :url => 'http://spreadsheets.google.com/pub?key=trkBEq5oFnUQE76gQ6VpQgw&gid=0&output=csv' do
       key   'name'
       store 'energy', :units => 'unknown' #FIXME this needs to be "kilocalories per" and then whatever the suggested imperial measurement is
       store 'suggested_imperial_measurement', :field_name => 'friendly_units'

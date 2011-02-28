@@ -19,7 +19,7 @@ RailClass.class_eval do
     end
 
     import "a list of rail classes and pre-calculated trip and fuel use characteristics",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdHRYaDNvRXMtZGoxNmRiOHlNWGV6b2c&hl=en&single=true&gid=0&output=csv' do
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdHRYaDNvRXMtZGoxNmRiOHlNWGV6b2c&hl=en&gid=0&output=csv' do
       key   'name'
       store 'description'
       store 'passengers'

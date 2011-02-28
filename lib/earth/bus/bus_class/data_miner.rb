@@ -30,7 +30,7 @@ BusClass.class_eval do
     end
     
     import "a list of bus classes and pre-calculated trip and fuel use characteristics",
-           :url => 'https://spreadsheets.google.com/pub?hl=en&hl=en&key=0AoQJbWqPrREqdGRsSnJoS1hraGJvR012cDROWXFPbVE&output=csv' do
+           :url => 'https://spreadsheets.google.com/pub?hl=en&hl=en&key=0AoQJbWqPrREqdGRsSnJoS1hraGJvR012cDROWXFPbVE&gid=0&output=csv' do
       key   'name'
       store 'distance', :units_field_name => 'distance_units'
       store 'passengers'

@@ -12,7 +12,7 @@ AutomobileTypeFuelControl.class_eval do
     end
     
     import "automobile type fuel control data derived from the 2010 EPA GHG Inventory",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdEloSTU5YUNOUXRFRUcxWHlTUi1GMkE&hl=en&output=csv' do
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdEloSTU5YUNOUXRFRUcxWHlTUi1GMkE&hl=en&gid=0&output=csv' do
       key   'name'
       store 'type_name'
       store 'fuel_common_name'

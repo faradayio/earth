@@ -17,7 +17,7 @@ AutomobileSizeClass.class_eval do
     
     # FIXME TODO pull this from AutomobileSizeClassYear
     import "a list of size classes and pre-calculated fuel efficiencies",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdHlRUE5IcWlrRENhN0EtUldPTy1rX1E&single=true&gid=0&output=csv' do
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdHlRUE5IcWlrRENhN0EtUldPTy1rX1E&gid=0&output=csv' do
       key 'name'
       store 'type_name'
       store 'fuel_efficiency_city', :units_field_name => 'fuel_efficiency_city_units'
@@ -35,7 +35,7 @@ AutomobileSizeClass.class_eval do
     end
     
     import "pre-calculated fuel efficiency multipliers",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdGt2NnhXLXUxNFRJSzczU3BkSHB3enc&hl=en&single=true&gid=0&output=csv' do
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdGt2NnhXLXUxNFRJSzczU3BkSHB3enc&hl=en&gid=0&output=csv' do
       key 'name'
       store 'hybrid_fuel_efficiency_city_multiplier'
       store 'hybrid_fuel_efficiency_highway_multiplier'

@@ -11,7 +11,7 @@ BusFuelControl.class_eval do
     end
     
     import "a list of bus fuel controls",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdEw1QW80VVJhaXRkUURQSFhHczNyVWc&output=csv' do
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdEw1QW80VVJhaXRkUURQSFhHczNyVWc&gid=0&output=csv' do
       key   'name'
       store 'bus_fuel_name'
       store 'control'

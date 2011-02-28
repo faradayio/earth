@@ -10,7 +10,7 @@ GreenhouseGas.class_eval do
     end
     
     import "greenhouse gas global warming potentials taken from the IPCC AR4",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdE1tUjBwS1ZHZnBUUG1XcVpkOTVHOVE&single=true&gid=0&output=csv' do
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdE1tUjBwS1ZHZnBUUG1XcVpkOTVHOVE&gid=0&output=csv' do
       key 'name'
       store 'abbreviation'
       store 'ipcc_report'

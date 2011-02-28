@@ -25,7 +25,7 @@ AutomobileFuel.class_eval do
     end
     
     import "a list of pure automobile fuels",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdE9xTEdueFM2R0diNTgxUlk1QXFSb2c&output=csv' do
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdE9xTEdueFM2R0diNTgxUlk1QXFSb2c&gid=0&output=html' do
       key   'name'
       store 'code'
       store 'base_fuel_name'
@@ -34,7 +34,7 @@ AutomobileFuel.class_eval do
     end
     
     import "a list of blended automobile fuels",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdEswNGIxM0U4U0N1UUppdWw2ejJEX0E&output=csv' do
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdEswNGIxM0U4U0N1UUppdWw2ejJEX0E&gid=0&output=csv' do
       key   'name'
       store 'code'
       store 'base_fuel_name'

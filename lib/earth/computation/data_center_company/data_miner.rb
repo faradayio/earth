@@ -6,7 +6,7 @@ DataCenterCompany.class_eval do
     end
     
     import "a list of data center companies and their power usage effectiveness",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdFlxZVZLai01WWJOOTFiaUd1blF6VkE&hl=en&single=true&gid=0&output=csv' do
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdFlxZVZLai01WWJOOTFiaUd1blF6VkE&hl=en&gid=0&output=csv' do
       key   'name'
       store 'power_usage_effectiveness'
     end

@@ -75,7 +75,7 @@ AutomobileTypeFuelYear.class_eval do
     end
     
     import "fuel consumption derived from the 2010 EPA GHG Inventory",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdHBCMFhLRTFTZENsd0dPUGUyYlJna0E&hl=en&output=csv' do
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdHBCMFhLRTFTZENsd0dPUGUyYlJna0E&hl=en&gid=0&output=csv' do
       key 'name'
       store 'fuel_consumption', :units_field_name => 'fuel_consumption_units'
     end

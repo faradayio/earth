@@ -28,7 +28,7 @@ FuelType.class_eval do
     # end
     
     import "a list of fuels and their emission factors and densities",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdDR3RjlTcWlsLTc2TzQ0cERTMElJbHc&single=true&gid=0&output=csv' do
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdDR3RjlTcWlsLTc2TzQ0cERTMElJbHc&gid=0&output=csv' do
       key 'name', :field_name => 'fuel'
       store 'emission_factor', :units_field_name => 'emission_factor_units'
       store 'average_purchase_volume', :units_field_name => 'average_purchase_volume_units'

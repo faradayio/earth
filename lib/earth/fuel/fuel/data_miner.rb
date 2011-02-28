@@ -24,7 +24,7 @@ Fuel.class_eval do
     end
     
     import "fuels with non-variable characteristics",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdGJmYkdtajZyV3Byb0lrd21xLVhXUGc&hl=en&output=csv' do
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdGJmYkdtajZyV3Byb0lrd21xLVhXUGc&hl=en&gid=0&output=csv' do
       key 'name'
       store 'energy_content', :units_field_name => 'energy_content_units'
       store 'carbon_content', :units_field_name => 'carbon_content_units'
@@ -33,7 +33,7 @@ Fuel.class_eval do
     end
     
     import "densities for aircraft fuels",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdHBjTVE4NmRlc05iUHVZR1E3eEJwOGc&hl=en&output=csv' do
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdHBjTVE4NmRlc05iUHVZR1E3eEJwOGc&hl=en&gid=0&output=csv' do
       key 'name'
       store 'density', :units_field_name => 'density_units'
     end

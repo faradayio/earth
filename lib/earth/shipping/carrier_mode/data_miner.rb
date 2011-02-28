@@ -11,7 +11,7 @@ CarrierMode.class_eval do
     end
     
     import "a list of carrier modes and their characteristics",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdGRsRkJOd0NPd0FETTI0NmpYUlBsN2c&hl=en&single=true&gid=0&output=csv' do
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdGRsRkJOd0NPd0FETTI0NmpYUlBsN2c&hl=en&gid=0&output=csv' do
       key   'name'
       store 'carrier_name'
       store 'mode_name'

@@ -11,7 +11,7 @@ AutomobileTypeYear.class_eval do
     end
     
     import "automobile type year air conditioning emissions derived from the 2010 EPA GHG Inventory",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdFoyTWhDeHpndTV5Ny1aX0sxR1ljSFE&hl=en&output=csv' do
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdFoyTWhDeHpndTV5Ny1aX0sxR1ljSFE&hl=en&gid=0&output=csv' do
       key   'name'
       store 'type_name'
       store 'year'

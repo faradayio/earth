@@ -12,7 +12,7 @@ AutomobileSizeClassYear.class_eval do
     end
     
     import "automobile size class year fuel efficiencies from the 2010 EPA Fuel Economy Trends report",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdDZOLWdDdlZja04xZkJYc3NjeGxQamc&hl=en&single=true&gid=0&output=csv' do
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdDZOLWdDdlZja04xZkJYc3NjeGxQamc&hl=en&gid=0&output=csv' do
       key 'name'
       store 'size_class_name'
       store 'year'
