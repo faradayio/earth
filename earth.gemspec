@@ -4,7 +4,7 @@ require "earth/version"
 
 Gem::Specification.new do |s|
   s.name        = "earth"
-  s.version = "0.4.4"
+  s.version     = Earth::VERSION
   s.date = "2011-02-25"
   s.platform    = Gem::Platform::RUBY
   s.authors = ["Seamus Abshere", "Derek Kastner", "Andy Rossmeissl"]
@@ -28,14 +28,10 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.7}
 
   s.add_runtime_dependency 'activerecord', '~> 3'
-  s.add_runtime_dependency 'data_miner', '~> 1.1.1'
-  s.add_runtime_dependency 'errata'
-  s.add_runtime_dependency 'falls_back_on', '>= 0.0.3'
-  s.add_runtime_dependency 'geokit', '>= 1.5.0'
-  s.add_runtime_dependency 'geokit-rails'
   s.add_runtime_dependency 'cohort_scope', '>= 0.0.7'
-  s.add_runtime_dependency 'conversions', '>= 1.4.5'
-  s.add_runtime_dependency 'weighted_average', '>= 0.0.4'
+  s.add_runtime_dependency 'data_miner', '~> 1.1.1'
+  s.add_runtime_dependency 'falls_back_on', '>= 0.0.3'
+  s.add_runtime_dependency 'geokit-rails'
   s.add_runtime_dependency 'loose_tight_dictionary', '>= 0.0.8'
-  s.add_development_dependency 'sniff', '~> 0.6.1'
+  s.add_runtime_dependency 'weighted_average', '>= 0.0.4'
 end

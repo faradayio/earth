@@ -4,7 +4,10 @@ require 'bundler'
 Bundler.setup
 
 require 'data_miner'
-DataMiner.logger = Logger.new(nil)
+DataMiner.logger = Logger.new nil
 
-require 'sniff'
-Sniff.init File.expand_path('../..', File.dirname(__FILE__)), :earth => :all, :cucumber => true
+require 'active_record'
+require 'sqlite3'
+ActiveRecord::Base.logger = Logger.new nil
+ActiveRecord::Base.establish_connection :adapter => 'sqlite3', :database => ':memory:'
+Earth.init :all, :apply_schemas => true
