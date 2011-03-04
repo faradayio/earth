@@ -13,6 +13,8 @@ task :console do
   IRB.start
 end
 
+require 'cucumber'
+require 'cucumber/rake/task'
 desc 'Run all cucumber tests'
 Cucumber::Rake::Task.new(:features) do |t|
   if ENV['CUCUMBER_FORMAT']
@@ -30,7 +32,6 @@ Cucumber::Rake::Task.new(:features_with_coverage) do |t|
 end
 
 require 'rspec/core/rake_task'
-
 desc "Run all examples"
 RSpec::Core::RakeTask.new(:examples) do |c|
   c.rspec_opts = '-Ispec'
@@ -46,10 +47,11 @@ end
 task :test => [:features, :examples]
 task :default => :test
 
+require 'rake/rdoctask'
 require 'earth/version'
 Rake::RDocTask.new do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "#{gemname} #{Earth::VERSION}"
+  rdoc.title = "earth #{Earth::VERSION}"
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end

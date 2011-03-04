@@ -3,6 +3,8 @@ require 'bundler'
 
 Bundler.setup
 
+require 'earth'
+
 require 'data_miner'
 DataMiner.logger = Logger.new nil
 

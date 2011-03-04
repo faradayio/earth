@@ -1,3 +1,6 @@
+require 'active_record'
+require 'active_record/fixtures'
+
 Given /^a "([^\"]*)" data import fetches results listed in "(.*)"$/ do |model, file_name|
   @data_import_model = model.constantize
   table_name = @data_import_model.table_name
