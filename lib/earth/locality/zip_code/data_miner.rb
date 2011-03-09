@@ -27,10 +27,12 @@ ZipCode.class_eval do
       store 'longitude'
     end
     
-    import 'a Brighter Planet-created list of zipcode eGRID Subregions',
-           :url => 'http://static.brighterplanet.com/science/data/electricity/egrid/models_export/zip_subregions.csv' do
-      key   'name', :field_name => 'zip', :sprintf => '%05d'
-      store 'egrid_subregion_abbreviation', :field_name => 'primary_subregion'
+    import 'a list of zipcode states and eGRID Subregions from the US EPA',
+           :url => 'http://www.epa.gov/cleanenergy/documents/egridzips/Power_Profiler_Zipcode_Tool_v3-0.xls',
+           :sheet => 'Zip-subregion' do
+      key   'name', :field_name => 'ZIP (character)'
+      store 'state_postal_abbreviation', :field_name => 'State'
+      store 'egrid_subregion_abbreviation', :field_name => 'Primary eGRID Subregion'
     end
     
     import 'a Brighter Planet-created list of zipcode Climate Divisions',
@@ -38,5 +40,7 @@ ZipCode.class_eval do
       key   'name', :field_name => 'zip_code_name', :sprintf => '%05d'
       store 'climate_division_name'
     end
+    
+    # FIXME TODO verify this
   end
 end
