@@ -29,8 +29,8 @@ Fuel.class_eval do
     end
     
     import "global fuel data derived from the IPCC Guidelines for National Greenhouse Gas Inventories",
-           :url => 'https://spreadsheets.google.com/pub?hl=en&hl=en&key=0AoQJbWqPrREqdFk5dzJvT2ozNjdEU05pWVJUTUpTOXc&gid=0&output=csv' do
-           # :transform => { :class => IpccFuelParser } do
+           :url => 'https://spreadsheets.google.com/pub?hl=en&hl=en&key=0AoQJbWqPrREqdFk5dzJvT2ozNjdEU05pWVJUTUpTOXc&gid=0&output=csv',
+           :transform => { :class => IpccFuelParser } do
       key 'name'
       store 'calorific_basis'
       store 'energy_content', :units_field_name => 'energy_content_units'
