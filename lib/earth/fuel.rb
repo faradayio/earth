@@ -1,4 +1,6 @@
 require 'earth/fuel/fuel'
+require 'earth/fuel/fuel_country'
+require 'earth/fuel/fuel_country_year'
 require 'earth/fuel/fuel_price'
 require 'earth/fuel/fuel_type'
 require 'earth/fuel/fuel_year'
