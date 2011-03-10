@@ -10,14 +10,10 @@ ActiveRecord::Base.establish_connection :adapter => 'sqlite3',
 $:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 require 'earth' # we do require Earth to live
 
+require 'data_miner'
 require 'logger'
-test_log = File.open('test.log', 'w')
-test_log.sync = true
-DataMiner.logger = Logger.new test_log
+DataMiner.logger = Logger.new(nil)
 
 RSpec.configure do |c|
   c.filter_run_excluding :slow => true
-  c.before(:all) do
-    DataMiner.logger = Logger.new(nil)
-  end
 end
