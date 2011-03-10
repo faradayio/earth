@@ -1,3 +1,0 @@
-name,memory,memory_units,cpu,cpu_units,electricity_draw,electricity_draw_units,data_center_company_name
-Normal,1.7,gigabytes,1,ec2_compute_units,2.3,kilowatts,Amazon
-Large,7.5,gigabytes,4,ec2_compute_units,0,gigawatts
