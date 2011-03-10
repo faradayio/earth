@@ -1,12 +1,23 @@
 Fuel.class_eval do
   class IpccFuelParser
-    def initialize(options = {})
-      # nothing
+    VIRTUAL_NAMES = {
+      'Jet Kerosene' =>              'Jet Fuel',
+      'Other Kerosene' =>            'Kerosene',
+      'Gas/Diesel Oil' =>            ['Distillate Fuel Oil No. 1', 'Distillate Fuel Oil No. 2', 'Distillate Fuel Oil No. 4'],
+      'Residual Fuel Oil' =>         ['Residual Fuel Oil No. 5', 'Residual Fuel Oil No. 6'],
+      'Liquefied Petroleum Gases' => 'LPG (energy use)',
+      'Biogasoline' =>               'Ethanol',
+      'Biodiesels' =>                'Biodiesel'
+    }
+    def initialize(*)
     end
     
     def apply(row)
-      # FIXME TODO
-      # This should make the changes shown in https://spreadsheets.google.com/ccc?key=0AoQJbWqPrREqdDZ1dS1vYU5aQkJpQWt4UW0yby1XTFE&hl=en#gid=0
+      if virtual_names = VIRTUAL_NAMES[row['name']]
+        Array.wrap(virtual_names).map { |virtual_name| row.merge('name' => virtual_name) }
+      else
+        row
+      end
     end
   end
   
