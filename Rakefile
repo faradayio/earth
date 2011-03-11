@@ -34,18 +34,18 @@ end
 require 'rspec/core/rake_task'
 desc "Run all examples"
 RSpec::Core::RakeTask.new(:examples) do |c|
-  c.rspec_opts = '-Ispec'
+  if ENV['RSPEC_FORMAT']
+    c.rspec_opts = "-Ispec --format #{ENV['RSPEC_FORMAT']}"
+  else
+    c.rspec_opts = '-Ispec'
+  end
 end
 
 desc "Run specs with RCov"
 RSpec::Core::RakeTask.new(:examples_with_coverage) do |t|
   t.rcov = true
   t.rcov_opts = ['--exclude', 'spec']
-  if ENV['RSPEC_FORMAT']
-    t.rspec_opts = "-Ispec #{ENV['RSPEC_FORMAT']}"
-  else
-    t.rspec_opts = '-Ispec'
-  end
+  t.rspec_opts = '-Ispec'
 end
 
 task :test => [:features, :examples]
