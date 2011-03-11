@@ -10,7 +10,8 @@ class EgridSubregion < ActiveRecord::Base
     end
   end
   
-  falls_back_on :egrid_region => lambda { EgridSubregion.fallback_egrid_region },
+  falls_back_on :name => 'fallback',
+                :egrid_region => lambda { EgridSubregion.fallback_egrid_region },
                 :electricity_co2_emission_factor => lambda { weighted_average(:electricity_co2_emission_factor, :weighted_by => :net_generation) },
                 :electricity_co2_emission_factor_units => 'kilograms_per_kilowatt_hour',
                 :electricity_co2_biogenic_emission_factor => lambda { weighted_average(:electricity_co2_biogenic_emission_factor, :weighted_by => :net_generation) },
