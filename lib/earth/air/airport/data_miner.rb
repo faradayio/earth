@@ -1,4 +1,23 @@
 Airport.class_eval do
+  class Airport::Guru
+    def iata_missing?(row)
+      row['iata_code'].nil?
+    end
+    
+    def method_missing(method_id, *args, &block)
+      if method_id.to_s =~ /\A(id|iata)_is_([a-z]{3}|\d{1,4})\?$/
+        regexp = Regexp.new($2, Regexp::IGNORECASE)
+        if $1 == "iata"
+          args.first['iata_code'] =~ regexp # row['iata_code'] =~ /meh/i
+        else
+          args.first[$1] =~ regexp # row['id'] =~ /1234/i
+        end
+      else
+        super
+      end
+    end
+  end
+  
   data_miner do
     schema Earth.database_options do
       string   'iata_code'
@@ -21,15 +40,16 @@ Airport.class_eval do
     
     import "the OpenFlights.org airports database",
            :url => 'https://openflights.svn.sourceforge.net/svnroot/openflights/openflights/data/airports.dat',
-           :headers => false,
-           :select => lambda { |row| row[4].present? } do
-      key   'iata_code', :field_number => 4
-      store 'name', :field_number => 1
-      store 'city', :field_number => 2
-      store 'country_name', :field_number => 3
-      store 'country_iso_3166_code', :field_number => 3, :upcase => true, :dictionary => { :input => 'name', :output => 'iso_3166_code', :url => 'http://data.brighterplanet.com/countries.csv' }
-      store 'latitude', :field_number => 6
-      store 'longitude', :field_number => 7
+           :headers => %w{ id name city country_name iata_code icao_code latitude longitude altitude timezone daylight_savings },
+           :errata => { :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdFc2UzhQYU5PWEQ0N21yWFZGNmc2a3c&gid=0&output=csv',
+                        :responder => Airport::Guru.new } do
+      key 'iata_code'
+      store 'name'
+      store 'city'
+      store 'country_name'
+      store 'country_iso_3166_code', :field_name => 'country_name', :upcase => true, :dictionary => { :input => 'name', :output => 'iso_3166_code', :url => 'http://data.brighterplanet.com/countries.csv' }
+      store 'latitude'
+      store 'longitude'
     end
     
     # step.await :other_class => FlightSegment do |deferred|
