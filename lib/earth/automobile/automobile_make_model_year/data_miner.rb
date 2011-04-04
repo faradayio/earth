@@ -5,8 +5,9 @@ AutomobileMakeModelYear.class_eval do
     end
     
     schema Earth.database_options do
-      string   'name'
+      string   'name' # make + model + year
       string   'make_name'
+      string   'model_name'
       string   'make_model_name'
       integer  'year'
       string   'make_year_name'
@@ -18,8 +19,8 @@ AutomobileMakeModelYear.class_eval do
     
     process "Derive model year names from automobile make model year variants" do
       AutomobileMakeModelYearVariant.run_data_miner!
-      INSERT_IGNORE %{INTO automobile_make_model_years(name, make_name, make_model_name, year, make_year_name)
-        SELECT automobile_make_model_year_variants.make_model_year_name, automobile_make_model_year_variants.make_name, automobile_make_model_year_variants.make_model_name, automobile_make_model_year_variants.year, automobile_make_model_year_variants.make_year_name FROM automobile_make_model_year_variants WHERE LENGTH(automobile_make_model_year_variants.make_name) > 0 AND LENGTH(automobile_make_model_year_variants.make_model_name) > 0
+      INSERT_IGNORE %{INTO automobile_make_model_years(name, make_name, model_name, make_model_name, year, make_year_name)
+        SELECT automobile_make_model_year_variants.make_model_year_name, automobile_make_model_year_variants.make_name, automobile_make_model_year_variants.name, automobile_make_model_year_variants.make_model_name, automobile_make_model_year_variants.year, automobile_make_model_year_variants.make_year_name FROM automobile_make_model_year_variants WHERE LENGTH(automobile_make_model_year_variants.make_name) > 0 AND LENGTH(automobile_make_model_year_variants.make_model_name) > 0
       }
     end
     

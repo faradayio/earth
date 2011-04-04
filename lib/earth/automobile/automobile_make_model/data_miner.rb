@@ -7,6 +7,7 @@ AutomobileMakeModel.class_eval do
     schema Earth.database_options do
       string  'name' # make + model
       string  'make_name'
+      string  'model_name' # model only
       float   'fuel_efficiency_city'
       string  'fuel_efficiency_city_units'
       float   'fuel_efficiency_highway'
@@ -15,8 +16,8 @@ AutomobileMakeModel.class_eval do
     
     process "Derive model names from automobile make model year variants" do
       AutomobileMakeModelYearVariant.run_data_miner!
-      INSERT_IGNORE %{INTO automobile_make_models(name, make_name)
-        SELECT automobile_make_model_year_variants.make_model_name, automobile_make_model_year_variants.make_name FROM automobile_make_model_year_variants WHERE LENGTH(automobile_make_model_year_variants.make_model_name) > 0 AND LENGTH(automobile_make_model_year_variants.make_name) > 0
+      INSERT_IGNORE %{INTO automobile_make_models(name, make_name, model_name)
+        SELECT automobile_make_model_year_variants.make_model_name, automobile_make_model_year_variants.make_name, automobile_make_model_year_variants.name FROM automobile_make_model_year_variants WHERE LENGTH(automobile_make_model_year_variants.make_name) > 0 AND LENGTH(automobile_make_model_year_variants.name) > 0
       }
     end
     
