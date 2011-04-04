@@ -89,7 +89,7 @@ module Earth
     if ActiveRecord::Base.connection.adapter_name.downcase == 'sqlite'
       {}
     else
-      { :options => 'ENGINE=InnoDB default charset=utf8' }
+      { :options => 'ENGINE=InnoDB default charset=utf8 collate=utf8_general_ci' }
     end
   end
 
