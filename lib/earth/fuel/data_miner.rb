@@ -1,6 +1,6 @@
 require 'earth/fuel/fuel/data_miner'
-require 'earth/fuel/fuel_country/data_miner'
-require 'earth/fuel/fuel_country_year/data_miner'
+require 'earth/fuel/fuel_region/data_miner'
+require 'earth/fuel/fuel_region_year/data_miner'
 require 'earth/fuel/fuel_price/data_miner'
 require 'earth/fuel/fuel_type/data_miner'
 require 'earth/fuel/fuel_year/data_miner'

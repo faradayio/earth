@@ -1,9 +1,11 @@
-FuelCountry.class_eval do
+FuelRegion.class_eval do
   data_miner do
     schema Earth.database_options do
       string 'name'
       string 'fuel_name'
-      string 'country_iso_3166_code'
+      string 'region_name'
+      float  'density'
+      string 'density_units'
       string 'calorific_basis'
       float  'energy_content'
       string 'energy_content_units'
@@ -17,10 +19,10 @@ FuelCountry.class_eval do
       string 'co2_biogenic_emission_factor_units'
     end
     
-    process "Derive fuel country names for fuel with annually variable characteristics from FuelCountryYear" do
-      FuelCountryYear.run_data_miner!
-      INSERT_IGNORE %{INTO fuel_countries(name, fuel_name, country_iso_3166_code)
-        SELECT DISTINCT fuel_country_years.fuel_country_name, fuel_country_years.fuel_name, fuel_country_years.country_iso_3166_code FROM fuel_country_years
+    process "Derive fuel region names for fuel with annually variable characteristics from FuelRegionYear" do
+      FuelRegionYear.run_data_miner!
+      INSERT_IGNORE %{INTO fuel_countries(name, fuel_name, region_name)
+        SELECT DISTINCT fuel_region_years.fuel_region_name, fuel_region_years.fuel_name, fuel_region_years.region_name FROM fuel_region_years
       }
     end
     
@@ -28,12 +30,18 @@ FuelCountry.class_eval do
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdHdGQl9yT2IySUZYWW1TcmNLaWFTS3c&gid=0&output=csv' do
       key 'name'
       store 'fuel_name'
-      store 'country_iso_3166_code'
+      store 'region_name'
       store 'calorific_basis'
       store 'energy_content', :units_field_name => 'energy_content_units'
       store 'carbon_content', :units_field_name => 'carbon_content_units'
       store 'oxidation_factor'
       store 'biogenic_fraction'
+    end
+    
+    import "densities for aircraft fuels",
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdHBjTVE4NmRlc05iUHVZR1E3eEJwOGc&hl=en&gid=0&output=csv' do
+      key 'name'
+      store 'density', :units_field_name => 'density_units'
     end
     
     process "Convert energy content of liquid fuels to metric units" do
@@ -66,7 +74,7 @@ FuelCountry.class_eval do
     process "Calculate CO2 and CO2 biogenic emission factors" do
       conversion_factor = (1.0 / 1_000.0) * (44.0 / 12.0) # Google: 1 kg / 1e3 g * 44 CO2 / 12 C
       
-      FuelCountry.where(FuelCountry.arel_table[:energy_content].not_eq(nil)).each do |record|
+      FuelRegion.where(FuelRegion.arel_table[:energy_content].not_eq(nil)).each do |record|
         record.co2_emission_factor = record.carbon_content * record.energy_content * record.oxidation_factor * (1 - record.biogenic_fraction) * conversion_factor
         record.co2_emission_factor_units = "kilograms_per_" + record.energy_content_units.split("_per_")[1]
         

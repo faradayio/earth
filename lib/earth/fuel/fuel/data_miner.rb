@@ -24,8 +24,6 @@ Fuel.class_eval do
   data_miner do
     schema Earth.database_options do
       string 'name'
-      float  'density'
-      string 'density_units'
       string 'calorific_basis'
       float  'energy_content'
       string 'energy_content_units'
@@ -48,12 +46,6 @@ Fuel.class_eval do
       store 'carbon_content', :units_field_name => 'carbon_content_units'
       store 'oxidation_factor'
       store 'biogenic_fraction'
-    end
-    
-    import "densities for aircraft fuels",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdHBjTVE4NmRlc05iUHVZR1E3eEJwOGc&hl=en&gid=0&output=csv' do
-      key 'name'
-      store 'density', :units_field_name => 'density_units'
     end
     
     process "Calculate CO2 and CO2 biogenic emission factors" do
