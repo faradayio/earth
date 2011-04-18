@@ -58,7 +58,7 @@ Aircraft.class_eval do
   #   end
   # end
   
-  # for errata
+  # For errata
   class Aircraft::Guru
     def is_a_dc_plane?(row)
       row['Designator'] =~ /^DC\d/i
@@ -84,121 +84,111 @@ Aircraft.class_eval do
     end
   end
   
+  # For whitelisting aircraft manufacturers
+  module ExtractRegexp
+    def to_regexp(regexp_or_str)
+      case regexp_or_str
+      when ::Regexp
+        regexp_or_str
+      when ::String
+        regexp_from_string regexp_or_str
+      else
+        raise ::ArgumentError, "Expected regexp or string"
+      end
+    end
+    
+    REGEXP_DELIMITERS = {
+      '%r{' => '}',
+      '/' => '/'
+    }
+    def regexp_from_string(str)
+      delim_start, delim_end = REGEXP_DELIMITERS.detect { |k, v| str.start_with? k }.map { |delim| ::Regexp.escape delim }
+      %r{\A#{delim_start}(.*)#{delim_end}([^#{delim_end}]*)\z} =~ str.strip
+      content = $1
+      options = $2
+      content.gsub! '\\/', '/'
+      ignore_case = options.include?('i') ? ::Regexp::IGNORECASE : nil
+      multiline = options.include?('m') ? ::Regexp::MULTILINE : nil
+      extended = options.include?('x') ? ::Regexp::EXTENDED : nil
+      ::Regexp.new content, (ignore_case||multiline||extended)
+    end
+  end
+  
+  def self.manufacturer_whitelist?(candidate)
+    @manufacturer_whitelist ||= RemoteTable.new(:url => 'https://spreadsheets.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdFRFalpOdlg1cnF6amlSM1dDc1lya2c&output=csv')
+    @manufacturer_whitelist.any? { |record| record['Manufacturer'].to_regexp.match(candidate) }
+  end
+  
   data_miner do
     schema Earth.database_options do
-      string 'bp_code'
       string 'icao_code'
-      string 'bts_code'
-      string 'class_code'
-      string 'fuel_use_code'
       string 'manufacturer_name'
       string 'name'
-      string 'fuel_use_aircraft_name'
-      float  'm3'
-      string 'm3_units'
-      float  'm2'
-      string 'm2_units'
-      float  'm1'
-      string 'm1_units'
-      float  'endpoint_fuel'
-      string 'endpoint_fuel_units'
+      string 'type'
+      string 'engine_type'
+      float  'engines'
+      string 'weight_class'
+      string 'class_code'
+      string 'fuel_use_code'
       float  'seats'
-      float  'weighting'
-      index  'bts_code'
+      float  'passengers'
     end
     
-    import "a curated list of aircraft",
-            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdDJFblR4MDE1RGtnLVM1S2JHRGZpT3c&hl=en&gid=0&output=csv' do
-      key 'bp_code'
-      store 'icao_code',              :nullify => true
-      store 'bts_code',               :nullify => true
-      store 'class_code',             :nullify => true
-      store 'fuel_use_code',          :nullify => true
-      store 'manufacturer_name',      :nullify => true
-      store 'name',                   :nullify => true
-      store 'fuel_use_aircraft_name', :nullify => true
-      store 'm3',                     :nullify => true, :units => :kilograms_per_cubic_nautical_mile
-      store 'm2',                     :nullify => true, :units => :kilograms_per_square_nautical_mile
-      store 'm1',                     :nullify => true, :units => :kilograms_per_nautical_mile
-      store 'endpoint_fuel',          :nullify => true, :units => :kilograms
+    ('A'..'A').each do |letter|
+      import "aircraft made by select manufacturers whose ICAO code starts with '#{letter}' from the FAA",
+             :url => "http://www.faa.gov/air_traffic/publications/atpubs/CNT/5-2-#{letter}.htm",
+             :encoding => 'windows-1252',
+             :row_xpath => '//table/tr[2]/td/table/tr',
+             :column_xpath => 'td',
+             :errata => { :url => 'https://spreadsheets.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdF96ZWRuSzlsSm5PSlZ0XzlwRGRuemc&output=csv',
+                          :responder => Aircraft::Guru.new },
+             :select => lambda { |record| manufacturer_whitelist? record['Manufacturer'] } do
+        key 'icao_code',           :field_name => 'Designator'
+        store 'manufacturer_name', :field_name => 'Manufacturer'
+        store 'name',              :field_name => 'Model'
+        # store 'type',              :field_name => 'Type/Wt Class', :chars => 0
+        # store 'engine_type',       :field_name => 'Type/Wt Class', :chars => 2
+        # store 'engines',           :field_name => 'Type/Wt Class', :chars => 1
+        # store 'weight_class',      :field_name => 'Type/Wt Class', :split => { :pattern => %r{/}, :keep => 1 }
+      end
     end
     
-    # ('A'..'Z').each do |letter|
-    #   import( "ICAO manufacturers and names for aircraft with an ICAO code starting with the letter #{letter} from the FAA",
-    #           :url => "http://www.faa.gov/air_traffic/publications/atpubs/CNT/5-2-#{letter}.htm",
-    #           :errata => { :url => 'http://spreadsheets.google.com/pub?key=tObVAGyqOkCBtGid0tJUZrw',
-    #                        :responder => Aircraft::Guru.new },
-    #           :encoding => 'windows-1252',
-    #           :row_xpath => '//table/tr[2]/td/table/tr',
-    #           :column_xpath => 'td' ) do
-    #     key 'icao_code',       :field_name => 'Designator'
-    #     store 'icao_manufacturer_name', :field_name => 'Manufacturer'
-    #     store 'icao_name',     :field_name => 'Model'
-    #   end
+    # import "aircraft not included in the FAA database",
+    #        :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdHRNaVpSUWw2Z2VhN3RUV25yYWdQX2c&output=csv' do
+    #   key 'icao_code'
+    #   store 'manufacturer_name'
+    #   store 'name'
     # end
     
-    # import "some hand-picked ICAO manufacturers and names, including some for ICAO codes not used by the FAA",
-    #        :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdHRNaVpSUWw2Z2VhN3RUV25yYWdQX2c&hl=en&single=true&gid=0&output=csv' do
-    #   key 'icao_code',       :field_name => 'icao_code'
-    #   store 'icao_manufacturer_name', :field_name => 'manufacturer_name'
-    #   store 'icao_name',     :field_name => 'name'
+    # process "Derive some average aircraft characteristics from flight segments" do
+    #   FlightSegment.run_data_miner!
+    #   aircraft = Aircraft.arel_table
+    #   segments = FlightSegment.arel_table
+    #   
+    #   # FIXME TODO
+    #   # This should calculate weighted averages from flight segments
+    #   # For example, to calculate seats:
+    #   # SELECT aircraft.icao_code, sum(flight_segments.seats * flight_segments.passengers) / sum(flight_segments.passengers)
+    #   # FROM flight_segments
+    #   # INNER JOIN aircraft_aircraft_types ON flight_segments.aircraft_type_code = aircraft_aircraft_types.aircraft_type_code
+    #   # INNER JOIN aircraft ON aircraft_aircraft_types.icao_code = aircraft.icao_code
+    #   # GROUP BY aircraft.icao_code
+    #   
+    #   conditional_relation = segments[:aircraft_bts_code].eq(aircraft[:bts_code])
+    #   update_all "seats = (#{FlightSegment.weighted_average_relation(:seats, :weighted_by => :passengers).where(conditional_relation).to_sql})"
+    #   update_all "weighting = (#{segments.project(segments[:passengers].sum).where(conditional_relation).to_sql})"
+    #   
+    #   # conditional_relation = aircraft[:aircraft_type_code].eq(segments[:aircraft_type_code])
+    #   
+    #   # update_all "seats         = (#{FlightSegment.weighted_average_relation(:seats,         :weighted_by => :passengers                                           ).where(conditional_relation).to_sql})"
+    #   
+    #   # update_all "distance      = (#{FlightSegment.weighted_average_relation(:distance,      :weighted_by => :passengers                                           ).where(conditional_relation).to_sql})"
+    #   # update_all "load_factor   = (#{FlightSegment.weighted_average_relation(:load_factor,   :weighted_by => :passengers                                           ).where(conditional_relation).to_sql})"
+    #   # update_all "freight_share = (#{FlightSegment.weighted_average_relation(:freight_share, :weighted_by => :passengers                                           ).where(conditional_relation).to_sql})"
+    #   # update_all "payload       = (#{FlightSegment.weighted_average_relation(:payload,       :weighted_by => :passengers, :disaggregate_by => :departures_performed).where(conditional_relation).to_sql})"
+    #   
+    #   # update_all "weighting = (#{segments.project(segments[:passengers].sum).where(aircraft[:aircraft_type_code].eq(segments[:aircraft_type_code])).to_sql})"
     # end
-    
-    # import "aircraft BTS names",
-    #        :url => 'http://www.transtats.bts.gov/Download_Lookup.asp?Lookup=L_AIRCRAFT_TYPE',
-    #        :errata => { :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdEZ2d3JQMzV5T1o1T3JmVlFyNUZxdEE&hl=en&single=true&gid=0&output=csv'} do
-    #   key 'bts_code',   :field_name => 'Code'
-    #   store 'bts_name', :field_name => 'Description'
-    # end
-    
-    # import "the fuel use equations associated with each fuel use code",
-    #        :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdG9tSC1RczJOdjliWTdjT2ZpdV9RTnc&hl=en&single=true&gid=0&output=csv' do
-    #   key   'fuel_use_code', :field_name => 'fuel_use_code'
-    #   store 'fuel_use_aircraft_name', :field_name => 'aircraft_name'
-    #   store 'm3', :units => :kilograms_per_cubic_nautical_mile
-    #   store 'm2', :units => :kilograms_per_square_nautical_mile
-    #   store 'm1', :units => :kilograms_per_nautical_mile
-    #   store 'endpoint_fuel', :field_name => 'b', :units => :kilograms
-    # end
-    
-    process "Derive some average flight characteristics from flight segments" do
-      FlightSegment.run_data_miner!
-      
-      aircraft = Aircraft.arel_table
-      segments = FlightSegment.arel_table
-      
-      # non-working joins method
-      # update_all "aircraft.distance_1            = (SELECT * FROM (#{FlightSegment.joins(:aircraft).weighted_average_relation(:distance,            :weighted_by => :passengers                                           ).to_sql}) AS anonymous_1)"
-      # update_all "aircraft.load_factor_1         = (SELECT * FROM (#{FlightSegment.joins(:aircraft).weighted_average_relation(:load_factor,         :weighted_by => :passengers                                           ).to_sql}) AS anonymous_1)"
-      # execute %{
-      #   update aircraft as t1
-      #   set t1.distance_1 = (SELECT * FROM (#{FlightSegment.joins(:aircraft).weighted_average_relation(:distance,            :weighted_by => :passengers                                           ).where('t1.bts_aircraft_type_code = flight_segments.bts_aircraft_type_code').to_sql}) AS anonymous_1)
-      # }
-      
-      # FIXME TODO
-      # This should calculate weighted averages from flight segments
-      # For example, to calculate seats:
-      # SELECT aircraft.icao_code, sum(flight_segments.seats * flight_segments.passengers) / sum(flight_segments.passengers)
-      # FROM flight_segments
-      # INNER JOIN aircraft_aircraft_types ON flight_segments.aircraft_type_code = aircraft_aircraft_types.aircraft_type_code
-      # INNER JOIN aircraft ON aircraft_aircraft_types.icao_code = aircraft.icao_code
-      # GROUP BY aircraft.icao_code
-      
-      conditional_relation = segments[:aircraft_bts_code].eq(aircraft[:bts_code])
-      update_all "seats = (#{FlightSegment.weighted_average_relation(:seats, :weighted_by => :passengers).where(conditional_relation).to_sql})"
-      update_all "weighting = (#{segments.project(segments[:passengers].sum).where(conditional_relation).to_sql})"
-      
-      # conditional_relation = aircraft[:aircraft_type_code].eq(segments[:aircraft_type_code])
-      
-      # update_all "seats         = (#{FlightSegment.weighted_average_relation(:seats,         :weighted_by => :passengers                                           ).where(conditional_relation).to_sql})"
-      
-      # update_all "distance      = (#{FlightSegment.weighted_average_relation(:distance,      :weighted_by => :passengers                                           ).where(conditional_relation).to_sql})"
-      # update_all "load_factor   = (#{FlightSegment.weighted_average_relation(:load_factor,   :weighted_by => :passengers                                           ).where(conditional_relation).to_sql})"
-      # update_all "freight_share = (#{FlightSegment.weighted_average_relation(:freight_share, :weighted_by => :passengers                                           ).where(conditional_relation).to_sql})"
-      # update_all "payload       = (#{FlightSegment.weighted_average_relation(:payload,       :weighted_by => :passengers, :disaggregate_by => :departures_performed).where(conditional_relation).to_sql})"
-      
-      # update_all "weighting = (#{segments.project(segments[:passengers].sum).where(aircraft[:aircraft_type_code].eq(segments[:aircraft_type_code])).to_sql})"
-    end
     
     # FIXME TODO verify this
   end
