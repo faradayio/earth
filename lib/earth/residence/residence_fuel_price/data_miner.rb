@@ -154,6 +154,7 @@ ResidenceFuelPrice.class_eval do
     end
     
     # dollars per litre
+    # sabshere 4/18/2011 this file has gone missing
     import "residential fuel oil prices from the EIA",
            :url => 'http://tonto.eia.doe.gov/dnav/pet/xls/PET_PRI_RESID_A_EPPR_PTA_CPGAL_M.xls',
            :sheet => 'Data 1',
