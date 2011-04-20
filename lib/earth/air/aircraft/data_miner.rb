@@ -60,48 +60,28 @@ Aircraft.class_eval do
   
   # For errata
   class Aircraft::Guru
-    def is_a_dc_plane?(row)
-      row['Designator'] =~ /^DC\d/i
-    end
-    
-    def is_a_g159?(row)
-      row['Designator'] =~ /^G159$/
-    end
-    
-    def is_a_galx?(row)
-      row['Designator'] =~ /^GALX$/
-    end
-    
     def method_missing(method_id, *args, &block)
-      if method_id.to_s =~ /\Ais_n?o?t?_?attributed_to_([^\?]+)/
-        manufacturer_name = $1
-        manufacturer_regexp = Regexp.new(manufacturer_name.gsub('_', ' ?'), Regexp::IGNORECASE)
-        matches = manufacturer_regexp.match(args.first['Manufacturer']) # row['Manufacturer'] =~ /mcdonnell douglas/i
-        method_id.to_s.include?('not_attributed') ? matches.nil? : !matches.nil?
+      if method_id.to_s =~ /\A([a-z]+)_is_n?o?t?_?([^\?]+)/
+        column_name = $1
+        value = $2
+        value_regexp = Regexp.new("^" + value.gsub('_', ' ') + "$", Regexp::IGNORECASE)
+        matches = value_regexp.match(args.first[column_name.titleize]) # row['Manufacturer'] =~ /mcdonnell douglas/i
+        method_id.to_s.include?('_not_') ? matches.nil? : !matches.nil?
       else
         super
       end
     end
   end
   
-  # For whitelisting aircraft manufacturers
-  module ExtractRegexp
-    def to_regexp(regexp_or_str)
-      case regexp_or_str
-      when ::Regexp
-        regexp_or_str
-      when ::String
-        regexp_from_string regexp_or_str
-      else
-        raise ::ArgumentError, "Expected regexp or string"
-      end
-    end
-    
+  # For manufacturer whitelist
+  class String
     REGEXP_DELIMITERS = {
       '%r{' => '}',
       '/' => '/'
     }
-    def regexp_from_string(str)
+    
+    def to_regexp
+      str = self.dup
       delim_start, delim_end = REGEXP_DELIMITERS.detect { |k, v| str.start_with? k }.map { |delim| ::Regexp.escape delim }
       %r{\A#{delim_start}(.*)#{delim_end}([^#{delim_end}]*)\z} =~ str.strip
       content = $1
@@ -111,6 +91,13 @@ Aircraft.class_eval do
       multiline = options.include?('m') ? ::Regexp::MULTILINE : nil
       extended = options.include?('x') ? ::Regexp::EXTENDED : nil
       ::Regexp.new content, (ignore_case||multiline||extended)
+    end
+  end
+  
+  # For manufacturer whitelist
+  class Regexp
+    def to_regexp
+      dup
     end
   end
   
@@ -134,8 +121,8 @@ Aircraft.class_eval do
       float  'passengers'
     end
     
-    ('A'..'A').each do |letter|
-      import "aircraft made by select manufacturers whose ICAO code starts with '#{letter}' from the FAA",
+    ('A'..'Z').each do |letter|
+      import "aircraft made by whitelisted manufacturers whose ICAO code starts with '#{letter}' from the FAA",
              :url => "http://www.faa.gov/air_traffic/publications/atpubs/CNT/5-2-#{letter}.htm",
              :encoding => 'windows-1252',
              :row_xpath => '//table/tr[2]/td/table/tr',
