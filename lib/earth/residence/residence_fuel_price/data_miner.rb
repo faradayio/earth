@@ -120,7 +120,7 @@ ResidenceFuelPrice.class_eval do
       Conversions.register :dollars, :cents, 100
       Conversions.register :cubic_feet, :cubic_metres, 0.0283168466 # TODO conversions gem has 'cubic_metres'
     end
-
+    
     # electricity in dollars per kWh
     import 'residential electricity prices from the EIA',
            :url => 'http://www.eia.doe.gov/cneaf/electricity/page/sales_revenue.xls',
@@ -153,39 +153,44 @@ ResidenceFuelPrice.class_eval do
       store 'month'
     end
     
+    # FIXME TODO file missing
     # dollars per litre
-    import "residential fuel oil prices from the EIA",
-           :url => 'http://tonto.eia.doe.gov/dnav/pet/xls/PET_PRI_RESID_A_EPPR_PTA_CPGAL_M.xls',
-           :sheet => 'Data 1',
-           :skip => 2,
-           :select => lambda { |row| row['year'].to_i > 1989 },
-           :transform => { :class => FuelOilParser } do
-      key 'row_hash'
-      store 'residence_fuel_type_name', :static => 'fuel oil'
-      store 'locatable_id'
-      store 'locatable_type'
-      store 'price', :from_units => :litres, :to_units => :gallons # denominator
-      store 'price_description', :static => 'dollars_per_litre'
-      store 'year'
-      store 'month'
-    end
+    # sabshere 4/18/2011 this file has gone missing
+    # ihough 4/22/2011 comment out for now; we'll deal with this later
+    # import "residential fuel oil prices from the EIA",
+    #        :url => 'http://tonto.eia.doe.gov/dnav/pet/xls/PET_PRI_RESID_A_EPPR_PTA_CPGAL_M.xls',
+    #        :sheet => 'Data 1',
+    #        :skip => 2,
+    #        :select => lambda { |row| row['year'].to_i > 1989 },
+    #        :transform => { :class => FuelOilParser } do
+    #   key 'row_hash'
+    #   store 'residence_fuel_type_name', :static => 'fuel oil'
+    #   store 'locatable_id'
+    #   store 'locatable_type'
+    #   store 'price', :from_units => :litres, :to_units => :gallons # denominator
+    #   store 'price_description', :static => 'dollars_per_litre'
+    #   store 'year'
+    #   store 'month'
+    # end
     
+    # FIXME TODO file missing
     # dollars per litre
-    import "residential propane prices from the EIA",
-           :url => 'http://tonto.eia.doe.gov/dnav/pet/xls/PET_PRI_PROP_A_EPLLPA_PRT_CPGAL_M.xls',
-           :sheet => 'Data 1',
-           :skip => 2,
-           :select => lambda { |row| row['year'].to_i > 1989 },
-           :transform => { :class => PropaneParser } do
-      key 'row_hash'
-      store 'residence_fuel_type_name', :static => 'propane'
-      store 'locatable_id'
-      store 'locatable_type'
-      store 'price', :from_units => :litres, :to_units => :gallons # denominator
-      store 'price_description', :static => 'dollars_per_litre'
-      store 'year'
-      store 'month'
-    end
+    # ihough 4/22/2011 comment out for now; we'll deal with this later
+    # import "residential propane prices from the EIA",
+    #        :url => 'http://tonto.eia.doe.gov/dnav/pet/xls/PET_PRI_PROP_A_EPLLPA_PRT_CPGAL_M.xls',
+    #        :sheet => 'Data 1',
+    #        :skip => 2,
+    #        :select => lambda { |row| row['year'].to_i > 1989 },
+    #        :transform => { :class => PropaneParser } do
+    #   key 'row_hash'
+    #   store 'residence_fuel_type_name', :static => 'propane'
+    #   store 'locatable_id'
+    #   store 'locatable_type'
+    #   store 'price', :from_units => :litres, :to_units => :gallons # denominator
+    #   store 'price_description', :static => 'dollars_per_litre'
+    #   store 'year'
+    #   store 'month'
+    # end
     
     # per Matt in https://brighterplanet.sifterapp.com/projects/30/issues/410/comments
     # "For coal and kerosene, there isn't good residential price data available, because hardly anybody actually uses them residentially."

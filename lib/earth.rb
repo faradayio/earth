@@ -6,7 +6,6 @@ require 'earth/inflectors'
 require 'data_miner'
 require 'falls_back_on'
 require 'weighted_average'
-require 'loose_tight_dictionary'
 require 'slither'
 require 'errata'
 

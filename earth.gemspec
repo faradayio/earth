@@ -31,7 +31,6 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'data_miner', '~> 1.1.4'
   s.add_runtime_dependency 'falls_back_on', '~> 0.1.3'
   s.add_runtime_dependency 'geokit-rails'
-  s.add_runtime_dependency 'loose_tight_dictionary', '~> 0.0.10'
   s.add_runtime_dependency 'weighted_average', '~> 0.0.6'
   s.add_development_dependency 'bundler'
   s.add_development_dependency 'bueller'
