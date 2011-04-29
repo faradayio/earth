@@ -12,33 +12,27 @@ class Airport < ActiveRecord::Base
   # you get queries like "`flight_segments`.origin_airport_id = 3654 AND (flight_segments.destination_airport_id = 3654))"
   # in which you notice the AND which must be an OR
   # and you can't just do finder_sql, because that breaks any other :select
-  def segments
-    FlightSegment.scoped :conditions => ['origin_airport_id = ? OR destination_airport_id = ?', id, id]
+  def flight_segments
+    FlightSegment.where(%{
+           origin_airport_iata_code = :iata
+        OR destination_airport_iata_code = :iata
+        OR origin_airport_city = :city
+        OR destination_airport_city = :city
+      }, :iata => iata_code, :city => city)
   end
   # --------------------------------
   
   belongs_to :country, :foreign_key => 'country_iso_3166_code', :primary_key => 'iso_3166_code'
+  
   acts_as_mappable :default_units => :nms,
                    :lat_column_name => :latitude,
                    :lng_column_name => :longitude
-
+  
   data_miner do
     tap "Brighter Planet's sanitized airports data", Earth.taps_server
     
     process "pull dependencies" do
       run_data_miner_on_belongs_to_associations
     end
-  end
-  
-  def all_flights_from_here_domestic?
-    !international_origin?
-  end
-
-  def all_flights_to_here_domestic?
-    !international_destination?
-  end
-  
-  def united_states?
-    country == Country.united_states
   end
 end
