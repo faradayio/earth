@@ -252,7 +252,7 @@ FlightSegment.class_eval do
     
     process "Look up aircraft description based on BTS code" do
       connection.select_values("SELECT DISTINCT aircraft_bts_code FROM flight_segments").each do |bts_code|
-        description = BtsAircraft.find_by_bts_code(bts_code).description
+        description = BtsAircraft.find_by_bts_code(bts_code).description.downcase
         connection.execute %{
           UPDATE flight_segments
           SET aircraft_description = "#{description}"
