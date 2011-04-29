@@ -6,7 +6,5 @@ class FlightFuelType < ActiveRecord::Base
   
   data_miner do
     tap "Brighter Planet's sanitized flight fuel type data", Earth.taps_server
-    
-    # we just always use the fallback
   end
 end
