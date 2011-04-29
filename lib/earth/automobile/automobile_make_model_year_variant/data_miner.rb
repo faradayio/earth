@@ -408,6 +408,7 @@ AutomobileMakeModelYearVariant.class_eval do
     # 2010--?
     {
       2010 => { :url => 'http://www.fueleconomy.gov/FEG/epadata/10data.zip', :filename => '2010FE Guide for DOE-all rel dates-no-sales 4-9-10public.xls' }
+      2011 => { :url => 'http://www.fueleconomy.gov/FEG/epadata/11data.zip', :filename => '2011FEGuide-for DOE rel-dates before 1-23-2011-no-sales-01-10-2011public.xlsx' }
     }.sort { |a, b| a.first <=> b.first }.each do |year, options|
       import "#{ year } Fuel Economy Guide",
              options.merge(:transform => { :class => AutomobileMakeModelYearVariant::ParserE, :year => year },
@@ -466,10 +467,10 @@ AutomobileMakeModelYearVariant.class_eval do
       end
     end
     
-    verify "Year should be from 1985 to 2010" do
+    verify "Year should be from 1985 to 2011" do
       AutomobileMakeModelYearVariant.all.each do |variant|
-        unless variant.year > 1984 and variant.year < 2011
-          raise "Invalid year for AutomobileMakeModelYearVariant #{variant.row_hash}: #{variant.year} (should be from 1985 to 2010)"
+        unless variant.year > 1984 and variant.year < 2012
+          raise "Invalid year for AutomobileMakeModelYearVariant #{variant.row_hash}: #{variant.year} (should be from 1985 to 2011)"
         end
       end
     end
