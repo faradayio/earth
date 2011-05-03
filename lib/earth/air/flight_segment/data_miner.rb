@@ -241,7 +241,7 @@ FlightSegment.class_eval do
     
     process "Look up airline name based on BTS code" do
       Airline.run_data_miner!
-      connection.select_values("SELECT DISTINCT airline_bts_code FROM flight_segments").each do |bts_code|
+      connection.select_values("SELECT DISTINCT airline_bts_code FROM flight_segments WHERE airline_bts_code IS NOT NULL").each do |bts_code|
         name = Airline.find_by_bts_code(bts_code).name
         update_all "airline_name = '#{name}'", "airline_bts_code = '#{bts_code}'"
       end
@@ -249,7 +249,7 @@ FlightSegment.class_eval do
     
     process "Look up aircraft description based on BTS code" do
       BtsAircraft.run_data_miner!
-      connection.select_values("SELECT DISTINCT aircraft_bts_code FROM flight_segments").each do |bts_code|
+      connection.select_values("SELECT DISTINCT aircraft_bts_code FROM flight_segments WHERE aircraft_bts_code IS NOT NULL").each do |bts_code|
         description = BtsAircraft.find_by_bts_code(bts_code).description.downcase
         update_all "aircraft_description = '#{description}'", "aircraft_bts_code = '#{bts_code}'"
       end
@@ -297,11 +297,10 @@ FlightSegment.class_eval do
       update_all 'approximate_date = DATE(CONCAT_WS("-", year, month, "14"))', 'month IS NOT NULL'
     end
     
-    # process "Populate FuzzyAircraftMatch" do
-    #   delimiters = /[ \-a-z]/i
-    #   connection.select_values("SELECT DISTINCT aircraft_description FROM flight_segments").each do |description|
-    #     FuzzyAircraftMatch.populate!(description)
-    #   end
-    # end
+    process "Populate FuzzyAircraftMatch" do
+      connection.select_values("SELECT DISTINCT aircraft_description FROM flight_segments WHERE aircraft_description IS NOT NULL").each do |description|
+        FuzzyAircraftMatch.populate!(description)
+      end
+    end
   end
 end
