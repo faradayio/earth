@@ -2,7 +2,6 @@ AircraftClass.class_eval do
   data_miner do
     schema Earth.database_options do
       string  'code'
-      string  'name'
       float   'm3'
       string  'm3_units'
       float   'm2'
@@ -14,28 +13,34 @@ AircraftClass.class_eval do
       float   'seats'
     end
     
-    import "a list of Brighter Planet-defined aircraft classes",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdGNBbHFibmxJUFprQkUwZHp6VU51Smc&output=csv' do
-      key 'code', :field_name => 'aircraft_class_code'
-      store 'name'
+    process "Derive aircraft classes from Aircraft" do
+      # Aircraft.run_data_miner!
+      connection.select_values("SELECT DISTINCT class_code FROM aircraft WHERE aircraft.class_code IS NOT NULL").each do |class_code|
+        AircraftClass.find_or_create_by_code(class_code)
+      end
     end
     
-    process "Derive some average aircraft chraracteristics from aircraft and fuel use equation" do
+    process "Derive some average characteristics from Aircraft" do
       AircraftClass.all.each do |aircraft_class|
-        relevant_aircraft = Aircraft.where(:class_code => aircraft_class.code)
+        %w{ m3 m2 m1 b }.each do |coefficient|
+          update_relation = AircraftFuelUseEquation.
+            weighted_average_relation(:"#{coefficient}", :weighted_by => [:aircraft, :passengers]).
+            where("aircraft.class_code = '#{aircraft_class.code}'")
+          connection.execute %{
+            UPDATE aircraft_classes
+            SET #{coefficient} = (#{update_relation.to_sql})
+            WHERE code = '#{aircraft_class.code}'
+          }
+        end
         
-        AircraftFuelUseEquation.weighted_average_relation(:m3, :weighted_by => [:aircraft, :passengers])
+        update_all "m3_units = 'kilograms_per_cubic_nautical_mile'"
+        update_all "m2_units = 'kilograms_per_square_nautical_mile'"
+        update_all "m1_units = 'kilograms_per_nautical_mile'"
+        update_all "b_units  = 'kilograms'"
+        
+        aircraft_class.seats = aircraft_class.aircraft.weighted_average(:seats, :weighted_by => :passengers)
+        aircraft_class.save
       end
-      
-      %w{ m3 m2 m1 b seats }.each do |column|
-        relation = AircraftFuelUseEquation.weighted_average_relation(column).where(conditional_relation)
-        update_all "#{column} = (#{relation.to_sql})"
-      end
-      
-      update_all "m3_units = 'kilograms_per_cubic_nautical_mile'"
-      update_all "m2_units = 'kilograms_per_square_nautical_mile'"
-      update_all "m1_units = 'kilograms_per_nautical_mile'"
-      update_all "b_units  = 'kilograms'"
     end
     
     # FIXME TODO verify this
