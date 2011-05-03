@@ -93,35 +93,34 @@ Aircraft.class_eval do
       store 'weight_class'
     end
     
-    # process "Derive some average aircraft characteristics from flight segments" do
-    #   FlightSegment.run_data_miner!
-    #   aircraft = Aircraft.arel_table
-    #   segments = FlightSegment.arel_table
-    #   
-    #   # FIXME TODO
-    #   # This should calculate weighted averages from flight segments
-    #   # For example, to calculate seats:
-    #   # SELECT aircraft.icao_code, sum(flight_segments.seats * flight_segments.passengers) / sum(flight_segments.passengers)
-    #   # FROM flight_segments
-    #   # INNER JOIN aircraft_aircraft_types ON flight_segments.aircraft_type_code = aircraft_aircraft_types.aircraft_type_code
-    #   # INNER JOIN aircraft ON aircraft_aircraft_types.icao_code = aircraft.icao_code
-    #   # GROUP BY aircraft.icao_code
-    #   
-    #   conditional_relation = segments[:aircraft_bts_code].eq(aircraft[:bts_code])
-    #   update_all "seats = (#{FlightSegment.weighted_average_relation(:seats, :weighted_by => :passengers).where(conditional_relation).to_sql})"
-    #   update_all "weighting = (#{segments.project(segments[:passengers].sum).where(conditional_relation).to_sql})"
-    #   
-    #   # conditional_relation = aircraft[:aircraft_type_code].eq(segments[:aircraft_type_code])
-    #   
-    #   # update_all "seats         = (#{FlightSegment.weighted_average_relation(:seats,         :weighted_by => :passengers                                           ).where(conditional_relation).to_sql})"
-    #   
-    #   # update_all "distance      = (#{FlightSegment.weighted_average_relation(:distance,      :weighted_by => :passengers                                           ).where(conditional_relation).to_sql})"
-    #   # update_all "load_factor   = (#{FlightSegment.weighted_average_relation(:load_factor,   :weighted_by => :passengers                                           ).where(conditional_relation).to_sql})"
-    #   # update_all "freight_share = (#{FlightSegment.weighted_average_relation(:freight_share, :weighted_by => :passengers                                           ).where(conditional_relation).to_sql})"
-    #   # update_all "payload       = (#{FlightSegment.weighted_average_relation(:payload,       :weighted_by => :passengers, :disaggregate_by => :departures_performed).where(conditional_relation).to_sql})"
-    #   
-    #   # update_all "weighting = (#{segments.project(segments[:passengers].sum).where(aircraft[:aircraft_type_code].eq(segments[:aircraft_type_code])).to_sql})"
-    # end
+    import "a curated list of aircraft fuel use codes",
+           :url => 'https://spreadsheets.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdGxqRjFJdDlQWVVLYS11NnJVcDZsYWc&output=csv' do
+      key 'icao_code'
+      store 'fuel_use_code'
+    end
+    
+    process "Synthesize aircraft class code from engine type and weight class" do
+      Aircraft.all.each do |aircraft|
+        if aircraft.weight_class == "Small" or aircraft.weight_class == "Small+" or aircraft.weight_class == "Light"
+          size = "Light"
+        elsif aircraft.weight_class == "Large" or aircraft.weight_class == "Medium"
+          size = "Medium"
+        else
+          size = "Heavy"
+        end
+        aircraft.class_code = size + ' ' + aircraft.engine_type
+        aircraft.save
+      end
+    end
+    
+    process "Derive some average aircraft characteristics from flight segments" do
+      FlightSegment.run_data_miner!
+      Aircraft.all.each do |aircraft|
+        aircraft.seats = flight_segments.weighted_average(:seats, :weighted_by => :passengers)
+        aircraft.passengers = flight_segments.sum(:passengers)
+        aircraft.save
+      end
+    end
     
     # FIXME TODO verify this
   end

@@ -1,7 +1,7 @@
 class AircraftFuelUseEquation < ActiveRecord::Base
-  set_primary_key :aircraft_description
+  set_primary_key :code
   
-  has_many :aircraft, :through => :fuzzy_aircraft_matches, :foreign_key => 'search_description', :primary_key => 'aircraft_description'
+  has_many :aircraft, :foreign_key => 'fuel_use_code', :primary_key => 'code'
   
   falls_back_on :m3 => lambda { weighted_average(:m3, :weighted_by => [:aircraft, :passengers]) }, # 9.73423082858437e-08   r7110: 8.6540464368905e-8      r6972: 8.37e-8
                 :m2 => lambda { weighted_average(:m2, :weighted_by => [:aircraft, :passengers]) }, # -0.000134350543484608  r7110: -0.00015337661447817    r6972: -4.09e-5
