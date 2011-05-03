@@ -50,9 +50,9 @@ Airport.class_eval do
     
     process "Replace country names with country ISO 3166 codes" do
       Country.run_data_miner!
-      Airport.all.each do |airport|
-        airport.country_iso_3166_code = Country.find_by_name(airport.country_name).iso_3166_code
-        airport.save
+      connection.select_values("SELECT DISTINCT country_name FROM airports WHERE country_name IS NOT NULL").each do |name|
+        code = Country.find_by_name(name).iso_3166_code
+        update_all 'country_iso_3166_code = #{code}', 'country_name = #{name}'
       end
     end
     
