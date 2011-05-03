@@ -17,14 +17,18 @@ class FlightSegment < ActiveRecord::Base
   
   # Associate with all aircraft that fuzzily match the flight segment's aircraft_description
   has_many :fuzzy_aircraft_matches, :foreign_key => 'search_description', :primary_key => 'aircraft_description'
-  has_many :aircraft, :through => :fuzzy_aircraft_matches, :foreign_key => 'search_description', :primary_key => 'aircraft_description'
+  has_many :aircraft, :through => :fuzzy_aircraft_matches
   
-  falls_back_on :distance      => lambda { weighted_average(:distance,      :weighted_by => :passengers) }, # 2077.1205         data1 10-12-2010
-                :seats         => lambda { weighted_average(:seats,         :weighted_by => :passengers) }, # 144.15653537046   data1 10-12-2010
-                :load_factor   => lambda { weighted_average(:load_factor,   :weighted_by => :passengers) }, # 0.78073233770097  data1 10-12-2010
-                :freight_share => lambda { weighted_average(:freight_share, :weighted_by => :passengers) }  # 0.022567224170157 data1 10-12-2010
+  falls_back_on :distance         => lambda { weighted_average(:distance,         :weighted_by => :passengers) }, # 2077.1205         data1 10-12-2010
+                :seats_per_flight => lambda { weighted_average(:seats_per_flight, :weighted_by => :passengers) }, # 144.15653537046   data1 10-12-2010
+                :load_factor      => lambda { weighted_average(:load_factor,      :weighted_by => :passengers) }, # 0.78073233770097  data1 10-12-2010
+                :freight_share    => lambda { weighted_average(:freight_share,    :weighted_by => :passengers) }  # 0.022567224170157 data1 10-12-2010
   
   data_miner do
     tap "Brighter Planet's sanitized flight segment data", Earth.taps_server
+    
+    process "Pull dependencies" do
+      run_data_miner_on_belongs_to_associations
+    end
   end
 end

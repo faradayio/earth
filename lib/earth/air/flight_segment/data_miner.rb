@@ -197,67 +197,61 @@ FlightSegment.class_eval do
       index   'airline_bts_code'                  # index for faster lookup by airline bts code
       index   'airline_icao_code'                 # index for faster lookup by airline icao code
       index   'aircraft_description'              # index for faster lookup by aircraft
+      index   'year'                              # index for faster lookup by year
     end
     
-    # months = Hash.new
-    # (2009..2010).each do |year|
-    #   (1..12).each do |month|
-    #     time = Time.gm year, month
-    #     form_data = FORM_DATA.dup
-    #     form_data.gsub! '__YEAR__', time.year.to_s
-    #     form_data.gsub! '__MONTH_NUMBER__', time.month.to_s
-    #     form_data.gsub! '__MONTH_NAME__', time.strftime('%B')
-    #     months[time] = form_data
-    #   end
-    # end
-    # 
-    # months.each do |month, form_data|
-    #   import "T100 flight segment data for #{month.strftime('%B %Y')}",
-    #          :url => URL,
-    #          :form_data => form_data,
-    #          :compression => :zip,
-    #          :glob => '/*.csv' do
-    #     key 'row_hash'
-    #     store 'origin_airport_iata_code',          :field_name => 'ORIGIN'
-    #     store 'origin_airport_city',               :field_name => 'ORIGIN_CITY_NAME'
-    #     store 'origin_country_iso_3166_code',      :field_name => 'ORIGIN_COUNTRY'
-    #     store 'destination_airport_iata_code',     :field_name => 'DEST'
-    #     store 'destination_airport_city',          :field_name => 'DEST_CITY_NAME'
-    #     store 'destination_country_iso_3166_code', :field_name => 'DEST_COUNTRY'
-    #     store 'airline_bts_code',                  :field_name => 'UNIQUE_CARRIER'
-    #     store 'aircraft_bts_code',                 :field_name => 'AIRCRAFT_TYPE'
-    #     store 'flights',                           :field_name => 'DEPARTURES_PERFORMED'
-    #     store 'passengers',                        :field_name => 'PASSENGERS'
-    #     store 'seats',                             :field_name => 'SEATS'
-    #     store 'payload_capacity',                  :field_name => 'PAYLOAD',  :units => 'pounds'
-    #     store 'freight',                           :field_name => 'FREIGHT',  :units => 'pounds'
-    #     store 'mail',                              :field_name => 'MAIL',     :units => 'pounds'
-    #     store 'distance',                          :field_name => 'DISTANCE', :units => 'miles'
-    #     store 'month',                             :field_name => 'MONTH'
-    #     store 'year',                              :field_name => 'YEAR'
-    #     store 'source',                            :static => 'BTS T100'
-    #   end
-    # end
+    months = Hash.new
+    (1990..2010).each do |year|
+      (1..12).each do |month|
+        time = Time.gm year, month
+        form_data = FORM_DATA.dup
+        form_data.gsub! '__YEAR__', time.year.to_s
+        form_data.gsub! '__MONTH_NUMBER__', time.month.to_s
+        form_data.gsub! '__MONTH_NAME__', time.strftime('%B')
+        months[time] = form_data
+      end
+    end
+    
+    months.each do |month, form_data|
+      import "T100 flight segment data for #{month.strftime('%B %Y')}",
+             :url => URL,
+             :form_data => form_data,
+             :compression => :zip,
+             :glob => '/*.csv',
+             :select => lambda { |record| record['DEPARTURES_PERFORMED'] > 0 } do
+        key 'row_hash'
+        store 'origin_airport_iata_code',          :field_name => 'ORIGIN'
+        store 'origin_country_iso_3166_code',      :field_name => 'ORIGIN_COUNTRY'
+        store 'destination_airport_iata_code',     :field_name => 'DEST'
+        store 'destination_country_iso_3166_code', :field_name => 'DEST_COUNTRY'
+        store 'airline_bts_code',                  :field_name => 'UNIQUE_CARRIER'
+        store 'aircraft_bts_code',                 :field_name => 'AIRCRAFT_TYPE'
+        store 'flights',                           :field_name => 'DEPARTURES_PERFORMED'
+        store 'passengers',                        :field_name => 'PASSENGERS'
+        store 'seats',                             :field_name => 'SEATS'
+        store 'payload_capacity',                  :field_name => 'PAYLOAD',  :units => 'pounds'
+        store 'freight',                           :field_name => 'FREIGHT',  :units => 'pounds'
+        store 'mail',                              :field_name => 'MAIL',     :units => 'pounds'
+        store 'distance',                          :field_name => 'DISTANCE', :units => 'miles'
+        store 'month',                             :field_name => 'MONTH'
+        store 'year',                              :field_name => 'YEAR'
+        store 'source',                            :static => 'BTS T100'
+      end
+    end
     
     process "Look up airline name based on BTS code" do
+      Airline.run_data_miner!
       connection.select_values("SELECT DISTINCT airline_bts_code FROM flight_segments").each do |bts_code|
         name = Airline.find_by_bts_code(bts_code).name
-        connection.execute %{
-          UPDATE flight_segments
-          SET airline_name = "#{name}"
-          WHERE airline_bts_code = "#{bts_code}"
-        }
+        update_all "airline_name = '#{name}'", "airline_bts_code = '#{bts_code}'"
       end
     end
     
     process "Look up aircraft description based on BTS code" do
+      BtsAircraft.run_data_miner!
       connection.select_values("SELECT DISTINCT aircraft_bts_code FROM flight_segments").each do |bts_code|
         description = BtsAircraft.find_by_bts_code(bts_code).description.downcase
-        connection.execute %{
-          UPDATE flight_segments
-          SET aircraft_description = "#{description}"
-          WHERE aircraft_bts_code = "#{bts_code}"
-        }
+        update_all "aircraft_description = '#{description}'", "aircraft_bts_code = '#{bts_code}'"
       end
     end
     
@@ -300,9 +294,14 @@ FlightSegment.class_eval do
     end
     
     process "Add a useful date field" do
-      update_all 'approximate_date = DATE(CONCAT_WS("-", year, month, "14"))'
+      update_all 'approximate_date = DATE(CONCAT_WS("-", year, month, "14"))', 'month IS NOT NULL'
     end
     
-    # FIXME TODO verify this
+    # process "Populate FuzzyAircraftMatch" do
+    #   delimiters = /[ \-a-z]/i
+    #   connection.select_values("SELECT DISTINCT aircraft_description FROM flight_segments").each do |description|
+    #     FuzzyAircraftMatch.populate!(description)
+    #   end
+    # end
   end
 end
