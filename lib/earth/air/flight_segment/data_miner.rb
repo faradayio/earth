@@ -201,7 +201,7 @@ FlightSegment.class_eval do
     end
     
     months = Hash.new
-    (1990..2010).each do |year|
+    (2009..2010).each do |year|
       (1..12).each do |month|
         time = Time.gm year, month
         form_data = FORM_DATA.dup
@@ -218,7 +218,7 @@ FlightSegment.class_eval do
              :form_data => form_data,
              :compression => :zip,
              :glob => '/*.csv',
-             :select => lambda { |record| record['DEPARTURES_PERFORMED'] > 0 } do
+             :select => lambda { |record| record['DEPARTURES_PERFORMED'].to_i > 0 } do
         key 'row_hash'
         store 'origin_airport_iata_code',          :field_name => 'ORIGIN'
         store 'origin_country_iso_3166_code',      :field_name => 'ORIGIN_COUNTRY'
@@ -297,10 +297,11 @@ FlightSegment.class_eval do
       update_all 'approximate_date = DATE(CONCAT_WS("-", year, month, "14"))', 'month IS NOT NULL'
     end
     
-    process "Populate FuzzyAircraftMatch" do
-      connection.select_values("SELECT DISTINCT aircraft_description FROM flight_segments WHERE aircraft_description IS NOT NULL").each do |description|
-        FuzzyAircraftMatch.populate!(description)
-      end
-    end
+    # process "Populate FuzzyAircraftMatch" do
+    #   Aircraft.run_data_miner!
+    #   connection.select_values("SELECT DISTINCT aircraft_description FROM flight_segments WHERE aircraft_description IS NOT NULL").each do |description|
+    #     FuzzyAircraftMatch.populate!(description)
+    #   end
+    # end
   end
 end
