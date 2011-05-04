@@ -239,6 +239,14 @@ FlightSegment.class_eval do
       end
     end
     
+    # verify origin_airport_iata_code is in airports
+    # verify destination_airport_iata_code is in airports
+    # verify origin_country_iso_3166_code is in countries
+    # verify destination_country_iso_3166_code is in countries
+    # verify airline_bts_code appears in airlines
+    # verify aircraft_description is never missing
+    # verify year is never missing
+    
     process "Look up airline name based on BTS code" do
       Airline.run_data_miner!
       connection.select_values("SELECT DISTINCT airline_bts_code FROM flight_segments WHERE airline_bts_code IS NOT NULL").each do |bts_code|
