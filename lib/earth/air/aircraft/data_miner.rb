@@ -14,34 +14,6 @@ Aircraft.class_eval do
     end
   end
   
-  # For manufacturer whitelist
-  class String
-    REGEXP_DELIMITERS = {
-      '%r{' => '}',
-      '/' => '/'
-    }
-    
-    def to_regexp
-      str = self.dup
-      delim_start, delim_end = REGEXP_DELIMITERS.detect { |k, v| str.start_with? k }.map { |delim| ::Regexp.escape delim }
-      %r{\A#{delim_start}(.*)#{delim_end}([^#{delim_end}]*)\z} =~ str.strip
-      content = $1
-      options = $2
-      content.gsub! '\\/', '/'
-      ignore_case = options.include?('i') ? ::Regexp::IGNORECASE : nil
-      multiline = options.include?('m') ? ::Regexp::MULTILINE : nil
-      extended = options.include?('x') ? ::Regexp::EXTENDED : nil
-      ::Regexp.new content, (ignore_case||multiline||extended)
-    end
-  end
-  
-  # For manufacturer whitelist
-  class Regexp
-    def to_regexp
-      dup
-    end
-  end
-  
   # We're only interested in aircraft from certain manufacturers
   def self.manufacturer_whitelist?(candidate)
     @manufacturer_whitelist ||= RemoteTable.new(:url => 'https://spreadsheets.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdFRFalpOdlg1cnF6amlSM1dDc1lya2c&output=csv')
