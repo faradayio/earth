@@ -36,14 +36,13 @@ Aircraft.class_eval do
     end
     
     ('A'..'Z').each do |letter|
-      import "aircraft made by whitelisted manufacturers whose ICAO code starts with '#{letter}' from the FAA",
+      import("aircraft made by whitelisted manufacturers whose ICAO code starts with '#{letter}' from the FAA",
              :url => "http://www.faa.gov/air_traffic/publications/atpubs/CNT/5-2-#{letter}.htm",
              :encoding => 'windows-1252',
              :row_xpath => '//table/tr[2]/td/table/tr',
              :column_xpath => 'td',
-             :errata => { :url => 'https://spreadsheets.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdGVBRnhkRGhSaVptSDJ5bXJGbkpUSWc&output=csv',
-                          :responder => Aircraft::Guru.new },
-             :select => lambda { |record| manufacturer_whitelist? record['Manufacturer'] } do
+             :errata => { :url => 'https://spreadsheets.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdGVBRnhkRGhSaVptSDJ5bXJGbkpUSWc&output=csv', :responder => Aircraft::Guru.new },
+             :select => lambda { |record| manufacturer_whitelist? record['Manufacturer'] }) do
         key 'icao_code',           :field_name => 'Designator'
         store 'manufacturer_name', :field_name => 'Manufacturer'
         store 'model_name',        :field_name => 'Model'
