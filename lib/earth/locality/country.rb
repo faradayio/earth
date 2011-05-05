@@ -22,13 +22,4 @@ class Country < ActiveRecord::Base
       find_by_iso_3166_code('US')
     end
   end
-  
-  # if we don't have a country-specific flight route inefficiency factor, use the fallback
-  def flight_route_inefficiency_factor
-    if specific_frif = super
-      specific_frif
-    else
-      Country.fallback.flight_route_inefficiency_factor
-    end
-  end
 end

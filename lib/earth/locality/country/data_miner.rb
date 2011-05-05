@@ -26,7 +26,7 @@ Country.class_eval do
     end
     
     import "country-specific flight route inefficiency factors derived from Kettunen et al. (2005)",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdEJoRVBZaGhnUmlhX240VXE3X0F3WkE&gid=0&output=csv' do
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdEJoRVBZaGhnUmlhX240VXE3X0F3WkE&output=csv' do
       key   'iso_3166_code'
       store 'flight_route_inefficiency_factor'
     end
@@ -40,21 +40,21 @@ Country.class_eval do
       store 'automobile_trip_distance', :units_field_name => 'automobile_trip_distance_units'
     end
     
-    # FIXME TODO eventually need to do this for all countries
-    process "Derive US average automobile fuel efficiency from AutomobileTypeFuelYear" do
-      # AutomobileTypeFuelYear.run_data_miner!
-      
-      scope = AutomobileTypeFuelYear.where(:year => AutomobileTypeFuelYear.maximum(:year))
-      fe = scope.sum(:total_travel) / scope.sum(:fuel_consumption)
-      units = scope.first.total_travel_units + '_per_' + scope.first.fuel_consumption_units.singularize
-      
-      connection.execute %{
-        UPDATE countries
-        SET automobile_fuel_efficiency = #{fe},
-            automobile_fuel_efficiency_units = '#{units}'
-        WHERE iso_3166_code = 'US'
-      }
-    end
+    # # FIXME TODO eventually need to do this for all countries
+    # process "Derive US average automobile fuel efficiency from AutomobileTypeFuelYear" do
+    #   AutomobileTypeFuelYear.run_data_miner!
+    #   
+    #   scope = AutomobileTypeFuelYear.where(:year => AutomobileTypeFuelYear.maximum(:year))
+    #   fe = scope.sum(:total_travel) / scope.sum(:fuel_consumption)
+    #   units = scope.first.total_travel_units + '_per_' + scope.first.fuel_consumption_units.singularize
+    #   
+    #   connection.execute %{
+    #     UPDATE countries
+    #     SET automobile_fuel_efficiency = #{fe},
+    #         automobile_fuel_efficiency_units = '#{units}'
+    #     WHERE iso_3166_code = 'US'
+    #   }
+    # end
     
     process "Convert automobile city speed from miles per hour to kilometres per hour" do
       conversion_factor = 1.miles.to(:kilometres)
