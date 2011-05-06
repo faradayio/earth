@@ -224,7 +224,7 @@ FlightSegment.class_eval do
         store 'origin_country_iso_3166_code',      :field_name => 'ORIGIN_COUNTRY'
         store 'destination_airport_iata_code',     :field_name => 'DEST'
         store 'destination_country_iso_3166_code', :field_name => 'DEST_COUNTRY'
-        store 'airline_bts_code',                  :field_name => 'UNIQUE_CARRIER'
+        store 'airline_bts_code',                  :field_name => 'UNIQUE_CARRIER', :nullify => true
         store 'aircraft_bts_code',                 :field_name => 'AIRCRAFT_TYPE'
         store 'flights',                           :field_name => 'DEPARTURES_PERFORMED'
         store 'passengers',                        :field_name => 'PASSENGERS'
