@@ -40,7 +40,7 @@ Country.class_eval do
       store 'automobile_trip_distance', :units_field_name => 'automobile_trip_distance_units'
     end
     
-    # # FIXME TODO eventually need to do this for all countries
+    # FIXME TODO eventually need to do this for all countries
     # process "Derive US average automobile fuel efficiency from AutomobileTypeFuelYear" do
     #   AutomobileTypeFuelYear.run_data_miner!
     #   
