@@ -6,7 +6,7 @@ require 'earth/inflectors'
 require 'data_miner'
 require 'falls_back_on'
 require 'weighted_average'
-require 'slither'
+require 'fixed_width'
 require 'errata'
 
 # The earth module is an interface for establishing a taps server (used to fetch 
