@@ -196,6 +196,8 @@ FlightSegment.class_eval do
       index   'destination_airport_city'          # index for faster lookup by destination city
       index   'airline_bts_code'                  # index for faster lookup by airline bts code
       index   'airline_icao_code'                 # index for faster lookup by airline icao code
+      index   'airline_name'                      # index for faster lookup by airline name
+      index   'aircraft_bts_code'                 # index for faster lookup by aircraft bts code
       index   'aircraft_description'              # index for faster lookup by aircraft
       index   'year'                              # index for faster lookup by year
     end
