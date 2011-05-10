@@ -372,12 +372,10 @@ AutomobileMakeModelYearVariant.class_eval do
     end
     
     # 2006--2009
-    # FIXME TODO the 2007 FEG import fails: ArgumentError: unknown encoding name - WINDOWS-936
-    # sabshere 5/9/11 WINDOWS-936 is an alias for GBK, i guess... but currently remote_table is helpless to do encodings in XLS
-    # let's just re-save as a CSV and put it somewhere.
     {
       2006 => { :url => 'http://www.fueleconomy.gov/FEG/epadata/06data.zip', :filename => '2006_FE_Guide_14-Nov-2005_download.csv' },
-      2007 => { :url => 'http://www.fueleconomy.gov/FEG/epadata/07data.zip', :filename => '2007_FE_guide_ALL_no_sales_May_01_2007.xls' },
+      # the 07data.xls file provided by the government has a bad encoding
+      2007 => { :url => 'http://static.brighterplanet.com/science/data/transport/automobiles/fuel_economy_guide/2007_FE_guide_ALL_no_sales_May_01_2007.csv' },
       2008 => { :url => 'http://www.fueleconomy.gov/FEG/epadata/08data.zip', :filename => '2008_FE_guide_ALL_rel_dates_-no sales-for DOE-5-1-08.csv' },
       2009 => { :url => 'http://www.fueleconomy.gov/FEG/epadata/09data.zip', :filename => '2009_FE_guide for DOE_ALL-rel dates-no-sales-8-28-08download.csv' },
     }.sort { |a, b| a.first <=> b.first }.each do |year, options|
