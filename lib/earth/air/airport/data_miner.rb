@@ -27,6 +27,7 @@ Airport.class_eval do
     
     import "the OpenFlights.org airports database",
            :url => 'https://openflights.svn.sourceforge.net/svnroot/openflights/openflights/data/airports.dat',
+           :encoding => 'UTF-8',
            :headers => %w{ id name city country_name iata_code icao_code latitude longitude altitude timezone daylight_savings },
            :errata => { :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdFc2UzhQYU5PWEQ0N21yWFZGNmc2a3c&gid=0&output=csv',
                         :responder => Airport::Guru.new } do
@@ -52,7 +53,7 @@ Airport.class_eval do
       Country.run_data_miner!
       connection.select_values("SELECT DISTINCT country_name FROM airports WHERE country_name IS NOT NULL").each do |name|
         code = Country.find_by_name(name).iso_3166_code
-        update_all 'country_iso_3166_code = #{code}', 'country_name = #{name}'
+        update_all %{country_iso_3166_code = "#{code}"}, %{country_name = "#{name}"}
       end
     end
     
