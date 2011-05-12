@@ -9,7 +9,7 @@ class FuzzyAircraftMatch < ActiveRecord::Base
       # e.g. 'boeing 747-100/200/300' => ['boeing 747-', '100', '200', '300']
       if /\//.match(search_description)
         base_and_first_suffix = search_description.split('/')[0]
-        base_length = base_and_first_suffix.rindex(/[ \-a-z]/i)
+        base_length = base_and_first_suffix.rindex(/[ \-]/i)
         base = base_and_first_suffix.slice(0..base_length)
         suffixes = search_description.split(base)[1].split('/')
         
