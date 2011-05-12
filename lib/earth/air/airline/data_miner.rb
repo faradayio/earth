@@ -7,7 +7,8 @@ Airline.class_eval do
     end
     
     import "a Brighter Planet-curated list of airlines",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdDhoVHZmSTlZcHBsRUtPR0dPd0prMkE&output=csv' do
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdDhoVHZmSTlZcHBsRUtPR0dPd0prMkE&output=csv',
+           :encoding => 'UTF-8' do
       key 'name'
       store 'bts_code',  :nullify => true
       store 'icao_code', :nullify => true
