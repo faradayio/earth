@@ -309,6 +309,7 @@ FlightSegment.class_eval do
     
     process "Populate FuzzyAircraftMatch" do
       Aircraft.run_data_miner!
+      FuzzyAircraftMatch.run_data_miner!
       connection.select_values("SELECT DISTINCT aircraft_description FROM flight_segments WHERE aircraft_description IS NOT NULL").each do |description|
         FuzzyAircraftMatch.populate!(description)
       end
