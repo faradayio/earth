@@ -307,11 +307,10 @@ FlightSegment.class_eval do
       update_all 'approximate_date = DATE(CONCAT_WS("-", year, month, "14"))', 'month IS NOT NULL'
     end
     
-    process "Populate FuzzyAircraftMatch" do
+    process "Cache fuzzy matches between FlightSegment aircraft_description and Aircraft description" do
       Aircraft.run_data_miner!
-      FuzzyAircraftMatch.run_data_miner!
       connection.select_values("SELECT DISTINCT aircraft_description FROM flight_segments WHERE aircraft_description IS NOT NULL").each do |description|
-        FuzzyAircraftMatch.populate!(description)
+        description.cache_aircraft!
       end
     end
   end

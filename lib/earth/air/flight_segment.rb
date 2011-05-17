@@ -15,9 +15,10 @@ class FlightSegment < ActiveRecord::Base
   # Associate with Airline based on airline name
   belongs_to :airline, :foreign_key => 'airline_name', :primary_key => 'name'
   
-  # Associate with all aircraft that fuzzily match the flight segment's aircraft_description
-  has_many :fuzzy_aircraft_matches, :foreign_key => 'search_description', :primary_key => 'aircraft_description'
-  has_many :aircraft, :through => :fuzzy_aircraft_matches
+  # cache matches between Aircraft description and FlightSegment aircraft_description
+  # this lets you do flight_segment.aircraft
+  cache_loose_tight_dictionary_matches_with :aircraft, :primary_key => :aircraft_description, :foreign_key => :description
+  
   
   falls_back_on :distance         => lambda { weighted_average(:distance,         :weighted_by => :passengers) }, # 2077.1205         data1 10-12-2010
                 :seats_per_flight => lambda { weighted_average(:seats_per_flight, :weighted_by => :passengers) }, # 144.15653537046   data1 10-12-2010
