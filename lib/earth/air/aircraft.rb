@@ -1,3 +1,5 @@
+require 'loose_tight_dictionary'
+
 class Aircraft < ActiveRecord::Base
   set_primary_key :icao_code
   
