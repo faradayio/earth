@@ -22,17 +22,18 @@ Aircraft.class_eval do
   
   data_miner do
     schema Earth.database_options do
-      string 'icao_code'
-      string 'manufacturer_name'
-      string 'model_name'
-      string 'aircraft_type'
-      string 'engine_type'
-      float  'engines'
-      string 'weight_class'
-      string 'class_code'
-      string 'fuel_use_code'
-      float  'seats'
-      float  'passengers'
+      string  'icao_code'
+      string  'manufacturer_name'
+      string  'model_name'
+      string  'description'
+      string  'aircraft_type'
+      string  'engine_type'
+      integer 'engines'
+      string  'weight_class'
+      string  'class_code'
+      string  'fuel_use_code'
+      float   'seats'
+      float   'passengers'
     end
     
     ('A'..'Z').each do |letter|
@@ -70,8 +71,15 @@ Aircraft.class_eval do
       store 'fuel_use_code'
     end
     
-    process "Synthesize aircraft class code from engine type and weight class" do
-      Aircraft.all.each do |aircraft|
+    process "Synthesize description from manufacturer name and model name" do
+      Aircraft.find_each do |aircraft|
+        aircraft.description = [aircraft.manufacturer_name, aircraft.model_name].join(" ").downcase
+        aircraft.save
+      end
+    end
+    
+    process "Synthesize class code from engine type and weight class" do
+      Aircraft.find_each do |aircraft|
         if aircraft.weight_class == "Small" or aircraft.weight_class == "Small+" or aircraft.weight_class == "Light"
           size = "Light"
         elsif aircraft.weight_class == "Large" or aircraft.weight_class == "Medium"
@@ -79,14 +87,14 @@ Aircraft.class_eval do
         else
           size = "Heavy"
         end
-        aircraft.class_code = size + ' ' + aircraft.engine_type
+        aircraft.class_code = [size, aircraft_engines.to_s, "-engine", aircraft.engine_type].join(" ")
         aircraft.save
       end
     end
     
-    process "Derive some average aircraft characteristics from flight segments" do
+    process "Derive some average characteristics from flight segments" do
       FlightSegment.run_data_miner!
-      Aircraft.all.each do |aircraft|
+      Aircraft.find_each do |aircraft|
         aircraft.seats = aircraft.flight_segments.weighted_average(:seats, :weighted_by => :passengers)
         aircraft.passengers = aircraft.flight_segments.sum(:passengers)
         aircraft.save
