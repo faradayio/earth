@@ -1,4 +1,5 @@
-require 'loose_tight_dictionary'
+# need this for association with FlightSegment through loose_tight_dictionary_cached_results
+require 'loose_tight_dictionary/cached_result'
 
 class Aircraft < ActiveRecord::Base
   set_primary_key :icao_code
@@ -19,8 +20,7 @@ class Aircraft < ActiveRecord::Base
     end
   end
   
-  # cache matches between Aircraft description and FlightSegment aircraft_description
-  # this lets you do aircraft.flight_segments
+  # Enable aircraft.flight_segments
   cache_loose_tight_dictionary_matches_with :flight_segments, :primary_key => :description, :foreign_key => :aircraft_description
   
   data_miner do

@@ -1,3 +1,6 @@
+# need this to run flight_segment.cache_aircraft!
+require 'loose_tight_dictionary/cached_result'
+
 FlightSegment.class_eval do
   URL = 'http://www.transtats.bts.gov/DownLoad_Table.asp?Table_ID=293&Has_Group=3&Is_Zipped=0'
   FORM_DATA = %{
@@ -309,8 +312,9 @@ FlightSegment.class_eval do
     
     process "Cache fuzzy matches between FlightSegment aircraft_description and Aircraft description" do
       Aircraft.run_data_miner!
-      connection.select_values("SELECT DISTINCT aircraft_description FROM flight_segments WHERE aircraft_description IS NOT NULL").each do |description|
-        description.cache_aircraft!
+      LooseTightDictionary::CachedResult.setup
+      FlightSegment.find_by_sql("SELECT DISTINCT aircraft_description FROM flight_segments WHERE aircraft_description IS NOT NULL").each do |flight_segment|
+        flight_segment.cache_aircraft!
       end
     end
   end

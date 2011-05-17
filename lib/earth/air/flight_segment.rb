@@ -1,3 +1,6 @@
+# need this for association with Aircraft through loose_tight_dictionary_cached_results
+require 'loose_tight_dictionary/cached_result'
+
 class FlightSegment < ActiveRecord::Base
   set_primary_key :row_hash
   
@@ -15,10 +18,8 @@ class FlightSegment < ActiveRecord::Base
   # Associate with Airline based on airline name
   belongs_to :airline, :foreign_key => 'airline_name', :primary_key => 'name'
   
-  # cache matches between Aircraft description and FlightSegment aircraft_description
-  # this lets you do flight_segment.aircraft
+  # Enable flight_segment.aircraft
   cache_loose_tight_dictionary_matches_with :aircraft, :primary_key => :aircraft_description, :foreign_key => :description
-  
   
   falls_back_on :distance         => lambda { weighted_average(:distance,         :weighted_by => :passengers) }, # 2077.1205         data1 10-12-2010
                 :seats_per_flight => lambda { weighted_average(:seats_per_flight, :weighted_by => :passengers) }, # 144.15653537046   data1 10-12-2010
