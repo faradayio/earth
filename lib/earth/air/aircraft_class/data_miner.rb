@@ -22,10 +22,12 @@ AircraftClass.class_eval do
     
     process "Derive some average characteristics from Aircraft" do
       AircraftClass.find_each do |aircraft_class|
-        [:m3, :m2, :m1, :b].each do |coefficient|
-          aircraft_class.coefficient = AircraftFuelUseEquation.
+        %w{ m3 m2 m1 b }.each do |coefficient|
+          aircraft_class.send("#{coefficient}=",
+            AircraftFuelUseEquation.
             where("aircraft.class_code = '#{aircraft_class.code}'").
-            weighted_average("#{coefficient}", :weighted_by => [:aircraft, :passengers])
+            weighted_average(:"#{coefficient}", :weighted_by => [:aircraft, :passengers])
+          )
         end
         aircraft_class.seats = aircraft_class.aircraft.weighted_average(:seats, :weighted_by => :passengers)
         aircraft_class.m3_units = 'kilograms_per_cubic_nautical_mile'
