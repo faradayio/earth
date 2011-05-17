@@ -26,12 +26,13 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.7}
-
+  
   s.add_runtime_dependency 'cohort_scope'
   s.add_runtime_dependency 'data_miner'
   s.add_runtime_dependency 'falls_back_on'
   s.add_runtime_dependency 'fixed_width'
   s.add_runtime_dependency 'geokit-rails'
+  s.add_runtime_dependency 'loose_tight_dictionary'
   s.add_runtime_dependency 'weighted_average'
   s.add_development_dependency 'bundler'
   s.add_development_dependency 'bueller'
