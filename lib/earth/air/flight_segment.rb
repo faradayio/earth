@@ -18,6 +18,37 @@ class FlightSegment < ActiveRecord::Base
   # Associate with Airline based on airline name
   belongs_to :airline, :foreign_key => 'airline_name', :primary_key => 'name'
   
+  # Return an array of descriptions if the original aircraft_description describes multiple aircraft
+  # e.g. 'boeing 747-100/200/300' => ['boeing 747-100', 'boeing 747-200', 'boeing 747-300']
+  def aircraft_description
+    original_description = read_attribute :aircraft_description
+    
+    # If the original aircraft_description contains '/' then it describes multiple aircraft
+    # e.g. 'boeing 747-100/200/300'
+    if /\//.match(original_description)
+      # Pull out the complete first aircraft description
+      # e.g. 'boeing 747-100'
+      base_and_first_suffix = original_description.split('/')[0]
+      
+      # Pull out the base description - the text up to and including the last space or dash
+      # e.g. 'boeing 747-'
+      base_length = base_and_first_suffix.rindex(/[ \-]/i)
+      base = base_and_first_suffix.slice(0..base_length)
+      
+      # Pull out the suffixes - the text separated by forward slashes
+      # e.g. ['100', '200', '300']
+      suffixes = original_description.split(base)[1].split('/')
+      
+      # Return an array of each suffix appended to the base
+      # e.g. ['boeing 747-100', 'boeing 747-200', 'boeing 747-300']
+      suffixes.map { |suffix| base + suffix }
+    
+    # Otherwise return the original aircraft_description
+    else
+      original_description
+    end
+  end
+  
   # Enable flight_segment.aircraft
   cache_loose_tight_dictionary_matches_with :aircraft, :primary_key => :aircraft_description, :foreign_key => :description
   
