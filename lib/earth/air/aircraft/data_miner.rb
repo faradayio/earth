@@ -87,7 +87,7 @@ Aircraft.class_eval do
         else
           size = "Heavy"
         end
-        aircraft.class_code = [size, aircraft_engines.to_s, "-engine", aircraft.engine_type].join(" ")
+        aircraft.class_code = [size, aircraft.engines.to_s, "engine", aircraft.engine_type].join(" ")
         aircraft.save
       end
     end
