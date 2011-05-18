@@ -38,7 +38,15 @@ WHERE aircraft_classes.code = '#{aircraft_class.code}'
           }
         end
         
-        aircraft_class.seats = aircraft_class.aircraft.weighted_average(:seats, :weighted_by => :passengers)
+        connection.execute %{
+UPDATE aircraft_classes
+SET aircraft_classes.seats = (
+  SELECT sum(aircraft.seats * aircraft.passengers) / sum(aircraft.passengers)
+  FROM aircraft
+  WHERE aircraft.class_code = '#{aircraft_class.code}'
+)
+WHERE aircraft_classes.code = '#{aircraft_class.code}'
+        }
         
         aircraft_class.m3_units = 'kilograms_per_cubic_nautical_mile'
         aircraft_class.m2_units = 'kilograms_per_square_nautical_mile'
