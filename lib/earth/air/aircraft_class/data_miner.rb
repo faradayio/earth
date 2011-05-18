@@ -24,17 +24,22 @@ AircraftClass.class_eval do
       AircraftClass.find_each do |aircraft_class|
         %w{ m3 m2 m1 b }.each do |coefficient|
           # do this in sql because we want to preserve nils and weighted_average returns 0 when it gets NULL
-          value = connection.execute %{
-SELECT sum(aircraft_fuel_use_equations.#{coefficient} * aircraft.passengers) / sum(aircraft.passengers)
-FROM aircraft_fuel_use_equations
-INNER JOIN aircraft
-ON aircraft.fuel_use_code = aircraft_fuel_use_equations.code
-WHERE aircraft.class_code = '#{aircraft_class.code}'
-AND aircraft_fuel_use_equations.#{coefficient} IS NOT NULL
+          connection.execute %{
+UPDATE aircraft_classes
+SET aircraft_classes.#{coefficient} = (
+  SELECT sum(aircraft_fuel_use_equations.#{coefficient} * aircraft.passengers) / sum(aircraft.passengers)
+  FROM aircraft_fuel_use_equations
+  INNER JOIN aircraft
+  ON aircraft.fuel_use_code = aircraft_fuel_use_equations.code
+  WHERE aircraft.class_code = '#{aircraft_class.code}'
+  AND aircraft_fuel_use_equations.#{coefficient} IS NOT NULL
+)
+WHERE aircraft_classes.code = '#{aircraft_class.code}'
           }
-          aircraft_class.send("#{coefficient}=", value)
         end
+        
         aircraft_class.seats = aircraft_class.aircraft.weighted_average(:seats, :weighted_by => :passengers)
+        
         aircraft_class.m3_units = 'kilograms_per_cubic_nautical_mile'
         aircraft_class.m2_units = 'kilograms_per_square_nautical_mile'
         aircraft_class.m1_units = 'kilograms_per_nautical_mile'
