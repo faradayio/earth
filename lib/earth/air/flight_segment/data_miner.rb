@@ -178,7 +178,7 @@ FlightSegment.class_eval do
       integer 'flights'                           # number of flights over month or year
       integer 'passengers'                        # total passengers on all flights
       integer 'seats'                             # total seats on all flights
-      integer 'seats_per_flight'                  # average seats per flight
+      float   'seats_per_flight'                  # average seats per flight; make this a float
       float   'load_factor'                       # passengers / seats
       float   'freight_share'                     # (freight + mail) / (freight + mail + (passengers * average passenger weight))
       float   'distance'                          # flight distance
