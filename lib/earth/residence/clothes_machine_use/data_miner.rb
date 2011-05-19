@@ -17,7 +17,7 @@ ClothesMachineUse.class_eval do
     process "precalculate annual energy use" do
       find_in_batches do |batch|
         batch.each do |record|
-          record.annual_energy_from_electricity_for_clothes_driers = ResidentialEnergyConsumptionSurveyResponse.big_cohort(:clothes_machine_use => record).weighted_average :annual_energy_from_electricity_for_clothes_driers
+          record.annual_energy_from_electricity_for_clothes_driers = ResidentialEnergyConsumptionSurveyResponse.big_cohort(:clothes_machine_use_id => record.name).weighted_average :annual_energy_from_electricity_for_clothes_driers
           record.annual_energy_from_electricity_for_clothes_driers_units = 'joules'
           record.save!
         end
