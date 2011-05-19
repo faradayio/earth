@@ -3,6 +3,7 @@ Airline.class_eval do
     schema Earth.database_options do
       string 'name'
       string 'bts_code'
+      string 'iata_code'
       string 'icao_code'
     end
     
@@ -11,6 +12,7 @@ Airline.class_eval do
            :encoding => 'UTF-8' do
       key 'name'
       store 'bts_code',  :nullify => true
+      store 'iata_code',  :nullify => true
       store 'icao_code', :nullify => true
     end
   end
