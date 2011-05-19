@@ -12,6 +12,14 @@ class AircraftFuelUseEquation < ActiveRecord::Base
                 :m1_units => 'kilograms_per_nautical_mile',
                 :b_units  => 'kilograms'
   
+  def fuel_use_coefficients
+    [m3, m2, m1, b]
+  end
+  
+  def valid_fuel_use_equation?
+    fuel_use_coefficients.all?(&:present?) and fuel_use_coefficients.any?(&:nonzero?)
+  end
+  
   data_miner do
     tap "Brighter Planet's sanitized aircraft fuel use data", Earth.taps_server
   end
