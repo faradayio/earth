@@ -5,9 +5,12 @@ ResidenceAppliance.class_eval do
       float    'annual_energy_from_electricity'
       string   'annual_energy_from_electricity_units'
     end
-
-    process "Derive from residential energy consumption survey responses" do
+    
+    process "Ensure ResidentialEnergyConsumptionSurveyResponse is populated" do
       ResidentialEnergyConsumptionSurveyResponse.run_data_miner!
+    end
+    
+    process "Derive from ResidentialEnergyConsumptionSurveyResponse" do
       ResidentialEnergyConsumptionSurveyResponse.column_names.grep(/_count$/).each do |column_name|
         appliance_name = column_name.sub '_count', ''
         appliance = find_or_create_by_name appliance_name

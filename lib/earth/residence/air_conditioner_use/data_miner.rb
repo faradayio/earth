@@ -6,8 +6,11 @@ AirConditionerUse.class_eval do
       string 'fugitive_emission_units'
     end
     
-    process "derive from ResidentialEnergyConsumptionSurveyResponse" do
+    process "Ensure ResidentialEnergyConsumptionSurveyResponse is populated" do
       ResidentialEnergyConsumptionSurveyResponse.run_data_miner!
+    end
+    
+    process "Derive from ResidentialEnergyConsumptionSurveyResponse" do
       INSERT_IGNORE %{INTO air_conditioner_uses(name)
         SELECT DISTINCT recs_responses.central_ac_use FROM recs_responses WHERE LENGTH(recs_responses.central_ac_use) > 0
       }

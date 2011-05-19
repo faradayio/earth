@@ -18,8 +18,11 @@ AutomobileTypeYear.class_eval do
       store 'hfc_emissions', :units_field_name => 'hfc_emissions_units'
     end
     
-    process "Calculate HFC emission factor from AutomobileTypeFuelYear" do
+    process "Ensure AutomobileTypeFuelYear is populated" do
       AutomobileTypeFuelYear.run_data_miner!
+    end
+    
+    process "Calculate HFC emission factor from AutomobileTypeFuelYear" do
       AutomobileTypeYear.all.each do |record|
         record.hfc_emission_factor = record.hfc_emissions / record.type_fuel_years.sum('fuel_consumption')
         record.hfc_emission_factor_units = "kilograms_co2e_per_litre"

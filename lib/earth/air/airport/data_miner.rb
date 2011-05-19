@@ -49,8 +49,11 @@ Airport.class_eval do
       store 'longitude'
     end
     
-    process "Replace country names with country ISO 3166 codes" do
+    process "Ensure Country is populated" do
       Country.run_data_miner!
+    end
+    
+    process "Replace country names with country ISO 3166 codes" do
       connection.select_values("SELECT DISTINCT country_name FROM airports WHERE country_name IS NOT NULL").each do |name|
         code = Country.find_by_name(name).iso_3166_code
         update_all %{country_iso_3166_code = "#{code}"}, %{country_name = "#{name}"}

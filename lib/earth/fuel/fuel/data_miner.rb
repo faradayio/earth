@@ -16,8 +16,11 @@ Fuel.class_eval do
       string 'co2_biogenic_emission_factor_units'
     end
     
-    process "Derive fuel names from FuelYear" do
+    process "Ensure FuelYear is populated" do
       FuelYear.run_data_miner!
+    end
+    
+    process "Derive fuel names from FuelYear" do
       INSERT_IGNORE %{INTO fuels(name)
         SELECT DISTINCT fuel_years.fuel_name FROM fuel_years
       }

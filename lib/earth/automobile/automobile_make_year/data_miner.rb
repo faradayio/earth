@@ -13,8 +13,11 @@ AutomobileMakeYear.class_eval do
       integer  'volume' # This will sometimes be null because not all make_years have CAFE data
     end
     
-    process "Derive manufacturer names and years from automobile make model year variants" do
+    process "Ensure AutomobileMakeModelYearVariant is populated" do
       AutomobileMakeModelYearVariant.run_data_miner!
+    end
+    
+    process "Derive manufacturer names and years from automobile make model year variants" do
       INSERT_IGNORE %{INTO automobile_make_years(name, make_name, year)
         SELECT
           automobile_make_model_year_variants.make_year_name,
@@ -30,9 +33,12 @@ AutomobileMakeYear.class_eval do
       }
     end
     
+    process "Ensure AutomobileMakeFleetYear is populated" do
+      AutomobileMakeFleetYear.run_data_miner!
+    end
+    
     # FIXME TODO make this a method on AutomobileMakeYear?
     process "Calculate fuel efficiency from make fleet years for makes with CAFE data" do
-      AutomobileMakeFleetYear.run_data_miner!
       make_fleet_years = AutomobileMakeFleetYear.arel_table
       make_years = AutomobileMakeYear.arel_table
       conditional_relation = make_years[:name].eq(make_fleet_years[:make_year_name])

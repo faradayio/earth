@@ -88,10 +88,12 @@ AutomobileTypeFuelYear.class_eval do
       end
     end
     
-    process "Calculate CH4 and N2O emision factors from AutomobileTypeFuelYearControl and AutomobileTypeFuelControl" do
+    process "Ensure necessary tables are populated" do
       AutomobileTypeFuelYearControl.run_data_miner!
       AutomobileTypeFuelControl.run_data_miner!
-      
+    end
+    
+    process "Calculate CH4 and N2O emision factors from AutomobileTypeFuelYearControl and AutomobileTypeFuelControl" do
       AutomobileTypeFuelYear.all.each do |record|
         record.ch4_emission_factor = record.year_controls.map do |year_control|
           year_control.total_travel_percent * year_control.control.ch4_emission_factor

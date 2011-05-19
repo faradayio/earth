@@ -252,16 +252,22 @@ FlightSegment.class_eval do
     # verify aircraft_description is never missing
     # verify year is never missing
     
-    process "Look up airline name based on BTS code" do
+    process "Ensure Airline is populated" do
       Airline.run_data_miner!
+    end
+    
+    process "Look up airline name based on BTS code" do
       connection.select_values("SELECT DISTINCT airline_bts_code FROM flight_segments WHERE airline_bts_code IS NOT NULL").each do |bts_code|
         name = Airline.find_by_bts_code(bts_code).name
         update_all %{ airline_name = "#{name}" }, %{ airline_bts_code = "#{bts_code}" }
       end
     end
     
-    process "Look up aircraft description based on BTS code" do
+    process "Ensure BtsAircraft is populated" do
       BtsAircraft.run_data_miner!
+    end
+    
+    process "Look up aircraft description based on BTS code" do
       connection.select_values("SELECT DISTINCT aircraft_bts_code FROM flight_segments WHERE aircraft_bts_code IS NOT NULL").each do |bts_code|
         description = BtsAircraft.find_by_bts_code(bts_code).description.downcase
         update_all %{ aircraft_description = "#{description}" }, %{ aircraft_bts_code = "#{bts_code}" }
@@ -310,8 +316,11 @@ FlightSegment.class_eval do
       update_all 'approximate_date = DATE(CONCAT_WS("-", year, month, "14"))', 'month IS NOT NULL'
     end
     
-    process "Cache fuzzy matches between FlightSegment aircraft_description and Aircraft description" do
+    process "Ensure Aircraft is populated" do
       Aircraft.run_data_miner!
+    end
+    
+    process "Cache fuzzy matches between FlightSegment aircraft_description and Aircraft description" do
       LooseTightDictionary::CachedResult.setup
       FlightSegment.find_by_sql("SELECT DISTINCT aircraft_description FROM flight_segments WHERE aircraft_description IS NOT NULL").each do |flight_segment|
         original_description = flight_segment.aircraft_description

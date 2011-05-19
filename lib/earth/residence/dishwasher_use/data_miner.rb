@@ -6,8 +6,11 @@ DishwasherUse.class_eval do
       string 'annual_energy_from_electricity_for_dishwashers_units'
     end
     
-    process "derive from ResidentialEnergyConsumptionSurveyResponse" do
+    process "Ensure ResidentialEnergyConsumptionSurveyResponse is populated" do
       ResidentialEnergyConsumptionSurveyResponse.run_data_miner!
+    end
+    
+    process "Derive from ResidentialEnergyConsumptionSurveyResponse" do
       INSERT_IGNORE %{INTO dishwasher_uses(name)
         SELECT DISTINCT recs_responses.dishwasher_use_id FROM recs_responses WHERE LENGTH(recs_responses.dishwasher_use_id) > 0
       }

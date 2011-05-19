@@ -17,8 +17,11 @@ AutomobileMakeModelYear.class_eval do
       string   'fuel_efficiency_highway_units'
     end
     
-    process "Derive model year names from automobile make model year variants" do
+    process "Ensure AutomobileMakeModelYearVariant is populated" do
       AutomobileMakeModelYearVariant.run_data_miner!
+    end
+    
+    process "Derive model year names from automobile make model year variants" do
       INSERT_IGNORE %{INTO automobile_make_model_years(name, make_name, model_name, make_model_name, year, make_year_name)
         SELECT automobile_make_model_year_variants.make_model_year_name, automobile_make_model_year_variants.make_name, automobile_make_model_year_variants.name, automobile_make_model_year_variants.make_model_name, automobile_make_model_year_variants.year, automobile_make_model_year_variants.make_year_name FROM automobile_make_model_year_variants WHERE LENGTH(automobile_make_model_year_variants.make_name) > 0 AND LENGTH(automobile_make_model_year_variants.make_model_name) > 0
       }

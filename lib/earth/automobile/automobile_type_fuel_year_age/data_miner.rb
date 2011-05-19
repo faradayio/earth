@@ -119,8 +119,11 @@ AutomobileTypeFuelYearAge.class_eval do
       end
     end
     
-    process "Calculate number of vehicles from total travel percent and AutomobileTypeFuelYear" do
+    process "Ensure AutomobileTypeFuelYear is populated" do
       AutomobileTypeFuelYear.run_data_miner!
+    end
+    
+    process "Calculate number of vehicles from total travel percent and AutomobileTypeFuelYear" do
       AutomobileTypeFuelYearAge.all.each do |record|
         record.vehicles = record.total_travel_percent * record.type_fuel_year.total_travel / record.annual_distance
         record.save

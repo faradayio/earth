@@ -92,8 +92,11 @@ Aircraft.class_eval do
       end
     end
     
-    process "Derive some average characteristics from flight segments" do
+    process "Ensure FlightSegment is populated" do
       FlightSegment.run_data_miner!
+    end
+    
+    process "Derive some average characteristics from flight segments" do
       Aircraft.find_each do |aircraft|
         aircraft.seats = aircraft.flight_segments.weighted_average(:seats_per_flight, :weighted_by => :passengers)
         aircraft.passengers = aircraft.flight_segments.sum(:passengers)
