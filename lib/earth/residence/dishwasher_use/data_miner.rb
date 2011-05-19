@@ -17,7 +17,7 @@ DishwasherUse.class_eval do
     process "precalculate annual energy" do
       find_in_batches do |batch|
         batch.each do |record|
-          record.annual_energy_from_electricity_for_dishwashers = ResidentialEnergyConsumptionSurveyResponse.big_cohort(:dishwasher_use => record).weighted_average :annual_energy_from_electricity_for_dishwashers
+          record.annual_energy_from_electricity_for_dishwashers = ResidentialEnergyConsumptionSurveyResponse.big_cohort(:dishwasher_use_id => record.name).weighted_average :annual_energy_from_electricity_for_dishwashers
           record.annual_energy_from_electricity_for_dishwashers_units = 'joules'
           record.save!
         end

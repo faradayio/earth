@@ -3,7 +3,7 @@ ResidentialEnergyConsumptionSurveyResponse.class_eval do
     # sabshere 9/20/10 sorted with sort -d -t "'" -k 2 ~/Desktop/parts.txt
     schema Earth.database_options do
       integer  'id'
-      integer  'air_conditioner_use_id'
+      string  'air_conditioner_use_id'
       float    'annual_energy_from_electricity_for_air_conditioners'
       string   'annual_energy_from_electricity_for_air_conditioners_units'
       float    'annual_energy_from_electricity_for_clothes_driers'
@@ -53,7 +53,7 @@ ResidentialEnergyConsumptionSurveyResponse.class_eval do
       integer  'census_region_number'
       string   'central_ac_use'
       string   'clothes_dryer_use'
-      integer  'clothes_machine_use_id'
+      string  'clothes_machine_use_id'
       string   'clothes_washer_use'
       string   'construction_period'
       date     'construction_year'
