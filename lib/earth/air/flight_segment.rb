@@ -7,16 +7,10 @@ class FlightSegment < ActiveRecord::Base
   extend CohortScope
   self.minimum_cohort_size = 1
   
-  # If airport iata code is present, associate with a single airport
-  belongs_to :origin_airport,      :foreign_key => 'origin_airport_iata_code',      :primary_key => 'iata_code', :class_name => 'Airport'
-  belongs_to :destination_airport, :foreign_key => 'destination_airport_iata_code', :primary_key => 'iata_code', :class_name => 'Airport'
-  
   # If airport iata code is missing, associate with all airports in a city
+  # We need this to calculate distance when importing ICAO segments - see cm1 flight_segment.rb
   has_many :origin_city_airports,      :foreign_key => 'city', :primary_key => 'origin_airport_city',      :class_name => 'Airport'
   has_many :destination_city_airports, :foreign_key => 'city', :primary_key => 'destination_airport_city', :class_name => 'Airport'
-  
-  # Associate with Airline based on airline name
-  belongs_to :airline, :foreign_key => 'airline_name', :primary_key => 'name'
   
   # Enable flight_segment.aircraft
   cache_loose_tight_dictionary_matches_with :aircraft, :primary_key => :aircraft_description, :foreign_key => :description
