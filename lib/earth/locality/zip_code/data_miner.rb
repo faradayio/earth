@@ -28,7 +28,7 @@ ZipCode.class_eval do
     end
     
     import 'a list of zipcode states and eGRID Subregions from the US EPA',
-           :url => 'http://www.epa.gov/cleanenergy/documents/egridzips/Power_Profiler_Zipcode_Tool_v3-0.xls',
+           :url => 'http://www.epa.gov/cleanenergy/documents/egridzips/Power_Profiler_Zipcode_Tool_v3-1.xls',
            :sheet => 'Zip-subregion' do
       key   'name', :field_name => 'ZIP (character)'
       store 'state_postal_abbreviation', :field_name => 'State'
