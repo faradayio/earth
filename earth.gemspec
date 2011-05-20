@@ -27,7 +27,6 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.7}
   
-  s.add_runtime_dependency 'cohort_scope', '>=0.2.0'
   s.add_runtime_dependency 'data_miner'
   s.add_runtime_dependency 'falls_back_on'
   s.add_runtime_dependency 'fixed_width'
