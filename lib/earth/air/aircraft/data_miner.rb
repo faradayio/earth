@@ -96,6 +96,7 @@ Aircraft.class_eval do
       FlightSegment.run_data_miner!
     end
     
+    # FIXME TODO do we want to restrict this to certain years?
     process "Derive some average characteristics from flight segments" do
       Aircraft.find_each do |aircraft|
         aircraft.seats = aircraft.flight_segments.weighted_average(:seats_per_flight, :weighted_by => :passengers)
