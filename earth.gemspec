@@ -29,7 +29,7 @@ Gem::Specification.new do |s|
   
   s.add_runtime_dependency 'data_miner'
   s.add_runtime_dependency 'falls_back_on'
-  s.add_runtime_dependency 'fixed_width'
+  s.add_runtime_dependency 'fixed_width-multibyte'
   s.add_runtime_dependency 'geokit-rails'
   s.add_runtime_dependency 'loose_tight_dictionary'
   s.add_runtime_dependency 'weighted_average'
