@@ -5,7 +5,7 @@ require "earth/version"
 Gem::Specification.new do |s|
   s.name        = "earth"
   s.version     = Earth::VERSION
-  s.date = "2011-03-10"
+  s.date = "2011-05-21"
   s.platform    = Gem::Platform::RUBY
   s.authors = ["Seamus Abshere", "Derek Kastner", "Andy Rossmeissl"]
   s.email = %q{andy@rossmeissl.net}
@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.7}
   
   s.add_runtime_dependency 'data_miner'
+  s.add_runtime_dependency 'remote_table', '>=1.2.3'
   s.add_runtime_dependency 'falls_back_on'
   s.add_runtime_dependency 'fixed_width-multibyte'
   s.add_runtime_dependency 'geokit-rails'
