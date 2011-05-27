@@ -232,7 +232,10 @@ AutomobileMakeModelYearVariant.class_eval do
       'DU' => 'D',
       'G' => 'R',
       'GP' => 'P',
-      'GPR' => 'P'
+      'GPR' => 'P',
+      'GM' => 'P',
+      'BE' => 'BE',
+      'H' => 'H'
     }
     attr_reader :year
     def initialize(options = {})
