@@ -40,5 +40,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rdoc'
   s.add_development_dependency 'rdoc'
   s.add_development_dependency 'rspec'
+  s.add_development_dependency 'ruby-debug19'
   s.add_development_dependency 'sqlite3-ruby'
 end

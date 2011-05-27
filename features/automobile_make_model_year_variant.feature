@@ -8,11 +8,11 @@ Feature: Data import for AutomobileMakeModelYearVariant
     When a data import verifies "Year should be from 1985 to 2011"
     Then the verification should be successful
 
-  # FIXME TODO
-  # Scenario: Successfully verifying that fuel type code is found in AutomobileFuel
-  #   Given a "AutomobileMakeModelYearVariant" data import fetches results listed in "automobile_make_model_year_variant_good"
-  #   When a data import verifies "Fuel type code should be found in AutomobileFuel"
-  #   Then the verification should be successful
+  Scenario: Successfully verifying that fuel type code is found in AutomobileFuel
+    Given a "AutomobileFuel" data import fetches results listed in "automobile_fuel_good"
+    And a "AutomobileMakeModelYearVariant" data import fetches results listed in "automobile_make_model_year_variant_good"
+    When a data import verifies "Fuel code should appear in AutomobileFuel"
+    Then the verification should be successful
 
   Scenario: Successfully verifying that fuel efficiencies are greater than zero
     Given a "AutomobileMakeModelYearVariant" data import fetches results listed in "automobile_make_model_year_variant_good"
@@ -29,11 +29,11 @@ Feature: Data import for AutomobileMakeModelYearVariant
     When a data import verifies "Year should be from 1985 to 2011"
     Then the verification should not be successful
 
-  # FIXME TODO
-  # Scenario: Failing to verify that fuel type code is found in AutomobileFuel
-  #   Given a "AutomobileMakeModelYearVariant" data import fetches results listed in "automobile_make_model_year_variant_bad"
-  #   When a data import verifies "Fuel type code should be found in AutomobileFuel"
-  #   Then the verification should not be successful
+  Scenario: Failing to verifying that fuel type code is found in AutomobileFuel
+    Given a "AutomobileFuel" data import fetches results listed in "automobile_fuel_good"
+    And a "AutomobileMakeModelYearVariant" data import fetches results listed in "automobile_make_model_year_variant_bad"
+    When a data import verifies "Fuel code should appear in AutomobileFuel"
+    Then the verification should not be successful
 
   Scenario: Failing to verify that fuel efficiencies are greater than zero
     Given a "AutomobileMakeModelYearVariant" data import fetches results listed in "automobile_make_model_year_variant_bad"

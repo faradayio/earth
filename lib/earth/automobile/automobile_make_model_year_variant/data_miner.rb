@@ -468,32 +468,42 @@ AutomobileMakeModelYearVariant.class_eval do
     end
     
     verify "Year should be from 1985 to 2011" do
-      AutomobileMakeModelYearVariant.all.each do |variant|
-        unless variant.year > 1984 and variant.year < 2012
-          raise "Invalid year for AutomobileMakeModelYearVariant #{variant.row_hash}: #{variant.year} (should be from 1985 to 2011)"
+      AutomobileMakeModelYearVariant.find_by_sql("SELECT DISTINCT year FROM automobile_make_model_year_variants").map(&:year).each do |year|
+        unless year > 1984 and year < 2012
+          raise "Invalid year in automobile_make_model_year_variants: #{year} is not from 1985 to 2011"
         end
       end
     end
     
-    # FIXME TODO verify fuel code appears in AutomobileFuel
+    process "Ensure AutomobileFuel is populated" do
+      AutomobileFuel.run_data_miner!
+    end
+    
+    verify "Fuel code should appear in AutomobileFuel" do
+      valid_codes = AutomobileFuel.find_by_sql("SELECT DISTINCT code FROM automobile_fuels").map(&:code)
+      AutomobileMakeModelYearVariant.find_by_sql("SELECT DISTINCT fuel_code FROM automobile_make_model_year_variants").map(&:fuel_code).each do |fuel_code|
+        unless valid_codes.include?(fuel_code)
+          raise "Invalide fuel code in automobile_make_model_year_variants: #{fuel_code} is not in #{valid_codes}"
+        end
+      end
+    end
     
     verify "Fuel efficiencies should be greater than zero" do
-      AutomobileMakeModelYearVariant.all.each do |variant|
-        [:fuel_efficiency, :fuel_efficiency_city, :fuel_efficiency_highway].each do |type|
-          fuel_efficiency = variant.send(type)
-          unless fuel_efficiency > 0
-            raise "Invalid fuel efficiency #{type} for AutomobileMakeModelYearVariant #{variant.row_hash}: #{fuel_efficiency} (should be < 0)"
-          end
+      [:fuel_efficiency, :fuel_efficiency_city, :fuel_efficiency_highway].each do |field|
+        unless AutomobileMakeModelYearVariant.where(field => nil).count == 0
+          raise "Invalid fuel efficiency in automobile_make_model_year_variants: nil is not > 0"
+        end
+        unless AutomobileMakeModelYearVariant.where(field => 0).count == 0
+          raise "Invalid fuel efficiency in automobile_make_model_year_variants: 0 is not > 0"
         end
       end
     end
     
     verify "Fuel efficiency units should be kilometres per litre" do
-      AutomobileMakeModelYearVariant.all.each do |variant|
-        [:fuel_efficiency_units, :fuel_efficiency_city_units, :fuel_efficiency_highway_units].each do |type|
-          units = variant.send(type)
-          unless units == "kilometres_per_litre"
-            raise "Invalid fuel efficiency #{type} units for AutomobileMakeModelYearVariant #{variant.row_hash}: #{units} (should be kilometres_per_litre)"
+      %w{ fuel_efficiency_units fuel_efficiency_city_units fuel_efficiency_highway_units }.each do |field|
+        AutomobileMakeModelYearVariant.find_by_sql("SELECT DISTINCT #{field} FROM automobile_make_model_year_variants").map(&:"#{field}").each do |value|
+          unless value == 'kilometres_per_litre'
+            raise "Invalid #{field} in automobile_make_model_year_variants: #{value} is not 'kilometres_per_litre'"
           end
         end
       end
