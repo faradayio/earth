@@ -1,14 +1,27 @@
+# need this for association with FlightSegment through loose_tight_dictionary_cached_results
+require 'loose_tight_dictionary/cached_result'
+
 class Aircraft < ActiveRecord::Base
-  set_primary_key :bp_code
+  set_primary_key :icao_code
   
-  belongs_to :manufacturer,   :foreign_key => 'manufacturer_name', :primary_key => 'name',     :class_name => 'AircraftManufacturer'
-  belongs_to :aircraft_class, :foreign_key => 'class_code',        :primary_key => 'code'
-  has_many   :segments,       :foreign_key => 'aircraft_bts_code', :primary_key => 'bts_code', :class_name => 'FlightSegment'
+  belongs_to :aircraft_class,    :foreign_key => 'class_code',    :primary_key => 'code'
+  belongs_to :fuel_use_equation, :foreign_key => 'fuel_use_code', :primary_key => 'code', :class_name => 'AircraftFuelUseEquation'
   
-  falls_back_on :m3            => lambda { weighted_average(:m3,            :weighted_by => [:segments, :passengers]) }, # 9.73423082858437e-08   r7110: 8.6540464368905e-8      r6972: 8.37e-8
-                :m2            => lambda { weighted_average(:m2,            :weighted_by => [:segments, :passengers]) }, # -0.000134350543484608  r7110: -0.00015337661447817    r6972: -4.09e-5
-                :m1            => lambda { weighted_average(:m1,            :weighted_by => [:segments, :passengers]) }, # 6.7728101555467        r7110: 4.7781966869412         r6972: 7.85
-                :endpoint_fuel => lambda { weighted_average(:endpoint_fuel, :weighted_by => [:segments, :passengers]) }  # 1527.81790006167       r7110: 1065.3476555284         r6972: 1.72e3
+  # set up a loose_tight_dictionary for matching Aircraft description with FlightSegment aircraft_description
+  class << self
+    def loose_tight_dictionary
+      @loose_tight_dictionary ||= LooseTightDictionary.new(Aircraft.all,
+          :haystack_reader => lambda { |record| record.description },
+          :blockings  => RemoteTable.new(:url => 'https://spreadsheets.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdDlRR2NmdzE2ZjZwTy1ucjh4cWFYOFE&gid=0&output=csv').map { |record| record['blocking'] },
+          :identities => RemoteTable.new(:url => 'https://spreadsheets.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdDlRR2NmdzE2ZjZwTy1ucjh4cWFYOFE&gid=1&output=csv').map { |record| record['identity'] },
+          :tighteners => RemoteTable.new(:url => 'https://spreadsheets.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdDlRR2NmdzE2ZjZwTy1ucjh4cWFYOFE&gid=2&output=csv').map { |record| record['tightener'] },
+          :must_match_blocking => true,
+          :first_blocking_decides => true)
+    end
+  end
+  
+  # Enable aircraft.flight_segments
+  cache_loose_tight_dictionary_matches_with :flight_segments, :primary_key => :description, :foreign_key => :aircraft_description
   
   data_miner do
     tap "Brighter Planet's sanitized aircraft data", Earth.taps_server

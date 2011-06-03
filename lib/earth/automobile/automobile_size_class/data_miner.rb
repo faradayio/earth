@@ -24,9 +24,12 @@ AutomobileSizeClass.class_eval do
       store 'fuel_efficiency_highway', :units_field_name => 'fuel_efficiency_highway_units'
     end
     
+    process "Ensure AutomobileTypeFuelYearAge is populated" do
+      AutomobileTypeFuelYearAge.run_data_miner!
+    end
+    
     # FIXME TODO make this a method on AutomobileSizeClass?
     process "Calculate annual distance from AutomobileTypeFuelYearAge" do
-      AutomobileTypeFuelYearAge.run_data_miner!
       ages = AutomobileTypeFuelYearAge.arel_table
       classes = AutomobileSizeClass.arel_table
       conditional_relation = ages[:type_name].eq(classes[:type_name])

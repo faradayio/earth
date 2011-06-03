@@ -10,8 +10,11 @@ AutomobileMake.class_eval do
       string  'fuel_efficiency_units'
     end
     
-    process "Derive manufacturer names from automobile make model year variants" do
+    process "Ensure AutomobileMakeModelYearVariant is populated" do
       AutomobileMakeModelYearVariant.run_data_miner!
+    end
+    
+    process "Derive manufacturer names from automobile make model year variants" do
       INSERT_IGNORE %{INTO automobile_makes(name)
         SELECT DISTINCT automobile_make_model_year_variants.make_name
         FROM automobile_make_model_year_variants
@@ -20,18 +23,24 @@ AutomobileMake.class_eval do
       }
     end
     
+    process "Ensure AutomobileMakeFleetYear is populated" do
+      AutomobileMakeFleetYear.run_data_miner!
+    end
+    
     # sabshere 1/31/11 add Avanti, DaimlerChrysler, IHC, Tesla, etc.
     process "Derive extra manufacturer names from CAFE data" do
-      AutomobileMakeFleetYear.run_data_miner!
       INSERT_IGNORE %{INTO automobile_makes(name)
         SELECT DISTINCT automobile_make_fleet_years.make_name
         FROM automobile_make_fleet_years
       }
     end
     
+    process "Ensure AutomobileMakeFleetYear is populated" do
+      AutomobileMakeFleetYear.run_data_miner!
+    end
+    
     # FIXME TODO make this a method on AutomobileMake?
     process "Calculate fuel efficiency from automobile make fleet years for makes with CAFE data" do
-      AutomobileMakeFleetYear.run_data_miner!
       make_fleet_years = AutomobileMakeFleetYear.arel_table
       makes = AutomobileMake.arel_table
       conditional_relation = makes[:name].eq(make_fleet_years[:make_name])

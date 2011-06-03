@@ -139,9 +139,12 @@ AutomobileTypeFuelAge.class_eval do
       update_all "annual_distance_units = 'kilometres'"
     end
     
+    process "Ensure AutomobileTypeFuelYear is populated" do
+      AutomobileTypeFuelYear.run_data_miner!
+    end
+    
     # FIXME TODO maybe make this a method on AutomobileTypeFuelAge?
     process "Calculate number of vehicles from total travel percent and AutomobileTypeFuelYear" do
-      AutomobileTypeFuelYear.run_data_miner!
       connection.execute %{
         UPDATE automobile_type_fuel_ages
         SET vehicles =

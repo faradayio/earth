@@ -6,8 +6,11 @@ ClothesMachineUse.class_eval do
       string 'annual_energy_from_electricity_for_clothes_driers_units'
     end
     
-    process "derive from ResidentialEnergyConsumptionSurveyResponse" do
+    process "Ensure ResidentialEnergyConsumptionSurveyResponse is populated" do
       ResidentialEnergyConsumptionSurveyResponse.run_data_miner!
+    end
+    
+    process "Derive from ResidentialEnergyConsumptionSurveyResponse" do
       INSERT_IGNORE %{INTO clothes_machine_uses(name)
         SELECT DISTINCT recs_responses.clothes_washer_use FROM recs_responses WHERE LENGTH(recs_responses.clothes_washer_use) > 0
       }

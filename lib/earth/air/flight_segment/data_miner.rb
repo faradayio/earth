@@ -1,3 +1,6 @@
+# need this to run flight_segment.cache_aircraft!
+require 'loose_tight_dictionary/cached_result'
+
 FlightSegment.class_eval do
   URL = 'http://www.transtats.bts.gov/DownLoad_Table.asp?Table_ID=293&Has_Group=3&Is_Zipped=0'
   FORM_DATA = %{
@@ -157,76 +160,54 @@ FlightSegment.class_eval do
     VarDesc=DataSource&
     VarType=Char
   }.gsub /[\s]+/,''
-
+  
   data_miner do
     schema Earth.database_options do
-      string   'row_hash'
-      integer  'departures_performed'
-      integer  'passengers'
-      integer  'total_seats'
-      float    'payload'        # theoretical max freight + mail + passengers; needs to be a float because the import includes a units conversion
-      string   'payload_units'
-      float    'freight'        # this needs to be a float because the import includes a units conversion
-      string   'freight_units'
-      float    'mail'           # this needs to be a float because the import includes a units conversion
-      string   'mail_units'
-      float    'load_factor'
-      float    'freight_share'
-      float    'seats'
-      float    'distance'
-      string   'distance_units'
-      string   'aircraft_bts_code'
-      string   'airline_iata_code'
-      string   'origin_airport_iata_code'
-      string   'origin_country_iso_3166_code'
-      string   'destination_airport_iata_code'
-      string   'destination_country_iso_3166_code'
-      integer  'year'
-      integer  'quarter'
-      integer  'month'
-      date 'approximate_date'
-      # integer  'bts_aircraft_group_code'
-      # string   'configuration_id'
-      # integer  'bts_aircraft_configuration_code'
-      # string   'distance_group'
-      # integer  'bts_distance_group_code'
-      # string   'bts_data_source_code'
-      # integer  'ramp_to_ramp'
-      # integer  'air_time'
-      # integer  'departures_scheduled'
-      # string   'dot_airline_id_code'
-      # string   'unique_carrier_name'
-      # string   'unique_carrier_entity'
-      # string   'region'
-      # string   'current_airline_iata_code'
-      # string   'carrier_name'
-      # integer  'carrier_group'
-      # integer  'carrier_group_new'
-      # string   'origin_city_name'
-      # integer  'origin_city_num'
-      # string   'origin_state_abr'
-      # string   'origin_state_fips'
-      # string   'origin_state_nm'
-      # string   'origin_country_name'
-      # integer  'origin_wac'
-      # string   'dest_city_name'
-      # integer  'dest_city_num'
-      # string   'dest_state_abr'
-      # string   'dest_state_fips'
-      # string   'dest_state_nm'
-      # string   'dest_country_name'
-      # integer  'dest_wac'
-      index    'airline_iata_code'
-      index    'aircraft_bts_code'
-      index    'origin_airport_iata_code'
-      index    'destination_airport_iata_code'
+      string  'row_hash'                          # auto-generated primary key
+      string  'origin_airport_iata_code'          # iata code
+      string  'origin_airport_city'               # city
+      string  'origin_country_iso_3166_code'      # iso code
+      string  'destination_airport_iata_code'     # iata code
+      string  'destination_airport_city'          # city
+      string  'destination_country_iso_3166_code' # iso code
+      string  'airline_bts_code'                  # bts code
+      string  'airline_icao_code'                 # icao code
+      string  'airline_name'                      # text description derived from bts or icao code
+      string  'aircraft_bts_code'                 # bts code
+      string  'aircraft_description'              # text description derived from BTS T100 or ICAO TFS
+      integer 'flights'                           # number of flights over month or year
+      integer 'passengers'                        # total passengers on all flights
+      integer 'seats'                             # total seats on all flights
+      float   'seats_per_flight'                  # average seats per flight; make this a float
+      float   'load_factor'                       # passengers / seats
+      float   'freight_share'                     # (freight + mail) / (freight + mail + (passengers * average passenger weight))
+      float   'distance'                          # flight distance
+      string  'distance_units'                    # 'kilometres'
+      float   'payload_capacity'                  # aircraft maximum payload capacity rating; float b/c unit conversion
+      string  'payload_capacity_units'            # 'kilograms'
+      float   'freight'                           # total freight on all flights performed; float b/c unit conversion
+      string  'freight_units'                     # 'kilograms'
+      float   'mail'                              # total mail on all flights performed; float b/c unit conversion
+      string  'mail_units'                        # 'kilograms'
+      integer 'month'                             # month of flight
+      integer 'year'                              # year of flight
+      date    'approximate_date'                  # assumed 14th day of month
+      string  'source'                            # 'BTS T100' or 'ICAO TFS'
+      index   'origin_airport_iata_code'          # index for faster lookup by origin airport
+      index   'origin_airport_city'               # index for faster lookup by origin city
+      index   'destination_airport_iata_code'     # index for faster lookup by destination airport
+      index   'destination_airport_city'          # index for faster lookup by destination city
+      index   'airline_bts_code'                  # index for faster lookup by airline bts code
+      index   'airline_icao_code'                 # index for faster lookup by airline icao code
+      index   'airline_name'                      # index for faster lookup by airline name
+      index   'aircraft_bts_code'                 # index for faster lookup by aircraft bts code
+      index   'aircraft_description'              # index for faster lookup by aircraft
+      index   'year'                              # index for faster lookup by year
     end
     
     months = Hash.new
-    (2008..2009).each do |year|
-    # (2008..2008).each do |year| # DEBUG MODE!
+    (2009..2010).each do |year|
       (1..12).each do |month|
-      # (1..1).each do |month| # DEBUG MODE!
         time = Time.gm year, month
         form_data = FORM_DATA.dup
         form_data.gsub! '__YEAR__', time.year.to_s
@@ -235,96 +216,155 @@ FlightSegment.class_eval do
         months[time] = form_data
       end
     end
-    # creating dictionaries by hand so that a new one doesn't get created for every month
-    # distance_group_dictionary = DataMiner::Dictionary.new :input => 'Code', :output => 'Description', :url => 'http://www.transtats.bts.gov/Download_Lookup.asp?Lookup=L_DISTANCE_GROUP_500'
+    
     months.each do |month, form_data|
-      import "T100 flight segment data from #{month.strftime('%B %Y')}",
+      import "T100 flight segment data for #{month.strftime('%B %Y')}",
              :url => URL,
              :form_data => form_data,
              :compression => :zip,
-             :glob => '/*.csv' do
-        
+             :glob => '/*.csv',
+             :select => lambda { |record| record['DEPARTURES_PERFORMED'].to_i > 0 } do
         key 'row_hash'
-        
-        # store 'bts_aircraft_group_code', :field_name => 'AIRCRAFT_GROUP'
-        
-        # store 'configuration_id', :field_name => 'AIRCRAFT_CONFIG', :dictionary => configuration_dictionary
-        #         store 'bts_aircraft_configuration_code', :field_name => 'AIRCRAFT_CONFIG'
-        
-        # store 'distance_group', :field_name => 'DISTANCE_GROUP', :dictionary => distance_group_dictionary
-        #         store 'bts_distance_group_code', :field_name => 'DISTANCE_GROUP'
-        
-        #       store 'bts_data_source_code', :field_name => 'DATA_SOURCE'
-        
-        # store 'departures_scheduled', :field_name => 'DEPARTURES_SCHEDULED'
-        store 'departures_performed',              :field_name => 'DEPARTURES_PERFORMED'
-        store 'passengers',                        :field_name => 'PASSENGERS'
-        store 'total_seats',                       :field_name => 'SEATS'
-        store 'payload',                           :field_name => 'PAYLOAD',       :from_units => :pounds, :to_units => :kilograms
-        store 'freight',                           :field_name => 'FREIGHT',       :from_units => :pounds, :to_units => :kilograms
-        store 'mail',                              :field_name => 'MAIL',          :from_units => :pounds, :to_units => :kilograms
-        store 'distance',                          :field_name => 'DISTANCE',      :from_units => :miles,  :to_units => :kilometres
-        store 'aircraft_bts_code',                 :field_name => 'AIRCRAFT_TYPE'
-        store 'airline_iata_code',                 :field_name => 'UNIQUE_CARRIER'
         store 'origin_airport_iata_code',          :field_name => 'ORIGIN'
         store 'origin_country_iso_3166_code',      :field_name => 'ORIGIN_COUNTRY'
         store 'destination_airport_iata_code',     :field_name => 'DEST'
         store 'destination_country_iso_3166_code', :field_name => 'DEST_COUNTRY'
-        store 'year',                              :field_name => 'YEAR'
-        store 'quarter',                           :field_name => 'QUARTER'
+        store 'airline_bts_code',                  :field_name => 'UNIQUE_CARRIER', :nullify => true
+        store 'aircraft_bts_code',                 :field_name => 'AIRCRAFT_TYPE'
+        store 'flights',                           :field_name => 'DEPARTURES_PERFORMED'
+        store 'passengers',                        :field_name => 'PASSENGERS'
+        store 'seats',                             :field_name => 'SEATS'
+        store 'payload_capacity',                  :field_name => 'PAYLOAD',  :units => 'pounds'
+        store 'freight',                           :field_name => 'FREIGHT',  :units => 'pounds'
+        store 'mail',                              :field_name => 'MAIL',     :units => 'pounds'
+        store 'distance',                          :field_name => 'DISTANCE', :units => 'miles'
         store 'month',                             :field_name => 'MONTH'
-        # store 'ramp_to_ramp', :field_name => 'RAMP_TO_RAMP'
-        # store 'air_time', :field_name => 'AIR_TIME'
-        # store 'dot_airline_id_code', :field_name => 'AIRLINE_ID'
-        # store 'unique_carrier_name', :field_name => 'UNIQUE_CARRIER_NAME'
-        # store 'unique_carrier_entity', :field_name => 'UNIQUE_CARRIER_ENTITY'
-        # store 'region', :field_name => 'REGION'
-        # store 'current_airline_iata_code', :field_name => 'CARRIER'
-        # store 'carrier_name', :field_name => 'CARRIER_NAME'
-        # store 'carrier_group', :field_name => 'CARRIER_GROUP'
-        # store 'carrier_group_new', :field_name => 'CARRIER_GROUP_NEW'
-        # store 'origin_city_name', :field_name => 'ORIGIN_CITY_NAME'
-        # store 'origin_city_num', :field_name => 'ORIGIN_CITY_NUM'
-        # store 'origin_state_abr', :field_name => 'ORIGIN_STATE_ABR'
-        # store 'origin_state_fips', :field_name => 'ORIGIN_STATE_FIPS'
-        # store 'origin_state_nm', :field_name => 'ORIGIN_STATE_NM'
-        # store 'origin_country_name', :field_name => 'ORIGIN_COUNTRY_NAME'
-        # store 'origin_wac', :field_name => 'ORIGIN_WAC'
-        # store 'dest_city_name', :field_name => 'DEST_CITY_NAME'
-        # store 'dest_city_num', :field_name => 'DEST_CITY_NUM'
-        # store 'dest_state_abr', :field_name => 'DEST_STATE_ABR'
-        # store 'dest_state_fips', :field_name => 'DEST_STATE_FIPS'
-        # store 'dest_state_nm', :field_name => 'DEST_STATE_NM'
-        # store 'dest_country_name', :field_name => 'DEST_COUNTRY_NAME'
-        # store 'dest_wac', :field_name => 'DEST_WAC'
+        store 'year',                              :field_name => 'YEAR'
+        store 'source',                            :static => 'BTS T100'
       end
+    end
+    
+    # verify origin_airport_iata_code is in airports
+    # verify destination_airport_iata_code is in airports
+    # verify origin_country_iso_3166_code is in countries
+    # verify destination_country_iso_3166_code is in countries
+    # verify airline_bts_code appears in airlines
+    # verify aircraft_description is never missing
+    # verify year is never missing
+    
+    process "Ensure Airline is populated" do
+      Airline.run_data_miner!
+    end
+    
+    process "Look up airline name based on BTS code" do
+      connection.select_values("SELECT DISTINCT airline_bts_code FROM flight_segments WHERE airline_bts_code IS NOT NULL").each do |bts_code|
+        name = Airline.find_by_bts_code(bts_code).name
+        update_all %{ airline_name = "#{name}" }, %{ airline_bts_code = "#{bts_code}" }
+      end
+    end
+    
+    process "Ensure BtsAircraft is populated" do
+      BtsAircraft.run_data_miner!
+    end
+    
+    process "Look up aircraft description based on BTS code" do
+      connection.select_values("SELECT DISTINCT aircraft_bts_code FROM flight_segments WHERE aircraft_bts_code IS NOT NULL").each do |bts_code|
+        description = BtsAircraft.find_by_bts_code(bts_code).description.downcase
+        update_all %{ aircraft_description = "#{description}" }, %{ aircraft_bts_code = "#{bts_code}" }
+      end
+    end
+    
+    %w{ payload_capacity freight mail }.each do |field|
+      process "Convert #{field} from pounds to kilograms" do
+        conversion_factor = 1.pounds.to(:kilograms)
+        connection.execute %{
+          UPDATE flight_segments
+          SET #{field} = #{field} * #{conversion_factor},
+              #{field + '_units'} = 'kilograms'
+          WHERE #{field + '_units'} = 'pounds'
+        }
+      end
+    end
+    
+    process "Convert distance from miles to kilometres" do
+      conversion_factor = 1.miles.to(:kilometres)
+      connection.execute %{
+        UPDATE flight_segments
+        SET distance = distance * #{conversion_factor},
+            distance_units = 'kilometres'
+        WHERE distance_units = 'miles'
+      }
+    end
+    
+    process "Derive load factor, which is passengers divided by available seats" do
+      update_all 'load_factor = passengers / seats', 'seats > 0'
+    end
+    
+    process "Assume a load factor of 1 where passengers > available seats" do
+      update_all 'load_factor = 1', 'passengers > seats AND seats > 0'
     end
     
     process "Derive freight share as a fraction of the total weight carried" do
       update_all 'freight_share = (freight + mail) / (freight + mail + (passengers * 90.718474))', '(freight + mail + passengers) > 0'
     end
     
-    process "Derive load factor, which is passengers divided by the total seats available" do
-      update_all 'load_factor = passengers / total_seats', 'total_seats > 0'
-    end
-    
-    process "Assume a load factor of 1 where passengers > total seats available" do
-      update_all 'load_factor = 1', 'passengers > total_seats AND total_seats > 0'
-    end
-    
-    process "Derive average seats per departure" do
-      update_all 'seats = total_seats / departures_performed', 'departures_performed > 0'
+    process "Derive average seats per flight" do
+      update_all 'seats_per_flight = seats / flights', 'flights > 0'
     end
     
     process "Add a useful date field" do
-      update_all 'approximate_date = DATE(CONCAT_WS("-", year, month, "14"))'
+      update_all 'approximate_date = DATE(CONCAT_WS("-", year, month, "14"))', 'month IS NOT NULL'
     end
     
-    # FIXME TODO make this verification check actual aircraft codes in Aircraft
-    verify 'All segments have an associated aircraft' do
-      FlightSegment.where(:aircraft_bts_code => [nil, '']).first.nil?
+    process "Ensure Aircraft is populated" do
+      Aircraft.run_data_miner!
     end
     
-    # FIXME TODO finish verification
+    process "Cache fuzzy matches between FlightSegment aircraft_description and Aircraft description" do
+      LooseTightDictionary::CachedResult.setup
+      FlightSegment.find_by_sql("SELECT DISTINCT aircraft_description FROM flight_segments WHERE aircraft_description IS NOT NULL").each do |flight_segment|
+        original_description = flight_segment.aircraft_description
+        
+        # If the flight segment's aircraft_description contains '/' then it describes multiple aircraft.
+        # We need to synthesize descriptions for those aircraft, find all Aircraft that fuzzily match the
+        # synthesized descriptions, and associate those Aircraft with the original aircraft_description.
+        # e.g. boeing 747-100/200
+        if original_description.include?("/")
+          # Pull out the complete first aircraft description
+          # e.g. 'boeing 747-100'
+          first_description = original_description.split('/')[0]
+          
+          # Pull out the root of the description - the text up to and including the last ' ' or '-'
+          # e.g. 'boeing 747-'
+          root_length = first_description.rindex(/[ \-]/i)
+          root = first_description.slice(0..root_length)
+          
+          # Pull out the suffixes - the text separated by forward slashes
+          # e.g. ['100', '200']
+          suffixes = original_description.split(root)[1].split('/')
+          
+          # Create an array of synthesized descriptions by appending each suffix to the root
+          # e.g. ['boeing 747-100', 'boeing 747-200']
+          suffixes.map{ |suffix| root + suffix }.each do |synthesized_description|
+            # Look up the Aircraft that match each synthesized description and associate
+            # them with the original flight segment aircraft_description
+            Aircraft.loose_tight_dictionary.find_all(synthesized_description).each do |aircraft|
+              attrs = {}
+              attrs[:a_class] = "Aircraft"
+              attrs[:a] = aircraft.description
+              attrs[:b_class] = "FlightSegment"
+              attrs[:b] = original_description
+              unless ::LooseTightDictionary::CachedResult.exists? attrs
+                ::LooseTightDictionary::CachedResult.create! attrs
+              end
+            end
+          end
+        # If the flight segment's aircraft_description doesn't contain '/' we can use
+        # a method provided by loose_tight_dictionary to associate it with Aircraft
+        else
+          flight_segment.cache_aircraft!
+        end
+      end
+    end
   end
 end

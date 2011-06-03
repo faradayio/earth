@@ -1,5 +1,5 @@
 ActiveSupport::Inflector.inflections do |inflect|
-  inflect.uncountable 'aircraft'
+  inflect.uncountable %w{ aircraft bts_aircraft }
   inflect.uncountable 'commons'
   inflect.uncountable 'food'
   inflect.uncountable 'shelter'

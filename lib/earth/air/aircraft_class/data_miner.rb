@@ -1,30 +1,67 @@
 AircraftClass.class_eval do
   data_miner do
     schema Earth.database_options do
-      string  'code'
-      string  'name'
-      float   'm1'
-      float   'm2'
-      float   'm3'
-      float   'endpoint_fuel'
-      float   'seats'
+      string 'code'
+      float  'm3'
+      string 'm3_units'
+      float  'm2'
+      string 'm2_units'
+      float  'm1'
+      string 'm1_units'
+      float  'b'
+      string 'b_units'
+      float  'seats'
     end
     
-    import "a list of Brighter Planet-defined aircraft classes",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdGNBbHFibmxJUFprQkUwZHp6VU51Smc&hl=en&gid=0&output=csv' do
-      key 'code', :field_name => 'aircraft_class_code'
-      store 'name'
-    end
-    
-    process "Derive some average aircraft chraracteristics from aircraft" do
+    process "Ensure Aircraft is populated" do
       Aircraft.run_data_miner!
-      aircraft = Aircraft.arel_table
-      aircraft_classes = AircraftClass.arel_table
-      conditional_relation = aircraft_classes[:code].eq(aircraft[:class_code])
-      
-      %w{ m1 m2 m3 endpoint_fuel seats }.each do |column|
-        relation = Aircraft.weighted_average_relation(column).where(conditional_relation)
-        update_all "#{column} = (#{relation.to_sql})"
+    end
+    
+    process "Derive aircraft classes from Aircraft" do
+      connection.select_values("SELECT DISTINCT class_code FROM aircraft WHERE aircraft.class_code IS NOT NULL").each do |class_code|
+        AircraftClass.find_or_create_by_code(class_code)
+      end
+    end
+    
+    process "Derive some average characteristics from Aircraft" do
+      AircraftClass.find_each do |aircraft_class|
+        %w{ m3 m2 m1 b }.each do |coefficient|
+          value = AircraftFuelUseEquation.where("aircraft.class_code = '#{aircraft_class.code}'").
+            weighted_average(:"#{coefficient}", :weighted_by => [:aircraft, :passengers])
+          aircraft_class.send("#{coefficient}=", value)
+        end
+#           # do this in sql because we want to preserve nils and weighted_average returns 0 when it gets NULL
+#           connection.execute %{
+# UPDATE aircraft_classes
+# SET aircraft_classes.#{coefficient} = (
+#   SELECT sum(aircraft_fuel_use_equations.#{coefficient} * aircraft.passengers) / sum(aircraft.passengers)
+#   FROM aircraft_fuel_use_equations
+#   INNER JOIN aircraft
+#   ON aircraft.fuel_use_code = aircraft_fuel_use_equations.code
+#   WHERE aircraft.class_code = '#{aircraft_class.code}'
+#   AND aircraft_fuel_use_equations.#{coefficient} IS NOT NULL
+# )
+# WHERE aircraft_classes.code = '#{aircraft_class.code}'
+#           }
+#        end
+        
+        aircraft_class.seats = aircraft_class.aircraft.weighted_average(:seats, :weighted_by => :passengers)
+#         # do this in sql because we want to preserve nils and weighted_average returns 0 when it gets NULL
+#         connection.execute %{
+# UPDATE aircraft_classes
+# SET aircraft_classes.seats = (
+#   SELECT sum(aircraft.seats * aircraft.passengers) / sum(aircraft.passengers)
+#   FROM aircraft
+#   WHERE aircraft.class_code = '#{aircraft_class.code}'
+# )
+# WHERE aircraft_classes.code = '#{aircraft_class.code}'
+#         }
+        
+        aircraft_class.m3_units = 'kilograms_per_cubic_nautical_mile'
+        aircraft_class.m2_units = 'kilograms_per_square_nautical_mile'
+        aircraft_class.m1_units = 'kilograms_per_nautical_mile'
+        aircraft_class.b_units  = 'kilograms'
+        aircraft_class.save
       end
     end
     
