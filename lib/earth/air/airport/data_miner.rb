@@ -27,7 +27,6 @@ Airport.class_eval do
     
     import "the OpenFlights.org airports database",
            :url => 'https://openflights.svn.sourceforge.net/svnroot/openflights/openflights/data/airports.dat',
-           :encoding => 'UTF-8',
            :headers => %w{ id name city country_name iata_code icao_code latitude longitude altitude timezone daylight_savings },
            :errata => { :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdFc2UzhQYU5PWEQ0N21yWFZGNmc2a3c&gid=0&output=csv',
                         :responder => Airport::Guru.new } do

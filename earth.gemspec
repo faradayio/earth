@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.7}
   
   s.add_runtime_dependency 'data_miner'
+  s.add_runtime_dependency 'to_regexp'
   s.add_runtime_dependency 'cohort_scope'
   s.add_runtime_dependency 'remote_table', '>=1.2.3'
   s.add_runtime_dependency 'falls_back_on'

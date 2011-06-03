@@ -2,11 +2,12 @@ Aircraft.class_eval do
   # For errata
   class Aircraft::Guru
     def method_missing(method_id, *args, &block)
-      if method_id.to_s =~ /\A([a-z]+)_is_n?o?t?_?([^\?]+)/
+      if method_id.to_s =~ /\A([a-z]+)_is_(?:not_)?([^\?]+)/
         column_name = $1
         value = $2
-        value_regexp = Regexp.new('^' + value.gsub('_', ' ') + '$', Regexp::IGNORECASE)
-        matches = value_regexp.match(args.first[column_name.titleize]) # row['Manufacturer'] =~ /mcdonnell douglas/i
+        value_regexp = /^#{value.gsub('_',' ')}$/i
+        # row['Manufacturer'] =~ /mcdonnell douglas/i
+        matches = value_regexp.match(args.first[column_name.titleize])
         method_id.to_s.include?('_not_') ? matches.nil? : !matches.nil?
       else
         super
@@ -16,8 +17,8 @@ Aircraft.class_eval do
   
   # We're only interested in aircraft from certain manufacturers
   def self.manufacturer_whitelist?(candidate)
-    @manufacturer_whitelist ||= RemoteTable.new(:url => 'https://spreadsheets.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdFRFalpOdlg1cnF6amlSM1dDc1lya2c&output=csv')
-    @manufacturer_whitelist.any? { |record| record['Manufacturer'].to_regexp.match(candidate) }
+    @manufacturer_whitelist ||= RemoteTable.new(:url => 'https://spreadsheets.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdFRFalpOdlg1cnF6amlSM1dDc1lya2c&output=csv').map { |record| record['Manufacturer'].to_regexp }
+    @manufacturer_whitelist.any? { |manufacturer_regexp| manufacturer_regexp.match candidate }
   end
   
   data_miner do
@@ -73,22 +74,21 @@ Aircraft.class_eval do
     
     process "Synthesize description from manufacturer name and model name" do
       Aircraft.find_each do |aircraft|
-        aircraft.description = [aircraft.manufacturer_name, aircraft.model_name].join(" ").downcase
-        aircraft.save
+        aircraft.update_attribute :description, [aircraft.manufacturer_name, aircraft.model_name].join(' ').downcase
       end
     end
     
     process "Synthesize class code from engine type and weight class" do
       Aircraft.find_each do |aircraft|
-        if aircraft.weight_class == "Small" or aircraft.weight_class == "Small+" or aircraft.weight_class == "Light"
-          size = "Light"
-        elsif aircraft.weight_class == "Large" or aircraft.weight_class == "Medium"
-          size = "Medium"
+        size = case aircraft.weight_class
+        when 'Small', 'Small+', 'Light'
+          'Light'
+        when 'Large', 'Medium'
+          'Medium'
         else
-          size = "Heavy"
+          'Heavy'
         end
-        aircraft.class_code = [size, aircraft.engines.to_s, "engine", aircraft.engine_type].join(" ")
-        aircraft.save
+        aircraft.update_attribute :class_code, [size, aircraft.engines.to_s, 'engine', aircraft.engine_type].join(' ')
       end
     end
     
@@ -99,8 +99,8 @@ Aircraft.class_eval do
     # FIXME TODO do we want to restrict this to certain years?
     process "Derive some average characteristics from flight segments" do
       Aircraft.find_each do |aircraft|
-        aircraft.seats = aircraft.flight_segments.weighted_average(:seats_per_flight, :weighted_by => :passengers)
-        aircraft.passengers = aircraft.flight_segments.sum(:passengers)
+        aircraft.seats = aircraft.flight_segments.weighted_average :seats_per_flight, :weighted_by => :passengers
+        aircraft.passengers = aircraft.flight_segments.sum :passengers
         aircraft.save
       end
     end
