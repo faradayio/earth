@@ -336,7 +336,7 @@ FlightSegment.class_eval do
           
           # Pull out the root of the description - the text up to and including the last ' ' or '-'
           # e.g. 'boeing 747-'
-          root_length = first_description.rindex(/[ \-]/i)
+          root_length = first_description.rindex('-')
           root = first_description.slice(0..root_length)
           
           # Pull out the suffixes - the text separated by forward slashes
@@ -349,11 +349,12 @@ FlightSegment.class_eval do
             # Look up the Aircraft that match each synthesized description and associate
             # them with the original flight segment aircraft_description
             Aircraft.loose_tight_dictionary.find_all(synthesized_description).each do |aircraft|
-              attrs = {}
-              attrs[:a_class] = "Aircraft"
-              attrs[:a] = aircraft.description
-              attrs[:b_class] = "FlightSegment"
-              attrs[:b] = original_description
+              attrs = {
+                :a_class => "Aircraft",
+                :a => aircraft.description,
+                :b_class => "FlightSegment",
+                :b => original_description
+              }
               unless ::LooseTightDictionary::CachedResult.exists? attrs
                 ::LooseTightDictionary::CachedResult.create! attrs
               end
