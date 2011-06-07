@@ -8,7 +8,16 @@ require 'weighted_average'
 require 'fixed_width'
 require 'errata'
 require 'create_table'
-require 'earth/active_record_ext'
+
+# hackety hack
+def INSERT_IGNORE(cmd)
+  if ActiveRecord::Base.connection.adapter_name.downcase == 'sqlite'
+    prefix = 'INSERT'
+  else
+    prefix = 'INSERT IGNORE'
+  end
+  ActiveRecord::Base.connection.execute "#{prefix} #{cmd}"
+end
 
 # The earth module is an interface for loading data models from various domains.
 module Earth
@@ -98,32 +107,51 @@ module Earth
     end
   end
   
+  PULL_DEPEDENCIES_STEP = 'Pull dependencies implied by belongs-to associations'
+  def _prepend_pull_dependencies_step_to_data_miner(resource)
+    resource_model = resource.constantize
+    return if resource_model.data_miner_config.steps.any? { |step| step.description == PULL_DEPEDENCIES_STEP }
+
+    pull_dependencies_step = DataMiner::Process.new(resource_model.data_miner_config, PULL_DEPEDENCIES_STEP) do
+      resource_model.reflect_on_all_associations(:belongs_to).each do |assoc|
+        next if assoc.options[:polymorphic]
+        assoc.klass.run_data_miner!
+      end
+    end
+
+    resource_model.data_miner_config.steps.unshift pull_dependencies_step
+  end
+  
   CREATE_TABLE_STEP = 'Create a table using the create_table gem'
+  def _prepend_create_table_step_to_data_miner(resource)
+    resource_model = resource.constantize
+    return if resource_model.data_miner_config.steps.any? { |step| step.description == CREATE_TABLE_STEP }
+
+    create_table_step = DataMiner::Process.new(resource_model.data_miner_config, CREATE_TABLE_STEP) do
+      resource_model.create_table!
+    end
+
+    resource_model.data_miner_config.steps.unshift create_table_step
+  end
+  
   TAPS_STEP = 'Tap the Brighter Planet data server'
   TAPS_SOURCE = 'http://carbon:neutral@data.brighterplanet.com'
-  PULL_DEPEDENCIES_STEP = 'Pull dependencies implied by belongs-to associations'
+  def _prepend_taps_step_to_data_miner(resource)
+    resource_model = resource.constantize
+    return if resource_model.data_miner_config.steps.any? { |step| step.description == TAPS_STEP }
+    
+    taps_step = DataMiner::Tap.newresource_model.data_miner_config, TAPS_STEP, TAPS_SOURCE
+    
+    resource_model.data_miner_config.steps.unshift taps_step
+  end
   
   def _decorate_resources(selected_resources, options)
     selected_resources.each do |resource|
-      resource_model = resource.constantize
-      unless resource_model.data_miner_config.steps.any? { |step| step.description == PULL_DEPEDENCIES_STEP }
-        pull_dependencies_step = DataMiner::Process.new(resource_model.data_miner_config, PULL_DEPEDENCIES_STEP) do
-          resource_model.run_data_miner_on_belongs_to_associations
-        end
-        resource_model.data_miner_config.steps.unshift pull_dependencies_step
-      end
+      _prepend_pull_dependencies_step_to_data_miner resource
       if options[:apply_schemas] or options[:load_data_miner]
-        unless resource_model.data_miner_config.steps.any? { |step| step.description == CREATE_TABLE_STEP }
-          create_table_step = DataMiner::Process.new(resource_model.data_miner_config, CREATE_TABLE_STEP) do
-            resource_model.create_table!
-          end
-          resource_model.data_miner_config.steps.unshift create_table_step
-        end
+        _prepend_create_table_step_to_data_miner resource
       else
-        # LIFO
-        unless resource_model.data_miner_config.steps.any? { |step| step.description == TAPS_STEP }
-          resource_model.data_miner_config.steps.unshift DataMiner::Tap.new(resource_model.data_miner_config, TAPS_STEP, TAPS_SOURCE)
-        end
+        _prepend_taps_step_to_data_miner resource
       end
     end
   end
@@ -134,13 +162,4 @@ module Earth
       resource.constantize.create_table!
     end
   end
-end
-
-def INSERT_IGNORE(cmd)
-  if ActiveRecord::Base.connection.adapter_name.downcase == 'sqlite'
-    prefix = 'INSERT'
-  else
-    prefix = 'INSERT IGNORE'
-  end
-  ActiveRecord::Base.connection.execute "#{prefix} #{cmd}"
 end
