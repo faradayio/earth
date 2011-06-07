@@ -10,8 +10,21 @@ class AircraftClass < ActiveRecord::Base
   def valid_fuel_use_equation?
     fuel_use_coefficients.all?(&:present?) and fuel_use_coefficients.any?(&:nonzero?)
   end
+
+  create_table do
+    string 'code'
+    float  'm3'
+    string 'm3_units'
+    float  'm2'
+    string 'm2_units'
+    float  'm1'
+    string 'm1_units'
+    float  'b'
+    string 'b_units'
+    float  'seats'
+  end
   
   data_miner do
-    tap "Brighter Planet's aircraft class data", Earth.taps_server
+    # intentionally left blank.
   end
 end

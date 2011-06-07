@@ -7,16 +7,6 @@ ZipCode.class_eval do
   # end
   
   data_miner do
-    schema Earth.database_options do
-      string   'name'
-      string   'state_postal_abbreviation'
-      string   'description'
-      string   'latitude'
-      string   'longitude'
-      string   'egrid_subregion_abbreviation'
-      string   'climate_division_name'
-    end
-    
     import 'the Mapping Hacks zipcode database',
            :url => 'http://mappinghacks.com/data/zipcode.zip',
            :filename => 'zipcode.csv' do

@@ -1,20 +1,5 @@
 AutomobileSizeClass.class_eval do
   data_miner do
-    schema Earth.database_options do
-      string 'name'
-      string 'type_name'
-      float  'annual_distance'
-      string 'annual_distance_units'
-      float  'fuel_efficiency_city'
-      string 'fuel_efficiency_city_units'
-      float  'fuel_efficiency_highway'
-      string 'fuel_efficiency_highway_units'
-      float  'hybrid_fuel_efficiency_city_multiplier'
-      float  'hybrid_fuel_efficiency_highway_multiplier'
-      float  'conventional_fuel_efficiency_city_multiplier'
-      float  'conventional_fuel_efficiency_highway_multiplier'
-    end
-    
     # FIXME TODO pull this from AutomobileSizeClassYear
     import "a list of size classes and pre-calculated fuel efficiencies",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdHlRUE5IcWlrRENhN0EtUldPTy1rX1E&gid=0&output=csv' do

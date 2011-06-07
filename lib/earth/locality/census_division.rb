@@ -13,11 +13,26 @@ class CensusDivision < ActiveRecord::Base
                 :meeting_building_electricity_intensity => 0.0084323684 / 1.square_feet.to(:square_metres),
                 :meeting_building_district_heat_intensity => 0.0004776370.kbtus.to(:megajoules) / 1.square_feet.to(:square_metres)
   
-  data_miner do
-    tap "Brighter Planet's sanitized census divisions", Earth.taps_server
-    
-    process "pull dependencies" do
-      run_data_miner_on_belongs_to_associations
-    end
+  create_table do
+    integer 'number'
+    string  'name'
+    string  'census_region_name'
+    integer 'census_region_number'
+    float   'meeting_building_natural_gas_intensity'
+    string  'meeting_building_natural_gas_intensity_units'
+    float   'meeting_building_fuel_oil_intensity'
+    string  'meeting_building_fuel_oil_intensity_units'
+    float   'meeting_building_electricity_intensity'
+    string  'meeting_building_electricity_intensity_units'
+    float   'meeting_building_district_heat_intensity'
+    string  'meeting_building_district_heat_intensity_units'
+    float   'lodging_building_natural_gas_intensity'
+    string  'lodging_building_natural_gas_intensity_units'
+    float   'lodging_building_fuel_oil_intensity'
+    string  'lodging_building_fuel_oil_intensity_units'
+    float   'lodging_building_electricity_intensity'
+    string  'lodging_building_electricity_intensity_units'
+    float   'lodging_building_district_heat_intensity'
+    string  'lodging_building_district_heat_intensity_units'
   end
 end

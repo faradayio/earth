@@ -15,16 +15,6 @@ Airport.class_eval do
   end
   
   data_miner do
-    schema Earth.database_options do
-      string   'iata_code'
-      string   'name'
-      string   'city'
-      string   'country_name'
-      string   'country_iso_3166_code'
-      float    'latitude'
-      float    'longitude'
-    end
-    
     import "the OpenFlights.org airports database",
            :url => 'https://openflights.svn.sourceforge.net/svnroot/openflights/openflights/data/airports.dat',
            :headers => %w{ id name city country_name iata_code icao_code latitude longitude altitude timezone daylight_savings },

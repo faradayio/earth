@@ -8,11 +8,21 @@ class FuelType < ActiveRecord::Base
                 :average_purchase_volume       => 100, #FIXME TODO put a real value here - also do we want to do volumes in kJ?
                 :average_purchase_volume_units => 'FIXME'
   
-  data_miner do
-    tap "Brighter Planet's fuel types data", Earth.taps_server
-  end
-  
   def price
     prices.average :price
+  end
+  
+  create_table do
+    string 'name'
+    float  'emission_factor'
+    string 'emission_factor_units'
+    float  'density'
+    string 'density_units'
+    float  'average_purchase_volume'
+    string 'average_purchase_volume_units'
+    # float    'energy_content'
+    # string   'energy_content_units'
+    # float    'carbon_content'
+    # string   'carbon_content_units'
   end
 end

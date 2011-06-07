@@ -1,14 +1,5 @@
 BusFuelYearControl.class_eval do
   data_miner do
-    schema Earth.database_options do
-      string  'name'
-      string  'bus_fuel_name'
-      integer 'year'
-      string  'control'
-      string  'bus_fuel_control_name'
-      float   'total_travel_percent'
-    end
-    
     process "Ensure all BusFuelControls are imported" do
       BusFuelControl.run_data_miner!
     end

@@ -1,13 +1,5 @@
 ComputationCarrierInstanceClass.class_eval do
   data_miner do
-    schema Earth.database_options do
-      string 'name'
-      string 'computation_carrier_name'
-      string 'instance_class'
-      float  'electricity_intensity'
-      string 'electricity_intensity_units'
-    end
-    
     import "a list of computation carrier instance classes and their characteristics",
            :url => 'https://spreadsheets.google.com/pub?key=0AkCJNpm9Ks6JdGExaW1ic2c0d2s1ZmpzeUdOa2kyRlE&gid=0&output=csv' do
       key   'name'

@@ -2,8 +2,14 @@ class AutomobileTypeYear < ActiveRecord::Base
   set_primary_key :name
   
   has_many :type_fuel_years, :class_name => 'AutomobileTypeFuelYear', :foreign_key => 'type_year_name'
-  
-  data_miner do
-    tap "Brighter Planet's sanitized automobile type year data", Earth.taps_server
+
+  create_table do
+    string  'name'
+    string  'type_name'
+    integer 'year'
+    float   'hfc_emissions'
+    string  'hfc_emissions_units'
+    float   'hfc_emission_factor'
+    string  'hfc_emission_factor_units'
   end
 end

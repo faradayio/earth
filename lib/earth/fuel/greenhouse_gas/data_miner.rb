@@ -1,14 +1,5 @@
 GreenhouseGas.class_eval do
   data_miner do
-    schema Earth.database_options do
-      string  'name'
-      string  'abbreviation'
-      string  'ipcc_report'
-      integer 'time_horizon'
-      string  'time_horizon_units'
-      integer 'global_warming_potential'
-    end
-    
     import "greenhouse gas global warming potentials taken from the IPCC AR4",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdE1tUjBwS1ZHZnBUUG1XcVpkOTVHOVE&gid=0&output=csv' do
       key 'name'

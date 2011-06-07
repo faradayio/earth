@@ -1,16 +1,5 @@
 AutomobileTypeFuelControl.class_eval do
   data_miner do
-    schema Earth.database_options do
-      string  'name'
-      string  'type_name'
-      string  'fuel_common_name'
-      string  'control_name'
-      float   'ch4_emission_factor'
-      string  'ch4_emission_factor_units'
-      float   'n2o_emission_factor'
-      string  'n2o_emission_factor_units'
-    end
-    
     import "automobile type fuel control data derived from the 2010 EPA GHG Inventory",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdEloSTU5YUNOUXRFRUcxWHlTUi1GMkE&hl=en&gid=0&output=csv' do
       key   'name'

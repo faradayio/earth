@@ -1,7 +1,10 @@
 class Airline < ActiveRecord::Base
   set_primary_key :name
-  
-  data_miner do
-    tap "Brighter Planet's sanitized airlines data", Earth.taps_server
+
+  create_table do
+    string 'name'
+    string 'bts_code'
+    string 'iata_code'
+    string 'icao_code'
   end
 end

@@ -1,12 +1,5 @@
 FlightSeatClass.class_eval do
   data_miner do
-    schema Earth.database_options do
-      string   'name'
-      string   'distance_class_name'
-      string   'seat_class_name'
-      float    'multiplier'
-    end
-    
     import "seat classes used in the WRI GHG Protocol calculation tools",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdG5zSER1QmFVVkhNcTM2cmhCMEJtWVE&hl=en&gid=0&output=csv' do
       key   'name'

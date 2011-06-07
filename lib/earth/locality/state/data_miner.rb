@@ -1,13 +1,5 @@
 State.class_eval do
   data_miner do
-    schema Earth.database_options do
-      string   'postal_abbreviation'
-      integer  'fips_code'
-      string   'name'
-      string   'census_division_number'
-      string   'petroleum_administration_for_defense_district_code'
-    end
-    
     # state names, ansi codes, and postal abbreviations
     import 'the U.S. Census State ANSI Code file',
            :url => 'http://www.census.gov/geo/www/ansi/state.txt',

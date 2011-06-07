@@ -1,18 +1,5 @@
 AutomobileTypeFuelYearAge.class_eval do
   data_miner do
-    schema Earth.database_options do
-      string  'name'
-      string  'type_name'
-      string  'fuel_common_name'
-      integer 'year'
-      integer 'age'
-      string  'type_fuel_year_name'
-      float   'total_travel_percent'
-      float   'annual_distance'
-      string  'annual_distance_units'
-      integer 'vehicles'
-    end
-    
     import "total travel distribution of gasoline passenger cars from the 2010 EPA GHG Inventory",
            :url => 'http://www.epa.gov/climatechange/emissions/downloads10/2010-Inventory-Annex-Tables.zip',
            :filename => 'Annex Tables/Annex 3/Table A-93.csv',

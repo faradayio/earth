@@ -13,13 +13,24 @@ class Country < ActiveRecord::Base
                 :automobile_trip_distance_units => lambda { Country.united_states.automobile_trip_distance_units }, # for now assume US represents world
                 :flight_route_inefficiency_factor => lambda { Country.maximum(:flight_route_inefficiency_factor) } # default to the largest inefficiency factor
   
-  data_miner do
-    tap "Brighter Planet's sanitized countries list", Earth.taps_server
-  end
-  
   class << self
     def united_states
       find_by_iso_3166_code('US')
     end
+  end
+  
+  create_table do
+    string 'iso_3166_code'
+    string 'name'
+    float  'automobile_urbanity'
+    float  'automobile_fuel_efficiency'
+    string 'automobile_fuel_efficiency_units'
+    float  'automobile_city_speed'
+    string 'automobile_city_speed_units'
+    float  'automobile_highway_speed'
+    string 'automobile_highway_speed_units'
+    float  'automobile_trip_distance'
+    string 'automobile_trip_distance_units'
+    float  'flight_route_inefficiency_factor'
   end
 end

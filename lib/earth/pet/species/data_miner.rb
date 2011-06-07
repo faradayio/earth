@@ -1,22 +1,5 @@
 Species.class_eval do
   data_miner do
-    schema Earth.database_options do
-      string   'name'
-      integer  'population'
-      float    'diet_emission_intensity'
-      string   'diet_emission_intensity_units'
-      float    'weight'
-      string   'weight_units'
-      float    'marginal_dietary_requirement'
-      string   'marginal_dietary_requirement_units'
-      float    'fixed_dietary_requirement'
-      string   'fixed_dietary_requirement_units'
-      float    'minimum_weight'
-      string   'minimum_weight_units'
-      float    'maximum_weight'
-      string   'maximum_weight_units'
-    end
-    
     process "Define some unit conversions" do
       # 1 (kilocalories per pound) = 9 224.14105 joules per kilogram
       Conversions.register :kilocalories_per_pound, :joules_per_kilogram, 9_224.14105

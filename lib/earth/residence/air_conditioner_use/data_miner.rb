@@ -1,11 +1,5 @@
 AirConditionerUse.class_eval do
   data_miner do
-    schema do
-      string 'name'
-      float 'fugitive_emission'
-      string 'fugitive_emission_units'
-    end
-    
     process "Ensure ResidentialEnergyConsumptionSurveyResponse is populated" do
       ResidentialEnergyConsumptionSurveyResponse.run_data_miner!
     end

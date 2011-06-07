@@ -1,9 +1,5 @@
 Urbanity.class_eval do
   data_miner do
-    schema do
-      string 'name'
-    end
-    
     process "Ensure ResidentialEnergyConsumptionSurveyResponse is populated" do
       ResidentialEnergyConsumptionSurveyResponse.run_data_miner!
     end

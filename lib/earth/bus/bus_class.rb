@@ -28,7 +28,32 @@ class BusClass < ActiveRecord::Base
                 :alternative_fuels_intensity => 0.04632038.gallons_per_mile.to(:litres_per_kilometre), # deprecated
                 :alternative_fuels_intensity_units => 'litres_per_kilometre' # deprecated
   
-  data_miner do
-    tap "Brighter Planet's sanitized bus class data", Earth.taps_server
+  create_table do
+    string 'name'
+    float  'distance'
+    string 'distance_units'
+    float  'passengers'
+    float  'speed'
+    string 'speed_units'
+    float  'gasoline_intensity'
+    string 'gasoline_intensity_units'
+    float  'diesel_intensity'
+    string 'diesel_intensity_units'
+    float  'cng_intensity'
+    string 'cng_intensity_units'
+    float  'lng_intensity'
+    string 'lng_intensity_units'
+    float  'lpg_intensity'
+    string 'lpg_intensity_units'
+    float  'methanol_intensity'
+    string 'methanol_intensity_units'
+    float  'biodiesel_intensity'
+    string 'biodiesel_intensity_units'
+    float  'electricity_intensity'
+    string 'electricity_intensity_units'
+    float  'air_conditioning_emission_factor'
+    string 'air_conditioning_emission_factor_units'
+    float  'alternative_fuels_intensity'
+    string 'alternative_fuels_intensity_units'
   end
 end

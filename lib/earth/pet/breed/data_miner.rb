@@ -1,12 +1,5 @@
 Breed.class_eval do
   data_miner do
-    schema Earth.database_options do
-      string   'name'
-      string  'species_name'
-      float    'weight'
-      string   'weight_units'
-    end
-    
     import "Brighter Planet's list of cat and dog breeds",
            :url => 'http://static.brighterplanet.com/science/data/consumables/pets/breed_genders.csv',
            :encoding => 'ISO-8859-1',

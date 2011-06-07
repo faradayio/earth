@@ -3,7 +3,7 @@ class Urbanity < ActiveRecord::Base
   
   has_many :residential_energy_consumption_survey_responses
 
-  data_miner do
-    tap "Brighter Planet's sanitized urbanity data", Earth.taps_server
+  create_table do
+    string 'name'
   end
 end

@@ -1,17 +1,5 @@
 LodgingClass.class_eval do
   data_miner do
-    schema Earth.database_options do
-      string 'name'
-      float  'electricity_intensity'
-      string 'electricity_intensity'
-      float  'natural_gas_intensity'
-      string 'natural_gas_intensity'
-      float  'fuel_oil_intensity'
-      string 'fuel_oil_intensity'
-      float  'district_heat_intensity'
-      string 'district_heat_intensity'
-    end
-    
     import "a list of lodging classes and pre-calculated emission factors",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdGZZWmZtWEJlYzhRNXlPdWpBTldlcUE&hl=en&gid=0&output=csv' do
       key   'name'

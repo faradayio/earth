@@ -1,10 +1,5 @@
 EgridRegion.class_eval do
   data_miner do
-    schema Earth.database_options do
-      string   'name'
-      float    'loss_factor'
-    end
-    
     import "eGRID regions and loss factors derived from eGRID 2007 data",
            :url => 'http://www.epa.gov/cleanenergy/documents/egridzips/eGRID2007_Version1-1.zip',
            :filename => 'eGRID2007_Version1-1/eGRID2007V1_1_year0504_STIE_USGC.xls',

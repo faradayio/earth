@@ -1,15 +1,5 @@
 CarrierMode.class_eval do
   data_miner do
-    schema Earth.database_options do
-      string 'name'
-      string 'carrier_name'
-      string 'mode_name'
-      float  'package_volume'
-      float  'route_inefficiency_factor'
-      float  'transport_emission_factor'
-      string 'transport_emission_factor_units'
-    end
-    
     import "a list of carrier modes and their characteristics",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdGRsRkJOd0NPd0FETTI0NmpYUlBsN2c&hl=en&gid=0&output=csv' do
       key   'name'

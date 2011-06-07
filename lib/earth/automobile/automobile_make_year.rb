@@ -3,12 +3,13 @@ class AutomobileMakeYear < ActiveRecord::Base
   
   belongs_to :make,      :class_name => 'AutomobileMake',          :foreign_key => 'make_name'
   has_many :fleet_years, :class_name => 'AutomobileMakeFleetYear', :foreign_key => 'make_year_name'
-  
-  data_miner do
-    tap "Brighter Planet's make year data", Earth.taps_server
-    
-    process "Pull dependencies" do
-      run_data_miner_on_belongs_to_associations
-    end
+
+  create_table do
+    string   'name'
+    string   'make_name'
+    integer  'year'
+    float    'fuel_efficiency'
+    string   'fuel_efficiency_units'
+    integer  'volume' # This will sometimes be null because not all make_years have CAFE data
   end
 end

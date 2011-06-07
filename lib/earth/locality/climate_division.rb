@@ -6,12 +6,10 @@ class ClimateDivision < ActiveRecord::Base
   
   RADIUS = 750
 
-  data_miner do
-    tap "Brighter Planet's sanitized climate divisions", Earth.taps_server
-
-    process "pull dependencies" do
-      run_data_miner_on_belongs_to_associations
-    end
+  create_table do
+    string   'name'
+    float    'heating_degree_days'
+    float    'cooling_degree_days'
+    string   'state_postal_abbreviation'
   end
-
 end

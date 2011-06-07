@@ -1,21 +1,5 @@
 AutomobileTypeFuelYear.class_eval do
   data_miner do
-    schema Earth.database_options do
-      string  'name'
-      string  'type_name'
-      string  'fuel_common_name'
-      integer 'year'
-      string  'type_year_name'
-      float   'total_travel'
-      string  'total_travel_units'
-      float   'fuel_consumption'
-      string  'fuel_consumption_units'
-      float   'ch4_emission_factor'
-      string  'ch4_emission_factor_units'
-      float   'n2o_emission_factor'
-      string  'n2o_emission_factor_units'
-    end
-    
     import "total vehicle miles travelled by gasoline passenger cars from the 2010 EPA GHG Inventory",
            :url => 'http://www.epa.gov/climatechange/emissions/downloads10/2010-Inventory-Annex-Tables.zip',
            :filename => 'Annex Tables/Annex 3/Table A-87.csv',

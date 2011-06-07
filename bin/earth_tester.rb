@@ -23,10 +23,6 @@ end
 
 require 'earth'
 
-Earth.init :load_data_miner => true, :apply_schemas => true
+Earth.init ARGV[0], :load_data_miner => true, :apply_schemas => true
 
-if ARGV[0].present?
-  eval ARGV[0]
-else
-  $stderr.puts "Usage: earth_tester.rb 'ResidenceFuelPrice.run_data_miner!' (Note single quotes)"
-end
+ARGV[1].camelcase.constantize.run_data_miner!

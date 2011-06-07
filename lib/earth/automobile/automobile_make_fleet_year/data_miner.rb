@@ -1,16 +1,5 @@
 AutomobileMakeFleetYear.class_eval do
   data_miner do
-    schema Earth.database_options do
-      string   'name'
-      string   'make_year_name'
-      string   'make_name'
-      string   'fleet'
-      integer  'year'
-      float    'fuel_efficiency'
-      string   'fuel_efficiency_units'
-      integer  'volume'
-    end
-    
     import "annual corporate average fuel economy data for domestic and imported vehicle fleets from the NHTSA",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdEdXWXB6dkVLWkowLXhYSFVUT01sS2c&hl=en&gid=0&output=csv',
            :errata => { 'url' => 'http://static.brighterplanet.com/science/data/transport/automobiles/make_fleet_years/errata.csv' },
