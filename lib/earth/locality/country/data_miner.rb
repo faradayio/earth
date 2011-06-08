@@ -40,21 +40,23 @@ Country.class_eval do
       store 'automobile_trip_distance', :units_field_name => 'automobile_trip_distance_units'
     end
     
+    process "Ensure AutomobileTypeFuelYear is populated" do
+      AutomobileTypeFuelYear.run_data_miner!
+    end
+    
     # FIXME TODO eventually need to do this for all countries
-    # process "Derive US average automobile fuel efficiency from AutomobileTypeFuelYear" do
-    #   AutomobileTypeFuelYear.run_data_miner!
-    #   
-    #   scope = AutomobileTypeFuelYear.where(:year => AutomobileTypeFuelYear.maximum(:year))
-    #   fe = scope.sum(:total_travel) / scope.sum(:fuel_consumption)
-    #   units = scope.first.total_travel_units + '_per_' + scope.first.fuel_consumption_units.singularize
-    #   
-    #   connection.execute %{
-    #     UPDATE countries
-    #     SET automobile_fuel_efficiency = #{fe},
-    #         automobile_fuel_efficiency_units = '#{units}'
-    #     WHERE iso_3166_code = 'US'
-    #   }
-    # end
+    process "Derive US average automobile fuel efficiency from AutomobileTypeFuelYear" do
+      scope = AutomobileTypeFuelYear.where(:year => AutomobileTypeFuelYear.maximum(:year))
+      fe = scope.sum(:total_travel) / scope.sum(:fuel_consumption)
+      units = scope.first.total_travel_units + '_per_' + scope.first.fuel_consumption_units.singularize
+      
+      connection.execute %{
+        UPDATE countries
+        SET automobile_fuel_efficiency = #{fe},
+            automobile_fuel_efficiency_units = '#{units}'
+        WHERE iso_3166_code = 'US'
+      }
+    end
     
     process "Convert automobile city speed from miles per hour to kilometres per hour" do
       conversion_factor = 1.miles.to(:kilometres)
