@@ -452,12 +452,15 @@ AutomobileMakeModelYearVariant.class_eval do
     end
     
     # Note: need to divide by 0.425143707 b/c equation is designed for miles / gallon not km / l
+    # Note: EPA seems to adjust differently for plug-in hybrid electric vehicles (e.g. Leaf and Volt)
     process "Calculate adjusted fuel efficiency using the latest EPA equations from EPA Fuel Economy Trends report Appendix A including conversion from miles per gallon to kilometres per litre" do
       update_all 'fuel_efficiency_city = 1 / ((0.003259 / 0.425143707) + (1.1805 / raw_fuel_efficiency_city))'
       update_all 'fuel_efficiency_highway = 1 / ((0.001376 / 0.425143707) + (1.3466 / raw_fuel_efficiency_highway))'
     end
     
     # This will be useful later for calculating MakeModel and Make fuel efficiency based on Variant
+    # NOTE: we use a 43/57 city/highway weighting per the latest EPA analysis of real-world driving behavior
+    # This results in a deviation from EPA fuel economy label values which use a historical 55/45 weighting
     process "Calculate combined adjusted fuel efficiency using the latest EPA equation" do
       update_all "fuel_efficiency = 1 / ((0.43 / fuel_efficiency_city) + (0.57 / fuel_efficiency_highway))"
       update_all "fuel_efficiency_units = 'kilometres_per_litre'"
