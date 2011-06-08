@@ -2,6 +2,17 @@
 require 'loose_tight_dictionary/cached_result'
 
 FlightSegment.class_eval do
+  # For import errata
+  class FlightSegment::Guru
+    def in_may_2009?(row)
+      row ['MONTH'] == 5 and row['YEAR'] == 2009
+    end
+    
+    def in_july_2009?(row)
+      row ['MONTH'] == 7 and row['YEAR'] == 2009
+    end
+  end
+  
   URL = 'http://www.transtats.bts.gov/DownLoad_Table.asp?Table_ID=293&Has_Group=3&Is_Zipped=0'
   FORM_DATA = %{
     UserTableName=T_100_Segment__All_Carriers&
@@ -223,6 +234,7 @@ FlightSegment.class_eval do
              :form_data => form_data,
              :compression => :zip,
              :glob => '/*.csv',
+             :errata => { :url => 'https://spreadsheets.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdGxpYU1qWFR3d0syTVMyQVVOaDd0V3c&output=csv', :responder => FlightSegment::Guru.new },
              :select => lambda { |record| record['DEPARTURES_PERFORMED'].to_i > 0 } do
         key 'row_hash'
         store 'origin_airport_iata_code',          :field_name => 'ORIGIN'
