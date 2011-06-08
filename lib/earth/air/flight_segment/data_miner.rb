@@ -336,7 +336,7 @@ FlightSegment.class_eval do
           
           # Pull out the root of the description - the text up to and including the last ' ' or '-'
           # e.g. 'boeing 747-'
-          root_length = first_description.rindex('-')
+          root_length = first_description.rindex(/[ \-]/)
           root = first_description.slice(0..root_length)
           
           # Pull out the suffixes - the text separated by forward slashes
