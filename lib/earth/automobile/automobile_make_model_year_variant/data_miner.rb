@@ -493,11 +493,13 @@ AutomobileMakeModelYearVariant.class_eval do
     
     verify "Fuel efficiencies should be greater than zero" do
       [:fuel_efficiency, :fuel_efficiency_city, :fuel_efficiency_highway].each do |field|
-        unless AutomobileMakeModelYearVariant.where(field => nil).count == 0
-          raise "Invalid fuel efficiency in automobile_make_model_year_variants: nil is not > 0"
-        end
-        unless AutomobileMakeModelYearVariant.where(field => 0).count == 0
-          raise "Invalid fuel efficiency in automobile_make_model_year_variants: 0 is not > 0"
+        if AutomobileMakeModelYearVariant.where(field => nil).any?
+          raise "Invalid #{field} in automobile_make_model_year_variants: nil is not > 0"
+        else
+          min = AutomobileMakeModelYearVariant.minimum(field)
+          unless min > 0
+            raise "Invalid #{field} in automobile_make_model_year_variants: #{min} is not > 0"
+          end
         end
       end
     end
