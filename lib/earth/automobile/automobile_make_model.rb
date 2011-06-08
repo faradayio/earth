@@ -3,12 +3,14 @@ class AutomobileMakeModel < ActiveRecord::Base
   
   belongs_to :make,                   :class_name => 'AutomobileMake',                 :foreign_key => 'make_name'
   has_many :make_model_year_variants, :class_name => 'AutomobileMakeModelYearVariant', :foreign_key => 'make_model_name'
-  
-  data_miner do
-    tap "Brighter Planet's auto model data", Earth.taps_server
-    
-    process "Pull dependencies" do
-      run_data_miner_on_belongs_to_associations
-    end
+
+  create_table do
+    string  'name' # make + model
+    string  'make_name'
+    string  'model_name' # model only
+    float   'fuel_efficiency_city'
+    string  'fuel_efficiency_city_units'
+    float   'fuel_efficiency_highway'
+    string  'fuel_efficiency_highway_units'
   end
 end

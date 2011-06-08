@@ -97,15 +97,31 @@ class AutomobileFuel < ActiveRecord::Base
                 :n2o_emission_factor_units => lambda { AutomobileFuel.fallback_n2o_emission_factor_units },
                 :hfc_emission_factor => lambda { AutomobileFuel.fallback_hfc_emission_factor },
                 :hfc_emission_factor_units => lambda { AutomobileFuel.fallback_hfc_emission_factor_units }
-  
-  data_miner do
-    tap "Brighter Planet's sanitized automobile fuel data", Earth.taps_server
-    
-    process "pull dependencies" do
-      run_data_miner_on_belongs_to_associations
-    end
+
+  create_table do
+    string 'name'
+    string 'code'
+    string 'base_fuel_name'
+    string 'blend_fuel_name'
+    float  'blend_portion' # the portion of the blend that is the blend fuel
+    string 'distance_key' # used to look up annual distance from AutomobileTypeFuelYear
+    string 'ef_key' # used to look up ch4 n2o and hfc emission factors from AutomobileTypeFuelYear
+    float  'annual_distance'
+    string 'annual_distance_units'
+    float  'co2_emission_factor'
+    string 'co2_emission_factor_units'
+    float  'co2_biogenic_emission_factor'
+    string 'co2_biogenic_emission_factor_units'
+    float  'ch4_emission_factor'
+    string 'ch4_emission_factor_units'
+    float  'n2o_emission_factor'
+    string 'n2o_emission_factor_units'
+    float  'hfc_emission_factor'
+    string 'hfc_emission_factor_units'
+    float  'emission_factor' # DEPRECATED but motorcycle needs this
+    string 'emission_factor_units' # DEPRECATED but motorcycle needs this
   end
-  
+
   CODES = {
     :electricity => 'El',
     :diesel => 'D'

@@ -4,7 +4,8 @@ class ComputationCarrier < ActiveRecord::Base
   falls_back_on :name => 'fallback',
                 :power_usage_effectiveness => lambda { ComputationCarrier.maximum('power_usage_effectiveness') }
   
-  data_miner do
-    tap "Brighter Planet's computation carrier data", Earth.taps_server
+  create_table do
+    string 'name'
+    float  'power_usage_effectiveness'
   end
 end

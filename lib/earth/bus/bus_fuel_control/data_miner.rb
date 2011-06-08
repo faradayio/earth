@@ -1,15 +1,5 @@
 BusFuelControl.class_eval do
   data_miner do
-    schema Earth.database_options do
-      string 'name'
-      string 'bus_fuel_name'
-      string 'control'
-      float  'ch4_emission_factor'
-      string 'ch4_emission_factor_units'
-      float  'n2o_emission_factor'
-      string 'n2o_emission_factor_units'
-    end
-    
     import "a list of bus fuel controls",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdEw1QW80VVJhaXRkUURQSFhHczNyVWc&gid=0&output=csv' do
       key   'name'

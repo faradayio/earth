@@ -1,14 +1,5 @@
 FoodGroup.class_eval do
   data_miner do
-    schema Earth.database_options do
-      string  'name'
-      float   'intensity'
-      string  'intensity_units'
-      float   'energy'
-      string  'energy_units'
-      string  'suggested_imperial_measurement' # ?
-    end
-    
     import "a list of food groups and their emissions intensities",
            :url => 'http://static.brighterplanet.com/science/data/consumables/diets/food_groups.csv' do
       key   'name'

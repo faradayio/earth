@@ -11,11 +11,13 @@ class ZipCode < ActiveRecord::Base
                    :lat_column_name => :latitude,
                    :lng_column_name => :longitude
 
-  data_miner do
-    tap "Brighter Planet's sanitized zip codes", Earth.taps_server
-    
-    process "pull dependencies" do
-      run_data_miner_on_belongs_to_associations
-    end
+  create_table do
+    string   'name'
+    string   'state_postal_abbreviation'
+    string   'description'
+    string   'latitude'
+    string   'longitude'
+    string   'egrid_subregion_abbreviation'
+    string   'climate_division_name'
   end
 end

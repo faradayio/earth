@@ -8,7 +8,13 @@ class Carrier < ActiveRecord::Base
                 :transport_emission_factor => 0.0005266,
                 :corporate_emission_factor => 0.221
   
-  data_miner do
-    tap "Brighter Planet's shipping company data", Earth.taps_server
+  create_table do
+    string 'name'
+    float  'package_volume'
+    float  'route_inefficiency_factor'
+    float  'transport_emission_factor'
+    string 'transport_emission_factor_units'
+    float  'corporate_emission_factor'
+    string 'corporate_emission_factor_units'
   end
 end

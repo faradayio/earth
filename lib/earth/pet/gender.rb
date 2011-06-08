@@ -3,7 +3,7 @@ class Gender < ActiveRecord::Base
   
   has_many :breed_genders, :foreign_key => 'gender_name'
   
-  data_miner do
-    tap "Brighter Planet's gender info", Earth.taps_server
+  create_table do
+    string 'name'
   end
 end

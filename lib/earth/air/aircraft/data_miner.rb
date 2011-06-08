@@ -20,23 +20,23 @@ Aircraft.class_eval do
     @manufacturer_whitelist ||= RemoteTable.new(:url => 'https://spreadsheets.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdFRFalpOdlg1cnF6amlSM1dDc1lya2c&output=csv').map { |record| record['Manufacturer'].to_regexp }
     @manufacturer_whitelist.any? { |manufacturer_regexp| manufacturer_regexp.match candidate }
   end
+
+  create_table do
+    string  'icao_code'
+    string  'manufacturer_name'
+    string  'model_name'
+    string  'description'
+    string  'aircraft_type'
+    string  'engine_type'
+    integer 'engines'
+    string  'weight_class'
+    string  'class_code'
+    string  'fuel_use_code'
+    float   'seats'
+    float   'passengers'
+  end
   
   data_miner do
-    schema Earth.database_options do
-      string  'icao_code'
-      string  'manufacturer_name'
-      string  'model_name'
-      string  'description'
-      string  'aircraft_type'
-      string  'engine_type'
-      integer 'engines'
-      string  'weight_class'
-      string  'class_code'
-      string  'fuel_use_code'
-      float   'seats'
-      float   'passengers'
-    end
-    
     ('A'..'Z').each do |letter|
       import("aircraft made by whitelisted manufacturers whose ICAO code starts with '#{letter}' from the FAA",
              :url => "http://www.faa.gov/air_traffic/publications/atpubs/CNT/5-2-#{letter}.htm",

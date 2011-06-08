@@ -1,15 +1,5 @@
 Carrier.class_eval do
   data_miner do
-    schema Earth.database_options do
-      string 'name'
-      float  'package_volume'
-      float  'route_inefficiency_factor'
-      float  'transport_emission_factor'
-      string 'transport_emission_factor_units'
-      float  'corporate_emission_factor'
-      string 'corporate_emission_factor_units'
-    end
-    
     import "a list of shipping companies and their characteristics",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdG1ONU1HZDdZTFJNclFYVkRzR0k5Z2c&hl=en&gid=0&output=csv' do
       key   'name'

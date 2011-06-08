@@ -1,11 +1,5 @@
 ResidenceAppliance.class_eval do
   data_miner do
-    schema Earth.database_options do
-      string   'name'
-      float    'annual_energy_from_electricity'
-      string   'annual_energy_from_electricity_units'
-    end
-    
     process "Ensure ResidentialEnergyConsumptionSurveyResponse is populated" do
       ResidentialEnergyConsumptionSurveyResponse.run_data_miner!
     end

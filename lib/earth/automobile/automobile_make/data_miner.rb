@@ -1,13 +1,7 @@
 AutomobileMake.class_eval do
   data_miner do
     process "Start from scratch" do
-      connection.drop_table table_name
-    end
-    
-    schema Earth.database_options do
-      string  'name'
-      float   'fuel_efficiency'
-      string  'fuel_efficiency_units'
+      delete_all
     end
     
     process "Ensure AutomobileMakeModelYearVariant is populated" do

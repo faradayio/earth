@@ -1,24 +1,5 @@
 EgridSubregion.class_eval do
   data_miner do
-    schema Earth.database_options do
-      string 'abbreviation'
-      string 'name'
-      string 'nerc_abbreviation'
-      string 'egrid_region_name'
-      float  'net_generation'
-      string 'net_generation_units'
-      float  'electricity_co2_emission_factor'
-      string 'electricity_co2_emission_factor_units'
-      float  'electricity_co2_biogenic_emission_factor'
-      string 'electricity_co2_biogenic_emission_factor_units'
-      float  'electricity_ch4_emission_factor'
-      string 'electricity_ch4_emission_factor_units'
-      float  'electricity_n2o_emission_factor'
-      string 'electricity_n2o_emission_factor_units'
-      float  'electricity_emission_factor'
-      string 'electricity_emission_factor_units'
-    end
-    
     # FIXME TODO for some reason this doesn't work...
     # import "eGRID regions and electricity emission factors derived from eGRID 2007 data",
     #        :url => 'http://www.epa.gov/cleanenergy/documents/egridzips/eGRID2007_Version1-1.zip',

@@ -1,20 +1,5 @@
 BusFuel.class_eval do
   data_miner do
-    schema Earth.database_options do
-      string 'name'
-      string 'fuel_name'
-      float  'energy_content'
-      string 'energy_content_units'
-      float  'co2_emission_factor'
-      string 'co2_emission_factor_units'
-      float  'co2_biogenic_emission_factor'
-      string 'co2_biogenic_emission_factor_units'
-      float  'ch4_emission_factor'
-      string 'ch4_emission_factor_units'
-      float  'n2o_emission_factor'
-      string 'n2o_emission_factor_units'
-    end
-    
     process "Ensure necessary datasets are imported" do
       Fuel.run_data_miner!
       GreenhouseGas.run_data_miner!

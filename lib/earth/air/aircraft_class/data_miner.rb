@@ -1,18 +1,5 @@
 AircraftClass.class_eval do
   data_miner do
-    schema Earth.database_options do
-      string 'code'
-      float  'm3'
-      string 'm3_units'
-      float  'm2'
-      string 'm2_units'
-      float  'm1'
-      string 'm1_units'
-      float  'b'
-      string 'b_units'
-      float  'seats'
-    end
-    
     process "Ensure Aircraft is populated" do
       Aircraft.run_data_miner!
     end

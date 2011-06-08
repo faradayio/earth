@@ -1,16 +1,5 @@
 AutomobileTypeFuelYearControl.class_eval do
   data_miner do
-    schema Earth.database_options do
-      string  'name'
-      string  'type_name'
-      string  'fuel_common_name'
-      integer 'year'
-      string  'control_name'
-      string  'type_fuel_control_name'
-      string  'type_fuel_year_name'
-      float   'total_travel_percent'
-    end
-    
     import "automobile type fuel year control data derived from the 2010 EPA GHG Inventory",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdGpQV2xMdlZkV1JzVlVTeU5ZalF6elE&hl=en&gid=0&output=csv' do
       key   'name'

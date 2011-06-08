@@ -11,14 +11,6 @@ The data that these models represent can be pulled from http://data.brighterplan
     ft = AutomobileFuel.first
     ...
 
-You can also run data imports via the data_miner gem.
-
-    require 'earth'
-    Earth.init :fuel
-    Earth.taps_server # 'http://user:pass@data.brighterplanet.com'
-
-    DataMiner.run :resource_names #> [FuelPrice]</tt>
-
 ## Collaboration cycle 
 Brighter Planet vigorously encourages collaborative improvement of its emitter libraries. Collaboration requires a (free) GitHub account.
 

@@ -1,15 +1,5 @@
 AutomobileTypeYear.class_eval do
   data_miner do
-    schema Earth.database_options do
-      string  'name'
-      string  'type_name'
-      integer 'year'
-      float   'hfc_emissions'
-      string  'hfc_emissions_units'
-      float   'hfc_emission_factor'
-      string  'hfc_emission_factor_units'
-    end
-    
     import "automobile type year air conditioning emissions derived from the 2010 EPA GHG Inventory",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdFoyTWhDeHpndTV5Ny1aX0sxR1ljSFE&hl=en&gid=0&output=csv' do
       key   'name'

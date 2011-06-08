@@ -1,21 +1,5 @@
 DietClass.class_eval do
   data_miner do
-    schema Earth.database_options do
-      string 'name'
-      float  'intensity'
-      string 'intensity_units'
-      float  'red_meat_share'
-      float  'poultry_share'
-      float  'fish_share'
-      float  'eggs_share'
-      float  'nuts_share'
-      float  'dairy_share'
-      float  'cereals_and_grains_share'
-      float  'fruit_share'
-      float  'vegetables_share'
-      float  'oils_and_sugars_share'
-    end
-    
     import "a Brighter Planet-defined list of diet classes and food group caloric distributions",
            :url => 'http://static.brighterplanet.com/science/data/consumables/diets/diet_classes.csv' do
       key   'name'

@@ -6,7 +6,18 @@ class AutomobileSizeClass < ActiveRecord::Base
                 :conventional_fuel_efficiency_city_multiplier => 0.987,
                 :conventional_fuel_efficiency_highway_multiplier => 0.996
   
-  data_miner do
-    tap "Brighter Planet's sanitized automobile size class data", Earth.taps_server
+  create_table do
+    string 'name'
+    string 'type_name'
+    float  'annual_distance'
+    string 'annual_distance_units'
+    float  'fuel_efficiency_city'
+    string 'fuel_efficiency_city_units'
+    float  'fuel_efficiency_highway'
+    string 'fuel_efficiency_highway_units'
+    float  'hybrid_fuel_efficiency_city_multiplier'
+    float  'hybrid_fuel_efficiency_highway_multiplier'
+    float  'conventional_fuel_efficiency_city_multiplier'
+    float  'conventional_fuel_efficiency_highway_multiplier'
   end
 end

@@ -4,12 +4,6 @@ FuelPrice.class_eval do
   # month/year
 
   data_miner do
-    schema Earth.database_options do
-      string  'name'
-      float   'price'
-      string  'price_units'
-    end
-    
     import 'fuel prices derived from the EIA',
            :url => 'http://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdHlSdXJoOFB5aEpHenJQbTVJdS1pMVE&gid=0&output=csv',
            :select => lambda { |row| row['fuel_type_name'].present? } do

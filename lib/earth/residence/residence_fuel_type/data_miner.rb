@@ -1,13 +1,5 @@
 ResidenceFuelType.class_eval do
   data_miner do
-    schema Earth.database_options do
-      string   'name'
-      float    'emission_factor'
-      string   'emission_factor_units'
-      # float    'energy_content'
-      # string   'energy_content_units'
-    end
-    
     import "a list of residential fuels and their emissions factors",
            :url => 'http://spreadsheets.google.com/pub?key=rukxnmuhhsOsrztTrUaFCXQ&gid=0&output=csv' do
       key 'name'

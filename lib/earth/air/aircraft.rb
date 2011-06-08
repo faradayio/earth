@@ -24,8 +24,6 @@ class Aircraft < ActiveRecord::Base
   cache_loose_tight_dictionary_matches_with :flight_segments, :primary_key => :description, :foreign_key => :aircraft_description
   
   data_miner do
-    tap "Brighter Planet's sanitized aircraft data", Earth.taps_server
-    
     process "pull dependencies" do
       run_data_miner_on_belongs_to_associations
     end

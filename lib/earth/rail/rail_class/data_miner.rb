@@ -1,19 +1,5 @@
 RailClass.class_eval do
   data_miner do
-    schema Earth.database_options do
-      string 'name'
-      string 'description'
-      float  'passengers'
-      float  'distance'
-      string 'distance_units'
-      float  'speed'
-      string 'speed_units'
-      float  'electricity_intensity'
-      string 'electricity_intensity_units'
-      float  'diesel_intensity'
-      string 'diesel_intensity_units'
-    end
-    
     process "Define some unit conversions" do
       Conversions.register :gallons_per_mile, :litres_per_kilometre, 2.35214583
     end

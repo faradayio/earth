@@ -1,11 +1,7 @@
 AircraftManufacturer.class_eval do
   data_miner do
-    process "Start from scratch" do
-      connection.drop_table table_name
-    end
-    
-    schema Earth.database_options do
-      string 'name'
+    process "create from scratch" do
+      delete_all
     end
     
     process "Ensure Aircraft is populated" do

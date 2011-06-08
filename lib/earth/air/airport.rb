@@ -6,12 +6,14 @@ class Airport < ActiveRecord::Base
   acts_as_mappable :default_units => :nms,
                    :lat_column_name => :latitude,
                    :lng_column_name => :longitude
-  
-  data_miner do
-    tap "Brighter Planet's sanitized airports data", Earth.taps_server
-    
-    process "pull dependencies" do
-      run_data_miner_on_belongs_to_associations
-    end
+
+  create_table do
+    string   'iata_code'
+    string   'name'
+    string   'city'
+    string   'country_name'
+    string   'country_iso_3166_code'
+    float    'latitude'
+    float    'longitude'
   end
 end

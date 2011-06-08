@@ -1,34 +1,5 @@
 BusClass.class_eval do
   data_miner do
-    schema Earth.database_options do
-      string 'name'
-      float  'distance'
-      string 'distance_units'
-      float  'passengers'
-      float  'speed'
-      string 'speed_units'
-      float  'gasoline_intensity'
-      string 'gasoline_intensity_units'
-      float  'diesel_intensity'
-      string 'diesel_intensity_units'
-      float  'cng_intensity'
-      string 'cng_intensity_units'
-      float  'lng_intensity'
-      string 'lng_intensity_units'
-      float  'lpg_intensity'
-      string 'lpg_intensity_units'
-      float  'methanol_intensity'
-      string 'methanol_intensity_units'
-      float  'biodiesel_intensity'
-      string 'biodiesel_intensity_units'
-      float  'electricity_intensity'
-      string 'electricity_intensity_units'
-      float  'air_conditioning_emission_factor'
-      string 'air_conditioning_emission_factor_units'
-      float  'alternative_fuels_intensity'
-      string 'alternative_fuels_intensity_units'
-    end
-    
     import "a list of bus classes and pre-calculated trip and fuel use characteristics",
            :url => 'https://spreadsheets.google.com/pub?hl=en&hl=en&key=0AoQJbWqPrREqdGRsSnJoS1hraGJvR012cDROWXFPbVE&gid=0&output=csv' do
       key   'name'

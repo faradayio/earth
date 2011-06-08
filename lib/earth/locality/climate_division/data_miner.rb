@@ -1,12 +1,5 @@
 ClimateDivision.class_eval do
   data_miner do
-    schema Earth.database_options do
-      string   'name'
-      float    'heating_degree_days'
-      float    'cooling_degree_days'
-      string   'state_postal_abbreviation'
-    end
-    
     import "a list of climate divisions and their average heating and cooling degree days",
            :url => 'http://static.brighterplanet.com/science/data/climate/climate_divisions/climate_divisions.csv' do
       key 'name'

@@ -1,21 +1,5 @@
 Fuel.class_eval do
   data_miner do
-    schema Earth.database_options do
-      string 'name'
-      float  'density'
-      string 'density_units'
-      float  'energy_content'
-      string 'energy_content_units'
-      float  'carbon_content'
-      string 'carbon_content_units'
-      float  'oxidation_factor'
-      float  'biogenic_fraction'
-      float  'co2_emission_factor'
-      string 'co2_emission_factor_units'
-      float  'co2_biogenic_emission_factor'
-      string 'co2_biogenic_emission_factor_units'
-    end
-    
     process "Ensure FuelYear is populated" do
       FuelYear.run_data_miner!
     end

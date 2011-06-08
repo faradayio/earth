@@ -10,7 +10,9 @@ class ResidenceAppliance < ActiveRecord::Base
     end
   end
 
-  data_miner do
-    tap "Brighter Planet's residence appliance energy information", Earth.taps_server
+  create_table do
+    string   'name'
+    float    'annual_energy_from_electricity'
+    string   'annual_energy_from_electricity_units'
   end
 end

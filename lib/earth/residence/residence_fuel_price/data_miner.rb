@@ -102,20 +102,6 @@ ResidenceFuelPrice.class_eval do
   end
 
   data_miner do
-    schema Earth.database_options do
-      string  'row_hash'
-      string 'residence_fuel_type_name'
-      integer 'year'
-      integer 'month'
-      float   'price'
-      string  'price_units'
-      string  'price_description'
-      string  'locatable_id'
-      string  'locatable_type'
-      index   ['price', 'residence_fuel_type_name', 'month', 'year', 'locatable_type', 'locatable_id']
-      index   ['price', 'residence_fuel_type_name']
-    end
-    
     process "Define some unit conversions" do
       Conversions.register :dollars, :cents, 100
       Conversions.register :cubic_feet, :cubic_metres, 0.0283168466 # TODO conversions gem has 'cubic_metres'

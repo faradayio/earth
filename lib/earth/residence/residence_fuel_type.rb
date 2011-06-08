@@ -3,8 +3,12 @@ class ResidenceFuelType < ActiveRecord::Base
   
   has_many :prices, :class_name => 'ResidenceFuelPrice', :foreign_key => 'residence_fuel_type_name'
   
-  data_miner do
-    tap "Brighter Planet's residence fuel types data", Earth.taps_server
+  create_table do
+    string   'name'
+    float    'emission_factor'
+    string   'emission_factor_units'
+    # float    'energy_content'
+    # string   'energy_content_units'
   end
   
   def price_per_unit(relaxations = [])

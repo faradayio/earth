@@ -1,6 +1,5 @@
 require 'active_record'
 require 'cohort_scope'
-require 'earth/base'
 require 'earth/conversions_ext'
 require 'earth/inflectors'
 require 'data_miner'
@@ -8,31 +7,33 @@ require 'falls_back_on'
 require 'weighted_average'
 require 'fixed_width'
 require 'errata'
+require 'create_table'
 
-# The earth module is an interface for establishing a taps server (used to fetch 
-# data) and for loading data models from various domains.
+# hackety hack
+def INSERT_IGNORE(cmd)
+  if ActiveRecord::Base.connection.adapter_name.downcase == 'sqlite'
+    prefix = 'INSERT'
+  else
+    prefix = 'INSERT IGNORE'
+  end
+  ActiveRecord::Base.connection.execute "#{prefix} #{cmd}"
+end
+
+# The earth module is an interface for loading data models from various domains.
 module Earth
   extend self
 
-  def taps_server
-    @taps_server || 'http://carbon:neutral@data.brighterplanet.com:5000'
-  end
-
-  # taps_server is a URL. See the data_miner gem docs
-  def taps_server=(val)
-    @taps_server = val
-  end
-  
-  # Takes argument like Earth.resource_names(['air'])
+  # Takes argument like Earth.search(['air'])
   # Default is search all domains
   # For example, <tt>[ 'Aircraft', 'Airline' ]</tt>
-  def resource_names(search_domains = nil)
-    if search_domains.nil?
-      resources.keys
+  def search(search_domains = :all)
+    if search_domains == :all
+      resources
     else
-      resources.inject([]) do |list, (name, data)|
-        list << name if search_domains.include? data[:domain]
-        list
+      resource_map.select do |resource, domain|
+        search_domains.include? domain.to_sym
+      end.map do |resource, domain|
+        resource
       end
     end
   end
@@ -42,21 +43,24 @@ module Earth
   end
 
   def domains
-    @domains ||= resources.map { |(name, data)| data[:domain] }.uniq.sort
+    resource_map.values.uniq.sort
+  end
+  
+  def resources
+    resource_map.keys.sort
   end
 
-  def resources
-    return @resources unless @resources.nil?
-    earth_files = Dir[File.join(Earth.gem_root, 'lib', 'earth', '*')]
-    domain_dirs = earth_files.find_all { |f| File.directory?(f) }
-    @resources = domain_dirs.inject({}) do |hsh, domain_dir|
-      Dir[File.join(domain_dir, '*.rb')].each do |resource_file|
-        resource_camel = File.basename(resource_file, '.rb').camelcase
-        unless resource_camel == 'DataMiner'
-          hsh[resource_camel] = { :domain => File.basename(domain_dir) }
+  def resource_map
+    @resource_map ||= Dir[File.join(gem_root, 'lib', 'earth', '*')].select do |path|
+      File.directory? path
+    end.inject({}) do |memo, domain_path|
+      Dir[File.join(domain_path, '*.rb')].each do |resource_path|
+        resource = File.basename(resource_path, '.rb').camelcase
+        unless resource == 'DataMiner'
+          memo[resource] = File.basename domain_path
         end
       end
-      hsh
+      memo
     end
   end
 
@@ -68,85 +72,94 @@ module Earth
   # Earth.init should be performed after a connection is made to the database and 
   # before any domain models are referenced.
   def init(*args)
-    load_plugins
+    options = args.last.is_a?(Hash) ? args.pop.symbolize_keys : {}
+    domains = args.empty? ? [ :all ] : args.map(&:to_sym)
+    selected_resources = search domains
 
-    domains = []
-    options = {}
-    args.each do |arg|
-      if arg.is_a?(Hash)
-        options = arg
-      else
-        domains << arg
-      end
-    end
-
-    load_domains(domains, options)
-    load_schemas(options) if options[:apply_schemas]
+    _load_plugins
+    _load_domains domains, options
+    _decorate_resources selected_resources, options
+    _load_schemas selected_resources, options
   end
 
-  def database_options
-    if ActiveRecord::Base.connection.adapter_name.downcase == 'sqlite'
-      {}
-    else
-      { :options => 'ENGINE=InnoDB default charset=utf8 collate=utf8_general_ci' }
-    end
-  end
-
-private
-  def load_domains(domains, options)
+  private
+  
+  # TODO sabshere don't use directories to specify domains
+  # * you have 20 million data_miner.rb files which are easy to confuse
+  # * you have to go all over the filesystem to figure things out
+  def _load_domains(domains, options)
     if domains.empty? or domains.include?(:all)
       # sabshere 9/16/10 why maintain this separately?
       require 'earth/all'
       require 'earth/data_miner' if options[:apply_schemas] or options[:load_data_miner]
-    elsif !domains.include?(:none)
+    else
       domains.each do |domain| 
         require "earth/#{domain}"
-        if options[:apply_schemas] or options[:load_data_miner]
-          begin
-            require "earth/#{domain}/data_miner"
-          rescue LoadError
-          end
-        end
+        require "earth/#{domain}/data_miner" if options[:apply_schemas] or options[:load_data_miner]
       end
     end
   end
 
-  def load_plugins
-    require 'earth/active_record_ext'
+  def _load_plugins
     Dir[File.join(Earth.gem_root, 'vendor', '**', 'init.rb')].each do |pluginit|
       $:.unshift File.join(File.dirname(pluginit), 'lib')
       load pluginit
     end
   end
+  
+  PULL_DEPEDENCIES_STEP = 'Pull dependencies implied by belongs-to associations'
+  def _prepend_pull_dependencies_step_to_data_miner(resource)
+    resource_model = resource.constantize
+    return if resource_model.data_miner_config.steps.any? { |step| step.description == PULL_DEPEDENCIES_STEP }
 
-  def load_schemas(options = {})
-    load_data_miner_schemas(options)
+    pull_dependencies_step = DataMiner::Process.new(resource_model.data_miner_config, PULL_DEPEDENCIES_STEP) do
+      resource_model.reflect_on_all_associations(:belongs_to).each do |assoc|
+        next if assoc.options[:polymorphic]
+        assoc.klass.run_data_miner!
+      end
+    end
+
+    resource_model.data_miner_config.steps.unshift pull_dependencies_step
   end
+  
+  CREATE_TABLE_STEP = 'Create a table using the create_table gem'
+  def _prepend_create_table_step_to_data_miner(resource)
+    resource_model = resource.constantize
+    return if resource_model.data_miner_config.steps.any? { |step| step.description == CREATE_TABLE_STEP }
 
-  def load_data_miner_schemas(options = {})
-    models = Module.constants.select do |k|
-      const = Object.const_get(k) if Object.const_defined?(k)
-      if const.instance_of?(Class)
-        const.superclass == ActiveRecord::Base || 
-          const.superclass == Earth::Base
+    create_table_step = DataMiner::Process.new(resource_model.data_miner_config, CREATE_TABLE_STEP) do
+      resource_model.create_table!
+    end
+
+    resource_model.data_miner_config.steps.unshift create_table_step
+  end
+  
+  TAPS_STEP = 'Tap the Brighter Planet data server'
+  TAPS_SOURCE = 'http://carbon:neutral@data.brighterplanet.com'
+  def _prepend_taps_step_to_data_miner(resource)
+    resource_model = resource.constantize
+    return if resource_model.data_miner_config.steps.any? { |step| step.description == TAPS_STEP }
+    
+    taps_step = DataMiner::Tap.newresource_model.data_miner_config, TAPS_STEP, TAPS_SOURCE
+    
+    resource_model.data_miner_config.steps.unshift taps_step
+  end
+  
+  def _decorate_resources(selected_resources, options)
+    selected_resources.each do |resource|
+      _prepend_pull_dependencies_step_to_data_miner resource
+      if options[:apply_schemas] or options[:load_data_miner]
+        _prepend_create_table_step_to_data_miner resource
       else
-        false
-      end
-    end
-    models.sort.each do |model|
-      klass = Object.const_get(model)
-      if klass.respond_to?(:execute_schema) and (!klass.table_exists? || options[:force_schema])
-        klass.execute_schema 
+        _prepend_taps_step_to_data_miner resource
       end
     end
   end
-end
-
-def INSERT_IGNORE(cmd)
-  if ActiveRecord::Base.connection.adapter_name.downcase == 'sqlite'
-    prefix = 'INSERT'
-  else
-    prefix = 'INSERT IGNORE'
+  
+  def _load_schemas(selected_resources, options)
+    return unless options[:apply_schemas] or options[:load_data_miner]
+    selected_resources.each do |resource|
+      resource.constantize.create_table!
+    end
   end
-  ActiveRecord::Base.connection.execute "#{prefix} #{cmd}"
 end

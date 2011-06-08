@@ -1,28 +1,5 @@
 CensusDivision.class_eval do
   data_miner do
-    schema Earth.database_options do
-      integer 'number'
-      string  'name'
-      string  'census_region_name'
-      integer 'census_region_number'
-      float   'meeting_building_natural_gas_intensity'
-      string  'meeting_building_natural_gas_intensity_units'
-      float   'meeting_building_fuel_oil_intensity'
-      string  'meeting_building_fuel_oil_intensity_units'
-      float   'meeting_building_electricity_intensity'
-      string  'meeting_building_electricity_intensity_units'
-      float   'meeting_building_district_heat_intensity'
-      string  'meeting_building_district_heat_intensity_units'
-      float   'lodging_building_natural_gas_intensity'
-      string  'lodging_building_natural_gas_intensity_units'
-      float   'lodging_building_fuel_oil_intensity'
-      string  'lodging_building_fuel_oil_intensity_units'
-      float   'lodging_building_electricity_intensity'
-      string  'lodging_building_electricity_intensity_units'
-      float   'lodging_building_district_heat_intensity'
-      string  'lodging_building_district_heat_intensity_units'
-    end
-    
     process 'Define some unit conversions' do
       Conversions.register :hundred_cubic_feet_per_square_foot_hour, :cubic_metres_per_square_metre_hour,   30.48
       Conversions.register :gallons_per_square_foot_hour,            :litres_per_square_metre_hour,         40.7458333

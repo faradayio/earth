@@ -11,7 +11,12 @@ class FoodGroup < ActiveRecord::Base
     end
   end
   
-  data_miner do
-    tap "Brighter Planet's food group data", Earth.taps_server
+  create_table do
+    string  'name'
+    float   'intensity'
+    string  'intensity_units'
+    float   'energy'
+    string  'energy_units'
+    string  'suggested_imperial_measurement' # ?
   end
 end

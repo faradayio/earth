@@ -173,49 +173,6 @@ FlightSegment.class_eval do
   }.gsub /[\s]+/,''
   
   data_miner do
-    schema Earth.database_options do
-      string  'row_hash'                          # auto-generated primary key
-      string  'origin_airport_iata_code'          # iata code
-      string  'origin_airport_city'               # city
-      string  'origin_country_iso_3166_code'      # iso code
-      string  'destination_airport_iata_code'     # iata code
-      string  'destination_airport_city'          # city
-      string  'destination_country_iso_3166_code' # iso code
-      string  'airline_bts_code'                  # bts code
-      string  'airline_icao_code'                 # icao code
-      string  'airline_name'                      # text description derived from bts or icao code
-      string  'aircraft_bts_code'                 # bts code
-      string  'aircraft_description'              # text description derived from BTS T100 or ICAO TFS
-      integer 'flights'                           # number of flights over month or year
-      integer 'passengers'                        # total passengers on all flights
-      integer 'seats'                             # total seats on all flights
-      float   'seats_per_flight'                  # average seats per flight; make this a float
-      float   'load_factor'                       # passengers / seats
-      float   'freight_share'                     # (freight + mail) / (freight + mail + (passengers * average passenger weight))
-      float   'distance'                          # flight distance
-      string  'distance_units'                    # 'kilometres'
-      float   'payload_capacity'                  # aircraft maximum payload capacity rating; float b/c unit conversion
-      string  'payload_capacity_units'            # 'kilograms'
-      float   'freight'                           # total freight on all flights performed; float b/c unit conversion
-      string  'freight_units'                     # 'kilograms'
-      float   'mail'                              # total mail on all flights performed; float b/c unit conversion
-      string  'mail_units'                        # 'kilograms'
-      integer 'month'                             # month of flight
-      integer 'year'                              # year of flight
-      date    'approximate_date'                  # assumed 14th day of month
-      string  'source'                            # 'BTS T100' or 'ICAO TFS'
-      index   'origin_airport_iata_code'          # index for faster lookup by origin airport
-      index   'origin_airport_city'               # index for faster lookup by origin city
-      index   'destination_airport_iata_code'     # index for faster lookup by destination airport
-      index   'destination_airport_city'          # index for faster lookup by destination city
-      index   'airline_bts_code'                  # index for faster lookup by airline bts code
-      index   'airline_icao_code'                 # index for faster lookup by airline icao code
-      index   'airline_name'                      # index for faster lookup by airline name
-      index   'aircraft_bts_code'                 # index for faster lookup by aircraft bts code
-      index   'aircraft_description'              # index for faster lookup by aircraft
-      index   'year'                              # index for faster lookup by year
-    end
-    
     months = Hash.new
     (2009..2010).each do |year|
       (1..12).each do |month|

@@ -7,7 +7,8 @@ class CensusRegion < ActiveRecord::Base
   # has_many :zip_codes, :through => :census_divisions
   has_many :residential_energy_consumption_survey_responses, :foreign_key => 'census_region_number'
   
-  data_miner do
-    tap "Brighter Planet's sanitized census regions", Earth.taps_server
+  create_table do
+    integer  'number'
+    string   'name'
   end
 end

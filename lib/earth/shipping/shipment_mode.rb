@@ -3,7 +3,10 @@ class ShipmentMode < ActiveRecord::Base
   
   has_many :carrier_modes, :foreign_key => 'mode_name', :primary_key => 'name'
   
-  data_miner do
-    tap "Brighter Planet's shipment mode data", Earth.taps_server
+  create_table do
+    string 'name'
+    float  'route_inefficiency_factor'
+    float  'transport_emission_factor'
+    string 'transport_emission_factor_units'
   end
 end

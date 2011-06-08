@@ -1,29 +1,5 @@
 AutomobileFuel.class_eval do
   data_miner do
-    schema Earth.database_options do
-      string 'name'
-      string 'code'
-      string 'base_fuel_name'
-      string 'blend_fuel_name'
-      float  'blend_portion' # the portion of the blend that is the blend fuel
-      string 'distance_key' # used to look up annual distance from AutomobileTypeFuelYear
-      string 'ef_key' # used to look up ch4 n2o and hfc emission factors from AutomobileTypeFuelYear
-      float  'annual_distance'
-      string 'annual_distance_units'
-      float  'co2_emission_factor'
-      string 'co2_emission_factor_units'
-      float  'co2_biogenic_emission_factor'
-      string 'co2_biogenic_emission_factor_units'
-      float  'ch4_emission_factor'
-      string 'ch4_emission_factor_units'
-      float  'n2o_emission_factor'
-      string 'n2o_emission_factor_units'
-      float  'hfc_emission_factor'
-      string 'hfc_emission_factor_units'
-      float  'emission_factor' # DEPRECATED but motorcycle needs this
-      string 'emission_factor_units' # DEPRECATED but motorcycle needs this
-    end
-    
     import "a list of pure automobile fuels",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdE9xTEdueFM2R0diNTgxUlk1QXFSb2c&gid=0&output=html' do
       key   'name'

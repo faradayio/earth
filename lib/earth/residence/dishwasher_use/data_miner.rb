@@ -1,11 +1,5 @@
 DishwasherUse.class_eval do
   data_miner do
-    schema do
-      string 'name'
-      float 'annual_energy_from_electricity_for_dishwashers'
-      string 'annual_energy_from_electricity_for_dishwashers_units'
-    end
-    
     process "Ensure ResidentialEnergyConsumptionSurveyResponse is populated" do
       ResidentialEnergyConsumptionSurveyResponse.run_data_miner!
     end

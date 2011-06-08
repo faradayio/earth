@@ -1,16 +1,7 @@
 AutomobileMakeYear.class_eval do
   data_miner do
     process "Start from scratch" do
-      connection.drop_table table_name
-    end
-    
-    schema Earth.database_options do
-      string   'name'
-      string   'make_name'
-      integer  'year'
-      float    'fuel_efficiency'
-      string   'fuel_efficiency_units'
-      integer  'volume' # This will sometimes be null because not all make_years have CAFE data
+      delete_all
     end
     
     process "Ensure AutomobileMakeModelYearVariant is populated" do

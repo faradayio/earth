@@ -5,20 +5,6 @@ FuelType.class_eval do
   # gas-specific emissions factors
   
   data_miner do
-    schema Earth.database_options do
-      string 'name'
-      float  'emission_factor'
-      string 'emission_factor_units'
-      float  'density'
-      string 'density_units'
-      float  'average_purchase_volume'
-      string 'average_purchase_volume_units'
-      # float    'energy_content'
-      # string   'energy_content_units'
-      # float    'carbon_content'
-      # string   'carbon_content_units'
-    end
-    
     # process "Define some necessary conversions" do
     #   Conversions.register :teragrams_per_quadrillion_british_thermal_units, :kilograms_per_joule,         0.000000000947817123
     #   Conversions.register :million_british_thermal_units_per_short_ton,     :joules_per_kilogram,         1.16300000

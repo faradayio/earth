@@ -9,7 +9,7 @@ class ResidenceClass < ActiveRecord::Base
     CLASSIFICATIONS.detect { |c| name.downcase.include? c }
   end
 
-  data_miner do
-    tap "Brighter Planet's sanitized residence class data", Earth.taps_server
+  create_table do
+    string :name
   end
 end

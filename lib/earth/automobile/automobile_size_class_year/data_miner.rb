@@ -1,16 +1,5 @@
 AutomobileSizeClassYear.class_eval do
   data_miner do
-    schema Earth.database_options do
-      string  'name'
-      string  'size_class_name'
-      integer 'year'
-      string  'type_name'
-      float   'fuel_efficiency_city'
-      string  'fuel_efficiency_city_units'
-      float   'fuel_efficiency_highway'
-      string  'fuel_efficiency_highway_units'
-    end
-    
     import "automobile size class year fuel efficiencies from the 2010 EPA Fuel Economy Trends report",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdDZOLWdDdlZja04xZkJYc3NjeGxQamc&hl=en&gid=0&output=csv' do
       key 'name'

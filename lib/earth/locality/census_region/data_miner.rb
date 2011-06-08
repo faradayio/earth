@@ -1,10 +1,5 @@
 CensusRegion.class_eval do
   data_miner do
-    schema Earth.database_options do
-      integer  'number'
-      string   'name'
-    end
-    
     import 'the U.S. Census Geographic Terms and Definitions',
            :url => 'http://www.census.gov/popest/geographic/codes02.csv',
            :skip => 9,

@@ -1,5 +1,4 @@
 class MerchantCategory < ActiveRecord::Base
-  extend Earth::Base
   set_primary_key :mcc
 
   has_many :merchant_category_industries, :foreign_key => 'mcc'
@@ -9,14 +8,12 @@ class MerchantCategory < ActiveRecord::Base
     description
   end
 
-  def self.schema_definition
-    lambda do
-      string 'mcc'
-      string 'description'
-    end
+  create_table do
+    string 'mcc'
+    string 'description'
   end
 
   data_miner do
-    MerchantCategory.define_schema(self)
+    # Intentionally left blank.
   end
 end
