@@ -234,6 +234,7 @@ FlightSegment.class_eval do
              :form_data => form_data,
              :compression => :zip,
              :glob => '/*.csv',
+             # FIXME TODO 6/6/2011 the errata doesn't work - still doesn't fill in missing airline in May and July 2009
              :errata => { :url => 'https://spreadsheets.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdGxpYU1qWFR3d0syTVMyQVVOaDd0V3c&output=csv', :responder => FlightSegment::Guru.new },
              :select => lambda { |record| record['DEPARTURES_PERFORMED'].to_i > 0 } do
         key 'row_hash'
