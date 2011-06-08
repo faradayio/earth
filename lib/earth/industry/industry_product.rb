@@ -12,8 +12,4 @@ class IndustryProduct < ActiveRecord::Base
     string 'value_units'
     string 'naics_code'
   end
-
-  data_miner do
-    # Intentionally left blank.
-  end
 end

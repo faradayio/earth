@@ -32,8 +32,4 @@ class AircraftFuelUseEquation < ActiveRecord::Base
     float  'b'
     string 'b_units'
   end
-  
-  data_miner do
-    # intentionally left blank.
-  end
 end

@@ -22,10 +22,4 @@ class Aircraft < ActiveRecord::Base
   
   # Enable aircraft.flight_segments
   cache_loose_tight_dictionary_matches_with :flight_segments, :primary_key => :description, :foreign_key => :aircraft_description
-  
-  data_miner do
-    process "pull dependencies" do
-      run_data_miner_on_belongs_to_associations
-    end
-  end
 end

@@ -12,8 +12,4 @@ class MerchantCategory < ActiveRecord::Base
     string 'mcc'
     string 'description'
   end
-
-  data_miner do
-    # Intentionally left blank.
-  end
 end

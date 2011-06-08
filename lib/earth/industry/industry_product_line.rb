@@ -10,8 +10,4 @@ class IndustryProductLine < ActiveRecord::Base
     float  'ratio'
     string 'ps_code'
   end
-
-  data_miner do
-    # Intentionally left blank.
-  end
 end

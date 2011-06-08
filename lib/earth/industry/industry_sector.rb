@@ -10,8 +10,4 @@ class IndustrySector < ActiveRecord::Base
     float  'ratio'
     string 'io_code'
   end
-
-  data_miner do
-    # Intentionally left blank.
-  end
 end

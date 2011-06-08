@@ -12,8 +12,4 @@ class ProductLine < ActiveRecord::Base
     string 'broadline' # FIXME TODO do we need this?
     string 'parent'    # FIXME TODO do we need this?
   end
-
-  data_miner do
-    # Intentionally left blank.
-  end
 end

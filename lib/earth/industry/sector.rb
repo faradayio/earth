@@ -9,8 +9,4 @@ class Sector < ActiveRecord::Base
     float  'value'
     string 'value_units'
   end
-
-  data_miner do
-    # Intentionally left blank.
-  end
 end

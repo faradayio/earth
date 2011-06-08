@@ -8,8 +8,4 @@ class Merchant < ActiveRecord::Base
     string 'name'
     string 'mcc'
   end
-
-  data_miner do
-    # Intentionally left blank.
-  end
 end

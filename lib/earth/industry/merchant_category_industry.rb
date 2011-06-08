@@ -10,8 +10,4 @@ class MerchantCategoryIndustry < ActiveRecord::Base
     float  'ratio'
     string 'naics_code'
   end
-
-  data_miner do
-    # Intentionally left blank.
-  end
 end

@@ -10,8 +10,4 @@ class ProductLineIndustryProduct < ActiveRecord::Base
     float  'ratio'
     string 'naics_product_code'
   end
-
-  data_miner do
-    # Intentionally left blank.
-  end
 end

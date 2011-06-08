@@ -23,8 +23,4 @@ class AircraftClass < ActiveRecord::Base
     string 'b_units'
     float  'seats'
   end
-  
-  data_miner do
-    # intentionally left blank.
-  end
 end
