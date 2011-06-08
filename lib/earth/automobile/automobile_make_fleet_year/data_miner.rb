@@ -24,34 +24,31 @@ AutomobileMakeFleetYear.class_eval do
       store 'volume'
     end
     
-    verify "Year should be from 1978 to 2009" do
-      AutomobileMakeFleetYear.all.each do |fleet_year|
-        unless fleet_year.year > 1977 and fleet_year.year < 2010
-          raise "Invalid year for AutomobileMakeFleetYear #{fleet_year.name}: #{fleet_year.year} (should be from 1978 to 2009)"
+    verify "Year should be from 1978 to 2010" do
+      AutomobileMakeFleetYear.find_by_sql("SELECT DISTINCT year FROM automobile_make_fleet_years").map(&:year).each do |year|
+        unless year > 1977 and year < 2011
+          raise "Invalid year in automobile_make_fleet_years: #{year} is not from 1978 to 2010"
         end
       end
     end
     
-    verify "Fuel efficiency should be greater than zero" do
-      AutomobileMakeFleetYear.all.each do |fleet_year|
-        unless fleet_year.fuel_efficiency > 0
-          raise "Invalid fuel efficiency for AutomobileMakeFleetYear #{fleet_year.name}: #{fleet_year.fuel_efficiency} (should be > 0)"
+    verify "Fuel efficiency and volume should be greater than zero" do
+      [:fuel_efficiency, :volume].each do |field|
+        if AutomobileMakeFleetYear.where(field => nil).any?
+          raise "Invalid #{field} in automobile_make_fleet_years: nil is not > 0"
+        else
+          min = AutomobileMakeFleetYear.minimum(field)
+          unless min > 0
+            raise "Invalid #{field} in automobile_make_fleet_years: #{min} is not > 0"
+          end
         end
       end
     end
     
     verify "Fuel efficiency units should be kilometres per litre" do
-      AutomobileMakeFleetYear.all.each do |fleet_year|
-        unless fleet_year.fuel_efficiency_units == "kilometres_per_litre"
-          raise "Invalid fuel efficiency units for AutomobileMakeFleetYear #{fleet_year.name}: #{fleet_year.fuel_efficiency_units} (should be kilometres_per_litre)"
-        end
-      end
-    end
-    
-    verify "Volume should be greater than zero" do
-      AutomobileMakeFleetYear.all.each do |fleet_year|
-        unless fleet_year.volume > 0
-          raise "Invalid volume for AutomobileMakeFleetYear #{fleet_year.name}: #{fleet_year.volume} (should be > 0)"
+      AutomobileMakeFleetYear.find_by_sql("SELECT DISTINCT fuel_efficiency_units FROM automobile_make_fleet_years").map(&:fuel_efficiency_units).each do |units|
+        unless units == "kilometres_per_litre"
+          raise "Invalid fuel efficiency units in automobile_make_fleet_years: #{units} is not 'kilometres_per_litre'"
         end
       end
     end
