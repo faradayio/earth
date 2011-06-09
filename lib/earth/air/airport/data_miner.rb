@@ -43,11 +43,10 @@ Airport.class_eval do
       Country.run_data_miner!
     end
     
-    process "Replace country names with country ISO 3166 codes" do
-      connection.select_values("SELECT DISTINCT country_name FROM airports WHERE country_name IS NOT NULL").each do |name|
-        if country = Country.find_by_name(name)
-          update_all %{country_iso_3166_code = "#{country.iso_3166_code}"}, %{country_name = "#{name}"}
-        end
+    process "Fill in blank country codes" do
+      Country.find_each do |country|
+        next unless country.name.present? and country.iso_3166_code.present?
+        update_all %{country_iso_3166_code = "#{country.iso_3166_code}"}, %{country_name LIKE "#{country.name}"}
       end
     end
     
