@@ -135,7 +135,7 @@ module Earth
     resource_model = resource.constantize
     return if resource_model.data_miner_config.steps.any? { |step| step.description == TAPS_STEP }
     
-    taps_step = DataMiner::Tap.newresource_model.data_miner_config, TAPS_STEP, TAPS_SOURCE
+    taps_step = DataMiner::Tap.new resource_model.data_miner_config, TAPS_STEP, TAPS_SOURCE
     
     resource_model.data_miner_config.steps.unshift taps_step
   end
