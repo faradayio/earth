@@ -1,5 +1,5 @@
 # need this to run flight_segment.cache_aircraft!
-require 'loose_tight_dictionary/cached_result'
+require 'loose_tight_dictionary'
 
 FlightSegment.class_eval do
   # For import errata

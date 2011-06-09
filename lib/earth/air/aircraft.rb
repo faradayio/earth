@@ -1,5 +1,5 @@
 # need this for association with FlightSegment through loose_tight_dictionary_cached_results
-require 'loose_tight_dictionary/cached_result'
+require 'loose_tight_dictionary'
 
 class Aircraft < ActiveRecord::Base
   set_primary_key :icao_code
