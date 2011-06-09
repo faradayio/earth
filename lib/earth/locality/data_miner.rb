@@ -8,3 +8,5 @@ require 'earth/locality/petroleum_administration_for_defense_district/data_miner
 require 'earth/locality/state/data_miner'
 require 'earth/locality/urbanity/data_miner'
 require 'earth/locality/zip_code/data_miner'
+
+require 'earth/automobile/data_miner'

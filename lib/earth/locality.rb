@@ -8,3 +8,5 @@ require 'earth/locality/petroleum_administration_for_defense_district'
 require 'earth/locality/state'
 require 'earth/locality/urbanity'
 require 'earth/locality/zip_code'
+
+require 'earth/automobile'
