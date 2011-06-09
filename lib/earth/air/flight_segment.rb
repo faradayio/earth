@@ -1,6 +1,3 @@
-# need this for association with Aircraft through loose_tight_dictionary_cached_results
-require 'loose_tight_dictionary'
-
 class FlightSegment < ActiveRecord::Base
   set_primary_key :row_hash
   

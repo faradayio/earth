@@ -8,6 +8,8 @@ require 'weighted_average'
 require 'fixed_width'
 require 'errata'
 require 'create_table'
+require 'loose_tight_dictionary'
+require 'loose_tight_dictionary/cached_result'
 
 # hackety hack
 def INSERT_IGNORE(cmd)
