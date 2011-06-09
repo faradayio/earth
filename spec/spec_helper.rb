@@ -11,12 +11,8 @@ require 'earth'
 logger = Logger.new $stderr
 logger.level = Logger::DEBUG
 
-ActiveRecord::Base.establish_connection(
-  'adapter' => 'mysql',
-  'database' => 'test_earth',
-  'username' => 'root',
-  'password' => 'password'
-)
+ActiveRecord::Base.establish_connection :adapter => 'sqlite3', :database => ':memory:'
+
 ActiveRecord::Base.logger = logger
 
 DataMiner.logger = logger
