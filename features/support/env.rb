@@ -1,15 +1,24 @@
 require 'rubygems'
 require 'bundler'
-
 Bundler.setup
-
+require 'logger'
+require 'active_record'
+require 'data_miner'
+$LOAD_PATH.unshift(File.dirname(__FILE__))
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'earth'
 
-require 'data_miner'
-DataMiner.logger = Logger.new 'log/test.log'
+logger = Logger.new $stderr
+logger.level = Logger::DEBUG
 
-require 'active_record'
-require 'sqlite3'
-ActiveRecord::Base.logger = Logger.new 'log/test.log'
-ActiveRecord::Base.establish_connection :adapter => 'sqlite3', :database => ':memory:'
+ActiveRecord::Base.establish_connection(
+  'adapter' => 'mysql',
+  'database' => 'test_earth',
+  'username' => 'root',
+  'password' => 'password'
+)
+ActiveRecord::Base.logger = logger
+
+DataMiner.logger = logger
+
 Earth.init :all, :apply_schemas => true

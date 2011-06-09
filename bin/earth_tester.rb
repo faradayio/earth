@@ -14,12 +14,12 @@ end
 require 'active_support/all'
 require 'active_record'
 
-ActiveRecord::Schema.verbose = false
-begin
-  ActiveRecord::Base.establish_connection(:adapter => 'sqlite3', :database => ':memory:')
-rescue ArgumentError
-  ActiveRecord::Base.establish_connection(:adapter => 'sqlite3', :dbfile => ':memory:')
-end
+ActiveRecord::Base.establish_connection(
+  'adapter' => 'mysql',
+  'database' => 'test_earth',
+  'username' => 'root',
+  'password' => 'password'
+)
 
 require 'earth'
 

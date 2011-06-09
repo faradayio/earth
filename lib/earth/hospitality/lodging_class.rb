@@ -11,5 +11,10 @@ class LodgingClass < ActiveRecord::Base
     string 'fuel_oil_intensity'
     float  'district_heat_intensity'
     string 'district_heat_intensity'
+
+    string 'natural_gas_intensity_units'
+    string 'fuel_oil_intensity_units'
+    string 'electricity_intensity_units'
+    string 'district_heat_intensity_units'
   end
 end

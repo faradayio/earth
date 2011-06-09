@@ -26,8 +26,9 @@ module Earth
   # Takes argument like Earth.search(['air'])
   # Default is search all domains
   # For example, <tt>[ 'Aircraft', 'Airline' ]</tt>
-  def search(search_domains = :all)
-    if search_domains == :all
+  def search(*search_domains)
+    search_domains = search_domains.empty? ? [:all] : search_domains.flatten.map(&:to_sym)
+    if search_domains.include? :all
       resources
     else
       resource_map.select do |resource, domain|
@@ -88,6 +89,7 @@ module Earth
   # * you have 20 million data_miner.rb files which are easy to confuse
   # * you have to go all over the filesystem to figure things out
   def _load_domains(domains, options)
+    return if domains.include? :none
     if domains.empty? or domains.include?(:all)
       # sabshere 9/16/10 why maintain this separately?
       require 'earth/all'
@@ -146,7 +148,7 @@ module Earth
       end
     end
   end
-  
+
   def _load_schemas(selected_resources, options)
     return unless options[:apply_schemas] or options[:load_data_miner]
     selected_resources.each do |resource|
