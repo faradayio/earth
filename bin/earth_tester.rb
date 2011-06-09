@@ -18,11 +18,15 @@ ActiveRecord::Base.establish_connection(
   'adapter' => 'mysql',
   'database' => 'test_earth',
   'username' => 'root',
-  'password' => 'password'
+  'password' => 'password',
+  'encoding' => 'utf8' # very, very important
 )
 
 require 'earth'
 
 Earth.init ARGV[0], :load_data_miner => true, :apply_schemas => true
+
+ActiveRecord::Base.logger = Logger.new $stderr
+ActiveRecord::Base.logger.level = Logger::INFO
 
 ARGV[1].camelcase.constantize.run_data_miner!
