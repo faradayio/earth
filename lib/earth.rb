@@ -77,12 +77,11 @@ module Earth
   def init(*args)
     options = args.last.is_a?(Hash) ? args.pop.symbolize_keys : {}
     domains = args.empty? ? [ :all ] : args.map(&:to_sym)
-    selected_resources = search domains
 
     _load_plugins
     _load_domains domains, options
-    _decorate_resources selected_resources, options
-    _load_schemas selected_resources, options
+    _decorate_resources options
+    _load_schemas search(domains), options
   end
 
   private
@@ -111,13 +110,13 @@ module Earth
     end
   end
   
-  def _prepend_pull_dependencies_step_to_data_miner(resource)
+  def _append_pull_dependencies_step_to_data_miner(resource)
     resource_model = resource.constantize
     return if resource_model.data_miner_config.steps.any? { |step| step.description == :run_data_miner_on_parent_associations! }
 
     pull_dependencies_step = DataMiner::Process.new resource_model.data_miner_config, :run_data_miner_on_parent_associations!
 
-    resource_model.data_miner_config.steps.unshift pull_dependencies_step
+    resource_model.data_miner_config.steps.push pull_dependencies_step
   end
   
   def _prepend_create_table_step_to_data_miner(resource)
@@ -140,9 +139,10 @@ module Earth
     resource_model.data_miner_config.steps.unshift taps_step
   end
   
-  def _decorate_resources(selected_resources, options)
-    selected_resources.each do |resource|
-      _prepend_pull_dependencies_step_to_data_miner resource
+  def _decorate_resources(options)
+    resources.each do |resource|
+      next unless ::Object.const_defined?(resource)
+      _append_pull_dependencies_step_to_data_miner resource
       if options[:apply_schemas] or options[:load_data_miner]
         _prepend_create_table_step_to_data_miner resource
       else
