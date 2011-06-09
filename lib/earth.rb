@@ -107,29 +107,20 @@ module Earth
     end
   end
   
-  PULL_DEPEDENCIES_STEP = 'Pull dependencies implied by belongs-to associations'
   def _prepend_pull_dependencies_step_to_data_miner(resource)
     resource_model = resource.constantize
-    return if resource_model.data_miner_config.steps.any? { |step| step.description == PULL_DEPEDENCIES_STEP }
+    return if resource_model.data_miner_config.steps.any? { |step| step.description == :run_data_miner_on_parent_associations! }
 
-    pull_dependencies_step = DataMiner::Process.new(resource_model.data_miner_config, PULL_DEPEDENCIES_STEP) do
-      resource_model.reflect_on_all_associations(:belongs_to).each do |assoc|
-        next if assoc.options[:polymorphic]
-        assoc.klass.run_data_miner!
-      end
-    end
+    pull_dependencies_step = DataMiner::Process.new resource_model.data_miner_config, :run_data_miner_on_parent_associations!
 
     resource_model.data_miner_config.steps.unshift pull_dependencies_step
   end
   
-  CREATE_TABLE_STEP = 'Create a table using the create_table gem'
   def _prepend_create_table_step_to_data_miner(resource)
     resource_model = resource.constantize
-    return if resource_model.data_miner_config.steps.any? { |step| step.description == CREATE_TABLE_STEP }
+    return if resource_model.data_miner_config.steps.any? { |step| step.description == :create_table! }
 
-    create_table_step = DataMiner::Process.new(resource_model.data_miner_config, CREATE_TABLE_STEP) do
-      resource_model.create_table!
-    end
+    create_table_step = DataMiner::Process.new resource_model.data_miner_config, :create_table!
 
     resource_model.data_miner_config.steps.unshift create_table_step
   end
