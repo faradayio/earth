@@ -152,7 +152,7 @@ module Earth
   end
 
   def _load_schemas(selected_resources, options)
-    return unless options[:apply_schemas] or options[:load_data_miner]
+    return unless options[:apply_schemas]
     selected_resources.each do |resource|
       resource.constantize.create_table!
     end
