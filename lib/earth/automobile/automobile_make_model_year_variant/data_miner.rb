@@ -279,7 +279,7 @@ AutomobileMakeModelYearVariant.class_eval do
              :select => lambda { |row| row['model'].present? and (row['suppress_code'].blank? or row['suppress_code'].to_f == 0) and row['state_code'] == 'F' },
              :filename => filename,
              :transform => { :class => AutomobileMakeModelYearVariant::ParserB, :year => "19#{yy}".to_i },
-             :errata => { :url => 'https://spreadsheets.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdEFqVXRvQjRGNUpxNHFCOXhqSjRmdlE&output=csv', :responder => AutomobileMakeModelYearVariant::Guru.new } do
+             :errata => { :url => 'https://spreadsheets.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdEFqVXRvQjRGNUpxNHFCOXhqSjRmdlE&output=csv', :responder => AutomobileMakeModelYearVariant::Guru.new }) do
         key   'row_hash'
         store 'name', :field_name => 'model'
         store 'make_name', :field_name => 'make'
@@ -382,7 +382,7 @@ AutomobileMakeModelYearVariant.class_eval do
     }.sort { |a, b| a.first <=> b.first }.each do |year, options|
       import "#{ year } Fuel Economy Guide",
              options.merge(:transform => { :class => AutomobileMakeModelYearVariant::ParserE, :year => year },
-                           :errata => { :url => 'https://spreadsheets.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdEFqVXRvQjRGNUpxNHFCOXhqSjRmdlE&output=csv', :responder => AubomobileMakeModelYearVariant::Guru.new },
+                           :errata => { :url => 'https://spreadsheets.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdEFqVXRvQjRGNUpxNHFCOXhqSjRmdlE&output=csv', :responder => AutomobileMakeModelYearVariant::Guru.new },
                            :select => lambda { |row| row['model'].present? }) do
         key   'row_hash'
         store 'name', :field_name => 'model'
