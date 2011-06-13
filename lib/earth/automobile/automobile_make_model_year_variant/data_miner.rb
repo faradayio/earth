@@ -1,59 +1,64 @@
 AutomobileMakeModelYearVariant.class_eval do
-  class << self
+  # For errata
+  class AutomobileMakeModelYearVariant::Guru
     def transmission_is_blank?(row)
       row['transmission'].blank?
     end
-
+    
     def is_a_2007_gmc_or_chevrolet?(row)
       row['year'] == 2007 and %w(GMC CHEVROLET).include? row['MFR'].upcase
     end
-
+    
     def is_a_porsche?(row)
       row['make'].to_s.upcase == 'PORSCHE'
     end
-
+    
     def is_not_a_porsche?(row)
       !is_a_porsche? row
     end
-
+    
     def is_a_mercedes_benz?(row)
       row['make'].to_s =~ /MERCEDES/i
     end
-
+    
     def is_a_lexus?(row)
       row['make'].to_s.upcase == 'LEXUS'
     end
-
+    
     def is_a_bmw?(row)
       row['make'].to_s.upcase == 'BMW'
     end
-
+    
     def is_a_ford?(row)
       row['make'].to_s.upcase == 'FORD'
     end
-
+    
     def is_a_rolls_royce_and_model_contains_bentley?(row)
       is_a_rolls_royce?(row) and model_contains_bentley?(row)
     end
-
+    
     def is_a_bentley?(row)
       row['make'].to_s.upcase == 'BENTLEY'
     end
-
+    
     def is_a_rolls_royce?(row)
       row['make'].to_s =~ /ROLLS/i
     end
-
+    
     def is_a_turbo_brooklands?(row)
       row['model'] =~ /TURBO R\/RL BKLDS/i
     end
-
+    
     def model_contains_maybach?(row)
       row['model'] =~ /MAYBACH/i
     end
     
     def model_contains_bentley?(row)
       row['model'] =~ /BENTLEY/i
+    end
+    
+    def name_contains_smart?(row)
+      row['model'] =~ / smart /i
     end
     
     def source_code
@@ -274,7 +279,7 @@ AutomobileMakeModelYearVariant.class_eval do
              :select => lambda { |row| row['model'].present? and (row['suppress_code'].blank? or row['suppress_code'].to_f == 0) and row['state_code'] == 'F' },
              :filename => filename,
              :transform => { :class => AutomobileMakeModelYearVariant::ParserB, :year => "19#{yy}".to_i },
-             :errata => { 'url' => 'http://static.brighterplanet.com/science/data/transport/automobiles/fuel_economy_guide/errata.csv' }) do
+             :errata => { :url => 'https://spreadsheets.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdEFqVXRvQjRGNUpxNHFCOXhqSjRmdlE&output=csv', :responder => AutomobileMakeModelYearVariant::Guru.new } do
         key   'row_hash'
         store 'name', :field_name => 'model'
         store 'make_name', :field_name => 'make'
@@ -312,7 +317,7 @@ AutomobileMakeModelYearVariant.class_eval do
     }.sort { |a, b| a.first <=> b.first }.each do |year, options|
       import "#{ year } Fuel Economy Guide",
              options.merge(:transform => { :class => AutomobileMakeModelYearVariant::ParserC, :year => year },
-                           :errata => { 'url' => 'http://static.brighterplanet.com/science/data/transport/automobiles/fuel_economy_guide/errata.csv' },
+                           :errata => { :url => 'https://spreadsheets.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdEFqVXRvQjRGNUpxNHFCOXhqSjRmdlE&output=csv', :responder => AutomobileMakeModelYearVariant::Guru.new },
                            :select => lambda { |row| row['model'].present? }) do
         key   'row_hash'
         store 'name', :field_name => 'model'
@@ -346,7 +351,7 @@ AutomobileMakeModelYearVariant.class_eval do
     }.sort { |a, b| a.first <=> b.first }.each do |year, options|
       import "#{ year } Fuel Economy Guide",
              options.merge(:transform => { :class => AutomobileMakeModelYearVariant::ParserD, :year => year },
-                           :errata => { 'url' => 'http://static.brighterplanet.com/science/data/transport/automobiles/fuel_economy_guide/errata.csv' },
+                           :errata => { :url => 'https://spreadsheets.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdEFqVXRvQjRGNUpxNHFCOXhqSjRmdlE&output=csv', :responder => AutomobileMakeModelYearVariant::Guru.new },
                            :select => lambda { |row| row['model'].present? }) do
         key   'row_hash'
         store 'name', :field_name => 'model'
@@ -377,7 +382,7 @@ AutomobileMakeModelYearVariant.class_eval do
     }.sort { |a, b| a.first <=> b.first }.each do |year, options|
       import "#{ year } Fuel Economy Guide",
              options.merge(:transform => { :class => AutomobileMakeModelYearVariant::ParserE, :year => year },
-                           :errata => { 'url' => 'http://static.brighterplanet.com/science/data/transport/automobiles/fuel_economy_guide/errata.csv' },
+                           :errata => { :url => 'https://spreadsheets.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdEFqVXRvQjRGNUpxNHFCOXhqSjRmdlE&output=csv', :responder => AubomobileMakeModelYearVariant::Guru.new },
                            :select => lambda { |row| row['model'].present? }) do
         key   'row_hash'
         store 'name', :field_name => 'model'
