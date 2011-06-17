@@ -24,11 +24,13 @@ Cucumber::Rake::Task.new(:features) do |t|
   end
 end
 
-desc "Run cucumber tests with RCov"
-Cucumber::Rake::Task.new(:features_with_coverage) do |t|
-  t.cucumber_opts = "features --format pretty"
-  t.rcov = true
-  t.rcov_opts = ['--exclude', 'features']
+if RUBY_VERSION =~ /^1\.8/
+  desc "Run cucumber tests with RCov"
+  Cucumber::Rake::Task.new(:features_with_coverage) do |t|
+    t.cucumber_opts = "features --format pretty"
+    t.rcov = true
+    t.rcov_opts = ['--exclude', 'features']
+  end
 end
 
 require 'rspec/core/rake_task'
@@ -41,11 +43,13 @@ RSpec::Core::RakeTask.new(:examples) do |c|
   end
 end
 
-desc "Run specs with RCov"
-RSpec::Core::RakeTask.new(:examples_with_coverage) do |t|
-  t.rcov = true
-  t.rcov_opts = ['--exclude', 'spec']
-  t.rspec_opts = '-Ispec'
+if RUBY_VERSION =~ /^1\.8/
+  desc "Run specs with RCov"
+  RSpec::Core::RakeTask.new(:examples_with_coverage) do |t|
+    t.rcov = true
+    t.rcov_opts = ['--exclude', 'spec']
+    t.rspec_opts = '-Ispec'
+  end
 end
 
 task :test => [:features, :examples]
