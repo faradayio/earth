@@ -45,4 +45,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rdoc'
   s.add_development_dependency 'rspec'
   s.add_development_dependency 'sqlite3-ruby'
+  s.add_development_dependency 'mysql' # for bin/earth_tester.rb
 end
