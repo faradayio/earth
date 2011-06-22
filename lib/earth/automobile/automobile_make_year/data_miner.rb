@@ -4,8 +4,9 @@ AutomobileMakeYear.class_eval do
       delete_all
     end
     
-    process "Ensure AutomobileMakeModelYearVariant is populated" do
+    process "Ensure AutomobileMakeModelYearVariant and AutomobileMakeFleetYear are populated" do
       AutomobileMakeModelYearVariant.run_data_miner!
+      AutomobileMakeFleetYear.run_data_miner!
     end
     
     process "Derive manufacturer names and years from automobile make model year variants" do
@@ -22,10 +23,6 @@ AutomobileMakeYear.class_eval do
         AND automobile_make_model_year_variants.year IS NOT NULL
         AND LENGTH(automobile_make_model_year_variants.year) > 0
       }
-    end
-    
-    process "Ensure AutomobileMakeFleetYear is populated" do
-      AutomobileMakeFleetYear.run_data_miner!
     end
     
     # FIXME TODO make this a method on AutomobileMakeYear?

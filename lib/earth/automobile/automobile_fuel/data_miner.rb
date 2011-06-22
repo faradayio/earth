@@ -20,7 +20,7 @@ AutomobileFuel.class_eval do
       store 'ef_key'
     end
     
-    process "Ensure necessary datasets are imported" do
+    process "Ensure AutomobileTypeFuelYearAge, AutomobileTypeYear, Fuel, and GreenhouseGas are populated" do
       AutomobileTypeFuelYearAge.run_data_miner!
       AutomobileTypeYear.run_data_miner!
       Fuel.run_data_miner!

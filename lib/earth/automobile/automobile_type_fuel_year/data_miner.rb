@@ -72,7 +72,7 @@ AutomobileTypeFuelYear.class_eval do
       end
     end
     
-    process "Ensure necessary tables are populated" do
+    process "Ensure AutomobileTypeFuelYearControl and AutomobileTypeFuelControl are populated" do
       AutomobileTypeFuelYearControl.run_data_miner!
       AutomobileTypeFuelControl.run_data_miner!
     end

@@ -37,7 +37,7 @@ EgridSubregion.class_eval do
                     WHERE electricity_co2_emission_factor_units = 'pounds_per_megawatt_hour' }
     end
     
-    process "Insure necessary datasets are imported" do
+    process "Insure GreenhouseGas is populated" do
       GreenhouseGas.run_data_miner!
     end
     

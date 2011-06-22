@@ -211,8 +211,9 @@ FlightSegment.class_eval do
       end
     end
     
-    process "Ensure Airline is populated" do
+    process "Ensure Airline and BtsAircraft are populated" do
       Airline.run_data_miner!
+      BtsAircraft.run_data_miner!
     end
     
     process "Look up airline name based on BTS code" do
@@ -221,10 +222,6 @@ FlightSegment.class_eval do
           update_all %{ airline_name = "#{airline.name}" }, %{ airline_bts_code = "#{bts_code}" }
         end
       end
-    end
-    
-    process "Ensure BtsAircraft is populated" do
-      BtsAircraft.run_data_miner!
     end
     
     process "Look up aircraft description based on BTS code" do
@@ -277,8 +274,7 @@ FlightSegment.class_eval do
       update_all 'approximate_date = DATE(CONCAT_WS("-", year, month, "14"))', 'month IS NOT NULL'
     end
     
-    # Aircraft will cache fuzzy matches between FlightSegment aircraft_description and Aircraft description
-    process "Ensure Aircraft is populated" do
+    process "Data mine Aircraft to cache fuzzy matches" do
       Aircraft.run_data_miner!
     end
     

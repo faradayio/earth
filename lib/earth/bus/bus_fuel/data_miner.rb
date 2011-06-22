@@ -1,6 +1,6 @@
 BusFuel.class_eval do
   data_miner do
-    process "Ensure necessary datasets are imported" do
+    process "Ensure Fuel, GreenhouseGas, and BusFuelYearControl are populated" do
       Fuel.run_data_miner!
       GreenhouseGas.run_data_miner!
       BusFuelYearControl.run_data_miner!

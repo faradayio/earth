@@ -4,8 +4,9 @@ AutomobileMake.class_eval do
       delete_all
     end
     
-    process "Ensure AutomobileMakeModelYearVariant is populated" do
+    process "Ensure AutomobileMakeModelYearVariant and AutomobileMakeFleetYear are populated" do
       AutomobileMakeModelYearVariant.run_data_miner!
+      AutomobileMakeFleetYear.run_data_miner!
     end
     
     process "Derive manufacturer names from automobile make model year variants" do
@@ -17,20 +18,12 @@ AutomobileMake.class_eval do
       }
     end
     
-    process "Ensure AutomobileMakeFleetYear is populated" do
-      AutomobileMakeFleetYear.run_data_miner!
-    end
-    
     # sabshere 1/31/11 add Avanti, DaimlerChrysler, IHC, Tesla, etc.
     process "Derive extra manufacturer names from CAFE data" do
       INSERT_IGNORE %{INTO automobile_makes(name)
         SELECT DISTINCT automobile_make_fleet_years.make_name
         FROM automobile_make_fleet_years
       }
-    end
-    
-    process "Ensure AutomobileMakeFleetYear is populated" do
-      AutomobileMakeFleetYear.run_data_miner!
     end
     
     # FIXME TODO make this a method on AutomobileMake?

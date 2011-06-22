@@ -1,6 +1,6 @@
 BusFuelYearControl.class_eval do
   data_miner do
-    process "Ensure all BusFuelControls are imported" do
+    process "Ensure BusFuelControl is populated" do
       BusFuelControl.run_data_miner!
     end
     
