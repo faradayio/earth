@@ -6,3 +6,5 @@ require 'earth/residence/residence_class/data_miner'
 require 'earth/residence/residence_fuel_price/data_miner'
 require 'earth/residence/residence_fuel_type/data_miner'
 require 'earth/residence/residential_energy_consumption_survey_response/data_miner'
+
+require 'earth/locality/data_miner'

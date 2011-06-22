@@ -10,3 +10,4 @@ require 'earth/locality/urbanity/data_miner'
 require 'earth/locality/zip_code/data_miner'
 
 require 'earth/automobile/data_miner'
+require 'earth/residence/data_miner'

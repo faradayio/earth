@@ -6,3 +6,5 @@ require 'earth/residence/residence_class'
 require 'earth/residence/residence_fuel_price'
 require 'earth/residence/residence_fuel_type'
 require 'earth/residence/residential_energy_consumption_survey_response'
+
+require 'earth/locality'

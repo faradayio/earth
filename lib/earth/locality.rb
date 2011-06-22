@@ -10,3 +10,4 @@ require 'earth/locality/urbanity'
 require 'earth/locality/zip_code'
 
 require 'earth/automobile'
+require 'earth/residence'
