@@ -32,10 +32,10 @@ AutomobileMakeModelYear.class_eval do
       end
     end
     
-    verify "Year should be from 1985 to 2010" do
+    verify "Year should be from 1985 to 2011" do
       AutomobileMakeModelYear.all.each do |model_year|
-        unless model_year.year.to_i > 1984 and model_year.year.to_i < 2011
-          raise "Invalid year for AutomobileMakeModelYear #{model_year.name}: #{model_year.year} (should be from 1985 to 2010)"
+        unless model_year.year.to_i > 1984 and model_year.year.to_i < 2012
+          raise "Invalid year for AutomobileMakeModelYear #{model_year.name}: #{model_year.year} (should be from 1985 to 2011)"
         end
       end
     end
