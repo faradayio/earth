@@ -171,7 +171,7 @@ FlightSegment.class_eval do
   
   data_miner do
     months = Hash.new
-    (2009..2010).each do |year|
+    (2009..2011).each do |year|
       (1..12).each do |month|
         time = Time.gm year, month
         form_data = FORM_DATA.dup
