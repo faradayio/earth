@@ -8,7 +8,7 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'earth'
 
-logger = Logger.new $stderr
+logger = Logger.new 'log/test.log'
 logger.level = Logger::DEBUG
 
 ActiveRecord::Base.establish_connection :adapter => 'sqlite3', :database => ':memory:'
