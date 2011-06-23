@@ -441,7 +441,7 @@ AutomobileMakeModelYearVariant.class_eval do
     end
     
     verify "Year should be from 1985 to 2011" do
-      AutomobileMakeModelYearVariant.find_by_sql("SELECT DISTINCT year FROM automobile_make_model_year_variants").map(&:year).each do |year|
+      connection.select_values("SELECT DISTINCT year FROM automobile_make_model_year_variants").each do |year|
         unless year > 1984 and year < 2012
           raise "Invalid year in automobile_make_model_year_variants: #{year} is not from 1985 to 2011"
         end
@@ -453,8 +453,8 @@ AutomobileMakeModelYearVariant.class_eval do
     end
     
     verify "Fuel code should appear in AutomobileFuel" do
-      valid_codes = AutomobileFuel.find_by_sql("SELECT DISTINCT code FROM automobile_fuels").map(&:code)
-      AutomobileMakeModelYearVariant.find_by_sql("SELECT DISTINCT fuel_code FROM automobile_make_model_year_variants").map(&:fuel_code).each do |fuel_code|
+      valid_codes = connection.select_values("SELECT DISTINCT code FROM automobile_fuels")
+      connection.select_values("SELECT DISTINCT fuel_code FROM automobile_make_model_year_variants").each do |fuel_code|
         unless valid_codes.include?(fuel_code)
           raise "Invalide fuel code in automobile_make_model_year_variants: #{fuel_code} is not in #{valid_codes}"
         end
@@ -476,7 +476,7 @@ AutomobileMakeModelYearVariant.class_eval do
     
     verify "Fuel efficiency units should be kilometres per litre" do
       %w{ fuel_efficiency_units fuel_efficiency_city_units fuel_efficiency_highway_units }.each do |field|
-        AutomobileMakeModelYearVariant.find_by_sql("SELECT DISTINCT #{field} FROM automobile_make_model_year_variants").map(&:"#{field}").each do |value|
+        connection.select_values("SELECT DISTINCT #{field} FROM automobile_make_model_year_variants").each do |value|
           unless value == 'kilometres_per_litre'
             raise "Invalid #{field} in automobile_make_model_year_variants: #{value} is not 'kilometres_per_litre'"
           end

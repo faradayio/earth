@@ -14,7 +14,7 @@ AutomobileMakeFleetYear.class_eval do
     end
     
     verify "Year should be from 1978 to 2010" do
-      AutomobileMakeFleetYear.find_by_sql("SELECT DISTINCT year FROM automobile_make_fleet_years").map(&:year).each do |year|
+      connection.select_values("SELECT DISTINCT year FROM automobile_make_fleet_years").each do |year|
         unless year > 1977 and year < 2011
           raise "Invalid year in automobile_make_fleet_years: #{year} is not from 1978 to 2010"
         end
@@ -35,7 +35,7 @@ AutomobileMakeFleetYear.class_eval do
     end
     
     verify "Fuel efficiency units should be kilometres per litre" do
-      AutomobileMakeFleetYear.find_by_sql("SELECT DISTINCT fuel_efficiency_units FROM automobile_make_fleet_years").map(&:fuel_efficiency_units).each do |units|
+      connection.select_values("SELECT DISTINCT fuel_efficiency_units FROM automobile_make_fleet_years").each do |units|
         unless units == "kilometres_per_litre"
           raise "Invalid fuel efficiency units in automobile_make_fleet_years: #{units} is not 'kilometres_per_litre'"
         end

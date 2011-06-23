@@ -98,7 +98,7 @@ Aircraft.class_eval do
     
     process "Cache fuzzy matches between FlightSegment aircraft_description and Aircraft description" do
       LooseTightDictionary::CachedResult.setup
-      FlightSegment.find_by_sql("SELECT DISTINCT aircraft_description FROM flight_segments WHERE aircraft_description IS NOT NULL").each do |flight_segment|
+      FlightSegment.find_by_sql("SELECT * FROM flight_segments GROUP BY aircraft_description HAVING aircraft_description IS NOT NULL").each do |flight_segment|
         original_description = flight_segment.aircraft_description
         
         # If the flight segment's aircraft_description contains '/' then it describes multiple aircraft.
