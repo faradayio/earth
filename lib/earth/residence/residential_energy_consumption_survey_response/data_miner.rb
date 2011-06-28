@@ -12,15 +12,15 @@ ResidentialEnergyConsumptionSurveyResponse.class_eval do
            :headers => :upcase do
       key   'id', :field_name => 'DOEID'
       
-      store 'residence_class_id', :field_name => 'TYPEHUQ', :dictionary => { :input => 'Code', :output => 'Description', :url => 'http://github.com/brighterplanet/manually_curated_data/raw/master/typehuq/typehuq.csv' }
-      store 'construction_year', :field_name => 'YEARMADE', :dictionary => { :input => 'Code', :sprintf => '%02d', :output => 'Date in the middle (synthetic)', :url => 'http://github.com/brighterplanet/manually_curated_data/raw/master/yearmade/yearmade.csv' }
-      store 'construction_period', :field_name => 'YEARMADE', :dictionary => { :input => 'Code', :sprintf => '%02d', :output => 'Description', :url => 'http://github.com/brighterplanet/manually_curated_data/raw/master/yearmade/yearmade.csv' }
-      store 'urbanity_id', :field_name => 'URBRUR', :dictionary => { :input => 'Code', :output => 'Description', :url => 'http://github.com/brighterplanet/manually_curated_data/raw/master/urbrur/urbrur.csv' }
-      store 'dishwasher_use_id', :field_name => 'DWASHUSE', :dictionary => { :input => 'Code', :output => 'Description', :url => 'http://github.com/brighterplanet/manually_curated_data/raw/master/dwashuse/dwashuse.csv' }
-      store 'central_ac_use', :field_name => 'USECENAC', :dictionary => { :input => 'Code', :output => 'Description', :url => 'http://github.com/brighterplanet/manually_curated_data/raw/master/usecenac/usecenac.csv' }
-      store 'window_ac_use', :field_name => 'USEWWAC', :dictionary => { :input => 'Code', :output => 'Description', :url => 'http://github.com/brighterplanet/manually_curated_data/raw/master/usewwac/usewwac.csv' }
-      store 'clothes_washer_use', :field_name => 'WASHLOAD', :dictionary => { :input => 'Code', :output => 'Description', :url => 'http://github.com/brighterplanet/manually_curated_data/raw/master/washload/washload.csv' }
-      store 'clothes_dryer_use', :field_name => 'DRYRUSE', :dictionary => { :input => 'Code', :output => 'Description', :url => 'http://github.com/brighterplanet/manually_curated_data/raw/master/dryruse/dryruse.csv' }
+      store 'residence_class_id', :field_name => 'TYPEHUQ', :dictionary => { :input => 'Code', :output => 'Description', :url => 'https://raw.github.com/brighterplanet/manually_curated_data/master/typehuq/typehuq.csv' }
+      store 'construction_year', :field_name => 'YEARMADE', :dictionary => { :input => 'Code', :sprintf => '%02d', :output => 'Date in the middle (synthetic)', :url => 'https://raw.github.com/brighterplanet/manually_curated_data/master/yearmade/yearmade.csv' }
+      store 'construction_period', :field_name => 'YEARMADE', :dictionary => { :input => 'Code', :sprintf => '%02d', :output => 'Description', :url => 'https://raw.github.com/brighterplanet/manually_curated_data/master/yearmade/yearmade.csv' }
+      store 'urbanity_id', :field_name => 'URBRUR', :dictionary => { :input => 'Code', :output => 'Description', :url => 'https://raw.github.com/brighterplanet/manually_curated_data/master/urbrur/urbrur.csv' }
+      store 'dishwasher_use_id', :field_name => 'DWASHUSE', :dictionary => { :input => 'Code', :output => 'Description', :url => 'https://raw.github.com/brighterplanet/manually_curated_data/master/dwashuse/dwashuse.csv' }
+      store 'central_ac_use', :field_name => 'USECENAC', :dictionary => { :input => 'Code', :output => 'Description', :url => 'https://raw.github.com/brighterplanet/manually_curated_data/master/usecenac/usecenac.csv' }
+      store 'window_ac_use', :field_name => 'USEWWAC', :dictionary => { :input => 'Code', :output => 'Description', :url => 'https://raw.github.com/brighterplanet/manually_curated_data/master/usewwac/usewwac.csv' }
+      store 'clothes_washer_use', :field_name => 'WASHLOAD', :dictionary => { :input => 'Code', :output => 'Description', :url => 'https://raw.github.com/brighterplanet/manually_curated_data/master/washload/washload.csv' }
+      store 'clothes_dryer_use', :field_name => 'DRYRUSE', :dictionary => { :input => 'Code', :output => 'Description', :url => 'https://raw.github.com/brighterplanet/manually_curated_data/master/dryruse/dryruse.csv' }
       
       store 'census_division_number', :field_name => 'DIVISION'
       store 'census_division_name', :field_name => 'DIVISION', :dictionary => { :input => 'number', :output => 'name', :url => 'http://data.brighterplanet.com/census_divisions.csv' }
