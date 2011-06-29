@@ -201,10 +201,10 @@ FlightSegment.class_eval do
         store 'flights',                           :field_name => 'DEPARTURES_PERFORMED'
         store 'passengers',                        :field_name => 'PASSENGERS'
         store 'seats',                             :field_name => 'SEATS'
-        store 'payload_capacity',                  :field_name => 'PAYLOAD',  :units => 'pounds'
-        store 'freight',                           :field_name => 'FREIGHT',  :units => 'pounds'
-        store 'mail',                              :field_name => 'MAIL',     :units => 'pounds'
-        store 'distance',                          :field_name => 'DISTANCE', :units => 'miles'
+        store 'payload_capacity',                  :field_name => 'PAYLOAD',  :from_units => :pounds, :to_units => :kilograms
+        store 'freight',                           :field_name => 'FREIGHT',  :from_units => :pounds, :to_units => :kilograms
+        store 'mail',                              :field_name => 'MAIL',     :from_units => :pounds, :to_units => :kilograms
+        store 'distance',                          :field_name => 'DISTANCE', :from_units => :miles, :to_units => :kilometres
         store 'month',                             :field_name => 'MONTH'
         store 'year',                              :field_name => 'YEAR'
         store 'source',                            :static => 'BTS T100'
@@ -230,28 +230,6 @@ FlightSegment.class_eval do
           update_all %{ aircraft_description = "#{aircraft.description.downcase}" }, %{ aircraft_bts_code = "#{bts_code}" }
         end
       end
-    end
-    
-    %w{ payload_capacity freight mail }.each do |field|
-      process "Convert #{field} from pounds to kilograms" do
-        conversion_factor = 1.pounds.to(:kilograms)
-        connection.execute %{
-          UPDATE flight_segments
-          SET #{field} = #{field} * #{conversion_factor},
-              #{field + '_units'} = 'kilograms'
-          WHERE #{field + '_units'} = 'pounds'
-        }
-      end
-    end
-    
-    process "Convert distance from miles to kilometres" do
-      conversion_factor = 1.miles.to(:kilometres)
-      connection.execute %{
-        UPDATE flight_segments
-        SET distance = distance * #{conversion_factor},
-            distance_units = 'kilometres'
-        WHERE distance_units = 'miles'
-      }
     end
     
     process "Derive load factor, which is passengers divided by available seats" do
