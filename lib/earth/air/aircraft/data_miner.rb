@@ -83,21 +83,6 @@ Aircraft.class_eval do
     end
   end
 
-  create_table do
-    string  'icao_code'
-    string  'manufacturer_name'
-    string  'model_name'
-    string  'description'
-    string  'aircraft_type'
-    string  'engine_type'
-    integer 'engines'
-    string  'weight_class'
-    string  'class_code'
-    string  'fuel_use_code'
-    float   'seats'
-    float   'passengers'
-  end
-  
   data_miner do
     ('A'..'Z').each do |letter|
       import("aircraft made by whitelisted manufacturers whose ICAO code starts with '#{letter}' from the FAA",
