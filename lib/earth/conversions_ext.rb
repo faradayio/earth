@@ -25,6 +25,7 @@ Conversions.register(:joules, :litres_of_fuel_oil, 1.0 / (138_690.0 * 3.78541178
 Conversions.register(:joules, :kilograms_of_coal, 1.0 / (22_342_000.0 * 0.00110231131 * 1_055.05585)) # should only be used for RECS 2005
 
 Conversions.register(:kilograms, :lbs, 2.20462262)
+Conversions.register(:metric_tonnes, :kilograms, 1_000.0)
 Conversions.register(:kbtus, :btus, 1_000.0)
 Conversions.register(:square_feet, :square_metres, 0.09290304)
 Conversions.register(:pounds_per_square_foot, :kilograms_per_square_metre, 4.88242764)

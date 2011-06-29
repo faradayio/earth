@@ -10,6 +10,24 @@ FlightSegment.class_eval do
     end
   end
   
+  def self.update_averages!
+    # Derive load factor, which is passengers divided by available seats
+    update_all 'load_factor = passengers / seats', 'seats > 0'
+
+    # Assume a load factor of 1 where passengers > available seats
+    update_all 'load_factor = 1', 'passengers > seats AND seats > 0'
+  
+    # TODO: what is 90.718474
+    # Derive freight share as a fraction of the total weight carried
+    update_all 'freight_share = (freight + mail) / (freight + mail + (passengers * 90.718474))', '(freight + mail + passengers) > 0'
+  
+    # Derive average seats per flight
+    update_all 'seats_per_flight = seats / flights', 'flights > 0'
+    
+    # Add a useful date field
+    update_all 'approximate_date = DATE(CONCAT_WS("-", year, month, "14"))', 'month IS NOT NULL'
+  end
+  
   URL = 'http://www.transtats.bts.gov/DownLoad_Table.asp?Table_ID=293&Has_Group=3&Is_Zipped=0'
   FORM_DATA = %{
     UserTableName=T_100_Segment__All_Carriers&
@@ -232,27 +250,9 @@ FlightSegment.class_eval do
       end
     end
     
-    process "Derive load factor, which is passengers divided by available seats" do
-      update_all 'load_factor = passengers / seats', 'seats > 0'
-    end
+    process :update_averages!
     
-    process "Assume a load factor of 1 where passengers > available seats" do
-      update_all 'load_factor = 1', 'passengers > seats AND seats > 0'
-    end
-    
-    process "Derive freight share as a fraction of the total weight carried" do
-      update_all 'freight_share = (freight + mail) / (freight + mail + (passengers * 90.718474))', '(freight + mail + passengers) > 0'
-    end
-    
-    process "Derive average seats per flight" do
-      update_all 'seats_per_flight = seats / flights', 'flights > 0'
-    end
-    
-    process "Add a useful date field" do
-      update_all 'approximate_date = DATE(CONCAT_WS("-", year, month, "14"))', 'month IS NOT NULL'
-    end
-    
-    process "Data mine Aircraft to cache fuzzy matches" do
+    process "Data mine Aircraft because it's like a belongs-to association" do
       Aircraft.run_data_miner!
     end
     
