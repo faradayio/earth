@@ -12,8 +12,7 @@ EgridRegion.class_eval do
     
     # resurrected from a7bb363f10d951957dd051ff3cfb81c280f61151
     import "the US average grid loss factor derived eGRID 2007 data",
-           # :url => 'http://www.epa.gov/cleanenergy/documents/egridzips/eGRID2007_Version1-1.zip',
-           :url => 'file:///Users/seamus/egrid/eGRID2007_Version1-1.zip',
+           :url => 'http://www.epa.gov/cleanenergy/documents/egridzips/eGRID2007_Version1-1.zip',
            :filename => 'eGRID2007_Version1-1/eGRID2007V1_1_year0504_STIE_USGC.xls',
            :sheet => 'USGC',
            :skip => 5 do
