@@ -10,6 +10,17 @@ EgridRegion.class_eval do
       store 'loss_factor', :field_name => '2005 grid gross loss factor'
     end
     
+    # resurrected from a7bb363f10d951957dd051ff3cfb81c280f61151
+    import "the US average grid loss factor derived eGRID 2007 data",
+           # :url => 'http://www.epa.gov/cleanenergy/documents/egridzips/eGRID2007_Version1-1.zip',
+           :url => 'file:///Users/seamus/egrid/eGRID2007_Version1-1.zip',
+           :filename => 'eGRID2007_Version1-1/eGRID2007V1_1_year0504_STIE_USGC.xls',
+           :sheet => 'USGC',
+           :skip => 5 do
+      key 'name', :static => 'US'
+      store 'loss_factor', :synthesize => lambda { |row| (row['USTNGN05'].to_f + row['USTNFI05'].to_f - row['USTCON05'].to_f) / row['USTNGN05'].to_f }
+    end
+
     verify "Loss factor should be greater than zero and less than one" do
       EgridRegion.all.each do |region|
         unless region.loss_factor > 0 and region.loss_factor < 1
