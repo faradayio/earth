@@ -24,6 +24,9 @@ Cucumber::Rake::Task.new(:features) do |t|
   end
 end
 
+directory 'log/'
+task :features => 'log/'
+
 if RUBY_VERSION =~ /^1\.8/
   desc "Run cucumber tests with RCov"
   Cucumber::Rake::Task.new(:features_with_coverage) do |t|
