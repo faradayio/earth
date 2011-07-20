@@ -8,7 +8,7 @@ class BusFuel < ActiveRecord::Base
     fuel_year_controls.where(:year => fuel_year_controls.maximum('year'))
   end
   
-  create_table do
+  force_schema do
     string 'name'
     string 'fuel_name'
     float  'energy_content'

@@ -3,7 +3,7 @@ class ComputationCarrierRegion < ActiveRecord::Base
   
   belongs_to :egrid_subregion, :foreign_key => 'egrid_subregion_abbreviation'
 
-  create_table do
+  force_schema do
     string 'name'
     string 'computation_carrier_name'
     string 'region'

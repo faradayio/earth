@@ -4,7 +4,7 @@ class ComputationCarrier < ActiveRecord::Base
   falls_back_on :name => 'fallback',
                 :power_usage_effectiveness => lambda { ComputationCarrier.maximum('power_usage_effectiveness') }
   
-  create_table do
+  force_schema do
     string 'name'
     float  'power_usage_effectiveness'
   end

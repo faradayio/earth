@@ -7,7 +7,7 @@ class GreenhouseGas < ActiveRecord::Base
     end
   end
   
-  create_table do
+  force_schema do
     string  'name'
     string  'abbreviation'
     string  'ipcc_report'

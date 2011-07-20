@@ -4,7 +4,7 @@ class BreedGender < ActiveRecord::Base
   belongs_to :breed, :foreign_key => 'breed_name'
   belongs_to :gender, :foreign_key => 'gender_name'
   
-  create_table do
+  force_schema do
     string   'name'
     string   'breed_name'
     string   'gender_name'

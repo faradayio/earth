@@ -3,7 +3,7 @@ class FuelPrice < ActiveRecord::Base
   
   belongs_to :fuel_type, :foreign_key => 'name' # weird
   
-  create_table do
+  force_schema do
     string  'name'
     float   'price'
     string  'price_units'

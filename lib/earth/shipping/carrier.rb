@@ -8,7 +8,7 @@ class Carrier < ActiveRecord::Base
                 :transport_emission_factor => 0.0005266,
                 :corporate_emission_factor => 0.221
   
-  create_table do
+  force_schema do
     string 'name'
     float  'package_volume'
     float  'route_inefficiency_factor'

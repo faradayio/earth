@@ -31,7 +31,7 @@ class ResidentialEnergyConsumptionSurveyResponse < ActiveRecord::Base
   ]
   
   # sabshere 9/20/10 sorted with sort -d -t "'" -k 2 ~/Desktop/parts.txt
-  create_table do
+  force_schema do
     integer  'id'
     string  'air_conditioner_use_id'
     float    'annual_energy_from_electricity_for_air_conditioners'

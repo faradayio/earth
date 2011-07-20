@@ -12,7 +12,7 @@ class FuelType < ActiveRecord::Base
     prices.average :price
   end
   
-  create_table do
+  force_schema do
     string 'name'
     float  'emission_factor'
     string 'emission_factor_units'

@@ -3,7 +3,7 @@ class AutomobileTypeFuelYearAge < ActiveRecord::Base
   
   belongs_to :type_fuel_year, :class_name => 'AutomobileTypeFuelYear', :foreign_key => 'type_fuel_year_name'
 
-  create_table do
+  force_schema do
     string  'name'
     string  'type_name'
     string  'fuel_common_name'

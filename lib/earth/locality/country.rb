@@ -19,7 +19,7 @@ class Country < ActiveRecord::Base
     end
   end
   
-  create_table do
+  force_schema do
     string 'iso_3166_code'
     string 'name'
     float  'automobile_urbanity'

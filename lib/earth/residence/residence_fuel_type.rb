@@ -3,7 +3,7 @@ class ResidenceFuelType < ActiveRecord::Base
   
   has_many :prices, :class_name => 'ResidenceFuelPrice', :foreign_key => 'residence_fuel_type_name'
   
-  create_table do
+  force_schema do
     string   'name'
     float    'emission_factor'
     string   'emission_factor_units'

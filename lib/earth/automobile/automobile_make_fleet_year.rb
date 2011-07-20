@@ -4,7 +4,7 @@ class AutomobileMakeFleetYear < ActiveRecord::Base
   belongs_to :make,      :class_name => 'AutomobileMake',     :foreign_key => 'make_name'
   belongs_to :make_year, :class_name => 'AutomobileMakeYear', :foreign_key => 'make_year_name'
 
-  create_table do
+  force_schema do
     string   'name'
     string   'make_year_name'
     string   'make_name'

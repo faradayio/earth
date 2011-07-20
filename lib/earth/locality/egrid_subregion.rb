@@ -23,7 +23,7 @@ class EgridSubregion < ActiveRecord::Base
                 :electricity_emission_factor => lambda { weighted_average(:electricity_emission_factor, :weighted_by => :net_generation) }, # DEPRECATED
                 :electricity_emission_factor_units => 'kilograms_co2e_per_kilowatt_hour' # DEPRECATED
   
-  create_table do
+  force_schema do
     string 'abbreviation'
     string 'name'
     string 'nerc_abbreviation'

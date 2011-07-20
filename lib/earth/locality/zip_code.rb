@@ -11,7 +11,7 @@ class ZipCode < ActiveRecord::Base
                    :lat_column_name => :latitude,
                    :lng_column_name => :longitude
 
-  create_table do
+  force_schema do
     string   'name'
     string   'state_postal_abbreviation'
     string   'description'

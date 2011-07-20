@@ -19,7 +19,7 @@ class FlightSegment < ActiveRecord::Base
                 :load_factor      => lambda { weighted_average(:load_factor,      :weighted_by => :passengers) }, # 0.78073233770097  data1 10-12-2010
                 :freight_share    => lambda { weighted_average(:freight_share,    :weighted_by => :passengers) }  # 0.022567224170157 data1 10-12-2010
   
-  create_table do
+  force_schema do
     string  'row_hash'                          # auto-generated primary key
     string  'origin_airport_iata_code'          # iata code
     string  'origin_airport_city'               # city

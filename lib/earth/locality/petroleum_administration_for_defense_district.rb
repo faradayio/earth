@@ -8,7 +8,7 @@ class PetroleumAdministrationForDefenseDistrict < ActiveRecord::Base
     str
   end
   
-  create_table do
+  force_schema do
     string   'code'
     string   'district_code'
     string   'district_name'

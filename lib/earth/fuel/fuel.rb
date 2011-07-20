@@ -3,7 +3,7 @@ class Fuel < ActiveRecord::Base
   
   has_many :fuel_years, :foreign_key => 'fuel_name'
   
-  create_table do
+  force_schema do
     string 'name'
     float  'density'
     string 'density_units'

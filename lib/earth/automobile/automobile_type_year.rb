@@ -3,7 +3,7 @@ class AutomobileTypeYear < ActiveRecord::Base
   
   has_many :type_fuel_years, :class_name => 'AutomobileTypeFuelYear', :foreign_key => 'type_year_name'
 
-  create_table do
+  force_schema do
     string  'name'
     string  'type_name'
     integer 'year'

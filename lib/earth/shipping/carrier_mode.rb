@@ -4,7 +4,7 @@ class CarrierMode < ActiveRecord::Base
   belongs_to :carrier, :foreign_key => 'carrier_name', :primary_key => 'name'
   belongs_to :mode,    :foreign_key => 'mode_name',    :primary_key => 'name', :class_name => 'ShipmentMode'
 
-  create_table do
+  force_schema do
     string 'name'
     string 'carrier_name'
     string 'mode_name'

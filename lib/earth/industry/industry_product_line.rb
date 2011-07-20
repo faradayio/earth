@@ -4,7 +4,7 @@ class IndustryProductLine < ActiveRecord::Base
   belongs_to :industry,     :foreign_key => 'naics_code'
   belongs_to :product_line, :foreign_key => 'ps_code'
 
-  create_table do
+  force_schema do
     string 'row_hash'
     string 'naics_code'
     float  'ratio'

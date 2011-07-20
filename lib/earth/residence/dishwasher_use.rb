@@ -3,7 +3,7 @@ class DishwasherUse < ActiveRecord::Base
   
   has_many :residential_energy_consumption_survey_responses
 
-  create_table do
+  force_schema do
     string 'name'
     float 'annual_energy_from_electricity_for_dishwashers'
     string 'annual_energy_from_electricity_for_dishwashers_units'

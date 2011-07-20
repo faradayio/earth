@@ -11,7 +11,7 @@ class State < ActiveRecord::Base
     Country.united_states
   end
 
-  create_table do
+  force_schema do
     string   'postal_abbreviation'
     integer  'fips_code'
     string   'name'

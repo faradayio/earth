@@ -7,7 +7,7 @@ class CensusRegion < ActiveRecord::Base
   # has_many :zip_codes, :through => :census_divisions
   has_many :residential_energy_consumption_survey_responses, :foreign_key => 'census_region_number'
   
-  create_table do
+  force_schema do
     integer  'number'
     string   'name'
   end

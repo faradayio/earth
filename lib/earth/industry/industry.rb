@@ -9,7 +9,7 @@ class Industry < ActiveRecord::Base
   has_many :industry_sectors, :foreign_key => 'naics_code'
   has_many :sectors, :through => :industry_sectors
   
-  create_table do
+  force_schema do
     string 'naics_code'
     string 'description'
   end

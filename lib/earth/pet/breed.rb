@@ -4,7 +4,7 @@ class Breed < ActiveRecord::Base
   has_many :breed_genders, :foreign_key => 'breed_name'
   belongs_to :species, :foreign_key => 'species_name'
   
-  create_table do
+  force_schema do
     string   'name'
     string  'species_name'
     float    'weight'

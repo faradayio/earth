@@ -4,7 +4,7 @@ class AutomobileTypeFuelYear < ActiveRecord::Base
   has_many :year_controls, :class_name => 'AutomobileTypeFuelYearControl', :foreign_key => 'type_fuel_year_name'
   belongs_to :type_year, :class_name => 'AutomobileTypeYear', :foreign_key => 'type_year_name'
   
-  create_table do
+  force_schema do
     string  'name'
     string  'type_name'
     string  'fuel_common_name'

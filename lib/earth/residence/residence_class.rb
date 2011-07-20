@@ -9,7 +9,7 @@ class ResidenceClass < ActiveRecord::Base
     CLASSIFICATIONS.detect { |c| name.downcase.include? c }
   end
 
-  create_table do
+  force_schema do
     string :name
   end
 end

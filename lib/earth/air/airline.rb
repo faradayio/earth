@@ -1,7 +1,7 @@
 class Airline < ActiveRecord::Base
   set_primary_key :name
 
-  create_table do
+  force_schema do
     string 'name'
     string 'bts_code'
     string 'iata_code'

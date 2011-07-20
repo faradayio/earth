@@ -13,7 +13,7 @@ class CensusDivision < ActiveRecord::Base
                 :meeting_building_electricity_intensity => 0.0084323684 / 1.square_feet.to(:square_metres),
                 :meeting_building_district_heat_intensity => 0.0004776370.kbtus.to(:megajoules) / 1.square_feet.to(:square_metres)
   
-  create_table do
+  force_schema do
     integer 'number'
     string  'name'
     string  'census_region_name'

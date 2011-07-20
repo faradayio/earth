@@ -1,5 +1,5 @@
 gem 'data_miner', :path => ENV['LOCAL_DATA_MINER'] if ENV['LOCAL_DATA_MINER']
-gem 'create_table', :path => ENV['LOCAL_CREATE_TABLE'] if ENV['LOCAL_CREATE_TABLE']
+gem 'force_schema', :path => ENV['LOCAL_FORCE_SCHEMA'] if ENV['LOCAL_FORCE_SCHEMA']
 
 source :rubygems
 

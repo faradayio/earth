@@ -3,7 +3,7 @@ class Urbanity < ActiveRecord::Base
   
   has_many :residential_energy_consumption_survey_responses
 
-  create_table do
+  force_schema do
     string 'name'
   end
 end

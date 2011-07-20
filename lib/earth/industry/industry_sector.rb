@@ -4,7 +4,7 @@ class IndustrySector < ActiveRecord::Base
   belongs_to :industry,  :foreign_key => 'naics_code'
   belongs_to :sector,    :foreign_key => 'io_code'
 
-  create_table do
+  force_schema do
     string 'row_hash'
     string 'naics_code'
     float  'ratio'

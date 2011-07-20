@@ -10,7 +10,7 @@ class ResidenceAppliance < ActiveRecord::Base
     end
   end
 
-  create_table do
+  force_schema do
     string   'name'
     float    'annual_energy_from_electricity'
     string   'annual_energy_from_electricity_units'

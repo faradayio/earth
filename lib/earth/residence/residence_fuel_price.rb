@@ -7,7 +7,7 @@ class ResidenceFuelPrice < ActiveRecord::Base
   belongs_to :fuel, :class_name => 'ResidenceFuelType', :foreign_key => 'residence_fuel_type_name'
   belongs_to :locatable, :polymorphic => true
   
-  create_table do
+  force_schema do
     string  'row_hash'
     string 'residence_fuel_type_name'
     integer 'year'

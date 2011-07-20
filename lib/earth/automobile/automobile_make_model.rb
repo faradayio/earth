@@ -4,7 +4,7 @@ class AutomobileMakeModel < ActiveRecord::Base
   belongs_to :make,                   :class_name => 'AutomobileMake',                 :foreign_key => 'make_name'
   has_many :make_model_year_variants, :class_name => 'AutomobileMakeModelYearVariant', :foreign_key => 'make_model_name'
 
-  create_table do
+  force_schema do
     string  'name' # make + model
     string  'make_name'
     string  'model_name' # model only

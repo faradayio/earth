@@ -3,7 +3,7 @@ class BusFuelYearControl < ActiveRecord::Base
   
   belongs_to :fuel_control, :class_name => 'BusFuelControl', :foreign_key => 'bus_fuel_control_name'
 
-  create_table do
+  force_schema do
     string  'name'
     string  'bus_fuel_name'
     integer 'year'

@@ -98,7 +98,7 @@ class AutomobileFuel < ActiveRecord::Base
                 :hfc_emission_factor => lambda { AutomobileFuel.fallback_hfc_emission_factor },
                 :hfc_emission_factor_units => lambda { AutomobileFuel.fallback_hfc_emission_factor_units }
 
-  create_table do
+  force_schema do
     string 'name'
     string 'code'
     string 'base_fuel_name'

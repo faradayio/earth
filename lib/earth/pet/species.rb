@@ -1,7 +1,7 @@
 class Species < ActiveRecord::Base
   set_primary_key :name
   
-  create_table do
+  force_schema do
     string   'name'
     integer  'population'
     float    'diet_emission_intensity'

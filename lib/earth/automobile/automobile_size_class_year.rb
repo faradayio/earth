@@ -1,7 +1,7 @@
 class AutomobileSizeClassYear < ActiveRecord::Base
   set_primary_key :name
 
-  create_table do
+  force_schema do
     string  'name'
     string  'size_class_name'
     integer 'year'

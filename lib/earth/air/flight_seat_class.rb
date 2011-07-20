@@ -3,7 +3,7 @@ class FlightSeatClass < ActiveRecord::Base
   
   falls_back_on :multiplier => 1
 
-  create_table do
+  force_schema do
     string   'name'
     string   'distance_class_name'
     string   'seat_class_name'

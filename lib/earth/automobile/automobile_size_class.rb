@@ -6,7 +6,7 @@ class AutomobileSizeClass < ActiveRecord::Base
                 :conventional_fuel_efficiency_city_multiplier => 0.987,
                 :conventional_fuel_efficiency_highway_multiplier => 0.996
   
-  create_table do
+  force_schema do
     string 'name'
     string 'type_name'
     float  'annual_distance'

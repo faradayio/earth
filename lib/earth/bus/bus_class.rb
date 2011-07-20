@@ -28,7 +28,7 @@ class BusClass < ActiveRecord::Base
                 :alternative_fuels_intensity => 0.04632038.gallons_per_mile.to(:litres_per_kilometre), # deprecated
                 :alternative_fuels_intensity_units => 'litres_per_kilometre' # deprecated
   
-  create_table do
+  force_schema do
     string 'name'
     float  'distance'
     string 'distance_units'

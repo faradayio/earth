@@ -7,7 +7,7 @@ class DietClass < ActiveRecord::Base
     end
   end
   
-  create_table do
+  force_schema do
     string 'name'
     float  'intensity'
     string 'intensity_units'

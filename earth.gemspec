@@ -36,7 +36,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'geokit-rails'
   s.add_runtime_dependency 'loose_tight_dictionary', '>=0.2.3'
   s.add_runtime_dependency 'weighted_average'
-  s.add_runtime_dependency 'create_table', '>=0.0.2'
+  s.add_runtime_dependency 'force_schema', '>=0.0.2'
   s.add_development_dependency 'bundler'
   s.add_development_dependency 'bueller'
   s.add_development_dependency 'cucumber'

@@ -6,7 +6,7 @@ class ClimateDivision < ActiveRecord::Base
   
   RADIUS = 750
 
-  create_table do
+  force_schema do
     string   'name'
     float    'heating_degree_days'
     float    'cooling_degree_days'

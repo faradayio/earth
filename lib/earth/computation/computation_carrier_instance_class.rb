@@ -7,7 +7,7 @@ class ComputationCarrierInstanceClass < ActiveRecord::Base
                 :electricity_intensity => lambda { ComputationCarrierInstanceClass.find_by_name('Amazon m1.small').electricity_intensity },
                 :electricity_intensity_units => lambda { ComputationCarrierInstanceClass.find_by_name('Amazon m1.small').electricity_intensity_units }
   
-  create_table do
+  force_schema do
     string 'name'
     string 'computation_carrier_name'
     string 'instance_class'

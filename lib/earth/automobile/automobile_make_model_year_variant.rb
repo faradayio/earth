@@ -6,7 +6,7 @@ class AutomobileMakeModelYearVariant < ActiveRecord::Base
   belongs_to :make_model_year, :class_name => 'AutomobileMakeModelYear', :foreign_key => 'make_model_year_name'
   belongs_to :fuel,            :class_name => 'AutomobileFuel',          :foreign_key => 'fuel_code', :primary_key => 'code'
   
-  create_table do
+  force_schema do
     string   'row_hash'
     string   'name' # short name!
     string   'make_name'

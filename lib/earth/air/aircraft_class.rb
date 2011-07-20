@@ -11,7 +11,7 @@ class AircraftClass < ActiveRecord::Base
     fuel_use_coefficients.all?(&:present?) and fuel_use_coefficients.any?(&:nonzero?)
   end
 
-  create_table do
+  force_schema do
     string 'code'
     float  'm3'
     string 'm3_units'

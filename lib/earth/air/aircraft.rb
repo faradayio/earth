@@ -17,7 +17,7 @@ class Aircraft < ActiveRecord::Base
     end
   end
   
-  create_table do
+  force_schema do
     string  'icao_code'
     string  'manufacturer_name'
     string  'model_name'
