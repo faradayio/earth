@@ -24,7 +24,6 @@ Aircraft.class_eval do
   # FIXME TODO do we want to restrict this to certain years?
   # Derive some average characteristics from flight segments
   def self.update_averages!
-    FlightSegment.run_data_miner!
     manually_cache_flight_segments!
     find_each do |aircraft|
       aircraft.seats = aircraft.flight_segments.weighted_average :seats_per_flight, :weighted_by => :passengers
@@ -82,7 +81,7 @@ Aircraft.class_eval do
       end
     end
   end
-
+  
   data_miner do
     ('A'..'Z').each do |letter|
       import("aircraft made by whitelisted manufacturers whose ICAO code starts with '#{letter}' from the FAA",
@@ -140,7 +139,7 @@ Aircraft.class_eval do
     end
     
     process :update_averages!
-
+    
     # FIXME TODO verify this
   end
 end

@@ -10,7 +10,7 @@ class AircraftClass < ActiveRecord::Base
   def valid_fuel_use_equation?
     fuel_use_coefficients.all?(&:present?) and fuel_use_coefficients.any?(&:nonzero?)
   end
-
+  
   force_schema do
     string 'code'
     float  'm3'
