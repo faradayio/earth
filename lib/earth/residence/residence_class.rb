@@ -9,5 +9,5 @@ class ResidenceClass < ActiveRecord::Base
     CLASSIFICATIONS.detect { |c| name.downcase.include? c }
   end
 
-  col :
+  col :name
 end
