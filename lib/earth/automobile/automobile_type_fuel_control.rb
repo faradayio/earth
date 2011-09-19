@@ -1,13 +1,11 @@
 class AutomobileTypeFuelControl < ActiveRecord::Base
   set_primary_key :name
-  force_schema do
-    string  'name'
-    string  'type_name'
-    string  'fuel_common_name'
-    string  'control_name'
-    float   'ch4_emission_factor'
-    string  'ch4_emission_factor_units'
-    float   'n2o_emission_factor'
-    string  'n2o_emission_factor_units'
-  end
+  col :name
+  col :type_name
+  col :fuel_common_name
+  col :control_name
+  col :ch4_emission_factor, :type => :float
+  col :ch4_emission_factor_units
+  col :n2o_emission_factor, :type => :float
+  col :n2o_emission_factor_units
 end

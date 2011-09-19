@@ -4,13 +4,11 @@ class AutomobileMakeModel < ActiveRecord::Base
   belongs_to :make,                   :class_name => 'AutomobileMake',                 :foreign_key => 'make_name'
   has_many :make_model_year_variants, :class_name => 'AutomobileMakeModelYearVariant', :foreign_key => 'make_model_name'
 
-  force_schema do
-    string  'name' # make + model
-    string  'make_name'
-    string  'model_name' # model only
-    float   'fuel_efficiency_city'
-    string  'fuel_efficiency_city_units'
-    float   'fuel_efficiency_highway'
-    string  'fuel_efficiency_highway_units'
-  end
+  col :name # make + model
+  col :make_name
+  col :model_name # model only
+  col :fuel_efficiency_city, :type => :float
+  col :fuel_efficiency_city_units
+  col :fuel_efficiency_highway, :type => :float
+  col :fuel_efficiency_highway_units
 end

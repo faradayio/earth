@@ -7,12 +7,10 @@ class GreenhouseGas < ActiveRecord::Base
     end
   end
   
-  force_schema do
-    string  'name'
-    string  'abbreviation'
-    string  'ipcc_report'
-    integer 'time_horizon'
-    string  'time_horizon_units'
-    integer 'global_warming_potential'
-  end
+  col :name
+  col :abbreviation
+  col :ipcc_report
+  col :time_horizon, :type => :integer
+  col :time_horizon_units
+  col :global_warming_potential, :type => :integer
 end

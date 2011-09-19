@@ -4,10 +4,8 @@ class MerchantCategoryIndustry < ActiveRecord::Base
   belongs_to :merchant_category, :foreign_key => 'mcc'
   belongs_to :industry,          :foreign_key => 'naics_code'
 
-  force_schema do
-    string 'row_hash'
-    string 'mcc'
-    float  'ratio'
-    string 'naics_code'
-  end
+  col :row_hash
+  col :mcc
+  col :ratio, :type => :float
+  col :naics_code
 end

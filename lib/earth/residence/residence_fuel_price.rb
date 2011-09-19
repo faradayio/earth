@@ -7,17 +7,15 @@ class ResidenceFuelPrice < ActiveRecord::Base
   belongs_to :fuel, :class_name => 'ResidenceFuelType', :foreign_key => 'residence_fuel_type_name'
   belongs_to :locatable, :polymorphic => true
   
-  force_schema do
-    string  'row_hash'
-    string 'residence_fuel_type_name'
-    integer 'year'
-    integer 'month'
-    float   'price'
-    string  'price_units'
-    string  'price_description'
-    string  'locatable_id'
-    string  'locatable_type'
-    index   ['price', 'residence_fuel_type_name', 'month', 'year', 'locatable_type', 'locatable_id']
-    index   ['price', 'residence_fuel_type_name']
-  end
+  col :row_hash
+  col :residence_fuel_type_name
+  col :year, :type => :integer
+  col :month, :type => :integer
+  col :price, :type => :float
+  col :price_units
+  col :price_description
+  col :locatable_id
+  col :locatable_type
+  add_index [:price, :residence_fuel_type_name, :month, :year, :locatable_type, :locatable_id]
+  add_index [:price, :residence_fuel_type_name]
 end

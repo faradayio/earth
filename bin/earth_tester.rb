@@ -14,12 +14,23 @@ end
 require 'active_support/all'
 require 'active_record'
 
+# postgres
+createdb_bin = ENV['TEST_CREATEDB_BIN'] || 'createdb'
+dropdb_bin = ENV['TEST_DROPDB_BIN'] || 'dropdb'
+username = ENV['TEST_POSTGRES_USERNAME'] || `whoami`.chomp
+# password = ENV['TEST_POSTGRES_PASSWORD'] || 'password'
+database = ENV['TEST_POSTGRES_DATABASE'] || 'test_earth'
+system %{#{dropdb_bin} #{database}}
+system %{#{createdb_bin} #{database}}
+
+# TODO mysql
+
 ActiveRecord::Base.establish_connection(
-  'adapter' => 'mysql',
-  'database' => 'test_earth',
-  'username' => 'root',
-  'password' => 'password',
-  'encoding' => 'utf8' # very, very important
+  'adapter' => 'postgresql',
+  'encoding' => 'utf8',
+  'database' => database,
+  'username' => username,
+  # 'password' => password
 )
 
 require 'earth'

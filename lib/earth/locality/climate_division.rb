@@ -6,10 +6,8 @@ class ClimateDivision < ActiveRecord::Base
   
   RADIUS = 750
 
-  force_schema do
-    string   'name'
-    float    'heating_degree_days'
-    float    'cooling_degree_days'
-    string   'state_postal_abbreviation'
-  end
+  col :name
+  col :heating_degree_days, :type => :float
+  col :cooling_degree_days, :type => :float
+  col :state_postal_abbreviation
 end

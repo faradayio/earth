@@ -23,22 +23,20 @@ class EgridSubregion < ActiveRecord::Base
                 :electricity_emission_factor => lambda { weighted_average(:electricity_emission_factor, :weighted_by => :net_generation) }, # DEPRECATED
                 :electricity_emission_factor_units => 'kilograms_co2e_per_kilowatt_hour' # DEPRECATED
   
-  force_schema do
-    string 'abbreviation'
-    string 'name'
-    string 'nerc_abbreviation'
-    string 'egrid_region_name'
-    float  'net_generation'
-    string 'net_generation_units'
-    float  'electricity_co2_emission_factor'
-    string 'electricity_co2_emission_factor_units'
-    float  'electricity_co2_biogenic_emission_factor'
-    string 'electricity_co2_biogenic_emission_factor_units'
-    float  'electricity_ch4_emission_factor'
-    string 'electricity_ch4_emission_factor_units'
-    float  'electricity_n2o_emission_factor'
-    string 'electricity_n2o_emission_factor_units'
-    float  'electricity_emission_factor'
-    string 'electricity_emission_factor_units'
-  end
+  col :abbreviation
+  col :name
+  col :nerc_abbreviation
+  col :egrid_region_name
+  col :net_generation, :type => :float
+  col :net_generation_units
+  col :electricity_co2_emission_factor, :type => :float
+  col :electricity_co2_emission_factor_units
+  col :electricity_co2_biogenic_emission_factor, :type => :float
+  col :electricity_co2_biogenic_emission_factor_units
+  col :electricity_ch4_emission_factor, :type => :float
+  col :electricity_ch4_emission_factor_units
+  col :electricity_n2o_emission_factor, :type => :float
+  col :electricity_n2o_emission_factor_units
+  col :electricity_emission_factor, :type => :float
+  col :electricity_emission_factor_units
 end

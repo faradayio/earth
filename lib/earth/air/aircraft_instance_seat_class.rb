@@ -1,14 +1,12 @@
 class AircraftInstanceSeatClass < ActiveRecord::Base
   set_primary_key :row_hash
   
-  force_schema do
-    string  'row_hash'
-    string  'seat_class_name'
-    string  'aircraft_instance_id'
-    integer 'seats'
-    float   'seat_pitch'
-    string  'seat_pitch_units'
-    float   'seat_width'
-    string  'seat_width_units'
-  end
+  col :row_hash
+  col :seat_class_name
+  col :aircraft_instance_id
+  col :seats, :type => :integer
+  col :seat_pitch, :type => :float
+  col :seat_pitch_units
+  col :seat_width, :type => :float
+  col :seat_width_units
 end

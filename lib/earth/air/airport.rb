@@ -7,13 +7,11 @@ class Airport < ActiveRecord::Base
                    :lat_column_name => :latitude,
                    :lng_column_name => :longitude
 
-  force_schema do
-    string   'iata_code'
-    string   'name'
-    string   'city'
-    string   'country_name'
-    string   'country_iso_3166_code'
-    float    'latitude'
-    float    'longitude'
-  end
+  col :iata_code
+  col :name
+  col :city
+  col :country_name
+  col :country_iso_3166_code
+  col :latitude, :type => :float
+  col :longitude, :type => :float
 end

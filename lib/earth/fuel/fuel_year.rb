@@ -1,19 +1,17 @@
 class FuelYear < ActiveRecord::Base
   set_primary_key :name
   
-  force_schema do
-    string  'name'
-    string  'fuel_name'
-    integer 'year'
-    float   'energy_content'
-    string  'energy_content_units'
-    float   'carbon_content'
-    string  'carbon_content_units'
-    float   'oxidation_factor'
-    float   'biogenic_fraction'
-    float   'co2_emission_factor'
-    string  'co2_emission_factor_units'
-    float   'co2_biogenic_emission_factor'
-    string  'co2_biogenic_emission_factor_units'
-  end
+  col :name
+  col :fuel_name
+  col :year, :type => :integer
+  col :energy_content, :type => :float
+  col :energy_content_units
+  col :carbon_content, :type => :float
+  col :carbon_content_units
+  col :oxidation_factor, :type => :float
+  col :biogenic_fraction, :type => :float
+  col :co2_emission_factor, :type => :float
+  col :co2_emission_factor_units
+  col :co2_biogenic_emission_factor, :type => :float
+  col :co2_biogenic_emission_factor_units
 end

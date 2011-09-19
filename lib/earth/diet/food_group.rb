@@ -11,12 +11,10 @@ class FoodGroup < ActiveRecord::Base
     end
   end
   
-  force_schema do
-    string  'name'
-    float   'intensity'
-    string  'intensity_units'
-    float   'energy'
-    string  'energy_units'
-    string  'suggested_imperial_measurement' # ?
-  end
+  col :name
+  col :intensity, :type => :float
+  col :intensity_units
+  col :energy, :type => :float
+  col :energy_units
+  col :suggested_imperial_measurement # ?
 end

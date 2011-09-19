@@ -7,19 +7,17 @@ class DietClass < ActiveRecord::Base
     end
   end
   
-  force_schema do
-    string 'name'
-    float  'intensity'
-    string 'intensity_units'
-    float  'red_meat_share'
-    float  'poultry_share'
-    float  'fish_share'
-    float  'eggs_share'
-    float  'nuts_share'
-    float  'dairy_share'
-    float  'cereals_and_grains_share'
-    float  'fruit_share'
-    float  'vegetables_share'
-    float  'oils_and_sugars_share'
-  end
+  col :name
+  col :intensity, :type => :float
+  col :intensity_units
+  col :red_meat_share, :type => :float
+  col :poultry_share, :type => :float
+  col :fish_share, :type => :float
+  col :eggs_share, :type => :float
+  col :nuts_share, :type => :float
+  col :dairy_share, :type => :float
+  col :cereals_and_grains_share, :type => :float
+  col :fruit_share, :type => :float
+  col :vegetables_share, :type => :float
+  col :oils_and_sugars_share, :type => :float
 end

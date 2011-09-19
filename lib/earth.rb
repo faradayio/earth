@@ -1,3 +1,4 @@
+require 'active_support/core_ext'
 require 'active_record'
 require 'cohort_scope'
 require 'earth/conversions_ext'
@@ -7,7 +8,7 @@ require 'falls_back_on'
 require 'weighted_average'
 require 'fixed_width'
 require 'errata'
-require 'force_schema'
+require 'mini_record'
 require 'loose_tight_dictionary'
 require 'loose_tight_dictionary/cached_result'
 
@@ -119,13 +120,13 @@ module Earth
     resource_model.data_miner_config.steps.push pull_dependencies_step
   end
   
-  def _prepend_force_schema_step_to_data_miner(resource)
+  def _prepend_auto_upgrade_step_to_data_miner(resource)
     resource_model = resource.constantize
-    return if resource_model.data_miner_config.steps.any? { |step| step.description == :force_schema! }
+    return if resource_model.data_miner_config.steps.any? { |step| step.description == :auto_upgrade! }
 
-    force_schema_step = DataMiner::Process.new resource_model.data_miner_config, :force_schema!
+    auto_upgrade_step = DataMiner::Process.new resource_model.data_miner_config, :auto_upgrade!
 
-    resource_model.data_miner_config.steps.unshift force_schema_step
+    resource_model.data_miner_config.steps.unshift auto_upgrade_step
   end
   
   TAPS_STEP = 'Tap the Brighter Planet data server'
@@ -144,7 +145,7 @@ module Earth
       next unless ::Object.const_defined?(resource)
       _append_pull_dependencies_step_to_data_miner resource
       if options[:apply_schemas] or options[:load_data_miner]
-        _prepend_force_schema_step_to_data_miner resource
+        _prepend_auto_upgrade_step_to_data_miner resource
       else
         _prepend_taps_step_to_data_miner resource
       end
@@ -154,7 +155,7 @@ module Earth
   def _load_schemas(selected_resources, options)
     return unless options[:apply_schemas]
     selected_resources.each do |resource|
-      resource.constantize.force_schema!
+      resource.constantize.auto_upgrade!
     end
   end
 end

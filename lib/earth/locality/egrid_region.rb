@@ -7,8 +7,6 @@ class EgridRegion < ActiveRecord::Base
   falls_back_on :name => 'fallback',
                 :loss_factor => 0.061879 # calculated using above formula 2/21/2011
   
-  force_schema do
-    string   'name'
-    float    'loss_factor'
-  end
+  col :name
+  col :loss_factor, :type => :float
 end

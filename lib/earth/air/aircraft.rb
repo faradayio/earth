@@ -17,20 +17,18 @@ class Aircraft < ActiveRecord::Base
     end
   end
   
-  force_schema do
-    string  'icao_code'
-    string  'manufacturer_name'
-    string  'model_name'
-    string  'description'
-    string  'aircraft_type'
-    string  'engine_type'
-    integer 'engines'
-    string  'weight_class'
-    string  'class_code'
-    string  'fuel_use_code'
-    float   'seats'
-    float   'passengers'
-  end
+  col :icao_code
+  col :manufacturer_name
+  col :model_name
+  col :description
+  col :aircraft_type
+  col :engine_type
+  col :engines, :type => :integer
+  col :weight_class
+  col :class_code
+  col :fuel_use_code
+  col :seats, :type => :float
+  col :passengers, :type => :float
   
   # Enable aircraft.flight_segments
   cache_loose_tight_dictionary_matches_with :flight_segments, :primary_key => :description, :foreign_key => :aircraft_description

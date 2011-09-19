@@ -3,10 +3,8 @@ class Sector < ActiveRecord::Base
 
   has_many :industry_sectors, :foreign_key => 'io_code'
   
-  force_schema do
-    string 'io_code'
-    string 'description'
-    float  'value'
-    string 'value_units'
-  end
+  col :io_code
+  col :description
+  col :value, :type => :float
+  col :value_units
 end

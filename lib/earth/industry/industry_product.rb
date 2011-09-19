@@ -5,11 +5,9 @@ class IndustryProduct < ActiveRecord::Base
   
   belongs_to :industry, :foreign_key => 'naics_code'
   
-  force_schema do
-    string 'naics_product_code'
-    string 'description'
-    float  'value'
-    string 'value_units'
-    string 'naics_code'
-  end
+  col :naics_product_code
+  col :description
+  col :value, :type => :float
+  col :value_units
+  col :naics_code
 end

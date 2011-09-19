@@ -1,22 +1,20 @@
 class Species < ActiveRecord::Base
   set_primary_key :name
   
-  force_schema do
-    string   'name'
-    integer  'population'
-    float    'diet_emission_intensity'
-    string   'diet_emission_intensity_units'
-    float    'weight'
-    string   'weight_units'
-    float    'marginal_dietary_requirement'
-    string   'marginal_dietary_requirement_units'
-    float    'fixed_dietary_requirement'
-    string   'fixed_dietary_requirement_units'
-    float    'minimum_weight'
-    string   'minimum_weight_units'
-    float    'maximum_weight'
-    string   'maximum_weight_units'
-  end
+  col :name
+  col :population, :type => :integer
+  col :diet_emission_intensity, :type => :float
+  col :diet_emission_intensity_units
+  col :weight, :type => :float
+  col :weight_units
+  col :marginal_dietary_requirement, :type => :float
+  col :marginal_dietary_requirement_units
+  col :fixed_dietary_requirement, :type => :float
+  col :fixed_dietary_requirement_units
+  col :minimum_weight, :type => :float
+  col :minimum_weight_units
+  col :maximum_weight, :type => :float
+  col :maximum_weight_units
   
   scope :thoroughly_researched, :conditions => 'marginal_dietary_requirement IS NOT NULL'
   

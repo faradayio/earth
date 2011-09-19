@@ -3,16 +3,14 @@ class AutomobileTypeFuelYearAge < ActiveRecord::Base
   
   belongs_to :type_fuel_year, :class_name => 'AutomobileTypeFuelYear', :foreign_key => 'type_fuel_year_name'
 
-  force_schema do
-    string  'name'
-    string  'type_name'
-    string  'fuel_common_name'
-    integer 'year'
-    integer 'age'
-    string  'type_fuel_year_name'
-    float   'total_travel_percent'
-    float   'annual_distance'
-    string  'annual_distance_units'
-    integer 'vehicles'
-  end
+  col :name
+  col :type_name
+  col :fuel_common_name
+  col :year, :type => :integer
+  col :age, :type => :integer
+  col :type_fuel_year_name
+  col :total_travel_percent, :type => :float
+  col :annual_distance, :type => :float
+  col :annual_distance_units
+  col :vehicles, :type => :integer
 end

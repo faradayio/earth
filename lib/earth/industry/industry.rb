@@ -9,10 +9,8 @@ class Industry < ActiveRecord::Base
   has_many :industry_sectors, :foreign_key => 'naics_code'
   has_many :sectors, :through => :industry_sectors
   
-  force_schema do
-    string 'naics_code'
-    string 'description'
-  end
+  col :naics_code
+  col :description
 
   def trade_industry?
     prefix = naics_code.to_s[0,2]

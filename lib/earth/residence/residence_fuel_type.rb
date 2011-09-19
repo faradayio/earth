@@ -3,13 +3,11 @@ class ResidenceFuelType < ActiveRecord::Base
   
   has_many :prices, :class_name => 'ResidenceFuelPrice', :foreign_key => 'residence_fuel_type_name'
   
-  force_schema do
-    string   'name'
-    float    'emission_factor'
-    string   'emission_factor_units'
-    # float    'energy_content'
-    # string   'energy_content_units'
-  end
+  col :name
+  col :emission_factor, :type => :float
+  col :emission_factor_units
+  # col :energy_content, :type => :float
+  # col :energy_content_units
   
   def price_per_unit(relaxations = [])
     conditions = { :residence_fuel_type_name => self }

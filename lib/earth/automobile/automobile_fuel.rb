@@ -98,29 +98,27 @@ class AutomobileFuel < ActiveRecord::Base
                 :hfc_emission_factor => lambda { AutomobileFuel.fallback_hfc_emission_factor },
                 :hfc_emission_factor_units => lambda { AutomobileFuel.fallback_hfc_emission_factor_units }
 
-  force_schema do
-    string 'name'
-    string 'code'
-    string 'base_fuel_name'
-    string 'blend_fuel_name'
-    float  'blend_portion' # the portion of the blend that is the blend fuel
-    string 'distance_key' # used to look up annual distance from AutomobileTypeFuelYear
-    string 'ef_key' # used to look up ch4 n2o and hfc emission factors from AutomobileTypeFuelYear
-    float  'annual_distance'
-    string 'annual_distance_units'
-    float  'co2_emission_factor'
-    string 'co2_emission_factor_units'
-    float  'co2_biogenic_emission_factor'
-    string 'co2_biogenic_emission_factor_units'
-    float  'ch4_emission_factor'
-    string 'ch4_emission_factor_units'
-    float  'n2o_emission_factor'
-    string 'n2o_emission_factor_units'
-    float  'hfc_emission_factor'
-    string 'hfc_emission_factor_units'
-    float  'emission_factor' # DEPRECATED but motorcycle needs this
-    string 'emission_factor_units' # DEPRECATED but motorcycle needs this
-  end
+  col :name
+  col :code
+  col :base_fuel_name
+  col :blend_fuel_name
+  col :blend_portion, :type => :float # the portion of the blend that is the blend fuel
+  col :distance_key # used to look up annual distance from AutomobileTypeFuelYear
+  col :ef_key # used to look up ch4 n2o and hfc emission factors from AutomobileTypeFuelYear
+  col :annual_distance, :type => :float
+  col :annual_distance_units
+  col :co2_emission_factor, :type => :float
+  col :co2_emission_factor_units
+  col :co2_biogenic_emission_factor, :type => :float
+  col :co2_biogenic_emission_factor_units
+  col :ch4_emission_factor, :type => :float
+  col :ch4_emission_factor_units
+  col :n2o_emission_factor, :type => :float
+  col :n2o_emission_factor_units
+  col :hfc_emission_factor, :type => :float
+  col :hfc_emission_factor_units
+  col :emission_factor, :type => :float # DEPRECATED but motorcycle needs this
+  col :emission_factor_units # DEPRECATED but motorcycle needs this
 
   CODES = {
     :electricity => 'El',

@@ -3,10 +3,8 @@ class ShipmentMode < ActiveRecord::Base
   
   has_many :carrier_modes, :foreign_key => 'mode_name', :primary_key => 'name'
   
-  force_schema do
-    string 'name'
-    float  'route_inefficiency_factor'
-    float  'transport_emission_factor'
-    string 'transport_emission_factor_units'
-  end
+  col :name
+  col :route_inefficiency_factor, :type => :float
+  col :transport_emission_factor, :type => :float
+  col :transport_emission_factor_units
 end

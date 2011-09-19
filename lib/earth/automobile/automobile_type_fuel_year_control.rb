@@ -3,14 +3,12 @@ class AutomobileTypeFuelYearControl < ActiveRecord::Base
   
   belongs_to :control, :class_name => 'AutomobileTypeFuelControl', :foreign_key => 'type_fuel_control_name'
   
-  force_schema do
-    string  'name'
-    string  'type_name'
-    string  'fuel_common_name'
-    integer 'year'
-    string  'control_name'
-    string  'type_fuel_control_name'
-    string  'type_fuel_year_name'
-    float   'total_travel_percent'
-  end
+  col :name
+  col :type_name
+  col :fuel_common_name
+  col :year, :type => :integer
+  col :control_name
+  col :type_fuel_control_name
+  col :type_fuel_year_name
+  col :total_travel_percent, :type => :float
 end

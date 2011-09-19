@@ -13,26 +13,24 @@ class CensusDivision < ActiveRecord::Base
                 :meeting_building_electricity_intensity => 0.0084323684 / 1.square_feet.to(:square_metres),
                 :meeting_building_district_heat_intensity => 0.0004776370.kbtus.to(:megajoules) / 1.square_feet.to(:square_metres)
   
-  force_schema do
-    integer 'number'
-    string  'name'
-    string  'census_region_name'
-    integer 'census_region_number'
-    float   'meeting_building_natural_gas_intensity'
-    string  'meeting_building_natural_gas_intensity_units'
-    float   'meeting_building_fuel_oil_intensity'
-    string  'meeting_building_fuel_oil_intensity_units'
-    float   'meeting_building_electricity_intensity'
-    string  'meeting_building_electricity_intensity_units'
-    float   'meeting_building_district_heat_intensity'
-    string  'meeting_building_district_heat_intensity_units'
-    float   'lodging_building_natural_gas_intensity'
-    string  'lodging_building_natural_gas_intensity_units'
-    float   'lodging_building_fuel_oil_intensity'
-    string  'lodging_building_fuel_oil_intensity_units'
-    float   'lodging_building_electricity_intensity'
-    string  'lodging_building_electricity_intensity_units'
-    float   'lodging_building_district_heat_intensity'
-    string  'lodging_building_district_heat_intensity_units'
-  end
+  col :number, :type => :integer
+  col :name
+  col :census_region_name
+  col :census_region_number, :type => :integer
+  col :meeting_building_natural_gas_intensity, :type => :float
+  col :meeting_building_natural_gas_intensity_units
+  col :meeting_building_fuel_oil_intensity, :type => :float
+  col :meeting_building_fuel_oil_intensity_units
+  col :meeting_building_electricity_intensity, :type => :float
+  col :meeting_building_electricity_intensity_units
+  col :meeting_building_district_heat_intensity, :type => :float
+  col :meeting_building_district_heat_intensity_units
+  col :lodging_building_natural_gas_intensity, :type => :float
+  col :lodging_building_natural_gas_intensity_units
+  col :lodging_building_fuel_oil_intensity, :type => :float
+  col :lodging_building_fuel_oil_intensity_units
+  col :lodging_building_electricity_intensity, :type => :float
+  col :lodging_building_electricity_intensity_units
+  col :lodging_building_district_heat_intensity, :type => :float
+  col :lodging_building_district_heat_intensity_units
 end

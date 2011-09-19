@@ -3,21 +3,19 @@ class Fuel < ActiveRecord::Base
   
   has_many :fuel_years, :foreign_key => 'fuel_name'
   
-  force_schema do
-    string 'name'
-    float  'density'
-    string 'density_units'
-    float  'energy_content'
-    string 'energy_content_units'
-    float  'carbon_content'
-    string 'carbon_content_units'
-    float  'oxidation_factor'
-    float  'biogenic_fraction'
-    float  'co2_emission_factor'
-    string 'co2_emission_factor_units'
-    float  'co2_biogenic_emission_factor'
-    string 'co2_biogenic_emission_factor_units'
-  end
+  col :name
+  col :density, :type => :float
+  col :density_units
+  col :energy_content, :type => :float
+  col :energy_content_units
+  col :carbon_content, :type => :float
+  col :carbon_content_units
+  col :oxidation_factor, :type => :float
+  col :biogenic_fraction, :type => :float
+  col :co2_emission_factor, :type => :float
+  col :co2_emission_factor_units
+  col :co2_biogenic_emission_factor, :type => :float
+  col :co2_biogenic_emission_factor_units
   
   def latest_year
     fuel_years.find_by_year(fuel_years.maximum('year'))

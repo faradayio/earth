@@ -12,17 +12,15 @@ class FuelType < ActiveRecord::Base
     prices.average :price
   end
   
-  force_schema do
-    string 'name'
-    float  'emission_factor'
-    string 'emission_factor_units'
-    float  'density'
-    string 'density_units'
-    float  'average_purchase_volume'
-    string 'average_purchase_volume_units'
-    # float    'energy_content'
-    # string   'energy_content_units'
-    # float    'carbon_content'
-    # string   'carbon_content_units'
-  end
+  col :name
+  col :emission_factor, :type => :float
+  col :emission_factor_units
+  col :density, :type => :float
+  col :density_units
+  col :average_purchase_volume, :type => :float
+  col :average_purchase_volume_units
+  # col :energy_content, :type => :float
+  # col :energy_content_units
+  # col :carbon_content, :type => :float
+  # col :carbon_content_units
 end

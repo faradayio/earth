@@ -6,9 +6,7 @@ class AutomobileMake < ActiveRecord::Base
   has_many :fleet_years,              :class_name => 'AutomobileMakeFleetYear',        :foreign_key => 'make_name'
   has_many :make_model_year_variants, :class_name => 'AutomobileMakeModelYearVariant', :foreign_key => 'make_name'
 
-  force_schema do
-    string  'name'
-    float   'fuel_efficiency'
-    string  'fuel_efficiency_units'
-  end
+  col :name
+  col :fuel_efficiency, :type => :float
+  col :fuel_efficiency_units
 end

@@ -10,9 +10,7 @@ class ResidenceAppliance < ActiveRecord::Base
     end
   end
 
-  force_schema do
-    string   'name'
-    float    'annual_energy_from_electricity'
-    string   'annual_energy_from_electricity_units'
-  end
+  col :name
+  col :annual_energy_from_electricity, :type => :float
+  col :annual_energy_from_electricity_units
 end

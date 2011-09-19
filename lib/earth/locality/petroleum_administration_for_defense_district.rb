@@ -8,11 +8,9 @@ class PetroleumAdministrationForDefenseDistrict < ActiveRecord::Base
     str
   end
   
-  force_schema do
-    string   'code'
-    string   'district_code'
-    string   'district_name'
-    string   'subdistrict_code'
-    string   'subdistrict_name'
-  end
+  col :code
+  col :district_code
+  col :district_name
+  col :subdistrict_code
+  col :subdistrict_name
 end

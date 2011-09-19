@@ -11,16 +11,14 @@ class AircraftClass < ActiveRecord::Base
     fuel_use_coefficients.all?(&:present?) and fuel_use_coefficients.any?(&:nonzero?)
   end
   
-  force_schema do
-    string 'code'
-    float  'm3'
-    string 'm3_units'
-    float  'm2'
-    string 'm2_units'
-    float  'm1'
-    string 'm1_units'
-    float  'b'
-    string 'b_units'
-    float  'seats'
-  end
+  col :code
+  col :m3, :type => :float
+  col :m3_units
+  col :m2, :type => :float
+  col :m2_units
+  col :m1, :type => :float
+  col :m1_units
+  col :b, :type => :float
+  col :b_units
+  col :seats, :type => :float
 end

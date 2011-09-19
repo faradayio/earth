@@ -8,8 +8,6 @@ class MerchantCategory < ActiveRecord::Base
     description
   end
 
-  force_schema do
-    string 'mcc'
-    string 'description'
-  end
+  col :mcc
+  col :description
 end

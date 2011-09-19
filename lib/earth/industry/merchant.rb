@@ -3,9 +3,7 @@ class Merchant < ActiveRecord::Base
   
   belongs_to :merchant_category, :foreign_key => 'mcc'
 
-  force_schema do
-    string 'id'
-    string 'name'
-    string 'mcc'
-  end
+  col :id
+  col :name
+  col :mcc
 end

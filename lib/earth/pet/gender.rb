@@ -3,7 +3,5 @@ class Gender < ActiveRecord::Base
   
   has_many :breed_genders, :foreign_key => 'gender_name'
   
-  force_schema do
-    string 'name'
-  end
+  col :name
 end

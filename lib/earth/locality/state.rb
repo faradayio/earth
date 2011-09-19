@@ -11,11 +11,9 @@ class State < ActiveRecord::Base
     Country.united_states
   end
 
-  force_schema do
-    string   'postal_abbreviation'
-    integer  'fips_code'
-    string   'name'
-    string   'census_division_number'
-    string   'petroleum_administration_for_defense_district_code'
-  end
+  col :postal_abbreviation
+  col :fips_code, :type => :integer
+  col :name
+  col :census_division_number
+  col :petroleum_administration_for_defense_district_code
 end

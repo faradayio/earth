@@ -8,18 +8,16 @@ class BusFuel < ActiveRecord::Base
     fuel_year_controls.where(:year => fuel_year_controls.maximum('year'))
   end
   
-  force_schema do
-    string 'name'
-    string 'fuel_name'
-    float  'energy_content'
-    string 'energy_content_units'
-    float  'co2_emission_factor'
-    string 'co2_emission_factor_units'
-    float  'co2_biogenic_emission_factor'
-    string 'co2_biogenic_emission_factor_units'
-    float  'ch4_emission_factor'
-    string 'ch4_emission_factor_units'
-    float  'n2o_emission_factor'
-    string 'n2o_emission_factor_units'
-  end
+  col :name
+  col :fuel_name
+  col :energy_content, :type => :float
+  col :energy_content_units
+  col :co2_emission_factor, :type => :float
+  col :co2_emission_factor_units
+  col :co2_biogenic_emission_factor, :type => :float
+  col :co2_biogenic_emission_factor_units
+  col :ch4_emission_factor, :type => :float
+  col :ch4_emission_factor_units
+  col :n2o_emission_factor, :type => :float
+  col :n2o_emission_factor_units
 end

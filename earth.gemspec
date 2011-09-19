@@ -36,14 +36,16 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'geokit-rails'
   s.add_runtime_dependency 'loose_tight_dictionary', '>=0.2.3'
   s.add_runtime_dependency 'weighted_average'
-  s.add_runtime_dependency 'force_schema', '>=0.0.2'
+  # s.add_runtime_dependency 'mini_record' # need https://github.com/DAddYE/mini_record/pull/7 - for now install manually from https://github.com/seamusabshere/mini_record
+  s.add_runtime_dependency 'activesupport'
+  s.add_runtime_dependency 'activerecord'
   s.add_development_dependency 'bundler'
   s.add_development_dependency 'bueller'
   s.add_development_dependency 'cucumber'
   s.add_development_dependency 'rake'
   s.add_development_dependency 'rdoc'
-  s.add_development_dependency 'rdoc'
   s.add_development_dependency 'rspec'
   s.add_development_dependency 'sqlite3-ruby'
   s.add_development_dependency 'mysql' # for bin/earth_tester.rb
+  s.add_development_dependency 'pg'
 end

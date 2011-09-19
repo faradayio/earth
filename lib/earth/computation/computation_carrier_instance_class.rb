@@ -7,11 +7,9 @@ class ComputationCarrierInstanceClass < ActiveRecord::Base
                 :electricity_intensity => lambda { ComputationCarrierInstanceClass.find_by_name('Amazon m1.small').electricity_intensity },
                 :electricity_intensity_units => lambda { ComputationCarrierInstanceClass.find_by_name('Amazon m1.small').electricity_intensity_units }
   
-  force_schema do
-    string 'name'
-    string 'computation_carrier_name'
-    string 'instance_class'
-    float  'electricity_intensity'
-    string 'electricity_intensity_units'
-  end
+  col :name
+  col :computation_carrier_name
+  col :instance_class
+  col :electricity_intensity, :type => :float
+  col :electricity_intensity_units
 end

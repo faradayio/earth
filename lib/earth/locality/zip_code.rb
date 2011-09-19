@@ -11,13 +11,11 @@ class ZipCode < ActiveRecord::Base
                    :lat_column_name => :latitude,
                    :lng_column_name => :longitude
 
-  force_schema do
-    string   'name'
-    string   'state_postal_abbreviation'
-    string   'description'
-    string   'latitude'
-    string   'longitude'
-    string   'egrid_subregion_abbreviation'
-    string   'climate_division_name'
-  end
+  col :name
+  col :state_postal_abbreviation
+  col :description
+  col :latitude
+  col :longitude
+  col :egrid_subregion_abbreviation
+  col :climate_division_name
 end

@@ -19,18 +19,16 @@ class Country < ActiveRecord::Base
     end
   end
   
-  force_schema do
-    string 'iso_3166_code'
-    string 'name'
-    float  'automobile_urbanity'
-    float  'automobile_fuel_efficiency'
-    string 'automobile_fuel_efficiency_units'
-    float  'automobile_city_speed'
-    string 'automobile_city_speed_units'
-    float  'automobile_highway_speed'
-    string 'automobile_highway_speed_units'
-    float  'automobile_trip_distance'
-    string 'automobile_trip_distance_units'
-    float  'flight_route_inefficiency_factor'
-  end
+  col :iso_3166_code
+  col :name
+  col :automobile_urbanity, :type => :float
+  col :automobile_fuel_efficiency, :type => :float
+  col :automobile_fuel_efficiency_units
+  col :automobile_city_speed, :type => :float
+  col :automobile_city_speed_units
+  col :automobile_highway_speed, :type => :float
+  col :automobile_highway_speed_units
+  col :automobile_trip_distance, :type => :float
+  col :automobile_trip_distance_units
+  col :flight_route_inefficiency_factor, :type => :float
 end
