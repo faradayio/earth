@@ -39,7 +39,7 @@ class Aircraft < ActiveRecord::Base
       find_each do |aircraft|
         aircraft.seats = aircraft.flight_segments.weighted_average :seats_per_flight, :weighted_by => :passengers
         aircraft.passengers = aircraft.flight_segments.sum :passengers
-        aircraft.save
+        aircraft.save!
       end
     end
   
