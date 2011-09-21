@@ -47,14 +47,12 @@ class Aircraft < ActiveRecord::Base
     def manually_cache_flight_segments!
       FlightSegment.run_data_miner!
       LooseTightDictionary::CachedResult.setup
-      FlightSegment.find_by_sql("SELECT * FROM flight_segments GROUP BY aircraft_description HAVING aircraft_description IS NOT NULL").each do |flight_segment|
-        original_description = flight_segment.aircraft_description
-      
+      connection.select_values("SELECT DISTINCT(aircraft_description) FROM flight_segments WHERE aircraft_description IS NOT NULL").each do |original_description|
         # If the flight segment's aircraft_description contains '/' then it describes multiple aircraft.
         # We need to synthesize descriptions for those aircraft, find all Aircraft that fuzzily match the
         # synthesized descriptions, and associate those Aircraft with the original aircraft_description.
         # e.g. boeing 747-100/200
-        if original_description.include?("/")
+        if original_description.include?('/')
           # Pull out the complete first aircraft description
           # e.g. 'boeing 747-100'
           first_description = original_description.split('/')[0]
@@ -88,7 +86,7 @@ class Aircraft < ActiveRecord::Base
         # If the flight segment's aircraft_description doesn't contain '/' we can use
         # a method provided by loose_tight_dictionary to associate it with Aircraft
         else
-          flight_segment.cache_aircraft!
+          FlightSegment.find_by_aircraft_description(original_description).cache_aircraft!
         end
       end
     end
