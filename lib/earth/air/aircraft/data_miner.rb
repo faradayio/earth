@@ -21,67 +21,6 @@ Aircraft.class_eval do
     @manufacturer_whitelist.any? { |manufacturer_regexp| manufacturer_regexp.match candidate }
   end
   
-  # FIXME TODO do we want to restrict this to certain years?
-  # Derive some average characteristics from flight segments
-  def self.update_averages!
-    manually_cache_flight_segments!
-    find_each do |aircraft|
-      aircraft.seats = aircraft.flight_segments.weighted_average :seats_per_flight, :weighted_by => :passengers
-      aircraft.passengers = aircraft.flight_segments.sum :passengers
-      aircraft.save
-    end
-  end
-  
-  # Cache fuzzy matches between FlightSegment aircraft_description and Aircraft description
-  def self.manually_cache_flight_segments!
-    FlightSegment.run_data_miner!
-    LooseTightDictionary::CachedResult.setup
-    FlightSegment.find_by_sql("SELECT * FROM flight_segments GROUP BY aircraft_description HAVING aircraft_description IS NOT NULL").each do |flight_segment|
-      original_description = flight_segment.aircraft_description
-      
-      # If the flight segment's aircraft_description contains '/' then it describes multiple aircraft.
-      # We need to synthesize descriptions for those aircraft, find all Aircraft that fuzzily match the
-      # synthesized descriptions, and associate those Aircraft with the original aircraft_description.
-      # e.g. boeing 747-100/200
-      if original_description.include?("/")
-        # Pull out the complete first aircraft description
-        # e.g. 'boeing 747-100'
-        first_description = original_description.split('/')[0]
-        
-        # Pull out the root of the description - the text up to and including the last ' ' or '-'
-        # e.g. 'boeing 747-'
-        root_length = first_description.rindex(/[ \-]/)
-        root = first_description.slice(0..root_length)
-        
-        # Pull out the suffixes - the text separated by forward slashes
-        # e.g. ['100', '200']
-        suffixes = original_description.split(root)[1].split('/')
-        
-        # Create an array of synthesized descriptions by appending each suffix to the root
-        # e.g. ['boeing 747-100', 'boeing 747-200']
-        suffixes.map{ |suffix| root + suffix }.each do |synthesized_description|
-          # Look up the Aircraft that match each synthesized description and associate
-          # them with the original flight segment aircraft_description
-          Aircraft.loose_tight_dictionary.find_all(synthesized_description).each do |aircraft|
-            attrs = {
-              :a_class => "Aircraft",
-              :a => aircraft.description,
-              :b_class => "FlightSegment",
-              :b => original_description
-            }
-            unless ::LooseTightDictionary::CachedResult.exists? attrs
-              ::LooseTightDictionary::CachedResult.create! attrs
-            end
-          end
-        end
-      # If the flight segment's aircraft_description doesn't contain '/' we can use
-      # a method provided by loose_tight_dictionary to associate it with Aircraft
-      else
-        flight_segment.cache_aircraft!
-      end
-    end
-  end
-  
   data_miner do
     ('A'..'Z').each do |letter|
       import("aircraft made by whitelisted manufacturers whose ICAO code starts with '#{letter}' from the FAA",
