@@ -21,8 +21,8 @@ when 'mysql'
   username = 'root'
   password = 'password'
   
-  system %{mysql -u #{username} -p#{password} -e "DROP DATABASE #{database}"}
-  system %{mysql -u #{username} -p#{password} -e "CREATE DATABASE #{database}"}
+  # system %{mysql -u #{username} -p#{password} -e "DROP DATABASE #{database}"}
+  # system %{mysql -u #{username} -p#{password} -e "CREATE DATABASE #{database}"}
 when 'sqlite'
   adapter = 'sqlite3'
   database = ':memory:'
@@ -36,8 +36,8 @@ else
 
   createdb_bin = ENV['EARTH_CREATEDB_BIN'] || 'createdb'
   dropdb_bin = ENV['EARTH_DROPDB_BIN'] || 'dropdb'
-  system %{#{dropdb_bin} #{database}}
-  system %{#{createdb_bin} #{database}}
+  # system %{#{dropdb_bin} #{database}}
+  # system %{#{createdb_bin} #{database}}
 end
 
 config = {
