@@ -46,7 +46,7 @@ Airport.class_eval do
     process "Fill in blank country codes" do
       Country.find_each do |country|
         next unless country.name.present? and country.iso_3166_code.present?
-        update_all %{country_iso_3166_code = "#{country.iso_3166_code}"}, %{country_name LIKE "#{country.name}"}
+        update_all({ :country_iso_3166_code => country.iso_3166_code }, [ "country_name LIKE ?", country.name ])
       end
     end
     

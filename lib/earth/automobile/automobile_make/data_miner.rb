@@ -47,7 +47,7 @@ AutomobileMake.class_eval do
     end
     
     process "Set units" do
-      update_all "fuel_efficiency_units = 'kilometres_per_litre'"
+      update_all :fuel_efficiency_units => 'kilometres_per_litre'
     end
   end
 end

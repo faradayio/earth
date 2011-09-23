@@ -407,15 +407,9 @@ AutomobileMakeModelYearVariant.class_eval do
     end
     
     process "Derive model and model year names" do
-      if ActiveRecord::Base.connection.adapter_name == 'sqlite'
-        update_all "make_model_name = make_name || ' ' || name"
-        update_all "make_year_name = make_name || ' ' || year"
-        update_all "make_model_year_name = make_name || ' ' || name || ' ' || year"
-      else
-        update_all "make_model_name = make_name || ' ' || name"
-        update_all "make_year_name = make_name || ' ' || year"
-        update_all "make_model_year_name = make_name || ' ' || name || ' ' || year"
-      end
+      update_all "make_model_name = make_name || ' ' || name"
+      update_all "make_year_name = make_name || ' ' || year"
+      update_all "make_model_year_name = make_name || ' ' || name || ' ' || year"
     end
     
     # Note: need to divide by 0.425143707 b/c equation is designed for miles / gallon not km / l
@@ -433,9 +427,9 @@ AutomobileMakeModelYearVariant.class_eval do
     end
     
     process "Set units" do
-      update_all "fuel_efficiency_units = 'kilometres_per_litre'"
-      update_all "fuel_efficiency_city_units = 'kilometres_per_litre'"
-      update_all "fuel_efficiency_highway_units = 'kilometres_per_litre'"
+      update_all :fuel_efficiency_units => 'kilometres_per_litre'
+      update_all :fuel_efficiency_city_units => 'kilometres_per_litre'
+      update_all :fuel_efficiency_highway_units => 'kilometres_per_litre'
     end
     
     # FIXME TODO this step fails if the tables to be synthesized do not already exist

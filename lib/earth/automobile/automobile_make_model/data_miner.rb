@@ -32,7 +32,7 @@ AutomobileMakeModel.class_eval do
         # sabshere 12/6/10 careful, don't use AutomobileMakeModelYearVariant.where here or you will be forced into projecting *
         relation = variants.project(variants[:"fuel_efficiency_#{i}"].average).where(conditional_relation).where(null_check)
         update_all "fuel_efficiency_#{i} = (#{relation.to_sql})"
-        update_all "fuel_efficiency_#{i}_units = 'kilometres_per_litre'"
+        update_all "fuel_efficiency_#{i}_units" => 'kilometres_per_litre'
       end
     end
   end

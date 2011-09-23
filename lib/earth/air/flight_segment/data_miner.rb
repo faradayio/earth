@@ -237,7 +237,7 @@ FlightSegment.class_eval do
     process "Look up airline name based on BTS code" do
       connection.select_values("SELECT DISTINCT airline_bts_code FROM flight_segments WHERE airline_bts_code IS NOT NULL").each do |bts_code|
         if airline = Airline.find_by_bts_code(bts_code)
-          update_all %{ airline_name = "#{airline.name}" }, %{ airline_bts_code = "#{bts_code}" }
+          update_all({ :airline_name => airline.name }, :airline_bts_code => bts_code)
         end
       end
     end
@@ -245,7 +245,7 @@ FlightSegment.class_eval do
     process "Look up aircraft description based on BTS code" do
       connection.select_values("SELECT DISTINCT aircraft_bts_code FROM flight_segments WHERE aircraft_bts_code IS NOT NULL").each do |bts_code|
         if aircraft = BtsAircraft.find_by_bts_code(bts_code)
-          update_all %{ aircraft_description = "#{aircraft.description.downcase}" }, %{ aircraft_bts_code = "#{bts_code}" }
+          update_all({ :aircraft_description => aircraft.description.downcase }, :aircraft_bts_code => bts_code)
         end
       end
     end
