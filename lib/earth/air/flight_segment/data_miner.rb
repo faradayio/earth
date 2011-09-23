@@ -169,11 +169,11 @@ FlightSegment.class_eval do
     VarType=Char
   }.gsub /[\s]+/,''
   
-  data_miner do
-    months = Hash.new
-    (2009..2011).each do |year|
+  def self.form_data_per_month(year_range)
+    months = {}
+    year_range.each do |year|
       (1..12).each do |month|
-        time = Time.gm year, month
+        time = ::Time.gm year, month
         form_data = FORM_DATA.dup
         form_data.gsub! '__YEAR__', time.year.to_s
         form_data.gsub! '__MONTH_NUMBER__', time.month.to_s
@@ -181,8 +181,11 @@ FlightSegment.class_eval do
         months[time] = form_data
       end
     end
-    
-    months.each do |month, form_data|
+    months
+  end
+  
+  data_miner do
+    form_data_per_month(2009..2011).each do |month, form_data|
       import "T100 flight segment data for #{month.strftime('%B %Y')}",
              :url => URL,
              :form_data => form_data,

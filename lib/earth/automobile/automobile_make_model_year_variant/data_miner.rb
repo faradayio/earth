@@ -432,14 +432,9 @@ AutomobileMakeModelYearVariant.class_eval do
       update_all :fuel_efficiency_highway_units => 'kilometres_per_litre'
     end
     
-    # FIXME TODO this step fails if the tables to be synthesized do not already exist
-    %w{ AutomobileMakeModelYear AutomobileMakeModel }.each do |synthetic_resource|
-      process "Synthesize #{synthetic_resource}" do
-        synthetic_resource.constantize.run_data_miner!
-      end
-    end
-        
-    process "Ensure AutomobileFuel is populated" do
+    process "Ensure related tables are populated" do
+      AutomobileMakeModelYear.run_data_miner!
+      AutomobileMakeModel.run_data_miner!
       AutomobileFuel.run_data_miner!
     end
   end
