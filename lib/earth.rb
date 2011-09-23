@@ -9,21 +9,14 @@ require 'weighted_average'
 require 'fixed_width'
 require 'errata'
 require 'mini_record'
+require 'table_warnings'
 require 'loose_tight_dictionary'
 require 'loose_tight_dictionary/cached_result'
 
-# hackety hack
-def INSERT_IGNORE(cmd)
-  if ActiveRecord::Base.connection.adapter_name.downcase == 'sqlite'
-    prefix = 'INSERT'
-  else
-    prefix = 'INSERT IGNORE'
-  end
-  ActiveRecord::Base.connection.execute "#{prefix} #{cmd}"
-end
-
 # The earth module is an interface for loading data models from various domains.
 module Earth
+  autoload :Utils, 'earth/utils'
+  
   extend self
 
   # Takes argument like Earth.search(['air'])
@@ -79,6 +72,7 @@ module Earth
     options = args.last.is_a?(Hash) ? args.pop.symbolize_keys : {}
     domains = args.empty? ? [ :all ] : args.map(&:to_sym)
 
+    _configure_database_connection
     _load_plugins
     _load_domains domains, options
     _decorate_resources options
@@ -86,6 +80,12 @@ module Earth
   end
 
   private
+  
+  def _configure_database_connection
+    if ActiveRecord::Base.connection.adapter_name =~ /mysql/i
+      ActiveRecord::Base.connection.execute("SET SQL_MODE = 'PIPES_AS_CONCAT'")    
+    end
+  end
   
   # TODO sabshere don't use directories to specify domains
   # * you have 20 million data_miner.rb files which are easy to confuse

@@ -314,7 +314,7 @@ AutomobileMakeModelYearVariant.class_eval do
       2003 => { :url => 'http://www.fueleconomy.gov/FEG/epadata/03data.zip', :filename => 'guide_2003_feb04-03b.csv' },
       2004 => { :url => 'http://www.fueleconomy.gov/FEG/epadata/04data.zip', :filename => 'gd04-Feb1804-RelDtFeb20.csv' },
       2005 => { :url => 'http://www.fueleconomy.gov/FEG/epadata/05data.zip', :filename => 'guide2005-2004oct15.csv' }
-    }.sort { |a, b| a.first <=> b.first }.each do |year, options|
+    }.each do |year, options|
       import "#{ year } Fuel Economy Guide",
              options.merge(:transform => { :class => AutomobileMakeModelYearVariant::ParserC, :year => year },
                            :errata => { :url => 'https://spreadsheets.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdEFqVXRvQjRGNUpxNHFCOXhqSjRmdlE&output=csv', :responder => AutomobileMakeModelYearVariant::Guru.new },
@@ -348,7 +348,7 @@ AutomobileMakeModelYearVariant.class_eval do
       2007 => { :url => 'http://static.brighterplanet.com/science/data/transport/automobiles/fuel_economy_guide/2007_FE_guide_ALL_no_sales_May_01_2007.csv' },
       2008 => { :url => 'http://www.fueleconomy.gov/FEG/epadata/08data.zip', :filename => '2008_FE_guide_ALL_rel_dates_-no sales-for DOE-5-1-08.csv' },
       2009 => { :url => 'http://www.fueleconomy.gov/FEG/epadata/09data.zip', :filename => '2009_FE_guide for DOE_ALL-rel dates-no-sales-8-28-08download.csv' },
-    }.sort { |a, b| a.first <=> b.first }.each do |year, options|
+    }.each do |year, options|
       import "#{ year } Fuel Economy Guide",
              options.merge(:transform => { :class => AutomobileMakeModelYearVariant::ParserD, :year => year },
                            :errata => { :url => 'https://spreadsheets.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdEFqVXRvQjRGNUpxNHFCOXhqSjRmdlE&output=csv', :responder => AutomobileMakeModelYearVariant::Guru.new },
@@ -379,7 +379,7 @@ AutomobileMakeModelYearVariant.class_eval do
     {
       2010 => { :url => 'http://www.fueleconomy.gov/FEG/epadata/10data.zip', :filename => '2010FEGuide for DOE-all rel dates-no-sales-02-22-2011public.xlsx' },
       2011 => { :url => 'http://www.fueleconomy.gov/FEG/epadata/11data.zip', :filename => '2011FEGuide-for DOE rel-dates before 1-23-2011-no-sales-01-10-2011_All_public.xlsx' }
-    }.sort { |a, b| a.first <=> b.first }.each do |year, options|
+    }.each do |year, options|
       import "#{ year } Fuel Economy Guide",
              options.merge(:transform => { :class => AutomobileMakeModelYearVariant::ParserE, :year => year },
                            :errata => { :url => 'https://spreadsheets.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdEFqVXRvQjRGNUpxNHFCOXhqSjRmdlE&output=csv', :responder => AutomobileMakeModelYearVariant::Guru.new },
@@ -412,17 +412,17 @@ AutomobileMakeModelYearVariant.class_eval do
         update_all "make_year_name = make_name || ' ' || year"
         update_all "make_model_year_name = make_name || ' ' || name || ' ' || year"
       else
-        update_all "make_model_name = CONCAT(make_name, ' ', name)"
-        update_all "make_year_name = CONCAT(make_name, ' ', year)"
-        update_all "make_model_year_name = CONCAT(make_name, ' ', name, ' ', year)"
+        update_all "make_model_name = make_name || ' ' || name"
+        update_all "make_year_name = make_name || ' ' || year"
+        update_all "make_model_year_name = make_name || ' ' || name || ' ' || year"
       end
     end
     
     # Note: need to divide by 0.425143707 b/c equation is designed for miles / gallon not km / l
     # Note: EPA seems to adjust differently for plug-in hybrid electric vehicles (e.g. Leaf and Volt)
     process "Calculate adjusted fuel efficiency using the latest EPA equations from EPA Fuel Economy Trends report Appendix A including conversion from miles per gallon to kilometres per litre" do
-      update_all 'fuel_efficiency_city = 1 / ((0.003259 / 0.425143707) + (1.1805 / raw_fuel_efficiency_city))'
-      update_all 'fuel_efficiency_highway = 1 / ((0.001376 / 0.425143707) + (1.3466 / raw_fuel_efficiency_highway))'
+      update_all 'fuel_efficiency_city = 1 / ((0.003259 / 0.425143707) + (1.1805 / raw_fuel_efficiency_city))', 'raw_fuel_efficiency_city > 0'
+      update_all 'fuel_efficiency_highway = 1 / ((0.001376 / 0.425143707) + (1.3466 / raw_fuel_efficiency_highway))', 'raw_fuel_efficiency_highway > 0'
     end
     
     # This will be useful later for calculating MakeModel and Make fuel efficiency based on Variant
@@ -430,7 +430,12 @@ AutomobileMakeModelYearVariant.class_eval do
     # This results in a deviation from EPA fuel economy label values which use a historical 55/45 weighting
     process "Calculate combined adjusted fuel efficiency using the latest EPA equation" do
       update_all "fuel_efficiency = 1 / ((0.43 / fuel_efficiency_city) + (0.57 / fuel_efficiency_highway))"
+    end
+    
+    process "Set units" do
       update_all "fuel_efficiency_units = 'kilometres_per_litre'"
+      update_all "fuel_efficiency_city_units = 'kilometres_per_litre'"
+      update_all "fuel_efficiency_highway_units = 'kilometres_per_litre'"
     end
     
     # FIXME TODO this step fails if the tables to be synthesized do not already exist
@@ -439,49 +444,9 @@ AutomobileMakeModelYearVariant.class_eval do
         synthetic_resource.constantize.run_data_miner!
       end
     end
-    
-    verify "Year should be from 1985 to 2011" do
-      connection.select_values("SELECT DISTINCT year FROM automobile_make_model_year_variants").each do |year|
-        unless year > 1984 and year < 2012
-          raise "Invalid year in automobile_make_model_year_variants: #{year} is not from 1985 to 2011"
-        end
-      end
-    end
-    
+        
     process "Ensure AutomobileFuel is populated" do
       AutomobileFuel.run_data_miner!
-    end
-    
-    verify "Fuel code should appear in AutomobileFuel" do
-      valid_codes = connection.select_values("SELECT DISTINCT code FROM automobile_fuels")
-      connection.select_values("SELECT DISTINCT fuel_code FROM automobile_make_model_year_variants").each do |fuel_code|
-        unless valid_codes.include?(fuel_code)
-          raise "Invalide fuel code in automobile_make_model_year_variants: #{fuel_code} is not in #{valid_codes}"
-        end
-      end
-    end
-    
-    verify "Fuel efficiencies should be greater than zero" do
-      [:fuel_efficiency, :fuel_efficiency_city, :fuel_efficiency_highway].each do |field|
-        if AutomobileMakeModelYearVariant.where(field => nil).any?
-          raise "Invalid #{field} in automobile_make_model_year_variants: nil is not > 0"
-        else
-          min = AutomobileMakeModelYearVariant.minimum(field)
-          unless min > 0
-            raise "Invalid #{field} in automobile_make_model_year_variants: #{min} is not > 0"
-          end
-        end
-      end
-    end
-    
-    verify "Fuel efficiency units should be kilometres per litre" do
-      %w{ fuel_efficiency_units fuel_efficiency_city_units fuel_efficiency_highway_units }.each do |field|
-        connection.select_values("SELECT DISTINCT #{field} FROM automobile_make_model_year_variants").each do |value|
-          unless value == 'kilometres_per_litre'
-            raise "Invalid #{field} in automobile_make_model_year_variants: #{value} is not 'kilometres_per_litre'"
-          end
-        end
-      end
     end
   end
 end

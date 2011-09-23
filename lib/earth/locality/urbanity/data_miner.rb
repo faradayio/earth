@@ -5,9 +5,13 @@ Urbanity.class_eval do
     end
     
     process "Derive from ResidentialEnergyConsumptionSurveyResponse" do
-      INSERT_IGNORE %{INTO urbanities(name)
-        SELECT DISTINCT recs_responses.urbanity_id FROM recs_responses WHERE LENGTH(recs_responses.urbanity_id) > 0
-      }
+      ::Earth::Utils.insert_ignore(
+        :src => ResidentialEnergyConsumptionSurveyResponse,
+        :dest => Urbanity,
+        :cols => {
+          :urbanity_id => :name
+        }
+      )
     end
   end
 end

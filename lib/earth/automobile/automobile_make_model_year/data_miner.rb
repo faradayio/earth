@@ -9,9 +9,19 @@ AutomobileMakeModelYear.class_eval do
     end
     
     process "Derive model year names from automobile make model year variants" do
-      INSERT_IGNORE %{INTO automobile_make_model_years(name, make_name, model_name, make_model_name, year, make_year_name)
-        SELECT automobile_make_model_year_variants.make_model_year_name, automobile_make_model_year_variants.make_name, automobile_make_model_year_variants.name, automobile_make_model_year_variants.make_model_name, automobile_make_model_year_variants.year, automobile_make_model_year_variants.make_year_name FROM automobile_make_model_year_variants WHERE LENGTH(automobile_make_model_year_variants.make_name) > 0 AND LENGTH(automobile_make_model_year_variants.make_model_name) > 0
-      }
+      ::Earth::Utils.insert_ignore(
+        :src => AutomobileMakeModelYearVariant,
+        :dest => AutomobileMakeModelYear,
+        :cols => {
+          :make_model_year_name => :name,
+          :make_name => :make_name,
+          :name => :model_name,
+          :make_model_name => :make_model_name,
+          :year => :year,
+          :make_year_name => :make_year_name
+        }
+        # :where => 'LENGTH(src.make_name) > 0 AND LENGTH(src.make_model_name) > 0'
+      )
     end
     
     # FIXME TODO make this a method on AutomobileMakeModelYear?
@@ -29,36 +39,6 @@ AutomobileMakeModelYear.class_eval do
         relation = variants.project(variants[:"fuel_efficiency_#{i}"].average).where(conditional_relation).where(null_check)
         update_all "fuel_efficiency_#{i} = (#{relation.to_sql})"
         update_all "fuel_efficiency_#{i}_units = 'kilometres_per_litre'"
-      end
-    end
-    
-    verify "Year should be from 1985 to 2011" do
-      AutomobileMakeModelYear.all.each do |model_year|
-        unless model_year.year.to_i > 1984 and model_year.year.to_i < 2012
-          raise "Invalid year for AutomobileMakeModelYear #{model_year.name}: #{model_year.year} (should be from 1985 to 2011)"
-        end
-      end
-    end
-    
-    verify "Fuel efficiencies should be greater than zero" do
-      AutomobileMakeModelYear.all.each do |model_year|
-        %w{ city highway }.each do |type|
-          fuel_efficiency = model_year.send(:"fuel_efficiency_#{type}")
-          unless fuel_efficiency.to_f > 0
-            raise "Invalid fuel efficiency #{type} for AutomobileMakeModelYear #{model_year.name}: #{fuel_efficiency} (should be > 0)"
-          end
-        end
-      end
-    end
-    
-    verify "Fuel efficiency units should be kilometres per litre" do
-      AutomobileMakeModelYear.all.each do |model_year|
-        %w{ city highway }.each do |type|
-          units = model_year.send(:"fuel_efficiency_#{type}_units")
-          unless units == "kilometres_per_litre"
-            raise "Invalid fuel efficiency #{type} units for AutomobileMakeModelYear #{model_year.name}: #{units} (should be kilometres_per_litre)"
-          end
-        end
       end
     end
   end

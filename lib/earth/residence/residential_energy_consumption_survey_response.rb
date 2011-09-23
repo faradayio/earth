@@ -71,9 +71,9 @@ class ResidentialEnergyConsumptionSurveyResponse < ActiveRecord::Base
   col :annual_energy_from_propane_for_heating_water_units
   col :annual_energy_from_wood, :type => :float
   col :annual_energy_from_wood_units
-  col :attached_1car_garage, :type => :boolean
-  col :attached_2car_garage, :type => :boolean
-  col :attached_3car_garage, :type => :boolean
+  col :attached_1car_garage, :type => :integer
+  col :attached_2car_garage, :type => :integer
+  col :attached_3car_garage, :type => :integer
   col :bathrooms, :type => :float
   col :bedrooms, :type => :integer
   col :census_division_name
@@ -88,9 +88,9 @@ class ResidentialEnergyConsumptionSurveyResponse < ActiveRecord::Base
   col :construction_year, :type => :date
   col :cooling_degree_days, :type => :integer
   col :cooling_degree_days_units
-  col :detached_1car_garage, :type => :boolean
-  col :detached_2car_garage, :type => :boolean
-  col :detached_3car_garage, :type => :boolean
+  col :detached_1car_garage, :type => :integer
+  col :detached_2car_garage, :type => :integer
+  col :detached_3car_garage, :type => :integer
   col :dishwasher_use_id
   col :efficient_lights_on_1_to_4_hours, :type => :integer
   col :efficient_lights_on_4_to_12_hours, :type => :integer
@@ -100,7 +100,7 @@ class ResidentialEnergyConsumptionSurveyResponse < ActiveRecord::Base
   col :freezer_count, :type => :integer
   col :full_bathrooms, :type => :integer
   col :half_bathrooms, :type => :integer
-  col :heated_garage, :type => :boolean
+  col :heated_garage, :type => :integer
   col :heating_degree_days, :type => :integer
   col :heating_degree_days_units
   col :lighting_efficiency, :type => :float

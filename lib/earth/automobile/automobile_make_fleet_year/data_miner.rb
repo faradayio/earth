@@ -12,34 +12,5 @@ AutomobileMakeFleetYear.class_eval do
       store 'fuel_efficiency', :from_units => :miles_per_gallon, :to_units => :kilometres_per_litre
       store 'volume'
     end
-    
-    verify "Year should be from 1978 to 2010" do
-      connection.select_values("SELECT DISTINCT year FROM automobile_make_fleet_years").each do |year|
-        unless year > 1977 and year < 2011
-          raise "Invalid year in automobile_make_fleet_years: #{year} is not from 1978 to 2010"
-        end
-      end
-    end
-    
-    verify "Fuel efficiency and volume should be greater than zero" do
-      [:fuel_efficiency, :volume].each do |field|
-        if AutomobileMakeFleetYear.where(field => nil).any?
-          raise "Invalid #{field} in automobile_make_fleet_years: nil is not > 0"
-        else
-          min = AutomobileMakeFleetYear.minimum(field)
-          unless min > 0
-            raise "Invalid #{field} in automobile_make_fleet_years: #{min} is not > 0"
-          end
-        end
-      end
-    end
-    
-    verify "Fuel efficiency units should be kilometres per litre" do
-      connection.select_values("SELECT DISTINCT fuel_efficiency_units FROM automobile_make_fleet_years").each do |units|
-        unless units == "kilometres_per_litre"
-          raise "Invalid fuel efficiency units in automobile_make_fleet_years: #{units} is not 'kilometres_per_litre'"
-        end
-      end
-    end
   end
 end

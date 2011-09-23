@@ -14,11 +14,7 @@ BusFuelYearControl.class_eval do
     end
     
     process "Derive bus fuel control name for association with BusFuelControl" do
-      if ActiveRecord::Base.connection.adapter_name.downcase == 'sqlite'
-        update_all "bus_fuel_control_name = bus_fuel_name || ' ' || control"
-      else
-        update_all "bus_fuel_control_name = CONCAT(bus_fuel_name, ' ', control)"
-      end
+      update_all "bus_fuel_control_name = bus_fuel_name || ' ' || control"
     end
     
     # FIXME TODO verify that for any year the percentages sum to 1

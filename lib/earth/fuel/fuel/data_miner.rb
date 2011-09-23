@@ -5,9 +5,13 @@ Fuel.class_eval do
     end
     
     process "Derive fuel names from FuelYear" do
-      INSERT_IGNORE %{INTO fuels(name)
-        SELECT DISTINCT fuel_years.fuel_name FROM fuel_years
-      }
+      ::Earth::Utils.insert_ignore(
+        :src => FuelYear,
+        :dest => Fuel,
+        :cols => {
+          :fuel_name => :name
+        }
+      )
     end
     
     import "fuels with non-variable characteristics",

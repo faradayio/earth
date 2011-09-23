@@ -66,16 +66,17 @@ ResidentialEnergyConsumptionSurveyResponse.class_eval do
       store 'efficient_lights_on_over_12_hours', :field_name => 'LGT12EE'
       store 'outdoor_all_night_lights', :field_name => 'NOUTLGTNT'
       store 'outdoor_all_night_gas_lights', :field_name => 'NGASLIGHT'
+      # integers where we treat anything other than true (for example legitimate skip or "occupied without paying rent") as 0
+      store 'heated_garage', :synthesize => lambda { |row| row['GARGHEAT'] == '1' ? 1 : 0 }
+      store 'attached_1car_garage', :synthesize => lambda { |row| row['GARAGE1C'] == '1' ? 1 : 0 }
+      store 'detached_1car_garage', :synthesize => lambda { |row| row['DGARG1C'] == '1' ? 1 : 0 }
+      store 'attached_2car_garage', :synthesize => lambda { |row| row['GARAGE2C'] == '1' ? 1 : 0 }
+      store 'detached_2car_garage', :synthesize => lambda { |row| row['DGARG2C'] == '1' ? 1 : 0 }
+      store 'attached_3car_garage', :synthesize => lambda { |row| row['GARAGE3C'] == '1' ? 1 : 0 }
+      store 'detached_3car_garage', :synthesize => lambda { |row| row['DGARG3C'] == '1' ? 1 : 0 }
       # booleans where we treat anything other than true (for example legitimate skip or "occupied without paying rent") as false
       store 'ownership', :synthesize => lambda { |row| row['KOWNRENT'] == '1' }
       store 'thermostat_programmability', :synthesize => lambda { |row| row['PROTHERM'] == '1' }
-      store 'heated_garage', :synthesize => lambda { |row| row['GARGHEAT'] == '1' }
-      store 'attached_1car_garage', :synthesize => lambda { |row| row['GARAGE1C'] == '1' }
-      store 'detached_1car_garage', :synthesize => lambda { |row| row['DGARG1C'] == '1' }
-      store 'attached_2car_garage', :synthesize => lambda { |row| row['GARAGE2C'] == '1' }
-      store 'detached_2car_garage', :synthesize => lambda { |row| row['DGARG2C'] == '1' }
-      store 'attached_3car_garage', :synthesize => lambda { |row| row['GARAGE3C'] == '1' }
-      store 'detached_3car_garage', :synthesize => lambda { |row| row['DGARG3C'] == '1' }
     end
 
     # Rather than nullify the continuous variables that EIA identifies as LEGITIMATE SKIPS, we convert them to zero
@@ -158,7 +159,7 @@ ResidentialEnergyConsumptionSurveyResponse.class_eval do
     end
     
     process 'Add a new field "lighting_efficiency" that estimates what percentage of light bulbs in a house are energy-efficient' do
-      update_all 'lighting_efficiency = (2*efficient_lights_on_1_to_4_hours + 8*efficient_lights_on_4_to_12_hours + 16*efficient_lights_on_over_12_hours) / lighting_use'
+      update_all 'lighting_efficiency = (2*efficient_lights_on_1_to_4_hours + 8*efficient_lights_on_4_to_12_hours + 16*efficient_lights_on_over_12_hours) / lighting_use', 'lighting_use > 0'
     end
     
     process "synthesize air conditioner use from central AC and window AC use" do

@@ -41,4 +41,24 @@ class AutomobileMakeModelYearVariant < ActiveRecord::Base
   add_index :make_model_name
   add_index :make_year_name
   add_index :make_model_year_name
+  
+  # verify "Fuel code should appear in AutomobileFuel" do
+  #   if (violators = connection.select_values("SELECT DISTINCT fuel_code FROM #{quoted_table_name} WHERE fuel_code NOT IN (SELECT code FROM #{AutomobileFuel.quoted_table_name})")).any?
+  #     raise "Invalid fuel code(s): #{violators.join(', ')}"
+  #   end
+  #   true
+  # end
+  # 
+  # verify "Fuel efficiencies should be greater than zero" do
+  #   [:fuel_efficiency, :fuel_efficiency_city, :fuel_efficiency_highway].each do |field|
+  #     if AutomobileMakeModelYearVariant.where(field => nil).any?
+  #       raise "Invalid #{field} in automobile_make_model_year_variants: nil is not > 0"
+  #     else
+  #       min = AutomobileMakeModelYearVariant.minimum(field)
+  #       unless min > 0
+  #         raise "Invalid #{field} in automobile_make_model_year_variants: #{min} is not > 0"
+  #       end
+  #     end
+  #   end
+  # end
 end

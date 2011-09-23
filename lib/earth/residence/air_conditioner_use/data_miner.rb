@@ -5,9 +5,13 @@ AirConditionerUse.class_eval do
     end
     
     process "Derive from ResidentialEnergyConsumptionSurveyResponse" do
-      INSERT_IGNORE %{INTO air_conditioner_uses(name)
-        SELECT DISTINCT recs_responses.central_ac_use FROM recs_responses WHERE LENGTH(recs_responses.central_ac_use) > 0
-      }
+      ::Earth::Utils.insert_ignore(
+        :src => ResidentialEnergyConsumptionSurveyResponse,
+        :dest => AirConditionerUse,
+        :cols => {
+          :central_ac_use => :name
+        }
+      )
     end
     
     import "Ian's precalculated fugitive emissions values", :url => 'http://spreadsheets.google.com/pub?key=ri_380yQZAqBKeqie_TECgg&gid=0&output=csv' do

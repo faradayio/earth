@@ -1,7 +1,7 @@
 AutomobileFuel.class_eval do
   data_miner do
     import "a list of pure automobile fuels",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdE9xTEdueFM2R0diNTgxUlk1QXFSb2c&gid=0&output=html' do
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdE9xTEdueFM2R0diNTgxUlk1QXFSb2c&gid=0&output=csv' do
       key   'name'
       store 'code'
       store 'base_fuel_name'
@@ -28,7 +28,7 @@ AutomobileFuel.class_eval do
     end
     
     process "Derive annual distance" do
-      AutomobileFuel.all.each do |record|
+      find_each do |record|
         scope = record.type_fuel_year_ages.where(:year => record.type_fuel_year_ages.maximum('year'))
         record.annual_distance = scope.weighted_average(:annual_distance, :weighted_by => :vehicles)
         record.annual_distance_units = scope.first.annual_distance_units
@@ -37,7 +37,7 @@ AutomobileFuel.class_eval do
     end
     
     process "Derive co2 emission factor and co2 biogenic emission factors" do
-      AutomobileFuel.all.each do |record|
+      find_each do |record|
         if record.blend_fuel.present?
           record.co2_emission_factor = (record.base_fuel.co2_emission_factor * (1 - record.blend_portion)) + (record.blend_fuel.co2_emission_factor * record.blend_portion)
           record.co2_biogenic_emission_factor = (record.base_fuel.co2_biogenic_emission_factor * (1 - record.blend_portion)) + (record.blend_fuel.co2_biogenic_emission_factor * record.blend_portion)
@@ -52,7 +52,7 @@ AutomobileFuel.class_eval do
     end
     
     process "Derive ch4, n2o, and hfc emission factors" do
-      AutomobileFuel.all.each do |record|
+      find_each do |record|
         scope = record.type_fuel_years.where(:year => record.type_fuel_years.maximum('year'))
         
         record.ch4_emission_factor = scope.weighted_average(:ch4_emission_factor, :weighted_by => :total_travel) * GreenhouseGas[:ch4].global_warming_potential
@@ -81,73 +81,6 @@ AutomobileFuel.class_eval do
     
     # FIXME TODO verify code somehow
     
-    %w{ base_fuel_name distance_key ef_key }.each do |attribute|
-      verify "#{attribute.humanize} should never be missing" do
-        AutomobileFuel.all.each do |fuel|
-          value = fuel.send(:"#{attribute}")
-          unless value.present?
-            puts "Missing #{attribute.humanize.downcase} for AutomobileFuel #{fuel.name}"
-            raise "Missing #{attribute.humanize.downcase} for AutomobileFuel #{fuel.name}"
-          end
-        end
-      end
-    end
-    
-    # FIXME TODO verify that base_fuel_name and blend_fuel_name are found in Fuel if present
-    # FIXME TODO verify that distance_key is found in AutomobileTypeFuelYearAge
-    # FIXME TODO verify that ef_key is found in AutomobileTypeFuelYear
-    
-    verify "Blend portion should be from 0 to 1 if present" do
-      AutomobileFuel.all.each do |fuel|
-        if fuel.blend_portion.present?
-          unless fuel.blend_portion >=0 and fuel.blend_portion <= 1
-            puts "Invalid blend portion for AutomobileFuel #{fuel.name}: #{fuel.blend_portion} (should be from 0 to 1)"
-            raise "Invalid blend portion for AutomobileFuel #{fuel.name}: #{fuel.blend_portion} (should be from 0 to 1)"
-          end
-        end
-      end
-    end
-    
-    ["co2_emission_factor", "co2_biogenic_emission_factor"].each do |attribute|
-      verify "#{attribute.humanize} should be 0 or more" do
-        AutomobileFuel.all.each do |fuel|
-          value = fuel.send(attribute)
-          unless value >= 0
-            puts "Invalid #{attribute.humanize.downcase} for AutomobileFuel #{fuel.name}: #{value} (should be 0 or more)"
-            raise "Invalid #{attribute.humanize.downcase} for AutomobileFuel #{fuel.name}: #{value} (should be 0 or more)"
-          end
-        end
-      end
-    end
-    
-    ["ch4_emission_factor", "n2o_emission_factor", "hfc_emission_factor"].each do |attribute|
-      verify "#{attribute.humanize} should be > 0" do
-        AutomobileFuel.all.each do |fuel|
-          value = fuel.send(attribute)
-          unless value > 0
-            puts "Invalid #{attribute.humanize.downcase} for AutomobileFuel #{fuel.name}: #{value} (should be > 0)"
-            raise "Invalid #{attribute.humanize.downcase} for AutomobileFuel #{fuel.name}: #{value} (should be > 0)"
-          end
-        end
-      end
-    end
-    
-    [["co2_emission_factor_units", "kilograms_per_litre"],
-     ["co2_biogenic_emission_factor_units", "kilograms_per_litre"],
-     ["ch4_emission_factor_units", "kilograms_co2e_per_litre"],
-     ["n2o_emission_factor_units", "kilograms_co2e_per_litre"],
-     ["hfc_emission_factor_units", "kilograms_co2e_per_litre"]].each do |pair|
-      attribute = pair[0]
-      proper_units = pair[1]
-      verify "#{attribute.humanize} should be #{proper_units.humanize.downcase}" do
-        AutomobileFuel.all.each do |fuel|
-          units = fuel.send(attribute)
-          unless units == proper_units
-            puts "Invalid #{attribute.humanize.downcase} for AutomobileFuel #{fuel.name}: #{units} (should be #{proper_units})"
-            fail
-          end
-        end
-      end
-    end
+
   end
 end

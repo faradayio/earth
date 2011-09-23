@@ -9,4 +9,14 @@ class AutomobileMake < ActiveRecord::Base
   col :name
   col :fuel_efficiency, :type => :float
   col :fuel_efficiency_units
+
+  # TODO convert to table_warnings
+  # verify "Fuel efficiency should be greater than zero" do
+  #   AutomobileMake.all.each do |make|
+  #     unless make.fuel_efficiency > 0
+  #       raise "Invalid fuel efficiency for AutomobileMake #{make.name}: #{make.fuel_efficiency} (should be > 0)"
+  #     end
+  #   end
+  # end
+  
 end

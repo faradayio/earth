@@ -65,11 +65,7 @@ AutomobileTypeFuelYear.class_eval do
     end
     
     process "Derive type year name for association with AutomobileTypeYear" do
-      if ActiveRecord::Base.connection.adapter_name.downcase == 'sqlite'
-        update_all "type_year_name = type_name || ' ' || year"
-      else
-        update_all "type_year_name = CONCAT(type_name, ' ', year)"
-      end
+      update_all "type_year_name = type_name || ' ' || year"
     end
     
     process "Ensure AutomobileTypeFuelYearControl and AutomobileTypeFuelControl are populated" do
@@ -91,53 +87,6 @@ AutomobileTypeFuelYear.class_eval do
         record.n2o_emission_factor_units = 'kilograms_per_litre'
         
         record.save
-      end
-    end
-    
-    %w{ type_name fuel_common_name type_year_name }.each do |attribute|
-      verify "#{attribute.humanize} should never be missing" do
-        AutomobileTypeFuelYear.all.each do |record|
-          value = record.send(:"#{attribute}")
-          unless value.present?
-            raise "Missing #{attribute.humanize.downcase} for AutomobileTypeFuelYear '#{record.name}'"
-          end
-        end
-      end
-    end
-    
-    verify "Year should be from 1990 to 2008" do
-      AutomobileTypeFuelYear.all.each do |record|
-        year = record.send(:year)
-        unless year > 1989 and year < 2009
-          raise "Invalid year for AutomobileTypeFuelYear '#{record.name}': #{year} (should be from 1990 to 2008)"
-        end
-      end
-    end
-    
-    %w{ total_travel fuel_consumption ch4_emission_factor n2o_emission_factor }.each do |attribute|
-      verify "#{attribute.humanize} should be greater than zero" do
-        AutomobileTypeFuelYear.all.each do |record|
-          value = record.send(:"#{attribute}")
-          unless value > 0
-            raise "Invalid #{attribute.humanize.downcase} for AutomobileTypeFuelYear '#{record.name}': #{value} (should be > 0)"
-          end
-        end
-      end
-    end
-    
-    [["total_travel_units", "kilometres"],
-     ["fuel_consumption_units", "litres"],
-     ["ch4_emission_factor_units", "kilograms_per_litre"],
-     ["n2o_emission_factor_units", "kilograms_per_litre"]].each do |pair|
-      attribute = pair[0]
-      proper_units = pair[1]
-      verify "#{attribute.humanize} should be #{proper_units.humanize.downcase}" do
-        AutomobileTypeFuelYear.all.each do |record|
-          units = record.send(:"#{attribute}")
-          unless units == proper_units
-            raise "Invalid #{attribute.humanize.downcase} for AutomobileTypeFuelYear '#{record.name}': #{units} (should be #{proper_units})"
-          end
-        end
       end
     end
   end

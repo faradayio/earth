@@ -101,6 +101,13 @@ ResidenceFuelPrice.class_eval do
     end
   end
 
+  # TODO sabshere fix data_miner strangeness
+  # Ran #<DataMiner::Process(ResidenceFuelPrice) auto_upgrade!> in 0
+  # Ran #<DataMiner::Process(ResidenceFuelPrice) Define some unit conversions> in 0
+  # Ran #<DataMiner::Import(ResidenceFuelPrice) residential electricity prices from the EIA> in 93
+  # Skipping {"locatable_id"=>"US", "locatable_type"=>"Country", "price"=>"1.71", "year"=>1990, "month"=>6, "row_hash"=>"142ed08d9adac8e322dd123317b06de8"} because there's no primary key
+  # Skipping {"locatable_id"=>"Alabama", "locatable_type"=>"State", "price"=>"2.75", "year"=>1990, "month"=>6, "row_hash"=>"d56480d06e32e7e99ba5f85444fe4827"} because there's no primary key
+
   data_miner do
     process "Define some unit conversions" do
       Conversions.register :dollars, :cents, 100

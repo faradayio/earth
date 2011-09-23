@@ -133,72 +133,17 @@ AutomobileTypeFuelAge.class_eval do
     
     # FIXME TODO maybe make this a method on AutomobileTypeFuelAge?
     process "Calculate number of vehicles from total travel percent and AutomobileTypeFuelYear" do
-      connection.execute %{
-        UPDATE automobile_type_fuel_ages
-        SET vehicles =
-          (
-            (
-              SELECT automobile_type_fuel_years.total_travel
-              FROM automobile_type_fuel_years
-              WHERE automobile_type_fuel_years.`year` =
-              (SELECT max(automobile_type_fuel_years.`year`) FROM automobile_type_fuel_years)
-              AND automobile_type_fuel_years.`type_name` = automobile_type_fuel_ages.`type_name`
-              AND automobile_type_fuel_years.fuel_common_name = automobile_type_fuel_ages.fuel_common_name
-            ) *
-            automobile_type_fuel_ages.total_travel_percent / automobile_type_fuel_ages.annual_distance
-          )
+      max_year = AutomobileTypeFuelYear.maximum :year
+      update_all %{
+        vehicles =
+          ( SELECT t1.total_travel
+            FROM #{AutomobileTypeFuelYear.quoted_table_name} AS t1
+            WHERE
+              t1.year = #{max_year}
+              AND t1.type_name = #{quoted_table_name}.type_name
+              AND t1.fuel_common_name = #{quoted_table_name}.fuel_common_name )
+          * #{quoted_table_name}.total_travel_percent / #{quoted_table_name}.annual_distance
       }
-    end
-    
-    verify "Type name and fuel common name should never be missing" do
-      AutomobileTypeFuelAge.all.each do |record|
-        %w{ type_name fuel_common_name }.each do |attribute|
-          value = record.send(:"#{attribute}")
-          unless value.present?
-            raise "Missing #{attribute} for AutomobileTypeFuelAge '#{record.name}'"
-          end
-        end
-      end
-    end
-    
-    verify "Age should be from zero to thirty" do
-      AutomobileTypeFuelAge.all.each do |record|
-        value = record.send(:age)
-        unless value >= 0 and value < 31
-          raise "Invalid age for AutomobileTypeFuelAge '#{record.name}': #{value} (should be from 0 to 30)"
-        end
-      end
-    end
-    
-    verify "Age percent and total travel percent should be from zero to one" do
-      AutomobileTypeFuelAge.all.each do |record|
-        %w{ age_percent total_travel_percent }.each do |attribute|
-          percent = record.send(:"#{attribute}")
-          unless percent > 0 and percent < 1
-            raise "Invalid #{attribute} for AutomobileTypeFuelAge '#{record.name}': #{percent} (should be from 0 to 1)"
-          end
-        end
-      end
-    end
-    
-    verify "Annual distance and vehicles should be greater than zero" do
-      AutomobileTypeFuelAge.all.each do |record|
-        %w{ annual_distance vehicles }.each do |attribute|
-          value = record.send(:"#{attribute}")
-          unless value > 0
-            raise "Invalid #{attribute} for AutomobileTypeFuelAge '#{record.name}': #{value} (should be > 0)"
-          end
-        end
-      end
-    end
-    
-    verify "Annual distance units should be kilometres" do
-      AutomobileTypeFuelAge.all.each do |record|
-        units = record.send(:annual_distance_units)
-        unless units == "kilometres"
-          raise "Invalid annual distance units for AutomobileTypeFuelAge '#{record.name}': #{units} (should be kilometres)"
-        end
-      end
     end
   end
 end

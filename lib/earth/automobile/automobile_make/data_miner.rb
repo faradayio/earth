@@ -10,20 +10,24 @@ AutomobileMake.class_eval do
     end
     
     process "Derive manufacturer names from automobile make model year variants" do
-      INSERT_IGNORE %{INTO automobile_makes(name)
-        SELECT DISTINCT automobile_make_model_year_variants.make_name
-        FROM automobile_make_model_year_variants
-        WHERE automobile_make_model_year_variants.make_name IS NOT NULL
-        AND LENGTH(automobile_make_model_year_variants.make_name) > 0
-      }
+      ::Earth::Utils.insert_ignore(
+        :src => AutomobileMakeModelYearVariant,
+        :dest => AutomobileMake,
+        :cols => {
+          :make_name => :name,
+        }
+      )
     end
     
     # sabshere 1/31/11 add Avanti, DaimlerChrysler, IHC, Tesla, etc.
     process "Derive extra manufacturer names from CAFE data" do
-      INSERT_IGNORE %{INTO automobile_makes(name)
-        SELECT DISTINCT automobile_make_fleet_years.make_name
-        FROM automobile_make_fleet_years
-      }
+      ::Earth::Utils.insert_ignore(
+        :src => AutomobileMakeFleetYear,
+        :dest => AutomobileMake,
+        :cols => {
+          :make_name => :name,
+        }
+      )
     end
     
     # FIXME TODO make this a method on AutomobileMake?
@@ -33,36 +37,17 @@ AutomobileMake.class_eval do
       conditional_relation = makes[:name].eq(make_fleet_years[:make_name])
       relation = AutomobileMakeFleetYear.weighted_average_relation(:fuel_efficiency, :weighted_by => :volume).where(conditional_relation)
       update_all "fuel_efficiency = (#{relation.to_sql})"
-      update_all "fuel_efficiency_units = 'kilometres_per_litre'"
     end
     
     process "Calculate fuel effeciency from automobile make model year variants for makes without CAFE data" do
-      connection.execute %{
-        UPDATE automobile_makes
-        SET automobile_makes.fuel_efficiency = (SELECT AVG(automobile_make_model_year_variants.fuel_efficiency) FROM automobile_make_model_year_variants WHERE automobile_makes.name = automobile_make_model_year_variants.make_name)
-        WHERE automobile_makes.fuel_efficiency IS NULL
-      }
-      connection.execute %{
-        UPDATE automobile_makes
-        SET automobile_makes.fuel_efficiency_units = 'kilometres_per_litre'
-        WHERE automobile_makes.fuel_efficiency_units IS NULL
-      }
+      update_all(
+        %{fuel_efficiency = (SELECT AVG(automobile_make_model_year_variants.fuel_efficiency) FROM automobile_make_model_year_variants WHERE automobile_makes.name = automobile_make_model_year_variants.make_name)},
+        'fuel_efficiency IS NULL'
+      )
     end
     
-    verify "Fuel efficiency should be greater than zero" do
-      AutomobileMake.all.each do |make|
-        unless make.fuel_efficiency > 0
-          raise "Invalid fuel efficiency for AutomobileMake #{make.name}: #{make.fuel_efficiency} (should be > 0)"
-        end
-      end
-    end
-    
-    verify "Fuel efficiency units should be kilometres per litre" do
-      AutomobileMake.all.each do |make|
-        unless make.fuel_efficiency_units == "kilometres_per_litre"
-          raise "Invalid fuel efficiency units for AutomobileMake #{make.name}: #{make.fuel_efficiency_units} (should be kilometres_per_litre)"
-        end
-      end
+    process "Set units" do
+      update_all "fuel_efficiency_units = 'kilometres_per_litre'"
     end
   end
 end

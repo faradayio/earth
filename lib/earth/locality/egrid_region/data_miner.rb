@@ -19,15 +19,5 @@ EgridRegion.class_eval do
       key 'name', :static => 'US'
       store 'loss_factor', :synthesize => lambda { |row| (row['USTNGN05'].to_f + row['USTNFI05'].to_f - row['USTCON05'].to_f) / row['USTNGN05'].to_f }
     end
-
-    verify "Loss factor should be greater than zero and less than one" do
-      EgridRegion.all.each do |region|
-        unless region.loss_factor > 0 and region.loss_factor < 1
-          raise "Invalid loss factor for EgridRegion #{region.name}: #{region.loss_factor} (should be > 0 and < 1)"
-        end
-      end
-    end
-    
-    # FIXME TODO verify fallback loss factor
   end
 end

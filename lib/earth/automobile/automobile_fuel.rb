@@ -1,7 +1,6 @@
 require 'earth/automobile/automobile_type_fuel_year_age'
 require 'earth/automobile/automobile_type_fuel_year'
 require 'earth/automobile/automobile_type_year'
-require 'earth/fuel/greenhouse_gas'
 
 class AutomobileFuel < ActiveRecord::Base
   set_primary_key :name
@@ -10,6 +9,62 @@ class AutomobileFuel < ActiveRecord::Base
   has_many :type_fuel_years,     :class_name => 'AutomobileTypeFuelYear',    :foreign_key => 'fuel_common_name', :primary_key => 'ef_key'
   belongs_to :base_fuel,         :class_name => 'Fuel',                      :foreign_key => 'base_fuel_name'
   belongs_to :blend_fuel,        :class_name => 'Fuel',                      :foreign_key => 'blend_fuel_name'
+    
+  warn_if_blanks_in :distance_key
+  warn_if_blanks_in :ef_key
+  warn do
+    catch :culprit do
+      find_each do |record|
+        throw :culprit, %{Records exist without base_fuel (possibly invalid key "#{record.base_fuel_name}")} unless record.base_fuel
+      end
+      false
+    end
+  end
+  warn do
+    if exists?(['blend_portion IS NOT NULL AND (blend_portion < ? OR blend_portion > ?)', 0, 1])
+      "Blend portions less than 0 or greater than 1"
+    end
+  end
+  warn do
+    %w{co2_emission_factor co2_biogenic_emission_factor}.map do |col|
+      if exists?(["#{col} IS NULL OR #{col} < ?", 0])
+        "Records non-positive #{col}"
+      end
+    end
+  end
+  
+  # FIXME TODO verify that base_fuel_name and blend_fuel_name are found in Fuel if present
+  # FIXME TODO verify that distance_key is found in AutomobileTypeFuelYearAge
+  # FIXME TODO verify that ef_key is found in AutomobileTypeFuelYear
+  
+  # TODO convert these to warn blocks  
+  # ["ch4_emission_factor", "n2o_emission_factor", "hfc_emission_factor"].each do |attribute|
+  #   verify "#{attribute.humanize} should be > 0" do
+  #     find_each do |fuel|
+  #       value = fuel.send(attribute)
+  #       unless value > 0
+  #         raise "Invalid #{attribute.humanize.downcase} for AutomobileFuel #{fuel.name}: #{value} (should be > 0)"
+  #       end
+  #     end
+  #   end
+  # end
+  # 
+  # [["co2_emission_factor_units", "kilograms_per_litre"],
+  #  ["co2_biogenic_emission_factor_units", "kilograms_per_litre"],
+  #  ["ch4_emission_factor_units", "kilograms_co2e_per_litre"],
+  #  ["n2o_emission_factor_units", "kilograms_co2e_per_litre"],
+  #  ["hfc_emission_factor_units", "kilograms_co2e_per_litre"]].each do |pair|
+  #   attribute = pair[0]
+  #   proper_units = pair[1]
+  #   verify "#{attribute.humanize} should be #{proper_units.humanize.downcase}" do
+  #     find_each do |fuel|
+  #       units = fuel.send(attribute)
+  #       unless units == proper_units
+  #         raise "Invalid #{attribute.humanize.downcase} for AutomobileFuel #{fuel.name}: #{units} (should be #{proper_units})"
+  #       end
+  #     end
+  #   end
+  # end
   
   class << self
     def fallback_latest_type_fuel_year_ages
