@@ -59,4 +59,22 @@ class FlightSegment < ActiveRecord::Base
   add_index :aircraft_bts_code
   add_index :aircraft_description
   add_index :year
+  
+  def self.update_averages!
+    # Derive load factor, which is passengers divided by available seats
+    update_all 'load_factor = passengers / seats', 'seats > 0'
+
+    # Assume a load factor of 1 where passengers > available seats
+    update_all 'load_factor = 1', 'passengers > seats AND seats > 0'
+  
+    # TODO: what is 90.718474
+    # Derive freight share as a fraction of the total weight carried
+    update_all 'freight_share = (freight + mail) / (freight + mail + (passengers * 90.718474))', '(freight + mail + passengers) > 0'
+  
+    # Derive average seats per flight
+    update_all 'seats_per_flight = seats / flights', 'flights > 0'
+    
+    # Add a useful date field
+    update_all 'approximate_date = DATE(year || "-" || month || "-" || "14")', 'month IS NOT NULL'
+  end
 end

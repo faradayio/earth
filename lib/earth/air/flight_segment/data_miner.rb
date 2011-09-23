@@ -10,24 +10,6 @@ FlightSegment.class_eval do
     end
   end
   
-  def self.update_averages!
-    # Derive load factor, which is passengers divided by available seats
-    update_all 'load_factor = passengers / seats', 'seats > 0'
-
-    # Assume a load factor of 1 where passengers > available seats
-    update_all 'load_factor = 1', 'passengers > seats AND seats > 0'
-  
-    # TODO: what is 90.718474
-    # Derive freight share as a fraction of the total weight carried
-    update_all 'freight_share = (freight + mail) / (freight + mail + (passengers * 90.718474))', '(freight + mail + passengers) > 0'
-  
-    # Derive average seats per flight
-    update_all 'seats_per_flight = seats / flights', 'flights > 0'
-    
-    # Add a useful date field
-    update_all 'approximate_date = DATE(year || "-" || month || "-" || "14")', 'month IS NOT NULL'
-  end
-  
   URL = 'http://www.transtats.bts.gov/DownLoad_Table.asp?Table_ID=293&Has_Group=3&Is_Zipped=0'
   FORM_DATA = %{
     UserTableName=T_100_Segment__All_Carriers&
