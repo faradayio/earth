@@ -36,7 +36,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'fixed_width-multibyte'
   s.add_runtime_dependency 'geokit-rails'
   s.add_runtime_dependency 'loose_tight_dictionary', '>=0.2.3'
-  s.add_runtime_dependency 'weighted_average'
+  s.add_runtime_dependency 'weighted_average', '>=1'
   # s.add_runtime_dependency 'mini_record' # need https://github.com/DAddYE/mini_record/pull/7 - for now install manually from https://github.com/seamusabshere/mini_record
   s.add_runtime_dependency 'activesupport'
   s.add_runtime_dependency 'activerecord'

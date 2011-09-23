@@ -24,6 +24,8 @@ class AircraftClass < ActiveRecord::Base
   
   class << self
     def update_averages!
+      Aircraft.run_data_miner!
+      AircraftFuelUseEquation.run_data_miner!
       find_each do |aircraft_class|
         cumulative_passengers = 0
         aircraft_class.m3 = 0
