@@ -1,0 +1,2 @@
+* convert former/current verify blocks into table_warnings warn {...} blocks
+* convert tests to minitest
