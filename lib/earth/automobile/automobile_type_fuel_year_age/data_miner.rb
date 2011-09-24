@@ -107,10 +107,11 @@ AutomobileTypeFuelYearAge.class_eval do
     end
     
     process "Calculate number of vehicles from total travel percent and AutomobileTypeFuelYear" do
-      AutomobileTypeFuelYearAge.all.each do |record|
-        record.vehicles = record.total_travel_percent * record.type_fuel_year.total_travel / record.annual_distance
-        record.save
-      end
+      total_travel = "(SELECT t1.total_travel FROM #{AutomobileTypeFuelYear.quoted_table_name} AS t1 WHERE t1.name = #{quoted_table_name}.type_fuel_year_name)"
+      update_all(
+        %{vehicles = total_travel_percent * #{total_travel} / annual_distance},
+        %{annual_distance > 0}
+      )
     end
   end
 end
