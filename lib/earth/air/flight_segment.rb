@@ -75,6 +75,6 @@ class FlightSegment < ActiveRecord::Base
     update_all 'seats_per_flight = seats / flights', 'flights > 0'
     
     # Add a useful date field
-    update_all 'approximate_date = DATE(year || "-" || month || "-" || "14")', 'month IS NOT NULL'
+    update_all %{approximate_date = DATE(year || '-' || month || '-' || '14')}, 'month IS NOT NULL'
   end
 end
