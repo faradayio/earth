@@ -72,7 +72,7 @@ module Earth
     options = args.last.is_a?(Hash) ? args.pop.symbolize_keys : {}
     domains = args.empty? ? [ :all ] : args.map(&:to_sym)
 
-    _configure_database_connection
+    _warn_unless_mysql_ansi_mode
     _load_plugins
     _load_domains domains, options
     _decorate_resources options
@@ -81,9 +81,10 @@ module Earth
 
   private
   
-  def _configure_database_connection
+  def _warn_unless_mysql_ansi_mode
     if ActiveRecord::Base.connection.adapter_name =~ /mysql/i
-      ActiveRecord::Base.connection.execute("SET SQL_MODE = 'PIPES_AS_CONCAT'")    
+      sql_mode = ActiveRecord::Base.connection.select_value("SELECT @@GLOBAL.sql_mode") + ActiveRecord::Base.connection.select_value("SELECT @@SESSION.sql_mode")
+      $stderr.puts "[earth gem] Warning: MySQL detected, but PIPES_AS_CONCAT not set. Importing from scratch will fail. Consider setting sql-mode=ANSI in my.cnf." unless sql_mode =~ /pipes_as_concat/i
     end
   end
   
