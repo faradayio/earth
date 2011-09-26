@@ -7,7 +7,7 @@ class ProductLine < ActiveRecord::Base
   has_many :industry_products, :through => :product_line_industry_products
   
   col :ps_code
-  col :description
+  col :description, :type => :text
   col :broadline # FIXME TODO do we need this?
   col :parent    # FIXME TODO do we need this?
 end

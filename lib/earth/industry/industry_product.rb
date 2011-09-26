@@ -6,7 +6,7 @@ class IndustryProduct < ActiveRecord::Base
   belongs_to :industry, :foreign_key => 'naics_code'
   
   col :naics_product_code
-  col :description
+  col :description, :type => :text
   col :value, :type => :float
   col :value_units
   col :naics_code

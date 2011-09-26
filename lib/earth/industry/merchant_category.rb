@@ -9,5 +9,5 @@ class MerchantCategory < ActiveRecord::Base
   end
 
   col :mcc
-  col :description
+  col :description, :type => :text
 end

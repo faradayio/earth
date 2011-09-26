@@ -10,7 +10,7 @@ class Industry < ActiveRecord::Base
   has_many :sectors, :through => :industry_sectors
   
   col :naics_code
-  col :description
+  col :description, :type => :text
 
   def trade_industry?
     prefix = naics_code.to_s[0,2]
