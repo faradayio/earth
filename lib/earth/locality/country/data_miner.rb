@@ -16,8 +16,8 @@ Country.class_eval do
       store 'flight_route_inefficiency_factor'
     end
     
-    import "automobile trip fallbacks",
-           :url => 'https://spreadsheets.google.com/pub?hl=en&hl=en&key=0AoQJbWqPrREqdDdZRm1tNjY0c2dYNG00bXJ3TXRqUVE&gid=0&output=csv' do
+    import "automobile-related data",
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdDdZRm1tNjY0c2dYNG00bXJ3TXRqUVE&gid=0&output=csv' do
       key 'iso_3166_code'
       store 'automobile_urbanity'
       store 'automobile_city_speed', :units_field_name => 'automobile_city_speed_units'
@@ -71,6 +71,10 @@ Country.class_eval do
             automobile_trip_distance_units = 'kilometres'
         WHERE automobile_trip_distance_units = 'miles'
       }
+    end
+    
+    process "Ensure RailCompany is populated" do
+      RailCompany.run_data_miner!
     end
     
     # FIXME TODO verify this
