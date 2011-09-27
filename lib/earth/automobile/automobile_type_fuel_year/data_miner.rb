@@ -86,7 +86,7 @@ AutomobileTypeFuelYear.class_eval do
         record.ch4_emission_factor_units = 'kilograms_per_litre'
         record.n2o_emission_factor_units = 'kilograms_per_litre'
         
-        record.save
+        record.save!
       end
     end
   end

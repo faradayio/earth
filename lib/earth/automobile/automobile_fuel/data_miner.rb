@@ -32,7 +32,7 @@ AutomobileFuel.class_eval do
         scope = record.type_fuel_year_ages.where(:year => record.type_fuel_year_ages.maximum('year'))
         record.annual_distance = scope.weighted_average(:annual_distance, :weighted_by => :vehicles)
         record.annual_distance_units = scope.first.annual_distance_units
-        record.save
+        record.save!
       end
     end
     
@@ -47,7 +47,7 @@ AutomobileFuel.class_eval do
         end
         record.co2_emission_factor_units = record.base_fuel.co2_emission_factor_units
         record.co2_biogenic_emission_factor_units = record.base_fuel.co2_biogenic_emission_factor_units
-        record.save
+        record.save!
       end
     end
     
@@ -70,7 +70,7 @@ AutomobileFuel.class_eval do
         end.sum / scope.sum('total_travel')
         record.hfc_emission_factor_units = scope.first.type_year.hfc_emission_factor_units
         
-        record.save
+        record.save!
       end
     end
     
