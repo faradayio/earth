@@ -33,7 +33,7 @@ Fuel.class_eval do
       conversion_factor = (1_055.05585 / 1.0) * (1.0 / 158.987295) # Google: 1_055.05585 MJ / 1 MMBtu * 1 barrel / 158.987295 l
       connection.execute %{
         UPDATE fuels
-        SET energy_content = energy_content * #{conversion_factor}, energy_content_units = 'megajoules_per_litre'
+        SET energy_content = 1.0 * energy_content * #{conversion_factor}, energy_content_units = 'megajoules_per_litre'
         WHERE energy_content_units = 'million_btu_per_barrel'
       }
     end
@@ -42,7 +42,7 @@ Fuel.class_eval do
       conversion_factor = (1.0 / 947.81712) * (35.3146667 / 1.0) # Google: 1.0 MJ / 947.81712 Btu * 35.3146667 cubic feet / 1 cubic m
       connection.execute %{
         UPDATE fuels
-        SET energy_content = energy_content * #{conversion_factor}, energy_content_units = 'megajoules_per_cubic_metre'
+        SET energy_content = 1.0 * energy_content * #{conversion_factor}, energy_content_units = 'megajoules_per_cubic_metre'
         WHERE energy_content_units = 'btu_per_cubic_foot'
       }
     end
@@ -51,7 +51,7 @@ Fuel.class_eval do
       conversion_factor = (1_000_000_000_000.0 / 1.0) * (1.0 / 1_055_055_852_620.0) # Google: 1e12 g / Tg * 1 QBtu / 1.055e12 MJ
       connection.execute %{
         UPDATE fuels
-        SET carbon_content = carbon_content * #{conversion_factor}, carbon_content_units = 'grams_per_megajoule'
+        SET carbon_content = 1.0 * carbon_content * #{conversion_factor}, carbon_content_units = 'grams_per_megajoule'
         WHERE carbon_content_units = 'teragrams_per_quadrillion_btu'
       }
     end
@@ -60,8 +60,8 @@ Fuel.class_eval do
       conversion_factor = (1.0 / 1_000.0) * (44.0 / 12.0) # Google: 1 kg / 1e3 g * 44 CO2 / 12 C
       connection.execute %{
         UPDATE fuels
-        SET co2_emission_factor = carbon_content * energy_content * oxidation_factor * (1 - biogenic_fraction) * #{conversion_factor},
-            co2_biogenic_emission_factor = carbon_content * energy_content * oxidation_factor * biogenic_fraction * #{conversion_factor}
+        SET co2_emission_factor = 1.0 * carbon_content * energy_content * oxidation_factor * (1 - biogenic_fraction) * #{conversion_factor},
+            co2_biogenic_emission_factor = 1.0 * carbon_content * energy_content * oxidation_factor * biogenic_fraction * #{conversion_factor}
       }
     end
     

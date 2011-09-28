@@ -83,12 +83,12 @@ class AutomobileFuel < ActiveRecord::Base
       latest_year = AutomobileTypeFuelYear.maximum('year')
       gas_use = AutomobileTypeFuelYear.where(:year => latest_year, :fuel_common_name => 'gasoline').sum('fuel_consumption')
       diesel_use = AutomobileTypeFuelYear.where(:year => latest_year, :fuel_common_name => 'diesel').sum('fuel_consumption')
-      diesel_use / (gas_use + diesel_use)
+      diesel_use.to_f / (gas_use + diesel_use)
     end
     
     def fallback_co2_emission_factor
-      (Fuel.find_by_name("Motor Gasoline").co2_emission_factor * (1 - AutomobileFuel.fallback_blend_portion)) +
-      (Fuel.find_by_name("Distillate Fuel Oil No. 2").co2_emission_factor * AutomobileFuel.fallback_blend_portion)
+      (Fuel.find_by_name("Motor Gasoline").co2_emission_factor.to_f * (1 - AutomobileFuel.fallback_blend_portion)) +
+      (Fuel.find_by_name("Distillate Fuel Oil No. 2").co2_emission_factor.to_f * AutomobileFuel.fallback_blend_portion)
     end
     
     def fallback_co2_emission_factor_units
@@ -109,7 +109,7 @@ class AutomobileFuel < ActiveRecord::Base
     end
     
     def fallback_ch4_emission_factor
-      fallback_latest_type_fuel_years.weighted_average(:ch4_emission_factor, :weighted_by => :total_travel) * GreenhouseGas[:ch4].global_warming_potential
+      fallback_latest_type_fuel_years.weighted_average(:ch4_emission_factor, :weighted_by => :total_travel).to_f * GreenhouseGas[:ch4].global_warming_potential
     end
     
     def fallback_ch4_emission_factor_units
@@ -119,7 +119,7 @@ class AutomobileFuel < ActiveRecord::Base
     end
     
     def fallback_n2o_emission_factor
-      fallback_latest_type_fuel_years.weighted_average(:n2o_emission_factor, :weighted_by => :total_travel) * GreenhouseGas[:n2o].global_warming_potential
+      fallback_latest_type_fuel_years.weighted_average(:n2o_emission_factor, :weighted_by => :total_travel).to_f * GreenhouseGas[:n2o].global_warming_potential
     end
     
     def fallback_n2o_emission_factor_units
@@ -130,7 +130,7 @@ class AutomobileFuel < ActiveRecord::Base
     
     def fallback_hfc_emission_factor
       fallback_latest_type_fuel_years.map do |tfy|
-        tfy.total_travel * tfy.type_year.hfc_emission_factor
+        tfy.total_travel.to_f * tfy.type_year.hfc_emission_factor
       end.sum / fallback_latest_type_fuel_years.sum('total_travel')
     end
     

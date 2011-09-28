@@ -31,7 +31,7 @@ BusFuel.class_eval do
       gwp_ch4 = GreenhouseGas[:ch4].global_warming_potential
       connection.execute %{
         UPDATE bus_fuels
-        SET ch4_emission_factor = ch4_emission_factor * #{conversion_factor} * #{gwp_ch4},
+        SET ch4_emission_factor = 1.0 * ch4_emission_factor * #{conversion_factor} * #{gwp_ch4},
             ch4_emission_factor_units = 'kilograms_co2e_per_kilometre'
         WHERE ch4_emission_factor_units = 'grams_per_mile'
       }
@@ -39,7 +39,7 @@ BusFuel.class_eval do
       gwp_n2o = GreenhouseGas[:n2o].global_warming_potential
       connection.execute %{
         UPDATE bus_fuels
-        SET n2o_emission_factor = n2o_emission_factor * #{conversion_factor} * #{gwp_n2o},
+        SET n2o_emission_factor = 1.0 * n2o_emission_factor * #{conversion_factor} * #{gwp_n2o},
             n2o_emission_factor_units = 'kilograms_co2e_per_kilometre'
         WHERE n2o_emission_factor_units = 'grams_per_mile'
       }
@@ -49,7 +49,7 @@ BusFuel.class_eval do
       conversion_factor = (1 / 947.81712) * (1 / 3.78541178) # Google: 1 MJ / 947.81712 btu * 1 gallon / 3.78541178 l
       connection.execute %{
         UPDATE bus_fuels
-        SET energy_content = energy_content * #{conversion_factor},
+        SET energy_content = 1.0 * energy_content * #{conversion_factor},
             energy_content_units = 'megajoules_per_litre'
         WHERE energy_content_units = 'btu_per_gallon'
       }
@@ -59,14 +59,14 @@ BusFuel.class_eval do
       BusFuel.all.each do |bus_fuel|
         fuel = bus_fuel.fuel
         if bus_fuel.energy_content.present?
-          co2_factor = (bus_fuel.energy_content * fuel.carbon_content * fuel.oxidation_factor * (1 - fuel.biogenic_fraction))
+          co2_factor = (bus_fuel.energy_content.to_f * fuel.carbon_content * fuel.oxidation_factor * (1 - fuel.biogenic_fraction))
           bus_fuel.co2_emission_factor = co2_factor.grams.to(:kilograms).carbon.to(:co2)
           
           co2_prefix = fuel.co2_emission_factor_units.split("_per_")[0]
           co2_suffix = bus_fuel.energy_content_units.split("_per_")[1]
           bus_fuel.co2_emission_factor_units = co2_prefix + "_per_" + co2_suffix
           
-          co2_biogenic_factor = (bus_fuel.energy_content * fuel.carbon_content * fuel.oxidation_factor * fuel.biogenic_fraction)
+          co2_biogenic_factor = (bus_fuel.energy_content.to_f * fuel.carbon_content * fuel.oxidation_factor * fuel.biogenic_fraction)
           bus_fuel.co2_biogenic_emission_factor = co2_biogenic_factor.grams.to(:kilograms).carbon.to(:co2)
           
           co2_biogenic_prefix = fuel.co2_biogenic_emission_factor_units.split("_per_")[0]
@@ -88,7 +88,7 @@ BusFuel.class_eval do
       BusFuel.all.each do |bus_fuel|
         if bus_fuel.latest_fuel_year_controls.present?
           ch4_factors_by_year = bus_fuel.latest_fuel_year_controls.map do |fyc|
-             fyc.total_travel_percent * fyc.fuel_control.ch4_emission_factor
+             fyc.total_travel_percent.to_f * fyc.fuel_control.ch4_emission_factor
           end
           bus_fuel.ch4_emission_factor = ch4_factors_by_year.sum * GreenhouseGas[:ch4].global_warming_potential
           
@@ -97,7 +97,7 @@ BusFuel.class_eval do
           bus_fuel.ch4_emission_factor_units = ch4_prefix + "_co2e_per_" + ch4_suffix
           
           n2o_factors_by_year = bus_fuel.latest_fuel_year_controls.map do |fyc|
-             fyc.total_travel_percent * fyc.fuel_control.n2o_emission_factor
+             fyc.total_travel_percent.to_f * fyc.fuel_control.n2o_emission_factor
           end
           bus_fuel.n2o_emission_factor = n2o_factors_by_year.sum * GreenhouseGas[:n2o].global_warming_potential
           

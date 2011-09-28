@@ -52,7 +52,7 @@ AutomobileTypeFuelYear.class_eval do
       conversion_factor = 1_000_000_000.miles.to(:kilometres)
       connection.execute %{
         UPDATE automobile_type_fuel_years
-        SET total_travel = total_travel * #{conversion_factor},
+        SET total_travel = 1.0 * total_travel * #{conversion_factor},
             total_travel_units = 'kilometres'
         WHERE total_travel_units = 'billion_miles'
       }
@@ -76,11 +76,11 @@ AutomobileTypeFuelYear.class_eval do
     process "Calculate CH4 and N2O emision factors from AutomobileTypeFuelYearControl and AutomobileTypeFuelControl" do
       AutomobileTypeFuelYear.all.each do |record|
         record.ch4_emission_factor = record.year_controls.map do |year_control|
-          year_control.total_travel_percent * year_control.control.ch4_emission_factor
+          year_control.total_travel_percent.to_f * year_control.control.ch4_emission_factor
         end.sum * record.total_travel / record.fuel_consumption
         
         record.n2o_emission_factor = record.year_controls.map do |year_control|
-          year_control.total_travel_percent * year_control.control.n2o_emission_factor
+          year_control.total_travel_percent.to_f * year_control.control.n2o_emission_factor
         end.sum * record.total_travel / record.fuel_consumption
         
         record.ch4_emission_factor_units = 'kilograms_per_litre'

@@ -29,7 +29,7 @@ class Species < ActiveRecord::Base
     end
 
     def marginal_dietary_requirement_fallback
-      total_diet_size = thoroughly_researched.map(&:weighted_diet_size).sum
+      total_diet_size = thoroughly_researched.map(&:weighted_diet_size).sum.to_f
       total_population = thoroughly_researched.sum(:population)
       return 0.0 unless total_population > 0.0
       average_weight = thoroughly_researched.weighted_average(:weight, :weighted_by => :population)
@@ -40,12 +40,12 @@ class Species < ActiveRecord::Base
   
   def diet_size
     return unless weight and marginal_dietary_requirement and fixed_dietary_requirement
-    weight * marginal_dietary_requirement + fixed_dietary_requirement
+    weight.to_f * marginal_dietary_requirement + fixed_dietary_requirement
   end
   
   def weighted_diet_size
     return unless _diet_size = diet_size and _population = population
-    _diet_size * _population
+    _diet_size.to_f * _population
   end
   
   def to_s

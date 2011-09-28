@@ -39,8 +39,8 @@ AutomobileFuel.class_eval do
     process "Derive co2 emission factor and co2 biogenic emission factors" do
       find_each do |record|
         if record.blend_fuel.present?
-          record.co2_emission_factor = (record.base_fuel.co2_emission_factor * (1 - record.blend_portion)) + (record.blend_fuel.co2_emission_factor * record.blend_portion)
-          record.co2_biogenic_emission_factor = (record.base_fuel.co2_biogenic_emission_factor * (1 - record.blend_portion)) + (record.blend_fuel.co2_biogenic_emission_factor * record.blend_portion)
+          record.co2_emission_factor = (record.base_fuel.co2_emission_factor.to_f * (1 - record.blend_portion)) + (record.blend_fuel.co2_emission_factor.to_f * record.blend_portion)
+          record.co2_biogenic_emission_factor = (record.base_fuel.co2_biogenic_emission_factor.to_f * (1 - record.blend_portion)) + (record.blend_fuel.co2_biogenic_emission_factor.to_f * record.blend_portion)
         else
           record.co2_emission_factor = record.base_fuel.co2_emission_factor
           record.co2_biogenic_emission_factor = record.base_fuel.co2_biogenic_emission_factor
@@ -55,18 +55,18 @@ AutomobileFuel.class_eval do
       find_each do |record|
         scope = record.type_fuel_years.where(:year => record.type_fuel_years.maximum('year'))
         
-        record.ch4_emission_factor = scope.weighted_average(:ch4_emission_factor, :weighted_by => :total_travel) * GreenhouseGas[:ch4].global_warming_potential
+        record.ch4_emission_factor = scope.weighted_average(:ch4_emission_factor, :weighted_by => :total_travel).to_f * GreenhouseGas[:ch4].global_warming_potential
         ch4_prefix = scope.first.ch4_emission_factor_units.split("_per_")[0]
         ch4_suffix = scope.first.ch4_emission_factor_units.split("_per_")[1]
         record.ch4_emission_factor_units = ch4_prefix + "_co2e_per_" + ch4_suffix
         
-        record.n2o_emission_factor = scope.weighted_average(:n2o_emission_factor, :weighted_by => :total_travel) * GreenhouseGas[:n2o].global_warming_potential
+        record.n2o_emission_factor = scope.weighted_average(:n2o_emission_factor, :weighted_by => :total_travel).to_f * GreenhouseGas[:n2o].global_warming_potential
         n2o_prefix = scope.first.n2o_emission_factor_units.split("_per_")[0]
         n2o_suffix = scope.first.n2o_emission_factor_units.split("_per_")[1]
         record.n2o_emission_factor_units = n2o_prefix + "_co2e_per_" + n2o_suffix
         
         record.hfc_emission_factor = scope.map do |tfy|
-          tfy.total_travel * tfy.type_year.hfc_emission_factor
+          tfy.total_travel.to_f * tfy.type_year.hfc_emission_factor
         end.sum / scope.sum('total_travel')
         record.hfc_emission_factor_units = scope.first.type_year.hfc_emission_factor_units
         

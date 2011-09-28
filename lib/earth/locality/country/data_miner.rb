@@ -32,7 +32,7 @@ Country.class_eval do
     # FIXME TODO eventually need to do this for all countries
     process "Derive US average automobile fuel efficiency from AutomobileTypeFuelYear" do
       scope = AutomobileTypeFuelYear.where(:year => AutomobileTypeFuelYear.maximum(:year))
-      fe = scope.sum(:total_travel) / scope.sum(:fuel_consumption)
+      fe = scope.sum(:total_travel).to_f / scope.sum(:fuel_consumption)
       units = scope.first.total_travel_units + '_per_' + scope.first.fuel_consumption_units.singularize
       
       connection.execute %{
@@ -47,7 +47,7 @@ Country.class_eval do
       conversion_factor = 1.miles.to(:kilometres)
       connection.execute %{
         UPDATE countries
-        SET automobile_city_speed = automobile_city_speed * #{conversion_factor},
+        SET automobile_city_speed = 1.0 * automobile_city_speed * #{conversion_factor},
             automobile_city_speed_units = 'kilometres_per_hour'
         WHERE automobile_city_speed_units = 'miles_per_hour'
       }
@@ -57,7 +57,7 @@ Country.class_eval do
       conversion_factor = 1.miles.to(:kilometres)
       connection.execute %{
         UPDATE countries
-        SET automobile_highway_speed = automobile_highway_speed * #{conversion_factor},
+        SET automobile_highway_speed = 1.0 * automobile_highway_speed * #{conversion_factor},
             automobile_highway_speed_units = 'kilometres_per_hour'
         WHERE automobile_highway_speed_units = 'miles_per_hour'
       }
@@ -67,7 +67,7 @@ Country.class_eval do
       conversion_factor = 1.miles.to(:kilometres)
       connection.execute %{
         UPDATE countries
-        SET automobile_trip_distance = automobile_trip_distance * #{conversion_factor},
+        SET automobile_trip_distance = 1.0 * automobile_trip_distance * #{conversion_factor},
             automobile_trip_distance_units = 'kilometres'
         WHERE automobile_trip_distance_units = 'miles'
       }

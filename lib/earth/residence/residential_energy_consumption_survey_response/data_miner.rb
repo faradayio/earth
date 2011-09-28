@@ -142,24 +142,24 @@ ResidentialEnergyConsumptionSurveyResponse.class_eval do
         [ 'annual_energy_from_electricity_for_heating_water', :kbtus, :joules ],
         [ 'annual_energy_from_electricity_for_other_appliances', :kbtus, :joules ],
       ].each do |attr_name, from_units, to_units|
-        update_all "#{attr_name} = #{attr_name} * #{Conversions::Unit.exchange_rate from_units, to_units}"
+        update_all "#{attr_name} = 1.0 * #{attr_name} * #{Conversions::Unit.exchange_rate from_units, to_units}"
       end
     end
       
     process 'Add a new field "rooms" that estimates how many rooms are in the house' do
-      update_all 'rooms = total_rooms + full_bathrooms/2 + half_bathrooms/4 + heated_garage*(attached_1car_garage + detached_1car_garage + 2*(attached_2car_garage + detached_2car_garage) + 3*(attached_3car_garage + detached_3car_garage))'
+      update_all 'rooms = total_rooms + full_bathrooms/2.0 + half_bathrooms/4.0 + 1.0*heated_garage*(attached_1car_garage + detached_1car_garage + 2.0*(attached_2car_garage + detached_2car_garage) + 3.0*(attached_3car_garage + detached_3car_garage))'
     end
     
     process 'Add a new field "bathrooms" that synthesizes half and full bathrooms into one number' do
-      update_all 'bathrooms = full_bathrooms + 0.5 * half_bathrooms'
+      update_all 'bathrooms = full_bathrooms + 0.5*half_bathrooms'
     end
     
     process 'Add a new field "lighting_use" that estimates how many hours light bulbs are turned on in the house' do
-      update_all 'lighting_use = 2*(lights_on_1_to_4_hours + efficient_lights_on_1_to_4_hours) + 8*(lights_on_4_to_12_hours + efficient_lights_on_4_to_12_hours) + 16*(lights_on_over_12_hours + efficient_lights_on_over_12_hours) + 12*(outdoor_all_night_lights + outdoor_all_night_gas_lights)'
+      update_all 'lighting_use = 2.0*(lights_on_1_to_4_hours + efficient_lights_on_1_to_4_hours) + 8.0*(lights_on_4_to_12_hours + efficient_lights_on_4_to_12_hours) + 16.0*(lights_on_over_12_hours + efficient_lights_on_over_12_hours) + 12.0*(outdoor_all_night_lights + outdoor_all_night_gas_lights)'
     end
     
     process 'Add a new field "lighting_efficiency" that estimates what percentage of light bulbs in a house are energy-efficient' do
-      update_all 'lighting_efficiency = (2*efficient_lights_on_1_to_4_hours + 8*efficient_lights_on_4_to_12_hours + 16*efficient_lights_on_over_12_hours) / lighting_use', 'lighting_use > 0'
+      update_all 'lighting_efficiency = (2.0*efficient_lights_on_1_to_4_hours + 8.0*efficient_lights_on_4_to_12_hours + 16.0*efficient_lights_on_over_12_hours) / lighting_use', 'lighting_use > 0'
     end
     
     process "synthesize air conditioner use from central AC and window AC use" do

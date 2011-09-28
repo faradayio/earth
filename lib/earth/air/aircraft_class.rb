@@ -28,10 +28,10 @@ class AircraftClass < ActiveRecord::Base
       AircraftFuelUseEquation.run_data_miner!
       find_each do |aircraft_class|
         cumulative_passengers = 0
-        aircraft_class.m3 = 0
-        aircraft_class.m2 = 0
-        aircraft_class.m1 = 0
-        aircraft_class.b = 0
+        aircraft_class.m3 = 0.0
+        aircraft_class.m2 = 0.0
+        aircraft_class.m1 = 0.0
+        aircraft_class.b = 0.0
       
         aircraft_class.aircraft.where('passengers > 0 AND fuel_use_code IS NOT NULL').each do |a|
           cumulative_passengers += a.passengers
@@ -50,13 +50,10 @@ class AircraftClass < ActiveRecord::Base
       
         aircraft_class.seats = aircraft_class.aircraft.weighted_average(:seats, :weighted_by => :passengers)
       
-        aircraft_class.m3_units = 'kilograms_per_cubic_nautical_mile'
-        aircraft_class.m2_units = 'kilograms_per_square_nautical_mile'
-        aircraft_class.m1_units = 'kilograms_per_nautical_mile'
-        aircraft_class.b_units  = 'kilograms'
-      
         aircraft_class.save!
       end
+      
+      update_all :m3_units => 'kilograms_per_cubic_nautical_mile', :m2_units => 'kilograms_per_square_nautical_mile', :m1_units => 'kilograms_per_nautical_mile', :b_units  => 'kilograms'
     end
   end
 end

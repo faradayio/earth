@@ -13,14 +13,14 @@ BusFuelControl.class_eval do
       conversion_factor = (1 / 1.609344) * (1.0 / 1_000.0 ) # Google: 1 mile / 1.609344 km * 1 kg / 1000 g
       connection.execute %{
         UPDATE bus_fuel_controls
-        SET ch4_emission_factor = ch4_emission_factor * #{conversion_factor},
+        SET ch4_emission_factor = 1.0 * ch4_emission_factor * #{conversion_factor},
             ch4_emission_factor_units = 'kilograms_per_kilometre'
         WHERE ch4_emission_factor_units = 'grams_per_mile'
       }
       
       connection.execute %{
         UPDATE bus_fuel_controls
-        SET n2o_emission_factor = n2o_emission_factor * #{conversion_factor},
+        SET n2o_emission_factor = 1.0 * n2o_emission_factor * #{conversion_factor},
             n2o_emission_factor_units = 'kilograms_per_kilometre'
         WHERE n2o_emission_factor_units = 'grams_per_mile'
       }

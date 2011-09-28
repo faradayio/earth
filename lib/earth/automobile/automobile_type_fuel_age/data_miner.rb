@@ -123,7 +123,7 @@ AutomobileTypeFuelAge.class_eval do
     
     process "Convert annual distance from miles to kilometres" do
       conversion_factor = 1.miles.to(:kilometres)
-      update_all "annual_distance = annual_distance * #{conversion_factor}"
+      update_all "annual_distance = 1.0 * annual_distance * #{conversion_factor}"
       update_all "annual_distance_units = 'kilometres'"
     end
     
@@ -142,7 +142,7 @@ AutomobileTypeFuelAge.class_eval do
               t1.year = #{max_year}
               AND t1.type_name = #{quoted_table_name}.type_name
               AND t1.fuel_common_name = #{quoted_table_name}.fuel_common_name )
-          * #{quoted_table_name}.total_travel_percent / #{quoted_table_name}.annual_distance
+          * 1.0 * #{quoted_table_name}.total_travel_percent / #{quoted_table_name}.annual_distance
       }
     end
   end

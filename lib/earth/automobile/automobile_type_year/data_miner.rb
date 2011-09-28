@@ -19,7 +19,7 @@ AutomobileTypeYear.class_eval do
     process "Calculate HFC emission factor from AutomobileTypeFuelYear" do
       total_fuel_consumption = "(SELECT SUM(src.fuel_consumption) FROM #{AutomobileTypeFuelYear.quoted_table_name} AS src WHERE src.type_year_name = #{quoted_table_name}.name)"
       update_all(
-        %{hfc_emission_factor = hfc_emissions / #{total_fuel_consumption}},
+        %{hfc_emission_factor = 1.0 * hfc_emissions / #{total_fuel_consumption}},
         %{#{total_fuel_consumption} > 0}
       )
     end    
