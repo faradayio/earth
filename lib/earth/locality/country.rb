@@ -66,4 +66,14 @@ class Country < ActiveRecord::Base
   col :automobile_trip_distance, :type => :float
   col :automobile_trip_distance_units
   col :flight_route_inefficiency_factor, :type => :float
+  col :rail_trip_speed, :type => :float
+  col :rail_trip_speed_units
+  col :rail_trip_distance, :type => :float
+  col :rail_trip_distance_units
+  col :rail_trip_electricity_intensity, :type => :float
+  col :rail_trip_electricity_intensity_units
+  col :rail_trip_diesel_intensity, :type => :float
+  col :rail_trip_diesel_intensity_units
+  col :rail_trip_emission_factor, :type => :float
+  col :rail_trip_emission_factor_units
 end
