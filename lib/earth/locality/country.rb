@@ -14,16 +14,16 @@ class Country < ActiveRecord::Base
                 :automobile_trip_distance => lambda { Country.united_states.automobile_trip_distance }, # for now assume US represents world
                 :automobile_trip_distance_units => lambda { Country.united_states.automobile_trip_distance_units }, # for now assume US represents world
                 :flight_route_inefficiency_factor => lambda { Country.maximum(:flight_route_inefficiency_factor) }, # default to the largest inefficiency factor
-                :rail_trip_speed => lambda { Country.united_states.rail_speed }, # for now assume US represents world
-                :rail_trip_speed_units => lambda { Country.united_states.rail_speed_units }, # for now assume US represents world
-                :rail_trip_distance => lambda { Country.united_states.rail_distance }, # for now assume US represents world
-                :rail_trip_distance_units => lambda { Country.united_states.rail_distance_units }, # for now assume US represents world
-                :rail_trip_electricity_intensity => lambda { Country.united_states.rail_electricity_intensity }, # for now assume US represents world
-                :rail_trip_electricity_intensity_units => lambda { Country.united_states.rail_electricity_intensity_units }, # for now assume US represents world
-                :rail_trip_diesel_intensity => lambda { Country.united_states.rail_diesel_intensity }, # for now assume US represents world
-                :rail_trip_diesel_intensity_units => lambda { Country.united_states.rail_diesel_intensity_units }, # for now assume US represents world
-                :rail_trip_emission_factor => lambda { Country.united_states.rail_emission_factor }, # for now assume US represents world
-                :rail_trip_emission_factor_units => lambda { Country.united_states.rail_emission_factor_units } # for now assume US represents world
+                :rail_trip_speed => 25.0,
+                :rail_trip_speed_units => 'kilometres_per_hour',
+                :rail_trip_distance => 50.0,
+                :rail_trip_distance_units => 'kilometres',
+                :rail_trip_electricity_intensity => 3.0,
+                :rail_trip_electricity_intensity_units => 'kilowatt_hours_per_passenger_kilometre',
+                :rail_trip_diesel_intensity => 3.0,
+                :rail_trip_diesel_intensity_units => 'litres_per_passenger_kilometre',
+                :rail_trip_emission_factor => 12.0,
+                :rail_trip_emission_factor_units => 'kilograms_co2e_per_passenger_kilometre'
   
   class << self
     def united_states
