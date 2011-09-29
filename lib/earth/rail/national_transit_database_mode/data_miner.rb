@@ -4,7 +4,7 @@ NationalTransitDatabaseMode.class_eval do
            :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdGFTLVpMdFgwSTQzTTFuc2lIVUdfSHc&output=csv' do
       key 'code'
       store 'name',      :nullify => true
-      store 'rail_mode', :nullify => true
+      store 'rail_class', :nullify => true
     end
   end
 end
