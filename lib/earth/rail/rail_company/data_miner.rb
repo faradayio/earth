@@ -67,5 +67,9 @@ RailCompany.class_eval do
         end
       end
     end
+    
+    process "Calculate emission factor for US rail companies" do
+      
+    end
   end
 end
