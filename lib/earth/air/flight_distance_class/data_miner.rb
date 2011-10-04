@@ -1,6 +1,6 @@
 FlightDistanceClass.class_eval do
   data_miner do
-    import "a list of distance classes taken from the WRI business travel tool and UK DEFRA/DECC GHG Conversion Factors for Company Reporting",
+    import "distance classes from the WRI business travel tool and UK DEFRA/DECC GHG Conversion Factors for Company Reporting",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdFBKM0xWaUhKVkxDRmdBVkE3VklxY2c&hl=en&gid=0&output=csv' do
       key   'name'
       store 'distance',     :units_field_name => 'distance_units'
@@ -9,7 +9,8 @@ FlightDistanceClass.class_eval do
     end
     
     # FIXME TODO verify that min_distance >= 0
-    # FIXME TODO verify that max_distance is nil or > 0
+    # FIXME TODO verify that max_distance > 0
+    # FIXME TODO verify that distance class distance bounds don't overlap
     
     process "Ensure FlightSegment is populated" do
       FlightSegment.run_data_miner!
@@ -17,14 +18,7 @@ FlightDistanceClass.class_eval do
     
     process "Calculate passengers for each distance class" do
       FlightDistanceClass.find_each do |distance_class|
-        if distance_class.min_distance.present?
-          if distance_class.max_distance.present?
-            distance_class.passengers = FlightSegment.where('distance >= ? AND distance < ?', distance_class.min_distance, distance_class.max_distance).sum(:passengers)
-          else
-            distance_class.passengers = FlightSegment.where('distance >= ?', distance_class.min_distance).sum(:passengers)
-          end
-          distance_class.save!
-        end
+        distance_class.passengers = FlightSegment.where('distance >= ? AND distance < ?', distance_class.min_distance, distance_class.max_distance).sum(:passengers)
       end
     end
     

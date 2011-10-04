@@ -1,5 +1,10 @@
 class FlightDistanceClass < ActiveRecord::Base
   set_primary_key :name
+  
+  def self.find_by_distance(distance)
+    FlightDistanceClass.where('min_distance < ? AND max_distance > ?', distance, distance)[0]
+  end
+  
   col :name
   col :distance, :type => :float
   col :distance_units
