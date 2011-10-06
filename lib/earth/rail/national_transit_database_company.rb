@@ -5,7 +5,7 @@ class NationalTransitDatabaseCompany < ActiveRecord::Base
   has_many :ntd_records, :foreign_key => 'company_id', :primary_key => 'id', :class_name => 'NationalTransitDatabaseRecord'
   
   def rail_records
-    ntd_records.where(:mode_code => NationalTransitDatabaseMode.rail_classes)
+    ntd_records.where(:mode_code => NationalTransitDatabaseMode.rail_modes)
   end
   
   def rail_company?
