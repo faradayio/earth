@@ -4,32 +4,28 @@ class NationalTransitDatabaseCompany < ActiveRecord::Base
   
   has_many :ntd_records, :foreign_key => 'company_id', :primary_key => 'id', :class_name => 'NationalTransitDatabaseRecord'
   
+  def self.rail_companies
+    NationalTransitDatabaseRecord.rail_records.map(&:ntd_company).uniq
+  end
+  
   def rail_records
     ntd_records.where(:mode_code => NationalTransitDatabaseMode.rail_modes)
   end
   
-  def rail_company?
-    rail_records.present?
+  # Methods to calculate summary statistics from rail_records
+  [:rail_passengers, :rail_passenger_distance, :rail_vehicle_distance, :rail_vehicle_time, :rail_electricity, :rail_diesel].each do |method|
+    define_method method do
+      attribute = method.to_s.split('rail_')[1].to_sym
+      rail_records.sum(attribute) > 0 ? rail_records.sum(attribute) : nil 
+    end
   end
   
-  def method_missing(method_id, *args, &block)
-    if method_id.to_s =~ /\Arail_([^\?]+_units)\Z/
-      units = $1.to_sym
-      units_found = rail_records.map(&units).uniq
-      if units_found.count == 1
-        if units_found[0].present?
-          units_found[0]
-        else
-          raise "#{self.name}'s National Transit Database records are missing #{units.to_s}!"
-        end
-      else
-        raise "#{self.name}'s National Transit Database records contain multiple #{units.to_s}: #{units_found}"
-      end
-    elsif method_id.to_s =~ /\Arail_(.+)/
-      value = $1.to_sym
-      rail_records.sum(value) > 0 ? rail_records.sum(value) : nil
-    else
-      super
+  # Methods to look up units from from rail_records
+  [:rail_passenger_distance_units, :rail_vehicle_distance_units, :rail_vehicle_time_units, :rail_electricity_units, :rail_diesel_units].each do |method|
+    define_method method do
+      attribute = method.to_s.split('rail_')[1].to_sym
+      units = rail_records.map(&attribute).uniq
+      (units.count == 1 and units[0].present?) ? units[0] : raise("Error: units missing or multiple units in #{name}'s NTD records")
     end
   end
   

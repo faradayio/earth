@@ -9,6 +9,6 @@ class CountryRailTractionClass < ActiveRecord::Base
   col :electricity_intensity_units
   col :diesel_intensity, :type => :float
   col :diesel_intensity_units
-  col :emission_factor, :type => :float
-  col :emission_factor_units
+  col :co2_emission_factor, :type => :float
+  col :co2_emission_factor_units
 end
