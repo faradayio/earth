@@ -60,6 +60,10 @@ class FlightSegment < ActiveRecord::Base
   add_index :aircraft_description
   add_index :year
   
+  def self.distances_between(floor, ceiling)
+    where arel_table[:distance].gteq(floor).and(arel_table[:distance].lt(ceiling))
+  end
+  
   def self.update_averages!
     # Derive load factor, which is passengers divided by available seats
     update_all 'load_factor = 1.0 * passengers / seats', 'seats > 0'

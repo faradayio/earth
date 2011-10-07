@@ -17,8 +17,9 @@ FlightDistanceClass.class_eval do
     end
     
     process "Calculate passengers for each distance class" do
-      FlightDistanceClass.find_each do |distance_class|
-        distance_class.passengers = FlightSegment.where('distance >= ? AND distance < ?', distance_class.min_distance, distance_class.max_distance).sum(:passengers)
+      find_each do |distance_class|
+        distance_class.passengers = FlightSegment.distances_between(distance_class.min_distance, distance_class.max_distance).sum(:passengers)
+        distance_class.save!
       end
     end
     
