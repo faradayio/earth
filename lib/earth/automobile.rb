@@ -13,4 +13,5 @@ require 'earth/automobile/automobile_type_fuel_control'
 require 'earth/automobile/automobile_type_fuel_year'
 require 'earth/automobile/automobile_type_fuel_year_age'
 require 'earth/automobile/automobile_type_fuel_year_control'
+
 require 'earth/fuel'

@@ -1,18 +1,19 @@
 RailClass.class_eval do
   data_miner do
-    process "Define some unit conversions" do
-      Conversions.register :gallons_per_mile, :litres_per_kilometre, 2.35214583
+    process "Ensure CountryRailClass, CountryRailTractionClass, and RailCompanyTractionClass are populated" do
+      CountryRailTractionClass.run_data_miner!
+      CountryRailClass.run_data_miner!
+      RailCompanyTractionClass.run_data_miner!
     end
-
-    import "a list of rail classes and pre-calculated trip and fuel use characteristics",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdHRYaDNvRXMtZGoxNmRiOHlNWGV6b2c&hl=en&gid=0&output=csv' do
-      key   'name'
-      store 'description'
-      store 'passengers'
-      store 'distance', :units_field_name => 'distance_units'
-      store 'speed', :units_field_name => 'speed_units'
-      store 'electricity_intensity', :units_field_name => 'electricity_intensity_units'
-      store 'diesel_intensity', :units_field_name => 'diesel_intensity_units'
+    
+    process "Derive rail class names from CountryRailClass, CountryRailTractionClass, and RailCompanyTractionClass" do
+      names = []
+      names += CountryRailTractionClass.select("DISTINCT rail_class_name").map(&:rail_class_name)
+      names += CountryRailClass.select("DISTINCT rail_class_name").map(&:rail_class_name)
+      names += RailCompanyTractionClass.select("DISTINCT rail_class_name").map(&:rail_class_name)
+      names.uniq.each do |name|
+        RailClass.find_or_create_by_name(name)
+      end
     end
   end
 end

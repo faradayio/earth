@@ -1,4 +1,4 @@
-class RailClass < ActiveRecord::Base
+class RailTraction < ActiveRecord::Base
   set_primary_key :name
   
   col :name

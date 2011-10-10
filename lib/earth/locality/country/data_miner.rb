@@ -16,8 +16,8 @@ Country.class_eval do
       store 'flight_route_inefficiency_factor'
     end
     
-    import "automobile trip fallbacks",
-           :url => 'https://spreadsheets.google.com/pub?hl=en&hl=en&key=0AoQJbWqPrREqdDdZRm1tNjY0c2dYNG00bXJ3TXRqUVE&gid=0&output=csv' do
+    import "automobile-related data for the US",
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdDdZRm1tNjY0c2dYNG00bXJ3TXRqUVE&gid=0&output=csv' do
       key 'iso_3166_code'
       store 'automobile_urbanity'
       store 'automobile_city_speed', :units_field_name => 'automobile_city_speed_units'
@@ -71,6 +71,42 @@ Country.class_eval do
             automobile_trip_distance_units = 'kilometres'
         WHERE automobile_trip_distance_units = 'miles'
       }
+    end
+    
+    process "Ensure RailCompany is populated" do
+      RailCompany.run_data_miner!
+    end
+    
+    process "Calculate rail passengers, trip distance, and speed from RailCompany" do
+      find_each do |country|
+        if country.rail_companies.any?
+          country.rail_passengers = country.rail_companies.sum(:passengers)
+          country.rail_trip_distance = country.rail_companies.weighted_average(:trip_distance, :weighted_by => :passengers)
+          country.rail_trip_distance_units = 'kilometres' if country.rail_trip_distance.present?
+          country.rail_speed = country.rail_companies.weighted_average(:speed, :weighted_by => :passengers)
+          country.rail_speed_units = 'kilometres_per_hour' if country.rail_speed.present?
+          country.save!
+        end
+      end
+    end
+    
+    import "european rail fuel and emission data derived from the UIC",
+           :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdDczWnlPN2VtX1RmU0EtOVBYRFo4REE&output=csv' do
+      key 'iso_3166_code'
+      store 'rail_trip_electricity_intensity', :units_field_name => 'rail_trip_electricity_intensity_units'
+      store 'rail_trip_diesel_intensity',      :units_field_name => 'rail_trip_diesel_intensity_units'
+      store 'rail_trip_co2_emission_factor',   :units_field_name => 'rail_trip_co2_emission_factor_units' 
+    end
+    
+    process "Derive US rail fuel and emission data from RailCompany" do
+      country = Country.united_states
+      country.rail_trip_electricity_intensity = country.rail_companies.weighted_average(:electricity_intensity, :weighted_by => :passengers)
+      country.rail_trip_electricity_intensity_units = 'kilowatt_hours_per_passenger_kilometre'
+      country.rail_trip_diesel_intensity = country.rail_companies.weighted_average(:diesel_intensity, :weighted_by => :passengers)
+      country.rail_trip_diesel_intensity_units = 'litres_per_passenger_kilometre'
+      country.rail_trip_co2_emission_factor = country.rail_companies.weighted_average(:co2_emission_factor, :weighted_by => :passengers)
+      country.rail_trip_co2_emission_factor_units = 'kilograms_per_passenger_kilometre'
+      country.save!
     end
     
     # FIXME TODO verify this
