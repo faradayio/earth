@@ -14,43 +14,20 @@ class Country < ActiveRecord::Base
                 :automobile_trip_distance => lambda { Country.united_states.automobile_trip_distance }, # for now assume US represents world
                 :automobile_trip_distance_units => lambda { Country.united_states.automobile_trip_distance_units }, # for now assume US represents world
                 :flight_route_inefficiency_factor => lambda { Country.maximum(:flight_route_inefficiency_factor) }, # default to the largest inefficiency factor
-                :rail_trip_speed => 25.0,
-                :rail_trip_speed_units => 'kilometres_per_hour',
-                :rail_trip_distance => 50.0,
-                :rail_trip_distance_units => 'kilometres',
-                :rail_trip_electricity_intensity => 3.0,
-                :rail_trip_electricity_intensity_units => 'kilowatt_hours_per_passenger_kilometre',
-                :rail_trip_diesel_intensity => 3.0,
-                :rail_trip_diesel_intensity_units => 'litres_per_passenger_kilometre',
-                :rail_trip_emission_factor => 12.0,
-                :rail_trip_emission_factor_units => 'kilograms_co2e_per_passenger_kilometre'
+                :rail_trip_distance => lambda { weighted_average(:rail_trip_distance, :weighted_by => :rail_passengers) },
+                :rail_trip_distance_units => 'kilometres', # FIXME TODO derive this
+                :rail_speed => lambda { weighted_average(:rail_speed, :weighted_by => :rail_passengers) },
+                :rail_speed_units => 'kilometres_per_hour', # FIXME TODO derive this
+                :rail_trip_electricity_intensity => lambda { weighted_average(:rail_trip_electricity_intensity, :weighted_by => :rail_passengers) },
+                :rail_trip_electricity_intensity_units => 'kilowatt_hour_per_passenger_kilometre', # FIXME TODO derive this
+                :rail_trip_diesel_intensity => lambda { weighted_average(:rail_trip_diesel_intensity, :weighted_by => :rail_passengers) },
+                :rail_trip_diesel_intensity_units => 'litres_per_passenger_kilometre', # FIXME TODO derive this
+                :rail_trip_co2_emission_factor => lambda { weighted_average(:rail_trip_co2_emission_factor, :weighted_by => :rail_passengers) },
+                :rail_trip_co2_emission_factor_units => 'kilograms' # FIXME TODO derive this
   
   class << self
     def united_states
       find_by_iso_3166_code('US')
-    end
-  end
-  
-  def method_missing(method_id, *args, &block)
-    if method_id.to_s =~ /\Arail_trip([^\?]+_units)\Z/
-      scope = RailCompany.where(:country_iso_3166_code => iso_3166_code)
-      target_units = $1.to_sym
-      units_found = scope.map(&target_units).uniq
-      if units_found.count == 1
-        if units_found[0].present?
-          units_found[0]
-        else
-          raise "All #{iso_3166_code} rail companies are missing #{target_units.to_s}!"
-        end
-      else
-        raise "#{iso_3166_code} rail companies have multiple values for #{target_units.to_s}: #{units_found}"
-      end
-    elsif method_id.to_s =~ /\Arail_([^\?]+)\Z/
-      attribute = $1.to_sym
-      scope = RailCompany.where(:country_iso_3166_code => iso_3166_code)
-      scope.weighted_average(attribute, :weighted_by => :passengers)
-    else
-      super
     end
   end
   
@@ -66,14 +43,15 @@ class Country < ActiveRecord::Base
   col :automobile_trip_distance, :type => :float
   col :automobile_trip_distance_units
   col :flight_route_inefficiency_factor, :type => :float
-  col :rail_trip_speed, :type => :float
-  col :rail_trip_speed_units
+  col :rail_passengers, :type => :float
   col :rail_trip_distance, :type => :float
   col :rail_trip_distance_units
+  col :rail_speed, :type => :float
+  col :rail_speed_units
   col :rail_trip_electricity_intensity, :type => :float
   col :rail_trip_electricity_intensity_units
   col :rail_trip_diesel_intensity, :type => :float
   col :rail_trip_diesel_intensity_units
-  col :rail_trip_emission_factor, :type => :float
-  col :rail_trip_emission_factor_units
+  col :rail_trip_co2_emission_factor, :type => :float
+  col :rail_trip_co2_emission_factor_units
 end
