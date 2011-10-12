@@ -2,7 +2,7 @@ class FlightDistanceClass < ActiveRecord::Base
   set_primary_key :name
   
   def self.find_by_distance(distance)
-    first :conditions => arel_table[:min_distance].lteq(distance).and(arel_table[:max_distance].gt(distance))
+    first :conditions => arel_table[:min_distance].lteq(distance.to_f).and(arel_table[:max_distance].gt(distance.to_f))
   end
   
   col :name
