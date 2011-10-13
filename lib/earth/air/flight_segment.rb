@@ -61,7 +61,7 @@ class FlightSegment < ActiveRecord::Base
   add_index :year
   
   def self.distances_between(floor, ceiling)
-    where arel_table[:distance].gteq(floor).and(arel_table[:distance].lt(ceiling))
+    where arel_table[:distance].gteq(floor.to_f).and(arel_table[:distance].lt(ceiling.to_f))
   end
   
   def self.update_averages!
