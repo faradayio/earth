@@ -6,4 +6,6 @@ class AircraftInstance < ActiveRecord::Base
   col :serial_number
   col :aircraft_description
   col :airline_name
+  add_index :registration
+  add_index :serial_number
 end

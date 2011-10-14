@@ -9,4 +9,5 @@ class AircraftInstanceSeatClass < ActiveRecord::Base
   col :seat_pitch_units
   col :seat_width, :type => :float
   col :seat_width_units
+  add_index :aircraft_instance_id
 end
