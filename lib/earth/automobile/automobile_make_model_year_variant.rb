@@ -7,11 +7,8 @@ class AutomobileMakeModelYearVariant < ActiveRecord::Base
   belongs_to :fuel,            :class_name => 'AutomobileFuel',          :foreign_key => 'fuel_code', :primary_key => 'code'
   
   col :row_hash
-  col :name # short name!
   col :make_name
-  col :make_model_name # make + model
-  col :make_year_name # make + year
-  col :make_model_year_name # make + model + year
+  col :model_name # short name!
   col :year, :type => :integer
   col :fuel_efficiency, :type => :float
   col :fuel_efficiency_units
@@ -38,9 +35,8 @@ class AutomobileMakeModelYearVariant < ActiveRecord::Base
   col :carline_class_name
   col :speeds
   add_index :make_name
-  add_index :make_model_name
-  add_index :make_year_name
-  add_index :make_model_year_name
+  add_index :model_name
+  add_index :year
   
   # verify "Fuel code should appear in AutomobileFuel" do
   #   if (violators = connection.select_values("SELECT DISTINCT fuel_code FROM #{quoted_table_name} WHERE fuel_code NOT IN (SELECT code FROM #{AutomobileFuel.quoted_table_name})")).any?

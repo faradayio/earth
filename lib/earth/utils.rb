@@ -28,16 +28,26 @@ module Earth
       dest_cols = args[:cols].values
       dest_primary_key = args[:dest].primary_key.to_sym
       dest_primary_key_in_src = args[:cols].key(dest_primary_key)
+      
+      sql_items = {}
+      args[:cols].each do |src_col, dest_col|
+        if src_col.class == Symbol
+          sql_items[dest_col] = 'src.' + src_col.to_s
+        else
+          sql_items[dest_col] = src_col.map { |col| 'src.' + col.to_s }.join(" || ' ' || ")
+        end
+      end
+      
       sql = %{
         INSERT INTO #{args[:dest].table_name}(#{dest_cols.join(',')})
-        SELECT #{dest_cols.map { |dest_col| 'MAX(src.' + args[:cols].key(dest_col).to_s + ')' }.join(',')}
+        SELECT #{dest_cols.map { |dest_col| 'MAX(' + sql_items[dest_col] + ')' }.join(',')}
         FROM #{args[:src].table_name} AS src
         WHERE
-          src.#{dest_primary_key_in_src} IS NOT NULL
-          AND LENGTH(TRIM(CAST(src.#{dest_primary_key_in_src} AS CHAR))) > 0
-          AND src.#{dest_primary_key_in_src} NOT IN (SELECT dest.#{dest_primary_key} FROM #{args[:dest].table_name} AS dest)
+          (#{sql_items[dest_primary_key]}) IS NOT NULL
+          AND LENGTH(TRIM(CAST((#{sql_items[dest_primary_key]}) AS CHAR))) > 0
+          AND (#{sql_items[dest_primary_key]}) NOT IN (SELECT dest.#{dest_primary_key} FROM #{args[:dest].table_name} AS dest)
           AND (#{args[:where] || '1=1'})
-        GROUP BY src.#{dest_primary_key_in_src}
+        GROUP BY #{sql_items[dest_primary_key]}
       }
       ::ActiveRecord::Base.connection.execute sql
     end
