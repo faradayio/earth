@@ -8,9 +8,7 @@ Fuel.class_eval do
       ::Earth::Utils.insert_ignore(
         :src => FuelYear,
         :dest => Fuel,
-        :cols => {
-          :fuel_name => :name
-        }
+        :cols => { :fuel_name => :name }
       )
     end
     

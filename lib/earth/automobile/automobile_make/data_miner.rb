@@ -13,9 +13,7 @@ AutomobileMake.class_eval do
       ::Earth::Utils.insert_ignore(
         :src => AutomobileMakeModelYearVariant,
         :dest => AutomobileMake,
-        :cols => {
-          :make_name => :name,
-        }
+        :cols => { :make_name => :name }
       )
     end
     
@@ -24,9 +22,7 @@ AutomobileMake.class_eval do
       ::Earth::Utils.insert_ignore(
         :src => AutomobileMakeYearFleet,
         :dest => AutomobileMake,
-        :cols => {
-          :make_name => :name,
-        }
+        :cols => { :make_name => :name }
       )
     end
     

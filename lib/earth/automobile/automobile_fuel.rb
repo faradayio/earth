@@ -82,27 +82,27 @@ class AutomobileFuel < ActiveRecord::Base
                 },
                 :hfc_emission_factor => lambda { fallback_type_years.weighted_average(:hfc_emission_factor, :weighted_by => [:type_fuel_years, :total_travel]) },
                 :hfc_emission_factor_units => lambda { fallback_type_years.first.hfc_emission_factor_units }
-
+  
   col :name
   col :code
   col :base_fuel_name
   col :blend_fuel_name
-  col :blend_portion, :type => :float # the portion of the blend that is the blend fuel
-  col :distance_key # used to look up annual distance from AutomobileTypeFuelYear
-  col :ef_key # used to look up ch4 n2o and hfc emission factors from AutomobileTypeFuelYear
-  col :annual_distance, :type => :float
+  col :blend_portion,                :type => :float # the portion of the blend that is the blend fuel
+  col :distance_key                                  # used to look up annual distance from AutomobileTypeFuelYear
+  col :ef_key                                        # used to look up ch4 n2o and hfc emission factors from AutomobileTypeFuelYear
+  col :annual_distance,              :type => :float
   col :annual_distance_units
-  col :co2_emission_factor, :type => :float
+  col :co2_emission_factor,          :type => :float
   col :co2_emission_factor_units
   col :co2_biogenic_emission_factor, :type => :float
   col :co2_biogenic_emission_factor_units
-  col :ch4_emission_factor, :type => :float
+  col :ch4_emission_factor,          :type => :float
   col :ch4_emission_factor_units
-  col :n2o_emission_factor, :type => :float
+  col :n2o_emission_factor,          :type => :float
   col :n2o_emission_factor_units
-  col :hfc_emission_factor, :type => :float
+  col :hfc_emission_factor,          :type => :float
   col :hfc_emission_factor_units
-  col :emission_factor, :type => :float # DEPRECATED but motorcycle needs this
+  col :emission_factor,              :type => :float # DEPRECATED but motorcycle needs this
   col :emission_factor_units # DEPRECATED but motorcycle needs this
 
   CODES = {

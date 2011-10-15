@@ -8,7 +8,7 @@ AutomobileYear.class_eval do
       ::Earth::Utils.insert_ignore(
         :src => AutomobileMakeModelYearVariant,
         :dest => AutomobileYear,
-        :cols => {:year => :year}
+        :cols => { :year => :year }
       )
     end
   end
