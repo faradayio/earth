@@ -98,6 +98,19 @@ Country.class_eval do
       store 'rail_trip_co2_emission_factor',   :units_field_name => 'rail_trip_co2_emission_factor_units' 
     end
     
+    process "Ensure RailFuel is populated" do
+      RailFuel.run_data_miner!
+    end
+    
+    process "Unit conversion for European rail diesel intensity" do
+      diesel = RailFuel.find_by_name("diesel")
+      update_all("rail_trip_diesel_intensity = rail_trip_diesel_intensity / 1000.0 / #{diesel.density}, rail_trip_diesel_intensity_units = 'litres_per_passenger_kilometre'", "rail_trip_diesel_intensity_units = 'grams_per_passenger_kilometre'")
+    end
+    
+    process "Unit conversion for European rail co2 emission factor" do
+      update_all("rail_trip_co2_emission_factor = rail_trip_co2_emission_factor / 1000.0, rail_trip_co2_emission_factor_units = 'kilograms_per_passenger_kilometre'", "rail_trip_co2_emission_factor_units = 'grams_per_passenger_kilometre'")
+    end
+    
     process "Derive US rail fuel and emission data from RailCompany" do
       country = Country.united_states
       country.rail_trip_electricity_intensity = country.rail_companies.weighted_average(:electricity_intensity, :weighted_by => :passengers)
