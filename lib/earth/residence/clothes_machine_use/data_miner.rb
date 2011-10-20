@@ -8,7 +8,9 @@ ClothesMachineUse.class_eval do
       ::Earth::Utils.insert_ignore(
         :src => ResidentialEnergyConsumptionSurveyResponse,
         :dest => ClothesMachineUse,
-        :cols => { :clothes_washer_use => :name }
+        :cols => {
+          :clothes_washer_use => :name
+        }
       )
     end
     

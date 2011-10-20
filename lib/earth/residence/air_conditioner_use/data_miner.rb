@@ -8,7 +8,9 @@ AirConditionerUse.class_eval do
       ::Earth::Utils.insert_ignore(
         :src => ResidentialEnergyConsumptionSurveyResponse,
         :dest => AirConditionerUse,
-        :cols => { :central_ac_use => :name }
+        :cols => {
+          :central_ac_use => :name
+        }
       )
     end
     

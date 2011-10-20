@@ -425,5 +425,11 @@ AutomobileMakeModelYearVariant.class_eval do
       update_all :fuel_efficiency_city_units => 'kilometres_per_litre'
       update_all :fuel_efficiency_highway_units => 'kilometres_per_litre'
     end
+    
+    process "Ensure related tables are populated" do
+      AutomobileMakeModelYear.run_data_miner!
+      AutomobileMakeModel.run_data_miner!
+      AutomobileFuel.run_data_miner!
+    end
   end
 end

@@ -8,7 +8,9 @@ DishwasherUse.class_eval do
       ::Earth::Utils.insert_ignore(
         :src => ResidentialEnergyConsumptionSurveyResponse,
         :dest => DishwasherUse,
-        :cols => { :dishwasher_use_id => :name }
+        :cols => {
+          :dishwasher_use_id => :name
+        }
       )
     end
     

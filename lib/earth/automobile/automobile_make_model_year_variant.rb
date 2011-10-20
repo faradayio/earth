@@ -1,22 +1,28 @@
 class AutomobileMakeModelYearVariant < ActiveRecord::Base
   set_primary_key :row_hash
   
+  belongs_to :make,            :class_name => 'AutomobileMake',          :foreign_key => 'make_name'
+  belongs_to :make_model,      :class_name => 'AutomobileMakeModel',     :foreign_key => 'make_model_name'
+  belongs_to :make_model_year, :class_name => 'AutomobileMakeModelYear', :foreign_key => 'make_model_year_name'
+  belongs_to :fuel,            :class_name => 'AutomobileFuel',          :foreign_key => 'fuel_code', :primary_key => 'code'
+  
   col :row_hash
   col :make_name
   col :model_name # short name!
   col :year, :type => :integer
-  col :speeds
-  col :transmission
-  col :drive
-  col :cylinders, :type => :integer
-  col :displacement, :type => :float
-  col :fuel_code
   col :fuel_efficiency, :type => :float
   col :fuel_efficiency_units
   col :fuel_efficiency_city, :type => :float
   col :fuel_efficiency_city_units
   col :fuel_efficiency_highway, :type => :float
   col :fuel_efficiency_highway_units
+  col :fuel_code
+  col :transmission
+  col :drive
+  col :turbo, :type => :boolean
+  col :supercharger, :type => :boolean
+  col :cylinders, :type => :integer
+  col :displacement, :type => :float
   col :raw_fuel_efficiency_city, :type => :float
   col :raw_fuel_efficiency_city_units
   col :raw_fuel_efficiency_highway, :type => :float

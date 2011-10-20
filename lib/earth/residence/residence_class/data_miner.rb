@@ -8,7 +8,9 @@ ResidenceClass.class_eval do
       ::Earth::Utils.insert_ignore(
         :src => ResidentialEnergyConsumptionSurveyResponse,
         :dest => ResidenceClass,
-        :cols => { :residence_class_id => :name }
+        :cols => {
+          :residence_class_id => :name
+        }
       )
     end
   end
