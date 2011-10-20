@@ -4,9 +4,9 @@ AutomobileMake.class_eval do
       delete_all
     end
     
-    process "Ensure AutomobileMakeModelYearVariant and AutomobileMakeYearFleet are populated" do
+    process "Ensure AutomobileMakeModelYearVariant and AutomobileMakeFleetYear are populated" do
       AutomobileMakeModelYearVariant.run_data_miner!
-      AutomobileMakeYearFleet.run_data_miner!
+      AutomobileMakeFleetYear.run_data_miner!
     end
     
     process "Derive manufacturer names from automobile make model year variants" do
@@ -22,7 +22,7 @@ AutomobileMake.class_eval do
     # sabshere 1/31/11 add Avanti, DaimlerChrysler, IHC, Tesla, etc.
     process "Derive extra manufacturer names from CAFE data" do
       ::Earth::Utils.insert_ignore(
-        :src => AutomobileMakeYearFleet,
+        :src => AutomobileMakeFleetYear,
         :dest => AutomobileMake,
         :cols => {
           :make_name => :name,
@@ -33,9 +33,9 @@ AutomobileMake.class_eval do
     # FIXME TODO derive units here
     process "Calculate fuel efficiency from CAFE data" do
       makes = arel_table
-      year_fleets = AutomobileMakeYearFleets.arel_table
-      conditional_relation = makes[:name].eq(year_fleets[:make_name])
-      relation = AutomobileMakeYearFleets.weighted_average_relation(:fuel_efficiency, :weighted_by => :volume).where(conditional_relation)
+      fleet_years = AutomobileMakeFleetYears.arel_table
+      conditional_relation = makes[:name].eq(fleet_years[:make_name])
+      relation = AutomobileMakeFleetYears.weighted_average_relation(:fuel_efficiency, :weighted_by => :volume).where(conditional_relation)
       update_all("fuel_efficiency = (#{relation.to_sql}), fuel_efficiency_units = 'kilometres_per_litre'")
     end
     

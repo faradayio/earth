@@ -1,4 +1,4 @@
-AutomobileMakeYearFleet.class_eval do
+AutomobileMakeFleetYear.class_eval do
   data_miner do
     import "annual corporate average fuel economy data for domestic and imported vehicle fleets from the NHTSA",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdEdXWXB6dkVLWkowLXhYSFVUT01sS2c&hl=en&gid=0&output=csv',
