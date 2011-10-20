@@ -5,9 +5,10 @@ class AutomobileMakeFleetYear < ActiveRecord::Base
   belongs_to :make_year, :class_name => 'AutomobileMakeYear', :foreign_key => 'make_year_name'
 
   col :name
+  col :make_year_name
   col :make_name
-  col :year, :type => :integer
   col :fleet
+  col :year, :type => :integer
   col :fuel_efficiency, :type => :float
   col :fuel_efficiency_units
   col :volume, :type => :integer

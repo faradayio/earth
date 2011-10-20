@@ -30,22 +30,24 @@ AutomobileMake.class_eval do
       )
     end
     
-    # FIXME TODO derive units here
-    process "Calculate fuel efficiency from CAFE data" do
-      makes = arel_table
-      fleet_years = AutomobileMakeFleetYears.arel_table
-      conditional_relation = makes[:name].eq(fleet_years[:make_name])
-      relation = AutomobileMakeFleetYears.weighted_average_relation(:fuel_efficiency, :weighted_by => :volume).where(conditional_relation)
-      update_all("fuel_efficiency = (#{relation.to_sql}), fuel_efficiency_units = 'kilometres_per_litre'")
+    # FIXME TODO make this a method on AutomobileMake?
+    process "Calculate fuel efficiency from automobile make fleet years for makes with CAFE data" do
+      make_fleet_years = AutomobileMakeFleetYear.arel_table
+      makes = AutomobileMake.arel_table
+      conditional_relation = makes[:name].eq(make_fleet_years[:make_name])
+      relation = AutomobileMakeFleetYear.weighted_average_relation(:fuel_efficiency, :weighted_by => :volume).where(conditional_relation)
+      update_all "fuel_efficiency = (#{relation.to_sql})"
     end
     
-    # FIXME TODO derive units here
-    process "Calculate any missing fuel effeciencies from automobile make model year variants" do
-      makes = arel_table
-      variants = AutomobileMakeModelYearVariant.arel_table
-      conditional_relation = variants[:make_name].eq(makes[:name])
-      relation = variants.project(variants[:fuel_efficiency].average).where(conditional_relation)
-      update_all("fuel_efficiency = (#{relation.to_sql}), fuel_efficiency_units = 'kilometres_per_litre'", "fuel_efficiency IS NULL")
+    process "Calculate fuel effeciency from automobile make model year variants for makes without CAFE data" do
+      update_all(
+        %{fuel_efficiency = (SELECT AVG(automobile_make_model_year_variants.fuel_efficiency) FROM automobile_make_model_year_variants WHERE automobile_makes.name = automobile_make_model_year_variants.make_name)},
+        'fuel_efficiency IS NULL'
+      )
+    end
+    
+    process "Set units" do
+      update_all :fuel_efficiency_units => 'kilometres_per_litre'
     end
   end
 end

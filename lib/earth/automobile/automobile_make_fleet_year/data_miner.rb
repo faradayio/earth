@@ -5,6 +5,7 @@ AutomobileMakeFleetYear.class_eval do
            :errata => { 'url' => 'http://static.brighterplanet.com/science/data/transport/automobiles/make_fleet_years/errata.csv' },
            :select => lambda { |row| row['volume'].to_i > 0 } do
       key   'name', :synthesize => lambda { |row| [ row['manufacturer_name'], row['year_content'], row['fleet'][2,2] ].join ' ' }
+      store 'make_year_name', :synthesize => lambda { |row| [ row['manufacturer_name'], row['year_content'] ].join ' ' }
       store 'make_name', :field_name => 'manufacturer_name'
       store 'year', :field_name => 'year_content'
       store 'fleet', :chars => 2..3 # zero-based

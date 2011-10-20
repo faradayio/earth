@@ -281,8 +281,8 @@ AutomobileMakeModelYearVariant.class_eval do
              :transform => { :class => AutomobileMakeModelYearVariant::ParserB, :year => "19#{yy}".to_i },
              :errata => { :url => 'https://spreadsheets.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdEFqVXRvQjRGNUpxNHFCOXhqSjRmdlE&output=csv', :responder => AutomobileMakeModelYearVariant::Guru.new }) do
         key   'row_hash'
+        store 'name', :field_name => 'model'
         store 'make_name', :field_name => 'make'
-        store 'model_name', :field_name => 'model'
         store 'year'
         store 'fuel_code', :field_name => 'fuel_type'
         store 'fuel_efficiency_highway', :static => nil, :units => :kilometres_per_litre
@@ -320,9 +320,8 @@ AutomobileMakeModelYearVariant.class_eval do
                            :errata => { :url => 'https://spreadsheets.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdEFqVXRvQjRGNUpxNHFCOXhqSjRmdlE&output=csv', :responder => AutomobileMakeModelYearVariant::Guru.new },
                            :select => lambda { |row| row['model'].present? }) do
         key   'row_hash'
+        store 'name', :field_name => 'model'
         store 'make_name', :field_name => 'make'
-        store 'model_name', :field_name => 'model'
-        store 'year'
         store 'fuel_code', :field_name => 'fl'
         store 'fuel_efficiency_highway', :static => nil, :units => :kilometres_per_litre
         store 'fuel_efficiency_city', :static => nil, :units => :kilometres_per_litre
@@ -332,6 +331,7 @@ AutomobileMakeModelYearVariant.class_eval do
         store 'displacement', :field_name => 'displ'
         store 'carline_class_code', :field_name => 'cls' if year >= 2000
         store 'carline_class_name', :field_name => 'Class'
+        store 'year'
         store 'transmission'
         store 'speeds'
         store 'turbo'
@@ -354,9 +354,8 @@ AutomobileMakeModelYearVariant.class_eval do
                            :errata => { :url => 'https://spreadsheets.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdEFqVXRvQjRGNUpxNHFCOXhqSjRmdlE&output=csv', :responder => AutomobileMakeModelYearVariant::Guru.new },
                            :select => lambda { |row| row['model'].present? }) do
         key   'row_hash'
+        store 'name', :field_name => 'model'
         store 'make_name', :field_name => 'make'
-        store 'model_name', :field_name => 'model'
-        store 'year'
         store 'fuel_code', :field_name => 'FUEL TYPE'
         store 'fuel_efficiency_highway', :static => nil, :units => :kilometres_per_litre
         store 'fuel_efficiency_city', :static => nil, :units => :kilometres_per_litre
@@ -366,6 +365,7 @@ AutomobileMakeModelYearVariant.class_eval do
         store 'displacement', :field_name => 'DISPLACEMENT'
         store 'carline_class_code', :field_name => 'CLS'
         store 'carline_class_name', :field_name => 'CLASS'
+        store 'year'
         store 'transmission'
         store 'speeds'
         store 'turbo'
@@ -385,9 +385,8 @@ AutomobileMakeModelYearVariant.class_eval do
                            :errata => { :url => 'https://spreadsheets.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdEFqVXRvQjRGNUpxNHFCOXhqSjRmdlE&output=csv', :responder => AutomobileMakeModelYearVariant::Guru.new },
                            :select => lambda { |row| row['model'].present? }) do
         key   'row_hash'
+        store 'name', :field_name => 'model'
         store 'make_name', :field_name => 'make'
-        store 'model_name', :field_name => 'model'
-        store 'year'
         store 'fuel_code', :field_name => 'fuel_type_code'
         store 'fuel_efficiency_highway', :static => nil, :units => :kilometres_per_litre
         store 'fuel_efficiency_city', :static => nil, :units => :kilometres_per_litre
@@ -397,6 +396,7 @@ AutomobileMakeModelYearVariant.class_eval do
         store 'displacement', :field_name => 'Eng Displ'
         store 'carline_class_code', :field_name => 'Carline Class'
         store 'carline_class_name', :field_name => 'Carline Class Desc'
+        store 'year'
         store 'transmission'
         store 'speeds'
         store 'turbo'
@@ -404,6 +404,12 @@ AutomobileMakeModelYearVariant.class_eval do
         store 'injection'
         store 'drive'
       end
+    end
+    
+    process "Derive model and model year names" do
+      update_all "make_model_name = make_name || ' ' || name"
+      update_all "make_year_name = make_name || ' ' || year"
+      update_all "make_model_year_name = make_name || ' ' || name || ' ' || year"
     end
     
     # Note: need to divide by 0.425143707 b/c equation is designed for miles / gallon not km / l
