@@ -33,7 +33,7 @@ class Country < ActiveRecord::Base
   
   col :iso_3166_code
   col :name
-  col :automobile_urbanity, :type => :float # float from 0 to 1
+  col :automobile_urbanity, :type => :float
   col :automobile_fuel_efficiency, :type => :float
   col :automobile_fuel_efficiency_units
   col :automobile_city_speed, :type => :float

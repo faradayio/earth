@@ -80,5 +80,7 @@ AutomobileFuel.class_eval do
     end
     
     # FIXME TODO verify code somehow
+    
+
   end
 end
