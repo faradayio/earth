@@ -9,13 +9,5 @@ AutomobileTypeFuelYearControl.class_eval do
       store 'control_name'
       store 'total_travel_percent'
     end
-    
-    process "Derive type fuel control name for association with AutomobileTypeFuelControl" do
-      update_all "type_fuel_control_name = type_name || ' ' || fuel_common_name || ' ' || control_name"
-    end
-    
-    process "Derive type fuel year name for association with AutomobileTypeFuelYear" do
-      update_all "type_fuel_year_name = type_name || ' ' || fuel_common_name || ' ' || year"
-    end
   end
 end

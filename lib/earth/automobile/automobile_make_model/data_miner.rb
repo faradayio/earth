@@ -25,10 +25,10 @@ AutomobileMakeModel.class_eval do
       models = arel_table
       variants = AutomobileMakeModelYearVariant.arel_table
       conditional_relation = models[:make_name].eq(variants[:make_name]).and(models[:model_name].eq(variants[:model_name]))
-      %w{ city highway }.each do |i|
-        null_check = variants[:"fuel_efficiency_#{i}"].not_eq(nil)
-        relation = variants.project(variants[:"fuel_efficiency_#{i}"].average).where(conditional_relation).where(null_check)
-        update_all "fuel_efficiency_#{i} = (#{relation.to_sql}), fuel_efficiency_#{i}_units = 'kilometres_per_litre'"
+      %w{ city highway }.each do |type|
+        null_check = variants[:"fuel_efficiency_#{type}"].not_eq(nil)
+        relation = variants.project(variants[:"fuel_efficiency_#{type}"].average).where(conditional_relation).where(null_check)
+        update_all "fuel_efficiency_#{type} = (#{relation.to_sql}), fuel_efficiency_#{type}_units = 'kilometres_per_litre'"
       end
     end
   end

@@ -74,19 +74,30 @@ AutomobileTypeFuelYear.class_eval do
     end
     
     process "Calculate CH4 and N2O emision factors from AutomobileTypeFuelYearControl and AutomobileTypeFuelControl" do
-      AutomobileTypeFuelYear.all.each do |record|
-        record.ch4_emission_factor = record.year_controls.map do |year_control|
-          year_control.total_travel_percent.to_f * year_control.control.ch4_emission_factor
-        end.sum * record.total_travel / record.fuel_consumption
-        
-        record.n2o_emission_factor = record.year_controls.map do |year_control|
-          year_control.total_travel_percent.to_f * year_control.control.n2o_emission_factor
-        end.sum * record.total_travel / record.fuel_consumption
-        
-        record.ch4_emission_factor_units = 'kilograms_per_litre'
-        record.n2o_emission_factor_units = 'kilograms_per_litre'
-        
-        record.save!
+      # FIXME TODO tried to do this with arel but '*' method is not defined
+      # fuel_years = arel_table
+      # year_controls = AutomobileTypeFuelYearControl.arel_table
+      # controls = AutomobileTypeFuelControl.arel_table
+      # year_controls.project((year_controls[:total_travel_percent] * controls[:ch4_emission_factor]).sum)
+      #   .join(controls)
+      #   .on(year_controls[:type_name].eq(controls[:type_name])
+      #   .and(year_controls[:fuel_common_name].eq(controls[:fuel_common_name]))
+      #   .and(year_controls[:control_name].eq(controls[:control_name])))
+      %w{ ch4 n2o }.each do |gas|
+        emission_factor = %{
+          ( SELECT sum(t1.total_travel_percent * t2.#{gas}_emission_factor)
+            FROM #{AutomobileTypeFuelYearControl.quoted_table_name} AS t1
+            INNER JOIN #{AutomobileTypeFuelControl.quoted_table_name} AS t2
+              ON t1.type_name = t2.type_name
+              AND t1.fuel_common_name = t2.fuel_common_name
+              AND t1.control_name = t2.control_name
+            WHERE
+              t1.type_name = #{quoted_table_name}.type_name
+              AND t1.fuel_common_name = #{quoted_table_name}.fuel_common_name
+              AND t1.year = #{quoted_table_name}.year )
+        }
+        update_all "#{gas}_emission_factor = #{emission_factor} * total_travel / fuel_consumption,
+                    #{gas}_emission_factor_units = 'kilograms_per_litre'"
       end
     end
   end

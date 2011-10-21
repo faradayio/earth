@@ -1,8 +1,9 @@
 class AutomobileTypeYear < ActiveRecord::Base
   set_primary_key :name
   
+  # FIXME TODO keep this until fix AutomobileFuel fallback hfc emission factor so that it doesn't call type_year.type_fuel_year
   has_many :type_fuel_years, :class_name => 'AutomobileTypeFuelYear', :foreign_key => 'type_year_name'
-
+  
   col :name
   col :type_name
   col :year, :type => :integer
