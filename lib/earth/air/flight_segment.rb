@@ -47,7 +47,6 @@ class FlightSegment < ActiveRecord::Base
   col :mail_units                        # 'kilograms'
   col :month, :type => :integer                             # month of flight
   col :year, :type => :integer                              # year of flight
-  col :approximate_date, :type => :date                  # assumed 14th day of month
   col :source                            # 'BTS T100' or 'ICAO TFS'
   add_index :origin_airport_iata_code
   add_index :origin_airport_city
@@ -77,8 +76,5 @@ class FlightSegment < ActiveRecord::Base
   
     # Derive average seats per flight
     update_all 'seats_per_flight = 1.0 * seats / flights', 'flights > 0'
-    
-    # Add a useful date field
-    update_all %{approximate_date = DATE(year || '-' || month || '-' || '14')}, 'month IS NOT NULL'
   end
 end
