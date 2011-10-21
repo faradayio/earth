@@ -25,8 +25,10 @@ AutomobileMakeModelYear.class_eval do
       model_years = arel_table
       variants = AutomobileMakeModelYearVariant.arel_table
       conditional_relation = variants[:make_name].eq(model_years[:make_name]).and(variants[:model_name].eq(model_years[:model_name])).and(variants[:year].eq(model_years[:year]))
-      update_all("fuel_code = (#{variants.project('DISTINCT fuel_code').where(conditional_relation).to_sql})",
-                 "(#{variants.project('COUNT(DISTINCT fuel_code)').where(conditional_relation).to_sql}) = 1")
+      update_all(
+        "fuel_code = (#{variants.project('DISTINCT fuel_code').where(conditional_relation).to_sql})",
+        "(#{variants.project('COUNT(DISTINCT fuel_code)').where(conditional_relation).to_sql}) = 1"
+      )
     end
     
     # FIXME TODO not in automobile_make_model_year_variants because they're missing from the EPA FEG download files:
@@ -41,7 +43,7 @@ AutomobileMakeModelYear.class_eval do
     end
     
     process "Set hybridity to FALSE for all other make model years" do
-      update_all({:hybridity => false}, {:hybridity => nil})
+      update_all( {:hybridity => false}, {:hybridity => nil} )
     end
     
     # FIXME TODO: weight by volume somehow
@@ -52,7 +54,8 @@ AutomobileMakeModelYear.class_eval do
       %w{ city highway }.each do |type|
         null_check = variants[:"fuel_efficiency_#{type}"].not_eq(nil)
         relation = variants.project(variants[:"fuel_efficiency_#{type}"].average).where(conditional_relation).where(null_check)
-        update_all "fuel_efficiency_#{type} = (#{relation.to_sql}), fuel_efficiency_#{type}_units = 'kilometres_per_litre'"
+        update_all "fuel_efficiency_#{type} = (#{relation.to_sql}),
+                    fuel_efficiency_#{type}_units = 'kilometres_per_litre'"
       end
     end
   end

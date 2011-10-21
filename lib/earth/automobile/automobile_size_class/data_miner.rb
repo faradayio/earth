@@ -42,8 +42,8 @@ AutomobileSizeClass.class_eval do
       classes = arel_table
       ages = AutomobileTypeFuelYearAge.arel_table
       conditional_relation = ages[:type_name].eq(classes[:type_name])
-      update_all "annual_distance = (#{AutomobileTypeFuelYearAge.weighted_average_relation(:annual_distance, :weighted_by => :vehicles).where(conditional_relation).to_sql})"
-      update_all "annual_distance_units = 'kilometres'"
+      update_all "annual_distance = (#{AutomobileTypeFuelYearAge.weighted_average_relation(:annual_distance, :weighted_by => :vehicles).where(conditional_relation).to_sql}),
+                  annual_distance_units = 'kilometres'"
     end
     
     import "pre-calculated fuel efficiency multipliers",
