@@ -29,9 +29,9 @@ AutomobileMake.class_eval do
     # FIXME TODO derive units here
     process "Calculate fuel efficiency from CAFE data" do
       makes = arel_table
-      year_fleets = AutomobileMakeYearFleets.arel_table
+      year_fleets = AutomobileMakeYearFleet.arel_table
       conditional_relation = makes[:name].eq(year_fleets[:make_name])
-      relation = AutomobileMakeYearFleets.weighted_average_relation(:fuel_efficiency, :weighted_by => :volume).where(conditional_relation)
+      relation = AutomobileMakeYearFleet.weighted_average_relation(:fuel_efficiency, :weighted_by => :volume).where(conditional_relation)
       update_all("fuel_efficiency = (#{relation.to_sql}), fuel_efficiency_units = 'kilometres_per_litre'")
     end
     
