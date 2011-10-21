@@ -75,8 +75,10 @@ AutomobileFuel.class_eval do
     end
     
     process "Derive emission factor" do
-      update_all "emission_factor = co2_emission_factor + ch4_emission_factor + n2o_emission_factor + hfc_emission_factor,
-                  emission_factor_units = 'kilograms_co2e_per_litre'"
+      update_all(
+        "emission_factor = co2_emission_factor + ch4_emission_factor + n2o_emission_factor + hfc_emission_factor,
+         emission_factor_units = 'kilograms_co2e_per_litre'"
+      )
     end
     
     # FIXME TODO verify code somehow

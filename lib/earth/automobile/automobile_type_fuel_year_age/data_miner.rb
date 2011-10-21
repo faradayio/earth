@@ -90,16 +90,11 @@ AutomobileTypeFuelYearAge.class_eval do
     
     process "Convert annual distance from miles to kilometres" do
       conversion_factor = 1.miles.to(:kilometres)
-      connection.execute %{
-        UPDATE automobile_type_fuel_year_ages
-        SET annual_distance = 1.0 * annual_distance * #{conversion_factor},
-            annual_distance_units = 'kilometres'
-        WHERE annual_distance_units = 'miles'
-      }
-    end
-    
-    process "Derive type fuel year name for association with AutomobileTypeFuelYear" do
-      update_all "type_fuel_year_name = type_name || ' ' || fuel_common_name || ' ' || year"
+      update_all(
+        "annual_distance = 1.0 * annual_distance * #{converstion_factor},
+         annual_distance_units = 'kilometres'",
+        { :annual_distance_units => 'miles' }
+      )
     end
     
     process "Ensure AutomobileTypeFuelYear is populated" do
@@ -109,8 +104,8 @@ AutomobileTypeFuelYearAge.class_eval do
     process "Calculate number of vehicles from total travel percent and AutomobileTypeFuelYear" do
       total_travel = "(SELECT t1.total_travel FROM #{AutomobileTypeFuelYear.quoted_table_name} AS t1 WHERE t1.name = #{quoted_table_name}.type_fuel_year_name)"
       update_all(
-        %{vehicles = 1.0 * total_travel_percent * #{total_travel} / annual_distance},
-        %{annual_distance > 0}
+        "vehicles = 1.0 * total_travel_percent * #{total_travel} / annual_distance",
+        "annual_distance > 0"
       )
     end
   end
