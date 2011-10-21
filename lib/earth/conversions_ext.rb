@@ -39,6 +39,7 @@ Conversions.register(:cords, :joules, 2.11011171e10)
 Conversions.register(:gallons_per_mile, :litres_per_kilometre, 2.35214583)
 Conversions.register(:pounds_per_mile, :kilograms_per_kilometre, 0.281849232)
 Conversions.register(:dollars, :cents, 100)
+Conversions.register(:cubic_inches, :litres, 0.016387064)
 Conversions.register(:cubic_feet, :cubic_metres, 0.0283168466)
 # 1 (kilocalories per pound) = 9 224.14105 joules per kilogram
 Conversions.register :kilocalories_per_pound, :joules_per_kilogram, 9_224.14105
