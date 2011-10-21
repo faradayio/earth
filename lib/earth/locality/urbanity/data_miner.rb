@@ -8,9 +8,7 @@ Urbanity.class_eval do
       ::Earth::Utils.insert_ignore(
         :src => ResidentialEnergyConsumptionSurveyResponse,
         :dest => Urbanity,
-        :cols => {
-          :urbanity_id => :name
-        }
+        :cols => { :urbanity_id => :name }
       )
     end
   end
