@@ -31,10 +31,11 @@ EgridSubregion.class_eval do
     end
     
     process "Convert co2 emission factor to metric units" do
-      conversion_factor = 1.pounds.to(:kilograms) * 1.0 / 1_000.0 # kg / lbs * MWh / kWh
-      update_all %{ electricity_co2_emission_factor = electricity_co2_emission_factor * #{conversion_factor},
-                    electricity_co2_emission_factor_units = 'kilograms_per_kilowatt_hour'
-                    WHERE electricity_co2_emission_factor_units = 'pounds_per_megawatt_hour' }
+      conversion_factor = 1.pounds.to(:kilograms) / 1_000.0 # kg / lbs * MWh / kWh
+      where(:electricity_co2_emission_factor_units => 'pounds_per_megawatt_hour').update_all(%{
+        electricity_co2_emission_factor = 1.0 * electricity_co2_emission_factor * #{conversion_factor},
+        electricity_co2_emission_factor_units = 'kilograms_per_kilowatt_hour'
+      })
     end
     
     process "Insure GreenhouseGas is populated" do
@@ -42,24 +43,28 @@ EgridSubregion.class_eval do
     end
     
     process "Convert ch4 emission factor to metric units and co2e" do
-      conversion_factor = 1.pounds.to(:kilograms) * 1.0 / 1_000_000.0 # kg / lbs * GWh / kWh
+      conversion_factor = 1.pounds.to(:kilograms) / 1_000_000.0 # kg / lbs * GWh / kWh
       gwp = GreenhouseGas[:ch4].global_warming_potential
-      update_all %{ electricity_ch4_emission_factor = electricity_ch4_emission_factor * #{conversion_factor} * #{gwp},
-                    electricity_ch4_emission_factor_units = 'kilograms_co2e_per_kilowatt_hour'
-                    WHERE electricity_ch4_emission_factor_units = 'pounds_per_gigawatt_hour' }
+      where(:electricity_ch4_emission_factor_units => 'pounds_per_gigawatt_hour').update_all(%{
+        electricity_ch4_emission_factor = 1.0 * electricity_ch4_emission_factor * #{conversion_factor} * #{gwp},
+        electricity_ch4_emission_factor_units = 'kilograms_co2e_per_kilowatt_hour'
+      })
     end
     
     process "Convert n2o emission factor to metric units and co2e" do
-      conversion_factor = 1.pounds.to(:kilograms) * 1.0 / 1_000_000.0 # kg / lbs * GWh / kWh
+      conversion_factor = 1.pounds.to(:kilograms) / 1_000_000.0 # kg / lbs * GWh / kWh
       gwp = GreenhouseGas[:n2o].global_warming_potential
-      update_all %{ electricity_n2o_emission_factor = electricity_n2o_emission_factor * #{conversion_factor} * #{gwp},
-                    electricity_n2o_emission_factor_units = 'kilograms_co2e_per_kilowatt_hour'
-                    WHERE electricity_n2o_emission_factor_units = 'pounds_per_gigawatt_hour' }
+      where(:electricity_n2o_emission_factor_units => 'pounds_per_gigawatt_hour').update_all(%{
+        electricity_n2o_emission_factor = 1.0 * electricity_n2o_emission_factor * #{conversion_factor} * #{gwp},
+        electricity_n2o_emission_factor_units = 'kilograms_co2e_per_kilowatt_hour'
+      })
     end
     
     process "Calculate combined emission factor" do
-      update_all %{ electricity_emission_factor = electricity_co2_emission_factor + electricity_ch4_emission_factor + electricity_n2o_emission_factor,
-                    electricity_emission_factor_units = 'kilograms_co2e_per_kilowatt_hour' }
+      update_all(%{
+        electricity_emission_factor = 1.0 * electricity_co2_emission_factor + electricity_ch4_emission_factor + electricity_n2o_emission_factor,
+        electricity_emission_factor_units = 'kilograms_co2e_per_kilowatt_hour'
+      })
     end
   end
 end

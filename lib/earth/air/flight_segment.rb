@@ -65,16 +65,16 @@ class FlightSegment < ActiveRecord::Base
   
   def self.update_averages!
     # Derive load factor, which is passengers divided by available seats
-    update_all 'load_factor = 1.0 * passengers / seats', 'seats > 0'
+    where('seats > 0').update_all 'load_factor = 1.0 * passengers / seats'
 
     # Assume a load factor of 1 where passengers > available seats
-    update_all 'load_factor = 1', 'passengers > seats AND seats > 0'
+    where('passengers > seats AND seats > 0').update_all 'load_factor = 1'
   
     # TODO: what is 90.718474
     # Derive freight share as a fraction of the total weight carried
-    update_all 'freight_share = 1.0 * (freight + mail) / (freight + mail + (passengers * 90.718474))', '(freight + mail + passengers) > 0'
+    where('(freight + mail + passengers) > 0').update_all 'freight_share = 1.0 * (freight + mail) / (freight + mail + (passengers * 90.718474))'
   
     # Derive average seats per flight
-    update_all 'seats_per_flight = 1.0 * seats / flights', 'flights > 0'
+    where('flights > 0').update_all 'seats_per_flight = 1.0 * seats / flights'
   end
 end

@@ -50,12 +50,10 @@ AutomobileTypeFuelYear.class_eval do
     
     process "Convert total travel from billion miles to kilometres" do
       conversion_factor = 1_000_000_000.miles.to(:kilometres)
-      connection.execute %{
-        UPDATE automobile_type_fuel_years
-        SET total_travel = 1.0 * total_travel * #{conversion_factor},
-            total_travel_units = 'kilometres'
-        WHERE total_travel_units = 'billion_miles'
-      }
+      where(:total_travel_units => 'billion_miles').update_all(%{
+        total_travel = 1.0 * total_travel * #{conversion_factor},
+        total_travel_units = 'kilometres'
+      })
     end
     
     import "fuel consumption derived from the 2010 EPA GHG Inventory",
@@ -85,7 +83,7 @@ AutomobileTypeFuelYear.class_eval do
       #   .and(year_controls[:control_name].eq(controls[:control_name])))
       %w{ ch4 n2o }.each do |gas|
         emission_factor = %{
-          ( SELECT sum(t1.total_travel_percent * t2.#{gas}_emission_factor)
+          ( SELECT SUM(1.0 * t1.total_travel_percent * t2.#{gas}_emission_factor)
             FROM #{AutomobileTypeFuelYearControl.quoted_table_name} AS t1
             INNER JOIN #{AutomobileTypeFuelControl.quoted_table_name} AS t2
               ON t1.type_name = t2.type_name
@@ -96,8 +94,10 @@ AutomobileTypeFuelYear.class_eval do
               AND t1.fuel_common_name = #{quoted_table_name}.fuel_common_name
               AND t1.year = #{quoted_table_name}.year )
         }
-        update_all "#{gas}_emission_factor = #{emission_factor} * total_travel / fuel_consumption,
-                    #{gas}_emission_factor_units = 'kilograms_per_litre'"
+        update_all(%{
+          #{gas}_emission_factor = 1.0 * #{emission_factor} * total_travel / fuel_consumption,
+          #{gas}_emission_factor_units = 'kilograms_per_litre'
+        })
       end
     end
   end

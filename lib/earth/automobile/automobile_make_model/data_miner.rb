@@ -28,7 +28,10 @@ AutomobileMakeModel.class_eval do
       %w{ city highway }.each do |type|
         null_check = variants[:"fuel_efficiency_#{type}"].not_eq(nil)
         relation = variants.project(variants[:"fuel_efficiency_#{type}"].average).where(conditional_relation).where(null_check)
-        update_all "fuel_efficiency_#{type} = (#{relation.to_sql}), fuel_efficiency_#{type}_units = 'kilometres_per_litre'"
+        update_all(%{
+          fuel_efficiency_#{type} = (#{relation.to_sql}),
+          fuel_efficiency_#{type}_units = 'kilometres_per_litre'
+        })
       end
     end
   end

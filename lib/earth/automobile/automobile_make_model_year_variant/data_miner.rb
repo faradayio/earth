@@ -389,17 +389,24 @@ AutomobileMakeModelYearVariant.class_eval do
     # Note: need to divide by 0.425143707 b/c equation is designed for miles / gallon not km / l
     # Note: EPA seems to adjust differently for plug-in hybrid electric vehicles (e.g. Leaf and Volt)
     process "Calculate adjusted fuel efficiency using the latest EPA equations from EPA Fuel Economy Trends report Appendix A including conversion from miles per gallon to kilometres per litre" do
-      update_all "fuel_efficiency_city = 1.0 / ((0.003259 / 0.425143707) + (1.1805 / raw_fuel_efficiency_city)), fuel_efficiency_city_units = 'kilometres_per_litre'",
-                 "raw_fuel_efficiency_city > 0"
-      update_all "fuel_efficiency_highway = 1.0 / ((0.001376 / 0.425143707) + (1.3466 / raw_fuel_efficiency_highway)), fuel_efficiency_highway_units = 'kilometres_per_litre'",
-                 "raw_fuel_efficiency_highway > 0"
+      where("raw_fuel_efficiency_city > 0").update_all(%{
+        fuel_efficiency_city = 1.0 / ((0.003259 / 0.425143707) + (1.1805 / raw_fuel_efficiency_city)),
+        fuel_efficiency_city_units = 'kilometres_per_litre'
+      })
+      where("raw_fuel_efficiency_highway > 0").update_all(%{
+        fuel_efficiency_highway = 1.0 / ((0.001376 / 0.425143707) + (1.3466 / raw_fuel_efficiency_highway)),
+        fuel_efficiency_highway_units = 'kilometres_per_litre'
+      })
     end
     
     # This will be useful later for calculating MakeModel and Make fuel efficiency based on Variant
     # NOTE: we use a 43/57 city/highway weighting per the latest EPA analysis of real-world driving behavior
     # This results in a deviation from EPA fuel economy label values which use a historical 55/45 weighting
     process "Calculate combined adjusted fuel efficiency using the latest EPA equation" do
-      update_all "fuel_efficiency = 1.0 / ((0.43 / fuel_efficiency_city) + (0.57 / fuel_efficiency_highway)), fuel_efficiency_units = 'kilometres_per_litre'"
+      update_all(%{
+        fuel_efficiency = 1.0 / ((0.43 / fuel_efficiency_city) + (0.57 / fuel_efficiency_highway)),
+        fuel_efficiency_units = 'kilometres_per_litre'
+      })
     end
   end
 end

@@ -50,10 +50,13 @@ class AircraftClass < ActiveRecord::Base
       
         aircraft_class.seats = aircraft_class.aircraft.weighted_average(:seats, :weighted_by => :passengers)
       
+        aircraft.m3_units = 'kilograms_per_cubic_nautical_mile'
+        aircraft.m2_units = 'kilograms_per_square_nautical_mile'
+        aircraft.m1_units = 'kilograms_per_nautical_mile'
+        aircraft.b_units  = 'kilograms'
+      
         aircraft_class.save!
       end
-      
-      update_all :m3_units => 'kilograms_per_cubic_nautical_mile', :m2_units => 'kilograms_per_square_nautical_mile', :m1_units => 'kilograms_per_nautical_mile', :b_units  => 'kilograms'
     end
   end
 end

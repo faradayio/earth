@@ -32,25 +32,21 @@ NationalTransitDatabaseRecord.class_eval do
     
     process "Convert miles to kilometres" do
       conversion_factor = 1.miles.to(:kilometres)
-      %{ vehicle_distance passenger_distance }.split.each do |field|
-        connection.execute %{
-          UPDATE #{table_name}
-          SET #{field} = #{field} * #{conversion_factor},
-              #{field}_units = 'kilometres'
-          WHERE #{field}_units = 'miles'
-        }
+      %w{ vehicle_distance passenger_distance }.each do |field|
+        where("#{field}_units" => 'miles').update_all(%{
+          #{field} = 1.0 * #{field} * #{conversion_factor},
+          #{field}_units = 'kilometres'
+        })
       end
     end
       
     process "Convert gallons to litres" do
       conversion_factor = 1.gallons.to(:litres)
-      %{ diesel gasoline lpg lng cng kerosene biodiesel }.split.each do |fuel|
-        connection.execute %{
-          UPDATE #{table_name}
-          SET #{fuel} = #{fuel} * #{conversion_factor},
-              #{fuel}_units = 'litres'
-          WHERE #{fuel}_units = 'gallons'
-        }
+      %w{ diesel gasoline lpg lng cng kerosene biodiesel }.each do |fuel|
+        where("#{fuel}_units" => 'gallons').update_all(%{
+          #{fuel} = 1.0 * #{fuel} * #{conversion_factor},
+          #{fuel}_units = 'litres'
+        })
       end
     end
   end

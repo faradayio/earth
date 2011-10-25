@@ -31,46 +31,35 @@ Country.class_eval do
     
     # FIXME TODO eventually need to do this for all countries
     process "Derive US average automobile fuel efficiency from AutomobileTypeFuelYear" do
-      scope = AutomobileTypeFuelYear.where(:year => AutomobileTypeFuelYear.maximum(:year))
-      fe = scope.sum(:total_travel).to_f / scope.sum(:fuel_consumption)
-      units = scope.first.total_travel_units + '_per_' + scope.first.fuel_consumption_units.singularize
-      
-      connection.execute %{
-        UPDATE countries
-        SET automobile_fuel_efficiency = #{fe},
-            automobile_fuel_efficiency_units = '#{units}'
-        WHERE iso_3166_code = 'US'
-      }
+      fuel_years = AutomobileTypeFuelYear.where(:year => AutomobileTypeFuelYear.maximum(:year))
+      where(:iso_3166_code => 'US').update_all(
+        :automobile_fuel_efficiency => fuel_years.sum(:total_travel).to_f / fuel_years.sum(:fuel_consumption),
+        :automobile_fuel_efficiency_units => fuel_years.first.total_travel_units + '_per_' + fuel_years.first.fuel_consumption_units.singularize
+      )
     end
     
     process "Convert automobile city speed from miles per hour to kilometres per hour" do
       conversion_factor = 1.miles.to(:kilometres)
-      connection.execute %{
-        UPDATE countries
-        SET automobile_city_speed = 1.0 * automobile_city_speed * #{conversion_factor},
-            automobile_city_speed_units = 'kilometres_per_hour'
-        WHERE automobile_city_speed_units = 'miles_per_hour'
-      }
+      where(:automobile_city_speed_units => 'miles_per_hour').update_all(%{
+        automobile_city_speed = 1.0 * automobile_city_speed * #{conversion_factor},
+        automobile_city_speed_units = 'kilometres_per_hour'
+      })
     end
     
     process "Convert automobile highway speed from miles per hour to kilometres per hour" do
       conversion_factor = 1.miles.to(:kilometres)
-      connection.execute %{
-        UPDATE countries
-        SET automobile_highway_speed = 1.0 * automobile_highway_speed * #{conversion_factor},
-            automobile_highway_speed_units = 'kilometres_per_hour'
-        WHERE automobile_highway_speed_units = 'miles_per_hour'
-      }
+      where(:automobile_highway_speed_units => 'miles_per_hour').update_all(%{
+        automobile_highway_speed = 1.0 * automobile_highway_speed * #{conversion_factor},
+        automobile_highway_speed_units = 'kilometres_per_hour'
+      })
     end
     
     process "Convert automobile trip distance from miles to kilometres" do
       conversion_factor = 1.miles.to(:kilometres)
-      connection.execute %{
-        UPDATE countries
-        SET automobile_trip_distance = 1.0 * automobile_trip_distance * #{conversion_factor},
-            automobile_trip_distance_units = 'kilometres'
-        WHERE automobile_trip_distance_units = 'miles'
-      }
+      where(:automobile_trip_distance_units => 'miles').update_all(%{
+        automobile_trip_distance = 1.0 * automobile_trip_distance * #{conversion_factor},
+        automobile_trip_distance_units = 'kilometres'
+      })
     end
     
     process "Ensure RailCompany is populated" do
@@ -104,11 +93,17 @@ Country.class_eval do
     
     process "Unit conversion for European rail diesel intensity" do
       diesel = RailFuel.find_by_name("diesel")
-      update_all("rail_trip_diesel_intensity = rail_trip_diesel_intensity / 1000.0 / #{diesel.density}, rail_trip_diesel_intensity_units = 'litres_per_passenger_kilometre'", "rail_trip_diesel_intensity_units = 'grams_per_passenger_kilometre'")
+      where(:rail_trip_diesel_intensity_units => 'grams_per_passenger_kilometre').update_all(%{
+        rail_trip_diesel_intensity = 1.0 * rail_trip_diesel_intensity / 1000.0 / #{diesel.density},
+        rail_trip_diesel_intensity_units = 'litres_per_passenger_kilometre'
+      }
     end
     
     process "Unit conversion for European rail co2 emission factor" do
-      update_all("rail_trip_co2_emission_factor = rail_trip_co2_emission_factor / 1000.0, rail_trip_co2_emission_factor_units = 'kilograms_per_passenger_kilometre'", "rail_trip_co2_emission_factor_units = 'grams_per_passenger_kilometre'")
+      where(:rail_trip_co2_emission_factor_units => 'grams_per_passenger_kilometre').update_all(%{
+        rail_trip_co2_emission_factor = 1.0 * rail_trip_co2_emission_factor / 1000.0,
+        rail_trip_co2_emission_factor_units = 'kilograms_per_passenger_kilometre'
+      })
     end
     
     process "Derive US rail fuel and emission data from RailCompany" do

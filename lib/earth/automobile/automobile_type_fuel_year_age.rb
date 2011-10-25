@@ -4,6 +4,7 @@ class AutomobileTypeFuelYearAge < ActiveRecord::Base
   col :name
   col :type_name
   col :fuel_common_name
+  col :type_fuel_year_name # where does this get set?
   col :year, :type => :integer
   col :age, :type => :integer
   col :total_travel_percent, :type => :float

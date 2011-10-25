@@ -29,30 +29,23 @@ BusFuel.class_eval do
     process "Convert emission factors to metric units" do
       conversion_factor = (1 / 1.609344) * (1.0 / 1_000.0 ) # Google: 1 mile / 1.609344 km * 1 kg / 1000 g
       gwp_ch4 = GreenhouseGas[:ch4].global_warming_potential
-      connection.execute %{
-        UPDATE bus_fuels
-        SET ch4_emission_factor = 1.0 * ch4_emission_factor * #{conversion_factor} * #{gwp_ch4},
-            ch4_emission_factor_units = 'kilograms_co2e_per_kilometre'
-        WHERE ch4_emission_factor_units = 'grams_per_mile'
-      }
-      
+      where(:ch4_emission_factor_units => 'grams_per_mile').update_all(%{
+        ch4_emission_factor = 1.0 * ch4_emission_factor * #{conversion_factor} * #{gwp_ch4},
+        ch4_emission_factor_units = 'kilograms_co2e_per_kilometre'
+      })
       gwp_n2o = GreenhouseGas[:n2o].global_warming_potential
-      connection.execute %{
-        UPDATE bus_fuels
-        SET n2o_emission_factor = 1.0 * n2o_emission_factor * #{conversion_factor} * #{gwp_n2o},
-            n2o_emission_factor_units = 'kilograms_co2e_per_kilometre'
-        WHERE n2o_emission_factor_units = 'grams_per_mile'
-      }
+      where(:n2o_emission_factor_units => 'grams_per_mile').update_all(%{
+        n2o_emission_factor = 1.0 * n2o_emission_factor * #{conversion_factor} * #{gwp_n2o},
+        n2o_emission_factor_units = 'kilograms_co2e_per_kilometre'
+      })
     end
     
     process "Convert energy contents to metric units" do
       conversion_factor = (1 / 947.81712) * (1 / 3.78541178) # Google: 1 MJ / 947.81712 btu * 1 gallon / 3.78541178 l
-      connection.execute %{
-        UPDATE bus_fuels
-        SET energy_content = 1.0 * energy_content * #{conversion_factor},
-            energy_content_units = 'megajoules_per_litre'
-        WHERE energy_content_units = 'btu_per_gallon'
-      }
+      where(:energy_content_units => 'btu_per_gallon').update_all(%{
+        energy_content = 1.0 * energy_content * #{conversion_factor},
+        energy_content_units = 'megajoules_per_litre'
+      })
     end
     
     process 'Calculate CO2 and CO2 biogenic emission factors and units' do
