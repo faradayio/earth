@@ -3,11 +3,7 @@ class RailFuel < ActiveRecord::Base
   
   belongs_to :fuel, :foreign_key => 'fuel_name'
   
-  [:density, :density_units, :co2_emission_factor, :co2_emission_factor_units, :co2_biogenic_emission_factor, :co2_biogenic_emission_factor_units].each do |method|
-    define_method method do
-      fuel.send(method)
-    end
-  end
+  delegate :density, :density_units, :co2_emission_factor, :co2_emission_factor_units, :co2_biogenic_emission_factor, :co2_biogenic_emission_factor_units, :to => :fuel, :allow_nil => true
   
   col :name
   col :fuel_name
