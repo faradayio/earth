@@ -33,8 +33,8 @@ Country.class_eval do
     process "Derive US average automobile fuel efficiency from AutomobileTypeFuelYear" do
       fuel_years = AutomobileTypeFuelYear.where(:year => AutomobileTypeFuelYear.maximum(:year))
       where(:iso_3166_code => 'US').update_all(
-        :automobile_fuel_efficiency => fuel_years.sum(:total_travel).to_f / fuel_years.sum(:fuel_consumption),
-        :automobile_fuel_efficiency_units => fuel_years.first.total_travel_units + '_per_' + fuel_years.first.fuel_consumption_units.singularize
+        :automobile_fuel_efficiency => (fuel_years.sum(:total_travel).to_f / fuel_years.sum(:fuel_consumption)),
+        :automobile_fuel_efficiency_units => (fuel_years.first.total_travel_units + '_per_' + fuel_years.first.fuel_consumption_units.singularize)
       )
     end
     
@@ -96,7 +96,7 @@ Country.class_eval do
       where(:rail_trip_diesel_intensity_units => 'grams_per_passenger_kilometre').update_all(%{
         rail_trip_diesel_intensity = 1.0 * rail_trip_diesel_intensity / 1000.0 / #{diesel.density},
         rail_trip_diesel_intensity_units = 'litres_per_passenger_kilometre'
-      }
+      })
     end
     
     process "Unit conversion for European rail co2 emission factor" do
