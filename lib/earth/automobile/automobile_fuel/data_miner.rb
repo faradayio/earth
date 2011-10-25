@@ -36,6 +36,18 @@ AutomobileFuel.class_eval do
       end
     end
     
+    process "Derive energy content" do
+      find_each do |record|
+        if record.blend_fuel.present?
+          record.energy_content = (record.base_fuel.energy_content * (1 - record.blend_portion)) + (record.blend_fuel.energy_content * record.blend_portion)
+        else
+          record.energy_content = record.base_fuel.energy_content
+        end
+        record.energy_content_units = record.base_fuel.energy_content_units
+        record.save!
+      end
+    end
+    
     process "Derive co2 emission factor and co2 biogenic emission factors" do
       find_each do |record|
         if record.blend_fuel.present?
@@ -74,6 +86,7 @@ AutomobileFuel.class_eval do
       end
     end
     
+    # FIXME TODO DEPRECATED motorcycle needs this
     process "Derive emission factor" do
       update_all(
         "emission_factor = co2_emission_factor + ch4_emission_factor + n2o_emission_factor + hfc_emission_factor,

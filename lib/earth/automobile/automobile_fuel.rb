@@ -46,6 +46,7 @@ class AutomobileFuel < ActiveRecord::Base
       AutomobileTypeYear.where(:year => AutomobileTypeYear.maximum('year'))
     end
     
+    # FIXME TODO for some reason this causes the fallbacks calculation to hang (infinite loop?) if it's defined as a fallback
     def fallback_blend_portion
       gas_use = fallback_type_fuel_years.where(:fuel_common_name => 'gasoline').sum('fuel_consumption').to_f
       diesel_use = fallback_type_fuel_years.where(:fuel_common_name => 'diesel').sum('fuel_consumption').to_f
@@ -56,6 +57,10 @@ class AutomobileFuel < ActiveRecord::Base
   falls_back_on :name => 'fallback',
                 :annual_distance => lambda { fallback_type_fuel_year_ages.weighted_average(:annual_distance, :weighted_by => :vehicles) },
                 :annual_distance_units => lambda { fallback_type_fuel_year_ages.first.annual_distance_units },
+                :energy_content => lambda {
+                  (Fuel.find_by_name('Motor Gasoline').energy_content * (1 - fallback_blend_portion)) +
+                  (Fuel.find_by_name('Distillate Fuel Oil No. 2').energy_content * fallback_blend_portion)
+                },
                 :co2_emission_factor => lambda {
                   (Fuel.find_by_name("Motor Gasoline").co2_emission_factor * (1 - fallback_blend_portion)) +
                   (Fuel.find_by_name("Distillate Fuel Oil No. 2").co2_emission_factor * fallback_blend_portion)
@@ -92,6 +97,8 @@ class AutomobileFuel < ActiveRecord::Base
   col :ef_key                                        # used to look up ch4 n2o and hfc emission factors from AutomobileTypeFuelYear
   col :annual_distance,              :type => :float
   col :annual_distance_units
+  col :energy_content,               :type => :float
+  col :energy_content_units
   col :co2_emission_factor,          :type => :float
   col :co2_emission_factor_units
   col :co2_biogenic_emission_factor, :type => :float
@@ -103,7 +110,7 @@ class AutomobileFuel < ActiveRecord::Base
   col :hfc_emission_factor,          :type => :float
   col :hfc_emission_factor_units
   col :emission_factor,              :type => :float # DEPRECATED but motorcycle needs this
-  col :emission_factor_units # DEPRECATED but motorcycle needs this
+  col :emission_factor_units # FIXME TODO DEPRECATED but motorcycle needs this
 
   CODES = {
     :electricity => 'El',
