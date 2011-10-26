@@ -96,16 +96,19 @@ AutomobileTypeFuelYearAge.class_eval do
       })
     end
     
-    process "Derive type fuel year name for association with AutomobileTypeFuelYear" do
-      update_all "type_fuel_year_name = type_name || ' ' || fuel_common_name || ' ' || year"
-    end
-    
     process "Ensure AutomobileTypeFuelYear is populated" do
       AutomobileTypeFuelYear.run_data_miner!
     end
     
     process "Calculate number of vehicles from total travel percent and AutomobileTypeFuelYear" do
-      total_travel = "SELECT t1.total_travel FROM #{AutomobileTypeFuelYear.quoted_table_name} AS t1 WHERE t1.name = #{quoted_table_name}.type_fuel_year_name"
+      total_travel = %{
+        SELECT t1.total_travel
+        FROM #{AutomobileTypeFuelYear.quoted_table_name} AS t1
+        WHERE
+          t1.type_name = #{quoted_table_name}.type_name
+          AND t1.fuel_common_name = #{quoted_table_name}.fuel_common_name
+          AND t1.year = #{quoted_table_name}.year
+      }
       where("annual_distance > 0").update_all "vehicles = 1.0 * total_travel_percent * (#{total_travel}) / annual_distance"
     end
   end
