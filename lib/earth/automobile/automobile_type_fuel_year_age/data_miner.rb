@@ -96,6 +96,10 @@ AutomobileTypeFuelYearAge.class_eval do
       })
     end
     
+    process "Derive type fuel year name for association with AutomobileTypeFuelYear" do
+      update_all "type_fuel_year_name = type_name || ' ' || fuel_common_name || ' ' || year"
+    end
+    
     process "Ensure AutomobileTypeFuelYear is populated" do
       AutomobileTypeFuelYear.run_data_miner!
     end
