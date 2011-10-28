@@ -111,7 +111,7 @@ class AutomobileFuel < ActiveRecord::Base
   col :hfc_emission_factor_units
   col :emission_factor,              :type => :float # DEPRECATED but motorcycle needs this
   col :emission_factor_units # FIXME TODO DEPRECATED but motorcycle needs this
-
+  
   CODES = {
     :electricity => 'El',
     :diesel => 'D'
