@@ -1,0 +1,45 @@
+This file shows which additional classes will be data_mined when you run data_miner on an automobile class. To get a complete set of automobile data you only need to data_mine the classes that are not indented.
+
+Make
+  MakeYearFleet
+  MakeModelYearVariant
+
+Model
+  MakeYearFleet
+  MakeModelYearVariant
+
+Year
+  MakeYearFleet
+  MakeModelYearVariant
+
+MakeModel
+  MakeModelYearVariant
+
+MakeYear
+  MakeYearFleet
+  MakeModelYearVariant
+
+MakeModelYear
+  MakeModelYearVariant
+  AutomobileFuel
+    GreenhouseGas
+    Fuel
+      FuelYear
+    TypeYear
+      TypeFuelYear
+        TypeFuelControl
+        TypeFuelYearControl
+    TypeFuelYearAge
+      TypeFuelYear
+        TypeFuelControl
+        TypeFuelYearControl
+
+SizeClass
+  TypeYear
+    TypeFuelYear
+      TypeFuelControl
+      TypeFuelYearControl
+  TypeFuelYearAge
+    TypeFuelYear
+      TypeFuelControl
+      TypeFuelYearControl
