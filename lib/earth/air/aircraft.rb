@@ -1,25 +1,9 @@
 class Aircraft < ActiveRecord::Base
   set_primary_key :icao_code
   
-  belongs_to :aircraft_class,    :foreign_key => 'class_code',    :primary_key => 'code'
-  belongs_to :fuel_use_equation, :foreign_key => 'fuel_use_code', :primary_key => 'code', :class_name => 'AircraftFuelUseEquation'
-  
-  col :icao_code
-  col :manufacturer_name
-  col :model_name
-  col :description
-  col :aircraft_type
-  col :engine_type
-  col :engines, :type => :integer
-  col :weight_class
-  col :class_code
-  col :fuel_use_code
-  col :seats, :type => :float
-  col :passengers, :type => :float
-  
-  # Enable aircraft.flight_segments
+  # Fuzzy association with FlightSegment
   cache_loose_tight_dictionary_matches_with :flight_segments, :primary_key => :description, :foreign_key => :aircraft_description
-
+  
   class << self
     # set up a loose_tight_dictionary for matching Aircraft description with FlightSegment aircraft_description
     def loose_tight_dictionary
@@ -31,18 +15,40 @@ class Aircraft < ActiveRecord::Base
           :must_match_blocking => true,
           :first_blocking_decides => true)
     end
-  
+    
     # FIXME TODO do we want to restrict this to certain years?
     # Derive some average characteristics from flight segments
     def update_averages!
       manually_cache_flight_segments!
       find_each do |aircraft|
-        aircraft.seats = aircraft.flight_segments.weighted_average :seats_per_flight, :weighted_by => :passengers
-        aircraft.passengers = aircraft.flight_segments.sum :passengers
-        aircraft.save!
+        aircraft.update_attribute :seats, aircraft.flight_segments.weighted_average(:seats_per_flight, :weighted_by => :passengers)
+        aircraft.update_attribute(:passengers, aircraft.flight_segments.sum(:passengers)) if aircraft.flight_segments.sum(:passengers) > 0
+      end
+      where("seats IS NOT NULL").update_all :seats_specificity => 'aircraft'
+    end
+    
+    # Derive missing seats and fuel use coefficients from other aircraft in same aircraft class
+    def derive_missing_values!
+      where(:seats => nil).find_each do |a|
+        a.update_attribute :seats, where(:class_code => a.class_code, :seats_specificity => 'aircraft').weighted_average(:seats, :weighted_by => :passengers)
+        a.update_attribute(:seats_specificity, 'aircraft_class') if a.seats.present?
+      end
+      
+      where(:m3 => nil).find_each do |a|
+        a.update_attribute :m3, where(:class_code => a.class_code, :fuel_use_specificity => 'aircraft').weighted_average(:m3, :weighted_by => :passengers)
+        a.update_attribute :m2, where(:class_code => a.class_code, :fuel_use_specificity => 'aircraft').weighted_average(:m2, :weighted_by => :passengers)
+        a.update_attribute :m1, where(:class_code => a.class_code, :fuel_use_specificity => 'aircraft').weighted_average(:m1, :weighted_by => :passengers)
+        a.update_attribute :b,  where(:class_code => a.class_code, :fuel_use_specificity => 'aircraft').weighted_average(:b,  :weighted_by => :passengers)
+        if a.valid_fuel_use_equation?
+          a.update_attribute :fuel_use_specificity, 'aircraft_class'
+          a.update_attribute :m3_units, 'kilograms_per_cubic_nautical_mile'
+          a.update_attribute :m2_units, 'kilograms_per_square_nautical_mile'
+          a.update_attribute :m1_units, 'kilograms_per_nautical_mile'
+          a.update_attribute :b_units,  'kilograms'
+        end
       end
     end
-  
+    
     # Cache fuzzy matches between FlightSegment aircraft_description and Aircraft description
     def manually_cache_flight_segments!
       FlightSegment.run_data_miner!
@@ -56,16 +62,16 @@ class Aircraft < ActiveRecord::Base
           # Pull out the complete first aircraft description
           # e.g. 'boeing 747-100'
           first_description = original_description.split('/')[0]
-        
+          
           # Pull out the root of the description - the text up to and including the last ' ' or '-'
           # e.g. 'boeing 747-'
           root_length = first_description.rindex(/[ \-]/)
           root = first_description.slice(0..root_length)
-        
+          
           # Pull out the suffixes - the text separated by forward slashes
           # e.g. ['100', '200']
           suffixes = original_description.split(root)[1].split('/')
-        
+          
           # Create an array of synthesized descriptions by appending each suffix to the root
           # e.g. ['boeing 747-100', 'boeing 747-200']
           suffixes.map{ |suffix| root + suffix }.each do |synthesized_description|
@@ -91,4 +97,39 @@ class Aircraft < ActiveRecord::Base
       end
     end
   end
+  
+  def valid_fuel_use_equation?
+    [m3, m2, m1, b].all?(&:present?) and [m3, m2, m1, b].any?(&:nonzero?)
+  end
+  
+  falls_back_on :m3 => lambda { weighted_average(:m3, :weighted_by => [:aircraft, :passengers]) }, # 9.73423082858437e-08   r7110: 8.6540464368905e-8      r6972: 8.37e-8
+                :m2 => lambda { weighted_average(:m2, :weighted_by => [:aircraft, :passengers]) }, # -0.000134350543484608  r7110: -0.00015337661447817    r6972: -4.09e-5
+                :m1 => lambda { weighted_average(:m1, :weighted_by => [:aircraft, :passengers]) }, # 6.7728101555467        r7110: 4.7781966869412         r6972: 7.85
+                :b  => lambda { weighted_average(:b,  :weighted_by => [:aircraft, :passengers]) }, # 1527.81790006167       r7110: 1065.3476555284         r6972: 1.72e3
+                :m3_units => 'kilograms_per_cubic_nautical_mile',
+                :m2_units => 'kilograms_per_square_nautical_mile',
+                :m1_units => 'kilograms_per_nautical_mile',
+                :b_units  => 'kilograms'
+  
+  col :icao_code
+  col :manufacturer_name
+  col :model_name
+  col :description
+  col :aircraft_type
+  col :engine_type
+  col :engines, :type => :integer
+  col :weight_class
+  col :class_code
+  col :passengers, :type => :float
+  col :seats, :type => :float
+  col :seats_specificity
+  col :m3, :type => :float
+  col :m3_units
+  col :m2, :type => :float
+  col :m2_units
+  col :m1, :type => :float
+  col :m1_units
+  col :b, :type => :float
+  col :b_units
+  col :fuel_use_specificity
 end

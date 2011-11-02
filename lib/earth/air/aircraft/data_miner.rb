@@ -51,10 +51,14 @@ Aircraft.class_eval do
       store 'weight_class'
     end
     
-    import "a curated list of aircraft fuel use codes",
-           :url => 'https://spreadsheets.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdGxqRjFJdDlQWVVLYS11NnJVcDZsYWc&output=csv' do
+    import "aircraft fuel use equations derived from EMEP/EEA and ICAO",
+           :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdEhYenF3dGt1T0Y1cTdneUNsNjV0dEE&output=csv' do
       key 'icao_code'
-      store 'fuel_use_code'
+      store 'm3', :units_field_name => 'm3_units'
+      store 'm2', :units_field_name => 'm2_units'
+      store 'm1', :units_field_name => 'm1_units'
+      store 'b',  :units_field_name => 'b_units'
+      store 'fuel_use_specificity', :static => 'aircraft'
     end
     
     process "Synthesize description from manufacturer name and model name" do
@@ -77,8 +81,10 @@ Aircraft.class_eval do
       end
     end
     
+    # Calculate seats and passengers from flight_segments
     process :update_averages!
     
-    # FIXME TODO verify this
+    # Calculate missing seats and fuel use coefficients from other aircraft in same aircraft class
+    process :derive_missing_values!
   end
 end

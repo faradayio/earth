@@ -1,6 +1,4 @@
 require 'earth/air/aircraft/data_miner'
-require 'earth/air/aircraft_class/data_miner'
-require 'earth/air/aircraft_fuel_use_equation/data_miner'
 require 'earth/air/airline/data_miner'
 require 'earth/air/airport/data_miner'
 require 'earth/air/bts_aircraft/data_miner'

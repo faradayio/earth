@@ -1,6 +1,4 @@
 require 'earth/air/aircraft'
-require 'earth/air/aircraft_class'
-require 'earth/air/aircraft_fuel_use_equation'
 require 'earth/air/aircraft_instance'
 require 'earth/air/aircraft_instance_seat_class'
 require 'earth/air/airline'
