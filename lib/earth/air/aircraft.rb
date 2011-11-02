@@ -19,32 +19,41 @@ class Aircraft < ActiveRecord::Base
     # FIXME TODO do we want to restrict this to certain years?
     # Derive some average characteristics from flight segments
     def update_averages!
+      # Setup fuzzy matches with FlightSegment
       manually_cache_flight_segments!
-      find_each do |aircraft|
-        aircraft.update_attribute :seats, aircraft.flight_segments.weighted_average(:seats_per_flight, :weighted_by => :passengers)
-        aircraft.update_attribute(:passengers, aircraft.flight_segments.sum(:passengers)) if aircraft.flight_segments.sum(:passengers) > 0
-      end
-      where("seats IS NOT NULL").update_all :seats_specificity => 'aircraft'
-    end
-    
-    # Derive missing seats and fuel use coefficients from other aircraft in same aircraft class
-    def derive_missing_values!
-      where(:seats => nil).find_each do |a|
-        a.update_attribute :seats, where(:class_code => a.class_code, :seats_specificity => 'aircraft').weighted_average(:seats, :weighted_by => :passengers)
-        a.update_attribute(:seats_specificity, 'aircraft_class') if a.seats.present?
+      
+      # Calculate seats and passengers for each aircraft based on associated flight_segments
+      find_each do |a|
+        if a.seats = a.flight_segments.weighted_average(:seats_per_flight, :weighted_by => :passengers)
+          a.seats_specificity = 'aircraft'
+        end
+        if (passengers = a.flight_segments.sum(:passengers)) > 0
+          a.passengers = passengers
+        end
+        a.save!
       end
       
-      where(:m3 => nil).find_each do |a|
-        a.update_attribute :m3, where(:class_code => a.class_code, :fuel_use_specificity => 'aircraft').weighted_average(:m3, :weighted_by => :passengers)
-        a.update_attribute :m2, where(:class_code => a.class_code, :fuel_use_specificity => 'aircraft').weighted_average(:m2, :weighted_by => :passengers)
-        a.update_attribute :m1, where(:class_code => a.class_code, :fuel_use_specificity => 'aircraft').weighted_average(:m1, :weighted_by => :passengers)
-        a.update_attribute :b,  where(:class_code => a.class_code, :fuel_use_specificity => 'aircraft').weighted_average(:b,  :weighted_by => :passengers)
+      # Calculate seats for any aircraft that don't have any flight_segments by averaging across all aircraft with flight segments in the aircraft class
+      where(:seats => nil).each do |a|
+        if a.seats = where(:class_code => a.class_code, :seats_specificity => 'aircraft').weighted_average(:seats, :weighted_by => :passengers)
+          a.seats_specificity = 'aircraft_class'
+          a.save!
+        end
+      end
+      
+      # Calculate any missing fuel use coefficients by averaging across all aircraft with fuel use coefficients in the same aircraft class
+      where(:m3 => nil).each do |a|
+        a.m3 = where(:class_code => a.class_code, :fuel_use_specificity => 'aircraft').weighted_average(:m3, :weighted_by => :passengers)
+        a.m2 = where(:class_code => a.class_code, :fuel_use_specificity => 'aircraft').weighted_average(:m2, :weighted_by => :passengers)
+        a.m1 = where(:class_code => a.class_code, :fuel_use_specificity => 'aircraft').weighted_average(:m1, :weighted_by => :passengers)
+        a.b =  where(:class_code => a.class_code, :fuel_use_specificity => 'aircraft').weighted_average(:b,  :weighted_by => :passengers)
         if a.valid_fuel_use_equation?
-          a.update_attribute :fuel_use_specificity, 'aircraft_class'
-          a.update_attribute :m3_units, 'kilograms_per_cubic_nautical_mile'
-          a.update_attribute :m2_units, 'kilograms_per_square_nautical_mile'
-          a.update_attribute :m1_units, 'kilograms_per_nautical_mile'
-          a.update_attribute :b_units,  'kilograms'
+          a.m3_units = 'kilograms_per_cubic_nautical_mile'
+          a.m2_units = 'kilograms_per_square_nautical_mile'
+          a.m1_units = 'kilograms_per_nautical_mile'
+          a.b_units =  'kilograms'
+          a.fuel_use_specificity = 'aircraft_class'
+          a.save!
         end
       end
     end

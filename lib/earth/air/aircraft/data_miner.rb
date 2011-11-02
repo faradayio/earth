@@ -62,29 +62,16 @@ Aircraft.class_eval do
     end
     
     process "Synthesize description from manufacturer name and model name" do
-      find_each do |aircraft|
-        aircraft.update_attribute :description, [aircraft.manufacturer_name, aircraft.model_name].join(' ').downcase
-      end
+      update_all "description = LOWER(manufacturer_name || ' ' || model_name)"
     end
     
     process "Synthesize class code from engine type and weight class" do
-      find_each do |aircraft|
-        size = case aircraft.weight_class
-        when 'Small', 'Small+', 'Light'
-          'Light'
-        when 'Large', 'Medium'
-          'Medium'
-        else
-          'Heavy'
-        end
-        aircraft.update_attribute :class_code, [size, aircraft.engines.to_s, 'engine', aircraft.engine_type].join(' ')
-      end
+      where(:weight_class => ['Small', 'Small+', 'Light']).update_all "class_code = 'Light '  || engine || ' engine ' || engine_type"
+      where(:weight_class => ['Medium', 'Large']         ).update_all "class_code = 'Medium ' || engine || ' engine ' || engine_type"
+      where(:weight_class => 'Heavy'                     ).update_all "class_code = 'Heavy '  || engine || ' engine ' || engine_type"
     end
     
     # Calculate seats and passengers from flight_segments
     process :update_averages!
-    
-    # Calculate missing seats and fuel use coefficients from other aircraft in same aircraft class
-    process :derive_missing_values!
   end
 end
