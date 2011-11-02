@@ -66,9 +66,9 @@ Aircraft.class_eval do
     end
     
     process "Synthesize class code from engine type and weight class" do
-      where(:weight_class => ['Small', 'Small+', 'Light']).update_all "class_code = 'Light '  || engine || ' engine ' || engine_type"
-      where(:weight_class => ['Medium', 'Large']         ).update_all "class_code = 'Medium ' || engine || ' engine ' || engine_type"
-      where(:weight_class => 'Heavy'                     ).update_all "class_code = 'Heavy '  || engine || ' engine ' || engine_type"
+      where(:weight_class => ['Small', 'Small+', 'Light']).update_all "class_code = 'Light '  || engines || ' engine ' || engine_type"
+      where(:weight_class => ['Medium', 'Large']         ).update_all "class_code = 'Medium ' || engines || ' engine ' || engine_type"
+      where(:weight_class => 'Heavy'                     ).update_all "class_code = 'Heavy '  || engines || ' engine ' || engine_type"
     end
     
     # Calculate seats and passengers from flight_segments
