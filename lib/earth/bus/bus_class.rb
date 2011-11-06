@@ -24,9 +24,7 @@ class BusClass < ActiveRecord::Base
                 :electricity_intensity => 0.00001804 / 1.miles.to(:kilometres),
                 :electricity_intensity_units => 'kilowatt_hours_per_kilometre',
                 :air_conditioning_emission_factor => 0.04779 / 1.miles.to(:kilometres),
-                :air_conditioning_emission_factor_units => 'kilograms_co2e_per_kilometre',
-                :alternative_fuels_intensity => 0.04632038.gallons_per_mile.to(:litres_per_kilometre), # deprecated
-                :alternative_fuels_intensity_units => 'litres_per_kilometre' # deprecated
+                :air_conditioning_emission_factor_units => 'kilograms_co2e_per_kilometre'
   
   col :name
   col :distance, :type => :float
@@ -52,88 +50,4 @@ class BusClass < ActiveRecord::Base
   col :electricity_intensity_units
   col :air_conditioning_emission_factor, :type => :float
   col :air_conditioning_emission_factor_units
-  col :alternative_fuels_intensity, :type => :float
-  col :alternative_fuels_intensity_units
-  
-  # verify "Some attributes should be greater than zero" do
-  #   BusClass.all.each do |bus_class|
-  #     %w{ distance passengers speed diesel_intensity air_conditioning_emission_factor }.each do |attribute|
-  #       value = bus_class.send(:"#{attribute}")
-  #       unless value > 0
-  #         raise "Invalid #{attribute.humanize.downcase} for BusClass #{bus_class.name}: #{value} (should be > 0)"
-  #       end
-  #     end
-  #   end
-  # end
-  # 
-  # verify "Some attributes should be zero or more" do
-  #   BusClass.all.each do |bus_class|
-  #     %w{ gasoline_intensity cng_intensity lng_intensity lpg_intensity methanol_intensity biodiesel_intensity electricity_intensity alternative_fuels_intensity }.each do |attribute|
-  #       value = bus_class.send(:"#{attribute}")
-  #       unless value >= 0
-  #         raise "Invalid #{attribute.humanize.downcase} for BusClass #{bus_class.name}: #{value} (should be >= 0)"
-  #       end
-  #     end
-  #   end
-  # end
-  # 
-  # verify "Units should be correct" do
-  #   BusClass.all.each do |bus_class|
-  #     [["distance_units", "kilometres"],
-  #      ["speed_units", "kilometres_per_hour"],
-  #      ["diesel_intensity_units", "litres_per_kilometre"],
-  #      ["gasoline_intensity_units", "litres_per_kilometre"],
-  #      ["cng_intensity_units", "litres_per_kilometre"],
-  #      ["lng_intensity_units", "litres_per_kilometre"],
-  #      ["lpg_intensity_units", "litres_per_kilometre"],
-  #      ["methanol_intensity_units", "litres_per_kilometre"],
-  #      ["biodiesel_intensity_units", "litres_per_kilometre"],
-  #      ["electricity_intensity_units", "kilowatt_hours_per_kilometre"],
-  #      ["air_conditioning_emission_factor_units", "kilograms_co2e_per_kilometre"],
-  #      ["alternative_fuels_intensity_units", "litres_per_kilometre"]].each do |pair|
-  #       attribute = pair[0]
-  #       proper_units = pair[1]
-  #       units = bus_class.send(:"#{attribute}")
-  #       unless units == proper_units
-  #         raise "Invalid #{attribute.humanize.downcase} for BusClass #{bus_class.name}: #{units} (should be #{proper_units})"
-  #       end
-  #     end
-  #   end
-  # end
-  # 
-  # verify "Fallbacks should satisfy same constraints as data" do
-  #   %w{ distance passengers speed diesel_intensity air_conditioning_emission_factor }.each do |attribute|
-  #     value = BusClass.fallback.send(:"#{attribute}")
-  #     unless value > 0
-  #       raise "Invalid #{attribute.humanize.downcase} for fallback BusClass: #{value} (should be > 0)"
-  #     end
-  #   end
-  #   
-  #   %w{ gasoline_intensity cng_intensity lng_intensity lpg_intensity methanol_intensity biodiesel_intensity electricity_intensity alternative_fuels_intensity }.each do |attribute|
-  #     value = BusClass.fallback.send(:"#{attribute}")
-  #     unless value >= 0
-  #       raise "Invalid #{attribute.humanize.downcase} for fallback BusClass: #{value} (should be >= 0)"
-  #     end
-  #   end
-  #   
-  #   [["distance_units", "kilometres"],
-  #    ["speed_units", "kilometres_per_hour"],
-  #    ["diesel_intensity_units", "litres_per_kilometre"],
-  #    ["gasoline_intensity_units", "litres_per_kilometre"],
-  #    ["cng_intensity_units", "litres_per_kilometre"],
-  #    ["lng_intensity_units", "litres_per_kilometre"],
-  #    ["lpg_intensity_units", "litres_per_kilometre"],
-  #    ["methanol_intensity_units", "litres_per_kilometre"],
-  #    ["biodiesel_intensity_units", "litres_per_kilometre"],
-  #    ["electricity_intensity_units", "kilowatt_hours_per_kilometre"],
-  #    ["air_conditioning_emission_factor_units", "kilograms_co2e_per_kilometre"],
-  #    ["alternative_fuels_intensity_units", "litres_per_kilometre"]].each do |pair|
-  #     attribute = pair[0]
-  #     proper_units = pair[1]
-  #     units = BusClass.fallback.send(:"#{attribute}")
-  #     unless units == proper_units
-  #       raise "Invalid #{attribute.humanize.downcase} for fallback BusClass: #{units} (should be #{proper_units})"
-  #     end
-  #   end
-  # end
 end

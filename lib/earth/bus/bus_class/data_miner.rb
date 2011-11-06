@@ -15,7 +15,6 @@ BusClass.class_eval do
       store 'biodiesel_intensity', :units_field_name => 'biodiesel_intensity_units'
       store 'electricity_intensity', :units_field_name => 'electricity_intensity_units'
       store 'air_conditioning_emission_factor', :units_field_name => 'air_conditioning_emission_factor_units'
-      store 'alternative_fuels_intensity', :units_field_name => 'alternative_fuels_intensity_units'
     end
   end
 end
