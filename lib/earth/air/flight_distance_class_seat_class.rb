@@ -1,7 +1,8 @@
 class FlightDistanceClassSeatClass < ActiveRecord::Base
   set_primary_key :name
   
-  belongs_to :distance_class, :foreign_key => 'distance_class_name', :primary_key => 'name', :class_name => 'FlightDistanceClass'
+  falls_back_on :name => 'fallback',
+                :multiplier => 1.0
   
   col :name
   col :distance_class_name

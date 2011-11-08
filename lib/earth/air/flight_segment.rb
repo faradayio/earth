@@ -15,10 +15,6 @@ class FlightSegment < ActiveRecord::Base
   cache_loose_tight_dictionary_matches_with :aircraft, :primary_key => :aircraft_description, :foreign_key => :description
   
   class << self
-    def distances_between(floor, ceiling)
-      where arel_table[:distance].gteq(floor.to_f).and(arel_table[:distance].lt(ceiling.to_f))
-    end
-    
     def update_averages!
       # Derive load factor, which is passengers divided by available seats
       where('seats > 0').update_all 'load_factor = 1.0 * passengers / seats'

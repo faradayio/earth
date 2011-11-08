@@ -11,18 +11,5 @@ FlightDistanceClass.class_eval do
     # FIXME TODO verify that min_distance >= 0
     # FIXME TODO verify that max_distance > 0
     # FIXME TODO verify that distance class distance bounds don't overlap
-    
-    process "Ensure FlightSegment is populated" do
-      FlightSegment.run_data_miner!
-    end
-    
-    process "Calculate passengers for each distance class" do
-      find_each do |distance_class|
-        distance_class.passengers = FlightSegment.distances_between(distance_class.min_distance, distance_class.max_distance).sum(:passengers)
-        distance_class.save!
-      end
-    end
-    
-    # FIXME TODO verify this
   end
 end
