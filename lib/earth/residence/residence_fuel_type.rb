@@ -12,7 +12,7 @@ class ResidenceFuelType < ActiveRecord::Base
   def price_per_unit(relaxations = [])
     conditions = { :residence_fuel_type_name => self }
     relaxations.push Hash.new
-    relaxations.grab do |relaxation|
+    relaxations.each do |relaxation|
       relaxation_conditions = Hash.new
       if timeframe = relaxation[:timeframe]
         relaxation_conditions[:year] = timeframe.from.year
@@ -22,8 +22,11 @@ class ResidenceFuelType < ActiveRecord::Base
         relaxation_conditions[:locatable_type] = location.class.to_s
         relaxation_conditions[:locatable_id] = location.id
       end
-      ResidenceFuelPrice.average :price, :conditions => conditions.merge(relaxation_conditions)
+      if non_nil_result = ResidenceFuelPrice.average(:price, :conditions => conditions.merge(relaxation_conditions))
+        return non_nil_result
+      end
     end
+    nil
   end
 
   class << self
