@@ -13,7 +13,17 @@ class Country < ActiveRecord::Base
                 :automobile_highway_speed_units => lambda { united_states.automobile_highway_speed_units }, # for now assume US represents world
                 :automobile_trip_distance => lambda { united_states.automobile_trip_distance }, # for now assume US represents world
                 :automobile_trip_distance_units => lambda { united_states.automobile_trip_distance_units }, # for now assume US represents world
+                :electricity_emission_factor => lambda { maximum(:electricity_emission_factor) }, # default to the largest electricity emission factor
+                :electricity_emission_factor_units => 'kilograms_co2e_per_kilowatt_hour', # FIXME TODO derive this
                 :flight_route_inefficiency_factor => lambda { maximum(:flight_route_inefficiency_factor) }, # default to the largest inefficiency factor
+                :lodging_natural_gas_intensity => lambda { united_states.lodging_natural_gas_intensity }, # for now assume US represents world
+                :lodging_natural_gas_intensity_units => lambda { united_states.lodging_natural_gas_intensity_units }, # for now assume US represents world
+                :lodging_fuel_oil_intensity => lambda { united_states.lodging_fuel_oil_intensity }, # for now assume US represents world
+                :lodging_fuel_oil_intensity_units => lambda { united_states.lodging_fuel_oil_intensity_units }, # for now assume US represents world
+                :lodging_electricity_intensity => lambda { united_states.lodging_electricity_intensity }, # for now assume US represents world
+                :lodging_electricity_intensity_units => lambda { united_states.lodging_electricity_intensity_units }, # for now assume US represents world
+                :lodging_district_heat_intensity => lambda { united_states.lodging_district_heat_intensity }, # for now assume US represents world
+                :lodging_district_heat_intensity_units => lambda { united_states.lodging_district_heat_intensity_units }, # for now assume US represents world
                 :rail_trip_distance => lambda { weighted_average(:rail_trip_distance, :weighted_by => :rail_passengers) },
                 :rail_trip_distance_units => 'kilometres', # FIXME TODO derive this
                 :rail_speed => lambda { weighted_average(:rail_speed, :weighted_by => :rail_passengers) },
@@ -42,7 +52,17 @@ class Country < ActiveRecord::Base
   col :automobile_highway_speed_units
   col :automobile_trip_distance, :type => :float
   col :automobile_trip_distance_units
+  col :electricity_emission_factor, :type => :float
+  col :electricity_emission_factor_units
   col :flight_route_inefficiency_factor, :type => :float
+  col :lodging_natural_gas_intensity, :type => :float
+  col :lodging_natural_gas_intensity_units
+  col :lodging_fuel_oil_intensity, :type => :float
+  col :lodging_fuel_oil_intensity_units
+  col :lodging_electricity_intensity, :type => :float
+  col :lodging_electricity_intensity_units
+  col :lodging_district_heat_intensity, :type => :float
+  col :lodging_district_heat_intensity_units
   col :rail_passengers, :type => :float
   col :rail_trip_distance, :type => :float
   col :rail_trip_distance_units
