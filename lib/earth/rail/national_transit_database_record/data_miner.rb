@@ -12,6 +12,7 @@ NationalTransitDatabaseRecord.class_eval do
       store 'passengers'
     end
     
+    # FIXME TODO electricity synthesization should return NULL rather than 0
     import "US National Transit Database fuel consumption data",
            :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdDItVVR5NjA2Y3FCVjgza25Ccy0zS2c&output=csv' do
       key 'name', :synthesize => lambda { |row| [row['trs_id'], row['mode_code'], row['service_code']].join(' ') }

@@ -1,3 +1,4 @@
+# Not yet in use - for if we want to autocaculate size class stuf - November 10, 2011
 AutomobileSizeClassYear.class_eval do
   data_miner do
     import "automobile size class year fuel efficiencies from the 2010 EPA Fuel Economy Trends report",
