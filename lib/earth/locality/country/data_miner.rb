@@ -62,6 +62,24 @@ Country.class_eval do
       })
     end
     
+    # ELECTRICITY
+    process "Ensure EgridSubregion is populated" do
+      EgridSubregion.run_data_miner!
+    end
+    
+    process "Derive average US electricity emission factor from eGRID" do
+      us = united_states
+      subregion = EgridSubregion.find_by_abbreviation 'US'
+      us.electricity_emission_factor =
+        (
+          subregion.electricity_co2_emission_factor +
+          subregion.electricity_ch4_emission_factor +
+          subregion.electricity_n2o_emission_factor
+        ) / (1 - subregion.egrid_region.loss_factor)
+      us.electricity_emission_factor_units = 'kilograms_co2e_per_kilowatt_hour'
+      us.save!
+    end
+    
     process "Ensure RailCompany is populated" do
       RailCompany.run_data_miner!
     end
