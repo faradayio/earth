@@ -55,6 +55,7 @@ require 'earth'
 domain = ARGV[0]
 
 Earth.init domain, :load_data_miner => true, :apply_schemas => true
+DataMiner::Run.create_tables
 
 ActiveRecord::Base.logger = Logger.new $stderr
 ActiveRecord::Base.logger.level = Logger::INFO
