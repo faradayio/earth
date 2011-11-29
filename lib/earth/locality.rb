@@ -2,16 +2,12 @@ require 'earth/locality/census_division'
 require 'earth/locality/census_region'
 require 'earth/locality/climate_division'
 require 'earth/locality/country'
-require 'earth/locality/country_rail_traction'
-require 'earth/locality/country_rail_class'
-require 'earth/locality/country_rail_traction_class'
 require 'earth/locality/egrid_region'
 require 'earth/locality/egrid_subregion'
 require 'earth/locality/petroleum_administration_for_defense_district'
 require 'earth/locality/state'
-require 'earth/locality/urbanity'
 require 'earth/locality/zip_code'
 
-require 'earth/automobile'
-require 'earth/residence'
-require 'earth/rail'
+require 'earth/automobile' # for automobile data on Country
+require 'earth/fuel'       # for GWPs for EgridSubregion
+require 'earth/rail'       # for rail data on Country

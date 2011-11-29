@@ -1,3 +1,6 @@
+require 'earth/rail/country_rail_traction/data_miner'
+require 'earth/rail/country_rail_class/data_miner'
+require 'earth/rail/country_rail_traction_class/data_miner'
 require 'earth/rail/rail_class/data_miner'
 require 'earth/rail/rail_company/data_miner'
 require 'earth/rail/rail_company_traction/data_miner'
@@ -8,3 +11,5 @@ require 'earth/rail/rail_traction/data_miner'
 require 'earth/rail/national_transit_database_company/data_miner'
 require 'earth/rail/national_transit_database_mode/data_miner'
 require 'earth/rail/national_transit_database_record/data_miner'
+
+require 'earth/fuel/data_miner'
