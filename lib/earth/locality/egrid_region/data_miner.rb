@@ -10,6 +10,7 @@ EgridRegion.class_eval do
       store 'loss_factor', :field_name => '2005 grid gross loss factor'
     end
     
+    # FIXME TODO DEPRECATED - use fallback instead; need to confirm all emitters do this before removing
     # resurrected from a7bb363f10d951957dd051ff3cfb81c280f61151
     import "the US average grid loss factor derived eGRID 2007 data",
            :url => 'http://www.epa.gov/cleanenergy/documents/egridzips/eGRID2007_Version1-1.zip',
