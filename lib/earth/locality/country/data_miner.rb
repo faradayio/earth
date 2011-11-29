@@ -14,17 +14,12 @@ Country.class_eval do
       store 'name', :field_number => 5 # romanized version
     end
     
-    import "country-specific flight route inefficiency factors derived from Kettunen et al. (2005)",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdEJoRVBZaGhnUmlhX240VXE3X0F3WkE&output=csv' do
-      key   'iso_3166_code'
-      store 'flight_route_inefficiency_factor'
-    end
-    
+    # AUTOMOBILE
     import "automobile-related data for the US",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdDdZRm1tNjY0c2dYNG00bXJ3TXRqUVE&gid=0&output=csv' do
       key 'iso_3166_code'
       store 'automobile_urbanity'
-      store 'automobile_city_speed', :units_field_name => 'automobile_city_speed_units'
+      store 'automobile_city_speed',    :units_field_name => 'automobile_city_speed_units'
       store 'automobile_highway_speed', :units_field_name => 'automobile_highway_speed_units'
       store 'automobile_trip_distance', :units_field_name => 'automobile_trip_distance_units'
     end
@@ -33,7 +28,6 @@ Country.class_eval do
       AutomobileTypeFuelYear.run_data_miner!
     end
     
-    # FIXME TODO eventually need to do this for all countries
     process "Derive US average automobile fuel efficiency from AutomobileTypeFuelYear" do
       fuel_years = AutomobileTypeFuelYear.where(:year => AutomobileTypeFuelYear.maximum(:year))
       where(:iso_3166_code => 'US').update_all(
@@ -66,8 +60,17 @@ Country.class_eval do
       })
     end
     
-    process "Ensure RailCompany is populated" do
+    # FLIGHT
+    import "country-specific flight route inefficiency factors derived from Kettunen et al. (2005)",
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdEJoRVBZaGhnUmlhX240VXE3X0F3WkE&output=csv' do
+      key   'iso_3166_code'
+      store 'flight_route_inefficiency_factor'
+    end
+    
+    # RAIL
+    process "Ensure RailCompany and RailFuel are populated" do
       RailCompany.run_data_miner!
+      RailFuel.run_data_miner!
     end
     
     process "Calculate rail passengers, trip distance, and speed from RailCompany" do
@@ -91,10 +94,6 @@ Country.class_eval do
       store 'rail_trip_co2_emission_factor',   :units_field_name => 'rail_trip_co2_emission_factor_units' 
     end
     
-    process "Ensure RailFuel is populated" do
-      RailFuel.run_data_miner!
-    end
-    
     process "Unit conversion for European rail diesel intensity" do
       diesel = RailFuel.find_by_name("diesel")
       where(:rail_trip_diesel_intensity_units => 'grams_per_passenger_kilometre').update_all(%{
@@ -111,7 +110,7 @@ Country.class_eval do
     end
     
     process "Derive US rail fuel and emission data from RailCompany" do
-      country = Country.united_states
+      country = united_states
       country.rail_trip_electricity_intensity = country.rail_companies.weighted_average(:electricity_intensity, :weighted_by => :passengers)
       country.rail_trip_electricity_intensity_units = 'kilowatt_hours_per_passenger_kilometre'
       country.rail_trip_diesel_intensity = country.rail_companies.weighted_average(:diesel_intensity, :weighted_by => :passengers)
@@ -120,7 +119,5 @@ Country.class_eval do
       country.rail_trip_co2_emission_factor_units = 'kilograms_per_passenger_kilometre'
       country.save!
     end
-    
-    # FIXME TODO verify this
   end
 end
