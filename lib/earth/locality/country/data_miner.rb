@@ -1,13 +1,17 @@
 Country.class_eval do
   data_miner do
-    import 'the official ISO country list',
-           :url => 'http://www.iso.org/iso/list-en1-semic-3.txt',
-           :skip => 2,
-           :headers => false,
+    # http://www.iso.org/iso/list-en1-semic-3.txt
+    # http://unstats.un.org/unsd/methods/m49/m49alpha.htm
+    import "OpenGeoCode.org's Country Codes to Country Names list",
+           :url => 'http://opengeocode.org/download/countrynames.txt',
+           :format => :delimited,
            :delimiter => ';',
-           :encoding => 'ISO-8859-1' do
-      key   'iso_3166_code', :field_number => 1
-      store 'name', :field_number => 0
+           :headers => false,
+           :skip => 22 do
+      key 'iso_3166_code', :field_number => 0
+      store 'iso_3166_alpha_3_code', :field_number => 1
+      store 'iso_3166_numeric_code', :field_number => 2
+      store 'name', :field_number => 5 # romanized version
     end
     
     import "country-specific flight route inefficiency factors derived from Kettunen et al. (2005)",

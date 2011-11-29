@@ -31,7 +31,9 @@ class Country < ActiveRecord::Base
     end
   end
   
-  col :iso_3166_code
+  col :iso_3166_code                            # alpha-2 2-letter like GB
+  col :iso_3166_numeric_code, :type => :integer # numeric like 826; aka UN M49 code
+  col :iso_3166_alpha_3_code                    # 3-letter like GBR
   col :name
   col :automobile_urbanity, :type => :float # float from 0 to 1
   col :automobile_fuel_efficiency, :type => :float
