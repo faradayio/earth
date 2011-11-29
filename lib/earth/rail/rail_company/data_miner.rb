@@ -29,7 +29,7 @@ RailCompany.class_eval do
     
     process "Derive US transit rail company data from the National Transit Database" do
       NationalTransitDatabaseCompany.rail_companies.each do |ntd_company|
-        company = RailCompany.find_or_create_by_name(ntd_company.name)
+        company = find_or_create_by_name(ntd_company.name)
         company.country_iso_3166_code    = 'US'
         company.duns_number              = ntd_company.duns_number
         company.passengers               = ntd_company.rail_passengers
@@ -55,7 +55,7 @@ RailCompany.class_eval do
     end
     
     process "Calculate average trip distance" do
-      RailCompany.find_each do |company|
+      find_each do |company|
         if company.passenger_distance.present? and company.passengers.present? and company.passengers > 0
           company.trip_distance = company.passenger_distance / company.passengers
           company.trip_distance_units = company.passenger_distance_units
@@ -65,7 +65,7 @@ RailCompany.class_eval do
     end
     
     process "Calculate average trip speed" do
-      RailCompany.find_each do |company|
+      find_each do |company|
         if company.train_distance.present? and company.train_time.present? and company.train_time > 0
           company.speed = company.train_distance / company.train_time
           company.speed_units = "#{company.train_distance_units}_per_#{company.train_time_units.singularize}"
@@ -74,12 +74,13 @@ RailCompany.class_eval do
       end
     end
     
-    process "Ensure RailFuel is populated" do
+    process "Ensure RailFuel and EgridSubregion are populated" do
       RailFuel.run_data_miner!
+      EgridSubregion.run_data_miner!
     end
     
     process "Calculate co2 emission factor for US rail companies" do
-      RailCompany.where(:country_iso_3166_code => 'US').find_each do |company|
+      where(:country_iso_3166_code => 'US').find_each do |company|
         company.co2_emission_factor = 0
         
         if company.diesel_intensity.present?

@@ -12,3 +12,4 @@ require 'earth/rail/national_transit_database_mode'
 require 'earth/rail/national_transit_database_record'
 
 require 'earth/fuel'
+require 'earth/locality' # eGRID needed for US electricity emission factor in RailCompany import
