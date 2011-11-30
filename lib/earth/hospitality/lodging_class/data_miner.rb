@@ -1,10 +1,9 @@
-CountryLodgingClass.class_eval do
+LodgingClass.class_eval do
   data_miner do
-    import "a list of lodging classes and pre-calculated emission factors",
-           :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdGNidHJTTFlKcVN3dzVCQlB1V1ZNd2c&output=csv' do
-      key   'name'
-      store 'country_iso_3166_code'
-      store 'lodging_class_name'
+    # DEPRECATED - once new Lodging is phased in replace this with an import of lodging class names from the CountryLodgingClass google doc
+    import "a list of lodging classes and pre-calculated energy intensities",
+           :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdGZZWmZtWEJlYzhRNXlPdWpBTldlcUE&output=csv' do
+      key   'name',
       store 'electricity_intensity',   :units_field_name => 'electricity_intensity_units'
       store 'natural_gas_intensity',   :units_field_name => 'natural_gas_intensity_units'
       store 'fuel_oil_intensity',      :units_field_name => 'fuel_oil_intensity_units'
