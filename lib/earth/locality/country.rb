@@ -2,6 +2,7 @@ class Country < ActiveRecord::Base
   set_primary_key :iso_3166_code
   
   has_many :rail_companies, :foreign_key => 'country_iso_3166_code'
+  has_many :lodging_classes, :foreign_key => 'country_iso_3166_code', :class_name => 'CountryLodgingClass'
   
   falls_back_on :name => 'fallback',
                 :automobile_urbanity => lambda { united_states.automobile_urbanity }, # for now assume US represents world

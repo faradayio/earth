@@ -80,6 +80,27 @@ Country.class_eval do
       us.save!
     end
     
+    # HOSPITALITY
+    process "Ensure CountryLodgingClass is populated" do
+      CountryLodgingClass.run_data_miner!
+    end
+    
+    process "Derive average hotel characteristics from CountryLodgingClass" do
+      find_each do |country|
+        if country.lodging_classes.any?
+          country.lodging_natural_gas_intensity = country.lodging_classes.weighted_average(:natural_gas_intensity)
+          country.lodging_natural_gas_intensity_units = 'cubic_metres_per_room_night' # FIXME TODO derive this
+          country.lodging_fuel_oil_intensity = country.lodging_classes.weighted_average(:fuel_oil_intensity)
+          country.lodging_fuel_oil_intensity_units = 'gallons_per_room_night' # FIXME TODO derive this
+          country.lodging_electricity_intensity = country.lodging_classes.weighted_average(:electricity_intensity)
+          country.lodging_electricity_intensity_units = 'kilowatt_hours_per_room_night' # FIXME TODO derive this
+          country.lodging_district_heat_intensity = country.lodging_classes.weighted_average(:district_heat_intensity)
+          country.lodging_district_heat_intensity_units = 'megajoules_per_room_night' # FIXME TODO derive this
+          country.save!
+        end
+      end
+    end
+    
     process "Ensure RailCompany is populated" do
       RailCompany.run_data_miner!
     end
