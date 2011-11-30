@@ -9,6 +9,7 @@ CountryLodgingClass.class_eval do
       store 'natural_gas_intensity',   :units_field_name => 'natural_gas_intensity_units'
       store 'fuel_oil_intensity',      :units_field_name => 'fuel_oil_intensity_units'
       store 'district_heat_intensity', :units_field_name => 'district_heat_intensity_units'
+      store 'weighting'
     end
     
     process "Convert natural gas intensities to metric units" do

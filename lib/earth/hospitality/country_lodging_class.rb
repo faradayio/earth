@@ -12,4 +12,5 @@ class CountryLodgingClass < ActiveRecord::Base
   col :fuel_oil_intensity_units
   col :district_heat_intensity, :type => :float
   col :district_heat_intensity_units
+  col :weighting, :type => :float
 end
