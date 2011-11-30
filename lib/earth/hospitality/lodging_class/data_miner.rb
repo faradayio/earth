@@ -3,7 +3,7 @@ LodgingClass.class_eval do
     # DEPRECATED - once new Lodging is phased in replace this with an import of lodging class names from the CountryLodgingClass google doc
     import "a list of lodging classes and pre-calculated energy intensities",
            :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdGZZWmZtWEJlYzhRNXlPdWpBTldlcUE&output=csv' do
-      key   'name',
+      key   'name'
       store 'electricity_intensity',   :units_field_name => 'electricity_intensity_units'
       store 'natural_gas_intensity',   :units_field_name => 'natural_gas_intensity_units'
       store 'fuel_oil_intensity',      :units_field_name => 'fuel_oil_intensity_units'
