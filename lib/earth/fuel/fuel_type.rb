@@ -1,3 +1,4 @@
+# DEPRECATED but FuelPurchase still uses this
 class FuelType < ActiveRecord::Base
   set_primary_key :name
   

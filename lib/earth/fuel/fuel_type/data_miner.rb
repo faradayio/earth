@@ -1,3 +1,4 @@
+# DEPRECATED but FuelPurchase still uses this
 FuelType.class_eval do
   # FIXME TODO phase 2
   # annual emissions factors

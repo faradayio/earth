@@ -1,3 +1,4 @@
+# FIXME TODO try to clean up this data
 ZipCode.class_eval do
   # sabshere 9/20/10 this isn't called anywhere
   # def set_latitude_and_longitude

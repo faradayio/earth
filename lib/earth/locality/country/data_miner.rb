@@ -60,11 +60,50 @@ Country.class_eval do
       })
     end
     
+    # ELECTRICITY
+    process "Ensure EgridSubregion is populated" do
+      EgridSubregion.run_data_miner!
+    end
+    
+    process "Derive average US electricity emission factor from eGRID" do
+      us = united_states
+      subregion = EgridSubregion.find_by_abbreviation 'US'
+      us.electricity_emission_factor =
+        (
+          subregion.electricity_co2_emission_factor +
+          subregion.electricity_ch4_emission_factor +
+          subregion.electricity_n2o_emission_factor
+        ) / (1 - subregion.egrid_region.loss_factor)
+      us.electricity_emission_factor_units = 'kilograms_co2e_per_kilowatt_hour'
+      us.save!
+    end
+    
     # FLIGHT
     import "country-specific flight route inefficiency factors derived from Kettunen et al. (2005)",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdEJoRVBZaGhnUmlhX240VXE3X0F3WkE&output=csv' do
       key   'iso_3166_code'
       store 'flight_route_inefficiency_factor'
+    end
+    
+    # HOSPITALITY
+    process "Ensure CountryLodgingClass is populated" do
+      CountryLodgingClass.run_data_miner!
+    end
+    
+    process "Derive average hotel characteristics from CountryLodgingClass" do
+      find_each do |country|
+        if country.lodging_classes.any?
+          country.lodging_natural_gas_intensity = country.lodging_classes.weighted_average(:natural_gas_intensity)
+          country.lodging_natural_gas_intensity_units = 'cubic_metres_per_room_night' # FIXME TODO derive this
+          country.lodging_fuel_oil_intensity = country.lodging_classes.weighted_average(:fuel_oil_intensity)
+          country.lodging_fuel_oil_intensity_units = 'gallons_per_room_night' # FIXME TODO derive this
+          country.lodging_electricity_intensity = country.lodging_classes.weighted_average(:electricity_intensity)
+          country.lodging_electricity_intensity_units = 'kilowatt_hours_per_room_night' # FIXME TODO derive this
+          country.lodging_district_heat_intensity = country.lodging_classes.weighted_average(:district_heat_intensity)
+          country.lodging_district_heat_intensity_units = 'megajoules_per_room_night' # FIXME TODO derive this
+          country.save!
+        end
+      end
     end
     
     # RAIL
