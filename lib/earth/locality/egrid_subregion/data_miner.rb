@@ -16,17 +16,11 @@ EgridSubregion.class_eval do
       store 'electricity_n2o_emission_factor', :field_name => 'SRN2ORTA', :units => :pounds_per_gigawatt_hour
     end
     
+    # FIXME TODO once 'US' subregion is no longer needed remove it from this source file
     import "eGRID subregion to region associations",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdGRORTJNSWRMQ1puRVprYlAtZHhDaFE&output=csv' do
       key 'abbreviation'
-      # store 'name'
-      # store 'nerc_abbreviation'
       store 'egrid_region_name'
-      # store 'net_generation', :units => 'megawatt_hours'
-      # store 'electricity_co2_emission_factor', :field_name => 'electricty_ef_co2', :units => 'pounds_per_megawatt_hour'
-      # store 'electricity_co2_biogenic_emission_factor', :static => '0.0', :units => 'kilograms_per_kilowatt_hour'
-      # store 'electricity_ch4_emission_factor', :field_name => 'electricity_ef_ch4',  :units => 'pounds_per_gigawatt_hour'
-      # store 'electricity_n2o_emission_factor', :field_name => 'electricity_ef_n2o',  :units => 'pounds_per_gigawatt_hour'
     end
     
     # DEPRECATED but don't remove until confirmed that all emitters use EgridSubregion.fallback rather than EgridSubregion.find_by_abbreviation 'US'
