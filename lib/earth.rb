@@ -131,7 +131,7 @@ module Earth
   end
   
   TAPS_STEP = 'Tap the Brighter Planet data server'
-  TAPS_SOURCE = 'http://carbon:neutral@data.brighterplanet.com'
+  TAPS_SOURCE = 'http://carbon:neutral@data.brighterplanet.com:5000'
   def _prepend_taps_step_to_data_miner(resource)
     resource_model = resource.constantize
     return if resource_model.data_miner_config.steps.any? { |step| step.description == TAPS_STEP }
