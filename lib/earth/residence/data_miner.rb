@@ -1,3 +1,5 @@
+require 'earth/locality'
+require 'earth/locality/data_miner'
 require 'earth/residence/air_conditioner_use/data_miner'
 require 'earth/residence/clothes_machine_use/data_miner'
 require 'earth/residence/dishwasher_use/data_miner'
