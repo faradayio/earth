@@ -10,10 +10,12 @@ CensusDivision.class_eval do
       Conversions.register :thousand_btu_per_room_night,             :megajoules_per_room_night,            1.05505585
     end
     
-    import 'the U.S. Census Geographic Terms and Definitions',
-           :url => 'http://www.census.gov/popest/geographic/codes02.csv',
-           :skip => 9,
-           :select => lambda { |row| row['Division'].to_s.strip != 'X' and row['FIPS CODE STATE'].to_s.strip == 'X'} do
+    # http://www.census.gov/popest/geographic/codes02.csv
+    import('the U.S. Census Geographic Terms and Definitions',
+           :url => 'http://www.census.gov/popest/about/geo/state_geocodes_v2009.txt',
+           :skip => 6,
+           :headers => %w{ Region Division FIPS Name },
+           :select => ::Proc.new { |row| row['Division'].to_i > 0 and row['FIPS'].to_i == 0 }) do
       key   'number', :field_name => 'Division'
       store 'name', :field_name => 'Name'
       store 'census_region_number', :field_name => 'Region'

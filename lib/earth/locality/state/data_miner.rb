@@ -10,10 +10,11 @@ State.class_eval do
     end
 
     # census divisions
-    import 'the U.S. Census Geographic Terms and Definitions',
-           :url => 'http://www.census.gov/popest/geographic/codes02.csv',
-           :skip => 9,
-           :select => lambda { |row| row['FIPS CODE STATE'].to_s.strip != 'X' and row['FIPS CODE COUNTY'].to_s.strip == 'X'} do
+    import('the U.S. Census Geographic Terms and Definitions',
+           :url => 'http://www.census.gov/popest/about/geo/state_geocodes_v2009.txt',
+           :skip => 6,
+           :headers => %w{ Region Division FIPS Name },
+           :select => ::Proc.new { |row| row['FIPS'].to_i > 0 }) do
       key   'fips_code', :field_name => 'FIPS CODE STATE'
       store 'census_division_number', :field_name => 'Division'
     end
