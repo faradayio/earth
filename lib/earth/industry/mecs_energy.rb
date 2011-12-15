@@ -1,3 +1,5 @@
+require 'earth/industry/industry'
+
 class MecsEnergy < ActiveRecord::Base
   col :name
   col :census_region
