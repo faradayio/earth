@@ -48,9 +48,9 @@ CommercialBuildingEnergyConsumptionSurveyResponse.class_eval do
            :skip => 1,
            :headers => ["PUBID8", "REGION8", "CENDIV8", "SQFT8", "SQFTC8", "YRCONC8", "PBA8", "ELUSED8", "NGUSED8", "FKUSED8", "PRUSED8", "STUSED8", "HWUSED8", "ADJWT8", "STRATUM8", "PAIR8", "NGCNS8", "NGBTU8", "NGEXP8", "ZNGCNS8", "ZNGEXP8", "FKCNS8", "FKBTU8", "FKEXP8", "ZFKCNS8", "ZFKEXP8", "DHUSED8", "DHHT18", "DHHT28", "DHCOOL8", "DHWATR8", "DHCOOK8", "DHMANU8", "DHOTH8", "DHCNS8", "DHBTU8", "DHEXP8", "ZDHCNS8", "ZDHEXP8"] do
       key 'id', :field_name => 'PUBID8'
-      store 'natural_gas_use',   :synthesize => lambda { |row| row['NGBTU8'].to_i == 0 ? nil : row['NGBTU8'] }, :units => :kbtus
-      store 'fuel_oil_use',      :synthesize => lambda { |row| row['FKBTU8'].to_i == 0 ? nil : row['FKBTU8'] }, :units => :kbtus
-      store 'district_heat_use', :field_name => 'DHBTU8', :units => :kbtus
+      store 'natural_gas_use',   :synthesize => lambda { |row| row['NGCNS8'].to_i == 0 ? nil : (row['NGCNS8'].to_f * 100.0).cubic_feet.to(:cubic_metres) }, :units => :cubic_metres
+      store 'fuel_oil_use',      :synthesize => lambda { |row| row['FKCNS8'].to_i == 0 ? nil : row['FKCNS8'].to_f.gallons.to(:litres) }, :units => :litres
+      store 'district_heat_use', :synthesize => lambda { |row| row['DHBTU8'].to_i == 0 ? nil : row['DHBTU8'].to_f.kbtus.to(:megajoules) }, :units => :megajoules
     end
   end
 end
