@@ -2,7 +2,7 @@ require 'earth/eia'
 
 MecsEnergy.class_eval do
   data_miner do
-    CENSUS_REGIONS.each do |region, data|
+    MecsEnergy::CENSUS_REGIONS.each do |region, data|
       import("MECS table 3.2 #{region}",
         :url => "http://205.254.135.24/emeu/mecs/mecs2006/excel/Table3_2.xls",
         :crop => data[:crop]) do
