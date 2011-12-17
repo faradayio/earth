@@ -23,7 +23,7 @@ describe Earth do
   describe '.resource_map' do
     it 'should get a list of resource_map' do
       resource_map = Earth.resource_map
-      resource_map.keys.count.should == 91
+      resource_map.keys.count.should == 95
       resource_map['FuelType'].should == 'fuel'
     end
     it 'should exclude data_miner files' do
@@ -33,7 +33,7 @@ describe Earth do
 
   describe '.search' do
     it 'should get a list of all resource names' do
-      Earth.search.length.should == 91
+      Earth.search.length.should == 95
       Earth.search.should include('Aircraft')
       Earth.search.should include('Industry')
     end
@@ -44,8 +44,8 @@ describe Earth do
       Earth.search('computation').length.should == 3
       Earth.search('diet').length.should == 2
       Earth.search('fuel').length.should == 5
-      Earth.search('hospitality').length.should == 3
-      Earth.search('industry').length.should == 10
+      Earth.search('hospitality').length.should == 4
+      Earth.search('industry').length.should == 13
       Earth.search('locality').length.should == 10
       Earth.search('pet').length.should == 4
       Earth.search('rail').length.should == 12
