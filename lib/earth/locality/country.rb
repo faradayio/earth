@@ -14,7 +14,7 @@ class Country < ActiveRecord::Base
                 :automobile_highway_speed_units => lambda { united_states.automobile_highway_speed_units }, # for now assume US represents world
                 :automobile_trip_distance => lambda { united_states.automobile_trip_distance }, # for now assume US represents world
                 :automobile_trip_distance_units => lambda { united_states.automobile_trip_distance_units }, # for now assume US represents world
-                :electricity_emission_factor => lambda { maximum(:electricity_emission_factor) }, # default to the largest electricity emission factor
+                :electricity_emission_factor => 0.69252, # from ecometrica paper - FIXME TODO calculate this
                 :electricity_emission_factor_units => 'kilograms_co2e_per_kilowatt_hour', # FIXME TODO derive this
                 :flight_route_inefficiency_factor => lambda { maximum(:flight_route_inefficiency_factor) }, # default to the largest inefficiency factor
                 :lodging_natural_gas_intensity => lambda { united_states.lodging_natural_gas_intensity }, # for now assume US represents world

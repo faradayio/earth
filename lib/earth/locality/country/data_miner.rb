@@ -61,15 +61,19 @@ Country.class_eval do
     end
     
     # ELECTRICITY
+    process "Ensure GreehouseGas is populated" do
+      GreenhouseGas.run_data_miner!
+    end
+    
     import "calculate national electricity emission factors from Brander et al. (2011)",
            :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdDZmWHFjLVdBZGRBdGxVdDdqd1YtYWc&output=csv' do
       key 'iso_3166_code', :field_name => 'country_iso_3166_code'
       store 'electricity_emission_factor', :synthesize => lambda { |row|
         (
           row['electricity_co2_emission_factor'].to_f +
-          row['electricity_ch4_emission_factor'].to_f +
-          row['electricity_n2o_emission_factor'].to_f
-        ) / (1 - row['loss_factor'].to_f) }, :units_field_name => 'electricity_ch4_emission_factor_units'
+          (row['electricity_ch4_emission_factor'].to_f * GreenhouseGas[:ch4].global_warming_potential) +
+          (row['electricity_n2o_emission_factor'].to_f * GreenhouseGas[:n2o].global_warming_potential)
+        ) / (1 - row['loss_factor'].to_f) }, :units_field_name => 'kilograms_co2e_per_kilowatt_hour'
     end
     
     process "Ensure EgridSubregion is populated" do
