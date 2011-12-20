@@ -1,40 +1,41 @@
 CountryLodgingClass.class_eval do
   data_miner do
-    import "US lodging classes and their fuel intensities derived from CBECS 2003",
-           :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdGkxNExTajZPSjRWU3REVks5SFJ0cmc&output=csv',
-           :select => lambda { |row| row['country_lodging_class'].present? } do
-      key   'name', :field_name => 'country_lodging_class'
-      store 'country_iso_3166_code', :field_name => 'country'
-      store 'lodging_class_name',    :field_name => 'lodging_class'
-      store 'electricity_intensity',   :units_field_name => 'electricity_intensity_units'
-      store 'natural_gas_intensity',   :units_field_name => 'natural_gas_intensity_units'
-      store 'fuel_oil_intensity',      :units_field_name => 'fuel_oil_intensity_units'
-      store 'district_heat_intensity', :units_field_name => 'district_heat_intensity_units'
-      store 'weighting'
+    import "a curated list of country lodging classes",
+           :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdENYYWdiRm9LSjVZQ0tJRWplT1JNNVE&output=csv' do
+      key 'name'
+      store 'country_iso_3166_code'
+      store 'lodging_class_name'
+      store 'cbecs_detailed_activity'
     end
     
-    process "Convert natural gas intensities to metric units" do
-      conversion_factor = 2.83168466 # Google: 2.83168466 cubic m / 100 cubic ft
-      where(:natural_gas_intensity_units => 'hundred_cubic_feet_per_room_night').update_all(%{
-        natural_gas_intensity = 1.0 * natural_gas_intensity * #{conversion_factor},
-        natural_gas_intensity_units = 'cubic_metres_per_room_night'
-      })
+    process "Ensure CommercialBuildingEnergyConsumptionSurveyResponse is populated" do
+      CommercialBuildingEnergyConsumptionSurveyResponse.run_data_miner!
     end
     
-    process "Convert fuel oil intensities to metric units" do
-      conversion_factor = 3.78541178 # Google: 3.78541178 l / gal
-      where(:fuel_oil_intensity_units => 'gallons_per_room_night').update_all(%{
-        fuel_oil_intensity = 1.0 * fuel_oil_intensity * #{conversion_factor},
-        fuel_oil_intensity_units = 'litres_per_room_night'
-      })
-    end
-    
-    process "Convert district heat intensities to metric units" do
-      conversion_factor = 1.05505585 # Google: 1.05505585 MJ / 1000 Btu
-      where(:district_heat_intensity_units => 'thousand_btu_per_room_night').update_all(%{
-        district_heat_intensity = 1.0 * district_heat_intensity * #{conversion_factor},
-        district_heat_intensity_units = 'megajoules_per_room_night'
-      })
+    process "Calculate US lodging class fuel intensities from CommercialBuildingEnergyConsumptionSurveyResponse" do
+      where(:country_iso_3166_code => 'US').each do |lodging_class|
+        cbecs_responses = CommercialBuildingEnergyConsumptionSurveyResponse.where(:detailed_activity => lodging_class.cbecs_detailed_activity)
+        intensities = {}
+        
+        [:natural_gas, :fuel_oil, :electricity, :district_heat].each do |fuel|
+          intensities[fuel] = cbecs_responses.inject(0) do |sum, response|
+            next sum unless response.send("#{fuel}_use").present?
+            occupied_room_nights = 365.0 / 7.0 / 12.0 * response.months_used * response.weekly_hours / 24.0 * response.lodging_rooms * 0.59
+            sum + (response.weighting * response.send("#{fuel}_use") / occupied_room_nights)
+          end / cbecs_responses.sum(:weighting)
+        end
+        
+        lodging_class.natural_gas_intensity         = intensities[:natural_gas]
+        lodging_class.natural_gas_intensity_units   = 'cubic_metres_per_room_night'
+        lodging_class.fuel_oil_intensity            = intensities[:fuel_oil]
+        lodging_class.fuel_oil_intensity_units      = 'litres_per_room_night'
+        lodging_class.electricity_intensity         = intensities[:electricity]
+        lodging_class.electricity_intensity_units   = 'kilowatt_hours_per_room_night'
+        lodging_class.district_heat_intensity       = intensities[:district_heat]
+        lodging_class.district_heat_intensity_units = 'megajoules_per_room_night'
+        lodging_class.weighting                     = (lodging_class.lodging_class_name == 'Motel' or lodging_class.lodging_class_name == 'Inn') ? cbecs_responses.sum(:weighting) / 2.0 : cbecs_responses.sum(:weighting) # hack to ensure that we don't double-weight motels and inns when we calculate US national average lodging fuel intensities
+        lodging_class.save!
+      end
     end
   end
 end
