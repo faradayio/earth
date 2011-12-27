@@ -50,38 +50,38 @@ CbecsEnergyIntensity.class_eval do
   })
   
   const_set(:NAICS_CODE_SYNTHESIZER, lambda { |row|
-    case row[0].gsub('.', '')
-    when 'Education'
+    case row[0].to_s
+    when /Education/
       611110
-    when 'Food Sales'
+    when /Food Sales/
       445
-    when 'Food Service'
+    when /Food Service/
       722
-    when 'Health Care'
+    when /Health Care/
       622110
-    when 'Inpatient'
+    when /Inpatient/
       622110
-    when 'Outpatient'
+    when /Outpatient/
       622111
-    when 'Lodging'
+    when /Lodging/
       721
-    when 'Retail (Other Than Mall)'
+    when /Retail (Other Than Mall)/
       44
-    when 'Office'
+    when /Office/
       #TODO
-    when 'Public Assembly'
+    when /Public Assembly/
       #TODO
-    when 'Public Order and Safety'
+    when /Public Order and Safety/
       922120
-    when 'Religious Worship'
+    when /Religious Worship/
       813110
-    when 'Service'
+    when /Service/
       #TODO
-    when 'Warehouse and Storage'
+    when /Warehouse and Storage/
       493110
-    when 'Other'
+    when /Other/
       #TODO
-    when 'Vacant'
+    when /Vacant/
       #TODO
     end
   })
@@ -91,8 +91,9 @@ CbecsEnergyIntensity.class_eval do
       import "2003 CBECS #{data[:table].upcase} - Electricity Consumption and Intensity - #{division}",
         :url => "http://www.eia.gov/emeu/cbecs/cbecs2003/detailed_tables_2003/2003set10/2003excel/#{data[:table]}.xls",
         :headers => false,
-        :crop => (21..36) do
-        key :name, :synthesize => Proc.new { |row| "#{Industry.format_naics_code(row[0])}-#{data[:code]}" }
+        :select => ::Proc.new { |row| CbecsEnergyIntensity::NAICS_CODE_SYNTHESIZER.call(row) },
+        :crop => (21..37) do
+        key :name, :synthesize => ::Proc.new { |row| "#{Industry.format_naics_code(CbecsEnergyIntensity::NAICS_CODE_SYNTHESIZER.call(row))}-#{data[:code]}" }
         store :naics_code, :synthesize => CbecsEnergyIntensity::NAICS_CODE_SYNTHESIZER
         store :census_division_number, :static => data[:code]
         store :total_electricity_consumption, :field_number => data[:column] + 1
