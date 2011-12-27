@@ -1,6 +1,29 @@
 require 'earth/eia'
 require 'earth/locality'
 MecsEnergy.class_eval do
+  CENSUS_REGIONS = {
+    'Total US' =>  {
+      :crop => (13..81),
+      :code => nil
+    },
+    'Northeast' => {
+      :crop => (88..156),
+      :code => 1
+    },
+    'Midwest' => {
+      :crop => (163..231),
+      :code => 2
+    },
+    'South' =>  {
+      :crop => (238..306),
+      :code => 3
+    },
+    'West' => {
+      :crop => (313..382),
+      :code => 4
+    }
+  }
+  
   data_miner do
     MecsEnergy::CENSUS_REGIONS.each do |region, data|
       import("MECS table 3.2 #{region}",

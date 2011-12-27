@@ -14,29 +14,6 @@ class MecsEnergy < ActiveRecord::Base
   col :coke_and_breeze, :type => :float
   col :other, :type => :float
 
-  CENSUS_REGIONS = {
-    'Total US' =>  {
-      :crop => (13..81),
-      :code => nil
-    },
-    'Northeast' => {
-      :crop => (88..156),
-      :code => 1
-    },
-    'Midwest' => {
-      :crop => (163..231),
-      :code => 2
-    },
-    'South' =>  {
-      :crop => (238..306),
-      :code => 3
-    },
-    'West' => {
-      :crop => (313..382),
-      :code => 4
-    }
-  }
-
   FUELS = [:net_electricity, :residual_fuel_oil, :distillate_fuel_oil,
            :natural_gas, :lpg_and_ngl, :coal, :coke_and_breeze, :other]
 
