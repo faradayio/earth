@@ -1,7 +1,7 @@
 require 'earth/eia'
 require 'earth/locality/data_miner'
 MecsRatio.class_eval do
-  CENSUS_REGIONS = {
+  const_set(:CENSUS_REGIONS, {
     'Total US' =>  {
       :crop => (16..94),
       :code => nil
@@ -22,7 +22,7 @@ MecsRatio.class_eval do
       :crop => (352..430),
       :code => 4
     }
-  }
+  })
   
   data_miner do
     MecsRatio::CENSUS_REGIONS.each do |region, data|

@@ -1,7 +1,7 @@
 require 'earth/eia'
 require 'earth/locality'
 MecsEnergy.class_eval do
-  CENSUS_REGIONS = {
+  const_set(:CENSUS_REGIONS, {
     'Total US' =>  {
       :crop => (13..81),
       :code => nil
@@ -22,7 +22,7 @@ MecsEnergy.class_eval do
       :crop => (313..382),
       :code => 4
     }
-  }
+  })
   
   data_miner do
     MecsEnergy::CENSUS_REGIONS.each do |region, data|

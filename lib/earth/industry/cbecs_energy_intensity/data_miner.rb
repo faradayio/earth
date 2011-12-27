@@ -1,6 +1,6 @@
 require 'earth/locality/data_miner'
 CbecsEnergyIntensity.class_eval do
-  CENSUS_DIVISIONS = {
+  const_set(:CENSUS_DIVISIONS, {
     'New England Division' => {
       :column => 0,
       :code => 1,
@@ -46,9 +46,9 @@ CbecsEnergyIntensity.class_eval do
       :code => 9,
       :table => 'c19'
     }
-  }
+  })
   
-  NAICS_CODE_SYNTHESIZER = Proc.new do |row|
+  const_set(:NAICS_CODE_SYNTHESIZER, lambda { |row|
     case row[0].gsub('.', '')
     when 'Education'
       611110
@@ -83,7 +83,7 @@ CbecsEnergyIntensity.class_eval do
     when 'Vacant'
       #TODO
     end
-  end
+  })
   
   data_miner do
     CbecsEnergyIntensity::CENSUS_DIVISIONS.each do |division, data|
@@ -91,7 +91,7 @@ CbecsEnergyIntensity.class_eval do
         :url => "http://www.eia.gov/emeu/cbecs/cbecs2003/detailed_tables_2003/2003set10/2003excel/#{data[:table]}.xls",
         :crop => (21..36) do
         key :name, :synthesize => Proc.new { |row| "#{Industry.format_naics_code(row[0])}-#{data[:code]}" }
-        store :naics_code, :synthesize =>  NAICS_CODE_SYNTHESIZER
+        store :naics_code, :synthesize => CbecsEnergyIntensity::NAICS_CODE_SYNTHESIZER
         store :census_division_number, :static => data[:code]
         store :total_electricity_consumption, :field_number => data[:column] + 1
         store :total_floorspace, :field_number => data[:column] + 4
