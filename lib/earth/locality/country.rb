@@ -1,3 +1,6 @@
+require 'earth/automobile'
+require 'earth/hospitality'
+require 'earth/rail'
 class Country < ActiveRecord::Base
   set_primary_key :iso_3166_code
   

@@ -1,3 +1,3 @@
-require 'earth/shipping/carrier'
-require 'earth/shipping/carrier_mode'
-require 'earth/shipping/shipment_mode'
+# lib/earth/shipping.rb
+require 'earth'
+Earth.require_related __FILE__

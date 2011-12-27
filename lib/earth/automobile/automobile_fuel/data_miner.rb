@@ -1,3 +1,4 @@
+require 'earth/fuel/data_miner'
 AutomobileFuel.class_eval do
   data_miner do
     import "a list of pure automobile fuels",

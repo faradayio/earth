@@ -1,18 +1,3 @@
-require 'earth/automobile/automobile_fuel'
-require 'earth/automobile/automobile_make'
-require 'earth/automobile/automobile_make_year'
-require 'earth/automobile/automobile_make_year_fleet'
-require 'earth/automobile/automobile_make_model'
-require 'earth/automobile/automobile_make_model_year'
-require 'earth/automobile/automobile_make_model_year_variant'
-require 'earth/automobile/automobile_model'
-require 'earth/automobile/automobile_size_class'
-require 'earth/automobile/automobile_size_class_year'
-require 'earth/automobile/automobile_type_year'
-require 'earth/automobile/automobile_type_fuel_control'
-require 'earth/automobile/automobile_type_fuel_year'
-require 'earth/automobile/automobile_type_fuel_year_age'
-require 'earth/automobile/automobile_type_fuel_year_control'
-require 'earth/automobile/automobile_year'
-
-require 'earth/fuel'
+# lib/earth/automobile.rb
+require 'earth'
+Earth.require_related __FILE__

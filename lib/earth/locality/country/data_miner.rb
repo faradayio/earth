@@ -1,3 +1,7 @@
+require 'earth/automobile/data_miner'
+require 'earth/hospitality/data_miner'
+require 'earth/rail/data_miner'
+
 Country.class_eval do
   data_miner do
     # http://www.iso.org/iso/list-en1-semic-3.txt

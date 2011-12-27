@@ -1,3 +1,4 @@
+require 'earth/fuel'
 class AutomobileTypeFuelControl < ActiveRecord::Base
   set_primary_key :name
   col :name

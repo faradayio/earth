@@ -1,3 +1,4 @@
+require 'earth/locality/data_miner'
 CommercialBuildingEnergyConsumptionSurveyResponse.class_eval do
   data_miner do
     import 'building characteristics from the 2003 EIA Commercial Building Energy Consumption Survey',

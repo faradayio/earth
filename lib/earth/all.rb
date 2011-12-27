@@ -1,13 +1,3 @@
-require 'earth/air'
-require 'earth/automobile'
-require 'earth/bus'
-require 'earth/computation'
-require 'earth/diet'
-require 'earth/fuel'
-require 'earth/hospitality'
-require 'earth/industry'
-require 'earth/locality'
-require 'earth/pet'
-require 'earth/rail'
-require 'earth/residence'
-require 'earth/shipping'
+# lib/earth/all.rb
+require 'earth'
+Earth.require_all

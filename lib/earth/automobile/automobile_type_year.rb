@@ -1,3 +1,4 @@
+require 'earth/fuel'
 class AutomobileTypeYear < ActiveRecord::Base
   set_primary_key :name
   

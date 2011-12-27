@@ -1,3 +1,4 @@
+require 'earth/locality/data_miner'
 ComputationCarrierRegion.class_eval do
   data_miner do
     import "a list of computation carrier regions",

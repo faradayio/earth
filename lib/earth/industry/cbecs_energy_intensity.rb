@@ -1,3 +1,4 @@
+require 'earth/locality'
 class CbecsEnergyIntensity < ActiveRecord::Base
   col :naics_code, :type => :string
   col :census_division_number, :type => :integer

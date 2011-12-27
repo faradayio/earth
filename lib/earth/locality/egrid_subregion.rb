@@ -1,3 +1,4 @@
+require 'earth/fuel'
 class EgridSubregion < ActiveRecord::Base
   set_primary_key :abbreviation
   

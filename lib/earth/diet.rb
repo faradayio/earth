@@ -1,2 +1,3 @@
-require 'earth/diet/diet_class'
-require 'earth/diet/food_group'
+# lib/earth/diet.rb
+require 'earth'
+Earth.require_related __FILE__

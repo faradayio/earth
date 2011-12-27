@@ -1,5 +1,5 @@
 require 'earth/eia'
-
+require 'earth/locality/data_miner'
 MecsRatio.class_eval do
   data_miner do
     MecsRatio::CENSUS_REGIONS.each do |region, data|

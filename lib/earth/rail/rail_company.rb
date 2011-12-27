@@ -1,3 +1,5 @@
+require 'earth/fuel'
+require 'earth/locality'
 class RailCompany < ActiveRecord::Base
   set_primary_key :name
   

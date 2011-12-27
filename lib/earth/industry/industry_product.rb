@@ -1,3 +1,4 @@
+require 'earth/locality'
 class IndustryProduct < ActiveRecord::Base
   set_primary_key :naics_product_code
   

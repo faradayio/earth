@@ -1,3 +1,4 @@
+require 'earth/locality'
 class CommercialBuildingEnergyConsumptionSurveyResponse < ActiveRecord::Base
   set_primary_key :id
   set_table_name :cbecs_responses

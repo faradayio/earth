@@ -1,11 +1,3 @@
-require 'earth/locality'
-require 'earth/locality/data_miner'
-require 'earth/residence/air_conditioner_use/data_miner'
-require 'earth/residence/clothes_machine_use/data_miner'
-require 'earth/residence/dishwasher_use/data_miner'
-require 'earth/residence/residence_appliance/data_miner'
-require 'earth/residence/residence_class/data_miner'
-require 'earth/residence/residence_fuel_price/data_miner'
-require 'earth/residence/residence_fuel_type/data_miner'
-require 'earth/residence/residential_energy_consumption_survey_response/data_miner'
-require 'earth/residence/urbanity/data_miner'
+# lib/earth/residence/data_miner.rb
+require 'earth'
+Earth.require_related __FILE__

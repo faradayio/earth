@@ -1,3 +1,4 @@
+require 'earth/locality'
 class IndustryProductLine < ActiveRecord::Base
   set_primary_key :row_hash
   

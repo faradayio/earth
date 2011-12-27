@@ -1,3 +1,4 @@
+require 'earth/locality/data_miner'
 LodgingClass.class_eval do
   data_miner do
     # DEPRECATED - once new Lodging is phased in replace this with an import of lodging class names from the CountryLodgingClass google doc

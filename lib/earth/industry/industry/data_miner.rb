@@ -1,3 +1,4 @@
+require 'earth/locality/data_miner'
 Industry.class_eval do
   data_miner do
     import "the U.S. Census 2002 NAICS code list",

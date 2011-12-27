@@ -1,3 +1,4 @@
+require 'earth/fuel/data_miner'
 # Not yet in use - for if we want to autocaculate size class stuf - November 10, 2011
 AutomobileSizeClassYear.class_eval do
   data_miner do

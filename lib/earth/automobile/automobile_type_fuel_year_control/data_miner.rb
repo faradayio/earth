@@ -1,3 +1,4 @@
+require 'earth/fuel/data_miner'
 AutomobileTypeFuelYearControl.class_eval do
   data_miner do
     import "automobile type fuel year control data derived from the 2010 EPA GHG Inventory",

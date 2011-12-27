@@ -1,6 +1,4 @@
-require 'earth/automobile/automobile_type_fuel_year_age'
-require 'earth/automobile/automobile_type_fuel_year'
-require 'earth/automobile/automobile_type_year'
+require 'earth/fuel'
 
 class AutomobileFuel < ActiveRecord::Base
   set_primary_key :name

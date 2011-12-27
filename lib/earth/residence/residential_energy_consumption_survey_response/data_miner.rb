@@ -1,3 +1,4 @@
+require 'earth/locality/data_miner'
 ResidentialEnergyConsumptionSurveyResponse.class_eval do
   data_miner do
     process "Define some unit conversions" do

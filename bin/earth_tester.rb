@@ -79,7 +79,7 @@ if (resource = ARGV[1].to_s.camelcase).present?
   show_resource resource
 else
   DataMiner.run
-  Earth.search(domain).each do |resource|
+  Earth.resources(domain).each do |resource|
     show_resource resource
   end
 end

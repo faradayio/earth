@@ -1,3 +1,4 @@
+require 'earth/fuel/data_miner'
 AutomobileTypeFuelYear.class_eval do
   data_miner do
     import "total vehicle miles travelled by gasoline passenger cars from the 2010 EPA GHG Inventory",

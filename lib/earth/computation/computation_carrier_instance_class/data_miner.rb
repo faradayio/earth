@@ -1,3 +1,4 @@
+require 'earth/locality/data_miner'
 ComputationCarrierInstanceClass.class_eval do
   data_miner do
     import "a list of computation carrier instance classes and their characteristics",

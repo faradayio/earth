@@ -1,3 +1,4 @@
+require 'earth/fuel'
 class RailCompanyTraction < ActiveRecord::Base
   set_primary_key :name
   col :name

@@ -12,53 +12,43 @@ require 'mini_record'
 require 'table_warnings'
 require 'loose_tight_dictionary'
 require 'loose_tight_dictionary/cached_result'
+require 'earth/utils'
 
 # The earth module is an interface for loading data models from various domains.
 module Earth
-  autoload :Utils, 'earth/utils'
-  
+  extend ::ActiveSupport::Memoizable
   extend self
 
-  # Takes argument like Earth.search(['air'])
-  # Default is search all domains
-  # For example, <tt>[ 'Aircraft', 'Airline' ]</tt>
-  def search(*search_domains)
-    search_domains = search_domains.empty? ? [:all] : search_domains.flatten.map(&:to_sym)
-    if search_domains.include? :all
-      resources
-    else
-      resource_map.select do |resource, domain|
-        search_domains.include? domain.to_sym
-      end.map do |resource, domain|
-        resource
-      end
-    end
-  end
-
-  def gem_root 
-    File.expand_path File.join(File.dirname(__FILE__), '..')
-  end
-
   def domains
-    resource_map.values.uniq.sort
+    ::Dir[::File.join(lib_dir, '*')].map do |path|
+      if ::File.directory? path
+        ::File.basename path
+      end
+    end.compact.uniq.sort
   end
+  memoize :domains
   
-  def resources
-    resource_map.keys.sort
-  end
-
-  def resource_map
-    @resource_map ||= Dir[File.join(gem_root, 'lib', 'earth', '*')].select do |path|
-      File.directory? path
-    end.inject({}) do |memo, domain_path|
-      Dir[File.join(domain_path, '*.rb')].each do |resource_path|
-        resource = File.basename(resource_path, '.rb').camelcase
-        unless resource == 'DataMiner'
-          memo[resource] = File.basename domain_path
+  def resources(*search_domains)
+    search_domains = search_domains.flatten.compact.map(&:to_s)
+    if search_domains.empty?
+      search_domains = domains
+    end
+    search_domains.map do |domain|
+      ::Dir[::File.join(lib_dir, domain, '**', '*.rb')].map do |possible_resource|
+        unless possible_resource.include?('data_miner')
+          ::File.basename(possible_resource, '.rb').camelcase
         end
       end
-      memo
-    end
+    end.flatten.compact.sort
+  end
+  memoize :resources
+
+  def gem_root
+    ::File.expand_path '../..', __FILE__
+  end
+  
+  def lib_dir
+    ::File.expand_path '../earth', __FILE__
   end
 
   # Earth.init will load any specified domains, any needed ActiveRecord plugins, 
@@ -69,51 +59,94 @@ module Earth
   # Earth.init should be performed after a connection is made to the database and 
   # before any domain models are referenced.
   def init(*args)
-    options = args.last.is_a?(Hash) ? args.pop.symbolize_keys : {}
-    domains = args.empty? ? [ :all ] : args.map(&:to_sym)
+    options = args.extract_options!
+    domains = args
+
+    options[:load_data_miner] = true if options[:apply_schemas]
 
     _warn_unless_mysql_ansi_mode
     _load_plugins
-    _load_domains domains, options
-    _decorate_resources options
-    _load_schemas search(domains), options
-  end
-
-  private
-  
-  def _warn_unless_mysql_ansi_mode
-    if ActiveRecord::Base.connection.adapter_name =~ /mysql/i
-      sql_mode = ActiveRecord::Base.connection.select_value("SELECT @@GLOBAL.sql_mode") + ActiveRecord::Base.connection.select_value("SELECT @@SESSION.sql_mode")
-      $stderr.puts "[earth gem] Warning: MySQL detected, but PIPES_AS_CONCAT not set. Importing from scratch will fail. Consider setting sql-mode=ANSI in my.cnf." unless sql_mode =~ /pipes_as_concat/i
-    end
-  end
-  
-  # TODO sabshere don't use directories to specify domains
-  # * you have 20 million data_miner.rb files which are easy to confuse
-  # * you have to go all over the filesystem to figure things out
-  def _load_domains(domains, options)
-    return if domains.include? :none
-    if domains.empty? or domains.include?(:all)
-      # sabshere 9/16/10 why maintain this separately?
-      require 'earth/all'
-      require 'earth/data_miner' if options[:apply_schemas] or options[:load_data_miner]
+    
+    if domains.include?(:none)
+      # don't load anything
+    elsif domains.empty?
+      require_all options
     else
-      domains.each do |domain| 
-        require "earth/#{domain}"
-        require "earth/#{domain}/data_miner" if options[:apply_schemas] or options[:load_data_miner]
+      domains.each do |domain|
+        require_domain domain, options
+      end
+    end
+    
+    # be sure to look at both explicitly and implicitly loaded resources
+    resources.each do |resource|
+      next unless ::Object.const_defined?(resource)
+      resource_model = resource.constantize
+      
+      _append_pull_dependencies_step_to_data_miner resource_model
+
+      if options[:load_data_miner]
+        _prepend_auto_upgrade_step_to_data_miner resource_model
+      else
+        _prepend_taps_step_to_data_miner resource_model
+      end
+
+      if options[:apply_schemas]
+        resource_model.auto_upgrade!
       end
     end
   end
 
-  def _load_plugins
-    Dir[File.join(Earth.gem_root, 'vendor', '**', 'init.rb')].each do |pluginit|
-      $:.unshift File.join(File.dirname(pluginit), 'lib')
-      load pluginit
+  # internal use
+  def require_related(path)
+    path = ::File.expand_path path
+    raise ::ArgumentError, %{[earth gem] #{path} is not in #{lib_dir}} unless path.start_with?(lib_dir)
+    domain = %r{#{lib_dir}/([^\./]+)}.match(path).captures.first
+    require_domain domain, :load_data_miner => path.include?('data_miner')
+  end
+  
+  # internal use
+  def require_all(options = {})
+    require_glob ::File.join(lib_dir, '**', '*.rb'), options
+  end
+
+  private
+  
+  def require_domain(domain, options = {})
+    require_glob ::File.join(lib_dir, domain, '**', '*.rb'), options 
+  end
+  
+  def require_glob(glob, options = {})
+    data_miner_paths = []
+    ::Dir[glob].each do |path|
+      if path.include?('data_miner')
+        data_miner_paths << path
+      else
+        require path
+      end
+    end
+    # load data_miner blocks second to make sure they override
+    data_miner_paths.each do |path|
+      require path
+    end if options[:load_data_miner]
+    nil
+  end
+  memoize :require_glob
+  
+  def _warn_unless_mysql_ansi_mode
+    if ::ActiveRecord::Base.connection.adapter_name =~ /mysql/i
+      sql_mode = ::ActiveRecord::Base.connection.select_value("SELECT @@GLOBAL.sql_mode") + ::ActiveRecord::Base.connection.select_value("SELECT @@SESSION.sql_mode")
+      $stderr.puts "[earth gem] Warning: MySQL detected, but PIPES_AS_CONCAT not set. Importing from scratch will fail. Consider setting sql-mode=ANSI in my.cnf." unless sql_mode =~ /pipes_as_concat/i
     end
   end
   
-  def _append_pull_dependencies_step_to_data_miner(resource)
-    resource_model = resource.constantize
+  def _load_plugins
+    ::Dir[::File.expand_path('../../vendor/**/init.rb', __FILE__)].each do |pluginit|
+      $LOAD_PATH.unshift ::File.join(::File.dirname(pluginit), 'lib')
+      ::Kernel.load pluginit
+    end
+  end
+  
+  def _append_pull_dependencies_step_to_data_miner(resource_model)
     return if resource_model.data_miner_config.steps.any? { |step| step.description == :run_data_miner_on_parent_associations! }
 
     pull_dependencies_step = DataMiner::Process.new resource_model.data_miner_config, :run_data_miner_on_parent_associations!
@@ -121,8 +154,7 @@ module Earth
     resource_model.data_miner_config.steps.push pull_dependencies_step
   end
   
-  def _prepend_auto_upgrade_step_to_data_miner(resource)
-    resource_model = resource.constantize
+  def _prepend_auto_upgrade_step_to_data_miner(resource_model)
     return if resource_model.data_miner_config.steps.any? { |step| step.description == :auto_upgrade! }
 
     auto_upgrade_step = DataMiner::Process.new resource_model.data_miner_config, :auto_upgrade!
@@ -132,31 +164,11 @@ module Earth
   
   TAPS_STEP = 'Tap the Brighter Planet data server'
   TAPS_SOURCE = 'http://carbon:neutral@data.brighterplanet.com:5000'
-  def _prepend_taps_step_to_data_miner(resource)
-    resource_model = resource.constantize
+  def _prepend_taps_step_to_data_miner(resource_model)
     return if resource_model.data_miner_config.steps.any? { |step| step.description == TAPS_STEP }
     
     taps_step = DataMiner::Tap.new resource_model.data_miner_config, TAPS_STEP, TAPS_SOURCE
     
     resource_model.data_miner_config.steps.unshift taps_step
-  end
-  
-  def _decorate_resources(options)
-    resources.each do |resource|
-      next unless ::Object.const_defined?(resource)
-      _append_pull_dependencies_step_to_data_miner resource
-      if options[:apply_schemas] or options[:load_data_miner]
-        _prepend_auto_upgrade_step_to_data_miner resource
-      else
-        _prepend_taps_step_to_data_miner resource
-      end
-    end
-  end
-
-  def _load_schemas(selected_resources, options)
-    return unless options[:apply_schemas]
-    selected_resources.each do |resource|
-      resource.constantize.auto_upgrade!
-    end
   end
 end

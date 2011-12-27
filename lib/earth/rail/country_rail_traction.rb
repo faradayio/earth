@@ -1,3 +1,5 @@
+require 'earth/fuel'
+require 'earth/locality'
 class CountryRailTraction < ActiveRecord::Base
   set_primary_key :name
   

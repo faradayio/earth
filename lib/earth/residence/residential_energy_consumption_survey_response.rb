@@ -1,3 +1,4 @@
+require 'earth/locality'
 class ResidentialEnergyConsumptionSurveyResponse < ActiveRecord::Base
   set_primary_key :id
   set_table_name :recs_responses

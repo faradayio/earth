@@ -1,18 +1,3 @@
-require 'earth/automobile/automobile_fuel/data_miner'
-require 'earth/automobile/automobile_make/data_miner'
-require 'earth/automobile/automobile_make_year/data_miner'
-require 'earth/automobile/automobile_make_year_fleet/data_miner'
-require 'earth/automobile/automobile_make_model/data_miner'
-require 'earth/automobile/automobile_make_model_year/data_miner'
-require 'earth/automobile/automobile_make_model_year_variant/data_miner'
-require 'earth/automobile/automobile_size_class/data_miner'
-require 'earth/automobile/automobile_size_class_year/data_miner'
-require 'earth/automobile/automobile_type_year/data_miner'
-require 'earth/automobile/automobile_type_fuel_control/data_miner'
-require 'earth/automobile/automobile_type_fuel_year/data_miner'
-require 'earth/automobile/automobile_type_fuel_year_age/data_miner'
-require 'earth/automobile/automobile_type_fuel_year_control/data_miner'
-require 'earth/automobile/automobile_model/data_miner'
-require 'earth/automobile/automobile_year/data_miner'
-
-require 'earth/fuel/data_miner'
+# lib/earth/automobile/data_miner.rb
+require 'earth'
+Earth.require_related __FILE__

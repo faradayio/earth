@@ -1,3 +1,3 @@
-require 'earth/shipping/carrier/data_miner'
-require 'earth/shipping/carrier_mode/data_miner'
-require 'earth/shipping/shipment_mode/data_miner'
+# lib/earth/shipping/data_miner.rb
+require 'earth'
+Earth.require_related __FILE__

@@ -1,3 +1,4 @@
+require 'earth/locality'
 class ComputationCarrier < ActiveRecord::Base
   set_primary_key :name
   

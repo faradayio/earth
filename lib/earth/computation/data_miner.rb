@@ -1,5 +1,3 @@
-require 'earth/computation/computation_carrier/data_miner'
-require 'earth/computation/computation_carrier_region/data_miner'
-require 'earth/computation/computation_carrier_instance_class/data_miner'
-
-require 'earth/locality/data_miner'
+# lib/earth/computation/data_miner.rb
+require 'earth'
+Earth.require_related __FILE__

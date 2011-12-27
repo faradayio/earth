@@ -1,3 +1,5 @@
+require 'earth/locality'
+
 class Airport < ActiveRecord::Base
   set_primary_key :iata_code
   

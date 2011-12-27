@@ -1,3 +1,5 @@
+require 'earth/locality/data_miner'
+
 FlightSegment.class_eval do
   # For import errata
   class FlightSegment::Guru

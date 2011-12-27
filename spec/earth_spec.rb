@@ -20,38 +20,27 @@ describe Earth do
     end
   end
 
-  describe '.resource_map' do
-    it 'should get a list of resource_map' do
-      resource_map = Earth.resource_map
-      resource_map.keys.count.should == 96
-      resource_map['FuelType'].should == 'fuel'
-    end
-    it 'should exclude data_miner files' do
-      Earth.resource_map.keys.should_not include('DataMiner')
-    end
-  end
-
-  describe '.search' do
+  describe '.resources' do
     it 'should get a list of all resource names' do
-      Earth.search.length.should == 96
-      Earth.search.should include('Aircraft')
-      Earth.search.should include('Industry')
+      Earth.resources.length.should == 96
+      Earth.resources.should include('Aircraft')
+      Earth.resources.should include('Industry')
     end
     it 'should filter resource_map by domain' do
-      Earth.search('air').length.should == 10
-      Earth.search('automobile').length.should == 16
-      Earth.search('bus').length.should == 4
-      Earth.search('computation').length.should == 3
-      Earth.search('diet').length.should == 2
-      Earth.search('fuel').length.should == 5
-      Earth.search('hospitality').length.should == 5
-      Earth.search('industry').length.should == 13
-      Earth.search('locality').length.should == 10
-      Earth.search('pet').length.should == 4
-      Earth.search('rail').length.should == 12
-      Earth.search('residence').length.should == 9
-      Earth.search('shipping').length.should == 3
-      Earth.search('fuel').should include('FuelType')
+      Earth.resources('air').length.should == 10
+      Earth.resources('automobile').length.should == 16
+      Earth.resources('bus').length.should == 4
+      Earth.resources('computation').length.should == 3
+      Earth.resources('diet').length.should == 2
+      Earth.resources('fuel').length.should == 5
+      Earth.resources('hospitality').length.should == 5
+      Earth.resources('industry').length.should == 13
+      Earth.resources('locality').length.should == 10
+      Earth.resources('pet').length.should == 4
+      Earth.resources('rail').length.should == 12
+      Earth.resources('residence').length.should == 9
+      Earth.resources('shipping').length.should == 3
+      Earth.resources('fuel').should include('FuelType')
     end
   end
 

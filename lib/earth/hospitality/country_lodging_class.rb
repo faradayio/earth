@@ -1,3 +1,4 @@
+require 'earth/locality'
 class CountryLodgingClass < ActiveRecord::Base
   set_primary_key :name
   

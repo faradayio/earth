@@ -1,3 +1,4 @@
+require 'earth/fuel/data_miner'
 EgridSubregion.class_eval do
   data_miner do
     import "eGRID 2010 subregions and electricity emission factors",

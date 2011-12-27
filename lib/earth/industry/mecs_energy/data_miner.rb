@@ -1,5 +1,5 @@
 require 'earth/eia'
-
+require 'earth/locality'
 MecsEnergy.class_eval do
   data_miner do
     MecsEnergy::CENSUS_REGIONS.each do |region, data|

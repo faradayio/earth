@@ -1,3 +1,4 @@
+require 'earth/fuel'
 class NationalTransitDatabaseRecord < ActiveRecord::Base
   set_primary_key :name
   set_table_name :ntd_records

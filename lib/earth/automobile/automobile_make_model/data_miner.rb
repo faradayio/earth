@@ -1,3 +1,4 @@
+require 'earth/fuel/data_miner'
 AutomobileMakeModel.class_eval do
   data_miner do
     process "Start from scratch" do

@@ -1,3 +1,4 @@
+require 'earth/fuel'
 class CensusDivision < ActiveRecord::Base
   set_primary_key :number
   

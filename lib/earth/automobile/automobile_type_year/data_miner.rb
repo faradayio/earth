@@ -1,3 +1,4 @@
+require 'earth/fuel/data_miner'
 AutomobileTypeYear.class_eval do
   data_miner do
     import "automobile type year air conditioning emissions derived from the 2010 EPA GHG Inventory",

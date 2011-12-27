@@ -1,3 +1,4 @@
+require 'earth/fuel/data_miner'
 AutomobileMakeYearFleet.class_eval do
   data_miner do
     import "annual corporate average fuel economy data for domestic and imported vehicle fleets from the NHTSA",

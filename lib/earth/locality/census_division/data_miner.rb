@@ -1,3 +1,4 @@
+require 'earth/fuel/data_miner'
 CensusDivision.class_eval do
   data_miner do
     process 'Define some unit conversions' do

@@ -1,4 +1,4 @@
-require 'earth/industry/industry'
+require 'earth/locality'
 
 class MecsEnergy < ActiveRecord::Base
   col :name

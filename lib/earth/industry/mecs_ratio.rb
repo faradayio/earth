@@ -1,3 +1,4 @@
+require 'earth/locality'
 class MecsRatio < ActiveRecord::Base
   belongs_to :industry
 

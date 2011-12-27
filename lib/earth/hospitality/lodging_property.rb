@@ -1,3 +1,4 @@
+require 'earth/locality'
 # Copyright 2011 Brighter Planet, Inc.
 class LodgingProperty < ActiveRecord::Base
   set_primary_key :northstar_id

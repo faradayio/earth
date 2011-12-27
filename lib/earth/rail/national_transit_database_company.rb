@@ -1,3 +1,4 @@
+require 'earth/locality'
 class NationalTransitDatabaseCompany < ActiveRecord::Base
   set_primary_key :id
   set_table_name :ntd_companies

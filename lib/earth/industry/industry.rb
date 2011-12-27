@@ -1,3 +1,4 @@
+require 'earth/locality'
 class Industry < ActiveRecord::Base
   set_primary_key :naics_code
   

@@ -1,3 +1,5 @@
+require 'earth/fuel/data_miner'
+require 'earth/locality/data_miner'
 CountryRailTraction.class_eval do
   data_miner do
     import "european rail traction data from the UIC",

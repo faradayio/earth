@@ -1,5 +1,3 @@
-require 'earth/computation/computation_carrier'
-require 'earth/computation/computation_carrier_region'
-require 'earth/computation/computation_carrier_instance_class'
-
-require 'earth/locality'
+# lib/earth/computation.rb
+require 'earth'
+Earth.require_related __FILE__

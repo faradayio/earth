@@ -1,3 +1,4 @@
+require 'earth/locality/data_miner'
 CensusRegionLodgingClass.class_eval do
   data_miner do
     import "US census region lodging class fuel intensities derived from CBECS 2003",

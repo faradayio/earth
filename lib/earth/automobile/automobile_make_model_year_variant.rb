@@ -1,3 +1,4 @@
+require 'earth/fuel'
 class AutomobileMakeModelYearVariant < ActiveRecord::Base
   set_primary_key :row_hash
   

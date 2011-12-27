@@ -1,3 +1,4 @@
+require 'earth/locality/data_miner'
 CountryLodgingClass.class_eval do
   data_miner do
     import "a curated list of country lodging classes",

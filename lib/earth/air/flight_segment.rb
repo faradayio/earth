@@ -1,3 +1,5 @@
+require 'earth/locality'
+
 class FlightSegment < ActiveRecord::Base
   set_primary_key :row_hash
   

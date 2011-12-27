@@ -1,3 +1,4 @@
+require 'earth/fuel/data_miner'
 AutomobileSizeClass.class_eval do
   data_miner do
     import "a list of size classes and pre-calculated fuel efficiencies",

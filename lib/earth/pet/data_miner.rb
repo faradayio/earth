@@ -1,4 +1,3 @@
-require 'earth/pet/breed/data_miner'
-require 'earth/pet/breed_gender/data_miner'
-require 'earth/pet/gender/data_miner'
-require 'earth/pet/species/data_miner'
+# lib/earth/pet/data_miner.rb
+require 'earth'
+Earth.require_related __FILE__

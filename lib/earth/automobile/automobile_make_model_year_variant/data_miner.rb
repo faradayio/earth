@@ -1,3 +1,4 @@
+require 'earth/fuel/data_miner'
 AutomobileMakeModelYearVariant.class_eval do
   # For errata
   class AutomobileMakeModelYearVariant::Guru

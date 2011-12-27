@@ -1,3 +1,4 @@
+require 'earth/locality'
 class CountryRailClass < ActiveRecord::Base
   set_primary_key :name
   

@@ -1,3 +1,4 @@
+require 'earth/locality/data_miner'
 CbecsEnergyIntensity.class_eval do
   data_miner do
     NAICS_CODE_SYNTHESIZER = Proc.new do |row|

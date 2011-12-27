@@ -1,3 +1,4 @@
+require 'earth/locality/data_miner'
 CountryRailClass.class_eval do
   data_miner do
     import "a list of country-specific rail classes and their pre-calculated characteristics",

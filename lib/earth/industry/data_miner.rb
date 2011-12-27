@@ -1,4 +1,3 @@
-require 'earth/industry/cbecs_energy_intensity/data_miner'
-require 'earth/industry/industry/data_miner'
-require 'earth/industry/mecs_energy/data_miner'
-require 'earth/industry/mecs_ratio/data_miner'
+# lib/earth/industry/data_miner.rb
+require 'earth'
+Earth.require_related __FILE__

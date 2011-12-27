@@ -1,3 +1,4 @@
+require 'earth/locality/data_miner'
 ComputationCarrier.class_eval do
   data_miner do
     import "a list of computation carriers and their power usage effectiveness",
@@ -5,6 +6,5 @@ ComputationCarrier.class_eval do
       key   'name'
       store 'power_usage_effectiveness'
     end
-    
   end
 end

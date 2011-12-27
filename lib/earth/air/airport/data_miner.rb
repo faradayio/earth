@@ -1,3 +1,5 @@
+require 'earth/locality/data_miner'
+
 Airport.class_eval do
   class Airport::Guru
     def method_missing(method_id, *args, &block)
