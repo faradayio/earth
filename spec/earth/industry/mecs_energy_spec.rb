@@ -1,10 +1,28 @@
 require 'spec_helper'
 require 'earth/industry/mecs_energy'
+require 'earth/industry/mecs_energy/data_miner'
 
 describe MecsEnergy do
   before(:all) do
     MecsEnergy.auto_upgrade!
     MecsEnergy.run_data_miner!
+  end
+
+  describe 'data mining' do
+    it 'retrieves Total US statistics' do
+      puts MecsEnergy.all.inspect
+      apparel = MecsEnergy.find_by_naics_code '315'
+      apparel.census_region.should be_nil
+      apparal.total.should == 14
+      apparal.net_electricity.should == 7
+      apparal.residual_fuel_oil.should be_nil
+      apparal.distillate_fuel_oil.should be_nil
+      apparal.natural_gas.should == 7
+      apparal.lpg_and_ngl.should be_nil
+      apparal.coal.should == 0
+      apparal.coke_and_breeze.should == 0
+      apparal.other.should be_nil
+    end
   end
 
   describe '.find_by_naics_code_and_census_region' do
