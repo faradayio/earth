@@ -69,7 +69,7 @@ module Earth
     
     if domains.include?(:none)
       # don't load anything
-    elsif domains.empty?
+    elsif domains.include?(:all) or domains.empty?
       require_all options
     else
       domains.each do |domain|
