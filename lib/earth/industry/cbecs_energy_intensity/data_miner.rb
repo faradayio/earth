@@ -1,3 +1,4 @@
+require 'earth/eia'
 require 'earth/locality/data_miner'
 CbecsEnergyIntensity.class_eval do
   const_set(:CENSUS_DIVISIONS, {
@@ -89,6 +90,7 @@ CbecsEnergyIntensity.class_eval do
     CbecsEnergyIntensity::CENSUS_DIVISIONS.each do |division, data|
       import "2003 CBECS #{data[:table].capitalize} - Electricity Consumption and Intensity - #{division}",
         :url => "http://www.eia.gov/emeu/cbecs/cbecs2003/detailed_tables_2003/2003set10/2003excel/#{data[:table]}.xls",
+        :headers => false,
         :crop => (21..36) do
         key :name, :synthesize => Proc.new { |row| "#{Industry.format_naics_code(row[0])}-#{data[:code]}" }
         store :naics_code, :synthesize => CbecsEnergyIntensity::NAICS_CODE_SYNTHESIZER
@@ -100,7 +102,7 @@ CbecsEnergyIntensity.class_eval do
     end
 
     process :normalize_fuels do
-      EIA.normalize(CbecsEnergyIntensity, [:total_electricity_consumption, :total_floorspace, :electricity_intensity])
+      Earth::EIA.normalize(CbecsEnergyIntensity, [:total_electricity_consumption, :total_floorspace, :electricity_intensity])
     end
   end
 end
