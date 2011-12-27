@@ -1,6 +1,8 @@
 require 'earth/locality'
 
 class MecsEnergy < ActiveRecord::Base
+  set_primary_key :name
+  
   col :name
   col :census_region
   col :naics_code

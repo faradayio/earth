@@ -1,11 +1,14 @@
 require 'earth/locality'
+
 class MecsRatio < ActiveRecord::Base
-  belongs_to :industry
+  set_primary_key :name
 
   col :name
   col :census_region
   col :naics_code
   col :consumption_per_dollar_of_shipments, :type => :float
+  
+  belongs_to :industry
 
   def self.find_by_naics_code_and_census_region(code, census_region)
     if code.blank?
