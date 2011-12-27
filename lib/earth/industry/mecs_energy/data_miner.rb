@@ -22,7 +22,7 @@ MecsEnergy.class_eval do
     end
 
     process :normalize_fuels do
-      Earth::EIA.normalize(MecsEnergy, FUELS)
+      Earth::EIA.normalize(MecsEnergy, MecsEnergy::FUELS)
     end
   end
 end
