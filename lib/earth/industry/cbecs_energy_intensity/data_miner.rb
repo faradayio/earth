@@ -88,7 +88,7 @@ CbecsEnergyIntensity.class_eval do
   
   data_miner do
     CbecsEnergyIntensity::CENSUS_DIVISIONS.each do |division, data|
-      import "2003 CBECS #{data[:table].capitalize} - Electricity Consumption and Intensity - #{division}",
+      import "2003 CBECS #{data[:table].upcase} - Electricity Consumption and Intensity - #{division}",
         :url => "http://www.eia.gov/emeu/cbecs/cbecs2003/detailed_tables_2003/2003set10/2003excel/#{data[:table]}.xls",
         :headers => false,
         :crop => (21..36) do
