@@ -1,38 +1,38 @@
 CbecsEnergyIntensity.class_eval do
   data_miner do
     NAICS_CODE_SYNTHESIZER = Proc.new do |row|
-      case row[0].gsub(/\./, '')
-      when 'Education' then
+      case row[0].gsub('.', '')
+      when 'Education'
         611110
-      when 'Food Sales' then
+      when 'Food Sales'
         445
-      when 'Food Service' then
+      when 'Food Service'
         722
-      when 'Health Care' then
+      when 'Health Care'
         622110
-      when 'Inpatient' then
+      when 'Inpatient'
         622110
-      when 'Outpatient' then
+      when 'Outpatient'
         622111
-      when 'Lodging' then
+      when 'Lodging'
         721
-      when 'Retail (Other Than Mall)' then
+      when 'Retail (Other Than Mall)'
         44
-      when 'Office' then
+      when 'Office'
         #TODO
-      when 'Public Assembly' then
+      when 'Public Assembly'
         #TODO
-      when 'Public Order and Safety' then
+      when 'Public Order and Safety'
         922120
-      when 'Religious Worship' then
+      when 'Religious Worship'
         813110
-      when 'Service' then
+      when 'Service'
         #TODO
-      when 'Warehouse and Storage' then
+      when 'Warehouse and Storage'
         493110
-      when 'Other' then
+      when 'Other'
         #TODO
-      when 'Vacant' then
+      when 'Vacant'
         #TODO
       end
     end
