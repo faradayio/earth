@@ -19,11 +19,12 @@ CountryLodgingClass.class_eval do
         intensities = {}
         
         [:natural_gas, :fuel_oil, :electricity, :district_heat].each do |fuel|
-          intensities[fuel] = cbecs_responses.inject(0) do |sum, response|
+          intensity = cbecs_responses.inject(0) do |sum, response|
             next sum unless response.send("#{fuel}_use").present?
             occupied_room_nights = 365.0 / 7.0 / 12.0 * response.months_used * response.weekly_hours / 24.0 * response.lodging_rooms * 0.59
             sum + (response.weighting * response.send("#{fuel}_use") / occupied_room_nights)
-          end / cbecs_responses.sum(:weighting)
+          end
+          intensities[fuel] = intensity / cbecs_responses.sum(:weighting)
         end
         
         lodging_class.natural_gas_intensity         = intensities[:natural_gas]
