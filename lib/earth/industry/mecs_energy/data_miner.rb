@@ -7,19 +7,19 @@ MecsEnergy.class_eval do
       :code => nil
     },
     'Northeast' => {
-      :crop => (88..156),
+      :crop => (99..177),
       :code => 1
     },
     'Midwest' => {
-      :crop => (163..231),
+      :crop => (184..262),
       :code => 2
     },
     'South' =>  {
-      :crop => (238..306),
+      :crop => (267..345),
       :code => 3
     },
     'West' => {
-      :crop => (313..382),
+      :crop => (351..429),
       :code => 4
     }
   })
