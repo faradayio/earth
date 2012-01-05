@@ -1,4 +1,5 @@
 require 'earth/locality'
+require 'earth/industry/industry'
 
 class MecsRatio < ActiveRecord::Base
   set_primary_key :name
