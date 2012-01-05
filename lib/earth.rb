@@ -112,7 +112,7 @@ module Earth
   private
   
   def require_domain(domain, options = {})
-    require_glob ::File.join(lib_dir, domain, '**', '*.rb'), options 
+    require_glob ::File.join(lib_dir, domain.to_s, '**', '*.rb'), options 
   end
   
   def require_glob(glob, options = {})
