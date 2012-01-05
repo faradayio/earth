@@ -12,7 +12,6 @@ require 'mini_record'
 require 'table_warnings'
 require 'loose_tight_dictionary'
 require 'loose_tight_dictionary/cached_result'
-require 'earth/utils'
 
 # The earth module is an interface for loading data models from various domains.
 module Earth
@@ -43,8 +42,8 @@ module Earth
   end
   memoize :resources
 
-  def gem_root
-    ::File.expand_path '../..', __FILE__
+  def vendor_dir
+    ::File.expand_path '../../vendor', __FILE__
   end
   
   def lib_dir
@@ -172,3 +171,7 @@ module Earth
     resource_model.data_miner_config.steps.unshift taps_step
   end
 end
+
+require 'earth/utils'
+# TODO move this into a gem or into its own namespace in this gem
+require ::File.join(Earth.vendor_dir, 'clean_find_in_batches', 'init')

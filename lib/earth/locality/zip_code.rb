@@ -1,3 +1,5 @@
+require ::File.join(Earth.vendor_dir, 'geokit-rails', 'lib', 'geokit-rails')
+
 class ZipCode < ActiveRecord::Base
   set_primary_key :name
   
