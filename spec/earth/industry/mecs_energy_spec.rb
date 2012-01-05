@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'earth/industry'
 require 'earth/industry/mecs_energy'
 require 'earth/industry/mecs_energy/data_miner'
 
@@ -10,18 +11,17 @@ describe MecsEnergy do
 
   describe 'data mining' do
     it 'retrieves Total US statistics' do
-      puts MecsEnergy.all.inspect
       apparel = MecsEnergy.find_by_naics_code '315'
       apparel.census_region.should be_nil
-      apparal.total.should == 14
-      apparal.net_electricity.should == 7
-      apparal.residual_fuel_oil.should be_nil
-      apparal.distillate_fuel_oil.should be_nil
-      apparal.natural_gas.should == 7
-      apparal.lpg_and_ngl.should be_nil
-      apparal.coal.should == 0
-      apparal.coke_and_breeze.should == 0
-      apparal.other.should be_nil
+      apparel.total.should == 14
+      apparel.net_electricity.should == 7
+      apparel.residual_fuel_oil.should be_nil
+      apparel.distillate_fuel_oil.should == 0
+      apparel.natural_gas.should == 7
+      apparel.lpg_and_ngl.should == 0
+      apparel.coal.should == 0
+      apparel.coke_and_breeze.should == 0
+      apparel.other.should == 0
     end
   end
 
