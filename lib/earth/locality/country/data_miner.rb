@@ -86,7 +86,7 @@ Country.class_eval do
     
     process "Derive average US electricity emission factor from eGRID" do
       us = united_states
-      subregion = EgridSubregion.find_by_abbreviation 'US'
+      subregion = EgridSubregion.fallback
       us.electricity_emission_factor =
         (
           subregion.electricity_co2_emission_factor +
