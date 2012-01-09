@@ -8,6 +8,7 @@ CommercialBuildingEnergyConsumptionSurveyResponse.class_eval do
       key 'id', :field_name => 'PUBID8'
       store 'census_region_number',   :field_name => 'REGION8'
       store 'census_division_number', :field_name => 'CENDIV8'
+      store 'climate_zone_number',    :synthesize => lambda { |row| row['CLIMATE8'].to_i == 7 ? nil : row['CLIMATE8'].to_i }
       store 'area',                   :field_name => 'SQFT8',   :from_units => :square_feet, :to_units => :square_metres
       store 'principal_activity',     :field_name => 'PBA8',    :dictionary => { :input => 'principal_activity_code', :output => 'principal_activity', :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdHRGVHczYXRoU2dFLV90aDdET0dQLUE&single=true&gid=2&output=csv' }
       store 'floors',                 :field_name => 'NFLOOR8', :dictionary => { :input => 'floors_code', :output => 'floors', :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdHRGVHczYXRoU2dFLV90aDdET0dQLUE&single=true&gid=0&output=csv' }
