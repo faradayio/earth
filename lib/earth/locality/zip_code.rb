@@ -11,6 +11,10 @@ class ZipCode < ActiveRecord::Base
     Country.united_states
   end
   
+  def latitude_longitude
+    [latitude, longitude]
+  end
+  
   acts_as_mappable :default_units => :kilometres,
                    :lat_column_name => :latitude,
                    :lng_column_name => :longitude
