@@ -337,16 +337,29 @@ module Geokit
 
           if distance_condition
             [:within, :beyond, :range].each { |option| options.delete(option) }
-            options[:conditions] = merge_conditions(options[:conditions], distance_condition)
+            options[:conditions] = my_merge_conditions(options[:conditions], distance_condition)
           end
         end
+        
+        # http://stackoverflow.com/questions/6409398/undefined-method-merge-conditions-for-geokit-rails
+        def my_merge_conditions(*conditions)
+          segments = []
+          conditions.each do |condition|
+            unless condition.blank?
+              sql = sanitize_sql(condition)
+              segments << sql unless sql.blank?
+            end
+          end
+          "(#{segments.join(') AND (')})" unless segments.empty?
+        end
+        # enough hacking
 
         # Alters the conditions to include rectangular bounds conditions.
         def apply_bounds_conditions(options,bounds)
           sw,ne = bounds.sw, bounds.ne
           lng_sql = bounds.crosses_meridian? ? "(#{qualified_lng_column_name}<#{ne.lng} OR #{qualified_lng_column_name}>#{sw.lng})" : "#{qualified_lng_column_name}>#{sw.lng} AND #{qualified_lng_column_name}<#{ne.lng}"
           bounds_sql = "#{qualified_lat_column_name}>#{sw.lat} AND #{qualified_lat_column_name}<#{ne.lat} AND #{lng_sql}"
-          options[:conditions] = merge_conditions(options[:conditions], bounds_sql)
+          options[:conditions] = my_merge_conditions(options[:conditions], bounds_sql)
         end
 
         # Extracts the origin instance out of the options if it exists and returns

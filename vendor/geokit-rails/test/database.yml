@@ -8,6 +8,11 @@ mysql:
   database: geokit_plugin_test
   <<: *base
 
+mysql2:
+  adapter: mysql2
+  database: geokit_plugin_test
+  <<: *base
+
 postgresql:
   adapter: postgresql
   database: geokit_plugin_test

@@ -3,6 +3,8 @@ author:
   homepage_1: http://blog.billeisenhauer.com
   name_2: Andre Lewis
   homepage_2: http://www.earthcode.com
+  name_3: Jonathan Owens
+  name_4: Jérémy Lecour
 summary: Geo distance calculations, distance calculation query support, geocoding for physical and ip addresses.
 version: 1.1.4
 rails_version: 1.0+

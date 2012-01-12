@@ -5,8 +5,7 @@
 # Note that we don't explicitly require the geokit gem. 
 # You should specify gem dependencies in your config/environment.rb: config.gem "geokit"
 #
-begin
-  require 'geokit'
+if defined? Geokit
   require 'geokit-rails/defaults'
   require 'geokit-rails/adapters/abstract'
   require 'geokit-rails/acts_as_mappable'
@@ -14,7 +13,10 @@ begin
   
   # Automatically mix in distance finder support into ActiveRecord classes.
   ActiveRecord::Base.send :include, GeoKit::ActsAsMappable
-rescue LoadError
+  
+  # # Automatically mix in ip geocoding helpers into ActionController classes.
+  # ActionController::Base.send :include, GeoKit::IpGeocodeLookup
+else
   message=%q(WARNING: geokit-rails requires the Geokit gem. You either don't have the gem installed,
 or you haven't told Rails to require it. If you're using a recent version of Rails: 
   config.gem "geokit" # in config/environment.rb

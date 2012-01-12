@@ -1,11 +1,19 @@
+## WHAT IS THIS?
+
+It's geokit-rails for Rails 2.x with added mysql2 support. That's it.
+
+Mysql2 support has been backported from Jérémy Lecour's work on [geokit-rails3](https://github.com/jlecour/geokit-rails3).
+
+I confess to not having run the bundled tests against this, but it seems to work exactly how you'd expect, and is working great in a large production application. If you're a Geokit developer and want to let me know whether the tests pass I'd appreciate it.
+
 ## INSTALLATION
   
-Geokit consists of a Gem ([geokit-gem](http://github.com/andre/geokit-gem/tree/master)) and a Rails plugin ([geokit-rails](http://github.com/andre/geokit-rails/tree/master)).
+Geokit consists of a Gem ([geokit-gem](http://github.com/andre/geokit-gem/tree/master)) and a Rails plugin ([geokit-rails](http://github.com/niralisse/geokit-rails-mysql2/tree/master)).
 
 #### 1. Install the Rails plugin:
 
     cd [YOUR_RAILS_APP_ROOT]
-    script/plugin install git://github.com/andre/geokit-rails.git
+    script/plugin install git://github.com/niralisse/geokit-rails-mysql2.git
     
 #### 2. Add this line to your environment.rb 
 (inside the Rails::Initializer.run do |config| block)
@@ -69,7 +77,7 @@ The optional parameters are :units, :formula, and distance_field_name.
 Values for :units can be :miles, :kms (kilometers), or :nms (nautical miles),
 with :miles as the default.  Values for :formula can be :sphere or :flat with
 :sphere as the default.  :sphere gives you Haversine calculations, while :flat 
-gives the Pythagoreum Theory.  These defaults persist through out the plug-in.
+gives the Pythagorean Theory.  These defaults persist through out the plug-in.
 
 The plug-in creates a calculated `distance` field on AR instances that have
 been retrieved throw a Geokit location query. By default, these fields are 
