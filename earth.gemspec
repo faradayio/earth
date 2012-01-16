@@ -34,7 +34,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'remote_table', '>=1.3.0'
   s.add_runtime_dependency 'falls_back_on'
   s.add_runtime_dependency 'fixed_width-multibyte'
-  s.add_runtime_dependency 'geokit-rails'
+  s.add_runtime_dependency 'geokit'
   s.add_runtime_dependency 'fuzzy_match', '>=1.1.0'
   s.add_runtime_dependency 'weighted_average', '>=1.0.2'
   s.add_runtime_dependency 'mini_record-compat' # need https://github.com/DAddYE/mini_record/pull/7
