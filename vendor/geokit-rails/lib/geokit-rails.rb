@@ -5,6 +5,7 @@
 # Note that we don't explicitly require the geokit gem. 
 # You should specify gem dependencies in your config/environment.rb: config.gem "geokit"
 #
+require 'geokit'
 if defined? Geokit
   require 'geokit-rails/defaults'
   require 'geokit-rails/adapters/abstract'
