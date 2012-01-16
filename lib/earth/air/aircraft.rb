@@ -2,12 +2,12 @@ class Aircraft < ActiveRecord::Base
   set_primary_key :icao_code
   
   # Fuzzy association with FlightSegment
-  cache_loose_tight_dictionary_matches_with :flight_segments, :primary_key => :description, :foreign_key => :aircraft_description
+  cache_fuzzy_match_with :flight_segments, :primary_key => :description, :foreign_key => :aircraft_description
   
   class << self
-    # set up a loose_tight_dictionary for matching Aircraft description with FlightSegment aircraft_description
-    def loose_tight_dictionary
-      @loose_tight_dictionary ||= LooseTightDictionary.new(Aircraft.all,
+    # set up a fuzzy_match for matching Aircraft description with FlightSegment aircraft_description
+    def fuzzy_match
+      @fuzzy_match ||= FuzzyMatch.new(Aircraft.all,
           :haystack_reader => lambda { |record| record.description },
           :blockings  => RemoteTable.new(:url => 'https://spreadsheets.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdDlRR2NmdzE2ZjZwTy1ucjh4cWFYOFE&gid=0&output=csv').map { |record| record['blocking'] },
           :identities => RemoteTable.new(:url => 'https://spreadsheets.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdDlRR2NmdzE2ZjZwTy1ucjh4cWFYOFE&gid=1&output=csv').map { |record| record['identity'] },
@@ -61,7 +61,7 @@ class Aircraft < ActiveRecord::Base
     # Cache fuzzy matches between FlightSegment aircraft_description and Aircraft description
     def manually_cache_flight_segments!
       FlightSegment.run_data_miner!
-      LooseTightDictionary::CachedResult.setup
+      FuzzyMatch::CachedResult.setup
       connection.select_values("SELECT DISTINCT(aircraft_description) FROM flight_segments WHERE aircraft_description IS NOT NULL").each do |original_description|
         # If the flight segment's aircraft_description contains '/' then it describes multiple aircraft.
         # We need to synthesize descriptions for those aircraft, find all Aircraft that fuzzily match the
@@ -86,20 +86,20 @@ class Aircraft < ActiveRecord::Base
           suffixes.map{ |suffix| root + suffix }.each do |synthesized_description|
             # Look up the Aircraft that match each synthesized description and associate
             # them with the original flight segment aircraft_description
-            Aircraft.loose_tight_dictionary.find_all(synthesized_description).each do |aircraft|
+            Aircraft.fuzzy_match.find_all(synthesized_description).each do |aircraft|
               attrs = {
                 :a_class => "Aircraft",
                 :a => aircraft.description,
                 :b_class => "FlightSegment",
                 :b => original_description
               }
-              unless ::LooseTightDictionary::CachedResult.exists? attrs
-                ::LooseTightDictionary::CachedResult.create! attrs
+              unless ::FuzzyMatch::CachedResult.exists? attrs
+                ::FuzzyMatch::CachedResult.create! attrs
               end
             end
           end
         # If the flight segment's aircraft_description doesn't contain '/' we can use
-        # a method provided by loose_tight_dictionary to associate it with Aircraft
+        # a method provided by fuzzy_match to associate it with Aircraft
         else
           FlightSegment.find_by_aircraft_description(original_description).cache_aircraft!
         end

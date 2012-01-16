@@ -35,7 +35,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'falls_back_on'
   s.add_runtime_dependency 'fixed_width-multibyte'
   s.add_runtime_dependency 'geokit-rails'
-  s.add_runtime_dependency 'loose_tight_dictionary', '>=0.2.3'
+  s.add_runtime_dependency 'fuzzy_match'
   s.add_runtime_dependency 'weighted_average', '>=1.0.2'
   s.add_runtime_dependency 'mini_record-compat' # need https://github.com/DAddYE/mini_record/pull/7
   s.add_runtime_dependency 'activesupport'

@@ -14,7 +14,7 @@ class FlightSegment < ActiveRecord::Base
   # has_many :destination_city_airports, :foreign_key => 'city', :primary_key => 'destination_airport_city', :class_name => 'Airport'
   
   # Enable flight_segment.aircraft
-  cache_loose_tight_dictionary_matches_with :aircraft, :primary_key => :aircraft_description, :foreign_key => :description
+  cache_fuzzy_match_with :aircraft, :primary_key => :aircraft_description, :foreign_key => :description
   
   class << self
     def update_averages!

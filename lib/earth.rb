@@ -10,8 +10,8 @@ require 'fixed_width'
 require 'errata'
 require 'mini_record'
 require 'table_warnings'
-require 'loose_tight_dictionary'
-require 'loose_tight_dictionary/cached_result'
+require 'fuzzy_match'
+require 'fuzzy_match/cached_result'
 
 # The earth module is an interface for loading data models from various domains.
 module Earth
