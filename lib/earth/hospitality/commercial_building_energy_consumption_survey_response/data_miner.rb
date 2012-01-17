@@ -1,6 +1,10 @@
 require 'earth/locality/data_miner'
 CommercialBuildingEnergyConsumptionSurveyResponse.class_eval do
   data_miner do
+    process 'Define some unit conversions' do
+      Conversions.register :hundred_cubic_feet, :cubic_metres, 2.83168466
+    end
+    
     import 'building characteristics from the 2003 EIA Commercial Building Energy Consumption Survey',
            :url => 'http://www.eia.gov/emeu/cbecs/cbecs2003/public_use_2003/data/FILE01.csv',
            :skip => 1,
