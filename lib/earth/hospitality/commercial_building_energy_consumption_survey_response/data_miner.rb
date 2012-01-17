@@ -12,7 +12,7 @@ CommercialBuildingEnergyConsumptionSurveyResponse.class_eval do
       key 'id', :field_name => 'PUBID8'
       store 'census_region_number',   :field_name => 'REGION8'
       store 'census_division_number', :field_name => 'CENDIV8'
-      store 'climate_zone_number',    :synthesize => lambda { |row| row['CLIMATE8'].to_i == 7 ? nil : row['CLIMATE8'].to_i }
+      store 'climate_zone_number',    :synthesize => Proc.new { |row| row['CLIMATE8'].to_i == 7 ? nil : row['CLIMATE8'].to_i }
       store 'area',                   :field_name => 'SQFT8',   :from_units => :square_feet, :to_units => :square_metres
       store 'principal_activity',     :field_name => 'PBA8',    :dictionary => { :input => 'principal_activity_code', :output => 'principal_activity', :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdHRGVHczYXRoU2dFLV90aDdET0dQLUE&single=true&gid=2&output=csv' }
       store 'floors',                 :field_name => 'NFLOOR8', :dictionary => { :input => 'floors_code', :output => 'floors', :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdHRGVHczYXRoU2dFLV90aDdET0dQLUE&single=true&gid=0&output=csv' }
@@ -33,9 +33,9 @@ CommercialBuildingEnergyConsumptionSurveyResponse.class_eval do
       store 'first_activity',        :field_name => 'ACT18',    :dictionary => { :input => 'activity_code', :output => 'activity', :url => 'https://docs.google.com/spreadsheet/pub?&key=0AoQJbWqPrREqdHRGVHczYXRoU2dFLV90aDdET0dQLUE&single=true&gid=4&output=csv' }
       store 'second_activity',       :field_name => 'ACT28',    :dictionary => { :input => 'activity_code', :output => 'activity', :url => 'https://docs.google.com/spreadsheet/pub?&key=0AoQJbWqPrREqdHRGVHczYXRoU2dFLV90aDdET0dQLUE&single=true&gid=4&output=csv' }
       store 'third_activity',        :field_name => 'ACT38',    :dictionary => { :input => 'activity_code', :output => 'activity', :url => 'https://docs.google.com/spreadsheet/pub?&key=0AoQJbWqPrREqdHRGVHczYXRoU2dFLV90aDdET0dQLUE&single=true&gid=4&output=csv' }
-      store 'first_activity_share',  :synthesize => lambda { |row| row['ACT1PCT8'].blank? ? nil : row['ACT1PCT8'].to_f / 100.0 }
-      store 'second_activity_share', :synthesize => lambda { |row| row['ACT2PCT8'].blank? ? nil : row['ACT2PCT8'].to_f / 100.0 }
-      store 'third_activity_share',  :synthesize => lambda { |row| row['ACT3PCT8'].blank? ? nil : row['ACT3PCT8'].to_f / 100.0 }
+      store 'first_activity_share',  :synthesize => Proc.new { |row| row['ACT1PCT8'].blank? ? nil : row['ACT1PCT8'].to_f / 100.0 }
+      store 'second_activity_share', :synthesize => Proc.new { |row| row['ACT2PCT8'].blank? ? nil : row['ACT2PCT8'].to_f / 100.0 }
+      store 'third_activity_share',  :synthesize => Proc.new { |row| row['ACT3PCT8'].blank? ? nil : row['ACT3PCT8'].to_f / 100.0 }
       store 'lodging_rooms',         :field_name => 'LODGRM8'
     end
     
@@ -46,7 +46,7 @@ CommercialBuildingEnergyConsumptionSurveyResponse.class_eval do
       key 'id', :field_name => 'PUBID8'
       store 'heating_degree_days', :field_name => 'HDD658'
       store 'cooling_degree_days', :field_name => 'CDD658'
-      store 'electricity_use',     :synthesize => lambda { |row| row['ELCNS8'].to_i }, :units => :kilowatt_hours
+      store 'electricity_use',     :synthesize => Proc.new { |row| row['ELCNS8'].to_i }, :units => :kilowatt_hours
     end
     
     import 'fuel use characteristics from the 2003 EIA Commercial Building Energy Consumption Survey',
@@ -54,7 +54,7 @@ CommercialBuildingEnergyConsumptionSurveyResponse.class_eval do
            :skip => 1,
            :headers => ["PUBID8", "REGION8", "CENDIV8", "SQFT8", "SQFTC8", "YRCONC8", "PBA8", "ELUSED8", "NGUSED8", "FKUSED8", "PRUSED8", "STUSED8", "HWUSED8", "ADJWT8", "STRATUM8", "PAIR8", "NGCNS8", "NGBTU8", "NGEXP8", "ZNGCNS8", "ZNGEXP8", "FKCNS8", "FKBTU8", "FKEXP8", "ZFKCNS8", "ZFKEXP8", "DHUSED8", "DHHT18", "DHHT28", "DHCOOL8", "DHWATR8", "DHCOOK8", "DHMANU8", "DHOTH8", "DHCNS8", "DHBTU8", "DHEXP8", "ZDHCNS8", "ZDHEXP8"] do
       key 'id', :field_name => 'PUBID8'
-      store 'natural_gas_use',   :field_name => 'NGCNS8', :from_units => :hundred_cubic_feet, :to_units => :cubic_metres
+      store 'natural_gas_use',   :field_name => 'NGCNS8', :from_units => :hundred_cubic_feet, :to_units => :cubic_metres #!!!!!!!!!!!!
       store 'fuel_oil_use',      :field_name => 'FKCNS8', :from_units => :gallons,            :to_units => :litres
       store 'district_heat_use', :field_name => 'DHBTU8', :from_units => :kbtus,              :to_units => :megajoules
     end
