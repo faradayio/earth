@@ -29,12 +29,18 @@ class CommercialBuildingEnergyConsumptionSurveyResponse < ActiveRecord::Base
   col :weekly_hours,           :type => :integer
   col :electricity_use,        :type => :float
   col :electricity_use_units
+  col :electricity_energy,     :type => :float
+  col :electricity_energy_units
   col :natural_gas_use,        :type => :float
   col :natural_gas_use_units
+  col :natural_gas_energy,     :type => :float
+  col :natural_gas_energy_units
   col :fuel_oil_use,           :type => :float
   col :fuel_oil_use_units
-  col :district_heat_use,      :type => :float
-  col :district_heat_use_units
+  col :fuel_oil_energy,        :type => :float
+  col :fuel_oil_energy_units
+  col :steam_use,              :type => :float
+  col :steam_use_units
   col :stratum,                :type => :integer
   col :pair,                   :type => :integer
   col :weighting,              :type => :float

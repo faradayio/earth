@@ -18,7 +18,7 @@ CountryLodgingClass.class_eval do
         cbecs_responses = CommercialBuildingEnergyConsumptionSurveyResponse.where(:detailed_activity => lodging_class.cbecs_detailed_activity)
         intensities = {}
         
-        [:natural_gas, :fuel_oil, :electricity, :district_heat].each do |fuel|
+        [:natural_gas, :fuel_oil, :electricity, :steam].each do |fuel|
           intensity = cbecs_responses.inject(0) do |sum, response|
             next sum unless response.send("#{fuel}_use").present?
             occupied_room_nights = 365.0 / 7.0 / 12.0 * response.months_used * response.weekly_hours / 24.0 * response.lodging_rooms * 0.59
@@ -27,15 +27,15 @@ CountryLodgingClass.class_eval do
           intensities[fuel] = intensity / cbecs_responses.sum(:weighting)
         end
         
-        lodging_class.natural_gas_intensity         = intensities[:natural_gas]
-        lodging_class.natural_gas_intensity_units   = 'cubic_metres_per_room_night'
-        lodging_class.fuel_oil_intensity            = intensities[:fuel_oil]
-        lodging_class.fuel_oil_intensity_units      = 'litres_per_room_night'
-        lodging_class.electricity_intensity         = intensities[:electricity]
-        lodging_class.electricity_intensity_units   = 'kilowatt_hours_per_room_night'
-        lodging_class.district_heat_intensity       = intensities[:district_heat]
-        lodging_class.district_heat_intensity_units = 'megajoules_per_room_night'
-        lodging_class.weighting                     = (lodging_class.lodging_class_name == 'Motel' or lodging_class.lodging_class_name == 'Inn') ? cbecs_responses.sum(:weighting) / 2.0 : cbecs_responses.sum(:weighting) # hack to ensure that we don't double-weight motels and inns when we calculate US national average lodging fuel intensities
+        lodging_class.natural_gas_intensity       = intensities[:natural_gas]
+        lodging_class.natural_gas_intensity_units = 'cubic_metres_per_room_night'
+        lodging_class.fuel_oil_intensity          = intensities[:fuel_oil]
+        lodging_class.fuel_oil_intensity_units    = 'litres_per_room_night'
+        lodging_class.electricity_intensity       = intensities[:electricity]
+        lodging_class.electricity_intensity_units = 'kilowatt_hours_per_room_night'
+        lodging_class.steam_intensity             = intensities[:steam]
+        lodging_class.steam_intensity_units       = 'megajoules_per_room_night'
+        lodging_class.weighting                   = (lodging_class.lodging_class_name == 'Motel' or lodging_class.lodging_class_name == 'Inn') ? cbecs_responses.sum(:weighting) / 2.0 : cbecs_responses.sum(:weighting) # hack to ensure that we don't double-weight motels and inns when we calculate US national average lodging fuel intensities
         lodging_class.save!
       end
     end

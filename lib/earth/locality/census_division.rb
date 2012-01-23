@@ -32,6 +32,6 @@ class CensusDivision < ActiveRecord::Base
   col :lodging_building_fuel_oil_intensity_units
   col :lodging_building_electricity_intensity, :type => :float
   col :lodging_building_electricity_intensity_units
-  col :lodging_building_district_heat_intensity, :type => :float
-  col :lodging_building_district_heat_intensity_units
+  col :lodging_building_steam_intensity, :type => :float
+  col :lodging_building_steam_intensity_units
 end

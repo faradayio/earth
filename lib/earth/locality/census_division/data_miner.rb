@@ -36,10 +36,10 @@ CensusDivision.class_eval do
            :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdGkxNExTajZPSjRWU3REVks5SFJ0cmc&output=csv',
            :select => lambda { |row| row['census_division'].to_i.between?(1, 9) } do
       key   'number', :field_name => 'census_division'
-      store 'lodging_building_electricity_intensity',   :field_name => 'electricity_intensity',   :units_field_name => 'electricity_intensity_units'
-      store 'lodging_building_natural_gas_intensity',   :field_name => 'natural_gas_intensity',   :from_units => :hundred_cubic_feet_per_room_night, :to_units => :cubic_metres_per_room_night
-      store 'lodging_building_fuel_oil_intensity',      :field_name => 'fuel_oil_intensity',      :from_units => :gallons_per_room_night,            :to_units => :litres_per_room_night
-      store 'lodging_building_district_heat_intensity', :field_name => 'district_heat_intensity', :from_units => :thousand_btu_per_room_night,       :to_units => :megajoules_per_room_night
+      store 'lodging_building_electricity_intensity', :field_name => 'electricity_intensity', :units_field_name => 'electricity_intensity_units'
+      store 'lodging_building_natural_gas_intensity', :field_name => 'natural_gas_intensity', :from_units => :hundred_cubic_feet_per_room_night, :to_units => :cubic_metres_per_room_night
+      store 'lodging_building_fuel_oil_intensity',    :field_name => 'fuel_oil_intensity',    :from_units => :gallons_per_room_night,            :to_units => :litres_per_room_night
+      store 'lodging_building_steam_intensity',       :field_name => 'steam_intensity',       :from_units => :kbtus_per_room_night,              :to_units => :megajoules_per_room_night
     end
   end
 end

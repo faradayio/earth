@@ -1,10 +1,6 @@
 require 'earth/locality/data_miner'
 CommercialBuildingEnergyConsumptionSurveyResponse.class_eval do
   data_miner do
-    process 'Define some unit conversions' do
-      Conversions.register :hundred_cubic_feet, :cubic_metres, 2.83168466
-    end
-    
     import 'building characteristics from the 2003 EIA Commercial Building Energy Consumption Survey',
            :url => 'http://www.eia.gov/emeu/cbecs/cbecs2003/public_use_2003/data/FILE01.csv',
            :skip => 1,
@@ -47,6 +43,7 @@ CommercialBuildingEnergyConsumptionSurveyResponse.class_eval do
       store 'heating_degree_days', :field_name => 'HDD658'
       store 'cooling_degree_days', :field_name => 'CDD658'
       store 'electricity_use',     :synthesize => Proc.new { |row| row['ELCNS8'].to_i }, :units => :kilowatt_hours
+      store 'electricity_energy',  :field_name => 'ELBTU8', :from_units => :kbtus, :to_units => :megajoules
     end
     
     import 'fuel use characteristics from the 2003 EIA Commercial Building Energy Consumption Survey',
@@ -54,9 +51,11 @@ CommercialBuildingEnergyConsumptionSurveyResponse.class_eval do
            :skip => 1,
            :headers => ["PUBID8", "REGION8", "CENDIV8", "SQFT8", "SQFTC8", "YRCONC8", "PBA8", "ELUSED8", "NGUSED8", "FKUSED8", "PRUSED8", "STUSED8", "HWUSED8", "ADJWT8", "STRATUM8", "PAIR8", "NGCNS8", "NGBTU8", "NGEXP8", "ZNGCNS8", "ZNGEXP8", "FKCNS8", "FKBTU8", "FKEXP8", "ZFKCNS8", "ZFKEXP8", "DHUSED8", "DHHT18", "DHHT28", "DHCOOL8", "DHWATR8", "DHCOOK8", "DHMANU8", "DHOTH8", "DHCNS8", "DHBTU8", "DHEXP8", "ZDHCNS8", "ZDHEXP8"] do
       key 'id', :field_name => 'PUBID8'
-      store 'natural_gas_use',   :field_name => 'NGCNS8', :from_units => :hundred_cubic_feet, :to_units => :cubic_metres #!!!!!!!!!!!!
-      store 'fuel_oil_use',      :field_name => 'FKCNS8', :from_units => :gallons,            :to_units => :litres
-      store 'district_heat_use', :field_name => 'DHBTU8', :from_units => :kbtus,              :to_units => :megajoules
+      store 'natural_gas_use',      :field_name => 'NGCNS8', :from_units => :hundred_cubic_feet, :to_units => :cubic_metres
+      store 'natural_gas_energy',   :field_name => 'NGBTU8', :from_units => :kbtus,              :to_units => :megajoules
+      store 'fuel_oil_use',         :field_name => 'FKCNS8', :from_units => :gallons,            :to_units => :litres
+      store 'fuel_oil_energy',      :field_name => 'FKBTU8', :from_units => :kbtus,              :to_units => :megajoules
+      store 'steam_use',            :field_name => 'DHBTU8', :from_units => :kbtus,              :to_units => :megajoules
     end
   end
 end
