@@ -17,18 +17,18 @@ class ResidentialEnergyConsumptionSurveyResponse < ActiveRecord::Base
   SUBCOHORT_THRESHOLD = 5 # per Matt
   
   INPUT_CHARACTERISTICS = [
-    :census_region,
-    :heating_degree_days,
-    :cooling_degree_days,
-    :residence_class,
-    :rooms,
-    :bedrooms,
-    :bathrooms,
-    :floorspace,
-    :residents,
-    :urbanity,
-    :construction_year,
     :ownership,
+    :construction_year,
+    :urbanity,
+    :residents,
+    :floorspace,
+    :bathrooms,
+    :bedrooms,
+    :rooms,
+    :residence_class,
+    :cooling_degree_days,
+    :heating_degree_days,
+    :census_region
   ]
   
   # sabshere 9/20/10 sorted with sort -d -t "'" -k 2 ~/Desktop/parts.txt
