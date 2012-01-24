@@ -10,4 +10,3 @@ ClimateDivision.class_eval do
     #associate :state, :key => :state_postal_abbreviation, :foreign_key => :postal_abbreviation
   end
 end
-

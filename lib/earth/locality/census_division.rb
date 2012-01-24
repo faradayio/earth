@@ -26,12 +26,4 @@ class CensusDivision < ActiveRecord::Base
   col :meeting_building_electricity_intensity_units
   col :meeting_building_district_heat_intensity, :type => :float
   col :meeting_building_district_heat_intensity_units
-  col :lodging_building_natural_gas_intensity, :type => :float
-  col :lodging_building_natural_gas_intensity_units
-  col :lodging_building_fuel_oil_intensity, :type => :float
-  col :lodging_building_fuel_oil_intensity_units
-  col :lodging_building_electricity_intensity, :type => :float
-  col :lodging_building_electricity_intensity_units
-  col :lodging_building_district_heat_intensity, :type => :float
-  col :lodging_building_district_heat_intensity_units
 end
