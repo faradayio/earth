@@ -6,6 +6,10 @@ class CommercialBuildingEnergyConsumptionSurveyResponse < ActiveRecord::Base
   extend CohortScope
   self.minimum_cohort_size = 8 # CBECS doesn't report averages based on fewer than 20 samples
   
+  def self.lodging_records
+    where :detailed_activity => ['Hotel', 'Motel or inn']
+  end
+  
   col :id,                     :type => :integer
   col :census_region_number,   :type => :integer
   col :census_division_number, :type => :integer
