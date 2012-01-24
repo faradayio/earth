@@ -77,7 +77,7 @@ Country.class_eval do
           row['electricity_co2_emission_factor'].to_f +
           (row['electricity_ch4_emission_factor'].to_f * GreenhouseGas[:ch4].global_warming_potential) +
           (row['electricity_n2o_emission_factor'].to_f * GreenhouseGas[:n2o].global_warming_potential)
-        ) / (1 - row['loss_factor'].to_f) }, :units_field_name => 'kilograms_co2e_per_kilowatt_hour'
+        ) / (1 - row['loss_factor'].to_f) }, :units => 'kilograms_co2e_per_kilowatt_hour'
     end
     
     process "Ensure EgridSubregion is populated" do
