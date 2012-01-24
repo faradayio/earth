@@ -25,6 +25,7 @@ EgridSubregion.class_eval do
     end
     
     # DEPRECATED but don't remove until confirmed that all emitters use EgridSubregion.fallback rather than EgridSubregion.find_by_abbreviation 'US'
+    # (ElectricityUse and Meeting)
     process "Calculate national averages" do
       us_average = find_by_abbreviation 'US'
       subregions = where("abbreviation != 'US'")

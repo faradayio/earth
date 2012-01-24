@@ -15,6 +15,7 @@ EgridRegion.class_eval do
     end
     
     # DEPRECATED but don't remove until confirmed that all emitters use EgridRegion.fallback rather than EgridRegion.find_by_abbreviation 'US'
+    # (ElectricityUse and Meeting)
     process "Calculate national averages" do
       us_average = find_or_create_by_name 'US'
       us_average.loss_factor = (EgridCountry.us.generation + EgridCountry.us.imports - EgridCountry.us.consumption) / EgridCountry.us.generation
