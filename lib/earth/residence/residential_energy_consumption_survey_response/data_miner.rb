@@ -1,11 +1,6 @@
 require 'earth/locality/data_miner'
 ResidentialEnergyConsumptionSurveyResponse.class_eval do
   data_miner do
-    process "Define some unit conversions" do
-      Conversions.register :kbtus, :joules, 1_000.0 * 1_055.05585
-      Conversions.register :square_feet, :square_metres, 0.09290304
-    end
-    
     # conversions are NOT performed here, since we first have to zero out legitimate skips
     # otherwise you will get values like "999 pounds = 453.138778 kilograms" (where 999 is really a legit skip)
     import 'the 2005 EIA Residential Energy Consumption Survey microdata',
