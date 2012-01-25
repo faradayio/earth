@@ -31,6 +31,9 @@ Conversions.register :dollars, :cents, 100.0
 # GHG
 Conversions.register :carbon, :co2, (44.0 / 12.0)
 
+# Temperature
+Conversions.register :degrees_celsius, :degrees_fahrenheit, (9.0 / 5.0) # NOTE: only for conversion between degrees NOT temperatures: 1 degree C = 9/5 degrees F but a temperature of 1 degree C = temperature of 33.8 degrees F
+
 # Complex
 Conversions.register :kilometres_per_litre,                 :miles_per_gallon,                        (1.kilometres.to(:miles) / 1.litres.to(:gallons))
 Conversions.register :litres_per_kilometre,                 :gallons_per_mile,                        (1.litres.to(:gallons) / 1.kilometres.to(:miles))

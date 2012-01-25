@@ -40,8 +40,8 @@ CommercialBuildingEnergyConsumptionSurveyResponse.class_eval do
            :skip => 1,
            :headers => ["PUBID8", "REGION8", "CENDIV8", "SQFT8", "SQFTC8", "YRCONC8", "PBA8", "ELUSED8", "NGUSED8", "FKUSED8", "PRUSED8", "STUSED8", "HWUSED8", "ADJWT8", "STRATUM8", "PAIR8", "HDD658", "CDD658", "MFUSED8", "MFBTU8", "MFEXP8", "ELCNS8", "ELBTU8", "ELEXP8", "ZELCNS8", "ZELEXP8"] do
       key 'id', :field_name => 'PUBID8'
-      store 'heating_degree_days', :field_name => 'HDD658'
-      store 'cooling_degree_days', :field_name => 'CDD658'
+      store 'heating_degree_days', :field_name => 'HDD658', :from_units => :degrees_fahrenheit, :to_units => :degrees_celsius
+      store 'cooling_degree_days', :field_name => 'CDD658', :from_units => :degrees_fahrenheit, :to_units => :degrees_celsius
       store 'electricity_use',     :synthesize => Proc.new { |row| row['ELCNS8'].to_i }, :units => :kilowatt_hours
       store 'electricity_energy',  :field_name => 'ELBTU8', :from_units => :kbtus, :to_units => :megajoules
     end

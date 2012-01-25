@@ -14,8 +14,10 @@ class CommercialBuildingEnergyConsumptionSurveyResponse < ActiveRecord::Base
   col :census_region_number,   :type => :integer
   col :census_division_number, :type => :integer
   col :climate_zone_number,    :type => :integer
-  col :heating_degree_days,    :type => :integer
-  col :cooling_degree_days,    :type => :integer
+  col :heating_degree_days,    :type => :float
+  col :heating_degree_days_units
+  col :cooling_degree_days,    :type => :float
+  col :cooling_degree_days_units
   col :construction_year,      :type => :integer
   col :area,                   :type => :float
   col :area_units
