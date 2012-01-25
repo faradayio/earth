@@ -18,6 +18,32 @@ Country.class_eval do
       store 'name', :field_number => 5 # romanized version
     end
     
+    import "heating degree day data from WRI CAIT",
+           :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdDN4MkRTSWtWRjdfazhRdWllTkVSMkE&output=csv',
+           :select => Proc.new { |record| record['country'] != 'European Union (27)' },
+           :errata => { :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdDNSMUtCV0h4cUF4UnBKZlNkczlNbFE&output=csv' } do
+      key 'name', :field_name => 'country'
+      store 'heating_degree_days', :units => :degrees_celsius
+    end
+    
+    import "cooling degree day data from WRI CAIT",
+           :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdDN4MkRTSWtWRjdfazhRdWllTkVSMkE&output=csv',
+           :select => Proc.new { |record| record['country'] != 'European Union (27)' },
+           :errata => { :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdDNSMUtCV0h4cUF4UnBKZlNkczlNbFE&output=csv' } do
+      key 'name', :field_name => 'country'
+      store 'cooling_degree_days', :units => :degrees_celsius
+    end
+    
+    process "set Montenegro's heating and cooling degree days to the same as Serbia's" do
+      montenegro = Country.find 'ME'
+      serbia = Country.find 'RS'
+      montenegro.heating_degree_days = serbia.heating_degree_days
+      montenegro.heating_degree_days_units = serbia.heating_degree_days_units
+      montenegro.cooling_degree_days = serbia.cooling_degree_days
+      montenegro.cooling_degree_days_units = serbia.cooling_degree_days_units
+      montenegro.save!
+    end
+    
     # AUTOMOBILE
     import "automobile-related data for the US",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdDdZRm1tNjY0c2dYNG00bXJ3TXRqUVE&gid=0&output=csv' do

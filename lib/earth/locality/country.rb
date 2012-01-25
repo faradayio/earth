@@ -1,11 +1,28 @@
 require 'earth/automobile'
 require 'earth/hospitality'
 require 'earth/rail'
+
 class Country < ActiveRecord::Base
   set_primary_key :iso_3166_code
   
   has_many :rail_companies,  :foreign_key => 'country_iso_3166_code' # used to calculate rail data
   has_many :lodging_classes, :foreign_key => 'country_iso_3166_code', :class_name => 'CountryLodgingClass'
+  
+  def climate_zone_number
+    if cooling_degree_days < 2000.degrees_fahrenheit.to(:degrees_celsius)
+      if heating_degree_days > 7000.degrees_fahrenheit.to(:degrees_celsius)
+        1
+      elsif heating_degree_days > 5499.degrees_fahrenheit.to(:degrees_celsius)
+        2
+      elsif heating_degree_days > 3999.degrees_fahrenheit.to(:degrees_celsius)
+        3
+      else
+        4
+      end
+    else
+      5
+    end
+  end
   
   falls_back_on :name => 'fallback',
                 :automobile_urbanity => lambda { united_states.automobile_urbanity }, # for now assume US represents world
@@ -49,6 +66,10 @@ class Country < ActiveRecord::Base
   col :iso_3166_numeric_code, :type => :integer # numeric like 826; aka UN M49 code
   col :iso_3166_alpha_3_code                    # 3-letter like GBR
   col :name
+  col :heating_degree_days, :type => :float
+  col :heating_degree_days_units
+  col :cooling_degree_days, :type => :float
+  col :cooling_degree_days_units
   col :automobile_urbanity, :type => :float # float from 0 to 1
   col :automobile_fuel_efficiency, :type => :float
   col :automobile_fuel_efficiency_units
