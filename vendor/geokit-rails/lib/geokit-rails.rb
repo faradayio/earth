@@ -7,10 +7,10 @@
 #
 require 'geokit'
 if defined? Geokit
-  require 'geokit-rails/defaults'
-  require 'geokit-rails/adapters/abstract'
-  require 'geokit-rails/acts_as_mappable'
-  require 'geokit-rails/ip_geocode_lookup'
+  require File.expand_path('../geokit-rails/defaults', __FILE__)
+  require File.expand_path('../geokit-rails/adapters/abstract', __FILE__)
+  require File.expand_path('../geokit-rails/acts_as_mappable', __FILE__)
+  require File.expand_path('../geokit-rails/ip_geocode_lookup', __FILE__)
   
   # Automatically mix in distance finder support into ActiveRecord classes.
   ActiveRecord::Base.send :include, GeoKit::ActsAsMappable
