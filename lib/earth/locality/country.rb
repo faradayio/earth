@@ -9,18 +9,20 @@ class Country < ActiveRecord::Base
   has_many :lodging_classes, :foreign_key => 'country_iso_3166_code', :class_name => 'CountryLodgingClass'
   
   def climate_zone_number
-    if cooling_degree_days < 2000.degrees_fahrenheit.to(:degrees_celsius)
-      if heating_degree_days > 7000.degrees_fahrenheit.to(:degrees_celsius)
-        1
-      elsif heating_degree_days > 5499.degrees_fahrenheit.to(:degrees_celsius)
-        2
-      elsif heating_degree_days > 3999.degrees_fahrenheit.to(:degrees_celsius)
-        3
+    if heating_degree_days and cooling_degree_days
+      if cooling_degree_days < 2000.degrees_fahrenheit.to(:degrees_celsius)
+        if heating_degree_days > 7000.degrees_fahrenheit.to(:degrees_celsius)
+          1
+        elsif heating_degree_days > 5499.degrees_fahrenheit.to(:degrees_celsius)
+          2
+        elsif heating_degree_days > 3999.degrees_fahrenheit.to(:degrees_celsius)
+          3
+        else
+          4
+        end
       else
-        4
+        5
       end
-    else
-      5
     end
   end
   

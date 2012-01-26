@@ -16,6 +16,7 @@ describe Country do
       Country.find('HR').climate_zone_number.should == 3
       Country.find('CY').climate_zone_number.should == 4
       Country.find('UZ').climate_zone_number.should == 5
+      Country.where(:heating_degree_days => nil).first.climate_zone_number.should == nil
     end
   end
 end
