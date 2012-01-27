@@ -7,6 +7,7 @@
 #
 require 'geokit'
 if defined? Geokit
+  # rather than unvendor this, let's try to get rid of the acts_as_mappable dependency (?)
   require File.expand_path('../geokit-rails/defaults', __FILE__)
   require File.expand_path('../geokit-rails/adapters/abstract', __FILE__)
   require File.expand_path('../geokit-rails/acts_as_mappable', __FILE__)
