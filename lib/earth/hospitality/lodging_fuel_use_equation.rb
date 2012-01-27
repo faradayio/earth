@@ -4,9 +4,9 @@ class LodgingFuelUseEquation < ActiveRecord::Base
   def self.find_by_criteria(fuel, criteria)
     first :conditions => {
       :fuel => fuel,
-      :climate_zone_number => (criteria[:climate_zone_number].present? ? criteria[:climate_zone_number].value : nil),
-      :property_rooms => (criteria[:property_rooms].present? ? 1 : 0),
-      :construction_year => (criteria[:property_construction_year].present? ? 1 : 0)
+      :climate_zone_number => (criteria[:climate_zone_number].present? ? criteria[:climate_zone_number].value : nil), # FIXME TODO should be able to just do criteria[:climate_zone_number] but need to call a method on it b/c it's a Charisma object
+      :property_rooms => (criteria[:property_rooms].present?),
+      :construction_year => (criteria[:property_construction_year].present?)
     }
   end
   
