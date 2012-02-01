@@ -5,16 +5,16 @@ describe MecsRatio do
   before :all do
     MecsRatio.auto_upgrade!
   end
-
+  
   describe '.find_by_naics_code_and_census_region' do
     before do
-      MecsRatio.create! :naics_code => '312', :census_region => '1', :consumption_per_dollar_of_shipments => 11
-      MecsRatio.create! :naics_code => '3121', :census_region => '1', :consumption_per_dollar_of_shipments => 12
-      MecsRatio.create! :naics_code => '3122', :census_region => '1', :consumption_per_dollar_of_shipments => 13
-      MecsRatio.create! :naics_code => '312', :census_region => '2', :consumption_per_dollar_of_shipments => 17
-      MecsRatio.create! :naics_code => '3121', :census_region => '2', :consumption_per_dollar_of_shipments => 18
-      MecsRatio.create! :naics_code => '3122', :census_region => '2', :consumption_per_dollar_of_shipments => 19
-      MecsRatio.create! :naics_code => '312211', :census_region => '2', :consumption_per_dollar_of_shipments => 20
+      MecsRatio.create! :naics_code => '312', :census_region => '1', :energy_per_dollar_of_shipments => 11
+      MecsRatio.create! :naics_code => '3121', :census_region => '1', :energy_per_dollar_of_shipments => 12
+      MecsRatio.create! :naics_code => '3122', :census_region => '1', :energy_per_dollar_of_shipments => 13
+      MecsRatio.create! :naics_code => '312', :census_region => '2', :energy_per_dollar_of_shipments => 17
+      MecsRatio.create! :naics_code => '3121', :census_region => '2', :energy_per_dollar_of_shipments => 18
+      MecsRatio.create! :naics_code => '3122', :census_region => '2', :energy_per_dollar_of_shipments => 19
+      MecsRatio.create! :naics_code => '312211', :census_region => '2', :energy_per_dollar_of_shipments => 20
     end
     it 'finds an exact match' do
       MecsRatio.find_by_naics_code_and_census_region('312211', '2').
@@ -30,4 +30,3 @@ describe MecsRatio do
     end
   end
 end
-
