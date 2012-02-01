@@ -42,6 +42,10 @@ describe MecsEnergy do
       MecsEnergy.find_by_naics_code_and_census_region_number('3117', 2).
         name.should == '311-2'
     end
+    it 'finds a parent category rather than a sibling category' do
+      MecsEnergy.find_by_naics_code_and_census_region_number('311225', 2).
+        name.should == '3112-2'
+    end
     it 'returns nil if no match found' do
       MecsEnergy.find_by_naics_code_and_census_region_number('543211', 2).
         should be_nil

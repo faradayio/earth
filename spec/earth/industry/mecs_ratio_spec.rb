@@ -28,6 +28,11 @@ describe MecsRatio do
       ratio.naics_code.should == '311'
       ratio.census_region_number.should == 2
     end
+    it 'finds a parent category rather than a sibling category' do
+      ratio = MecsRatio.find_by_naics_code_and_census_region_number('311225', 2)
+      ratio.naics_code.should == '3112'
+      ratio.census_region_number.should == 2
+    end
     it 'returns nil if no match found' do
       MecsRatio.find_by_naics_code_and_census_region_number('543211', 2).should be_nil
     end

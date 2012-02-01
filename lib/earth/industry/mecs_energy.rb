@@ -28,15 +28,15 @@ class MecsEnergy < ActiveRecord::Base
   FUELS = [:electricity, :residual_fuel_oil, :distillate_fuel_oil,
            :natural_gas, :lpg_and_ngl, :coal, :coke_and_breeze, :other_fuel]
   
-  # Find the first record whose census_region matches census_region and whose naics_code starts with code.
-  # If no record found chop off the last character of code and try again, and so on until code is blank.
-  def self.find_by_naics_code_and_census_region(code, census_region)
+  # Find the first record whose census_region_number matches number and whose naics_code matches code.
+  # If no record found chop off the last character of code and try again, and so on.
+  def self.find_by_naics_code_and_census_region_number(code, number)
     if code.blank?
       record = nil
     else
       code = Industry.format_naics_code code
-      record = where('census_region = ? AND naics_code LIKE ?', census_region, "#{code}%").first
-      record ||= find_by_naics_code_and_census_region(code[0..-2], census_region)
+      record = where('census_region_number = ? AND naics_code = ?', number, code).first
+      record ||= find_by_naics_code_and_census_region_number(code[0..-2], number)
     end
     record
   end
