@@ -9,7 +9,8 @@ class MecsRatio < ActiveRecord::Base
   col :name
   col :census_region
   col :naics_code
-  col :consumption_per_dollar_of_shipments, :type => :float
+  col :energy_per_dollar_of_shipments, :type => :float
+  col :energy_per_dollar_of_shipments_units
   
   # Find the first MecsRatio whose census_region matches census_region and whose naics_code starts with code.
   # If none found, chop off the last character of code and try again, continuing until code is blank.
