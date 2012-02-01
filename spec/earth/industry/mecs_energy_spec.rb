@@ -8,11 +8,11 @@ describe MecsEnergy do
     MecsEnergy.auto_upgrade!
     MecsEnergy.run_data_miner!
   end
-
+  
   describe 'data mining' do
     it 'retrieves Total US statistics' do
       apparel = MecsEnergy.find_by_naics_code '315'
-      apparel.census_region.should be_nil
+      apparel.census_region_number.should be_nil
       # apparel.energy.should == 14_770_800_000
       # apparel.energy_units.should == 'megajoules'
       # apparel.electricity.should == 7_385_390_000
@@ -32,22 +32,22 @@ describe MecsEnergy do
       # apparel.energy_units.should == 'megajoules'
     end
   end
-
-  describe '.find_by_naics_code_and_census_region' do
+  
+  describe '.find_by_naics_code_and_census_region_number' do
     it 'finds an exact match' do
-      MecsEnergy.find_by_naics_code_and_census_region('3122', '2').
-        name.should == '3122-2'
+      MecsEnergy.find_by_naics_code_and_census_region_number('311221', 2).
+        name.should == '311221-2'
     end
-    it 'finds a parent category by prefix' do
-      MecsEnergy.find_by_naics_code_and_census_region('312199', '2').
-        name.should == '3121-2'
+    it 'finds a parent category when exact code is not present' do
+      MecsEnergy.find_by_naics_code_and_census_region_number('3117', 2).
+        name.should == '311-2'
     end
     it 'returns nil if no match found' do
-      MecsEnergy.find_by_naics_code_and_census_region('543211', '2').
+      MecsEnergy.find_by_naics_code_and_census_region_number('543211', 2).
         should be_nil
     end
   end
-
+  
   describe '#fuel_ratios' do
     it 'returns a list of fuel ratios for a given NAICS' do
       energy = MecsEnergy.new :energy => 100, :electricity => 20,

@@ -7,7 +7,7 @@ class MecsRatio < ActiveRecord::Base
   belongs_to :industry
   
   col :name
-  col :census_region
+  col :census_region_number, :type => :integer
   col :naics_code
   col :energy_per_dollar_of_shipments, :type => :float
   col :energy_per_dollar_of_shipments_units

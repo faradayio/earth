@@ -32,7 +32,7 @@ MecsEnergy.class_eval do
         :crop => data[:crop],
         :headers => ["NAICS Code", "Subsector and Industry", "Total", "BLANK", "Net Electricity", "BLANK", "Residual Fuel Oil", "Distillate Fuel Oil", "Natural Gas", "BLANK", "LPG and NGL", "BLANK", "Coal", "Coke and Breeze", "Other"]) do
         key :name, :synthesize => Proc.new { |row| "#{Industry.format_naics_code(row['NAICS Code'])}-#{data[:code]}" }
-        store :census_region, :static => data[:code]
+        store :census_region_number, :static => data[:code]
         store :naics_code, :field_name => 'NAICS Code'
         store :energy,              :synthesize => Proc.new { |row| Earth::EIA.convert_value({:value => row['Total'],               :from_units => :trillion_btus, :to_units => :megajoules}) }, :units => :megajoules
         store :electricity,         :synthesize => Proc.new { |row| Earth::EIA.convert_value({:value => row['Net Electricity'],     :from_units => :trillion_btus, :to_units => :megajoules}) }, :units => :megajoules

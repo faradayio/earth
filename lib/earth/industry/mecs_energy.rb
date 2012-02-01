@@ -4,7 +4,7 @@ class MecsEnergy < ActiveRecord::Base
   set_primary_key :name
   
   col :name
-  col :census_region
+  col :census_region_number, :type => :integer
   col :naics_code
   col :energy, :type => :float
   col :energy_units
