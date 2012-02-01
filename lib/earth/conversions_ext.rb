@@ -5,7 +5,8 @@ Conversions.register :kilometres, :miles,          0.621371192
 Conversions.register :kilometres, :nautical_miles, 0.539956803
 
 # Area
-Conversions.register :square_metres, :square_feet, 10.7639104
+Conversions.register :square_metres, :square_feet,         10.7639104
+Conversions.register :square_metres, :million_square_feet, (1.square_metres.to(:square_feet) / 1_000_000)
 
 # Volume, liquid: base unit = litre
 Conversions.register :litres, :gallons,      0.264172052
@@ -27,6 +28,9 @@ Conversions.register :megajoules, :kbtus,          (1.megajoules.to(:btus) / 1_0
 Conversions.register :megajoules, :trillion_btus,  (1.megajoules.to(:btus) / 1_000_000_000_000)
 Conversions.register :megajoules, :kilowatt_hours, 0.277777778
 
+# Electricity: base unit = kilowatt hour
+Conversions.register :kilowatt_hours, :billion_kwh, (1.0 / 1_000_000_000.0)
+
 # Monetary
 Conversions.register :dollars, :cents, 100.0
 
@@ -44,6 +48,7 @@ Conversions.register :litres_per_square_metre_hour,         :gallons_per_square_
 Conversions.register :litres_per_room_night,                :gallons_per_room_night,                  (1.litres.to(:gallons))
 Conversions.register :cubic_metres_per_square_metre_hour,   :hundred_cubic_feet_per_square_foot_hour, (1.cubic_metres.to(:hundred_cubic_feet) / 1.square_metres.to(:square_feet))
 Conversions.register :cubic_metres_per_room_night,          :hundred_cubic_feet_per_room_night,       (1.cubic_metres.to(:hundred_cubic_feet))
+Conversions.register :kilowatt_hours_per_square_metre,      :kilowatt_hours_per_square_foot,          (1 / 1.square_metres.to(:square_feet))
 Conversions.register :kilowatt_hours_per_square_metre_hour, :kilowatt_hours_per_square_foot_hour,     (1 / 1.square_metres.to(:square_feet))
 Conversions.register :megajoules_per_square_metre_hour,     :kbtus_per_square_foot_hour,              (1.megajoules.to(:kbtus) / 1.square_metres.to(:square_feet))
 Conversions.register :megajoules_per_room_night,            :kbtus_per_room_night,                    (1.megajoules.to(:kbtus))
