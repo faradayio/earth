@@ -110,11 +110,6 @@ ResidenceFuelPrice.class_eval do
   # Skipping {"locatable_id"=>"Alabama", "locatable_type"=>"State", "price"=>"2.75", "year"=>1990, "month"=>6, "row_hash"=>"d56480d06e32e7e99ba5f85444fe4827"} because there's no primary key
 
   data_miner do
-    process "Define some unit conversions" do
-      Conversions.register :dollars, :cents, 100
-      Conversions.register :cubic_feet, :cubic_metres, 0.0283168466 # TODO conversions gem has 'cubic_metres'
-    end
-    
     # electricity in dollars per kWh
     import 'residential electricity prices from the EIA',
            :url => 'http://www.eia.doe.gov/cneaf/electricity/page/sales_revenue.xls',

@@ -1,14 +1,5 @@
 Species.class_eval do
   data_miner do
-    process "Define some unit conversions" do
-      # 1 (kilocalories per pound) = 9 224.14105 joules per kilogram
-      Conversions.register :kilocalories_per_pound, :joules_per_kilogram, 9_224.14105
-      # 1 (grams per kilocalories) = 2.39005736 × 10-7 kilograms per joules
-      Conversions.register :grams_per_kilocalorie, :kilograms_per_joule, 2.39005736e-7
-      # 1 joule = 0.000239005736 kilocalories
-      Conversions.register :joules, :kilocalories, 0.000239005736
-    end
-    
     import "a list of pet species weights, dietary requirements, and diet emissions intensities",
            :url => 'http://static.brighterplanet.com/science/data/consumables/pets/species.csv' do
       key 'name', :field_name => 'species'
