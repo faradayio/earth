@@ -21,7 +21,7 @@ class MecsEnergy < ActiveRecord::Base
 
   def self.find_by_naics_code_and_census_region(code, census_region)
     if code.blank?
-      record = nil 
+      record = nil
     else
       code = Industry.format_naics_code code
       record = where('census_region = ? AND naics_code LIKE ?', census_region, "#{code}%").first
@@ -29,7 +29,7 @@ class MecsEnergy < ActiveRecord::Base
     end
     record
   end
-
+  
   def fuel_ratios
     FUELS.inject({}) do |ratios, fuel|
       ratios[fuel] = send(fuel).to_f / total.to_f
