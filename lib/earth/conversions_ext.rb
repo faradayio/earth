@@ -8,8 +8,8 @@ Conversions.register :kilometres, :nautical_miles, 0.539956803
 Conversions.register :square_metres, :square_feet, 10.7639104
 
 # Volume, liquid: base unit = litre
-Conversions.register :litres,       :gallons,            0.264172052
-Conversions.register :litres,       :cubic_inches,       61.0237441
+Conversions.register :litres, :gallons,      0.264172052
+Conversions.register :litres, :cubic_inches, 61.0237441
 
 # Volume, solid: base unit = cubic metre
 Conversions.register :cubic_metres, :cubic_feet,         35.3146667
@@ -22,7 +22,9 @@ Conversions.register :kilograms, :pounds,        2.20462262
 Conversions.register :kilograms, :tons,          0.00110231131
 
 # Energy: base unit = megajoule
-Conversions.register :megajoules, :kbtus,          0.94781712
+Conversions.register :megajoules, :btus,           947.81712
+Conversions.register :megajoules, :kbtus,          (1.megajoules.to(:btus) / 1_000)
+Conversions.register :megajoules, :trillion_btus,  (1.megajoules.to(:btus) / 1_000_000_000_000)
 Conversions.register :megajoules, :kilowatt_hours, 0.277777778
 
 # Monetary
