@@ -19,6 +19,8 @@ class MecsEnergy < ActiveRecord::Base
   FUELS = [:net_electricity, :residual_fuel_oil, :distillate_fuel_oil,
            :natural_gas, :lpg_and_ngl, :coal, :coke_and_breeze, :other]
 
+  # Find the first record whose census_region matches census_region and whose naics_code starts with code.
+  # If no record found chop off the last character of code and try again, and so on until code is blank.
   def self.find_by_naics_code_and_census_region(code, census_region)
     if code.blank?
       record = nil

@@ -11,6 +11,8 @@ class MecsRatio < ActiveRecord::Base
   col :naics_code
   col :consumption_per_dollar_of_shipments, :type => :float
   
+  # Find the first MecsRatio whose census_region matches census_region and whose naics_code starts with code.
+  # If none found, chop off the last character of code and try again, continuing until code is blank.
   def self.find_by_naics_code_and_census_region(code, census_region)
     if code.blank?
       record = nil
