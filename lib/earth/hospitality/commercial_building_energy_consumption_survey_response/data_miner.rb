@@ -35,6 +35,14 @@ CommercialBuildingEnergyConsumptionSurveyResponse.class_eval do
       store 'lodging_rooms',         :field_name => 'LODGRM8'
     end
     
+    import 'building characteristics from the 2003 EIA Commercial Building Energy Consumption Survey',
+           :url => 'http://www.eia.gov/emeu/cbecs/cbecs2003/public_use_2003/data/FILE03.csv',
+           :skip => 1,
+           :headers => ["PUBID8","REGION8","CENDIV8","SQFT8","SQFTC8","YRCONC8","PBA8","ELUSED8","NGUSED8","FKUSED8","PRUSED8","STUSED8","HWUSED8","HEATP8","HTLS508","FURNAC8","BOILER8","PKGHT8","SLFCON8","HTPMPH8","STHW8","OTHTEQ8","FURNP8","BOILP8","PKGHP8","SLFCNP8","HTPHP8","STHWP8","OTHTP8","MAINHT8","PKGHPS8","SPLHPS8","RMHPS8","AIRHPT8","GRDHPT8","WTRHPT8","NWMNHT8","RDHTNF8","HWRDHT8","COOLP8","PKGCL8","RCAC8","ACWNWL8","HTPMPC8","CHWT8","CHILLR8","EVAPCL8","OTCLEQ8","PKGCP8","RCACP8","ACWNWP8","HTPCP8","CHWTP8","CHILP8","EVAPP8","OTCLP8","MAINCL8","PKGCPS8","SPLCPS8","RMCPS8","AIRCPT8","GRDCPT8","WTRCPT8","NWMNCL8","RDCLNF8","HWRDCL8","VAV8","ECN8","MAINT8","EMCS8","ADJWT8","STRATUM8","PAIR8"] do
+      key 'id', :field_name => 'PUBID8'
+      store 'percent_cooled', :synthesize => Proc.new { |row| row['COOLP8'].to_f / 100.0 }
+    end
+    
     import 'electricity use from the 2003 EIA Commercial Building Energy Consumption Survey',
            :url => 'http://www.eia.gov/emeu/cbecs/cbecs2003/public_use_2003/data/FILE15.csv',
            :skip => 1,

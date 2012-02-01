@@ -23,6 +23,7 @@ class CommercialBuildingEnergyConsumptionSurveyResponse < ActiveRecord::Base
   col :area_units
   col :floors,                 :type => :integer
   col :lodging_rooms,          :type => :integer
+  col :percent_cooled,         :type => :float
   col :principal_activity
   col :detailed_activity
   col :first_activity
