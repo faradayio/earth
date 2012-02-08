@@ -59,7 +59,7 @@ CbecsEnergyIntensity.class_eval do
     when /Food Service/
       722
     when /Health Care/
-      # FIXME TODO should be 621 and 622
+      62
     when /Inpatient/
       622
     when /Outpatient/
@@ -69,7 +69,7 @@ CbecsEnergyIntensity.class_eval do
     when /Retail \(Other Than Mall\)/
       44 # FIXME TODO should really be 44 and 45 excluding 445 and 454
     when /Office/
-      #TODO
+      55 # Management of Companies and Enterprises
     when /Public Assembly/
       #TODO
     when /Public Order and Safety/
@@ -77,7 +77,7 @@ CbecsEnergyIntensity.class_eval do
     when /Religious Worship/
       8131
     when /Service/
-      #TODO
+      81 # other services (except public administration)
     when /Warehouse and Storage/
       493
     when /Other/
