@@ -1,7 +1,7 @@
 require 'earth/locality'
 
 class MecsEnergy < ActiveRecord::Base
-  set_primary_key :name
+  self.primary_key = :name
   
   col :name
   col :census_region_number, :type => :integer

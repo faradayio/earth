@@ -3,7 +3,7 @@ require 'earth/hospitality'
 require 'earth/rail'
 
 class Country < ActiveRecord::Base
-  set_primary_key :iso_3166_code
+  self.primary_key = :iso_3166_code
   
   has_many :rail_companies,  :foreign_key => 'country_iso_3166_code' # used to calculate rail data
   has_many :lodging_classes, :foreign_key => 'country_iso_3166_code', :class_name => 'CountryLodgingClass'

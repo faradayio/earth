@@ -1,5 +1,5 @@
 class ProductLine < ActiveRecord::Base
-  set_primary_key :ps_code
+  self.primary_key = :ps_code
   
   has_many :industry_product_lines,         :foreign_key => 'ps_code'
   

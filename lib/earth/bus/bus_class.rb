@@ -1,6 +1,6 @@
 require 'earth/fuel'
 class BusClass < ActiveRecord::Base
-  set_primary_key :name
+  self.primary_key = :name
   
   # https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdHY0R0hjZnhRaTIxTnpvRk1HNThwUmc&hl=en&output=html
   falls_back_on :passengers => 7.485,

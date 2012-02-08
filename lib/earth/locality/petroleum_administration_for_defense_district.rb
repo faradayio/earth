@@ -1,6 +1,6 @@
 class PetroleumAdministrationForDefenseDistrict < ActiveRecord::Base
-  set_primary_key :code
-  set_table_name :petroleum_districts
+  self.primary_key = :code
+  self.table_name = :petroleum_districts
   
   def name
     str = "PAD District #{district_code} (#{district_name})"

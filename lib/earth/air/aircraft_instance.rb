@@ -1,5 +1,5 @@
 class AircraftInstance < ActiveRecord::Base
-  set_primary_key :id
+  self.primary_key = :id
   
   col :id
   col :registration

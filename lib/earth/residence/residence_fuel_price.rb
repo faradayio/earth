@@ -1,6 +1,6 @@
 require 'earth/locality'
 class ResidenceFuelPrice < ActiveRecord::Base
-  set_primary_key :row_hash
+  self.primary_key = :row_hash
   
   extend CohortScope
   self.minimum_cohort_size = 5 # ? FIXME

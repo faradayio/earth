@@ -1,6 +1,6 @@
 require 'earth/fuel'
 class EgridSubregion < ActiveRecord::Base
-  set_primary_key :abbreviation
+  self.primary_key = :abbreviation
   
   has_many :zip_codes, :foreign_key => 'egrid_subregion_abbreviation'
   belongs_to :egrid_region, :foreign_key => 'egrid_region_name'

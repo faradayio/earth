@@ -1,7 +1,7 @@
 require 'earth/fuel'
 class NationalTransitDatabaseRecord < ActiveRecord::Base
-  set_primary_key :name
-  set_table_name :ntd_records
+  self.primary_key = :name
+  self.table_name = :ntd_records
   
   belongs_to :ntd_company, :foreign_key => 'company_id', :class_name => 'NationalTransitDatabaseCompany'
   

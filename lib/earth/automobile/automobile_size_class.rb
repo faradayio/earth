@@ -1,6 +1,6 @@
 require 'earth/fuel'
 class AutomobileSizeClass < ActiveRecord::Base
-  set_primary_key :name
+  self.primary_key = :name
   
   # FIXME TODO clean up size class in MakeModelYearVariant, derive size class for MakeModelYear, and calculate this from MakeModelYear
   falls_back_on :hybrid_fuel_efficiency_city_multiplier => 1.651, # https://brighterplanet.sifterapp.com/issue/667

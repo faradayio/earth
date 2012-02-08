@@ -1,5 +1,5 @@
 class EgridCountry < ActiveRecord::Base
-  set_primary_key :name
+  self.primary_key = :name
   
   class << self
     def us

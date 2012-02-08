@@ -1,5 +1,5 @@
 class Sector < ActiveRecord::Base
-  set_primary_key :io_code
+  self.primary_key = :io_code
 
   has_many :industry_sectors, :foreign_key => 'io_code'
   

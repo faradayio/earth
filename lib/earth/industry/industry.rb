@@ -1,6 +1,6 @@
 require 'earth/locality'
 class Industry < ActiveRecord::Base
-  set_primary_key :naics_code
+  self.primary_key = :naics_code
   
   has_many :merchant_category_industries, :foreign_key => 'naics_code'
   

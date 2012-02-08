@@ -1,7 +1,7 @@
 require 'earth/fuel'
 # Not yet in use - for if we want to autocaculate size class stuf - November 10, 2011
 class AutomobileSizeClassYear < ActiveRecord::Base
-  set_primary_key :name
+  self.primary_key = :name
 
   col :name
   col :size_class_name

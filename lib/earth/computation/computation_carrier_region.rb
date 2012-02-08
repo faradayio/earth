@@ -1,6 +1,6 @@
 require 'earth/locality'
 class ComputationCarrierRegion < ActiveRecord::Base
-  set_primary_key :name
+  self.primary_key = :name
   
   belongs_to :egrid_subregion, :foreign_key => 'egrid_subregion_abbreviation'
 

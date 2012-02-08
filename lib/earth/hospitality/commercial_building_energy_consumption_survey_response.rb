@@ -1,7 +1,7 @@
 require 'earth/locality'
 class CommercialBuildingEnergyConsumptionSurveyResponse < ActiveRecord::Base
-  set_primary_key :id
-  set_table_name :cbecs_responses
+  self.primary_key = :id
+  self.table_name = :cbecs_responses
   
   extend CohortScope
   self.minimum_cohort_size = 8 # CBECS doesn't report averages based on fewer than 20 samples

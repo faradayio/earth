@@ -1,6 +1,6 @@
 require 'earth/locality'
 class CountryLodgingClass < ActiveRecord::Base
-  set_primary_key :name
+  self.primary_key = :name
   
   col :name
   col :country_iso_3166_code

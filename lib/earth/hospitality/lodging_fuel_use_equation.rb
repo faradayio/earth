@@ -1,5 +1,5 @@
 class LodgingFuelUseEquation < ActiveRecord::Base
-  set_primary_key :name
+  self.primary_key = :name
   
   def self.find_by_criteria(fuel, criteria)
     first :conditions => {

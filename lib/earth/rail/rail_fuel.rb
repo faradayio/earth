@@ -1,6 +1,6 @@
 require 'earth/fuel'
 class RailFuel < ActiveRecord::Base
-  set_primary_key :name
+  self.primary_key = :name
   
   belongs_to :fuel, :foreign_key => 'fuel_name'
   

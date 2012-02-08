@@ -1,6 +1,6 @@
 require 'earth/fuel'
 class AutomobileTypeFuelYear < ActiveRecord::Base
-  set_primary_key :name
+  self.primary_key = :name
   
   # FIXME TODO keep this until fix AutomobileFuel import so that it doesn't call type_fuel_year.type_year
   belongs_to :type_year, :class_name => 'AutomobileTypeYear', :foreign_key => 'type_year_name'

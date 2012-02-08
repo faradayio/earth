@@ -1,6 +1,6 @@
 class NationalTransitDatabaseMode < ActiveRecord::Base
-  set_primary_key :code
-  set_table_name :ntd_modes
+  self.primary_key = :code
+  self.table_name = :ntd_modes
   
   def self.rail_modes
     where(:rail_mode => true)

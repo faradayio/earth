@@ -1,5 +1,5 @@
 class CarrierMode < ActiveRecord::Base
-  set_primary_key :name
+  self.primary_key = :name
   
   belongs_to :carrier, :foreign_key => 'carrier_name', :primary_key => 'name'
   belongs_to :mode,    :foreign_key => 'mode_name',    :primary_key => 'name', :class_name => 'ShipmentMode'

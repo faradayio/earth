@@ -1,5 +1,5 @@
 class ResidenceAppliance < ActiveRecord::Base
-  set_primary_key :name
+  self.primary_key = :name
 
   class << self
     def annual_energy_from_electricity_for(appliance_plural)

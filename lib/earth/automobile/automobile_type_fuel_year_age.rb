@@ -1,6 +1,6 @@
 require 'earth/fuel'
 class AutomobileTypeFuelYearAge < ActiveRecord::Base
-  set_primary_key :name
+  self.primary_key = :name
   
   col :name
   col :type_name
