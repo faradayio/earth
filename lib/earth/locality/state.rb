@@ -19,6 +19,6 @@ class State < ActiveRecord::Base
   col :postal_abbreviation
   col :fips_code, :type => :integer
   col :name
-  col :census_division_number
+  col :census_division_number, :type => :integer
   col :petroleum_administration_for_defense_district_code
 end
