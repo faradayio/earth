@@ -27,27 +27,27 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.7}
   
-  s.add_runtime_dependency 'data_miner', '>=1.3'
-  s.add_runtime_dependency 'to_regexp'
+  s.add_runtime_dependency 'activerecord'
+  s.add_runtime_dependency 'activesupport'
   s.add_runtime_dependency 'cohort_scope'
-  s.add_runtime_dependency 'table_warnings', '>=0.0.6'
-  s.add_runtime_dependency 'remote_table', '>=1.3.0'
+  s.add_runtime_dependency 'data_miner', '>=1.3'
   s.add_runtime_dependency 'falls_back_on'
   s.add_runtime_dependency 'fixed_width-multibyte'
-  s.add_runtime_dependency 'geokit'
   s.add_runtime_dependency 'fuzzy_match', '>=1.1.0'
-  s.add_runtime_dependency 'weighted_average', '>=1.0.2'
+  s.add_runtime_dependency 'geokit'
   s.add_runtime_dependency 'mini_record-compat' # need https://github.com/DAddYE/mini_record/pull/7
-  s.add_runtime_dependency 'activesupport'
-  s.add_runtime_dependency 'activerecord'
-  s.add_development_dependency 'bundler'
+  s.add_runtime_dependency 'remote_table', '>=1.3.0'
+  s.add_runtime_dependency 'table_warnings', '>=0.0.6'
+  s.add_runtime_dependency 'to_regexp'
+  s.add_runtime_dependency 'weighted_average', '>=1.0.2'
   s.add_development_dependency 'bueller'
+  s.add_development_dependency 'bundler'
   s.add_development_dependency 'charisma'
   s.add_development_dependency 'cucumber'
+  s.add_development_dependency 'mysql' # for bin/earth_tester.rb
+  s.add_development_dependency 'pg'
   s.add_development_dependency 'rake'
   s.add_development_dependency 'rdoc'
   s.add_development_dependency 'rspec'
   s.add_development_dependency 'sqlite3-ruby'
-  s.add_development_dependency 'mysql' # for bin/earth_tester.rb
-  s.add_development_dependency 'pg'
 end
