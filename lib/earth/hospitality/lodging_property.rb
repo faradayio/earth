@@ -18,12 +18,12 @@ class LodgingProperty < ActiveRecord::Base
   col :construction_year, :type => :integer
   col :renovation_year,   :type => :integer
   col :lodging_class_name
-  col :restaurant
-  col :air_conditioning
-  col :mini_bar
-  col :refrigerator
-  col :hot_tub
-  col :pools_indoor,  :type => :integer
-  col :pools_outdoor, :type => :integer
+  col :restaurants,       :type => :integer
+  col :ac_coverage,       :type => :float
+  col :mini_bar_coverage, :type => :float
+  col :fridge_coverage,   :type => :float
+  col :hot_tubs,          :type => :float # float b/c fallback needs to be a float
+  col :pools_indoor,      :type => :float # float b/c fallback needs to be a float
+  col :pools_outdoor,     :type => :float # float b/c fallback needs to be a float
   col :update_date
 end
