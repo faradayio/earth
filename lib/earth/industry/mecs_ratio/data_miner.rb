@@ -34,7 +34,9 @@ MecsRatio.class_eval do
         key :name, :synthesize => Proc.new { |row| "#{Industry.format_naics_code(row["NAICS Code"])}-#{data[:code]}" }
         store :census_region_number, :static => data[:code]
         store :naics_code, :synthesize => Proc.new { |row| Industry.format_naics_code row["NAICS Code"] }
-        store :energy_per_dollar_of_shipments, :synthesize => Proc.new { |row| Earth::EIA.convert_value({:value => row['Consumption per Dollar of Value of Shipments'], :from_units => :kbtus, :to_units => :megajoules}) }, :units => :megajoules
+        store :energy_per_dollar_of_shipments, :units => :megajoules, :synthesize => Proc.new { |row|
+          Earth::EIA.convert_value(row['Consumption per Dollar of Value of Shipments'], :from => :kbtus, :to => :megajoules})
+        }
       end
     end
   end

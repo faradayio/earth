@@ -94,12 +94,18 @@ CbecsEnergyIntensity.class_eval do
         :headers => false,
         :select => ::Proc.new { |row| CbecsEnergyIntensity::NAICS_CODE_SYNTHESIZER.call(row) }, # only select rows where we can translate activity to a NAICS code
         :crop => (21..37) do
-        key :name, :synthesize => ::Proc.new { |row| "#{Industry.format_naics_code(CbecsEnergyIntensity::NAICS_CODE_SYNTHESIZER.call(row))}-#{data[:code]}" }
+        key :name, :synthesize => Proc.new { |row| "#{Industry.format_naics_code(CbecsEnergyIntensity::NAICS_CODE_SYNTHESIZER.call(row))}-#{data[:code]}" }
         store :naics_code, :synthesize => CbecsEnergyIntensity::NAICS_CODE_SYNTHESIZER
         store :census_division_number, :static => data[:code]
-        store :electricity, :synthesize => ::Proc.new { |row| Earth::EIA.convert_value({:value => row[data[:column] + 1], :from_units => :billion_kwh, :to_units => :kilowatt_hours}) }, :units => :kilowatt_hours
-        store :floorspace, :synthesize => ::Proc.new { |row| Earth::EIA.convert_value({:value => row[data[:column] + 4], :from_units => :million_square_feet, :to_units => :square_metres}) }, :units => :square_metres
-        store :electricity_intensity, :synthesize => ::Proc.new { |row| Earth::EIA.convert_value({:value => row[data[:column] + 7], :from_units => :kilowatt_hours_per_square_foot, :to_units => :kilowatt_hours_per_square_metre}) }, :units => :kilowatt_hours_per_square_metre
+        store :electricity, :units => :kilowatt_hours, :synthesize => ::Proc.new { |row|
+          Earth::EIA.convert_value(row[data[:column] + 1], :from => :billion_kwh, :to => :kilowatt_hours)
+        }
+        store :floorspace, :units => :square_metres, :synthesize => Proc.new { |row|
+          Earth::EIA.convert_value(row[data[:column] + 4], :from => :million_square_feet, :to => :square_metres)
+        }
+        store :electricity_intensity, :units => :kilowatt_hours_per_square_metre, :synthesize => ::Proc.new { |row|
+          Earth::EIA.convert_value(row[data[:column] + 7], :from => :kilowatt_hours_per_square_foot, :to => :kilowatt_hours_per_square_metre)
+        }
       end
     end
   end

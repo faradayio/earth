@@ -34,15 +34,33 @@ MecsEnergy.class_eval do
         key :name, :synthesize => Proc.new { |row| "#{Industry.format_naics_code(row['NAICS Code'])}-#{data[:code]}" }
         store :census_region_number, :static => data[:code]
         store :naics_code, :field_name => 'NAICS Code'
-        store :energy,              :synthesize => Proc.new { |row| Earth::EIA.convert_value({:value => row['Total'],               :from_units => :trillion_btus, :to_units => :megajoules}) }, :units => :megajoules
-        store :electricity,         :synthesize => Proc.new { |row| Earth::EIA.convert_value({:value => row['Net Electricity'],     :from_units => :trillion_btus, :to_units => :megajoules}) }, :units => :megajoules
-        store :residual_fuel_oil,   :synthesize => Proc.new { |row| Earth::EIA.convert_value({:value => row['Residual Fuel Oil'],   :from_units => :trillion_btus, :to_units => :megajoules}) }, :units => :megajoules
-        store :distillate_fuel_oil, :synthesize => Proc.new { |row| Earth::EIA.convert_value({:value => row['Distillate Fuel Oil'], :from_units => :trillion_btus, :to_units => :megajoules}) }, :units => :megajoules
-        store :natural_gas,         :synthesize => Proc.new { |row| Earth::EIA.convert_value({:value => row['Natural Gas'],         :from_units => :trillion_btus, :to_units => :megajoules}) }, :units => :megajoules
-        store :lpg_and_ngl,         :synthesize => Proc.new { |row| Earth::EIA.convert_value({:value => row['LPG and NGL'],         :from_units => :trillion_btus, :to_units => :megajoules}) }, :units => :megajoules
-        store :coal,                :synthesize => Proc.new { |row| Earth::EIA.convert_value({:value => row['Coal'],                :from_units => :trillion_btus, :to_units => :megajoules}) }, :units => :megajoules
-        store :coke_and_breeze,     :synthesize => Proc.new { |row| Earth::EIA.convert_value({:value => row['Coke and Breeze'],     :from_units => :trillion_btus, :to_units => :megajoules}) }, :units => :megajoules
-        store :other_fuel,          :synthesize => Proc.new { |row| Earth::EIA.convert_value({:value => row['Other'],               :from_units => :trillion_btus, :to_units => :megajoules}) }, :units => :megajoules
+        store :energy, :units => :megajoules, :synthesize => Proc.new { |row|
+          Earth::EIA.convert_value(row['Total'], :from => :trillion_btus, :to => :megajoules)
+        }
+        store :electricity, :units => :megajoules, :synthesize => Proc.new { |row|
+          Earth::EIA.convert_value(row['Net Electricity'], :from => :trillion_btus, :to => :megajoules)
+        }
+        store :residual_fuel_oil, :units => :megajoules, :synthesize => Proc.new { |row|
+          Earth::EIA.convert_value(row['Residual Fuel Oil'], :from => :trillion_btus, :to => :megajoules)
+        }
+        store :distillate_fuel_oil, :units => :megajoules, :synthesize => Proc.new { |row|
+          Earth::EIA.convert_value(row['Distillate Fuel Oil'], :from => :trillion_btus, :to => :megajoules)
+        }
+        store :natural_gas, :units => :megajoules, :synthesize => Proc.new { |row|
+          Earth::EIA.convert_value(row['Natural Gas'], :from => :trillion_btus, :to => :megajoules)
+        }
+        store :lpg_and_ngl, :units => :megajoules, :synthesize => Proc.new { |row|
+          Earth::EIA.convert_value(row['LPG and NGL'], :from => :trillion_btus, :to => :megajoules)
+        }
+        store :coal, :units => :megajoules, :synthesize => Proc.new { |row|
+          Earth::EIA.convert_value(row['Coal'], :from => :trillion_btus, :to => :megajoules)
+        }
+        store :coke_and_breeze, :units => :megajoules, :synthesize => Proc.new { |row|
+          Earth::EIA.convert_value(row['Coke and Breeze'], :from => :trillion_btus, :to => :megajoules)
+        }
+        store :other_fuel, :units => :megajoules, :synthesize => Proc.new { |row|
+          Earth::EIA.convert_value(row['Other'], :from => :trillion_btus, :to => :megajoules)
+        }
       end
     end
   end

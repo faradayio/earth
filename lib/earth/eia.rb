@@ -4,14 +4,14 @@ module Earth
   module EIA
     extend self
     
-    def convert_value(args)
-      case args[:value]
+    def convert_value(value, args = {})
+      case value
       when '*'
         0
       when 'Q', 'W'
         nil
       else
-        args[:value].to_f.send(args[:from_units]).to(args[:to_units])
+        value.to_f.send(args[:from]).to(args[:to])
       end
     end
   end
