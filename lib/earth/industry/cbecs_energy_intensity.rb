@@ -3,15 +3,39 @@ require 'earth/locality'
 class CbecsEnergyIntensity < ActiveRecord::Base
   self.primary_key = :name
   
-  col :name
-  col :naics_code
-  col :census_division_number, :type => :integer
+  col :name, :index => true
+  col :principal_building_activity
+  col :naics_code, :index => true
+  col :census_region_number, :type => :integer, :index => true
+  col :census_division_number, :type => :integer, :index => true
+
   col :electricity, :type => :float
   col :electricity_units
-  col :floorspace, :type => :float
-  col :floorspace_units
+  col :electricity_floorspace, :type => :float
+  col :electricity_floorspace_units
   col :electricity_intensity, :type => :float
   col :electricity_intensity_units
+
+  col :natural_gas, :type => :float
+  col :natural_gas_units
+  col :natural_gas_floorspace, :type => :float
+  col :natural_gas_floorspace_units
+  col :natural_gas_intensity, :type => :float
+  col :natural_gas_intensity_units
+
+  col :fuel_oil, :type => :float
+  col :fuel_oil_units
+  col :fuel_oil_floorspace, :type => :float
+  col :fuel_oil_floorspace_units
+  col :fuel_oil_intensity, :type => :float
+  col :fuel_oil_intensity_units
+
+  col :district_heat, :type => :float
+  col :district_heat_units
+  col :district_heat_floorspace, :type => :float
+  col :district_heat_floorspace_units
+  col :district_heat_intensity, :type => :float
+  col :district_heat_intensity_units
   
   # Find the first record whose census_division_number matches number and whose naics_code matches code.
   # If no record found chop off the last character of code and try again, and so on.
