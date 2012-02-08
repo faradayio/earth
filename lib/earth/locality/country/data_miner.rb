@@ -131,6 +131,12 @@ Country.class_eval do
     end
     
     # HOSPITALITY
+    process "Define US average lodging occupancy rate" do
+      country = united_states
+      country.lodging_occupancy_rate = 0.601 # per http://www.pwc.com/us/en/press-releases/2012/pwc-us-lodging-industry-forecast.jhtml
+      country.save!
+    end
+    
     process "Ensure CountryLodgingClass is populated" do
       CountryLodgingClass.run_data_miner!
     end
