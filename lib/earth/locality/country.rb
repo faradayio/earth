@@ -57,7 +57,7 @@ class Country < ActiveRecord::Base
                 :rail_trip_diesel_intensity => lambda { weighted_average(:rail_trip_diesel_intensity, :weighted_by => :rail_passengers) },
                 :rail_trip_diesel_intensity_units => 'litres_per_passenger_kilometre', # FIXME TODO derive this
                 :rail_trip_co2_emission_factor => lambda { weighted_average(:rail_trip_co2_emission_factor, :weighted_by => :rail_passengers) },
-                :rail_trip_co2_emission_factor_units => 'kilograms' # FIXME TODO derive this
+                :rail_trip_co2_emission_factor_units => 'kilograms_per_passenger_kilometre' # FIXME TODO derive this
   
   class << self
     def united_states
