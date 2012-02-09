@@ -95,7 +95,7 @@ CbecsEnergyIntensity.class_eval do
     when /Food Service/
       722
     when /Health Care/
-      62
+      62 # FIXME TODO should only be 621 and 622
     when /Inpatient/
       622
     when /Outpatient/
@@ -105,7 +105,7 @@ CbecsEnergyIntensity.class_eval do
     when /Retail \(Other Than Mall\)/
       44 # FIXME TODO should really be 44 and 45 excluding 445 and 454
     when /Office/
-      55 # Management of Companies and Enterprises
+      55 # Management of Companies and Enterprises FIXME TODO should be all NAICS codes that identify an office
     when /Public Assembly/
       #TODO
     when /Public Order and Safety/
@@ -113,7 +113,7 @@ CbecsEnergyIntensity.class_eval do
     when /Religious Worship/
       8131
     when /Service/
-      81 # other services (except public administration)
+      81 # other services (except public administration) FIXME TODO exclude 8131 and include all NAICS codes that are services
     when /Warehouse and Storage/
       493
     when /Other/
