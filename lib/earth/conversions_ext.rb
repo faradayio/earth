@@ -14,8 +14,8 @@ Conversions.register :litres, :cubic_inches, 61.0237441
 
 # Volume, solid: base unit = cubic metre
 Conversions.register :cubic_metres, :cubic_feet,         35.3146667
-Conversions.register :cubic_metres, :hundred_cubic_feet, 0.353146667
-Conversions.register :cubic_metres, :billion_cubic_feet, 0.000000035315
+Conversions.register :cubic_metres, :hundred_cubic_feet, (1.cubic_metres.to(:cubic_feet) / 100)
+Conversions.register :cubic_metres, :billion_cubic_feet, (1.cubic_metres.to(:cubic_feet) / 1_000_000_000)
 
 # Mass: base unit = kilogram
 Conversions.register :kilograms, :grams,         1_000.0
