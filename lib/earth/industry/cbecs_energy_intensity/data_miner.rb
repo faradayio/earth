@@ -134,7 +134,7 @@ CbecsEnergyIntensity.class_eval do
           key :name, :synthesize => Proc.new { |row|
             "#{Industry.format_naics_code(CbecsEnergyIntensity::NAICS_CODE_SYNTHESIZER.call(row))}-#{region}-#{data[:census_division]}"
           }
-          store :principal_building_activity, :synthesize => Proc.new { |row| row[0].gsub(/[\.\(\)]/,'').trim }
+          store :principal_building_activity, :synthesize => Proc.new { |row| row[0].gsub(/[\.\(\)]/,'').strip }
           store :naics_code, :synthesize => CbecsEnergyIntensity::NAICS_CODE_SYNTHESIZER
           store :census_region_number, :static => region
           store :census_division_number, :static => data[:census_division]

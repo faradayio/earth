@@ -47,6 +47,6 @@ describe CbecsEnergyIntensity do
       CbecsEnergyIntensity.all.count.should == 163  # 18 building uses * 9 census regions + 1 national avg
 
       CbecsEnergyIntensity.find_by_name ''
-    end 
+    end
   end
 end
