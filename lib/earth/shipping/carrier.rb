@@ -9,6 +9,7 @@ class Carrier < ActiveRecord::Base
                 :corporate_emission_factor => 0.221
   
   col :name
+  col :full_name
   col :package_volume, :type => :float
   col :route_inefficiency_factor, :type => :float
   col :transport_emission_factor, :type => :float

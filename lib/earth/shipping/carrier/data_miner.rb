@@ -3,6 +3,7 @@ Carrier.class_eval do
     import "a list of shipping companies and their characteristics",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdG1ONU1HZDdZTFJNclFYVkRzR0k5Z2c&hl=en&gid=0&output=csv' do
       key   'name'
+      store 'full_name'
       store 'package_volume'
       store 'route_inefficiency_factor'
       store 'transport_emission_factor', :units_field_name => 'transport_emission_factor_units'
