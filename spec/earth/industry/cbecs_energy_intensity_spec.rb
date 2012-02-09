@@ -44,9 +44,21 @@ describe CbecsEnergyIntensity do
       DataMiner.logger = Logger.new(STDOUT)
       ActiveRecord::Base.logger = Logger.new(STDOUT)
       CbecsEnergyIntensity.run_data_miner!
-      CbecsEnergyIntensity.all.count.should == 163  # 18 building uses * 9 census regions + 1 national avg
+      #CbecsEnergyIntensity.all.count.should == 163  # 18 building uses * 9 census regions + 1 national avg
 
-      CbecsEnergyIntensity.find_by_name ''
-    end
+      # check total us averages
+      nationals = CbecsEnergyIntensity.where(:census_region_number => nil, :census_division_number => nil)
+      nationals.count.should == 14
+      nationals.each do |national|
+        national.elecricity.should > 1
+        national.electricity_intensity.should > 1
+        national.natural_gas.should > 1
+        national.natural_gas_intensity.should > 1
+        national.fuel_oil.should > 1
+        national.fuel_oil_intensity.should > 1
+        national.district_heat.should > 1
+        national.district_heat_intensity.should > 1
+      end
+    end 
   end
 end
