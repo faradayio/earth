@@ -72,6 +72,8 @@ Conversions.register :kbtus,          :joules,             (1_000.0 * 1_055.0558
 Conversions.register :watt_hours,     :joules,             3_600.0
 Conversions.register :kilowatt_hours, :joules,             3_600_000.0
 
+# Odd units for CBECS
+Conversions.register :trillion_btus_per_million_square_feet, :megajoules_per_square_metre, 0.09290304 * 0.00106 * 1_000_000_000_000 / 1_000_000
 
 # Only used in app1
 Conversions.register(:pounds_per_gallon, :kilograms_per_litre, 0.119826427) # only used in app1
