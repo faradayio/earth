@@ -18,7 +18,7 @@ when 'mysql'
   # system %{mysql -u #{username} -p#{password} -e "DROP DATABASE #{database}"}
   # system %{mysql -u #{username} -p#{password} -e "CREATE DATABASE #{database}"}
 else
-  adapter = 'postgres'
+  adapter = 'postgresql'
   database = 'test_earth'
   username = nil
   password = nil
