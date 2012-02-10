@@ -7,7 +7,7 @@ class CommercialBuildingEnergyConsumptionSurveyResponse < ActiveRecord::Base
   self.minimum_cohort_size = 8 # CBECS doesn't report averages based on fewer than 20 samples
   
   def self.lodging_records
-    where :detailed_activity => ['Hotel', 'Motel or inn']
+    where(:detailed_activity => ['Hotel', 'Motel or inn'], :first_activity => nil)
   end
   
   col :id,                     :type => :integer
