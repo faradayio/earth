@@ -36,6 +36,10 @@ class CbecsEnergyIntensity < ActiveRecord::Base
   col :district_heat_floorspace_units
   col :district_heat_intensity, :type => :float
   col :district_heat_intensity_units
+
+  scope :divisional, where(:census_region_number => !nil, :census_division_number => !nil)
+  scope :regional, where(:census_region_number => !nil, :census_division_number => nil)
+  scope :national, where(:census_region_number => nil, :census_division_number => nil)
   
   # Find the first record whose census_division_number matches number and whose naics_code matches code.
   # If no record found chop off the last character of code and try again, and so on.
