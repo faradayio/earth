@@ -12,8 +12,9 @@ describe Fuel do
   
   describe 'import', :slow => true do
     it 'fetches all fuels' do
+      Earth.init :fuel, :load_data_miner => true
       Fuel.run_data_miner!
-      Fuel.all.count.should == 12
+      Fuel.count.should == 21
     end 
   end
 end
