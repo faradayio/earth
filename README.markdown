@@ -15,6 +15,8 @@ ft = AutomobileFuel.first
 
 `Earth.init` loads desired "data domains" as well as any supporting classes and plugins that each data model needs. A "data domain" is a grouping of related data models. For instance, all automobile-related data is in the `:automobile` domain.
 
+### Domains
+
 <table>
   <thead>
   <tr>
@@ -24,55 +26,55 @@ ft = AutomobileFuel.first
   </thead>
   <tbody>
   <tr>
-    <td>[:air](https://github.com/brighterplanet/earth/tree/master/lib/earth/air)</td>
+    <td><a href="https://github.com/brighterplanet/earth/tree/master/lib/earth/air"><code>:air</code></a></td>
     <td>Aircraft, Airline, Airport ...</td>
   </tr>
   <tr>
-    <td>[:automobile](https://github.com/brighterplanet/earth/tree/master/lib/earth/automobile)</td>
+    <td><a href="https://github.com/brighterplanet/earth/tree/master/lib/earth/automobile"><code>:automobile</code></a></td>
     <td>AutomobileFuel, AutomobileMake, AutomobileModel ...</td>
   </tr>
   <tr>
-    <td>[:bus](https://github.com/brighterplanet/earth/tree/master/lib/earth/bus)</td>
+    <td><a href="https://github.com/brighterplanet/earth/tree/master/lib/earth/bus"><code>:bus</code></a></td>
     <td>BusClass, BusFuel ...</td>
   </tr>
   <tr>
-    <td>[:computation](https://github.com/brighterplanet/earth/tree/master/lib/earth/computation)</td>
+    <td><a href="https://github.com/brighterplanet/earth/tree/master/lib/earth/computation"><code>:computation</code></a></td>
     <td>ComputationCarrier, ComputationCarrierInstanceClass ...</td>
   </tr>
   <tr>
-    <td>[:diet](https://github.com/brighterplanet/earth/tree/master/lib/earth/diet)</td>
+    <td><a href="https://github.com/brighterplanet/earth/tree/master/lib/earth/diet"><code>:diet</code></a></td>
     <td>DietClass, FoodGroup ...</td>
   </tr>
   <tr>
-    <td>[:fuel](https://github.com/brighterplanet/earth/tree/master/lib/earth/fuel)</td>
+    <td><a href="https://github.com/brighterplanet/earth/tree/master/lib/earth/fuel"><code>:fuel</code></a></td>
     <td>Fuel, FuelPrice, GreenhouseGas ...</td>
   </tr>
   <tr>
-    <td>[:hospitality](https://github.com/brighterplanet/earth/tree/master/lib/earth/hospitality)</td>
+    <td><a href="https://github.com/brighterplanet/earth/tree/master/lib/earth/hospitality"><code>:hospitality</code></a></td>
     <td>LodgingClass, CommercialBuildingEnergyConsumptionSurveyResponse ...</td>
   </tr>
   <tr>
-    <td>[:industry](https://github.com/brighterplanet/earth/tree/master/lib/earth/industry)</td>
+    <td><a href="https://github.com/brighterplanet/earth/tree/master/lib/earth/industry"><code>:industry</code></a></td>
     <td>Industry, CbecsEnergyIntensity ...</td>
   </tr>
   <tr>
-    <td>[:locality](https://github.com/brighterplanet/earth/tree/master/lib/earth/locality)</td>
+    <td><a href="https://github.com/brighterplanet/earth/tree/master/lib/earth/locality"><code>:locality</code></a></td>
     <td>CensusDivision, Country, ZipCode ...</td>
   </tr>
   <tr>
-    <td>[:pet](https://github.com/brighterplanet/earth/tree/master/lib/earth/pet)</td>
+    <td><a href="https://github.com/brighterplanet/earth/tree/master/lib/earth/pet"><code>:pet</code></a></td>
     <td>Breed, Gender, Species ...</td>
   </tr>
   <tr>
-    <td>[:rail](https://github.com/brighterplanet/earth/tree/master/lib/earth/rail)</td>
+    <td><a href="https://github.com/brighterplanet/earth/tree/master/lib/earth/rail"><code>:rail</code></a></td>
     <td>RailClass, RailFuel, RailCompany ...</td>
   </tr>
   <tr>
-    <td>[:residence](https://github.com/brighterplanet/earth/tree/master/lib/earth/residence)</td>
+    <td><a href="https://github.com/brighterplanet/earth/tree/master/lib/earth/residence"><code>:residence</code></a></td>
     <td>Urbanity, ResidenceClass, AirConditionerUse</td>
   </tr>
   <tr>
-    <td>[:shipping](https://github.com/brighterplanet/earth/tree/master/lib/earth/shipping)</td>
+    <td><a href="https://github.com/brighterplanet/earth/tree/master/lib/earth/shipping"><code>:shipping</code></a></td>
     <td>Carrier, ShipmentMode ...</td>
   </tr>
   </tbody>
