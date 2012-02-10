@@ -39,6 +39,7 @@ class Country < ActiveRecord::Base
                 :electricity_emission_factor => 0.69252, # from ecometrica paper - FIXME TODO calculate this
                 :electricity_emission_factor_units => 'kilograms_co2e_per_kilowatt_hour', # FIXME TODO derive this
                 :flight_route_inefficiency_factor => lambda { maximum(:flight_route_inefficiency_factor) }, # default to the largest inefficiency factor
+                :lodging_occupancy_rate => lambda { united_states.lodging_occupancy_rate }, # for now assume US represents world
                 :lodging_natural_gas_intensity => lambda { united_states.lodging_natural_gas_intensity }, # for now assume US represents world
                 :lodging_natural_gas_intensity_units => lambda { united_states.lodging_natural_gas_intensity_units }, # for now assume US represents world
                 :lodging_fuel_oil_intensity => lambda { united_states.lodging_fuel_oil_intensity }, # for now assume US represents world
@@ -56,7 +57,7 @@ class Country < ActiveRecord::Base
                 :rail_trip_diesel_intensity => lambda { weighted_average(:rail_trip_diesel_intensity, :weighted_by => :rail_passengers) },
                 :rail_trip_diesel_intensity_units => 'litres_per_passenger_kilometre', # FIXME TODO derive this
                 :rail_trip_co2_emission_factor => lambda { weighted_average(:rail_trip_co2_emission_factor, :weighted_by => :rail_passengers) },
-                :rail_trip_co2_emission_factor_units => 'kilograms' # FIXME TODO derive this
+                :rail_trip_co2_emission_factor_units => 'kilograms_per_passenger_kilometre' # FIXME TODO derive this
   
   class << self
     def united_states
@@ -84,6 +85,7 @@ class Country < ActiveRecord::Base
   col :electricity_emission_factor, :type => :float
   col :electricity_emission_factor_units
   col :flight_route_inefficiency_factor, :type => :float
+  col :lodging_occupancy_rate, :type => :float
   col :lodging_natural_gas_intensity, :type => :float
   col :lodging_natural_gas_intensity_units
   col :lodging_fuel_oil_intensity, :type => :float

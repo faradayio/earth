@@ -9,17 +9,19 @@ CountryLodgingClass.class_eval do
       store 'cbecs_detailed_activity'
     end
     
-    process "Ensure CommercialBuildingEnergyConsumptionSurveyResponse is populated" do
+    process "Ensure CommercialBuildingEnergyConsumptionSurveyResponse and Country are populated" do
       CommercialBuildingEnergyConsumptionSurveyResponse.run_data_miner!
+      Country.run_data_miner!
     end
     
     process "Calculate US lodging class fuel intensities from CommercialBuildingEnergyConsumptionSurveyResponse" do
+      occupancy_rate = Country.united_states.lodging_occupancy_rate
       connection.select_values("SELECT DISTINCT cbecs_detailed_activity FROM #{CountryLodgingClass.quoted_table_name}").each do |cbecs_activity|
         [:natural_gas, :fuel_oil, :electricity, :steam].each do |fuel|
           where(:cbecs_detailed_activity => cbecs_activity).update_all(%{
             #{fuel}_intensity = (
               SELECT SUM(
-                weighting * #{fuel}_use / (365.0 / 7.0 / 12.0 * months_used * weekly_hours / 24.0 * lodging_rooms * 0.59)
+                weighting * #{fuel}_use / (365.0 / 7.0 / 12.0 * months_used * weekly_hours / 24.0 * lodging_rooms * #{occupancy_rate})
               ) / SUM(weighting)
               FROM #{CommercialBuildingEnergyConsumptionSurveyResponse.quoted_table_name}
               WHERE detailed_activity = '#{cbecs_activity}'
