@@ -28,7 +28,7 @@ Conversions.register :megajoules, :btus,           947.81712
 Conversions.register :megajoules, :kbtus,          (1.megajoules.to(:btus) / 1_000)
 Conversions.register :megajoules, :trillion_btus,  (1.megajoules.to(:btus) / 1_000_000_000_000)
 Conversions.register :megajoules, :kilowatt_hours, 0.277777778
-Conversions.register :megajoules, :billion_kilowatt_hours, 1_000_000_000.kilowatt_hours.to(:megajoules)
+Conversions.register :megajoules, :billion_kilowatt_hours, 1.megajoules.to(:kilowatt_hours) / 1_000_000_000
 
 # Electricity: base unit = kilowatt hour
 Conversions.register :kilowatt_hours, :billion_kilowatt_hours, (1.0 / 1_000_000_000.0)
