@@ -1,5 +1,5 @@
 class AircraftInstanceSeatClass < ActiveRecord::Base
-  self.primary_key = :row_hash
+  self.primary_key = "row_hash"
   
   col :row_hash
   col :seat_class_name

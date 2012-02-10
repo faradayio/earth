@@ -1,5 +1,5 @@
 class EgridRegion < ActiveRecord::Base
-  self.primary_key = :name
+  self.primary_key = "name"
   
   has_many :egrid_subregions, :foreign_key => 'egrid_region_name'
   

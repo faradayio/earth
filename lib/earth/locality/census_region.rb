@@ -1,5 +1,5 @@
 class CensusRegion < ActiveRecord::Base
-  self.primary_key = :number
+  self.primary_key = "number"
   
   has_many :census_divisions, :foreign_key => 'census_region_number'
   has_many :states, :through => :census_divisions

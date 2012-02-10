@@ -1,5 +1,5 @@
 class State < ActiveRecord::Base
-  self.primary_key = :postal_abbreviation
+  self.primary_key = "postal_abbreviation"
   
   has_many :climate_divisions, :foreign_key => 'state_postal_abbreviation'
   has_many :zip_codes, :foreign_key => 'state_postal_abbreviation'

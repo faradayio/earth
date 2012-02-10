@@ -1,6 +1,6 @@
 require 'earth/fuel'
 class RailCompanyTractionClass < ActiveRecord::Base
-  self.primary_key = :name
+  self.primary_key = "name"
   
   col :name
   col :rail_company_name

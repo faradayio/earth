@@ -1,6 +1,6 @@
 require 'earth/fuel'
 class AutomobileMakeYearFleet < ActiveRecord::Base
-  self.primary_key = :name
+  self.primary_key = "name"
   
   col :name
   col :make_name

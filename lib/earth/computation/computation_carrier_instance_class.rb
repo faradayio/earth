@@ -1,6 +1,6 @@
 require 'earth/locality'
 class ComputationCarrierInstanceClass < ActiveRecord::Base
-  self.primary_key = :name
+  self.primary_key = "name"
   
   belongs_to :computation_carrier, :foreign_key => 'computation_carrier_name'
   

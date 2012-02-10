@@ -1,7 +1,7 @@
 require 'earth/locality'
 
 class FlightSegment < ActiveRecord::Base
-  self.primary_key = :row_hash
+  self.primary_key = "row_hash"
   
   extend CohortScope
   self.minimum_cohort_size = 1

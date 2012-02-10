@@ -1,6 +1,6 @@
 require 'earth/fuel'
 class AutomobileMake < ActiveRecord::Base
-  self.primary_key = :name
+  self.primary_key = "name"
   
   col :name
   col :fuel_efficiency, :type => :float

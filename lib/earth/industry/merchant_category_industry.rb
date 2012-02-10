@@ -1,5 +1,5 @@
 class MerchantCategoryIndustry < ActiveRecord::Base
-  self.primary_key = :row_hash
+  self.primary_key = "row_hash"
   
   belongs_to :merchant_category, :foreign_key => 'mcc'
   belongs_to :industry,          :foreign_key => 'naics_code'

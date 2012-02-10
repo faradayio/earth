@@ -1,5 +1,5 @@
 class Fuel < ActiveRecord::Base
-  self.primary_key = :name
+  self.primary_key = "name"
   
   has_many :fuel_years, :foreign_key => 'fuel_name'
   

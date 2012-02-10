@@ -1,6 +1,6 @@
 require 'earth/fuel'
 class BusFuelControl < ActiveRecord::Base
-  self.primary_key = :name
+  self.primary_key = "name"
   col :name
   col :bus_fuel_name
   col :control

@@ -1,6 +1,6 @@
 require 'earth/fuel'
 class BusFuelYearControl < ActiveRecord::Base
-  self.primary_key = :name
+  self.primary_key = "name"
   
   belongs_to :fuel_control, :class_name => 'BusFuelControl', :foreign_key => 'bus_fuel_control_name'
 

@@ -1,6 +1,6 @@
 require 'earth/locality'
 class NationalTransitDatabaseCompany < ActiveRecord::Base
-  self.primary_key = :id
+  self.primary_key = "id"
   self.table_name = :ntd_companies
   
   has_many :ntd_records, :foreign_key => 'company_id', :primary_key => 'id', :class_name => 'NationalTransitDatabaseRecord'

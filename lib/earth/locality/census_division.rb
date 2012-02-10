@@ -1,6 +1,6 @@
 require 'earth/fuel'
 class CensusDivision < ActiveRecord::Base
-  self.primary_key = :number
+  self.primary_key = "number"
   
   belongs_to :census_region, :foreign_key => 'census_region_number'
   has_many :states, :foreign_key => 'census_division_number'

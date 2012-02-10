@@ -1,7 +1,7 @@
 require 'earth/fuel'
 
 class AutomobileFuel < ActiveRecord::Base
-  self.primary_key = :name
+  self.primary_key = "name"
   
   has_many :type_fuel_year_ages, :class_name => 'AutomobileTypeFuelYearAge', :foreign_key => 'fuel_common_name', :primary_key => 'distance_key'
   has_many :type_fuel_years,     :class_name => 'AutomobileTypeFuelYear',    :foreign_key => 'fuel_common_name', :primary_key => 'ef_key'

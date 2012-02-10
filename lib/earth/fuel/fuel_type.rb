@@ -1,6 +1,6 @@
 # DEPRECATED but FuelPurchase still uses this
 class FuelType < ActiveRecord::Base
-  self.primary_key = :name
+  self.primary_key = "name"
   
   has_many :prices, :class_name => 'FuelPrice', :foreign_key => 'name' # weird
   

@@ -1,5 +1,5 @@
 class ResidenceFuelType < ActiveRecord::Base
-  self.primary_key = :name
+  self.primary_key = "name"
   
   has_many :prices, :class_name => 'ResidenceFuelPrice', :foreign_key => 'residence_fuel_type_name'
   

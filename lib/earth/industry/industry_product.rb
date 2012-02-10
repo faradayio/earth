@@ -1,6 +1,6 @@
 require 'earth/locality'
 class IndustryProduct < ActiveRecord::Base
-  self.primary_key = :naics_product_code
+  self.primary_key = "naics_product_code"
   
   has_many :product_line_industry_products, :foreign_key => 'naics_product_code'
   

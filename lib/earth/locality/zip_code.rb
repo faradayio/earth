@@ -1,7 +1,7 @@
 require ::File.join(Earth.vendor_dir, 'geokit-rails', 'lib', 'geokit-rails')
 
 class ZipCode < ActiveRecord::Base
-  self.primary_key = :name
+  self.primary_key = "name"
   
   belongs_to :egrid_subregion,  :foreign_key => 'egrid_subregion_abbreviation'
   belongs_to :climate_division, :foreign_key => 'climate_division_name'

@@ -1,6 +1,6 @@
 require 'earth/fuel'
 class AutomobileMakeModelYearVariant < ActiveRecord::Base
-  self.primary_key = :row_hash
+  self.primary_key = "row_hash"
   
   # It looks like synthesizing a unique name would require including pretty much every column from the FEGs
   # (e.g. creeper gear, automatic vs automatic with lockup, feedback fuel system, etc.)

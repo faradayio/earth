@@ -1,7 +1,7 @@
 require 'earth/fuel'
 require 'earth/locality'
 class RailCompany < ActiveRecord::Base
-  self.primary_key = :name
+  self.primary_key = "name"
   
   belongs_to :country, :foreign_key => 'country_iso_3166_code'
   

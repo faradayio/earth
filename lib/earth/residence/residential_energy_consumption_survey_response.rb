@@ -1,6 +1,6 @@
 require 'earth/locality'
 class ResidentialEnergyConsumptionSurveyResponse < ActiveRecord::Base
-  self.primary_key = :id
+  self.primary_key = "id"
   self.table_name = :recs_responses
   
   belongs_to :census_division,     :foreign_key => 'census_division_number'

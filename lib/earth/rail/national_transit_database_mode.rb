@@ -1,5 +1,5 @@
 class NationalTransitDatabaseMode < ActiveRecord::Base
-  self.primary_key = :code
+  self.primary_key = "code"
   self.table_name = :ntd_modes
   
   def self.rail_modes

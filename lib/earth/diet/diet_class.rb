@@ -1,5 +1,5 @@
 class DietClass < ActiveRecord::Base
-  self.primary_key = :name
+  self.primary_key = "name"
   
   class << self
     def fallback

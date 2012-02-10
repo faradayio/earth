@@ -1,5 +1,5 @@
 class Aircraft < ActiveRecord::Base
-  self.primary_key = :icao_code
+  self.primary_key = "icao_code"
   
   # Fuzzy association with FlightSegment
   cache_fuzzy_match_with :flight_segments, :primary_key => :description, :foreign_key => :aircraft_description

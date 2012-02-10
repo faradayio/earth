@@ -1,7 +1,7 @@
 require 'earth/locality'
 # Copyright 2011 Brighter Planet, Inc.
 class LodgingProperty < ActiveRecord::Base
-  self.primary_key = :northstar_id
+  self.primary_key = "northstar_id"
   
   # So Lodging can look up LodgingClass from LodgingProperty
   belongs_to :lodging_class, :foreign_key => 'lodging_class_name'

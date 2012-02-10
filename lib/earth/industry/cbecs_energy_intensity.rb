@@ -1,7 +1,7 @@
 require 'earth/locality'
 
 class CbecsEnergyIntensity < ActiveRecord::Base
-  self.primary_key = :name
+  self.primary_key = "name"
   
   col :name, :index => true
   col :principal_building_activity

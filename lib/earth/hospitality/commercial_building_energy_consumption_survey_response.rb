@@ -1,6 +1,6 @@
 require 'earth/locality'
 class CommercialBuildingEnergyConsumptionSurveyResponse < ActiveRecord::Base
-  self.primary_key = :id
+  self.primary_key = "id"
   self.table_name = :cbecs_responses
   
   extend CohortScope

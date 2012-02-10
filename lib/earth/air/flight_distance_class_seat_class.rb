@@ -1,5 +1,5 @@
 class FlightDistanceClassSeatClass < ActiveRecord::Base
-  self.primary_key = :name
+  self.primary_key = "name"
   
   falls_back_on :name => 'fallback',
                 :multiplier => 1.0

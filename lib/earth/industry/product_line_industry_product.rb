@@ -1,5 +1,5 @@
 class ProductLineIndustryProduct < ActiveRecord::Base
-  self.primary_key = :row_hash
+  self.primary_key = "row_hash"
   
   belongs_to :product_line,     :foreign_key => 'ps_code'
   belongs_to :industry_product, :foreign_key => 'naics_product_code'

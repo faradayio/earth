@@ -1,5 +1,5 @@
 class FuelYear < ActiveRecord::Base
-  self.primary_key = :name
+  self.primary_key = "name"
   
   col :name
   col :fuel_name

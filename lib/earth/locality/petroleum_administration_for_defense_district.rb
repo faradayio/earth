@@ -1,5 +1,5 @@
 class PetroleumAdministrationForDefenseDistrict < ActiveRecord::Base
-  self.primary_key = :code
+  self.primary_key = "code"
   self.table_name = :petroleum_districts
   
   def name

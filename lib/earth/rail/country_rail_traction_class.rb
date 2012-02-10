@@ -1,7 +1,7 @@
 require 'earth/fuel'
 require 'earth/locality'
 class CountryRailTractionClass < ActiveRecord::Base
-  self.primary_key = :name
+  self.primary_key = "name"
   
   col :name
   col :country_iso_3166_code

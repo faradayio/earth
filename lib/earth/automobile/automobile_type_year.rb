@@ -1,6 +1,6 @@
 require 'earth/fuel'
 class AutomobileTypeYear < ActiveRecord::Base
-  self.primary_key = :name
+  self.primary_key = "name"
   
   # FIXME TODO keep this until fix AutomobileFuel fallback hfc emission factor so that it doesn't call type_year.type_fuel_year
   has_many :type_fuel_years, :class_name => 'AutomobileTypeFuelYear', :foreign_key => 'type_year_name'

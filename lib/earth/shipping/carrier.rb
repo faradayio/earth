@@ -1,5 +1,5 @@
 class Carrier < ActiveRecord::Base
-  self.primary_key = :name
+  self.primary_key = "name"
   
   has_many :carrier_modes, :foreign_key => 'carrier_name', :primary_key => 'name'
   
