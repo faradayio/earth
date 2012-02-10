@@ -233,23 +233,19 @@ CbecsEnergyIntensity.class_eval do
     ##
     CbecsEnergyIntensity::CBECS[:region_tables].each do |energy_source, table|
       CbecsEnergyIntensity::CBECS[:regions].each do |region, region_data|
-        first = true
         import "2003 CBECS - #{energy_source.to_s.titleize} Consumption and Intensity - #{region.capitalize} Region",
           :url => "http://www.eia.gov/emeu/cbecs/cbecs2003/detailed_tables_2003/2003set#{CbecsEnergyIntensity::FUELS[energy_source][:set]}/2003excel/#{table}.xls",
           :select => Proc.new { |row| CbecsEnergyIntensity::NAICS_CODE_SYNTHESIZER.call(row) }, # only select rows where we can translate activity to a NAICS code
           :headers => false,
-          :crop => (21..37) do
+          :crop => (energy_source == :fuel_oil ? (16..19) : (21..37)) do
           
           key :name, :synthesize => Proc.new { |row|
             "#{Industry.format_naics_code(CbecsEnergyIntensity::NAICS_CODE_SYNTHESIZER.call(row))}-#{region_data[:census_region]}"
           }
 
-          if first
-            store :census_region_number, :static => region_data[:census_region]
-            store :principal_building_activity, :synthesize => Proc.new { |row| row[0].gsub(/[\.\(\)]/,'').strip }
-            store :naics_code, :synthesize => CbecsEnergyIntensity::NAICS_CODE_SYNTHESIZER
-            first = false
-          end
+          store :census_region_number, :static => region_data[:census_region]
+          store :principal_building_activity, :synthesize => Proc.new { |row| row[0].gsub(/[\.\(\)]/,'').strip }
+          store :naics_code, :synthesize => CbecsEnergyIntensity::NAICS_CODE_SYNTHESIZER
 
           store energy_source, :units => :megajoules, :synthesize => Proc.new { |row|
             Earth::EIA.convert_value(row[region_data[:column]], :from => CbecsEnergyIntensity::FUELS[energy_source][:consumption],

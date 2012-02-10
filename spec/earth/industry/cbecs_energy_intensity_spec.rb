@@ -41,39 +41,36 @@ describe CbecsEnergyIntensity do
 
   describe 'import', :slow => true do
     it 'fetches electric, natural gas, fuel oil, and distric heat data' do
-      DataMiner.logger = Logger.new(STDOUT)
-      ActiveRecord::Base.logger = Logger.new(STDOUT)
       CbecsEnergyIntensity.run_data_miner!
-      CbecsEnergyIntensity.all.count.should == 140  # 14 building uses * 9 census regions + 14 national avg
+      #CbecsEnergyIntensity.count.should == 138  # 13 building uses * 9 census regions + 13 national avg
 
       # check census regions
       regionals = CbecsEnergyIntensity.regional
-      nationals.count.should == 14
-      nationals.each do |national|
-        national.elecricity.should > 1
-        national.electricity_intensity.should > 1
-        national.natural_gas.should > 1
-        national.natural_gas_intensity.should > 1
-        national.fuel_oil.should > 1
-        national.fuel_oil_intensity.should > 1
-        # There is no regional district heat data
-        national.district_heat.should be_nil
-        national.district_heat_intensity.should be_nil
-      end
+      record = regionals.where(:principal_building_activity => 'Education', :census_region_number => 2).should_not be_empty
+      regionals.count.should == 52
+      spot_check(regionals, [
+        [[:principal_building_activity, :census_region_number], [:electricity, :fuel_oil]],
+        # Regional fuel oil
+        [['Education', 1], [:present, :present]],
+        [['Education', 2], [:present, :nil]],
+        [['Education', 3], [:present, :nil]],
+        [['Education', 4], [:present, :nil]],
+
+        [['Health Care', 1], [:present, :nil]],
+        [['Health Care', 2], [:present, :nil]],
+        [['Health Care', 3], [:present, :present]],
+        [['Health Care', 4], [:present, :present]],
+      ])
 
       # check total us averages
       nationals = CbecsEnergyIntensity.national
-      nationals.count.should == 14
-      nationals.each do |national|
-        national.elecricity.should > 1
-        national.electricity_intensity.should > 1
-        national.natural_gas.should > 1
-        national.natural_gas_intensity.should > 1
-        national.fuel_oil.should > 1
-        national.fuel_oil_intensity.should > 1
-        national.district_heat.should > 1
-        national.district_heat_intensity.should > 1
-      end
+      nationals.count.should == 13
+      spot_check(nationals, [
+        [[:principal_building_activity], [:electricity, :fuel_oil, :district_heat]],
+        [['Education'],                  [:present,     :present,  :present]],
+        [['Lodging'],                    [:present,     :present,  :nil]],
+        [['Office'],                     [:present,     :present,  :present]],
+      ])
     end 
   end
 end
