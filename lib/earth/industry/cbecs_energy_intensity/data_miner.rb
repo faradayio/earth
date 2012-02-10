@@ -5,28 +5,32 @@ require 'earth/locality/data_miner'
 CbecsEnergyIntensity.class_eval do
   const_set :FUELS, {
     :electricity => { 
-      :consumption => :billion_kwh,
+      :consumption => :billion_kilowatt_hours,
       :intensity => :kilowatt_hours_per_square_foot,
+      :set => 10
     },
     :natural_gas => { 
       :consumption => :billion_cubic_feet_of_natural_gas,
-      :intensity => :cubic_feet_of_natural_gas_per_square_foot
+      :intensity => :cubic_feet_of_natural_gas_per_square_foot,
+      :set => 11
     },
     :fuel_oil => { 
-      :consumption => :million_gallons_fuel_oil,
-      :intensity => :gallons_of_fuel_oil_per_square_foot
+      :consumption => :million_gallons_of_fuel_oil,
+      :intensity => :gallons_of_fuel_oil_per_square_foot,
+      :set => 12
     },
     :district_heat => { 
       :consumption => :trillion_btu,
-      :intensity => :trillion_btu_per_million_square_feet
+      :intensity => :trillion_btu_per_million_square_feet,
+      :set => 13
     }
   }
 
   const_set(:CBECS, {
     :region_tables => {
-      :electricity => 'c16',
-      :natural_gas => 'c26',
-      :fuel_oil => 'c36'
+      :electricity => 'c15',
+      :natural_gas => 'c25',
+      :fuel_oil => 'c35'
     },
     :regions => {
       'North-east' => {
@@ -227,29 +231,39 @@ CbecsEnergyIntensity.class_eval do
 
     ## By Census Region
     ##
-    #CbecsEnergyIntensity::CBECS[:national_tables].each do |energy_source, table|
-      #import "2003 CBECS - #{energy_source.upcase} Consumption and Intensity - National Average",
-        #:url => "http://www.eia.gov/emeu/cbecs/cbecs2003/detailed_tables_2003/2003set10/2003excel/c38.xls",
-        #:headers => false,
-        #:select => Proc.new { |row| CbecsEnergyIntensity::NAICS_CODE_SYNTHESIZER.call(row) }, # only select rows where we can translate activity to a NAICS code
-        #:crop => (21..37) do
-        #key :name, :synthesize => Proc.new { |row|
-          #"#{Industry.format_naics_code(CbecsEnergyIntensity::NAICS_CODE_SYNTHESIZER.call(row))}"
-        #}
-        #store :principal_building_activity, :synthesize => Proc.new { |row| row[0].gsub(/[\.\(\)]/,'').strip }
-        #store :naics_code, :synthesize => CbecsEnergyIntensity::NAICS_CODE_SYNTHESIZER
+    CbecsEnergyIntensity::CBECS[:region_tables].each do |energy_source, table|
+      CbecsEnergyIntensity::CBECS[:regions].each do |region, region_data|
+        first = true
+        import "2003 CBECS - #{energy_source.to_s.titleize} Consumption and Intensity - #{region.capitalize} Region",
+          :url => "http://www.eia.gov/emeu/cbecs/cbecs2003/detailed_tables_2003/2003set#{CbecsEnergyIntensity::FUELS[energy_source][:set]}/2003excel/#{table}.xls",
+          :headers => false,
+          :crop => (21..37) do
+          
+          key :name, :synthesize => Proc.new { |row|
+            "#{Industry.format_naics_code(CbecsEnergyIntensity::NAICS_CODE_SYNTHESIZER.call(row))}-#{region_data[:census_region]}"
+          }
 
-        #store :district_heat, :units => :megajoules, :synthesize => Proc.new { |row|
-          #Earth::EIA.convert_value(row[data[:column] + 1], :from => :billion_cubic_feet, :to => :megajoules)
-        #}
-        #store :district_heat_floorspace, :units => :square_metres, :synthesize => Proc.new { |row|
-          #Earth::EIA.convert_value(row[data[:column] + 4], :from => :million_square_feet, :to => :square_metres)
-        #}
-        #store :district_heat_intensity, :units => :megajoules_per_square_metre, :synthesize => Proc.new { |row|
-          #Earth::EIA.convert_value(row[data[:column] + 7], :from => :cubic_feet_per_square_foot, :to => :megajoules_per_square_metre)
-        #}
-      #end
-    #end
+          if first
+            store :principal_building_activity, :synthesize => Proc.new { |row| row[0].gsub(/[\.\(\)]/,'').strip }
+            store :naics_code, :synthesize => CbecsEnergyIntensity::NAICS_CODE_SYNTHESIZER
+            first = false
+          end
+          store :census_region_number, :static => region_data[:census_region]
+
+          store energy_source, :units => :megajoules, :synthesize => Proc.new { |row|
+            Earth::EIA.convert_value(row[region_data[:column]], :from => CbecsEnergyIntensity::FUELS[energy_source][:consumption],
+                                                                :to => :megajoules)
+          }
+          store "#{energy_source}_floorspace", :units => :square_metres, :synthesize => Proc.new { |row|
+            Earth::EIA.convert_value(row[region_data[:column] + 4], :from => :million_square_feet, :to => :square_metres)
+          }
+          store "#{energy_source}_intensity", :units => :megajoules_per_square_metre, :synthesize => Proc.new { |row|
+            Earth::EIA.convert_value(row[region_data[:column] + 8], :from => CbecsEnergyIntensity::FUELS[energy_source][:intensity],
+                                                                :to => :megajoules_per_square_metre)
+          }
+        end
+      end
+    end
 
     # National
     import "2003 CBECS - District Heat Consumption and Intensity - US Total",
