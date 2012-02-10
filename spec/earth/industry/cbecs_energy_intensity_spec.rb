@@ -42,11 +42,19 @@ describe CbecsEnergyIntensity do
   describe 'import', :slow => true do
     it 'fetches electric, natural gas, fuel oil, and distric heat data' do
       CbecsEnergyIntensity.run_data_miner!
-      #CbecsEnergyIntensity.count.should == 138  # 13 building uses * 9 census regions + 13 national avg
+
+      # check census divisions
+      divisionals = CbecsEnergyIntensity.divisional
+      divisionals.count.should == 117
+      spot_check(divisionals, [
+        [[:principal_building_activity, :census_region_number, :census_division_number], [:electricity, :natural_gas]],
+
+        [['Education', 1, 1], [:nil, :nil]],
+        [['Education', 1, 2], [:present, :present]],
+      ])
 
       # check census regions
       regionals = CbecsEnergyIntensity.regional
-      record = regionals.where(:principal_building_activity => 'Education', :census_region_number => 2).should_not be_empty
       regionals.count.should == 52
       spot_check(regionals, [
         [[:principal_building_activity, :census_region_number], [:electricity, :fuel_oil]],
