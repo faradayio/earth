@@ -8,6 +8,9 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'earth'
 
+require 'support/integration'
+include Integration
+
 case ENV['EARTH_DB_ADAPTER']
 when 'mysql'
   adapter = 'mysql'
