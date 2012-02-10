@@ -24,11 +24,11 @@ Conversions.register :kilograms, :pounds,        2.20462262
 Conversions.register :kilograms, :tons,          0.00110231131
 
 # Energy: base unit = megajoule
-Conversions.register :megajoules, :btus,           947.81712
-Conversions.register :megajoules, :kbtus,          (1.megajoules.to(:btus) / 1_000)
-Conversions.register :megajoules, :trillion_btus,  (1.megajoules.to(:btus) / 1_000_000_000_000)
-Conversions.register :megajoules, :kilowatt_hours, 0.277777778
-Conversions.register :megajoules, :billion_kilowatt_hours, 1.megajoules.to(:kilowatt_hours) / 1_000_000_000
+Conversions.register :btus,                   :megajoules, 0.00105505585
+Conversions.register :kbtus,                  :megajoules, 1_000.btus.to(:megajoules)
+Conversions.register :trillion_btus,          :megajoules  1_000_000_000_000.btus_.to(:megajoules)
+Conversions.register :kilowatt_hours,         :megajoules, 3.6
+Conversions.register :billion_kilowatt_hours, :megajoules, 1_000_000_000.kilowatt_hours.to(:megajoules)
 
 # Electricity: base unit = kilowatt hour
 Conversions.register :kilowatt_hours, :billion_kilowatt_hours, (1.0 / 1_000_000_000.0)
