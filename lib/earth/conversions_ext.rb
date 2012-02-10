@@ -26,7 +26,7 @@ Conversions.register :kilograms, :tons,          0.00110231131
 # Energy: base unit = megajoule
 Conversions.register :btus,                   :megajoules, 0.00105505585
 Conversions.register :kbtus,                  :megajoules, 1_000.btus.to(:megajoules)
-Conversions.register :trillion_btus,          :megajoules  1_000_000_000_000.btus_.to(:megajoules)
+Conversions.register :trillion_btus,          :megajoules, 1_000_000_000_000.btus.to(:megajoules)
 Conversions.register :kilowatt_hours,         :megajoules, 3.6
 Conversions.register :billion_kilowatt_hours, :megajoules, 1_000_000_000.kilowatt_hours.to(:megajoules)
 
