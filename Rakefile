@@ -7,7 +7,7 @@ Bueller::Tasks.new
 
 task :console do
   require 'earth'
-  logger = Logger.new('earth_console.log')
+  logger = Logger.new('log/test.log')
   DataMiner.logger = ActiveRecord::Base.logger = logger
   ActiveRecord::Base.establish_connection :adapter => 'postgresql', :database => 'test_earth'
   Earth.init :all
