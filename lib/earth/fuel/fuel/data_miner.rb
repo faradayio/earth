@@ -73,6 +73,26 @@ Fuel.class_eval do
       )
     end
     
+    process "Calcualte data for distrct heat" do
+      natural_gas = find_by_name 'Pipeline Natural Gas'
+      natural_gas_energy_ef = natural_gas.co2_emission_factor / natural_gas.energy_content
+      
+      fuel_oil = find_by_name 'Residual Fuel Oil No. 6'
+      fuel_oil_energy_ef = fuel_oil.co2_emission_factor / fuel_oil.energy_content
+      
+      district_heat = find_or_create_by_name "District Heat"
+      district_heat.oxidation_factor = 1
+      district_heat.biogenic_fraction = 0
+      district_heat.co2_biogenic_emission_factor = 0
+      district_heat.co2_biogenic_emission_factor_units = 'kilograms_per_megajoule'
+      
+      # Assumptions:              half nat gas at 81.7% efficiency    half fuel oil at 84.6% efficiency      5% transmission losses
+      district_heat.co2_emission_factor = (((natural_gas_energy_ef / 0.817) + (fuel_oil_energy_ef / 0.846)) / 2.0) / 0.95
+      district_heat.co2_emission_factor_units = 'kilograms_per_megajoule'
+      
+      district_heat.save!
+    end
+    
     # FIXME TODO verify this stuff
   end
 end

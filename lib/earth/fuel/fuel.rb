@@ -17,7 +17,7 @@ class Fuel < ActiveRecord::Base
   col :co2_biogenic_emission_factor, :type => :float
   col :co2_biogenic_emission_factor_units
   
-  def latest_year
+  def latest_fuel_year
     fuel_years.find_by_year(fuel_years.maximum('year'))
   end
   
@@ -25,7 +25,7 @@ class Fuel < ActiveRecord::Base
     if content = super
       content
     elsif fuel_years.present?
-      latest_year.energy_content
+      latest_fuel_year.energy_content
     end
   end
   
@@ -33,7 +33,7 @@ class Fuel < ActiveRecord::Base
     if units = super
       units
     elsif fuel_years.present?
-      latest_year.energy_content_units
+      latest_fuel_year.energy_content_units
     end
   end
   
@@ -41,7 +41,7 @@ class Fuel < ActiveRecord::Base
     if content = super
       content
     elsif fuel_years.present?
-      latest_year.carbon_content
+      latest_fuel_year.carbon_content
     end
   end
   
@@ -49,7 +49,7 @@ class Fuel < ActiveRecord::Base
     if units = super
       units
     elsif fuel_years.present?
-      latest_year.carbon_content_units
+      latest_fuel_year.carbon_content_units
     end
   end
   
@@ -57,7 +57,7 @@ class Fuel < ActiveRecord::Base
     if oxidation_factor = super
       oxidation_factor
     elsif fuel_years.present?
-      latest_year.oxidation_factor
+      latest_fuel_year.oxidation_factor
     end
   end
   
@@ -65,7 +65,7 @@ class Fuel < ActiveRecord::Base
     if biogenic_fraction = super
       biogenic_fraction
     elsif fuel_years.present?
-      latest_year.biogenic_fraction
+      latest_fuel_year.biogenic_fraction
     end
   end
   
@@ -73,7 +73,7 @@ class Fuel < ActiveRecord::Base
     if ef = super
       ef
     elsif fuel_years.present?
-      latest_year.co2_emission_factor
+      latest_fuel_year.co2_emission_factor
     end
   end
   
@@ -81,7 +81,7 @@ class Fuel < ActiveRecord::Base
     if units = super
       units
     elsif fuel_years.present?
-      latest_year.co2_emission_factor_units
+      latest_fuel_year.co2_emission_factor_units
     end
   end
   
@@ -89,7 +89,7 @@ class Fuel < ActiveRecord::Base
     if ef = super
       ef
     elsif fuel_years.present?
-      latest_year.co2_biogenic_emission_factor
+      latest_fuel_year.co2_biogenic_emission_factor
     end
   end
   
@@ -97,7 +97,7 @@ class Fuel < ActiveRecord::Base
     if units = super
       units
     elsif fuel_years.present?
-      latest_year.co2_biogenic_emission_factor_units
+      latest_fuel_year.co2_biogenic_emission_factor_units
     end
   end
 end
