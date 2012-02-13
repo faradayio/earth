@@ -17,6 +17,14 @@ class Fuel < ActiveRecord::Base
   col :co2_biogenic_emission_factor, :type => :float
   col :co2_biogenic_emission_factor_units
   
+  # Need to ensure FuelYear gets data_mined even when pulling with taps
+  # b/c Fuel has instance methods to look up missing values from FuelYear
+  data_miner do
+    process "Ensure FuelYear is imported" do
+      FuelYear.run_data_miner!
+    end
+  end
+  
   def latest_fuel_year
     fuel_years.find_by_year(fuel_years.maximum('year'))
   end

@@ -1,6 +1,8 @@
 class FuelYear < ActiveRecord::Base
   self.primary_key = "name"
   
+  belongs_to :fuel, :foreign_key => 'fuel_name'
+  
   col :name
   col :fuel_name
   col :year, :type => :integer
