@@ -6,10 +6,12 @@ EgridRegion.class_eval do
            :skip => 4,
            :select => lambda { |row| row['eGRID2010 year 2007 file state sequence number'].to_i.between?(1, 51) } do
       key   'name', :field_name => 'Grid region (E=Eastern grid, W=Western grid, AK=Alaska, HI=Hawaii, TX=Texas)'
+      store 'country_name', :static => 'US'
       store 'loss_factor', :field_name => 'Year 2007 grid gross loss factor'
     end
     
-    # Need this for fallback loss_factor calculation
+    # DEPRECATED but don't remove until confirmed that all emitters use EgridRegion.fallback rather than EgridRegion.find_by_abbreviation 'US'
+    # (ElectricityUse and Meeting)
     process "Ensure EgridCountry is populated" do
       EgridCountry.run_data_miner!
     end
