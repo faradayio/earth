@@ -41,14 +41,12 @@ class Country < ActiveRecord::Base
                 :rail_trip_co2_emission_factor => lambda { weighted_average(:rail_trip_co2_emission_factor, :weighted_by => :rail_passengers) },
                 :rail_trip_co2_emission_factor_units => 'kilograms_per_passenger_kilometre' # FIXME TODO derive this
   
-  class << self
-    def united_states
-      find_by_iso_3166_code('US')
-    end
-    
-    def united_states?
-      iso_3166_code == 'US'
-    end
+  def self.united_states
+    find_by_iso_3166_code('US')
+  end
+  
+  def united_states?
+    iso_3166_code == 'US'
   end
   
   col :iso_3166_code                            # alpha-2 2-letter like GB
