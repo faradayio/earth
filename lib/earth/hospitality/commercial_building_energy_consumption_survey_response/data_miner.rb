@@ -63,7 +63,7 @@ CommercialBuildingEnergyConsumptionSurveyResponse.class_eval do
       store 'natural_gas_energy',   :field_name => 'NGBTU8', :from_units => :kbtus,              :to_units => :megajoules
       store 'fuel_oil_use',         :field_name => 'FKCNS8', :from_units => :gallons,            :to_units => :litres
       store 'fuel_oil_energy',      :field_name => 'FKBTU8', :from_units => :kbtus,              :to_units => :megajoules
-      store 'steam_use',            :field_name => 'DHBTU8', :from_units => :kbtus,              :to_units => :megajoules
+      store 'district_heat_use',    :field_name => 'DHBTU8', :from_units => :kbtus,              :to_units => :megajoules
     end
     
     process "Derive electricity and fossil fuels use per room night for lodging buildings" do
@@ -74,7 +74,7 @@ CommercialBuildingEnergyConsumptionSurveyResponse.class_eval do
       lodging_records.update_all %{
         electricity_per_room_night = electricity_energy / (365.0 / 7.0 / 12.0 * months_used * weekly_hours / 24.0 * lodging_rooms),
         electricity_per_room_night_units = 'megajoules_per_room_night',
-        fossil_fuels_per_room_night = (natural_gas_energy + fuel_oil_energy + steam_use) / (365.0 / 7.0 / 12.0 * months_used * weekly_hours / 24.0 * lodging_rooms),
+        fossil_fuels_per_room_night = (natural_gas_energy + fuel_oil_energy + district_heat_use) / (365.0 / 7.0 / 12.0 * months_used * weekly_hours / 24.0 * lodging_rooms),
         fossil_fuels_per_room_night_units = 'megajoules_per_room_night'
       }
     end

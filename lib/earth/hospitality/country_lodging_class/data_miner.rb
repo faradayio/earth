@@ -17,7 +17,7 @@ CountryLodgingClass.class_eval do
     process "Calculate US lodging class fuel intensities from CommercialBuildingEnergyConsumptionSurveyResponse" do
       occupancy_rate = Country.united_states.lodging_occupancy_rate
       connection.select_values("SELECT DISTINCT cbecs_detailed_activity FROM #{CountryLodgingClass.quoted_table_name}").each do |cbecs_activity|
-        [:natural_gas, :fuel_oil, :electricity, :steam].each do |fuel|
+        [:natural_gas, :fuel_oil, :electricity, :district_heat].each do |fuel|
           where(:cbecs_detailed_activity => cbecs_activity).update_all(%{
             #{fuel}_intensity = (
               SELECT SUM(
@@ -33,7 +33,7 @@ CountryLodgingClass.class_eval do
           natural_gas_intensity_units = 'cubic_metres_per_room_night',
           fuel_oil_intensity_units    = 'litres_per_room_night',
           electricity_intensity_units = 'kilowatt_hours_per_room_night',
-          steam_intensity_units       = 'megajoules_per_room_night',
+          district_heat_intensity_units = 'megajoules_per_room_night',
           weighting = (
             SELECT SUM(weighting)
             FROM #{CommercialBuildingEnergyConsumptionSurveyResponse.quoted_table_name}

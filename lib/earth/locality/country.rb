@@ -28,8 +28,8 @@ class Country < ActiveRecord::Base
                 :lodging_fuel_oil_intensity_units => lambda { united_states.lodging_fuel_oil_intensity_units }, # for now assume US represents world
                 :lodging_electricity_intensity => lambda { united_states.lodging_electricity_intensity }, # for now assume US represents world
                 :lodging_electricity_intensity_units => lambda { united_states.lodging_electricity_intensity_units }, # for now assume US represents world
-                :lodging_steam_intensity => lambda { united_states.lodging_steam_intensity }, # for now assume US represents world
-                :lodging_steam_intensity_units => lambda { united_states.lodging_steam_intensity_units }, # for now assume US represents world
+                :lodging_district_heat_intensity => lambda { united_states.lodging_district_heat_intensity }, # for now assume US represents world
+                :lodging_district_heat_intensity_units => lambda { united_states.lodging_district_heat_intensity_units }, # for now assume US represents world
                 :rail_trip_distance => lambda { weighted_average(:rail_trip_distance, :weighted_by => :rail_passengers) },
                 :rail_trip_distance_units => 'kilometres', # FIXME TODO derive this
                 :rail_speed => lambda { weighted_average(:rail_speed, :weighted_by => :rail_passengers) },
@@ -44,6 +44,10 @@ class Country < ActiveRecord::Base
   class << self
     def united_states
       find_by_iso_3166_code('US')
+    end
+    
+    def united_states?
+      iso_3166_code == 'US'
     end
   end
   
@@ -74,8 +78,8 @@ class Country < ActiveRecord::Base
   col :lodging_fuel_oil_intensity_units
   col :lodging_electricity_intensity, :type => :float
   col :lodging_electricity_intensity_units
-  col :lodging_steam_intensity, :type => :float
-  col :lodging_steam_intensity_units
+  col :lodging_district_heat_intensity, :type => :float
+  col :lodging_district_heat_intensity_units
   col :rail_passengers, :type => :float
   col :rail_trip_distance, :type => :float
   col :rail_trip_distance_units

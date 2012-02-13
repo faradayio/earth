@@ -150,8 +150,8 @@ Country.class_eval do
           country.lodging_fuel_oil_intensity_units = 'gallons_per_room_night' # FIXME TODO derive this
           country.lodging_electricity_intensity = country.lodging_classes.weighted_average(:electricity_intensity)
           country.lodging_electricity_intensity_units = 'kilowatt_hours_per_room_night' # FIXME TODO derive this
-          country.lodging_steam_intensity = country.lodging_classes.weighted_average(:steam_intensity)
-          country.lodging_steam_intensity_units = 'megajoules_per_room_night' # FIXME TODO derive this
+          country.lodging_district_heat_intensity = country.lodging_classes.weighted_average(:district_heat_intensity)
+          country.lodging_district_heat_intensity_units = 'megajoules_per_room_night' # FIXME TODO derive this
           country.save!
         end
       end
