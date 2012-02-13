@@ -31,7 +31,7 @@ CountryLodgingClass.class_eval do
         
         where(:cbecs_detailed_activity => cbecs_activity).update_all(%{
           natural_gas_intensity_units = 'cubic_metres_per_room_night',
-          fuel_oil_intensity_units    = 'litrs_per_room_night',
+          fuel_oil_intensity_units    = 'litres_per_room_night',
           electricity_intensity_units = 'kilowatt_hours_per_room_night',
           steam_intensity_units       = 'megajoules_per_room_night',
           weighting = (
