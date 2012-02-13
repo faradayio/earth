@@ -6,22 +6,6 @@ class ClimateDivision < ActiveRecord::Base
   
   RADIUS = 750
   
-  def climate_zone_number
-    if cooling_degree_days < 2000.degrees_fahrenheit.to(:degrees_celsius)
-      if heating_degree_days > 7000.degrees_fahrenheit.to(:degrees_celsius)
-        1
-      elsif heating_degree_days > 5499.degrees_fahrenheit.to(:degrees_celsius)
-        2
-      elsif heating_degree_days > 3999.degrees_fahrenheit.to(:degrees_celsius)
-        3
-      else
-        4
-      end
-    else
-      5
-    end
-  end
-  
   col :name
   col :heating_degree_days, :type => :float
   col :heating_degree_days_units

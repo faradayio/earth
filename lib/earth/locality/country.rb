@@ -8,24 +8,6 @@ class Country < ActiveRecord::Base
   has_many :rail_companies,  :foreign_key => 'country_iso_3166_code' # used to calculate rail data
   has_many :lodging_classes, :foreign_key => 'country_iso_3166_code', :class_name => 'CountryLodgingClass'
   
-  def climate_zone_number
-    if heating_degree_days and cooling_degree_days
-      if cooling_degree_days < 2000.degrees_fahrenheit.to(:degrees_celsius)
-        if heating_degree_days > 7000.degrees_fahrenheit.to(:degrees_celsius)
-          1
-        elsif heating_degree_days > 5499.degrees_fahrenheit.to(:degrees_celsius)
-          2
-        elsif heating_degree_days > 3999.degrees_fahrenheit.to(:degrees_celsius)
-          3
-        else
-          4
-        end
-      else
-        5
-      end
-    end
-  end
-  
   falls_back_on :name => 'fallback',
                 :automobile_urbanity => lambda { united_states.automobile_urbanity }, # for now assume US represents world
                 :automobile_fuel_efficiency => ((22.5 + 16.2) / 2.0).miles_per_gallon.to(:kilometres_per_litre), # average of passenger car fuel unknown and light goods vehicle fuel unknown - WRI Mobile Combustion calculation tool v2.0

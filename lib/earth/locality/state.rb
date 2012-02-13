@@ -11,11 +11,6 @@ class State < ActiveRecord::Base
     Country.united_states
   end
   
-  def climate_zone_number
-    potential_zones = climate_divisions.map(&:climate_zone_number)
-    potential_zones.uniq.length == 1 ? potential_zones.first : nil
-  end
-  
   col :postal_abbreviation
   col :fips_code, :type => :integer
   col :name
