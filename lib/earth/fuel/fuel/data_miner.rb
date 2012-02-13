@@ -12,11 +12,24 @@ Fuel.class_eval do
       )
     end
     
-    import "fuels with non-variable characteristics",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdGJmYkdtajZyV3Byb0lrd21xLVhXUGc&hl=en&gid=0&output=csv' do
+    import "liquid fuels with non-variable characteristics",
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdGJmYkdtajZyV3Byb0lrd21xLVhXUGc&output=csv',
+           :select => lambda {|row| row['energy_content_units'] == 'million_btu_per_barrel'} do
       key 'name'
-      store 'energy_content', :units_field_name => 'energy_content_units'
-      store 'carbon_content', :units_field_name => 'carbon_content_units'
+      store 'physical_units', :static => 'litre'
+      store 'energy_content', :from_units => :million_btu_per_barrel,        :to_units => :megajoules_per_litre
+      store 'carbon_content', :from_units => :teragrams_per_quadrillion_btu, :to_units => :grams_per_megajoule
+      store 'oxidation_factor'
+      store 'biogenic_fraction'
+    end
+    
+    import "gaseous fuels with non-variable characteristics",
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdGJmYkdtajZyV3Byb0lrd21xLVhXUGc&output=csv',
+           :select => lambda {|row| row['energy_content_units'] == 'btu_per_cubic_foot'} do
+      key 'name'
+      store 'physical_units', :static => 'cubic_metre'
+      store 'energy_content', :from_units => :btus_per_cubic_foot,           :to_units => :megajoules_per_cubic_metre
+      store 'carbon_content', :from_units => :teragrams_per_quadrillion_btu, :to_units => :grams_per_megajoule
       store 'oxidation_factor'
       store 'biogenic_fraction'
     end
@@ -27,70 +40,29 @@ Fuel.class_eval do
       store 'density', :units_field_name => 'density_units'
     end
     
-    process "Convert energy content of liquid fuels to metric units" do
-      conversion_factor = (1_055.05585) * (1.0 / 158.987295) # Google: 1_055.05585 MJ / 1 MMBtu * 1 barrel / 158.987295 l
-      where(:energy_content_units => 'million_btu_per_barrel').update_all(%{
-        energy_content = 1.0 * energy_content * #{conversion_factor},
-        energy_content_units = 'megajoules_per_litre'
-      })
-    end
-    
-    process "Convert energy content of gaseous fuels to metric units" do
-      conversion_factor = (1.0 / 947.81712) * (35.3146667) # Google: 1.0 MJ / 947.81712 Btu * 35.3146667 cubic feet / 1 cubic m
-      where(:energy_content_units => 'btu_per_cubic_foot').update_all(%{
-        energy_content = 1.0 * energy_content * #{conversion_factor},
-        energy_content_units = 'megajoules_per_cubic_metre'
-      })
-    end
-    
-    process "Convert carbon content to metric units" do
-      conversion_factor = (1_000_000_000_000.0) * (1.0 / 1_055_055_852_620.0) # Google: 1e12 g / Tg * 1 QBtu / 1.055e12 MJ
-      where(:carbon_content_units => 'teragrams_per_quadrillion_btu').update_all(%{
-        carbon_content = 1.0 * carbon_content * #{conversion_factor},
-        carbon_content_units = 'grams_per_megajoule'
-      })
+    process "Create district heat" do
+      natural_gas = find_by_name 'Pipeline Natural Gas'
+      fuel_oil = find_by_name 'Residual Fuel Oil No. 6'
+      district_heat = find_or_create_by_name "District Heat"
+      
+      # Assumptions:              half nat gas at 81.7% efficiency    half fuel oil at 84.6% efficiency      5% transmission losses
+      district_heat.carbon_content = (((natural_gas.carbon_content / 0.817) + (fuel_oil.carbon_content / 0.846)) / 2.0) / 0.95
+      district_heat.carbon_content_units = 'grams_per_megajoule'
+      district_heat.energy_content = 1.0
+      district_heat.energy_content_units = 'megajoules_per_megajoule'
+      district_heat.oxidation_factor = 1.0
+      district_heat.biogenic_fraction = 0.0
+      district_heat.physical_units = 'megajoule'
+      district_heat.save!
     end
     
     process "Calculate CO2 and CO2 biogenic emission factors" do
-      conversion_factor = (1.0 / 1_000.0) * (44.0 / 12.0) # Google: 1 kg / 1e3 g * 44 CO2 / 12 C
-      update_all(%{
-        co2_emission_factor = 1.0 * carbon_content * energy_content * oxidation_factor * (1 - biogenic_fraction) * #{conversion_factor},
-        co2_biogenic_emission_factor = 1.0 * carbon_content * energy_content * oxidation_factor * biogenic_fraction * #{conversion_factor}
+      where('carbon_content IS NOT NULL and energy_content IS NOT NULL and oxidation_factor IS NOT NULL and biogenic_fraction IS NOT NULL').update_all(%{
+        co2_emission_factor                = 1.0 * carbon_content * #{1.grams.to(:kilograms).carbon.to(:co2)} * energy_content * oxidation_factor * (1.0 - biogenic_fraction),
+        co2_emission_factor_units          = 'kilograms_per_' || physical_units,
+        co2_biogenic_emission_factor       = 1.0 * carbon_content * #{1.grams.to(:kilograms).carbon.to(:co2)} * energy_content * oxidation_factor * biogenic_fraction,
+        co2_biogenic_emission_factor_units = 'kilograms_per_' || physical_units
       })
-    end
-    
-    process "Update emission factor units for liquid fuels" do
-      where(:energy_content_units => 'megajoules_per_litre').update_all(
-        :co2_emission_factor_units => 'kilograms_per_litre',
-        :co2_biogenic_emission_factor_units => 'kilograms_per_litre'
-      )
-    end
-    
-    process "Update emission factor units for gaseous fuels" do
-      where(:energy_content_units => 'megajoules_per_cubic_metre').update_all(
-        :co2_emission_factor_units => 'kilograms_per_cubic_metre',
-        :co2_biogenic_emission_factor_units => 'kilograms_per_cubic_metre'
-      )
-    end
-    
-    process "Calcualte data for distrct heat" do
-      natural_gas = find_by_name 'Pipeline Natural Gas'
-      natural_gas_energy_ef = natural_gas.co2_emission_factor / natural_gas.energy_content
-      
-      fuel_oil = find_by_name 'Residual Fuel Oil No. 6'
-      fuel_oil_energy_ef = fuel_oil.co2_emission_factor / fuel_oil.energy_content
-      
-      district_heat = find_or_create_by_name "District Heat"
-      district_heat.oxidation_factor = 1
-      district_heat.biogenic_fraction = 0
-      district_heat.co2_biogenic_emission_factor = 0
-      district_heat.co2_biogenic_emission_factor_units = 'kilograms_per_megajoule'
-      
-      # Assumptions:              half nat gas at 81.7% efficiency    half fuel oil at 84.6% efficiency      5% transmission losses
-      district_heat.co2_emission_factor = (((natural_gas_energy_ef / 0.817) + (fuel_oil_energy_ef / 0.846)) / 2.0) / 0.95
-      district_heat.co2_emission_factor_units = 'kilograms_per_megajoule'
-      
-      district_heat.save!
     end
     
     # FIXME TODO verify this stuff

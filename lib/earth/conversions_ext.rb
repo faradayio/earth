@@ -9,8 +9,9 @@ Conversions.register :square_metres, :square_feet,         10.7639104
 Conversions.register :square_metres, :million_square_feet, (1.square_metres.to(:square_feet) / 1_000_000)
 
 # Volume, liquid: base unit = litre
-Conversions.register :litres, :gallons,      0.264172052
-Conversions.register :litres, :cubic_inches, 61.0237441
+Conversions.register :gallons,      :litres, 3.78541178
+Conversions.register :cubic_inches, :litres, 0.016387064
+Conversions.register :barrels,      :litres, 42.gallons.to(:litres)
 
 # Volume, solid: base unit = cubic metre
 Conversions.register :cubic_metres, :cubic_feet,         35.3146667
@@ -54,7 +55,9 @@ Conversions.register :kilowatt_hours_per_square_metre,      :kilowatt_hours_per_
 Conversions.register :kilowatt_hours_per_square_metre_hour, :kilowatt_hours_per_square_foot_hour,     (1 / 1.square_metres.to(:square_feet))
 Conversions.register :megajoules_per_square_metre_hour,     :kbtus_per_square_foot_hour,              (1.megajoules.to(:kbtus) / 1.square_metres.to(:square_feet))
 Conversions.register :megajoules_per_room_night,            :kbtus_per_room_night,                    (1.megajoules.to(:kbtus))
-
+Conversions.register :million_btu_per_barrel,               :megajoules_per_litre,                    (1_000_000.btus.to(:megajoules) / 1.barrels.to(:litres)) # Fuel
+Conversions.register :btus_per_cubic_foot,                  :megajoules_per_cubic_metre,              (1.btus.to(:megajoules) / 1.cubic_feet.to(:cubic_metres)) # Fuel
+Conversions.register :teragrams_per_quadrillion_btu,        :grams_per_megajoule,                     (1_000_000_000_000 / 1_000_000_000_000_000.btus.to(:megajoules)) # Fuel
 
 # Odd units for pet - FIXME use megajoules rather than joules
 Conversions.register :kilocalories,           :joules,              4_184.0

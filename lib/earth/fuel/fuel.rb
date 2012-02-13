@@ -4,6 +4,7 @@ class Fuel < ActiveRecord::Base
   has_many :fuel_years, :foreign_key => 'fuel_name'
   
   col :name
+  col :physical_units
   col :density, :type => :float
   col :density_units
   col :energy_content, :type => :float
