@@ -2,6 +2,12 @@ require 'spec_helper'
 require 'earth/industry/cbecs_energy_intensity'
 require 'earth/industry/cbecs_energy_intensity/data_miner'
 
+def create_cbecs(name, args)
+  c = CbecsEnergyIntensity.new args
+  c.name = name
+  c.save!
+end
+
 describe CbecsEnergyIntensity do
   before :all do
     CbecsEnergyIntensity.auto_upgrade!
@@ -12,12 +18,12 @@ describe CbecsEnergyIntensity do
   
   describe '.find_by_naics_code_and_census_division_number' do
     before do
-      CbecsEnergyIntensity.create! :naics_code => '44', :census_division_number => 1
-      CbecsEnergyIntensity.create! :naics_code => '445', :census_division_number => 1
-      CbecsEnergyIntensity.create! :naics_code => '621', :census_division_number => 1
-      CbecsEnergyIntensity.create! :naics_code => '44', :census_division_number => 2
-      CbecsEnergyIntensity.create! :naics_code => '445', :census_division_number => 2
-      CbecsEnergyIntensity.create! :naics_code => '621', :census_division_number => 2
+      create_cbecs '1', :naics_code => '44', :census_division_number => 1
+      create_cbecs '2', :naics_code => '445', :census_division_number => 1
+      create_cbecs '3', :naics_code => '621', :census_division_number => 1
+      create_cbecs '4', :naics_code => '44', :census_division_number => 2
+      create_cbecs '5', :naics_code => '445', :census_division_number => 2
+      create_cbecs '6', :naics_code => '621', :census_division_number => 2
     end
     it 'finds an exact match' do
       record = CbecsEnergyIntensity.find_by_naics_code_and_census_division_number('445', 2)
