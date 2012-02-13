@@ -45,6 +45,18 @@ describe CbecsEnergyIntensity do
     end
   end
 
+  describe '#fuel_ratios' do
+    it 'makes ratios from fuel energies' do
+      cbecs = CbecsEnergyIntensity.new :name => '1', :electricity => 1000, :natural_gas => 2000, :fuel_oil => 500, :district_heat => 0
+      cbecs.fuel_ratios.should == {
+        :electricity => 0.2857142857142857,
+        :natural_gas => 0.5714285714285714,
+        :fuel_oil => 0.14285714285714285,
+        :district_heat => 0.0
+      }
+    end
+  end
+
   describe 'import', :slow => true do
     it 'fetches electric, natural gas, fuel oil, and distric heat data' do
       CbecsEnergyIntensity.run_data_miner!

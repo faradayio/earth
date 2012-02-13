@@ -40,7 +40,7 @@ class CbecsEnergyIntensity < ActiveRecord::Base
   scope :divisional, where('census_region_number IS NOT NULL AND census_division_number IS NOT NULL')
   scope :regional, where('census_region_number IS NOT NULL AND census_division_number IS NULL')
   scope :national, where(:census_region_number => nil, :census_division_number => nil)
-  
+
   # Find the first record whose census_division_number matches number and whose naics_code matches code.
   # If no record found chop off the last character of code and try again, and so on.
   def self.find_by_naics_code_and_census_division_number(code, number)
@@ -51,5 +51,14 @@ class CbecsEnergyIntensity < ActiveRecord::Base
       record ||= find_by_naics_code_and_census_division_number(code[0..-2], number)
     end
     record
+  end
+
+  def fuel_ratios
+    energy = 0
+    FUELS.keys.each { |fuel| energy += send(fuel).to_f }
+    FUELS.keys.inject({}) do |ratios, fuel|
+      ratios[fuel] = send(fuel).to_f / energy.to_f
+      ratios
+    end
   end
 end
