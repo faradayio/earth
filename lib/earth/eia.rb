@@ -11,7 +11,11 @@ module Earth
       when 'Q', 'W'
         nil
       else
-        value.to_f.send(args[:from]).to(args[:to])
+        if args[:to]
+          value.to_f.send(args[:from]).to(args[:to])
+        else
+          value.to_f
+        end
       end
     end
   end

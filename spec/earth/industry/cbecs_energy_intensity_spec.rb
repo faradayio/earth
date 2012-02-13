@@ -41,12 +41,44 @@ describe CbecsEnergyIntensity do
 
   describe 'import', :slow => true do
     it 'fetches electric, natural gas, fuel oil, and distric heat data' do
-      DataMiner.logger = Logger.new(STDOUT)
-      ActiveRecord::Base.logger = Logger.new(STDOUT)
       CbecsEnergyIntensity.run_data_miner!
-      CbecsEnergyIntensity.all.count.should == 163  # 18 building uses * 9 census regions + 1 national avg
 
-      CbecsEnergyIntensity.find_by_name ''
+      # check census divisions
+      divisionals = CbecsEnergyIntensity.divisional
+      divisionals.count.should == 117
+      spot_check(divisionals, [
+        [[:principal_building_activity, :census_region_number, :census_division_number], [:electricity, :natural_gas]],
+
+        [['Education', 1, 1], [:nil, :nil]],
+        [['Education', 1, 2], [:present, :present]],
+      ])
+
+      # check census regions
+      regionals = CbecsEnergyIntensity.regional
+      regionals.count.should == 52
+      spot_check(regionals, [
+        [[:principal_building_activity, :census_region_number], [:electricity, :fuel_oil]],
+        # Regional fuel oil
+        [['Education', 1], [:present, :present]],
+        [['Education', 2], [:present, :nil]],
+        [['Education', 3], [:present, :nil]],
+        [['Education', 4], [:present, :nil]],
+
+        [['Health Care', 1], [:present, :nil]],
+        [['Health Care', 2], [:present, :nil]],
+        [['Health Care', 3], [:present, :present]],
+        [['Health Care', 4], [:present, :present]],
+      ])
+
+      # check total us averages
+      nationals = CbecsEnergyIntensity.national
+      nationals.count.should == 13
+      spot_check(nationals, [
+        [[:principal_building_activity], [:electricity, :fuel_oil, :district_heat]],
+        [['Education'],                  [:present,     :present,  :present]],
+        [['Lodging'],                    [:present,     :present,  :nil]],
+        [['Office'],                     [:present,     :present,  :present]],
+      ])
     end 
   end
 end

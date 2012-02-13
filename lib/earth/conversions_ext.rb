@@ -14,8 +14,8 @@ Conversions.register :litres, :cubic_inches, 61.0237441
 
 # Volume, solid: base unit = cubic metre
 Conversions.register :cubic_metres, :cubic_feet,         35.3146667
-Conversions.register :cubic_metres, :hundred_cubic_feet, 0.353146667
-Conversions.register :cubic_metres, :billion_cubic_feet, 0.000000035315
+Conversions.register :cubic_metres, :hundred_cubic_feet, (1.cubic_metres.to(:cubic_feet) / 100)
+Conversions.register :cubic_metres, :billion_cubic_feet, (1.cubic_metres.to(:cubic_feet) / 1_000_000_000)
 
 # Mass: base unit = kilogram
 Conversions.register :kilograms, :grams,         1_000.0
@@ -24,13 +24,14 @@ Conversions.register :kilograms, :pounds,        2.20462262
 Conversions.register :kilograms, :tons,          0.00110231131
 
 # Energy: base unit = megajoule
-Conversions.register :megajoules, :btus,           947.81712
-Conversions.register :megajoules, :kbtus,          (1.megajoules.to(:btus) / 1_000)
-Conversions.register :megajoules, :trillion_btus,  (1.megajoules.to(:btus) / 1_000_000_000_000)
-Conversions.register :megajoules, :kilowatt_hours, 0.277777778
+Conversions.register :btus,                   :megajoules, 0.00105505585
+Conversions.register :kbtus,                  :megajoules, 1_000.btus.to(:megajoules)
+Conversions.register :trillion_btus,          :megajoules, 1_000_000_000_000.btus.to(:megajoules)
+Conversions.register :kilowatt_hours,         :megajoules, 3.6
+Conversions.register :billion_kilowatt_hours, :megajoules, 1_000_000_000.kilowatt_hours.to(:megajoules)
 
 # Electricity: base unit = kilowatt hour
-Conversions.register :kilowatt_hours, :billion_kwh, (1.0 / 1_000_000_000.0)
+Conversions.register :kilowatt_hours, :billion_kilowatt_hours, (1.0 / 1_000_000_000.0)
 
 # Monetary
 Conversions.register :dollars, :cents, 100.0
@@ -72,6 +73,13 @@ Conversions.register :kbtus,          :joules,             (1_000.0 * 1_055.0558
 Conversions.register :watt_hours,     :joules,             3_600.0
 Conversions.register :kilowatt_hours, :joules,             3_600_000.0
 
+# Odd units for CBECS
+Conversions.register :trillion_btus_per_million_square_feet, :megajoules_per_square_metre,     (1.trillion_btus.to(:megajoules) / 1.square_feet.to(:square_metres))
+Conversions.register :kilowatt_hours_per_square_foot, :megajoules_per_square_metre,            (1.kilowatt_hours.to(:megajoules) / 1.square_feet.to(:square_metres))
+Conversions.register :billion_cubic_feet_of_natural_gas, :megajoules,                          (1_000_000_000.cubic_feet.to(:cubic_metres) * 38.3395) # 2003 NatGas energy content MJ/m3
+Conversions.register :cubic_feet_of_natural_gas_per_square_foot, :megajoules_per_square_metre, ((1.cubic_feet.to(:cubic_metres) * 38.3395) / 1.square_feet.to(:square_metres))
+Conversions.register :million_gallons_of_fuel_oil, :megajoules,                                (1_000_000.gallons.to(:litres) * 39.0136) # Residual Fuel Oil energy content MJ/l from Fuels
+Conversions.register :gallons_of_fuel_oil_per_square_foot, :megajoules_per_square_metre,       ((39.0136 * 1.gallons.to(:litres)) / 1.square_feet.to(:square_metres))
 
 # Only used in app1
 Conversions.register(:pounds_per_gallon, :kilograms_per_litre, 0.119826427) # only used in app1
