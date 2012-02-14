@@ -3,29 +3,6 @@ require 'earth/industry'
 require 'earth/locality/data_miner'
 
 CbecsEnergyIntensity.class_eval do
-  const_set :FUELS, {
-    :electricity => { 
-      :consumption => :billion_kilowatt_hours,
-      :intensity => :kilowatt_hours_per_square_foot,
-      :set => 10
-    },
-    :natural_gas => { 
-      :consumption => :billion_cubic_feet_of_natural_gas,
-      :intensity => :cubic_feet_of_natural_gas_per_square_foot,
-      :set => 11
-    },
-    :fuel_oil => { 
-      :consumption => :million_gallons_of_fuel_oil,
-      :intensity => :gallons_of_fuel_oil_per_square_foot,
-      :set => 12
-    },
-    :district_heat => { 
-      :consumption => :trillion_btu,
-      :intensity => :trillion_btu_per_million_square_feet,
-      :set => 13
-    }
-  }
-
   const_set(:CBECS, {
     :region_tables => {
       :electricity => 'c15',
