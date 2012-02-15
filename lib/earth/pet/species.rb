@@ -15,6 +15,8 @@ class Species < ActiveRecord::Base
   col :minimum_weight_units
   col :maximum_weight, :type => :float
   col :maximum_weight_units
+
+  has_many :breeds, :foreign_key => 'species_name'
   
   scope :thoroughly_researched, :conditions => 'marginal_dietary_requirement IS NOT NULL'
   
