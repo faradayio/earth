@@ -11,6 +11,7 @@ class Industry < ActiveRecord::Base
   has_many :sectors, :through => :industry_sectors
   
   col :naics_code
+  col :sic, :index => true
   col :description
 
   class << self
