@@ -1,6 +1,5 @@
 require 'spec_helper'
 require 'earth/industry/cbecs_energy_intensity'
-require 'earth/industry/cbecs_energy_intensity/data_miner'
 
 def create_cbecs(name, args)
   c = CbecsEnergyIntensity.new args
@@ -58,6 +57,10 @@ describe CbecsEnergyIntensity do
   end
 
   describe 'import', :slow => true do
+    before :all do
+      require 'earth/industry/cbecs_energy_intensity/data_miner'
+    end
+
     it 'fetches electric, natural gas, fuel oil, and distric heat data' do
       CbecsEnergyIntensity.run_data_miner!
 
