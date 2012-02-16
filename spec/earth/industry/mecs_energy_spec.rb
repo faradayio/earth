@@ -1,35 +1,41 @@
 require 'spec_helper'
 require 'earth/industry'
-require 'earth/industry/mecs_energy'
 require 'earth/industry/mecs_energy/data_miner'
 
 describe MecsEnergy do
-  before(:all) do
-    MecsEnergy.auto_upgrade!
-    MecsEnergy.run_data_miner!
+  describe 'import', :slow => true do
+    before do
+      MecsEnergy.auto_upgrade!
+      MecsEnergy.delete_all
+    end
+    it 'retrieves Total US statistics' do
+      MecsEnergy.run_data_miner!
+      MecsEnergy.count.should == 395
+    end
   end
   
-  describe 'data mining' do
-    it 'retrieves Total US statistics' do
+  describe 'verify imported data', :sanity => true do
+    it 'spot checks the data' do
       apparel = MecsEnergy.find_by_naics_code '315'
       apparel.census_region_number.should be_nil
-      # apparel.energy.should == 14_770_800_000
-      # apparel.energy_units.should == 'megajoules'
-      # apparel.electricity.should == 7_385_390_000
-      # apparel.electricity_units.should == 'megajoules'
-      # apparel.residual_fuel_oil.should be_nil
-      # apparel.distillate_fuel_oil.should == 0
-      # apparel.energy_units.should == 'megajoules'
-      # apparel.natural_gas.should == 7
-      # apparel.energy_units.should == 'megajoules'
-      # apparel.lpg_and_ngl.should == 0
-      # apparel.energy_units.should == 'megajoules'
-      # apparel.coal.should == 0
-      # apparel.energy_units.should == 'megajoules'
-      # apparel.coke_and_breeze.should == 0
-      # apparel.energy_units.should == 'megajoules'
-      # apparel.other.should == 0
-      # apparel.energy_units.should == 'megajoules'
+      apparel.energy.should be_within(10_000).of(14.trillion_btus.to(:megajoules))
+      apparel.energy_units.should == 'megajoules'
+      apparel.electricity.should == be_within(1_000).of(7.trillion_btus.to(:megajoules))
+      apparel.electricity_units.should == 'megajoules'
+      apparel.residual_fuel_oil.should == 0
+      apparel.residual_fuel_oil_units.should == 'megajoules'
+      apparel.distillate_fuel_oil.should == 0
+      apparel.distillate_fuel_oil_units.should == 'megajoules'
+      apparel.natural_gas.should == be_within(1_000).of(7.trillion_btus.to(:megajoules))
+      apparel.natural_gas_units.should == 'megajoules'
+      apparel.lpg_and_ngl.should == 0
+      apparel.lpg_and_ngl_units.should == 'megajoules'
+      apparel.coal.should == 0
+      apparel.coal_units.should == 'megajoules'
+      apparel.coke_and_breeze.should == 0
+      apparel.coke_and_breeze_units.should == 'megajoules'
+      apparel.other_fuel.should == 0
+      apparel.other_fuel_units.should == 'megajoules'
     end
   end
   
