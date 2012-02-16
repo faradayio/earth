@@ -1,9 +1,26 @@
 require 'spec_helper'
-require 'earth/industry/mecs_ratio'
+require 'earth/industry'
+require 'earth/industry/mecs_ratio/data_miner'
 
 describe MecsRatio do
-  before :all do
-    MecsRatio.auto_upgrade!
+  describe 'import', :slow => true do
+    before do
+      MecsRatio.auto_upgrade!
+      MecsRatio.delete_all
+    end
+    it 'retrieves Total US statistics' do
+      MecsRatio.run_data_miner!
+      MecsRatio.count.should == 395
+    end
+  end
+  
+  describe 'verify imported data', :sanity => true do
+    it 'spot checks the data' do
+      apparel = MecsRatio.find_by_naics_code '315'
+      apparel.census_region_number.should be_nil
+      apparel.energy_per_dollar_of_shipments.should == be_within(0.000_001).of(0.5.kbtus.to(:megajoules))
+      apparel.energy_per_dollar_of_shipments_units.should == 'megajoules'
+    end
   end
   
   describe '.find_by_naics_code_and_census_region_number' do
