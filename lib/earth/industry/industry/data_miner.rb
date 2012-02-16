@@ -2,8 +2,9 @@ require 'earth/locality/data_miner'
 Industry.class_eval do
   def self.sic_lookup(naics_code)
     @sic_lookup ||= RemoteTable.new(:url => 'http://www.census.gov/epcd/naics02/NAICS02toSIC87.xls')
-    record = @sic_lookup.find { |lookup| lookup['NAICS 2002'].to_i.to_s == naics_code }
-    record ? record['SIC'].to_i.to_s : nil
+    if record = @sic_lookup.find { |lookup| lookup['NAICS 2002'].to_i.to_s == naics_code }
+      record['SIC'].to_i.to_s
+    end
   end
 
   data_miner do
