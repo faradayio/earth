@@ -52,6 +52,21 @@ describe MecsEnergy do
     end
   end
   
+  describe '.find_by_naics_code' do
+    it 'finds an exact match' do
+      MecsEnergy.find_by_naics_code('311221').name.should == '311221-'
+    end
+    it 'finds a parent category when exact code is not present' do
+      MecsEnergy.find_by_naics_code('3117').name.should == '311-'
+    end
+    it 'finds a parent category rather than a sibling category' do
+      MecsEnergy.find_by_naics_code('311225').name.should == '3112-'
+    end
+    it 'returns nil if no match found' do
+      MecsEnergy.find_by_naics_code('543211').should be_nil
+    end
+  end
+  
   describe '#fuel_ratios' do
     it 'returns a list of fuel ratios for a given NAICS' do
       energy = MecsEnergy.new :energy => 100, :electricity => 20,
