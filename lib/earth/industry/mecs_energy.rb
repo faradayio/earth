@@ -47,10 +47,16 @@ class MecsEnergy < ActiveRecord::Base
     record
   end
   
+  # TODO make this less paranoid
+  # for now only return a ratio if no fuels are nil and at least one fuel is nonzero
   def fuel_ratios
-    FUELS.inject({}) do |ratios, fuel|
-      ratios[fuel] = send("#{fuel}").to_f / energy.to_f
-      ratios
+    if energy.to_f > 0 # return nil if energy is nil or 0
+      ratios = FUELS.inject({}) do |r, fuel|
+        fuel_use = send("#{fuel}")
+        r[fuel] = fuel_use.present? ? fuel_use / energy : nil
+        r
+      end
+      ratios unless ratios.values.include? nil or ratios.values.all?(&:zero?) # return nil if any fuel uses were missing or all fuel uses were zero
     end
   end
 end
