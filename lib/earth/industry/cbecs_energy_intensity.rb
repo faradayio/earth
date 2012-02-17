@@ -63,19 +63,35 @@ class CbecsEnergyIntensity < ActiveRecord::Base
       :set => 13
     }
   }
-
+  
+  # Find the first record whose naics_code matches code.
+  # If no record found chop off the last character of code and try again, and so on.
+  def self.find_by_naics_code(code)
+    find_by_naics_code_and_census_field(code, :census_region_number, nil)
+  end
+  
+  # Find the first record whose census_region_number matches number and whose naics_code matches code.
+  # If no record found chop off the last character of code and try again, and so on.
+  def self.find_by_naics_code_and_census_region_number(code, number)
+    find_by_naics_code_and_census_field(code, :census_region_number, number)
+  end
+  
   # Find the first record whose census_division_number matches number and whose naics_code matches code.
   # If no record found chop off the last character of code and try again, and so on.
   def self.find_by_naics_code_and_census_division_number(code, number)
+    find_by_naics_code_and_census_field(code, :census_division_number, number)
+  end
+  
+  def self.find_by_naics_code_and_census_field(code, field, number)
     if code.blank?
       record = nil
     else
-      record = where('census_division_number = ? AND naics_code = ?', number, code).first
-      record ||= find_by_naics_code_and_census_division_number(code[0..-2], number)
+      record = where(field => number, :naics_code => code).first
+      record ||= find_by_naics_code_and_census_field(code[0..-2], field, number)
     end
     record
   end
-
+  
   def fuel_ratios
     energy = 0
     FUELS.keys.each { |fuel| energy += send(fuel).to_f }
