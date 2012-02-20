@@ -21,17 +21,27 @@ describe CbecsEnergyIntensity do
   end
   
   describe 'verify imported data', :sanity => true do
+    #TODO check values
     it 'checks census divisions' do
       divisionals = CbecsEnergyIntensity.divisional
       divisionals.count.should == 117
       spot_check(divisionals, [
         [[:principal_building_activity, :census_region_number, :census_division_number], [:electricity, :natural_gas]],
-        
         [['Education', 1, 1], [:nil, :nil]],
         [['Education', 1, 2], [:present, :present]],
       ])
     end
     
+    # TODO check values
+    # [[:principal_building_activity, :census_region_number], [:electricity, :fuel_oil]],
+    # [['Education', 1], [46_800_000_000, 44_749_338_478]],
+    # [['Education', 2], [72_000_000_000, :nil]],
+    # [['Education', 3], [208_800_000_000, :nil]],
+    # [['Education', 4], [61_200_000_000, :nil]],
+    # [['Health Care', 1], [36_000_000_000, :nil]],
+    # [['Health Care', 2], [64_800_000_000, :nil]],
+    # [['Health Care', 3], [111_600_000_000, 2_697_655_156]],
+    # [['Health Care', 4], [43_200_000_000, 1_110_799_182]],
     it 'checks cenusus regions' do
       regionals = CbecsEnergyIntensity.regional
       regionals.count.should == 52
@@ -49,6 +59,7 @@ describe CbecsEnergyIntensity do
       ])
     end
     
+    #TODO check values
     it 'checks US averages' do
       nationals = CbecsEnergyIntensity.national
       nationals.count.should == 13
