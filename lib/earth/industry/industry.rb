@@ -1,4 +1,6 @@
 require 'earth/locality'
+
+# TODO replace this with NAICS 2002?
 class Industry < ActiveRecord::Base
   self.primary_key = "naics_code"
   
@@ -11,17 +13,11 @@ class Industry < ActiveRecord::Base
   has_many :sectors, :through => :industry_sectors
   
   col :naics_code
-  col :sic, :index => true
   col :description
-
+  
   class << self
     def format_naics_code(input)
       "%d" % input.to_i
     end
-  end
-
-  def trade_industry?
-    prefix = naics_code.to_s[0,2]
-    %w{42 44 45}.include?(prefix)
   end
 end
