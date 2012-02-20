@@ -21,6 +21,8 @@ describe Naics2002 do
     before do
       require 'earth/industry/sic_1987'
       require 'earth/industry/naics_2002_sic_1987_concordance'
+      require 'earth/industry/naics_2007'
+      require 'earth/industry/naics_2002_naics_2007_concordance'
     end
     
     it "can be translated to a SIC 1987 code" do
@@ -32,6 +34,15 @@ describe Naics2002 do
         '488119' => %w{ 4581 4959 7997 }
       }.each do |naics, sics|
         Naics2002.find(naics).sic_1987.map(&:code).sort.should == sics
+      end
+    end
+    
+    it "can be translated to a NAICS 2007 code" do
+      {
+        '111150' => %w{ 111150 },
+        '111219' => %w{ 111211 111219 }
+      }.each do |naics_2002, naics_2007|
+        Naics2002.find(naics_2002).naics_2007.map(&:code).sort.should == naics_2007
       end
     end
   end
