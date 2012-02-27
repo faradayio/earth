@@ -75,17 +75,122 @@ describe MecsEnergy do
   end
   
   describe '#fuel_ratios' do
-    it 'returns a list of fuel ratios for a given NAICS' do
-      energy = MecsEnergy.new :energy => 100, :electricity => 20,
-        :residual_fuel_oil => 1, :distillate_fuel_oil => 2,
-        :natural_gas => 30, :lpg_and_ngl => 22, :coal => 22,
-        :coke_and_breeze => 1, :other_fuel => 1
+    it 'calculates based on sum of all fuels when no fuels are missing' do
+      # Energy < sum all fuels
+      energy = MecsEnergy.new(
+        :energy => 50,
+        :electricity => 25,
+        :residual_fuel_oil => 10,
+        :distillate_fuel_oil => 10,
+        :natural_gas => 25,
+        :lpg_and_ngl => 5,
+        :coal => 5,
+        :coke_and_breeze => 15,
+        :other_fuel => 5
+      )
       energy.fuel_ratios.should == {
-        :electricity => 0.20,
-        :residual_fuel_oil => 0.01, :distillate_fuel_oil => 0.02,
-        :natural_gas => 0.3, :lpg_and_ngl => 0.22, :coal => 0.22,
-        :coke_and_breeze => 0.01, :other_fuel => 0.01
+        :electricity => 0.25,
+        :residual_fuel_oil => 0.1,
+        :distillate_fuel_oil => 0.1,
+        :natural_gas => 0.25,
+        :lpg_and_ngl => 0.05,
+        :coal => 0.05,
+        :coke_and_breeze => 0.15,
+        :other_fuel => 0.05
       }
+      
+      # Energy = sum all fuels
+      energy = MecsEnergy.new(
+        :energy => 100,
+        :electricity => 25,
+        :residual_fuel_oil => 10,
+        :distillate_fuel_oil => 10,
+        :natural_gas => 25,
+        :lpg_and_ngl => 5,
+        :coal => 5,
+        :coke_and_breeze => 15,
+        :other_fuel => 5
+      )
+      energy.fuel_ratios.should == {
+        :electricity => 0.25,
+        :residual_fuel_oil => 0.1,
+        :distillate_fuel_oil => 0.1,
+        :natural_gas => 0.25,
+        :lpg_and_ngl => 0.05,
+        :coal => 0.05,
+        :coke_and_breeze => 0.15,
+        :other_fuel => 0.05
+      }
+      
+      # Energy > sum of all fuels
+      energy = MecsEnergy.new(
+        :energy => 200,
+        :electricity => 25,
+        :residual_fuel_oil => 75,
+        :distillate_fuel_oil => 0,
+        :natural_gas => 0,
+        :lpg_and_ngl => 0,
+        :coal => 0,
+        :coke_and_breeze => 0,
+        :other_fuel => 0
+      )
+      energy.fuel_ratios.should == {
+        :electricity => 0.25,
+        :residual_fuel_oil => 0.75
+      }
+    end
+    
+    it 'ignores missing fuels when energy <= sum of all fuels' do
+      # Energy < sum of all fuels
+      energy = MecsEnergy.new(
+        :energy => 50,
+        :electricity => 25,
+        :residual_fuel_oil => 75
+      )
+      energy.fuel_ratios.should == {
+        :electricity => 0.25,
+        :residual_fuel_oil => 0.75
+      }
+      
+      # Energy = sum of all fuels
+      energy = MecsEnergy.new(
+        :energy => 100,
+        :electricity => 25,
+        :residual_fuel_oil => 75
+      )
+      energy.fuel_ratios.should == {
+        :electricity => 0.25,
+        :residual_fuel_oil => 0.75
+      }
+    end
+    
+    it 'adjusts for missing fuels when energy > sum of all fuels' do
+      energy = MecsEnergy.new(
+        :energy => 200,
+        :electricity => 25,
+        :residual_fuel_oil => 75
+      )
+      energy.fuel_ratios.should == {
+        :electricity => 0.125,
+        :residual_fuel_oil => 0.375,
+        :coal => 0.5
+      }
+    end
+    
+    it 'returns nil if energy is missing or zero' do
+      energy = MecsEnergy.new(
+        :energy => nil,
+        :electricity => 25,
+        :residual_fuel_oil => 75
+      )
+      energy.fuel_ratios.should be_nil
+      
+      energy = MecsEnergy.new(
+        :energy => 0,
+        :electricity => 25,
+        :residual_fuel_oil => 75
+      )
+      energy.fuel_ratios.should be_nil
     end
   end
 end

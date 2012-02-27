@@ -47,16 +47,36 @@ class MecsEnergy < ActiveRecord::Base
     record
   end
   
-  # TODO make this less paranoid
-  # for now only return a ratio if no fuels are nil and at least one fuel is nonzero
   def fuel_ratios
-    if energy.to_f > 0 # return nil if energy is nil or 0
-      ratios = FUELS.inject({}) do |r, fuel|
-        fuel_use = send("#{fuel}")
-        r[fuel] = fuel_use.present? ? fuel_use / energy : nil
-        r
+    # Don't return a ratio if reported total energy was withheld
+    if energy.to_f > 0
+      # Calculate the sum of all fuels and note if any were withheld
+      withheld = 0
+      fuels_sum = MecsEnergy::FUELS.inject(0) do |sum, fuel|
+        (value = send("#{fuel}")).nil? ? withheld = 1 : sum += value
+        sum
       end
-      ratios unless ratios.values.include? nil or ratios.values.all?(&:zero?) # return nil if any fuel uses were missing or all fuel uses were zero
+      
+      # If energy > sum of all fuels and some fuels were withheld, calculate fuel ratios as fraction of energy
+      # and attribute the disparity between energy and sum of all fuels to the dirtiest fuel that was withheld
+      if energy > fuels_sum and withheld == 1
+        ratios = MecsEnergy::FUELS.inject({}) do |r, fuel|
+          fuel_use = send("#{fuel}")
+          r[fuel] = fuel_use.present? ? fuel_use / energy : nil
+          r
+        end
+        
+        dirtiest_withheld = ([:coal, :other_fuel, :coke_and_breeze, :residual_fuel_oil, :distillate_fuel_oil, :lpg_and_ngl, :natural_gas] & ratios.select{|k,v| v.nil?}.keys).first
+        ratios[dirtiest_withheld] = (energy - fuels_sum) / energy
+        ratios.delete_if{ |fuel, ratio| ratio.to_f == 0.0 }
+      # Otherwise calculate ratios as fraction of sum of all fuels, skipping any fuels that were withheld
+      else
+        MecsEnergy::FUELS.inject({}) do |r, fuel|
+          fuel_use = send("#{fuel}")
+          r[fuel] = fuel_use / fuels_sum if fuel_use.to_f > 0
+          r
+        end
+      end
     end
   end
 end
