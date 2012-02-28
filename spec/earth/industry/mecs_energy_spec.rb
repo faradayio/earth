@@ -192,5 +192,20 @@ describe MecsEnergy do
       )
       energy.fuel_ratios.should be_nil
     end
+    
+    it 'returns nil if all fuels are zero' do
+      energy = MecsEnergy.new(
+        :energy => 1,
+        :electricity => 0,
+        :residual_fuel_oil => 0,
+        :distillate_fuel_oil => 0,
+        :natural_gas => 0,
+        :lpg_and_ngl => 0,
+        :coal => 0,
+        :coke_and_breeze => 0,
+        :other_fuel => 0
+      )
+      energy.fuel_ratios.should be_nil
+    end
   end
 end

@@ -71,11 +71,12 @@ class MecsEnergy < ActiveRecord::Base
         ratios.delete_if{ |fuel, ratio| ratio.to_f == 0.0 }
       # Otherwise calculate ratios as fraction of sum of all fuels, skipping any fuels that were withheld
       else
-        MecsEnergy::FUELS.inject({}) do |r, fuel|
+        ratios = MecsEnergy::FUELS.inject({}) do |r, fuel|
           fuel_use = send("#{fuel}")
           r[fuel] = fuel_use / fuels_sum if fuel_use.to_f > 0
           r
         end
+        ratios.keys.any? ? ratios : nil
       end
     end
   end
