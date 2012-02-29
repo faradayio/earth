@@ -26,5 +26,35 @@ State.class_eval do
       key   'postal_abbreviation', :field_name => 'State'
       store 'petroleum_administration_for_defense_district_code', :field_name => 'Code'
     end
+    
+    process 'ensure ZipCode, EgridSubregion, and EgridRegion are populated' do
+      ZipCode.run_data_miner!
+      EgridSubregion.run_data_miner!
+      EgridRegion.run_data_miner!
+    end
+    
+    process 'derive average electricity emission factor and loss factor from zip code and eGRID data' do
+      update_all %{
+        electricity_emission_factor = (
+          SELECT SUM(zip_codes.population * egrid_subregions.electricity_emission_factor) / SUM(zip_codes.population)
+          FROM zip_codes
+          INNER JOIN egrid_subregions ON egrid_subregions.abbreviation = zip_codes.egrid_subregion_abbreviation
+          WHERE zip_codes.state_postal_abbreviation = states.postal_abbreviation
+        ),
+        electricity_emission_factor_units = 'kilograms_co2e_per_kilowatt_hour',
+        electricity_loss_factor = (
+          SELECT SUM(zip_codes.population * egrid_regions.loss_factor) / SUM(zip_codes.population)
+          FROM zip_codes
+          INNER JOIN egrid_subregions ON egrid_subregions.abbreviation = zip_codes.egrid_subregion_abbreviation
+          INNER JOIN egrid_regions ON egrid_regions.name = egrid_subregions.egrid_region_name
+          WHERE zip_codes.state_postal_abbreviation = states.postal_abbreviation
+        )
+      }
+    end
+    
+    # TODO import this from US census? would be slightly different: 0.7% for Alaska, 0.2% for New Mexico, etc.
+    process 'derive population from zip code data' do
+      update_all "population = (SELECT SUM(population) FROM zip_codes WHERE zip_codes.state_postal_abbreviation = states.postal_abbreviation)"
+    end
   end
 end
