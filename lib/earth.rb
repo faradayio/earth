@@ -1,6 +1,5 @@
 require 'active_support/core_ext'
 require 'active_record'
-require 'cohort_scope'
 require 'earth/conversions_ext'
 require 'earth/inflectors'
 require 'data_miner'

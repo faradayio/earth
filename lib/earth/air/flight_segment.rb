@@ -3,9 +3,6 @@ require 'earth/locality'
 class FlightSegment < ActiveRecord::Base
   self.primary_key = "row_hash"
   
-  extend CohortScope
-  self.minimum_cohort_size = 1
-  
   # Cutting this for now because if iata code is missing we have to look up airports using both city and country; don't know how to do this with ActiveRecord
   # - Ian 6/12/2011
   # # If airport iata code is missing, associate with all airports in a city

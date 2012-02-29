@@ -2,9 +2,6 @@ require 'earth/locality'
 class ResidenceFuelPrice < ActiveRecord::Base
   self.primary_key = "row_hash"
   
-  extend CohortScope
-  self.minimum_cohort_size = 5 # ? FIXME
-  
   belongs_to :fuel, :class_name => 'ResidenceFuelType', :foreign_key => 'residence_fuel_type_name'
   belongs_to :locatable, :polymorphic => true
   

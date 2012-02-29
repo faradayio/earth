@@ -12,10 +12,6 @@ class ResidentialEnergyConsumptionSurveyResponse < ActiveRecord::Base
   belongs_to :air_conditioner_use
   belongs_to :clothes_machine_use
   
-  extend CohortScope
-  self.minimum_cohort_size = 5
-  SUBCOHORT_THRESHOLD = 5 # per Matt
-  
   INPUT_CHARACTERISTICS = [
     :ownership,
     :construction_year,
