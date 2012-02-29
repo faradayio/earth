@@ -32,6 +32,20 @@ ZipCode.class_eval do
       store 'climate_division_name'
     end
     
-    # FIXME TODO verify this
+    # TODO: download file directly from US census
+    # NOTE: ZCTAs are not zip codes but are based on the most common zip code in the area they cover - see http://www.census.gov/geo/ZCTA/zcta.html
+    import 'US Census 2010 zip code tabulation area populations',
+           :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdHJsVjlKNXNLNEQyWENjZ1owd2hFS3c&output=csv',
+           :skip => 1 do
+      key 'name', :field_name => 'Id2', :sprintf => '%05d'
+      store 'population', :field_name => 'Total'
+    end
+    
+    import 'misc zip code data not included in other sources',
+           :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdHFYaUE1cEdHTzZCcTFQOEZOTGVUemc&output=csv' do
+      key 'name', :sprintf => '%05d'
+      store 'state_postal_abbreviation'
+      store 'egrid_subregion_abbreviation'
+    end
   end
 end

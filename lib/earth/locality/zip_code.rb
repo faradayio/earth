@@ -26,4 +26,5 @@ class ZipCode < ActiveRecord::Base
   col :longitude
   col :egrid_subregion_abbreviation
   col :climate_division_name
+  col :population, :type => :integer
 end
