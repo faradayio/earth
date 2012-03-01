@@ -103,23 +103,20 @@ Country.class_eval do
           row['electricity_co2_emission_factor'].to_f +
           (row['electricity_ch4_emission_factor'].to_f * GreenhouseGas[:ch4].global_warming_potential) +
           (row['electricity_n2o_emission_factor'].to_f * GreenhouseGas[:n2o].global_warming_potential)
-        ) / (1 - row['loss_factor'].to_f) }, :units => 'kilograms_co2e_per_kilowatt_hour'
+        ) }, :units => 'kilograms_co2e_per_kilowatt_hour'
+      store 'electricity_loss_factor', :field_name => 'loss_factor'
     end
     
-    process "Ensure EgridSubregion is populated" do
+    process "Ensure EgridSubregion and EgridRegion are populated" do
       EgridSubregion.run_data_miner!
+      EgridRegion.run_data_miner!
     end
     
-    process "Derive average US electricity emission factor from eGRID" do
+    process "Derive average US electricity emission factor and loss factor from eGRID" do
       us = united_states
-      subregion = EgridSubregion.fallback
-      us.electricity_emission_factor =
-        (
-          subregion.electricity_co2_emission_factor +
-          subregion.electricity_ch4_emission_factor +
-          subregion.electricity_n2o_emission_factor
-        ) / (1 - subregion.egrid_region.loss_factor)
-      us.electricity_emission_factor_units = 'kilograms_co2e_per_kilowatt_hour'
+      us.electricity_emission_factor = EgridSubregion.fallback.electricity_emission_factor
+      us.electricity_emission_factor_units = EgridSubregion.fallback.electricity_emission_factor_units
+      us.electricity_loss_factor = EgridRegion.fallback.loss_factor
       us.save!
     end
     
