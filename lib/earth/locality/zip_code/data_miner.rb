@@ -32,13 +32,11 @@ ZipCode.class_eval do
       store 'climate_division_name'
     end
     
-    # TODO: download file directly from US census
     # NOTE: ZCTAs are not zip codes but are based on the most common zip code in the area they cover - see http://www.census.gov/geo/ZCTA/zcta.html
     import 'US Census 2010 zip code tabulation area populations',
-           :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdHJsVjlKNXNLNEQyWENjZ1owd2hFS3c&output=csv',
-           :skip => 1 do
-      key 'name', :field_name => 'Id2', :sprintf => '%05d'
-      store 'population', :field_name => 'Total'
+           :url => 'http://www.census.gov/geo/www/2010census/zcta_rel/zcta_county_rel_10.txt' do
+      key 'name', :field_name => 'ZCTA5', :sprintf => '%05d'
+      store 'population', :field_name => 'ZPOP'
     end
     
     import 'misc zip code data not included in other sources',
