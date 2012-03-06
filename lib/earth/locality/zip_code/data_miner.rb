@@ -9,7 +9,7 @@ ZipCode.class_eval do
   
   data_miner do
     import 'the Mapping Hacks zipcode database',
-           :url => 'http://mappinghacks.com/data/zipcode.zip',
+           :url => 'http://archive.data.brighterplanet.com/zipcode.zip', # http://mappinghacks.com/data/zipcode.zip'
            :filename => 'zipcode.csv' do
       key   'name', :field_name => 'zip', :sprintf => '%05d'
       store 'state_postal_abbreviation', :field_name => 'state'
