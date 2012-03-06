@@ -26,4 +26,8 @@ class LodgingProperty < ActiveRecord::Base
   col :pools_indoor,      :type => :float # float b/c fallback needs to be a float
   col :pools_outdoor,     :type => :float # float b/c fallback needs to be a float
   col :update_date
+  add_index :city
+  add_index :locality
+  add_index :postcode
+  add_index :country_iso_3166_alpha_3_code
 end
