@@ -56,12 +56,4 @@ class CommercialBuildingEnergyConsumptionSurveyResponse < ActiveRecord::Base
   col :fuel_oil_per_room_night_units                 # for lodging fuzzy weighting
   col :district_heat_per_room_night, :type => :float # for lodging fuzzy weighting
   col :district_heat_per_room_night_units            # for lodging fuzzy weighting
-  col :electricity_energy_intensity, :type => :float
-  col :electricity_energy_intensity_units
-  col :natural_gas_energy_intensity, :type => :float
-  col :natural_gas_energy_intensity_units
-  col :fuel_oil_energy_intensity, :type => :float
-  col :fuel_oil_energy_intensity_units
-  col :district_heat_energy_intensity, :type => :float
-  col :district_heat_energy_intensity_units
 end

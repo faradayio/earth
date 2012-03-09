@@ -78,18 +78,5 @@ CommercialBuildingEnergyConsumptionSurveyResponse.class_eval do
         }
       end
     end
-    
-    process "Derive fuel intensities per unit area" do
-      [:natural_gas, :fuel_oil, :electricity].each do |fuel|
-        update_all %{
-          #{fuel}_energy_intensity = #{fuel}_energy / area,
-          #{fuel}_energy_intensity_units = 'megajoules_per_square_metre'
-        }
-        update_all %{
-          district_heat_energy_intensity = district_heat_use / area,
-          district_heat_energy_intensity_units = 'megajoules_per_square_metre'
-        }
-      end
-    end
   end
 end
