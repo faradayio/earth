@@ -64,6 +64,7 @@ CommercialBuildingEnergyConsumptionSurveyResponse.class_eval do
       store 'fuel_oil_use',         :field_name => 'FKCNS8', :from_units => :gallons,            :to_units => :litres
       store 'fuel_oil_energy',      :field_name => 'FKBTU8', :from_units => :kbtus,              :to_units => :megajoules
       store 'district_heat_use',    :field_name => 'DHBTU8', :from_units => :kbtus,              :to_units => :megajoules
+      store 'district_heat_energy', :field_name => 'DHBTU8', :from_units => :kbtus,              :to_units => :megajoules
     end
     
     process "Derive room nights for lodging records" do

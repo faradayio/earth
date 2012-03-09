@@ -45,6 +45,8 @@ class CommercialBuildingEnergyConsumptionSurveyResponse < ActiveRecord::Base
   col :fuel_oil_energy_units
   col :district_heat_use,      :type => :float
   col :district_heat_use_units
+  col :district_heat_energy,   :type => :float
+  col :district_heat_energy_units
   col :stratum,                :type => :integer
   col :pair,                   :type => :integer
   col :weighting,              :type => :float
