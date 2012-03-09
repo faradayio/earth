@@ -6,7 +6,7 @@ describe CountryLodgingClass do
     CountryLodgingClass.auto_upgrade!
   end
   
-  describe "when importing data", :slow => true do
+  describe "when importing data", :data_miner => true do
     before do
       require 'earth/hospitality/country_lodging_class/data_miner'
     end

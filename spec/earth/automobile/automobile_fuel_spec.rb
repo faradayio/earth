@@ -3,7 +3,7 @@ require 'earth/automobile'
 require 'earth/automobile/data_miner'
 
 describe AutomobileFuel do
-  describe 'import', :slow => true do
+  describe 'import', :data_miner => true do
     it 'should import data without problems' do
       AutomobileFuel.run_data_miner!
       AutomobileFuel.all.count.should > 0

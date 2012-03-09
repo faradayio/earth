@@ -6,7 +6,7 @@ describe Naics2002Naics2007Concordance do
     Naics2002Naics2007Concordance.auto_upgrade!
   end
   
-  describe "when importing data", :slow => true do
+  describe "when importing data", :data_miner => true do
     before do
       require 'earth/industry/naics_2002_naics_2007_concordance/data_miner'
     end

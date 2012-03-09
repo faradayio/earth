@@ -3,7 +3,7 @@ require 'earth/industry/mecs_ratio'
 require 'earth/industry/industry' # MecsRatio's custom find by method calls an Industry method
 
 describe MecsRatio do
-  describe 'import', :slow => true do
+  describe 'import', :data_miner => true do
     before do
       require 'earth/industry/mecs_ratio/data_miner'
       MecsRatio.auto_upgrade!

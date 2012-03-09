@@ -6,7 +6,7 @@ describe State do
     State.auto_upgrade!
   end
   
-  describe 'when importing data', :slow => true do
+  describe 'when importing data', :data_miner => true do
     before do
       require 'earth/locality/state/data_miner'
     end

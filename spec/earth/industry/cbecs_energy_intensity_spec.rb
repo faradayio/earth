@@ -8,7 +8,7 @@ def create_cbecs(name, args)
 end
 
 describe CbecsEnergyIntensity do
-  describe 'import', :slow => true do
+  describe 'import', :data_miner => true do
     before do
       require 'earth/industry/cbecs_energy_intensity/data_miner'
       CbecsEnergyIntensity.auto_upgrade!

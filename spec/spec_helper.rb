@@ -45,6 +45,6 @@ DataMiner.logger = logger
 
 RSpec.configure do |c|
   unless ENV['ALL'] == 'true'
-    c.filter_run_excluding :slow => true
+    c.filter_run_excluding :data_miner => true
   end
 end

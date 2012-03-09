@@ -6,7 +6,7 @@ describe Naics2007 do
     Naics2007.auto_upgrade!
   end
   
-  describe "when importing data", :slow => true do
+  describe "when importing data", :data_miner => true do
     before do
       require 'earth/industry/naics_2007/data_miner'
     end

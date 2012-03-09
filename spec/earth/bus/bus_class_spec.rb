@@ -5,7 +5,7 @@ describe 'BusFuel' do
     Earth.init :bus, :fuel, :apply_schemas => true
   end
 
-  describe 'import', :slow => true do
+  describe 'import', :data_miner => true do
     it 'is related to fuels' do
       BusFuel.run_data_miner!
       BusFuel.last.fuel.should_not be_nil

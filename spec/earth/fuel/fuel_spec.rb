@@ -8,7 +8,7 @@ describe Fuel do
     Fuel.auto_upgrade!
   end
   
-  describe 'when importing data', :slow => true do
+  describe 'when importing data', :data_miner => true do
     it 'fetches all fuels' do
       Earth.init :fuel, :load_data_miner => true
       Fuel.run_data_miner!

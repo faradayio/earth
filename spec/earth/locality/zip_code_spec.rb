@@ -6,7 +6,7 @@ describe ZipCode do
     ZipCode.auto_upgrade!
   end
   
-  describe 'when importing data', :slow => true do
+  describe 'when importing data', :data_miner => true do
     before do
       require 'earth/locality/zip_code/data_miner'
     end

@@ -3,7 +3,7 @@ require 'earth/industry/mecs_energy'
 require 'earth/industry/industry' # MecsEnergy's custom find by method calls an Industry method
 
 describe MecsEnergy do
-  describe 'import', :slow => true do
+  describe 'import', :data_miner => true do
     before do
       require 'earth/industry/mecs_energy/data_miner'
       MecsEnergy.auto_upgrade!

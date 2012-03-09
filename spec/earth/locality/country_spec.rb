@@ -6,7 +6,7 @@ describe Country do
     Country.auto_upgrade!
   end
   
-  describe 'import', :slow => true do
+  describe 'import', :data_miner => true do
     before do
       require 'earth/locality/country/data_miner'
     end

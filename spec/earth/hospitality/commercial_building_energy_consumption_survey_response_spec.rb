@@ -6,7 +6,7 @@ describe CommercialBuildingEnergyConsumptionSurveyResponse do
     CommercialBuildingEnergyConsumptionSurveyResponse.auto_upgrade!
   end
   
-  describe "when importing data", :slow => true do
+  describe "when importing data", :data_miner => true do
     before do
       require 'earth/hospitality/commercial_building_energy_consumption_survey_response/data_miner'
     end

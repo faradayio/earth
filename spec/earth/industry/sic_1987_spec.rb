@@ -6,7 +6,7 @@ describe Sic1987 do
     Sic1987.auto_upgrade!
   end
   
-  describe "when importing data", :slow => true do
+  describe "when importing data", :data_miner => true do
     before do
       require 'earth/industry/sic_1987/data_miner'
     end
