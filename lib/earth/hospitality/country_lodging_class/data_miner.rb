@@ -16,30 +16,24 @@ CountryLodgingClass.class_eval do
     
     process "Calculate US lodging class fuel intensities from CommercialBuildingEnergyConsumptionSurveyResponse" do
       occupancy_rate = Country.united_states.lodging_occupancy_rate
-      connection.select_values("SELECT DISTINCT cbecs_detailed_activity FROM #{CountryLodgingClass.quoted_table_name}").each do |cbecs_activity|
-        [:natural_gas, :fuel_oil, :electricity, :district_heat].each do |fuel|
-          where(:cbecs_detailed_activity => cbecs_activity).update_all(%{
-            #{fuel}_intensity = (
-              SELECT SUM(
-                weighting * #{fuel}_use / (365.0 / 7.0 / 12.0 * months_used * weekly_hours / 24.0 * lodging_rooms * #{occupancy_rate})
-              ) / SUM(weighting)
-              FROM #{CommercialBuildingEnergyConsumptionSurveyResponse.quoted_table_name}
-              WHERE detailed_activity = '#{cbecs_activity}'
-            )
-          })
+      lodging_records = CommercialBuildingEnergyConsumptionSurveyResponse.lodging_records
+      
+      Country.united_states.lodging_classes.map(&:cbecs_detailed_activity).uniq.each do |cbecs_activity|
+        %w{natural_gas fuel_oil electricity district_heat}.each do |fuel|
+          cbecs_column = (fuel + '_use').to_sym
+          
+          where(:cbecs_detailed_activity => cbecs_activity).update_all %{
+            #{fuel}_intensity = (#{
+              lodging_records.where(:detailed_activity => cbecs_activity).
+                weighted_average_relation(cbecs_column, :disaggregate_by => :room_nights, :weighted_by => :weighting).to_sql
+            }) / #{occupancy_rate},
+            #{fuel}_intensity_units = '#{lodging_records.first.send("#{fuel}_use_units")}_per_occupied_room_night',
+            weighting = (#{
+              lodging_records.where(:detailed_activity => cbecs_activity).sum(:weighting) /
+              where(:cbecs_detailed_activity => cbecs_activity).count
+            })
+          }
         end
-        
-        where(:cbecs_detailed_activity => cbecs_activity).update_all(%{
-          natural_gas_intensity_units = 'cubic_metres_per_room_night',
-          fuel_oil_intensity_units    = 'litres_per_room_night',
-          electricity_intensity_units = 'kilowatt_hours_per_room_night',
-          district_heat_intensity_units = 'megajoules_per_room_night',
-          weighting = (
-            SELECT SUM(weighting)
-            FROM #{CommercialBuildingEnergyConsumptionSurveyResponse.quoted_table_name}
-            WHERE detailed_activity = '#{cbecs_activity}'
-          ) / #{where(:cbecs_detailed_activity => cbecs_activity).count}
-        })
       end
     end
   end

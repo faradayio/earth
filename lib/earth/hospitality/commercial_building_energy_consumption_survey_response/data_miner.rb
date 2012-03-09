@@ -66,14 +66,17 @@ CommercialBuildingEnergyConsumptionSurveyResponse.class_eval do
       store 'district_heat_use',    :field_name => 'DHBTU8', :from_units => :kbtus,              :to_units => :megajoules
     end
     
-    process "Derive fuel intensities per room night for lodging buildings" do
-      # days/year * weeks/day * years/month = weeks/month
-      # weeks/month * months used in a year = weeks used in a year
-      # weeks used in a year * hours/week = hours used in a year
-      # hours used in a year * days/hour = days used in a year
+    process "Derive room nights for lodging records" do
+      lodging_records.
+        #                    nights/year * weeks/night * years/month  * months      * hours/week   * nights/hour * rooms = room-nights
+        #                               => weeks/year => weeks/month => weeks      => hours       => nights     => room-nights
+        update_all "room_nights = (365.0 * (1 / 7.0)   * (1 / 12.0)   * months_used * weekly_hours * (1 / 24.0)  * lodging_rooms)"
+    end
+    
+    process "Derive fuel intensities per room night for lodging records" do
       [:natural_gas, :fuel_oil, :electricity, :district_heat].each do |fuel|
         lodging_records.update_all %{
-          #{fuel}_per_room_night = #{fuel}_use / (365.0 / 7.0 / 12.0 * months_used * weekly_hours / 24.0 * lodging_rooms),
+          #{fuel}_per_room_night = #{fuel}_use / room_nights,
           #{fuel}_per_room_night_units = #{fuel}_use_units || '_per_room_night'
         }
       end

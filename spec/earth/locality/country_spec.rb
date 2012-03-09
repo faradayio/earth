@@ -27,19 +27,29 @@ describe Country do
       Country.minimum(:electricity_loss_factor).should >= 0.0
       Country.maximum(:electricity_loss_factor).should < 0.3
       
-      Country.find('US').electricity_emission_factor.should be_within(0.00001).of(0.58946)
-      Country.find('US').electricity_emission_factor_units.should == 'kilograms_co2e_per_kilowatt_hour'
-      Country.find('US').electricity_loss_factor.should be_within(0.001).of(0.062)
+      us = Country.united_states
+      us.electricity_emission_factor.should be_within(0.00001).of(0.58946)
+      us.electricity_emission_factor_units.should == 'kilograms_co2e_per_kilowatt_hour'
+      us.electricity_loss_factor.should be_within(0.001).of(0.062)
       
-      Country.find('GB').electricity_emission_factor.should be_within(0.00001).of(0.51020)
-      Country.find('GB').electricity_emission_factor_units.should == 'kilograms_co2e_per_kilowatt_hour'
-      Country.find('GB').electricity_loss_factor.should be_within(0.001).of(0.073)
+      uk = Country.find 'GB'
+      uk.electricity_emission_factor.should be_within(0.00001).of(0.51020)
+      uk.electricity_emission_factor_units.should == 'kilograms_co2e_per_kilowatt_hour'
+      uk.electricity_loss_factor.should be_within(0.001).of(0.073)
     end
     
     it 'has fallback electricity emission factor and electricity loss factor' do
-      Country.fallback.electricity_emission_factor.should be_within(0.00001).of(0.62609)
-      Country.fallback.electricity_emission_factor_units.should == 'kilograms_co2e_per_kilowatt_hour'
-      Country.fallback.electricity_loss_factor.should be_within(0.001).of(0.096)
+      fallback = Country.fallback
+      fallback.electricity_emission_factor.should be_within(0.00001).of(0.62609)
+      fallback.electricity_emission_factor_units.should == 'kilograms_co2e_per_kilowatt_hour'
+      fallback.electricity_loss_factor.should be_within(0.001).of(0.096)
+    end
+    
+    it 'has lodging data for the US' do
+      us = Country.united_states
+      us.lodging_occupancy_rate.should be_within(0.001).of(0.601)
+      us.lodging_natural_gas_intensity.should be_within(0.00001).of(1.93316)
+      us.lodging_natural_gas_intensity_units.should == 'cubic_metres_per_occupied_room_night'
     end
   end
   

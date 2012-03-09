@@ -48,6 +48,7 @@ class CommercialBuildingEnergyConsumptionSurveyResponse < ActiveRecord::Base
   col :stratum,                :type => :integer
   col :pair,                   :type => :integer
   col :weighting,              :type => :float
+  col :room_nights,            :type => :float
   col :electricity_per_room_night, :type => :float   # for lodging fuzzy weighting
   col :electricity_per_room_night_units              # for lodging fuzzy weighting
   col :natural_gas_per_room_night, :type => :float   # for lodging fuzzy weighting
