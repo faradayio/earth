@@ -27,11 +27,6 @@ describe Sic1987 do
     before do
       require 'earth/industry/naics_2002'
       require 'earth/industry/naics_2002_sic_1987_concordance'
-      
-      require 'earth/industry/naics_2007'
-      require 'earth/industry/naics_2002_naics_2007_concordance'
-      
-      require 'earth/industry/industry'
     end
     
     it "can be translated to a NAICS 2002 code" do
@@ -40,15 +35,6 @@ describe Sic1987 do
         '0131' => %w{ 111920 },
       }.each do |sic, naics|
         Sic1987.find(sic).naics_2002.map(&:code).sort.should == naics
-      end
-    end
-    
-    it "can be translated to an industry code" do
-      {
-        '0119' => %w{ 111120 111130 111150 111191 111199 },
-        '0131' => %w{ 111920 },
-      }.each do |sic, industries|
-        Sic1987.find(sic).industries.map(&:naics_code).sort.should == industries
       end
     end
   end
