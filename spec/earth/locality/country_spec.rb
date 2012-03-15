@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 require 'spec_helper'
 require 'earth/locality/country'
 
@@ -18,6 +20,11 @@ describe Country do
   end
   
   describe 'verify imported data', :sanity => true do
+    it 'uses UTF-8 encoding' do
+      Country.find('AX').name.should == "Åland Islands"
+      Country.find('CI').name.should == "Côte d'Ivoire"
+    end
+    
     it 'has valid electricity emission factor and electricity loss factor for most countries' do
       Country.where('electricity_emission_factor IS NOT NULL').count.should == 136
       Country.where(:electricity_emission_factor_units => 'kilograms_co2e_per_kilowatt_hour').count.should == 136

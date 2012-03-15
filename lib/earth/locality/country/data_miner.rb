@@ -9,28 +9,21 @@ Country.class_eval do
     import "OpenGeoCode.org's Country Codes to Country Names list",
            :url => 'http://opengeocode.org/download/countrynames.txt',
            :format => :delimited,
-           :delimiter => ';',
+           :delimiter => '; ',
            :headers => false,
            :skip => 22 do
       key 'iso_3166_code', :field_number => 0
       store 'iso_3166_alpha_3_code', :field_number => 1
       store 'iso_3166_numeric_code', :field_number => 2
-      store 'name', :field_number => 5 # romanized version
+      store 'name', :field_number => 5 # romanized version with utf-8 characters
     end
     
-    import "heating degree day data from WRI CAIT",
+    import "heating and cooling degree day data from WRI CAIT",
            :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdDN4MkRTSWtWRjdfazhRdWllTkVSMkE&output=csv',
            :select => Proc.new { |record| record['country'] != 'European Union (27)' },
            :errata => { :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdDNSMUtCV0h4cUF4UnBKZlNkczlNbFE&output=csv' } do
       key 'name', :field_name => 'country'
       store 'heating_degree_days', :units => :degrees_celsius
-    end
-    
-    import "cooling degree day data from WRI CAIT",
-           :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdDN4MkRTSWtWRjdfazhRdWllTkVSMkE&output=csv',
-           :select => Proc.new { |record| record['country'] != 'European Union (27)' },
-           :errata => { :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdDNSMUtCV0h4cUF4UnBKZlNkczlNbFE&output=csv' } do
-      key 'name', :field_name => 'country'
       store 'cooling_degree_days', :units => :degrees_celsius
     end
     
