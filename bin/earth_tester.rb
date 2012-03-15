@@ -16,7 +16,7 @@ require 'active_record'
 
 case ENV['EARTH_DB_ADAPTER']
 when 'mysql'
-  adapter = 'mysql'
+  adapter = 'mysql2'
   database = 'test_earth'
   username = 'root'
   password = 'password'
