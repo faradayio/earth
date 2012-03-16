@@ -2,7 +2,7 @@ require 'earth/locality'
 class ComputationCarrierInstanceClass < ActiveRecord::Base
   self.primary_key = "name"
   
-  belongs_to :computation_carrier, :foreign_key => 'computation_carrier_name'
+  belongs_to :carrier, :class_name => 'ComputationCarrier', :foreign_key => 'computation_carrier_name'
   
   falls_back_on :name => 'fallback',
                 :electricity_intensity => lambda { ComputationCarrierInstanceClass.find_by_name('Amazon m1.small').electricity_intensity },
