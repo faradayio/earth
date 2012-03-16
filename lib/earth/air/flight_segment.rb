@@ -21,8 +21,8 @@ class FlightSegment < ActiveRecord::Base
       # Assume a load factor of 1 where passengers > available seats
       where('passengers > seats AND seats > 0').update_all 'load_factor = 1'
       
-      # FIXME TODO: what is 90.718474
-      # Derive freight share as a fraction of the total weight carried
+      # Derive freight share as a fraction of the total weight carried -- assume 90.718474 kg (200 lbs) per passenger (includes checked baggage)
+      # FIXME TODO assume 100 kg per passenger?
       where('(freight + mail + passengers) > 0').update_all 'freight_share = 1.0 * (freight + mail) / (freight + mail + (passengers * 90.718474))'
       
       # Derive average seats per flight
