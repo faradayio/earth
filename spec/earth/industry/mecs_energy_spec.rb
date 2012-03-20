@@ -19,7 +19,7 @@ describe MecsEnergy do
     it 'spot checks the data' do
       apparel = MecsEnergy.find_by_naics_code '315'
       apparel.census_region_number.should be_nil
-      apparel.energy.should be_within(10_000).of(14.trillion_btus.to(:megajoules))
+      apparel.energy.should be_within(20_000).of(14770781900)
       apparel.energy_units.should == 'megajoules'
       apparel.electricity.should == be_within(1_000).of(7.trillion_btus.to(:megajoules))
       apparel.electricity_units.should == 'megajoules'
@@ -48,6 +48,14 @@ describe MecsEnergy do
     it 'finds a parent category when exact code is not present' do
       MecsEnergy.find_by_naics_code_and_census_region_number('3117', 2).
         name.should == '311-2'
+    end
+    it 'finds same category nationwide when census region is not present' do
+      MecsEnergy.find_by_naics_code_and_census_region_number('311221', 5).
+        name.should == '311221-'
+    end
+    it 'looks nationwide and at parent codes if fuel ratios is invalid' do
+      MecsEnergy.find_by_naics_code_and_census_region_number('311221', 1).
+        name.should == '311221-'
     end
     it 'finds a parent category rather than a sibling category' do
       MecsEnergy.find_by_naics_code_and_census_region_number('311225', 2).
