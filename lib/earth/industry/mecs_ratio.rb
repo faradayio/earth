@@ -12,21 +12,30 @@ class MecsRatio < ActiveRecord::Base
   col :energy_per_dollar_of_shipments, :type => :float
   col :energy_per_dollar_of_shipments_units
   
-  # Find the first record whose naics_code matches code.
+  # Find the first record whose naics_code matches code and whose energy per dollar shipment is present.
   # If no record found chop off the last character of code and try again, and so on.
   def self.find_by_naics_code(code)
-    find_by_naics_code_and_census_region_number(code, nil)
+    candidate = find_by_naics_code_and_census_region_number(code, nil)
   end
   
-  # Find the first record whose census_region_number matches number and whose naics_code matches code.
-  # If none found, chop off the last character of code and try again, and so on.
-  def self.find_by_naics_code_and_census_region_number(code, number)
+  # Find the first record whose census_region_number matches number, whose naics_code matches code, and whose energy per dollar of shipments is present.
+  # If none found and we know census region number, try looking nationwide
+  # If none found and looking nationwide, chop off the last character of code and try again looking in census region
+  # And so on
+  def self.find_by_naics_code_and_census_region_number(code, number, original_number = number)
     if code.blank?
       record = nil
     else
       code = Industry.format_naics_code code
-      record = where(:census_region_number => number, :naics_code => code).first
-      record ||= find_by_naics_code_and_census_region_number(code[0..-2], number)
+      candidate = where(:census_region_number => number, :naics_code => code).first
+      
+      if candidate.try(:energy_per_dollar_of_shipments).present?
+        record = candidate
+      elsif number.present?
+        record = find_by_naics_code_and_census_region_number(code, nil, original_number)
+      else
+        record = find_by_naics_code_and_census_region_number(code[0..-2], original_number)
+      end
     end
     record
   end

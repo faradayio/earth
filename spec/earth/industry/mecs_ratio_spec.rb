@@ -33,6 +33,14 @@ describe MecsRatio do
       MecsRatio.find_by_naics_code_and_census_region_number('3117', 2).
         name.should == '311-2'
     end
+    it 'finds same category nationwide when census region is not present' do
+      MecsRatio.find_by_naics_code_and_census_region_number('311221', 5).
+        name.should == '311221-'
+    end
+    it 'looks nationwide and at parent codes if energy per dollar of shipments is missing' do
+      MecsRatio.find_by_naics_code_and_census_region_number('313', 4).
+        name.should == '313-'
+    end
     it 'finds a parent category rather than a sibling category' do
       MecsRatio.find_by_naics_code_and_census_region_number('311225', 2).
         name.should == '3112-2'
