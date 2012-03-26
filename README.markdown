@@ -83,7 +83,7 @@ ft = AutomobileFuel.first
 
 ### Data storage
 
-You can store Earth data in any relational database. On your very first run, you will need to create the tables for data each model. This is done using minirecord with the `apply_schemas` option:
+You can store Earth data in any relational database. On your very first run, you will need to create the tables for data each model. This is done using [the `active_record_inline_schema` library](https://github.com/seamusabshere/active_record_inline_schema) if you pass the `apply_schemas` option:
 
 ``` ruby
 require 'activerecord'

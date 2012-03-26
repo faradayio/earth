@@ -5,7 +5,6 @@ require "earth/version"
 Gem::Specification.new do |s|
   s.name        = "earth"
   s.version     = Earth::VERSION
-  s.date = "2012-03-05"
   s.platform    = Gem::Platform::RUBY
   s.authors = ["Seamus Abshere", "Derek Kastner", "Andy Rossmeissl"]
   s.email = %q{andy@rossmeissl.net}
@@ -36,7 +35,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'fixed_width-multibyte'
   s.add_runtime_dependency 'fuzzy_match', '>=1.1.0'
   s.add_runtime_dependency 'geokit'
-  s.add_runtime_dependency 'mini_record-compat' # need https://github.com/DAddYE/mini_record/pull/7
+  s.add_runtime_dependency 'active_record_inline_schema'
   s.add_runtime_dependency 'remote_table', '>=1.3.0'
   s.add_runtime_dependency 'table_warnings', '>=0.0.6'
   s.add_runtime_dependency 'to_regexp'
