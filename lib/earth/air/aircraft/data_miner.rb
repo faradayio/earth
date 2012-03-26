@@ -22,6 +22,10 @@ Aircraft.class_eval do
   end
   
   data_miner do
+    process "Start from scratch" do
+      delete_all
+    end
+    
     ('A'..'Z').each do |letter|
       import("aircraft made by whitelisted manufacturers whose ICAO code starts with '#{letter}' from the FAA",
              :url => "http://www.faa.gov/air_traffic/publications/atpubs/CNT/5-2-#{letter}.htm",

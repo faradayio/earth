@@ -183,6 +183,10 @@ FlightSegment.class_eval do
   end
   
   data_miner do
+    process "Start from scratch" do
+      delete_all
+    end
+    
     form_data_per_month(2009..::Time.now.year).each do |month, form_data|
       import "T100 flight segment data for #{month.strftime('%B %Y')}",
              :url => URL,

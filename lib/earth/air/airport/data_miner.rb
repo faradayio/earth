@@ -17,6 +17,10 @@ Airport.class_eval do
   end
   
   data_miner do
+    process "Start from scratch" do
+      delete_all
+    end
+    
     import "the OpenFlights.org airports database",
            :url => 'https://openflights.svn.sourceforge.net/svnroot/openflights/openflights/data/airports.dat',
            :headers => %w{ id name city country_name iata_code icao_code latitude longitude altitude timezone daylight_savings },
