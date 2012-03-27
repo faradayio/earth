@@ -30,7 +30,7 @@ Aircraft.class_eval do
       import("aircraft made by whitelisted manufacturers whose ICAO code starts with '#{letter}' from the FAA",
              :url => "http://www.faa.gov/air_traffic/publications/atpubs/CNT/5-2-#{letter}.htm",
              :encoding => 'windows-1252',
-             :row_xpath => '//table/tr[2]/td/table/tr',
+             :row_xpath => '//table[2]//table[1]//tr[3]//tr',
              :column_xpath => 'td',
              :errata => { :url => 'https://spreadsheets.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdGVBRnhkRGhSaVptSDJ5bXJGbkpUSWc&output=csv', :responder => Aircraft::Guru.new },
              :select => lambda { |record| manufacturer_whitelist? record['Manufacturer'] }) do
