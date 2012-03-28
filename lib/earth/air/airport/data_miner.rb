@@ -16,9 +16,17 @@ Airport.class_eval do
     end
   end
   
+  def self.countries_dictionary
+    @countries_dictionary ||= ::FuzzyMatch.new Country.all, :read => :name
+  end
+  
   data_miner do
     process "Start from scratch" do
       delete_all
+    end
+    
+    process "Ensure Country is populated" do
+      Country.run_data_miner!
     end
     
     import "the OpenFlights.org airports database",
@@ -30,7 +38,7 @@ Airport.class_eval do
       key 'iata_code'
       store 'name'
       store 'city'
-      store 'country_name'
+      store 'country_name', :synthesize => Proc.new { |row| countries_dictionary.find(row['country_name'], :must_match_at_least_one_word => true).name }
       store 'latitude'
       store 'longitude'
     end
@@ -43,10 +51,6 @@ Airport.class_eval do
       store 'country_name'
       store 'latitude'
       store 'longitude'
-    end
-    
-    process "Ensure Country is populated" do
-      Country.run_data_miner!
     end
     
     process "Fill in blank country codes" do
