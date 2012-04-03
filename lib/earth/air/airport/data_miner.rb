@@ -38,7 +38,7 @@ Airport.class_eval do
       key 'iata_code'
       store 'name'
       store 'city'
-      store 'country_name', :synthesize => Proc.new { |row| countries_dictionary.find(row['country_name'], :must_match_at_least_one_word => true).name }
+      store 'country_name', :synthesize => proc { |row| Airport.countries_dictionary.find(row['country_name'], :must_match_at_least_one_word => true).try(:name) }
       store 'latitude'
       store 'longitude'
     end
