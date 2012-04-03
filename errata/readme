@@ -1,0 +1,3 @@
+DO NOT EDIT ERRATA WITH EXCEL
+
+Some of them contain UTF-8 characters, but Excel cannot save to csv in UTF-8.

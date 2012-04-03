@@ -49,6 +49,10 @@ module Earth
     ::File.expand_path '../earth', __FILE__
   end
 
+  def errata_dir
+    ::File.expand_path '../../errata', __FILE__
+  end
+
   # Earth.init will load any specified domains, any needed ActiveRecord plugins, 
   # and will apply each domain model's schema to the database if the 
   # :apply_schemas option is given. See Earth.domains for the list of allowable 
