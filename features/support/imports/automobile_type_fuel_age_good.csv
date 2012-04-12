@@ -1,3 +1,0 @@
-name,age,age_percent,total_travel_percent,annual_distance,annual_distance_units,vehicles,type_name,fuel_common_name
-Passenger cars gasoline age 0,0,0.25,0.25,10000.0,kilometres,1000,Passenger cars,gasoline
-Light-duty trucks diesel age 2,2,0.15,0.15,20000.0,kilometres,2000,Light-duty trucks,diesel

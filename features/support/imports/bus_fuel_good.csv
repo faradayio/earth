@@ -1,3 +1,0 @@
-name,co2_emission_factor,co2_emission_factor_units,co2_biogenic_emission_factor,co2_biogenic_emission_factor_units,ch4_emission_factor,ch4_emission_factor_units,n2o_emission_factor,n2o_emission_factor_units,fuel_name,energy_content,energy_content_units
-CNG,0,kilograms_per_litre,1,kilograms_per_litre,0.1,kilograms_co2e_per_kilometre,0.1,kilograms_co2e_per_kilometre,Pipeline Natural Gas
-LNG,1,kilograms_per_litre,0,kilograms_per_litre,0.1,kilograms_co2e_per_kilometre,0.1,kilograms_co2e_per_kilometre,Pipeline Natural Gas,10,megajoules_per_litre

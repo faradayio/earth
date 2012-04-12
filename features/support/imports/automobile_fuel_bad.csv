@@ -1,3 +1,0 @@
-name,co2_emission_factor,co2_emission_factor_units,co2_biogenic_emission_factor,co2_biogenic_emission_factor_units,ch4_emission_factor,ch4_emission_factor_units,n2o_emission_factor,n2o_emission_factor_units,hfc_emission_factor,hfc_emission_factor_units,base_fuel_name,distance_key,ef_key,blend_portion
-regular gasoline,-1,kilograms_per_gallon,-1,kilograms_per_gallon,0,kilograms_per_litre,0,kilograms_per_litre,0,kilograms_per_litre
-b20,-1,kilograms_per_gallon,-1,kilograms_per_gallon,0,kilograms_per_litre,0,kilograms_per_litre,0,kilograms_per_litre,Distillate Fuel Oil No. 2,diesel,diesel,1.1
