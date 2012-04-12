@@ -1,0 +1,375 @@
+date,name,email,type,section,action,x,y,condition,notes
+4/18/2011,Ian Hough,ian@brighterplanet.com,meta,Intended use,,http://www.faa.gov/air_traffic/publications/atpubs/CNT/5-2.HTM,,,"import FAA list of ICAO aircraft codes, excluding helicopters and some military/little-used aircraft"
+4/18/2011,Ian Hough,ian@brighterplanet.com,editorial,Type/Wt Class,reject,/^[HDGT]/i,,,"discard helicopters, dirigibles, gyrocopters, and tilt-wing aircraft"
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Manufacturer,replace,/^AERO COMMANDER$/i,AERO,,consolidate manufacturer names
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Manufacturer,replace,"/^AERO DESIGN & ENGINEERING CO, US$/i",AERO,,consolidate manufacturer names
+4/18/2011,Ian Hough,ian@brighterplanet.com,editorial,Manufacturer,replace,/^BRITISH AEROSPACE$/i,BAE,,consolidate manufacturer names
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Manufacturer,replace,/^BRITTENNORMAN$/i,BRITTEN-NORMAN,,consolidate manufacturer names
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Manufacturer,replace,/^DE HAVILLAND CANADA$/i,DE HAVILLAND,,consolidate manufacturer names
+4/18/2011,Ian Hough,ian@brighterplanet.com,editorial,Manufacturer,replace,/^DOUGLAS$/i,MCDONNELL DOUGLAS,,consolidate manufacturer names
+4/18/2011,Ian Hough,ian@brighterplanet.com,editorial,Manufacturer,replace,/^FAIRCHILD DORNIER$/i,DORNIER,,consolidate manufacturer names
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Manufacturer,replace,/^GRUMMAN AMERICAN$/i,GRUMMAN,,consolidate manufacturer names
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Manufacturer,replace,/^HAWKER BEECHCRAFT CORP$/i,HAWKER BEECHCRAFT,,consolidate manufacturer names
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Manufacturer,replace,"/^NAMC, JAPAN$/i",NAMC,,consolidate manufacturer names
+5/13/2011,Ian Hough,ian@brighterplanet.com,editorial,Manufacturer,replace,/^SHORT$/i,SHORTS,,consolidate manufacturer names
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/ RG$/i,,,delete trailing 'rg'
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/ \(.+?\)/i,,,delete parenthetical text
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^A300B4600$/i,A300-600,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^A300B2\/41\/2\/100\/200, A300C4200$/i",A300B/C/F,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^A319, ACJ$/i",A319,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^A(\d{3})(\d{3})$/i,A\1-\2,manufacturer is airbus,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^A300ST Super Transporter, Beluga$/i",A300-600ST Beluga,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^A9 Ag Commander$/i,A9 Sparrow Commander,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^AA1 Trainer, Tr2, TCat, Lynx$/i",AA1 Trainer/TR2/TCat/Lynx,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^AA5 Traveler, Cheetah, Tiger$/i",AA5 Traveler/Cheetah/Tiger,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^112, 114 Commander 112\/114, Alpine Commander, Gran Turismo Commander$/i",Commander 112/114,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^\d00 (Commander \d00)$/i,\1,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^Commander 680 Super\/680E\/680F$/i,Commander 680 Super/E/F,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^680FL Grand Commander$/i,Commander 680FL Grand Commander,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^680T, 680V Turbo Commander$/i",Commander 680T/V Turbo Commander,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^690 Turbo Commander 690, Jetprop Commander 840$/i",690 Jetprop Commander 840/900,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^Aero 45, Super Aero 145$/i",Ae45/145,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^PA60, Aerostar$/i",Aerostar,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^An32, Firekiller$/i",An32,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^652 Anson$/i,Anson,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^101, 102, 201, 202 Arava$/i",101/102/201/202 Arava,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^1125 Astra, Gulfstream 100$/i",1125 Astra,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^(ATR42)(\d{3}.*)$/i,\1-\2,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^594, 616 Avian$/i",594/616 Avian,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^18$/i,18 Twin Beech Turbine,designator is B18T,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^B300 Super King Air 350$/,B350 Super King Air,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^(BAe146)(\d00).*$/i,\1-\2,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^(\d{3})(\d{3})(RE Super 27)?.*$/i,\1-\2\3,manufacturer is boeing,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^747-400$/i,747-400 domestic,designator is B74D,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^BAC111 OneEleven$/i,BAC111 One Eleven,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^18$/i,"18 Twin Beech
+",designator is BE18,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^19 Musketeer Sport, Sport$/i",19 Musketeer Sport,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^23 Musketeer, Sundowner$/i",23 Sundowner,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^24 Musketeer Super, Sierra$/i",24 Sierra,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^90 King Air$/i,A/B/C/E90 King Air,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^BN2, BN2A\/B Islander, Defender, Maritime Defender$/i",BN2A/B Islander,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^BN2T Turbine Islander, Turbine Defender, Defender 4000$/i",BN2T Turbine Islander,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^402$/i,402 Turbine,designator is C02T,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^404$/i,404 Turbine,designator is C04T,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^206$/i,206 Turbine,designator is C06T,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^207$/i,207 Turbine,designator is C07T,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^P210$/i,P210 Pressurized Turbine,designator is C10T,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^C135B\/C\/E\/K Stratolifter, EC135, NKC135, OC135, TC135, WC135$/i",C135 Stratolifter,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^C141, Starlifter$/i",C141 Starlifter,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^414$/i,414 Turbine,designator is C14T,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^150, A150, Commuter, Aerobat$/i",150,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^152, A152, Aerobat$/i",152,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^172, P172, R172, Skyhawk, Hawk XP, Cutlass$/i",172 Skyhawk,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^175, Skylark$/i",175 Skylark,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^177, Cardinal$/i",177 Cardinal,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^180, Skywagon 180$/i",180 Skywagon,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^182, Skylane$/i",182 Skylane,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^185, A185 Skywagon, Skywagon 185, AgCarryall$/i",185 Skywagon,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^188, A188, T188 AgWagon, AgPickup, AgTruck, AgHusky$/i",188 AGwagon,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^206, P206, T206, TP206, U206, TU206,Super Skywagon,Super Skylane,Skywagon 206,Stationair,Stationair 6$/i",206 Super Skywagon/Super Skylane,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^207Skywagon 207,Stationair 7\/8$/i",207 Skywagon/Stationair,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^208 Caravan 1,Cargomaster, Grand Caravan$/i",208 Caravan/Cargomaster/Grand Caravan,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^210, T210,Centurion$/i",210 Centurion,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^421$/i,421 Turbine,designator is C21T,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^310, T310$/i",310,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^320Skyknight$/i,320 Skynight,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^337, M337, MC337, T337B\/C\/D\/E\/F\/HSuper Skymaster$/i",337 Super Skymaster,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^401, 402, Utililiner, Businessliner$/i",401/402,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^414, Chancellor$/i",414 Chancellor,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^421, Golden Eagle, Executive Commuter$/i",421 Golden Eagle,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^425 Corsair, Conquest 1$/i",425 Corsair/Conquest 1,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^441 Conquest, Conquest 2$/i",441 Conquest 2,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^500 Citation, Citation 1$/i",500 Citation/Citation 1,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^525 CitationJet Citation CJ1$/i,525 CitationJet CJ1,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^550, S550, 552 Citation 2\/S2\/Bravo$/i",550 Citation 2,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^560 Citation 5\/5 Ultra\/5 Ultra Encore$/i,560 Citation 5,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^CL215\)$/i,"CL215
+",,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^CL215T/415 SuperScooper\)$/i,CL215 Turbine,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^BD100 Challenger 300$/i,Challenger 300,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^CL600 Challenger 600\/601\/604$/i,CL600/601/604 Challenger,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^B1 Ag Commander$/i,B1 Snipe Commander,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^C34\/37\/38\/145\/165, Airmaster$/i",C34/37/38/145/165 Airmaster,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^CN235, Persuader$/i",CN235,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^L049\/749\/1049 Constellation, Super Constellation, Starliner$/i","L049/749/1049 Constellation
+",,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^H391\/392\/395\/250\/295\/700\/800, HT295 Courier, StratoCourier, Super Courier$/i",H391/392/395/295/700/800 Courier,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^CL600 Regional Jet (.+)$/i,\1,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^(CRJ\d00).+$/i,\1,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^CV240\/340\/440 Convairliner, Metropolitan$/i",CV240/340/440,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^CV540\/580\/600\/640$/i,CV540/580/600/640,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^Do28D\/D1\/D2, 1282 Skyservant$/i",Do28 Skyservant,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^Do28D6, 1286 Turbo Skyservant$/i",Do28 Turbo Skyservant,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^DC10, MD10$/i",DC10/MD10,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^DC3, DST$/i",DC3,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^Super DC3$/i,DC3S Super,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^DC7, Seven Seas$/i",DC7,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^(DC\d)(\d{2}).*$/i,\1-\2,manufacturer is mcdonnell douglas,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^DH60 Moth, Moth Major$/i",DH60 Moth,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^(DHC8)(\d{3} Dash 8)$/i,\1-\2,,fix name
+5/13/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^(DHC2) Mk\d (Beaver|Turbo Beaver)$/i,\1 \2,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^DH104 Dove, Sea Devon$/i",DH104 Dove,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^EMB110\/111 Bandeirante$/i,EMB110 Bandeirante,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^EMB135 ECJ135, Legacy$/i",ERJ135,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^EMB145, ERJ145$/i",ERJ145,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^170, 175, ERJ170$/i",ERJ170,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^190, 195, ERJ190$/i",ERJ190,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^F27 Friendship, Troopship, Maritime$/i",F27 Friendship,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^F406 Caravan 2, Vigilant$/i",406 Caravan II,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^50, Maritime Enforcer$/i",50,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^(Falcon) \d00?, (.+$)$/i",\1/\2,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^G159 Gulfstream 1$/i,"G159 Gulfstream I
+",,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^G164 AgCat, Super AgCat$/i",G164 AgCat,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^G21A\/38\/39 Goose$/i,G21 Goose,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^C1, TF Trader$/i",C1 Trader,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^1126 Galaxy, Gulfstream 200$/i",1126 Galaxy/Gulfstream 200,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^BD700 (.+)$/i,\1,manufacturer is bombardier,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^G1159, G1159B\/TT Gulfstream 2\/2B\/2SP\/2TT$/i","G1159 Gulfstream II
+",,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^G1159A Gulfstream 3\/SRA1$/i,G1159A Gulfstream III,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^G1159C Gulfstream 4\/4SP\/SRA4$/i,G1159C Gulfstream IV,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^G1159D Gulfstream 5$/i,G1159D Gulfstream V,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^HS1251\/2\/3\/400\/600$/i,HS125-1/2/3/400/600,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^BAe125700\/800$/i,BAe125-700/750/800/850XP/900XP,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^BAe1251000$/i,BAe125-1000,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^Hawker Horizon$/i,4000 Horizon,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^Il18\/20\/22\/24, Bizon, Zebra$/i",Il18/20/22/24,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^Il76\/78\/82, Gajaraj$/i",Il76/78/82,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^328JET, Envoy 3$/i",328JET,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^728JET, Envoy 7$/i",728,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^BAe3100 Jetstream 31$/i,Jetstream 31,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^BAe3200 Jetstream Super 31$/i,Jetstream Super 31,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^BAe4100 Jetstream 41$/i,Jetstream 41,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^L14 Super Electra, Hudson$/i",L14 Super Electra,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^N262, Frégate, Mohawk 298$/i",N262,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^PA28140\/150\/151\/160\/161\/180\/181 Archer, Cadet, Cherokee, Cherokee Archer\/Challenger\/Chief\/Cruiser\/Flite Liner\/Warrior, Warrior$/i",PA28-140/150/151/160/161/180/181 Cherokee Cruiser/Cherokee/Cherokee Warrior/Cherokee/Warrior II/Warrior III/Cherokee/Archer/Archer II/Archer III,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^PA28201T\/235\/236 Cherokee, Cherokee Charger\/Pathfinder, Dakota, Turbo Dakota$/i",PA28-201T/235/236 Turbo Dakota/Cherokee Pathfinder/Dakota,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^PA28R1802\/3, Turbo Arrow 3\/200\/201 Cherokee Arrow, Arrow$/i","PA28R-180/200/201/201T Arrow/Arrow II/Arrow III/Turbo Arrow III
+",,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^PA28RT Arrow 4, Turbo Arrow 4$/i",PA28RT-201/201T Arrow IV/Turbo Arrow IV,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^P3, AP3, EP3, NP3, RP3, TP3, UP3, VP3, WP3, CP140 Orion, Aurora, Arcturus$/i",P3 Orion,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^PA32R Cherokee Lance, Lance, Saratoga SP\/2 HP\/2TC, Turbo Saratoga SP$/i","PA32R Cherokee Lance/Saratoga SP/Saratoga II HP/Turbo Saratoga SP/Saratoga II TC
+",,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^PA32RT Lance 2, Turbo Lance 2$/i","PA32RT Lance II/Turbo Lance II
+",,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^T337G, P337 Pressurised Skymaster$/i",P337 Pressurized Skymaster,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^PA46T500TP Malibu Meridian$/i,PA46-500TP Malibu Meridian,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^P68, Observer$/i",P68 Observer,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^PA17 Vagabond, Vagabond Trainer$/i",PA17 Vagabond,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^PA22 TriPacer, Caribbean, Colt$/i",PA22 TriPacer,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^PA23150\/160 Apache$/i,PA23-150/160 Apache,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^PA23235\/250 Aztec, Turbo Aztec$/i",PA23-235/250 Aztec,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^PA30\/39 Twin Comanche, Twin Comanche CR, Turbo Twin Comanche$/i",PA30/39 Twin Comanche,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^PA31\/31P Navajo, Navajo Chieftain, Chieftain, Pressurised Navajo, Mojave, T1020$/i",PA31/31P Navajo,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^PA32 Cherokee Six, Six, Saratoga, Turbo Saratoga$/i",PA32 Cherokee Six,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^PA44 Seminole, Turbo Seminole$/i",PA44 Seminole,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^PA46310P\/350P Malibu, Malibu Mirage$/i",PA46-310P/350P Malibu/Malibu Mirage,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^PA31T3500 T1040$/i,PA31-350 T1040,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^PA31T1500 Cheyenne 1$/i,PA31T Cheyenne,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^PA31T620\/T2620 Cheyenne, Cheyenne 2$/i",PA31T Cheyenne II,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^PA42720 Cheyenne 3$/i,PA42-720 Cheyenne III,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^PA421000 Cheyenne 400$/i,PA42-1000 Cheyenne 400,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^PC12, Eagle$/i",PC12,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^PC9, Hudournik$/i",PC9,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^Premier 1, 390$/i",Premier I,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^(RJ\d\d\d?) Avroliner$/i,\1,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^NA265 Sabre/i,Sabreliner,manufacturer is ROCKWELL,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^SC7 Skyvan, Skyliner$/i",SC7 Skyvan,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^330, Sherpa, SD330$/i",330,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^360, SD360$/i",360,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^SA26 Merlin 2$/i,SA26 Merlin II,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^SA226T\/TB Merlin 3$/i,SA226T/TB Merlin III,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^SA226AT\/TC Merlin 4, Metro$/",SA226AT/TC Merlin IV,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^HU16, SA16, UF Albatross$/i",HU16 Albatross,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,/^AP­68TP­600 Viator$/i,AP68TP-600 Viator,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^1124 Westwind, Westwind 1\/2, Sea Scan$/",1124 Westwind I/II,,fix name
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Model,replace,"/^Y12, Twin Panda$/i",Y12,,fix name
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^AC50$/i,,manufacturer is not AERO COMMANDER,multiple manufacturers
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^B703$/i,,manufacturer is not BOEING,multiple manufacturers
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^BE50$/i,,manufacturer is not HAWKER BEECHCRAFT CORP,multiple manufacturers
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^BE65$/i,,manufacturer is not HAWKER BEECHCRAFT CORP,multiple manufacturers
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^BE80$/i,,manufacturer is not HAWKER BEECHCRAFT CORP,multiple manufacturers
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^BE9L$/i,,manufacturer is not HAWKER BEECHCRAFT CORP,multiple manufacturers
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^C150$/i,,manufacturer is not CESSNA,multiple manufacturers
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^C152$/i,,manufacturer is not CESSNA,multiple manufacturers
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^C172$/i,,manufacturer is not CESSNA,multiple manufacturers
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^C182$/i,,manufacturer is not CESSNA,multiple manufacturers
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^C337$/i,,manufacturer is not CESSNA,multiple manufacturers
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^COMT$/i,,manufacturer is not DE HAVILLAND,multiple manufacturers
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^DC10$/i,,manufacturer is not MCDONNELL DOUGLAS,multiple manufacturers
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^DOVE$/i,,manufacturer is not DE HAVILLAND,multiple manufacturers
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^F406$/i,,manufacturer is not CESSNA,multiple manufacturers
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^H25B$/i,,"manufacturer is not BRITISH AEROSPACE
+",multiple manufacturers
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^H25C$/i,,"manufacturer is not BRITISH AEROSPACE
+",multiple manufacturers
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^JCOM$/i,,manufacturer is not AERO COMMANDER,multiple manufacturers
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^P337$/i,,manufacturer is not CESSNA,multiple manufacturers
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^A1$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^A20$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^A3$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^A37$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^A4$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^A50$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^A504$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^A6$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^AJET$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^AMX$/i,,,military
+5/17/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^AN22$/i,,,heavy turboprop; we have no fuel use equation or flight segments
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^B1$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^B14A$/i,,,not really whitelist manufacturer
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^B14B$/i,,,not really whitelist manufacturer
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^B17$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^B23$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^B24$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^B26$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^B29$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^B52$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^BA46$/i,,,invalid code
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^BCAT$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^BDOG$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^BU31$/i,,,not really whitelist manufacturer
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^BU33$/i,,,not really whitelist manufacturer
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^BUC$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^C101$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^C130$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^C15$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^C17$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^C2$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^C295$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^CAT$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^CDC6$/i,,,old
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^CL41$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^D7$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^D8$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^DH88$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^DR1$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^E2$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^E314$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^E3CF$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^E3TF$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^E767$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^ETAR$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^EUFI$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^F104$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^F106$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^F111$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^F117$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^F14$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^F15$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^F16$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^F18$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^F22$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^F3F$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^F4$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^F5$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^F86$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^F9F$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^FOUG$/i,,,not really whitelist manufacturer
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^GNAT$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^H111$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^HAR$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^HAWK$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^HCAT$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^JAGR$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^JPRO$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^JU52$/i,,,not really whitelist manufacturer
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^K35A$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^K35E$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^K35R$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^KE3$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^KFIR$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^L13$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^L13M$/i,,,glider
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^L37$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^LA60$/i,,,not really whitelist manufacturer
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^LANC$/i,,,military
+4/19/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^M326$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^MF17$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^MIR2$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^MIR4$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^MIRA$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^MOSQ$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^MRF1$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^MYS4$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^NIM$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^O1$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^O3$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^P2$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^P38$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^P40$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^P47$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^P4Y$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^PILL$/i,,,not really whitelist manufacturer
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^R135$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^R2TH$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^RC70$/i,,,not really whitelist manufacturer
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^RFAL$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^S108$/i,,,not really whitelist manufacturer
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^S11$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^S223$/i,,,not really whitelist manufacturer
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^S2P$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^S2T$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^S3$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^SAND$/i,,,old
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^SATA$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^SB05$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^SB29$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^SB32$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^SB35$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^SB37$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^SB39$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^SBD$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^SH5$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^SHAC$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^SMB2$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^SR71$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^SS2P$/i,,,not really whitelist manufacturer
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^ST75$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^T160$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^T2$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^T22M$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^T33$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^T34P$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^T34T$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^T37$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^T50$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^TB30$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^TBM$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^TCAT$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^TCOU$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^TEX2$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^TOR$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^TU16$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^TU22$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^TU4$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^TU95$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^TUCA$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^TUTR$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^U2$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^U21$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^U22$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^V1$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^V10$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^VALI$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^VAMP$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^VECT$/i,,,cancelled
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^VNOM$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^WCAT$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^X29$/i,,,experimental
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^X31$/i,,,experimental
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^X32$/i,,,experimental
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^Y130$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^Y141$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^Y18T$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^YAK3$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^YAK9$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^YK11$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^YK18$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^YK28$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^YK38$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^YK50$/i,,,military
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^YK53$/i,,,experimental
+4/20/2011,Ian Hough,ian@brighterplanet.com,editorial,Designator,reject,/^Z37P$/i,,,not really whitelist manufacturer

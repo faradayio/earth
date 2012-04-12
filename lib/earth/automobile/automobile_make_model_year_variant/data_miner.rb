@@ -239,9 +239,8 @@ AutomobileMakeModelYearVariant.class_eval do
              :schema_name => :fuel_economy_guide_a,
              :select => lambda { |row| row['model'].present? and (row['suppress_code'].blank? or row['suppress_code'].to_f == 0) and row['state_code'] == 'F' },
              :filename => filename,
-             :transform => { :class => AutomobileMakeModelYearVariant::ParserB, :year => "19#{yy}".to_i },
-             :errata => { :url => "https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdDkxTElWRVlvUXB3Uy04SDhSYWkzakE&output=csv", :responder => AutomobileMakeModelYearVariant::Guru.new } do
-             # :errata => { :url => "file:///Users/ian/Documents/brighter_planet/documents1/science/data/transport/automobiles/fuel_economy_guide/errata_new.csv", :responder => AutomobileMakeModelYearVariant::Guru.new } do
+             :transform => { :class => AutomobileMakeModelYearVariant::ParserA, :year => "19#{yy}".to_i },
+             :errata => { :url => "file://#{Earth.errata_dir}/automobile_make_model_year_variant/feg_errata.csv", :responder => AutomobileMakeModelYearVariant::Guru.new } do
         key   'row_hash'
         store 'make_name',  :field_name => 'make'
         store 'model_name', :field_name => 'model'
@@ -278,9 +277,8 @@ AutomobileMakeModelYearVariant.class_eval do
       2005 => { :url => 'http://www.fueleconomy.gov/FEG/epadata/05data.zip', :filename => 'guide2005-2004oct15.csv' }
     }.each do |year, options|
       import "#{ year } Fuel Economy Guide",
-             options.merge(:transform => { :class => AutomobileMakeModelYearVariant::ParserC, :year => year },
-                           :errata => { :url => "https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdDkxTElWRVlvUXB3Uy04SDhSYWkzakE&output=csv", :responder => AutomobileMakeModelYearVariant::Guru.new },
-                           # :errata => { :url => 'file:///Users/ian/Documents/brighter_planet/documents1/science/data/transport/automobiles/fuel_economy_guide/errata_new.csv', :responder => AutomobileMakeModelYearVariant::Guru.new },
+             options.merge(:transform => { :class => AutomobileMakeModelYearVariant::ParserB, :year => year },
+                           :errata => { :url => "file://#{Earth.errata_dir}/automobile_make_model_year_variant/feg_errata.csv", :responder => AutomobileMakeModelYearVariant::Guru.new },
                            :select => lambda { |row| row['model'].present? }) do
         key   'row_hash'
         store 'make_name',  :field_name => 'make'
@@ -310,9 +308,8 @@ AutomobileMakeModelYearVariant.class_eval do
       2009 => { :url => 'http://www.fueleconomy.gov/FEG/epadata/09data.zip', :filename => '2009_FE_guide for DOE_ALL-rel dates-no-sales-8-28-08download.csv' }
     }.each do |year, options|
       import "#{ year } Fuel Economy Guide",
-             options.merge(:transform => { :class => AutomobileMakeModelYearVariant::ParserD, :year => year },
-                           :errata => { :url => "https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdDkxTElWRVlvUXB3Uy04SDhSYWkzakE&output=csv", :responder => AutomobileMakeModelYearVariant::Guru.new },
-                           # :errata => { :url => 'file:///Users/ian/Documents/brighter_planet/documents1/science/data/transport/automobiles/fuel_economy_guide/errata_new.csv', :responder => AutomobileMakeModelYearVariant::Guru.new },
+             options.merge(:transform => { :class => AutomobileMakeModelYearVariant::ParserC, :year => year },
+                           :errata => { :url => "file://#{Earth.errata_dir}/automobile_make_model_year_variant/feg_errata.csv", :responder => AutomobileMakeModelYearVariant::Guru.new },
                            :select => lambda { |row| row['model'].present? }) do
         key   'row_hash'
         store 'make_name', :field_name => 'make'
@@ -344,9 +341,8 @@ AutomobileMakeModelYearVariant.class_eval do
       2011 => { :url => 'http://www.fueleconomy.gov/FEG/epadata/11data.zip', :filename => '2011FEGuide-for DOE rel-dates before 1-23-2011-no-sales-01-10-2011_All_public.xlsx' }
     }.each do |year, options|
       import "#{ year } Fuel Economy Guide",
-             options.merge(:transform => { :class => AutomobileMakeModelYearVariant::ParserE, :year => year },
-                           :errata => { :url => "https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdDkxTElWRVlvUXB3Uy04SDhSYWkzakE&output=csv", :responder => AutomobileMakeModelYearVariant::Guru.new },
-                           # :errata => { :url => 'file:///Users/ian/Documents/brighter_planet/documents1/science/data/transport/automobiles/fuel_economy_guide/errata_new.csv', :responder => AutomobileMakeModelYearVariant::Guru.new },
+             options.merge(:transform => { :class => AutomobileMakeModelYearVariant::ParserD, :year => year },
+                           :errata => { :url => "file://#{Earth.errata_dir}/automobile_make_model_year_variant/feg_errata.csv", :responder => AutomobileMakeModelYearVariant::Guru.new },
                            :select => lambda { |row| row['model'].present? }) do
         key   'row_hash'
         store 'make_name', :field_name => 'make'

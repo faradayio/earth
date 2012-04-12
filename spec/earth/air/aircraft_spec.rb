@@ -1,17 +1,23 @@
 require 'spec_helper'
 require 'earth/air/aircraft'
-require 'earth/air/aircraft/data_miner'
 
 describe Aircraft do
+  before :all do
+    Aircraft.auto_upgrade!
+  end
+  
   describe 'import', :data_miner => true do
-    it 'should treat empty cells as null' do
-      Aircraft.auto_upgrade!
+    before do
+      require 'earth/air/aircraft/data_miner'
+    end
+    
+    it 'should import data' do
       Aircraft.run_data_miner!
-      Aircraft.count.should > 1
-      Aircraft.where(:brighter_planet_aircraft_class_code => nil).should_not be_empty
+      Aircraft.all.count.should == 437
     end
   end
   
+  # FIXME TODO
   # describe 'fuzzy matching' do
   #   it 'should match some example aircraft properly' do
   #     user_input = "Boeing 727-100RE"

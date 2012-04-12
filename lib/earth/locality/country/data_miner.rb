@@ -21,7 +21,7 @@ Country.class_eval do
     import "heating and cooling degree day data from WRI CAIT",
            :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdDN4MkRTSWtWRjdfazhRdWllTkVSMkE&output=csv',
            :select => Proc.new { |record| record['country'] != 'European Union (27)' },
-           :errata => { :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdDNSMUtCV0h4cUF4UnBKZlNkczlNbFE&output=csv' } do
+           :errata => { :url => "file://#{Earth.errata_dir}/country/wri_errata.csv" } do
       key 'name', :field_name => 'country'
       store 'heating_degree_days', :units => :degrees_celsius
       store 'cooling_degree_days', :units => :degrees_celsius
