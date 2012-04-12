@@ -66,8 +66,8 @@ AutomobileMakeModelYearVariant.class_eval do
     '(GM-PONT)' => nil,
   }
   
-  class AutomobileMakeModelYearVariant::ParserB
-    ::FixedWidth.define :fuel_economy_guide_b do |d|
+  class AutomobileMakeModelYearVariant::ParserA
+    ::FixedWidth.define :fuel_economy_guide_a do |d|
       d.rows do |row|
         row.trap { true } # there's only one section
         row.column 'active_year'      , 4,    :type => :integer  #   ACTIVE YEAR
@@ -149,8 +149,8 @@ AutomobileMakeModelYearVariant.class_eval do
       engine_types.flatten.include?('turbo')
     end
   end
-  
-  class AutomobileMakeModelYearVariant::ParserC
+
+  class AutomobileMakeModelYearVariant::ParserB
     attr_reader :year
     def initialize(options = {})
       options = options.stringify_keys
@@ -171,8 +171,8 @@ AutomobileMakeModelYearVariant.class_eval do
       row
     end
   end
-  
-  class AutomobileMakeModelYearVariant::ParserD
+
+  class AutomobileMakeModelYearVariant::ParserC
     attr_reader :year
     def initialize(options = {})
       options = options.stringify_keys
@@ -194,7 +194,7 @@ AutomobileMakeModelYearVariant.class_eval do
     end
   end
   
-  class AutomobileMakeModelYearVariant::ParserE
+  class AutomobileMakeModelYearVariant::ParserD
     OLD_FUEL_CODES = {
       'CNG' => 'C',
       'DU' => 'D',
@@ -231,14 +231,12 @@ AutomobileMakeModelYearVariant.class_eval do
     # 1985---1997
     # FIXME TODO 14 records in the 1995 FEG are missing fuel efficiencies
     (85..97).each do |yy|
-    # [85, 95, 96].each do |yy|
       filename = (yy == 96) ? "#{yy}MFGUI.ASC" : "#{yy}MFGUI.DAT"
       import "19#{ yy } Fuel Economy Guide",
              :url => "http://www.fueleconomy.gov/FEG/epadata/#{yy}mfgui.zip",
-             # :url => "file:///Users/ian/Documents/brighter_planet/documents1/science/data/transport/automobiles/fuel_economy_guide/#{filename}",
              :format => :fixed_width,
              :cut => ((yy == 95) ? '13-' : nil),
-             :schema_name => :fuel_economy_guide_b,
+             :schema_name => :fuel_economy_guide_a,
              :select => lambda { |row| row['model'].present? and (row['suppress_code'].blank? or row['suppress_code'].to_f == 0) and row['state_code'] == 'F' },
              :filename => filename,
              :transform => { :class => AutomobileMakeModelYearVariant::ParserB, :year => "19#{yy}".to_i },
@@ -278,14 +276,6 @@ AutomobileMakeModelYearVariant.class_eval do
       2003 => { :url => 'http://www.fueleconomy.gov/FEG/epadata/03data.zip', :filename => 'guide_2003_feb04-03b.csv' },
       2004 => { :url => 'http://www.fueleconomy.gov/FEG/epadata/04data.zip', :filename => 'gd04-Feb1804-RelDtFeb20.csv' },
       2005 => { :url => 'http://www.fueleconomy.gov/FEG/epadata/05data.zip', :filename => 'guide2005-2004oct15.csv' }
-      # 1998 => { :url => 'file:///Users/ian/Documents/brighter_planet/documents1/science/data/transport/automobiles/fuel_economy_guide/98guide6.csv' },
-      # 1999 => { :url => 'file:///Users/ian/Documents/brighter_planet/documents1/science/data/transport/automobiles/fuel_economy_guide/99guide6.csv' },
-      # 2000 => { :url => 'file:///Users/ian/Documents/brighter_planet/documents1/science/data/transport/automobiles/fuel_economy_guide/G6080900.csv' },
-      # 2001 => { :url => 'file:///Users/ian/Documents/brighter_planet/documents1/science/data/transport/automobiles/fuel_economy_guide/01guide0918.csv' },
-      # 2002 => { :url => 'file:///Users/ian/Documents/brighter_planet/documents1/science/data/transport/automobiles/fuel_economy_guide/guide_jan28.csv' },
-      # 2003 => { :url => 'file:///Users/ian/Documents/brighter_planet/documents1/science/data/transport/automobiles/fuel_economy_guide/guide_2003_feb04-03b.csv' },
-      # 2004 => { :url => 'file:///Users/ian/Documents/brighter_planet/documents1/science/data/transport/automobiles/fuel_economy_guide/gd04-Feb1804-RelDtFeb20.csv' },
-      # 2005 => { :url => 'file:///Users/ian/Documents/brighter_planet/documents1/science/data/transport/automobiles/fuel_economy_guide/guide2005-2004oct15.csv' }
     }.each do |year, options|
       import "#{ year } Fuel Economy Guide",
              options.merge(:transform => { :class => AutomobileMakeModelYearVariant::ParserC, :year => year },
@@ -315,14 +305,9 @@ AutomobileMakeModelYearVariant.class_eval do
     # 2006--2009
     {
       2006 => { :url => 'http://www.fueleconomy.gov/FEG/epadata/06data.zip', :filename => '2006_FE_Guide_14-Nov-2005_download.csv' },
-      # the 07data.xls file provided by the government has a bad encoding
-      2007 => { :url => 'http://static.brighterplanet.com/science/data/transport/automobiles/fuel_economy_guide/2007_FE_guide_ALL_no_sales_May_01_2007.csv' },
+      2007 => { :url => 'http://static.brighterplanet.com/science/data/transport/automobiles/fuel_economy_guide/2007_FE_guide_ALL_no_sales_May_01_2007.csv' }, # the 07data.xls file provided by the government has a bad encoding
       2008 => { :url => 'http://www.fueleconomy.gov/FEG/epadata/08data.zip', :filename => '2008_FE_guide_ALL_rel_dates_-no sales-for DOE-5-1-08.csv' },
       2009 => { :url => 'http://www.fueleconomy.gov/FEG/epadata/09data.zip', :filename => '2009_FE_guide for DOE_ALL-rel dates-no-sales-8-28-08download.csv' }
-      # 2006 => { :url => 'file:///Users/ian/Documents/brighter_planet/documents1/science/data/transport/automobiles/fuel_economy_guide/2006_FE_Guide_14-Nov-2005_download.csv' },
-      # 2007 => { :url => 'file:///Users/ian/Documents/brighter_planet/documents1/science/data/transport/automobiles/fuel_economy_guide/2007_FE_guide_ALL_no_sales_May_01_2007.csv' },
-      # 2008 => { :url => 'file:///Users/ian/Documents/brighter_planet/documents1/science/data/transport/automobiles/fuel_economy_guide/2008_FE_guide.csv' },
-      # 2009 => { :url => 'file:///Users/ian/Documents/brighter_planet/documents1/science/data/transport/automobiles/fuel_economy_guide/2009_FE_guide.csv' }
     }.each do |year, options|
       import "#{ year } Fuel Economy Guide",
              options.merge(:transform => { :class => AutomobileMakeModelYearVariant::ParserD, :year => year },
@@ -357,8 +342,6 @@ AutomobileMakeModelYearVariant.class_eval do
       # Note: it's ok for electric vehicles to be missing cylinders and displacement
       2010 => { :url => 'http://www.fueleconomy.gov/FEG/epadata/10data.zip', :filename => '2010FEGuide for DOE-all rel dates-no-sales-02-22-2011public.xlsx' },
       2011 => { :url => 'http://www.fueleconomy.gov/FEG/epadata/11data.zip', :filename => '2011FEGuide-for DOE rel-dates before 1-23-2011-no-sales-01-10-2011_All_public.xlsx' }
-      # 2010 => { :url => 'file:///Users/ian/Documents/brighter_planet/documents1/science/data/transport/automobiles/fuel_economy_guide/2010FEGuide.xlsx' },
-      # 2011 => { :url => 'file:///Users/ian/Documents/brighter_planet/documents1/science/data/transport/automobiles/fuel_economy_guide/2011FEGuide.xlsx' }
     }.each do |year, options|
       import "#{ year } Fuel Economy Guide",
              options.merge(:transform => { :class => AutomobileMakeModelYearVariant::ParserE, :year => year },
