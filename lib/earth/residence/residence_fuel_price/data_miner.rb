@@ -127,7 +127,7 @@ ResidenceFuelPrice.class_eval do
     # natural gas in dollars per cubic metre
     # breaks if date-performance is enabled because DateTime.parse(...1899...) dies
     import 'residential natural gas prices from the EIA',
-           :url => 'http://tonto.eia.doe.gov/dnav/ng/xls/ng_pri_sum_a_EPG0_FWA_DMcf_a.xls',
+           :url => 'http://www.eia.gov/dnav/ng/xls/ng_pri_sum_a_EPG0_FWA_DMcf_a.xls',
            :sheet => 'Data 1',
            :skip => 2,
            :select => lambda { |row| row['year'].to_i > 1989 },
