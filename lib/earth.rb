@@ -14,32 +14,31 @@ require 'fuzzy_match/cached_result'
 
 # The earth module is an interface for loading data models from various domains.
 module Earth
-  extend ::ActiveSupport::Memoizable
   extend self
 
   def domains
-    ::Dir[::File.join(lib_dir, '*')].map do |path|
+    @domains ||= ::Dir[::File.join(lib_dir, '*')].map do |path|
       if ::File.directory? path
         ::File.basename path
       end
     end.compact.uniq.sort
   end
-  memoize :domains
   
   def resources(*search_domains)
-    search_domains = search_domains.flatten.compact.map(&:to_s)
-    if search_domains.empty?
-      search_domains = domains
-    end
-    search_domains.map do |domain|
-      ::Dir[::File.join(lib_dir, domain, '**', '*.rb')].map do |possible_resource|
-        unless possible_resource.include?('data_miner')
-          ::File.basename(possible_resource, '.rb').camelcase
-        end
+    @resources ||= begin
+      search_domains = search_domains.flatten.compact.map(&:to_s)
+      if search_domains.empty?
+        search_domains = domains
       end
-    end.flatten.compact.sort
+      search_domains.map do |domain|
+        ::Dir[::File.join(lib_dir, domain, '**', '*.rb')].map do |possible_resource|
+          unless possible_resource.include?('data_miner')
+            ::File.basename(possible_resource, '.rb').camelcase
+          end
+        end
+      end.flatten.compact.sort
+    end
   end
-  memoize :resources
 
   def vendor_dir
     ::File.expand_path '../../vendor', __FILE__
@@ -118,6 +117,10 @@ module Earth
   end
   
   def require_glob(glob, options = {})
+    @require_glob ||= []
+    args = [glob, options]
+    return if @require_glob.include?(args)
+    @require_glob << args
     data_miner_paths = []
     ::Dir[glob].each do |path|
       if path.include?('data_miner')
@@ -132,7 +135,6 @@ module Earth
     end if options[:load_data_miner]
     nil
   end
-  memoize :require_glob
   
   def _warn_unless_mysql_ansi_mode
     if ::ActiveRecord::Base.connection.adapter_name =~ /mysql/i
