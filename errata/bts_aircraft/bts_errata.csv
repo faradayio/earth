@@ -1,0 +1,68 @@
+date,name,email,type,section,action,x,y,condition,notes
+10/18/2010,Ian Hough,ian@brighterplanet.com,meta,Intended use,,http://www.transtats.bts.gov/Download_Lookup.asp?Lookup=L_AIRCRAFT_TYPE,,,Tweak the BTS list of aircraft types
+10/18/2010,Ian Hough,ian@brighterplanet.com,editorial,Code,reject,999,,,This is a special code used only for capturing expenses not attributed to specific aircraft types
+4/23/2009,Seamus Abshere,seamus@brighterplanet.com,editorial,Description,delete,/\(Gates\) /i,,,Make it the Bombardier Learjet 60
+10/18/2010,Ian Hough,ian@brighterplanet.com,technical,Description,delete,"/ \(Federal Express has waiver to report all its small aircraft under code 110, regardless of actual aircraft type\)/i",,,Cut the note about FedEx's waiver from the description
+5/11/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/Aerospatiale\/Aeritalia/i,Aerospatiale,,fix manufacturer name
+5/11/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Beech/i,Hawker Beechcraft,,fix manufacturer name
+5/11/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Dehavilland/i,de Havilland,,fix manufacturer name
+5/11/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/Aero Commander \(500\/600 Series Excpt 680fl\)/i,Aero Commander 500/520/560/680,,fix name
+5/11/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Aerospatiale\/British Aerospace Concorde$/i,BAe Concorde,,fix name
+5/12/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/Atr-([47]2)/i,ATR\1,,fix name
+7/8/2009,Seamus Abshere,seamus@brighterplanet.com,editorial,Description,replace,/Airbus Industrie/i,Airbus,,Cut this from all Airbus descriptions
+4/23/2009,Seamus Abshere,seamus@brighterplanet.com,editorial,Description,replace,/Airbus Industrai/i,Airbus,,Cut this from all Airbus descriptions
+5/11/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Airbus A300b\/C\/F-100\/200$/i,Airbus A300 B/C/F,,fix name
+5/13/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Airbus A300-B2$/i,Airbus A300B2,,fix name
+5/12/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Airbus A300-600\/R\/Cf\/Rcf$/i,Airbus A300-600,,fix name
+5/12/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Airbus A330-600st \(Beluga\)$/i,Airbus A300-600ST Beluga,,fix name
+5/11/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Airbus A310-200c\/F$/i,Airbus A310-200 C/F,,fix name
+7/10/2009,Seamus Abshere,seamus@brighterplanet.com,editorial,Description,replace,/^Airbus A-318$/i,Airbus A318,,fix name
+5/13/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Antonov (?:An-)?(\d)/i,Antonov AN\1,,no space between 'an' and model number
+5/13/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Antonov AN(\d{2}\/)/i,Antonov AN \1,,add a space after 'an' if multiple model numbers
+5/16/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Boeing 727-100c\/Qc/i,Boeing 727-100 c/qc,,fix name
+5/16/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Boeing 737-5\/600lr$/i,Boeing 737-500/600lr,,fix name
+5/11/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Boeing 767-200\/er\/em$/i,Boeing 767-200/200ER/200EM,,fix name
+5/11/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Boeing 767-400\/er$/i,Boeing 767-400/400ER,,fix name
+5/11/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Bombardier Crj 705$/i,Canadair CRJ705,,fix name
+5/11/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^British Aerospace \(Hawker-Siddeley\) Bae-748$/i,Hawker Siddeley HS748,,fix name
+5/16/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^British Aerospace/i,BAe,,fix name
+5/16/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^BAe ba(c|e)-(\d)/i,BAe ba\1\2,,fix name
+5/12/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Canadair Cl-600 Challenger$/i,Canadair CL600 Challenger,,fix name
+4/23/2009,Seamus Abshere,seamus@brighterplanet.com,editorial,Description,replace,/^Canadair \(Bombardier\) Challlenger 601$/i,Canadair CL601 Challenger,,fix name
+5/12/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Canadair Rj-100\/Rj-100er$/i,Canadair CRJ100,,fix name
+5/12/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Canadair Rj-200er \/Rj-440$/i,Canadair CRJ 200/440,,fix name
+5/12/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Canadair Rj-700$/i,Canadair CRJ700,,fix name
+5/11/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Casa\/Nurtanio C212 Aviocar$/i,Casa C212 Aviocar,,fix name
+5/11/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Cessna 185a\/B\/C Skywagon$/i,Cessna 185 A/B/C Skywagon,,fix name
+5/11/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Cessna C-402\/402a\/402b$/i,Cessna 402/402A/402B,,fix name
+5/11/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Cessna C206\/207\/209\/210 Stationair$/i,Cessna 206/207/209/210/Stationair,,fix name
+5/11/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Cessna Citation Ii\/ Bravo$/i,Cessna 550 Citation 2,,fix name
+5/11/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Cessna Citation X Model 650\/550b\/550xl\/560xl$/i,Cessna 550B/550XL/560XL/650/750,,fix name
+5/11/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Curtiss C46\/20t\/A\/D\/F\/R Commando$/i,Curtiss C46 Commando,,fix name
+5/11/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^de Havilland Twin Otter Dhc-6$/i,de Havilland DHC6 Twin Otter,,fix name
+5/13/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/DHC8-(\d{3}[a-z]?) dash[ -]8/i,DHC8-\1,,fix name
+5/11/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Embraer[ -](\d)/i,Embraer ERJ\1,,fix name
+5/13/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/Embraer ERJ-(\d{3})/i,Embraer ERJ\1,,fix name
+5/13/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/Embraer EMB-(\d{3})/i,Embraer EMB\1,,fix name
+5/11/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Float\/Amphib Turbine$/i,Float or Amphib Turbine,,fix name
+5/11/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Fokker Friendship F-27\/Fairchild F-27\/A\/B\/F\/J$/i,Fokker F27 Friendship,,fix name
+5/11/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Grumman G-1159 Gulfstream Ii\/Iii$/i,Grumman G 1159/1159A,,fix name
+5/11/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Gulfstream Aerospace G-Iii\/G-Iv$/i,Gulfstream Aerospace G1159 A/C,,fix name
+5/11/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Gulfstream Iii\/V\/ G-V Exec\/ G-5\/550$/i,Gulfstream Aerospace G1159 A/D,,fix name
+5/11/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Hawker Beechcraft 65\/65a-80\/65b-80 \(Queen Air\)$/i,Hawker Beechcraft 65 Queen Air,,fix name
+5/11/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Hawker Beechcraft Bonanza 35a\/C\/D\/E\/G\/H\/J\/K\/S\/V\/  36a$/i,Hawker Beechcraft 35/36 Bonanza,,fix name
+5/13/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Ilyushin (\d{2})/i,Ilyushin il\1,,fix name
+5/11/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Ilyushin il76\/Td$/i,Ilyushin il76,,fix name
+5/13/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/Douglas DC-(\d)/i,Douglas DC\1,,cut dash from Douglas DC-x
+5/13/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/Douglas MD-(\d)/i,Douglas MD\1,,cut dash from Douglas MD-x
+5/11/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,"/^Mcdonnell Douglas Dc3\/A\/C,c-47\/B$/i",McDonnell Douglas DC3,,fix name
+5/11/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Mcdonnell Douglas Dc4\(C54\/C54a\/C54b\/C54e\)$/i,McDonnell Douglas DC4,,fix name
+5/11/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Mcdonnell Douglas Dc9 Super 80\/Md81\/82\/83\/88$/i,McDonnell Douglas MD 81/82/83/88,,fix name
+5/11/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Pilatus Britten-Norman Bn2\/A Islander$/i,Britten-Norman BN2A Islander,,fix name
+5/16/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Pilatus Britten-Norman Bn2a Trislander$/i,Britten-Norman BN2A MkIII Trislander,,fix name
+5/11/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Piper Pa-30\/31t Cheyenne Ii Xl$/i,Piper PA 30/31T Cheyenne II,,fix name
+5/11/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Piper Pa-34\/39 \(Twin Commanche\)$/i,Piper PA 34/39 Twin Commanche,,fix name
+5/13/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/Piper Pa-32 \(Cherokee 6\)/i,Piper PA32 Cherkokee Six,,fix name
+5/13/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/Piper Pa-31 \(Navajo\)\/T-1020/i,Piper PA31 Navajo,,fix name
+5/11/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Saab-Fairchild 340\/A/i,Saab 340A,,fix name
+5/11/2011,Ian Hough,ian@brighterplanet.com,technical,Description,replace,/^Saab-Fairchild 340\/B/i,Saab 340B,,fix name

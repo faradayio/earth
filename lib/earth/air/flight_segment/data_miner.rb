@@ -4,11 +4,11 @@ FlightSegment.class_eval do
   # For import errata
   class FlightSegment::Guru
     def in_may_2009?(row)
-      row ['MONTH'] == 5 and row['YEAR'] == 2009
+      row ['MONTH'].to_i == 5 and row['YEAR'].to_i == 2009
     end
     
     def in_july_2009?(row)
-      row ['MONTH'] == 7 and row['YEAR'] == 2009
+      row ['MONTH'].to_i == 7 and row['YEAR'].to_i == 2009
     end
   end
   
@@ -193,8 +193,7 @@ FlightSegment.class_eval do
              :form_data => form_data,
              :compression => :zip,
              :glob => '/*.csv',
-             # FIXME TODO 6/6/2011 the errata doesn't work - still doesn't fill in missing airline in May and July 2009
-             :errata => { :url => 'https://spreadsheets.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdGxpYU1qWFR3d0syTVMyQVVOaDd0V3c&output=csv', :responder => FlightSegment::Guru.new },
+             :errata => { :url => "file://#{Earth.errata_dir}/flight_segment/bts_errata.csv", :responder => FlightSegment::Guru.new },
              :select => lambda { |record| record['DEPARTURES_PERFORMED'].to_i > 0 } do
         key 'row_hash'
         store 'origin_airport_iata_code',          :field_name => 'ORIGIN'

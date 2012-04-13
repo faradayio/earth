@@ -33,7 +33,7 @@ Airport.class_eval do
            :url => 'https://openflights.svn.sourceforge.net/svnroot/openflights/openflights/data/airports.dat',
            :headers => %w{ id name city country_name iata_code icao_code latitude longitude altitude timezone daylight_savings },
            :select => lambda { |record| record['iata_code'].present? },
-           :errata => { :url => "file://#{Earth.errata_dir}/airport/openflights.csv",
+           :errata => { :url => "file://#{Earth.errata_dir}/airport/openflights_errata.csv",
                         :responder => Airport::Guru.new } do
       key 'iata_code'
       store 'name'

@@ -1,2 +1,0 @@
-name,package_volume,transport_emission_factor,route_inefficiency_factor,carrier_name,mode_name,transport_emission_factor_units
-FedEx ground,100,1.2,1.0,FedEx,ground,kilograms_per_kilogram_kilometre

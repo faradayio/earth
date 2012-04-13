@@ -1,3 +1,0 @@
-name,package_volume,route_inefficiency_factor,transport_emission_factor,corporate_emission_factor,transport_emission_factor_units,corporate_emission_factor_units
-FedEx,100,1.0,0.1,0.1,kilograms_per_kilogram_kilometre,kilograms_per_package
-UPS,0,0.5,0.0,0.0
