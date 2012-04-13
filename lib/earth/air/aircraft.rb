@@ -1,3 +1,5 @@
+require 'fuzzy_match/cached_result'
+
 class Aircraft < ActiveRecord::Base
   self.primary_key = "icao_code"
   
@@ -61,7 +63,7 @@ class Aircraft < ActiveRecord::Base
     # Cache fuzzy matches between FlightSegment aircraft_description and Aircraft description
     def manually_cache_flight_segments!
       FlightSegment.run_data_miner!
-      FuzzyMatch::CachedResult.setup
+      FuzzyMatch::CachedResult.auto_upgrade!
       connection.select_values("SELECT DISTINCT(aircraft_description) FROM flight_segments WHERE aircraft_description IS NOT NULL").each do |original_description|
         # If the flight segment's aircraft_description contains '/' then it describes multiple aircraft.
         # We need to synthesize descriptions for those aircraft, find all Aircraft that fuzzily match the

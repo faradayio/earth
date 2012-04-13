@@ -33,7 +33,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'data_miner', '>=1.3'
   s.add_runtime_dependency 'falls_back_on'
   s.add_runtime_dependency 'fixed_width-multibyte'
-  s.add_runtime_dependency 'fuzzy_match', '>=1.1.0'
+  s.add_runtime_dependency 'fuzzy_match', '>=1.3.3'
   s.add_runtime_dependency 'geokit'
   s.add_runtime_dependency 'active_record_inline_schema'
   s.add_runtime_dependency 'remote_table', '>=1.3.0'
