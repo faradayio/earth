@@ -10,7 +10,6 @@ require 'errata'
 require 'active_record_inline_schema'
 require 'table_warnings'
 require 'fuzzy_match'
-require 'fuzzy_match/cached_result'
 
 # The earth module is an interface for loading data models from various domains.
 module Earth
