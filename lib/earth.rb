@@ -15,6 +15,8 @@ require 'fuzzy_match'
 module Earth
   extend self
 
+  TAPS_SOURCE = 'http://carbon:neutral@data.brighterplanet.com:5000'
+
   def domains
     @domains ||= ::Dir[::File.join(lib_dir, '*')].map do |path|
       if ::File.directory? path
@@ -62,10 +64,8 @@ module Earth
     options = args.extract_options!
     domains = args
 
-    options[:load_data_miner] = true if options[:apply_schemas]
-
-    _warn_unless_mysql_ansi_mode
-    _load_plugins
+    warn_unless_mysql_ansi_mode
+    load_plugins
     
     if domains.include?(:none)
       # don't load anything
@@ -82,12 +82,12 @@ module Earth
       next unless ::Object.const_defined?(resource)
       resource_model = resource.constantize
       
-      _append_pull_dependencies_step_to_data_miner resource_model
+      resource_model.data_miner_config.append_once :process, :run_data_miner_on_parent_associations!
 
       if options[:load_data_miner]
-        _prepend_auto_upgrade_step_to_data_miner resource_model
+        resource_model.data_miner_config.prepend_once :process, :auto_upgrade!
       else
-        _prepend_taps_step_to_data_miner resource_model
+        resource_model.data_miner_config.prepend_once :tap, "Brighter Planet's reference data web service", TAPS_SOURCE
       end
 
       if options[:apply_schemas]
@@ -108,7 +108,7 @@ module Earth
   def require_all(options = {})
     require_glob ::File.join(lib_dir, '**', '*.rb'), options
   end
-
+  
   private
   
   def require_domain(domain, options = {})
@@ -135,44 +135,20 @@ module Earth
     nil
   end
   
-  def _warn_unless_mysql_ansi_mode
+  def warn_unless_mysql_ansi_mode
     if ::ActiveRecord::Base.connection.adapter_name =~ /mysql/i
       sql_mode = ::ActiveRecord::Base.connection.select_value("SELECT @@GLOBAL.sql_mode") + ::ActiveRecord::Base.connection.select_value("SELECT @@SESSION.sql_mode")
-      $stderr.puts "[earth gem] Warning: MySQL detected, but PIPES_AS_CONCAT not set. Importing from scratch will fail. Consider setting sql-mode=ANSI in my.cnf." unless sql_mode =~ /pipes_as_concat/i
+      unless sql_mode.downcase.include? 'pipes_as_concat'
+        ::Kernel.warn "[earth gem] Warning: MySQL detected, but PIPES_AS_CONCAT not set. Importing from scratch will fail. Consider setting sql-mode=ANSI in my.cnf."
+      end
     end
   end
   
-  def _load_plugins
+  def load_plugins
     ::Dir[::File.expand_path('../../vendor/**/init.rb', __FILE__)].each do |pluginit|
       $LOAD_PATH.unshift ::File.join(::File.dirname(pluginit), 'lib')
       ::Kernel.load pluginit
     end
-  end
-  
-  def _append_pull_dependencies_step_to_data_miner(resource_model)
-    return if resource_model.data_miner_config.steps.any? { |step| step.description == :run_data_miner_on_parent_associations! }
-
-    pull_dependencies_step = DataMiner::Process.new resource_model.data_miner_config, :run_data_miner_on_parent_associations!
-
-    resource_model.data_miner_config.steps.push pull_dependencies_step
-  end
-  
-  def _prepend_auto_upgrade_step_to_data_miner(resource_model)
-    return if resource_model.data_miner_config.steps.any? { |step| step.description == :auto_upgrade! }
-
-    auto_upgrade_step = DataMiner::Process.new resource_model.data_miner_config, :auto_upgrade!
-
-    resource_model.data_miner_config.steps.unshift auto_upgrade_step
-  end
-  
-  TAPS_STEP = 'Tap the Brighter Planet data server'
-  TAPS_SOURCE = 'http://carbon:neutral@data.brighterplanet.com:5000'
-  def _prepend_taps_step_to_data_miner(resource_model)
-    return if resource_model.data_miner_config.steps.any? { |step| step.description == TAPS_STEP }
-    
-    taps_step = DataMiner::Tap.new resource_model.data_miner_config, TAPS_STEP, TAPS_SOURCE
-    
-    resource_model.data_miner_config.steps.unshift taps_step
   end
 end
 
