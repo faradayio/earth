@@ -128,7 +128,7 @@ CbecsEnergyIntensity.class_eval do
     }
   })
 
-  const_set(:NAICS_CODE_SYNTHESIZER, lambda { |row|
+  const_set(:NAICS_CODE_SYNTHESIZER, proc { |row|
     case row[0].to_s
     when /Education/
       61

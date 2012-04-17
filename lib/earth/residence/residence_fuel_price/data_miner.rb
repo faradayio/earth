@@ -113,7 +113,7 @@ ResidenceFuelPrice.class_eval do
     # electricity in dollars per kWh
     import 'residential electricity prices from the EIA',
            :url => 'http://www.eia.doe.gov/cneaf/electricity/page/sales_revenue.xls',
-           :select => lambda { |row| row['Year'].to_s.first(4).to_i > 1989 } do
+           :select => proc { |row| row['Year'].to_s.first(4).to_i > 1989 } do
       key 'row_hash'
       store 'residence_fuel_type_name', :static => 'electricity'
       store 'locatable_id', :field_name => 'State' # postal abbrev
@@ -130,7 +130,7 @@ ResidenceFuelPrice.class_eval do
            :url => 'http://www.eia.gov/dnav/ng/xls/ng_pri_sum_a_EPG0_FWA_DMcf_a.xls',
            :sheet => 'Data 1',
            :skip => 2,
-           :select => lambda { |row| row['year'].to_i > 1989 },
+           :select => proc { |row| row['year'].to_i > 1989 },
            :transform => { :class => NaturalGasParser } do
       key 'row_hash'
       store 'residence_fuel_type_name', :static => 'natural gas'
@@ -150,7 +150,7 @@ ResidenceFuelPrice.class_eval do
     #        :url => 'http://tonto.eia.doe.gov/dnav/pet/xls/PET_PRI_RESID_A_EPPR_PTA_CPGAL_M.xls',
     #        :sheet => 'Data 1',
     #        :skip => 2,
-    #        :select => lambda { |row| row['year'].to_i > 1989 },
+    #        :select => proc { |row| row['year'].to_i > 1989 },
     #        :transform => { :class => FuelOilParser } do
     #   key 'row_hash'
     #   store 'residence_fuel_type_name', :static => 'fuel oil'
@@ -169,7 +169,7 @@ ResidenceFuelPrice.class_eval do
     #        :url => 'http://tonto.eia.doe.gov/dnav/pet/xls/PET_PRI_PROP_A_EPLLPA_PRT_CPGAL_M.xls',
     #        :sheet => 'Data 1',
     #        :skip => 2,
-    #        :select => lambda { |row| row['year'].to_i > 1989 },
+    #        :select => proc { |row| row['year'].to_i > 1989 },
     #        :transform => { :class => PropaneParser } do
     #   key 'row_hash'
     #   store 'residence_fuel_type_name', :static => 'propane'

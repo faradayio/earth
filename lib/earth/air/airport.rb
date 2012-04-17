@@ -1,4 +1,4 @@
-require ::File.join(Earth.vendor_dir, 'geokit-rails', 'lib', 'geokit-rails')
+require ::File.join(Earth::VENDOR_DIR, 'geokit-rails', 'lib', 'geokit-rails')
 require 'earth/locality'
 
 class Airport < ActiveRecord::Base

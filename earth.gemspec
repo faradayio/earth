@@ -1,13 +1,11 @@
 # -*- encoding: utf-8 -*-
-$:.push File.expand_path("../lib", __FILE__)
-require "earth/version"
+require File.expand_path("../lib/earth/version", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "earth"
   s.version     = Earth::VERSION
-  s.platform    = Gem::Platform::RUBY
   s.authors = ["Seamus Abshere", "Derek Kastner", "Andy Rossmeissl"]
-  s.email = %q{andy@rossmeissl.net}
+  s.email = ['seamus@abshere.net', 'dkastner@gmail.com', 'andy@rossmeissl.net', 'ijhough@gmail.com']
   s.homepage    = "https://github.com/brighterplanet/earth"
   s.summary     = %Q{Land, sky, and sea}
   s.description = %Q{An earth-simulation environment with ActiveRecord models and data}
@@ -22,15 +20,13 @@ Gem::Specification.new do |s|
   ]
   s.require_paths = ["lib"]
   
-  s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.7}
   
   s.add_runtime_dependency 'activerecord'
   s.add_runtime_dependency 'activesupport'
   s.add_runtime_dependency 'cohort_analysis'
   s.add_runtime_dependency 'conversions'
-  s.add_runtime_dependency 'data_miner', '>=1.3'
+  s.add_runtime_dependency 'data_miner', '>=2'
   s.add_runtime_dependency 'falls_back_on'
   s.add_runtime_dependency 'fixed_width-multibyte'
   s.add_runtime_dependency 'fuzzy_match', '>=1.3.3'

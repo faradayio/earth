@@ -36,7 +36,7 @@ AutomobileMakeModelYear.class_eval do
     # 2009 Dodge Durango HEV
     import "A list of hybrid make model years derived from the EPA fuel economy guide",
            :url => 'https://docs.google.com/spreadsheet/pub?hl=en_US&hl=en_US&key=0AoQJbWqPrREqdGtzekE4cGNoRGVmdmZMaTNvOWluSnc&output=csv' do
-      key 'name', :synthesize => lambda { |record| [record['make_name'], record['model_name'], record['year']].join(' ') }
+      key 'name', :synthesize => proc { |record| [record['make_name'], record['model_name'], record['year']].join(' ') }
       store 'hybridity'
     end
     

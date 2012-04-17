@@ -186,15 +186,15 @@ FlightSegment.class_eval do
     process "Start from scratch" do
       delete_all
     end
-    
-    form_data_per_month(2009..::Time.now.year).each do |month, form_data|
+    FlightSegment.form_data_per_month(2011..2011).each do |month, form_data|
+    # FlightSegment.form_data_per_month(2009..::Time.now.year).each do |month, form_data|
       import "T100 flight segment data for #{month.strftime('%B %Y')}",
              :url => URL,
              :form_data => form_data,
              :compression => :zip,
              :glob => '/*.csv',
-             :errata => { :url => "file://#{Earth.errata_dir}/flight_segment/bts_errata.csv", :responder => FlightSegment::Guru.new },
-             :select => lambda { |record| record['DEPARTURES_PERFORMED'].to_i > 0 } do
+             :errata => { :url => "file://#{Earth::ERRATA_DIR}/flight_segment/bts_errata.csv", :responder => FlightSegment::Guru.new },
+             :select => proc { |record| record['DEPARTURES_PERFORMED'].to_i > 0 } do
         key 'row_hash'
         store 'origin_airport_iata_code',          :field_name => 'ORIGIN'
         store 'origin_country_iso_3166_code',      :field_name => 'ORIGIN_COUNTRY'

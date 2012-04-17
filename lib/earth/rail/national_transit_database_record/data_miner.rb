@@ -3,7 +3,7 @@ NationalTransitDatabaseRecord.class_eval do
   data_miner do
     import "US National Transit Database service data",
            :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdF9Hbktvc3BMNDRWZHhDRU9uMVZfWVE&output=csv' do
-      key 'name', :synthesize => lambda { |row| [row['trs_id'], row['mode_code'], row['service_code']].join(' ') }
+      key 'name', :synthesize => proc { |row| [row['trs_id'], row['mode_code'], row['service_code']].join(' ') }
       store 'company_id', :field_name => 'trs_id'
       store 'mode_code'
       store 'service_type',       :field_name => 'service_code', :dictionary => { :input => 'code', :output => 'name', :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdDBTZENxb3A1SzJaNTVEVGZ5cTdaMVE&output=csv' }
@@ -15,11 +15,11 @@ NationalTransitDatabaseRecord.class_eval do
     
     import "US National Transit Database fuel consumption data",
            :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdDItVVR5NjA2Y3FCVjgza25Ccy0zS2c&output=csv' do
-      key 'name', :synthesize => lambda { |row| [row['trs_id'], row['mode_code'], row['service_code']].join(' ') }
+      key 'name', :synthesize => proc { |row| [row['trs_id'], row['mode_code'], row['service_code']].join(' ') }
       store 'company_id', :field_name => 'trs_id'
       store 'mode_code'
       store 'service_type', :field_name => 'service_code', :dictionary => { :input => 'code', :output => 'name', :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdDBTZENxb3A1SzJaNTVEVGZ5cTdaMVE&output=csv' }
-      store 'electricity',  :synthesize => lambda { |row| row['electricity_kwh'].to_f + row['battery_kwh'].to_f }, :units => 'kilowatt_hours'
+      store 'electricity',  :synthesize => proc { |row| row['electricity_kwh'].to_f + row['battery_kwh'].to_f }, :units => 'kilowatt_hours'
       store 'diesel',       :field_name => 'diesel_gallons',    :from_units => :gallons, :to_units => :litres
       store 'gasoline',     :field_name => 'gasoline_gallons',  :from_units => :gallons, :to_units => :litres
       store 'lpg',          :field_name => 'lpg_gallons',       :from_units => :gallons, :to_units => :litres

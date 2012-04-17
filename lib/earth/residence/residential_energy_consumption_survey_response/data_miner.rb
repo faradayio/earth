@@ -63,16 +63,16 @@ ResidentialEnergyConsumptionSurveyResponse.class_eval do
       store 'outdoor_all_night_lights', :field_name => 'NOUTLGTNT'
       store 'outdoor_all_night_gas_lights', :field_name => 'NGASLIGHT'
       # integers where we treat anything other than true (for example legitimate skip or "occupied without paying rent") as 0
-      store 'heated_garage', :synthesize => lambda { |row| row['GARGHEAT'] == '1' ? 1 : 0 }
-      store 'attached_1car_garage', :synthesize => lambda { |row| row['GARAGE1C'] == '1' ? 1 : 0 }
-      store 'detached_1car_garage', :synthesize => lambda { |row| row['DGARG1C'] == '1' ? 1 : 0 }
-      store 'attached_2car_garage', :synthesize => lambda { |row| row['GARAGE2C'] == '1' ? 1 : 0 }
-      store 'detached_2car_garage', :synthesize => lambda { |row| row['DGARG2C'] == '1' ? 1 : 0 }
-      store 'attached_3car_garage', :synthesize => lambda { |row| row['GARAGE3C'] == '1' ? 1 : 0 }
-      store 'detached_3car_garage', :synthesize => lambda { |row| row['DGARG3C'] == '1' ? 1 : 0 }
+      store 'heated_garage', :synthesize => proc { |row| row['GARGHEAT'] == '1' ? 1 : 0 }
+      store 'attached_1car_garage', :synthesize => proc { |row| row['GARAGE1C'] == '1' ? 1 : 0 }
+      store 'detached_1car_garage', :synthesize => proc { |row| row['DGARG1C'] == '1' ? 1 : 0 }
+      store 'attached_2car_garage', :synthesize => proc { |row| row['GARAGE2C'] == '1' ? 1 : 0 }
+      store 'detached_2car_garage', :synthesize => proc { |row| row['DGARG2C'] == '1' ? 1 : 0 }
+      store 'attached_3car_garage', :synthesize => proc { |row| row['GARAGE3C'] == '1' ? 1 : 0 }
+      store 'detached_3car_garage', :synthesize => proc { |row| row['DGARG3C'] == '1' ? 1 : 0 }
       # booleans where we treat anything other than true (for example legitimate skip or "occupied without paying rent") as false
-      store 'ownership', :synthesize => lambda { |row| row['KOWNRENT'] == '1' }
-      store 'thermostat_programmability', :synthesize => lambda { |row| row['PROTHERM'] == '1' }
+      store 'ownership', :synthesize => proc { |row| row['KOWNRENT'] == '1' }
+      store 'thermostat_programmability', :synthesize => proc { |row| row['PROTHERM'] == '1' }
     end
 
     # Rather than nullify the continuous variables that EIA identifies as LEGITIMATE SKIPS, we convert them to zero

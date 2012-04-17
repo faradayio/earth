@@ -4,7 +4,7 @@ CountryRailTraction.class_eval do
   data_miner do
     import "european rail traction data from the UIC",
            :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdHA1RmZ0SlN6ZkVOenRodGFBQ1N0Q2c&output=csv' do
-      key 'name', :synthesize => lambda { |record| [record['country_iso_3166_code'], record['rail_traction_name']].join(' ') }
+      key 'name', :synthesize => proc { |record| [record['country_iso_3166_code'], record['rail_traction_name']].join(' ') }
       store 'country_iso_3166_code'
       store 'rail_traction_name'
       store 'electricity_intensity', :nullify => :true, :units_field_name => 'electricity_intensity_units'

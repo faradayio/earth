@@ -8,9 +8,9 @@ Naics2002Naics2007Concordance.class_eval do
            :skip => 3,
            :headers => %w{ 2002_code 2002_title 2007_code 2007_title } do
       key 'row_hash'
-      store 'naics_2002_code', :synthesize => lambda { |row| "%06d" % row['2002_code'].to_i }
-      store 'naics_2007_code', :synthesize => lambda { |row| "%06d" % row['2007_code'].to_i }
-      store 'naics_2002_note', :synthesize => lambda { |row| extract_note row['2002_title'] }
+      store 'naics_2002_code', :synthesize => proc { |row| "%06d" % row['2002_code'].to_i }
+      store 'naics_2007_code', :synthesize => proc { |row| "%06d" % row['2007_code'].to_i }
+      store 'naics_2002_note', :synthesize => proc { |row| Naics2002Naics2007Concordance.extract_note row['2002_title'] }
     end
   end
 end

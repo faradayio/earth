@@ -4,7 +4,7 @@ State.class_eval do
     import 'the U.S. Census State ANSI Code file',
            :url => 'http://www.census.gov/geo/www/ansi/state.txt',
            :delimiter => '|',
-           :select => lambda { |record| record['STATE'].to_i < 60 } do
+           :select => proc { |record| record['STATE'].to_i < 60 } do
       key   'postal_abbreviation', :field_name => 'STUSAB'
       store 'fips_code',           :field_name => 'STATE'
       store 'name',                :field_name => 'STATE_NAME'
@@ -15,7 +15,7 @@ State.class_eval do
            :url => 'http://www.census.gov/popest/about/geo/state_geocodes_v2009.txt',
            :skip => 8,
            :headers => ['Region', 'Division', 'State FIPS', 'Name'],
-           :select => ::Proc.new { |row| row['State FIPS'].to_i > 0 } do
+           :select => proc { |row| row['State FIPS'].to_i > 0 } do
       key   'fips_code', :field_name => 'State FIPS'
       store 'census_division_number', :field_name => 'Division'
     end

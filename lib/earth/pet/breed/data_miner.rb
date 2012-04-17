@@ -3,7 +3,7 @@ Breed.class_eval do
     import "Brighter Planet's list of cat and dog breeds",
            :url => 'http://static.brighterplanet.com/science/data/consumables/pets/breed_genders.csv',
            :encoding => 'ISO-8859-1',
-           :select => lambda { |row| row['gender'].blank? } do
+           :select => proc { |row| row['gender'].blank? } do
       key 'name'
       store 'species_name', :field_name => 'species'
       store 'weight', :from_units => :pounds, :to_units => :kilograms

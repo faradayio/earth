@@ -6,7 +6,7 @@ EgridSubregion.class_eval do
            :filename => 'eGRID2010V1_1_year07_AGGREGATION.xls',
            :sheet => 'SRL07',
            :skip => 4,
-           :select => lambda { |row| row['SEQSRL07'].to_i.between?(1, 26) } do
+           :select => proc { |row| row['SEQSRL07'].to_i.between?(1, 26) } do
       key   'abbreviation', :field_name => 'SUBRGN'
       store 'name', :field_name => 'SRNAME'
       store 'nerc_abbreviation',               :field_name => 'NERC'

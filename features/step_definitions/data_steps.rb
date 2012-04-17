@@ -16,7 +16,7 @@ Given /^an? "([^\"]*)" data import fetches results listed in "(.*)"$/ do |model,
 end
 
 When /^a data import verifies "(.*)"$/ do |verification_step_name|
-  @verification = @data_import_model.data_miner_config.steps.find { |f|
+  @verification = @data_import_model.data_miner_script.steps.find { |f|
     f.respond_to?(:description) and f.description == verification_step_name
   }
   @verification_result = begin

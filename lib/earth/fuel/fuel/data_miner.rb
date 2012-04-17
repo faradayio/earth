@@ -14,7 +14,7 @@ Fuel.class_eval do
     
     import "liquid fuels with non-variable characteristics",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdGJmYkdtajZyV3Byb0lrd21xLVhXUGc&output=csv',
-           :select => lambda {|row| row['energy_content_units'] == 'million_btu_per_barrel'} do
+           :select => proc {|row| row['energy_content_units'] == 'million_btu_per_barrel'} do
       key 'name'
       store 'physical_units', :static => 'litre'
       store 'energy_content', :from_units => :million_btu_per_barrel,        :to_units => :megajoules_per_litre
@@ -25,7 +25,7 @@ Fuel.class_eval do
     
     import "gaseous fuels with non-variable characteristics",
            :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdGJmYkdtajZyV3Byb0lrd21xLVhXUGc&output=csv',
-           :select => lambda {|row| row['energy_content_units'] == 'btu_per_cubic_foot'} do
+           :select => proc {|row| row['energy_content_units'] == 'btu_per_cubic_foot'} do
       key 'name'
       store 'physical_units', :static => 'cubic_metre'
       store 'energy_content', :from_units => :btus_per_cubic_foot,           :to_units => :megajoules_per_cubic_metre

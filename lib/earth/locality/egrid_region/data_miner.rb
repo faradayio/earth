@@ -4,7 +4,7 @@ EgridRegion.class_eval do
            :url => 'http://www.epa.gov/cleanenergy/documents/egridzips/eGRID2010V1_1_STIE_USGC.xls',
            :sheet => 'STIE07',
            :skip => 4,
-           :select => lambda { |row| row['eGRID2010 year 2007 file state sequence number'].to_i.between?(1, 51) } do
+           :select => proc { |row| row['eGRID2010 year 2007 file state sequence number'].to_i.between?(1, 51) } do
       key   'name', :field_name => 'Grid region (E=Eastern grid, W=Western grid, AK=Alaska, HI=Hawaii, TX=Texas)'
       store 'country_name', :static => 'US'
       store 'loss_factor', :field_name => 'Year 2007 grid gross loss factor'

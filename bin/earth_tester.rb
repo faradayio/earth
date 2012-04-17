@@ -55,7 +55,7 @@ require 'earth'
 domain = ARGV[0]
 
 Earth.init domain, :load_data_miner => true, :apply_schemas => true
-DataMiner::Run.create_tables
+DataMiner::Run.auto_upgrade!
 
 ActiveRecord::Base.logger = Logger.new $stderr
 ActiveRecord::Base.logger.level = Logger::INFO
@@ -75,9 +75,11 @@ def show_resource(resource)
 end
 
 if (resource = ARGV[1].to_s.camelcase).present?
+  $stderr.puts "domain: #{domain} resource: #{resource}"
   resource.constantize.run_data_miner!
   show_resource resource
 else
+  $stderr.puts "domain: #{domain}"
   DataMiner.run
   Earth.resources(domain).each do |resource|
     show_resource resource

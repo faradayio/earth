@@ -237,10 +237,10 @@ AutomobileMakeModelYearVariant.class_eval do
              :format => :fixed_width,
              :cut => ((yy == 95) ? '13-' : nil),
              :schema_name => :fuel_economy_guide_a,
-             :select => lambda { |row| row['model'].present? and (row['suppress_code'].blank? or row['suppress_code'].to_f == 0) and row['state_code'] == 'F' },
+             :select => proc { |row| row['model'].present? and (row['suppress_code'].blank? or row['suppress_code'].to_f == 0) and row['state_code'] == 'F' },
              :filename => filename,
              :transform => { :class => AutomobileMakeModelYearVariant::ParserA, :year => "19#{yy}".to_i },
-             :errata => { :url => "file://#{Earth.errata_dir}/automobile_make_model_year_variant/feg_errata.csv", :responder => AutomobileMakeModelYearVariant::Guru.new } do
+             :errata => { :url => "file://#{Earth::ERRATA_DIR}/automobile_make_model_year_variant/feg_errata.csv", :responder => AutomobileMakeModelYearVariant::Guru.new } do
         key   'row_hash'
         store 'make_name',  :field_name => 'make'
         store 'model_name', :field_name => 'model'
@@ -278,8 +278,8 @@ AutomobileMakeModelYearVariant.class_eval do
     }.each do |year, options|
       import "#{ year } Fuel Economy Guide",
              options.merge(:transform => { :class => AutomobileMakeModelYearVariant::ParserB, :year => year },
-                           :errata => { :url => "file://#{Earth.errata_dir}/automobile_make_model_year_variant/feg_errata.csv", :responder => AutomobileMakeModelYearVariant::Guru.new },
-                           :select => lambda { |row| row['model'].present? }) do
+                           :errata => { :url => "file://#{Earth::ERRATA_DIR}/automobile_make_model_year_variant/feg_errata.csv", :responder => AutomobileMakeModelYearVariant::Guru.new },
+                           :select => proc { |row| row['model'].present? }) do
         key   'row_hash'
         store 'make_name',  :field_name => 'make'
         store 'model_name', :field_name => 'model'
@@ -309,8 +309,8 @@ AutomobileMakeModelYearVariant.class_eval do
     }.each do |year, options|
       import "#{ year } Fuel Economy Guide",
              options.merge(:transform => { :class => AutomobileMakeModelYearVariant::ParserC, :year => year },
-                           :errata => { :url => "file://#{Earth.errata_dir}/automobile_make_model_year_variant/feg_errata.csv", :responder => AutomobileMakeModelYearVariant::Guru.new },
-                           :select => lambda { |row| row['model'].present? }) do
+                           :errata => { :url => "file://#{Earth::ERRATA_DIR}/automobile_make_model_year_variant/feg_errata.csv", :responder => AutomobileMakeModelYearVariant::Guru.new },
+                           :select => proc { |row| row['model'].present? }) do
         key   'row_hash'
         store 'make_name', :field_name => 'make'
         store 'model_name', :field_name => 'model'
@@ -342,8 +342,8 @@ AutomobileMakeModelYearVariant.class_eval do
     }.each do |year, options|
       import "#{ year } Fuel Economy Guide",
              options.merge(:transform => { :class => AutomobileMakeModelYearVariant::ParserD, :year => year },
-                           :errata => { :url => "file://#{Earth.errata_dir}/automobile_make_model_year_variant/feg_errata.csv", :responder => AutomobileMakeModelYearVariant::Guru.new },
-                           :select => lambda { |row| row['model'].present? }) do
+                           :errata => { :url => "file://#{Earth::ERRATA_DIR}/automobile_make_model_year_variant/feg_errata.csv", :responder => AutomobileMakeModelYearVariant::Guru.new },
+                           :select => proc { |row| row['model'].present? }) do
         key   'row_hash'
         store 'make_name', :field_name => 'make'
         store 'model_name', :field_name => 'model'

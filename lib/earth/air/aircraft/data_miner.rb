@@ -32,8 +32,8 @@ Aircraft.class_eval do
              :encoding => 'windows-1252',
              :row_xpath => '//table[2]//table[1]//tr[3]//tr',
              :column_xpath => 'td',
-             :errata => { :url => "file://#{Earth.errata_dir}/aircraft/faa_errata.csv", :responder => Aircraft::Guru.new },
-             :select => lambda { |record| manufacturer_whitelist? record['Manufacturer'] }) do
+             :errata => { :url => "file://#{Earth::ERRATA_DIR}/aircraft/faa_errata.csv", :responder => Aircraft::Guru.new },
+             :select => proc { |record| Aircraft.manufacturer_whitelist? record['Manufacturer'] }) do
         key 'icao_code',           :field_name => 'Designator'
         store 'manufacturer_name', :field_name => 'Manufacturer'
         store 'model_name',        :field_name => 'Model'

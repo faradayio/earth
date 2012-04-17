@@ -21,7 +21,7 @@ Country.class_eval do
     import "heating and cooling degree day data from WRI CAIT",
            :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdDN4MkRTSWtWRjdfazhRdWllTkVSMkE&output=csv',
            :select => Proc.new { |record| record['country'] != 'European Union (27)' },
-           :errata => { :url => "file://#{Earth.errata_dir}/country/wri_errata.csv" } do
+           :errata => { :url => "file://#{Earth::ERRATA_DIR}/country/wri_errata.csv" } do
       key 'name', :field_name => 'country'
       store 'heating_degree_days', :units => :degrees_celsius
       store 'cooling_degree_days', :units => :degrees_celsius
@@ -91,7 +91,7 @@ Country.class_eval do
     import "calculate national electricity emission factors from Brander et al. (2011)",
            :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdDZmWHFjLVdBZGRBdGxVdDdqd1YtYWc&output=csv' do
       key 'iso_3166_code', :field_name => 'country_iso_3166_code'
-      store 'electricity_emission_factor', :synthesize => lambda { |row|
+      store 'electricity_emission_factor', :synthesize => proc { |row|
         (
           row['electricity_co2_emission_factor'].to_f +
           (row['electricity_ch4_emission_factor'].to_f * GreenhouseGas[:ch4].global_warming_potential) +
