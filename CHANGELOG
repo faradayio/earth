@@ -1,0 +1,15 @@
+0.11.7 / 2012-04-17
+
+* Breaking changes
+
+  * No longer fix peoples find_in_batches for them (see below)
+  * Earth.lib_dir -> Earth::LIB_DIR
+
+* Enhancements
+
+  * Let app owners fix their own ActiveRecord's find_in_batches, since we don't use it - see http://www.seejohncode.com/2011/09/16/uuids-and-find-in-batches/
+  * Use data_miner 2.x, which is supposedly better
+
+* Bug fixes
+
+  * Fix memoization of Earth.resources
