@@ -139,5 +139,3 @@ module Earth
     end
   end
 end
-# TODO move this into a gem or into its own namespace in this gem
-require ::File.join(Earth.vendor_dir, 'clean_find_in_batches', 'init')
