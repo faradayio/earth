@@ -6,7 +6,7 @@ CensusDivision.class_eval do
            :url => 'http://www.census.gov/popest/about/geo/state_geocodes_v2009.txt',
            :skip => 6,
            :headers => %w{ Region Division FIPS Name },
-           :select => ::proc { |row| row['Division'].to_i > 0 and row['FIPS'].to_i == 0 }) do
+           :select => proc { |row| row['Division'].to_i > 0 and row['FIPS'].to_i == 0 }) do
       key   'number', :field_name => 'Division'
       store 'name', :field_name => 'Name'
       store 'census_region_number', :field_name => 'Region'
