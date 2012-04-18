@@ -176,25 +176,25 @@ CbecsEnergyIntensity.class_eval do
           import "2003 CBECS #{table.upcase} - Electricity Consumption and Intensity - #{division}",
             :url => "http://www.eia.gov/emeu/cbecs/cbecs2003/detailed_tables_2003/2003set#{CbecsEnergyIntensity::FUELS[energy_source][:set]}/2003excel/#{table}.xls",
             :headers => false,
-            :select => Proc.new { |row| CbecsEnergyIntensity::NAICS_CODE_SYNTHESIZER.call(row) }, # only select rows where we can translate activity to a NAICS code
+            :select => proc { |row| CbecsEnergyIntensity::NAICS_CODE_SYNTHESIZER.call(row) }, # only select rows where we can translate activity to a NAICS code
             :crop => (21..37) do
-            key :name, :synthesize => Proc.new { |row|
+            key :name, :synthesize => proc { |row|
               "#{Industry.format_naics_code(CbecsEnergyIntensity::NAICS_CODE_SYNTHESIZER.call(row))}-#{region_number}-#{division_data[:census_division]}"
             }
 
-            store :principal_building_activity, :synthesize => Proc.new { |row| row[0].gsub(/[\.\(\)]/,'').strip }
+            store :principal_building_activity, :synthesize => proc { |row| row[0].gsub(/[\.\(\)]/,'').strip }
             store :naics_code, :synthesize => CbecsEnergyIntensity::NAICS_CODE_SYNTHESIZER
             store :census_region_number, :static => region_number
             store :census_division_number, :static => division_data[:census_division]
 
             fuel_data = CbecsEnergyIntensity::FUELS[energy_source]
-            store energy_source, :units => :megajoules, :synthesize => Proc.new { |row|
+            store energy_source, :units => :megajoules, :synthesize => proc { |row|
               Earth::EIA.convert_value(row[division_data[:column] + 1], :from => fuel_data[:consumption], :to => :megajoules)
             }
-            store "#{energy_source}_floorspace", :units => :square_metres, :synthesize => Proc.new { |row|
+            store "#{energy_source}_floorspace", :units => :square_metres, :synthesize => proc { |row|
               Earth::EIA.convert_value(row[division_data[:column] + 4], :from => :million_square_feet, :to => :square_metres)
             }
-            store "#{energy_source}_intensity", :units => :megajoules_per_square_metre, :synthesize => Proc.new { |row|
+            store "#{energy_source}_intensity", :units => :megajoules_per_square_metre, :synthesize => proc { |row|
               Earth::EIA.convert_value(row[division_data[:column] + 7], :from => fuel_data[:intensity], :to => :megajoules_per_square_metre)
             }
           end
@@ -208,26 +208,26 @@ CbecsEnergyIntensity.class_eval do
       CbecsEnergyIntensity::CBECS[:regions].each do |region, region_data|
         import "2003 CBECS #{table.upcase} - #{energy_source.to_s.titleize} Consumption and Intensity - #{region.capitalize} Region",
           :url => "http://www.eia.gov/emeu/cbecs/cbecs2003/detailed_tables_2003/2003set#{CbecsEnergyIntensity::FUELS[energy_source][:set]}/2003excel/#{table}.xls",
-          :select => Proc.new { |row| CbecsEnergyIntensity::NAICS_CODE_SYNTHESIZER.call(row) }, # only select rows where we can translate activity to a NAICS code
+          :select => proc { |row| CbecsEnergyIntensity::NAICS_CODE_SYNTHESIZER.call(row) }, # only select rows where we can translate activity to a NAICS code
           :headers => false,
           :crop => (energy_source == :fuel_oil ? (16..19) : (21..37)) do
           
-          key :name, :synthesize => Proc.new { |row|
+          key :name, :synthesize => proc { |row|
             "#{Industry.format_naics_code(CbecsEnergyIntensity::NAICS_CODE_SYNTHESIZER.call(row))}-#{region_data[:census_region]}"
           }
 
           store :census_region_number, :static => region_data[:census_region]
-          store :principal_building_activity, :synthesize => Proc.new { |row| row[0].gsub(/[\.\(\)]/,'').strip }
+          store :principal_building_activity, :synthesize => proc { |row| row[0].gsub(/[\.\(\)]/,'').strip }
           store :naics_code, :synthesize => CbecsEnergyIntensity::NAICS_CODE_SYNTHESIZER
 
-          store energy_source, :units => :megajoules, :synthesize => Proc.new { |row|
+          store energy_source, :units => :megajoules, :synthesize => proc { |row|
             Earth::EIA.convert_value(row[region_data[:column]], :from => CbecsEnergyIntensity::FUELS[energy_source][:consumption],
                                                                 :to => :megajoules)
           }
-          store "#{energy_source}_floorspace", :units => :square_metres, :synthesize => Proc.new { |row|
+          store "#{energy_source}_floorspace", :units => :square_metres, :synthesize => proc { |row|
             Earth::EIA.convert_value(row[region_data[:column] + 4], :from => :million_square_feet, :to => :square_metres)
           }
-          store "#{energy_source}_intensity", :units => :megajoules_per_square_metre, :synthesize => Proc.new { |row|
+          store "#{energy_source}_intensity", :units => :megajoules_per_square_metre, :synthesize => proc { |row|
             Earth::EIA.convert_value(row[region_data[:column] + 8], :from => CbecsEnergyIntensity::FUELS[energy_source][:intensity],
                                                                 :to => :megajoules_per_square_metre)
           }
@@ -239,16 +239,16 @@ CbecsEnergyIntensity.class_eval do
     import "2003 CBECS C1 - District Heat Consumption and Intensity - US Total",
       :url => "http://www.eia.gov/emeu/cbecs/cbecs2003/detailed_tables_2003/2003set9/2003excel/c1.xls",
       :headers => false,
-      :select => Proc.new { |row| CbecsEnergyIntensity::NAICS_CODE_SYNTHESIZER.call(row) }, # only select rows where we can translate activity to a NAICS code
+      :select => proc { |row| CbecsEnergyIntensity::NAICS_CODE_SYNTHESIZER.call(row) }, # only select rows where we can translate activity to a NAICS code
       :crop => (21..37) do
-      key :name, :synthesize => Proc.new { |row|
+      key :name, :synthesize => proc { |row|
         Industry.format_naics_code(CbecsEnergyIntensity::NAICS_CODE_SYNTHESIZER.call(row))
       }
-      store :principal_building_activity, :synthesize => Proc.new { |row| row[0].gsub(/[\.\(\)]/,'').strip }
+      store :principal_building_activity, :synthesize => proc { |row| row[0].gsub(/[\.\(\)]/,'').strip }
       store :naics_code, :synthesize => CbecsEnergyIntensity::NAICS_CODE_SYNTHESIZER
 
       {:electricity => [4,5], :natural_gas => [6], :fuel_oil => [7], :district_heat => [8]}.each do |energy_source, columns|
-        store energy_source, :units => :megajoules, :synthesize => Proc.new { |row|
+        store energy_source, :units => :megajoules, :synthesize => proc { |row|
           total_energy = nil
           columns.each do |column|
             value = Earth::EIA.convert_value(row[column], :from => :trillion_btus, :to => :megajoules)
@@ -259,10 +259,10 @@ CbecsEnergyIntensity.class_eval do
           end
           total_energy
         }
-        store "#{energy_source}_floorspace", :units => :square_metres, :synthesize => Proc.new { |row|
+        store "#{energy_source}_floorspace", :units => :square_metres, :synthesize => proc { |row|
           Earth::EIA.convert_value(row[2], :from => :million_square_feet, :to => :square_metres)
         }
-        store "#{energy_source}_intensity", :units => :megajoules_per_square_metre, :synthesize => Proc.new { |row|
+        store "#{energy_source}_intensity", :units => :megajoules_per_square_metre, :synthesize => proc { |row|
           total_energy = nil
           columns.each do |column|
             value = Earth::EIA.convert_value(row[column])

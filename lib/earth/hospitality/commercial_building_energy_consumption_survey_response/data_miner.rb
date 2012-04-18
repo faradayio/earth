@@ -8,7 +8,7 @@ CommercialBuildingEnergyConsumptionSurveyResponse.class_eval do
       key 'id', :field_name => 'PUBID8'
       store 'census_region_number',   :field_name => 'REGION8'
       store 'census_division_number', :field_name => 'CENDIV8'
-      store 'climate_zone_number',    :synthesize => Proc.new { |row| row['CLIMATE8'].to_i == 7 ? nil : row['CLIMATE8'].to_i }
+      store 'climate_zone_number',    :synthesize => proc { |row| row['CLIMATE8'].to_i == 7 ? nil : row['CLIMATE8'].to_i }
       store 'area',                   :field_name => 'SQFT8',   :from_units => :square_feet, :to_units => :square_metres
       store 'principal_activity',     :field_name => 'PBA8',    :dictionary => { :input => 'principal_activity_code', :output => 'principal_activity', :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdHRGVHczYXRoU2dFLV90aDdET0dQLUE&single=true&gid=2&output=csv' }
       store 'floors',                 :field_name => 'NFLOOR8', :dictionary => { :input => 'floors_code', :output => 'floors', :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdHRGVHczYXRoU2dFLV90aDdET0dQLUE&single=true&gid=0&output=csv' }
@@ -29,9 +29,9 @@ CommercialBuildingEnergyConsumptionSurveyResponse.class_eval do
       store 'first_activity',        :field_name => 'ACT18',    :dictionary => { :input => 'activity_code', :output => 'activity', :url => 'https://docs.google.com/spreadsheet/pub?&key=0AoQJbWqPrREqdHRGVHczYXRoU2dFLV90aDdET0dQLUE&single=true&gid=4&output=csv' }
       store 'second_activity',       :field_name => 'ACT28',    :dictionary => { :input => 'activity_code', :output => 'activity', :url => 'https://docs.google.com/spreadsheet/pub?&key=0AoQJbWqPrREqdHRGVHczYXRoU2dFLV90aDdET0dQLUE&single=true&gid=4&output=csv' }
       store 'third_activity',        :field_name => 'ACT38',    :dictionary => { :input => 'activity_code', :output => 'activity', :url => 'https://docs.google.com/spreadsheet/pub?&key=0AoQJbWqPrREqdHRGVHczYXRoU2dFLV90aDdET0dQLUE&single=true&gid=4&output=csv' }
-      store 'first_activity_share',  :synthesize => Proc.new { |row| row['ACT1PCT8'].blank? ? nil : row['ACT1PCT8'].to_f / 100.0 }
-      store 'second_activity_share', :synthesize => Proc.new { |row| row['ACT2PCT8'].blank? ? nil : row['ACT2PCT8'].to_f / 100.0 }
-      store 'third_activity_share',  :synthesize => Proc.new { |row| row['ACT3PCT8'].blank? ? nil : row['ACT3PCT8'].to_f / 100.0 }
+      store 'first_activity_share',  :synthesize => proc { |row| row['ACT1PCT8'].blank? ? nil : row['ACT1PCT8'].to_f / 100.0 }
+      store 'second_activity_share', :synthesize => proc { |row| row['ACT2PCT8'].blank? ? nil : row['ACT2PCT8'].to_f / 100.0 }
+      store 'third_activity_share',  :synthesize => proc { |row| row['ACT3PCT8'].blank? ? nil : row['ACT3PCT8'].to_f / 100.0 }
       store 'lodging_rooms',         :field_name => 'LODGRM8'
     end
     
@@ -40,7 +40,7 @@ CommercialBuildingEnergyConsumptionSurveyResponse.class_eval do
            :skip => 1,
            :headers => ["PUBID8","REGION8","CENDIV8","SQFT8","SQFTC8","YRCONC8","PBA8","ELUSED8","NGUSED8","FKUSED8","PRUSED8","STUSED8","HWUSED8","HEATP8","HTLS508","FURNAC8","BOILER8","PKGHT8","SLFCON8","HTPMPH8","STHW8","OTHTEQ8","FURNP8","BOILP8","PKGHP8","SLFCNP8","HTPHP8","STHWP8","OTHTP8","MAINHT8","PKGHPS8","SPLHPS8","RMHPS8","AIRHPT8","GRDHPT8","WTRHPT8","NWMNHT8","RDHTNF8","HWRDHT8","COOLP8","PKGCL8","RCAC8","ACWNWL8","HTPMPC8","CHWT8","CHILLR8","EVAPCL8","OTCLEQ8","PKGCP8","RCACP8","ACWNWP8","HTPCP8","CHWTP8","CHILP8","EVAPP8","OTCLP8","MAINCL8","PKGCPS8","SPLCPS8","RMCPS8","AIRCPT8","GRDCPT8","WTRCPT8","NWMNCL8","RDCLNF8","HWRDCL8","VAV8","ECN8","MAINT8","EMCS8","ADJWT8","STRATUM8","PAIR8"] do
       key 'id', :field_name => 'PUBID8'
-      store 'percent_cooled', :synthesize => Proc.new { |row| row['COOLP8'].to_f / 100.0 }
+      store 'percent_cooled', :synthesize => proc { |row| row['COOLP8'].to_f / 100.0 }
     end
     
     import 'electricity use from the 2003 EIA CBECS',
@@ -50,7 +50,7 @@ CommercialBuildingEnergyConsumptionSurveyResponse.class_eval do
       key 'id', :field_name => 'PUBID8'
       store 'heating_degree_days', :field_name => 'HDD658', :from_units => :degrees_fahrenheit, :to_units => :degrees_celsius
       store 'cooling_degree_days', :field_name => 'CDD658', :from_units => :degrees_fahrenheit, :to_units => :degrees_celsius
-      store 'electricity_use',     :synthesize => Proc.new { |row| row['ELCNS8'].to_i }, :units => :kilowatt_hours
+      store 'electricity_use',     :synthesize => proc { |row| row['ELCNS8'].to_i }, :units => :kilowatt_hours
       store 'electricity_energy',  :field_name => 'ELBTU8', :from_units => :kbtus, :to_units => :megajoules
     end
     

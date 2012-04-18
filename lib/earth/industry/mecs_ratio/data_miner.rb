@@ -31,10 +31,10 @@ MecsRatio.class_eval do
         :url => "http://205.254.135.24/emeu/mecs/mecs2006/excel/Table6_1.xls",
         :crop => data[:crop],
         :headers => ["NAICS Code", "Subsector and Industry", "Consumption per Employee", "Consumption per Dollar of Value Added", "Consumption per Dollar of Value of Shipments"]) do
-        key :name, :synthesize => Proc.new { |row| "#{Industry.format_naics_code(row["NAICS Code"])}-#{data[:code]}" }
+        key :name, :synthesize => proc { |row| "#{Industry.format_naics_code(row["NAICS Code"])}-#{data[:code]}" }
         store :census_region_number, :static => data[:code]
-        store :naics_code, :synthesize => Proc.new { |row| Industry.format_naics_code row["NAICS Code"] }
-        store :energy_per_dollar_of_shipments, :units => :megajoules, :synthesize => Proc.new { |row|
+        store :naics_code, :synthesize => proc { |row| Industry.format_naics_code row["NAICS Code"] }
+        store :energy_per_dollar_of_shipments, :units => :megajoules, :synthesize => proc { |row|
           Earth::EIA.convert_value(row['Consumption per Dollar of Value of Shipments'], :from => :kbtus, :to => :megajoules)
         }
       end
