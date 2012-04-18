@@ -27,7 +27,7 @@ module Earth
     def self.insert_ignore(args = {})
       dest_cols = args[:cols].values
       dest_primary_key = args[:dest].primary_key.to_sym
-      dest_primary_key_in_src = args[:cols].key(dest_primary_key)
+      dest_primary_key_in_src = args[:cols].detect { |k, _| k == dest_primary_key }
       
       sql_items = {}
       args[:cols].each do |src_col, dest_col|
