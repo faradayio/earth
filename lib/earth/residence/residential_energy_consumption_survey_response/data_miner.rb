@@ -4,7 +4,7 @@ ResidentialEnergyConsumptionSurveyResponse.class_eval do
     # conversions are NOT performed here, since we first have to zero out legitimate skips
     # otherwise you will get values like "999 pounds = 453.138778 kilograms" (where 999 is really a legit skip)
     import 'the 2005 EIA Residential Energy Consumption Survey microdata',
-           :url => 'http://www.eia.doe.gov/emeu/recs/recspubuse05/datafiles/RECS05alldata.csv',
+           :url => 'http://www.eia.gov/emeu/recs/recspubuse05/datafiles/RECS05alldata.csv',
            :headers => :upcase do
       key   'id', :field_name => 'DOEID'
       
