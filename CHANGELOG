@@ -1,4 +1,10 @@
-0.11.7 / 2012-04-17
+0.11.18 / 2012-04-20
+
+* Bug fixes
+
+  * Replace col :foo, :index => true with col :foo; add_index :foo to match new active_record_inline_schema requirement
+
+0.11.17 / 2012-04-17
 
 * Breaking changes
 
