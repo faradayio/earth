@@ -3,11 +3,14 @@ require 'earth/locality'
 class CbecsEnergyIntensity < ActiveRecord::Base
   self.primary_key = "name"
   
-  col :name, :index => true
+  col :name
   col :principal_building_activity
-  col :naics_code, :index => true
-  col :census_region_number, :type => :integer, :index => true
-  col :census_division_number, :type => :integer, :index => true
+  col :naics_code
+  col :census_region_number, :type => :integer
+  col :census_division_number, :type => :integer
+  add_index :naics_code
+  add_index :census_region_number
+  add_index :census_division_number
 
   col :electricity, :type => :float
   col :electricity_units
