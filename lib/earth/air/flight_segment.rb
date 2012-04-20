@@ -1,4 +1,5 @@
 require 'earth/locality'
+require 'fuzzy_match/cached_result'
 
 class FlightSegment < ActiveRecord::Base
   self.primary_key = "row_hash"
