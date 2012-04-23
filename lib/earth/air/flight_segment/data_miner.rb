@@ -186,8 +186,7 @@ FlightSegment.class_eval do
     process "Start from scratch" do
       delete_all
     end
-    FlightSegment.form_data_per_month(2011..2011).each do |month, form_data|
-    # FlightSegment.form_data_per_month(2009..::Time.now.year).each do |month, form_data|
+    FlightSegment.form_data_per_month(2009..::Time.now.year).each do |month, form_data|
       import "T100 flight segment data for #{month.strftime('%B %Y')}",
              :url => URL,
              :form_data => form_data,
