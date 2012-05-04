@@ -2,22 +2,21 @@ require 'spec_helper'
 require 'earth/hospitality/country_lodging_class'
 
 describe CountryLodgingClass do
-  before :all do
-    CountryLodgingClass.auto_upgrade!
-  end
-  
   describe "when importing data", :data_miner => true do
     before do
-      require 'earth/hospitality/country_lodging_class/data_miner'
+      Earth.init :hospitality, :load_data_miner => true, :skip_parent_associations => :true
     end
     
     it "imports all naics codes" do
       CountryLodgingClass.run_data_miner!
-      CountryLodgingClass.count.should == 3
     end
   end
   
   describe "verify imported data", :sanity => true do
+    it "should have all the data" do
+      CountryLodgingClass.count.should == 3
+    end
+    
     it "should have fuel intensities" do
       us_hotel = CountryLodgingClass.find 'US Hotel'
       us_hotel.fuel_oil_intensity.should be_within(0.00001).of(0.25014)

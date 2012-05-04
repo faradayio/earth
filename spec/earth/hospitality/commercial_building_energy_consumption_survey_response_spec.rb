@@ -2,22 +2,20 @@ require 'spec_helper'
 require 'earth/hospitality/commercial_building_energy_consumption_survey_response'
 
 describe CommercialBuildingEnergyConsumptionSurveyResponse do
-  before :all do
-    CommercialBuildingEnergyConsumptionSurveyResponse.auto_upgrade!
-  end
-  
   describe "when importing data", :data_miner => true do
     before do
-      require 'earth/hospitality/commercial_building_energy_consumption_survey_response/data_miner'
+      Earth.init :hospitality, :load_data_miner => true, :skip_parent_associations => :true
     end
     
     it "imports all naics codes" do
       CommercialBuildingEnergyConsumptionSurveyResponse.run_data_miner!
-      CommercialBuildingEnergyConsumptionSurveyResponse.count.should == 5215
     end
   end
   
   describe "verify imported data", :sanity => true do
+    it "should have all the data" do
+      CommercialBuildingEnergyConsumptionSurveyResponse.count.should == 5215
+    end
     it "should have room nights and fuel intensities per room night for lodging_records" do
       spot_check = CommercialBuildingEnergyConsumptionSurveyResponse.lodging_records.first
       spot_check.room_nights.should == 6205

@@ -1,12 +1,19 @@
 require 'spec_helper'
 
 describe 'BusFuelControl' do
-  before :all do
-    Earth.init :bus, :fuel, :apply_schemas => true
+  describe 'import', :data_miner => true do
+    before do
+      Earth.init :bus, :load_data_miner => true, :skip_parent_associations => :true
+    end
+    
+    it 'imports successfully' do
+      BusFuelControl.run_data_miner!
+    end
   end
-
-  it 'imports successfully' do
-    BusFuelControl.run_data_miner!
-    BusFuelControl.all.count.should > 0
+  
+  describe 'verify imported data', :sanity => true do
+    it 'should have all the data' do
+      BusFuelControl.count.should == 9
+    end
   end
 end

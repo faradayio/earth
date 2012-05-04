@@ -2,22 +2,21 @@ require 'spec_helper'
 require 'earth/air/flight_distance_class'
 
 describe FlightDistanceClass do
-  before :all do
-    FlightDistanceClass.auto_upgrade!
-  end
-  
   describe "when importing data", :data_miner => true do
     before do
-      require 'earth/air/flight_distance_class/data_miner'
+      Earth.init :air, :load_data_miner => true, :skip_parent_associations => :true
     end
     
     it "imports all naics codes" do
       FlightDistanceClass.run_data_miner!
-      FlightDistanceClass.count.should == 2
     end
   end
   
   describe "verify imported data", :sanity => true do
+    it "should have all the data" do
+      FlightDistanceClass.count.should == 2
+    end
+    
     it "should have distances > 0" do
       FlightDistanceClass.where('distance <= 0 OR distance IS NULL').count.should == 0
     end

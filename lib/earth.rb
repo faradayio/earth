@@ -72,7 +72,9 @@ module Earth
       ::Object.const_defined?(resource)
     end.each do |resource|
       resource_model = resource.constantize
-      resource_model.data_miner_script.append_once :process, :run_data_miner_on_parent_associations!
+      unless options[:skip_parent_associations]
+        resource_model.data_miner_script.append_once :process, :run_data_miner_on_parent_associations!
+      end
       if options[:load_data_miner]
         resource_model.data_miner_script.prepend_once :process, :auto_upgrade!
       else

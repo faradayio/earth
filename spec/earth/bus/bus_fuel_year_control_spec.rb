@@ -1,16 +1,23 @@
 require 'spec_helper'
+require 'earth/bus/bus_fuel_year_control'
 
 describe 'BusFuelYearControl' do
-  before :all do
-    Earth.init :bus, :fuel, :apply_schemas => true
+  describe 'import', :data_miner => true do
+    before do
+      Earth.init :bus, :load_data_miner => true, :skip_parent_associations => :true
+    end
+    
+    it 'imports successfully' do
+      BusFuelYearControl.run_data_miner!
+    end
   end
   
-  it 'imports successfully' do
-    BusFuelYearControl.run_data_miner!
-    BusFuelYearControl.all.count.should > 0
-  end
-  
-  it 'is related to BusFuelControl' do
-    BusFuelYearControl.first.control.should_not be_nil
+  describe 'verify imported data', :sanity => true do
+    it 'should have all the data' do
+      BusFuelYearControl.all.count.should == 67
+    end
+    it 'is related to BusFuelControl' do
+      BusFuelYearControl.first.control.should_not be_nil
+    end
   end
 end

@@ -2,18 +2,19 @@ require 'spec_helper'
 require 'earth/air/bts_aircraft'
 
 describe BtsAircraft do
-  before :all do
-    BtsAircraft.auto_upgrade!
-  end
-  
   describe 'import', :data_miner => true do
     before do
-      require 'earth/air/bts_aircraft/data_miner'
+      Earth.init :air, :load_data_miner => true, :skip_parent_associations => :true
     end
     
     it 'should import data' do
       BtsAircraft.run_data_miner!
-      BtsAircraft.all.count.should == 378
+    end
+  end
+  
+  describe 'verify imported data', :sanity => true do
+    it 'should have all the data' do
+      BtsAircraft.all.count.should == 379
     end
   end
 end

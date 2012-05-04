@@ -2,22 +2,20 @@ require 'spec_helper'
 require 'earth/locality/zip_code'
 
 describe ZipCode do
-  before :all do
-    ZipCode.auto_upgrade!
-  end
-  
   describe 'when importing data', :data_miner => true do
     before do
-      require 'earth/locality/zip_code/data_miner'
+      Earth.init :locality, :load_data_miner => true, :skip_parent_associations => :true
     end
     
     it 'imports data' do
       ZipCode.run_data_miner!
-      ZipCode.count.should == 43770
     end
   end
   
   describe 'verify imported data', :sanity => true do
+    it 'should have all the data' do
+      ZipCode.count.should == 43770
+    end
     it 'has a state for most zip codes' do
       ZipCode.where('state_postal_abbreviation IS NOT NULL').count.should == 43734
     end

@@ -2,17 +2,18 @@ require 'spec_helper'
 require 'earth/air/aircraft'
 
 describe Aircraft do
-  before :all do
-    Aircraft.auto_upgrade!
-  end
-  
   describe 'import', :data_miner => true do
     before do
-      require 'earth/air/aircraft/data_miner'
+      Earth.init :air, :load_data_miner => true, :skip_parent_associations => :true
     end
     
     it 'should import data' do
       Aircraft.run_data_miner!
+    end
+  end
+  
+  describe "verify imported data", :sanity => true do
+    it "should have all the data" do
       Aircraft.all.count.should == 437
     end
   end

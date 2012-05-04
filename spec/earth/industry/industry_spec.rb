@@ -2,17 +2,18 @@ require 'spec_helper'
 require 'earth/industry/industry'
 
 describe Industry do
-  before :all do
-    Industry.auto_upgrade!
-  end
-  
   describe "when importing data", :data_miner => true do
     before do
-      require 'earth/industry/industry/data_miner'
+      Earth.init :industry, :load_data_miner => true, :skip_parent_associations => :true
     end
     
     it "imports all naics codes" do
       Industry.run_data_miner!
+    end
+  end
+  
+  describe "verify imported data", :sanity => true do
+    it "should have all the data" do
       Industry.count.should == 2341
     end
   end

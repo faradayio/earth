@@ -2,22 +2,21 @@ require 'spec_helper'
 require 'earth/air/flight_segment'
 
 describe FlightSegment do
-  before :all do
-    FlightSegment.auto_upgrade!
-  end
-  
   describe 'import', :data_miner => true do
     before do
-      require 'earth/air/flight_segment/data_miner'
+      Earth.init :air, :load_data_miner => true, :skip_parent_associations => :true
     end
     
     it 'should import data' do
       FlightSegment.run_data_miner!
-      FlightSegment.all.count.should == 1_149_003
     end
   end
   
   describe "verify imported data", :sanity => true do
+    it "should have all the data" do
+      FlightSegment.all.count.should == 1_149_003
+    end
+    
     it "should have year from 2009 to present" do
       FlightSegment.where("year IS NULL OR year < 2009 OR year > #{::Time.now.year}").count.should == 0
     end

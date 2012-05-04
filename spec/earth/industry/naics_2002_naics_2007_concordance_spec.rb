@@ -2,13 +2,9 @@ require 'spec_helper'
 require 'earth/industry/naics_2002_naics_2007_concordance'
 
 describe Naics2002Naics2007Concordance do
-  before :all do
-    Naics2002Naics2007Concordance.auto_upgrade!
-  end
-  
   describe "when importing data", :data_miner => true do
     before do
-      require 'earth/industry/naics_2002_naics_2007_concordance/data_miner'
+      Earth.init :industry, :load_data_miner => true, :skip_parent_associations => :true
     end
     
     it "extracts a note from a description" do
@@ -18,6 +14,11 @@ describe Naics2002Naics2007Concordance do
     
     it "imports all naics codes" do
       Naics2002Naics2007Concordance.run_data_miner!
+    end
+  end
+  
+  describe 'verify imported data', :sanity => true do
+    it 'should have all the data' do
       Naics2002Naics2007Concordance.count.should == 1200
     end
   end

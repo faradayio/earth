@@ -5,17 +5,17 @@ require 'earth/industry/industry' # MecsRatio's custom find by method calls an I
 describe MecsRatio do
   describe 'import', :data_miner => true do
     before do
-      require 'earth/industry/mecs_ratio/data_miner'
-      MecsRatio.auto_upgrade!
-      MecsRatio.delete_all
+      Earth.init :industry, :load_data_miner => true, :skip_parent_associations => :true
     end
     it 'retrieves Total US statistics' do
       MecsRatio.run_data_miner!
-      MecsRatio.count.should == 395
     end
   end
   
   describe 'verify imported data', :sanity => true do
+    it 'should have all the data' do
+      MecsRatio.count.should == 395
+    end
     it 'spot checks the data' do
       apparel = MecsRatio.find_by_naics_code '315'
       apparel.census_region_number.should be_nil

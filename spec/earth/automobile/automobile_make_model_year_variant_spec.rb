@@ -2,13 +2,9 @@ require 'spec_helper'
 require 'earth/automobile/automobile_make_model_year_variant'
 
 describe AutomobileMakeModelYearVariant do
-  before :all do
-    AutomobileMakeModelYearVariant.auto_upgrade!
-  end
-  
   describe 'import', :data_miner => true do
     before do
-      require 'earth/automobile/automobile_make_model_year_variant/data_miner'
+      Earth.init :automobile, :load_data_miner => true, :skip_parent_associations => :true
     end
     
     it 'should import data' do

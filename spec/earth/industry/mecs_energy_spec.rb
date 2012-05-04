@@ -5,17 +5,17 @@ require 'earth/industry/industry' # MecsEnergy's custom find by method calls an 
 describe MecsEnergy do
   describe 'import', :data_miner => true do
     before do
-      require 'earth/industry/mecs_energy/data_miner'
-      MecsEnergy.auto_upgrade!
-      MecsEnergy.delete_all
+      Earth.init :industry, :load_data_miner => true, :skip_parent_associations => :true
     end
     it 'retrieves Total US statistics' do
       MecsEnergy.run_data_miner!
-      MecsEnergy.count.should == 395
     end
   end
   
   describe 'verify imported data', :sanity => true do
+    it 'should have all the data' do
+      MecsEnergy.count.should == 395
+    end
     it 'spot checks the data' do
       apparel = MecsEnergy.find_by_naics_code '315'
       apparel.census_region_number.should be_nil

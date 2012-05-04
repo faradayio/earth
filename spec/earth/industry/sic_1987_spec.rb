@@ -2,22 +2,20 @@ require 'spec_helper'
 require 'earth/industry/sic_1987'
 
 describe Sic1987 do
-  before :all do
-    Sic1987.auto_upgrade!
-  end
-  
   describe "when importing data", :data_miner => true do
     before do
-      require 'earth/industry/sic_1987/data_miner'
+      Earth.init :industry, :load_data_miner => true, :skip_parent_associations => :true
     end
     
     it "imports all naics codes" do
       Sic1987.run_data_miner!
-      Sic1987.count.should == 1004
     end
   end
   
   describe "verify imported data", :sanity => true do
+    it "should have all the data" do
+      Sic1987.count.should == 1004
+    end
     it "has a description for every code" do
       Sic1987.find_by_description(nil).should be_nil
     end

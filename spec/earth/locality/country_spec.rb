@@ -4,22 +4,20 @@ require 'spec_helper'
 require 'earth/locality/country'
 
 describe Country do
-  before :all do
-    Country.auto_upgrade!
-  end
-  
   describe 'import', :data_miner => true do
     before do
-      require 'earth/locality/country/data_miner'
+      Earth.init :locality, :load_data_miner => true, :skip_parent_associations => :true
     end
     
     it 'should import data' do
       Country.run_data_miner!
-      Country.all.count.should == 249
     end
   end
   
   describe 'verify imported data', :sanity => true do
+    it 'should have all the data' do
+      Country.all.count.should == 249
+    end
     it 'uses UTF-8 encoding' do
       Country.find('AX').name.should == "Åland Islands"
       Country.find('CI').name.should == "Côte d'Ivoire"
