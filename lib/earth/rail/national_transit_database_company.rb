@@ -22,11 +22,12 @@ class NationalTransitDatabaseCompany < ActiveRecord::Base
   end
   
   # Methods to look up units from from rail_records
+  # TODO this looks inefficient
   [:rail_passenger_distance_units, :rail_vehicle_distance_units, :rail_vehicle_time_units, :rail_electricity_units, :rail_diesel_units].each do |method|
     define_method method do
       attribute = method.to_s.split('rail_')[1].to_sym
-      units = rail_records.map(&attribute).uniq
-      (units.count == 1 and units[0].present?) ? units[0] : raise("Error: units missing or multiple units in #{name}'s NTD records")
+      units = rail_records.map(&attribute).uniq.compact
+      (units.length == 1 and units[0].present?) ? units[0] : raise("Error: units missing or multiple units in #{name}'s NTD records")
     end
   end
   
