@@ -1,0 +1,8 @@
+date,name,email,type,section,action,x,y,condition,notes
+5/10/2012,Andy Rossmeissl,myfirstname@brighterplanet.com,meta,Intended use,,NREL electric markets data,,,
+5/10/2012,Andy Rossmeissl,myfirstname@brighterplanet.com,technical,electric_utility,replace,A3483,44372,,
+5/10/2012,Andy Rossmeissl,myfirstname@brighterplanet.com,technical,electric_utility,replace,W6181,13739,,
+5/10/2012,Andy Rossmeissl,myfirstname@brighterplanet.com,technical,electric_utility,delete,B1959,,,
+5/10/2012,Andy Rossmeissl,myfirstname@brighterplanet.com,technical,electric_utility,delete,A2056,,,
+5/10/2012,Andy Rossmeissl,myfirstname@brighterplanet.com,technical,electric_utility,replace,W7633,4362,,
+,,,,,drop,W6179,,,
