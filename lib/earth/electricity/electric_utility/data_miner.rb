@@ -15,16 +15,39 @@ ElectricUtility.class_eval do
       store 'alias'
     end
 
-    import 'Green Button implementors', :url => 'http://greenbuttondata.org/greenadopt.html' do
-      # CSS selector "#adopt+p+h2+table li.implemented" will get you the utilities that have implemented
-      # The tricky thing is that, for each record from this page, we want to set green_button_implementer=true on ALL ElectricUtility records whose `name` or `alias` attributes match this text from the bullet
-      # If a matching record can't be found, we should avoid saving a *new* record here, if that is possible
+    import 'Green Button implementers (by name)',
+           :url => 'http://greenbuttondata.org/greenadopt.html',
+           :row_css => '#adopt+p+h2+table li.implemented',
+           :headers => %w{name},
+           :select => proc { |row| ElectricUtility.exists?(:name => row['name']) } do
+      key 'name'
       store 'green_button_implementer', :static => true
     end
 
-    import 'Green Button committers', :url => 'http://greenbuttondata.org/greenadopt.html' do
-      # CSS selector "#adopt+p+h2+table li.committed" will get you the utilities that have committed
-      # Same caveats as above
+    import 'Green Button implementers (by alias)',
+           :url => 'http://greenbuttondata.org/greenadopt.html',
+           :row_css => '#adopt+p+h2+table li.implemented',
+           :headers => %w{alias},
+           :select => proc { |row| ElectricUtility.exists?(:alias => row['alias']) } do
+      key 'alias'
+      store 'green_button_implementer', :static => true
+    end
+
+    import 'Green Button committers (by name)',
+           :url => 'http://greenbuttondata.org/greenadopt.html',
+           :row_css => '#adopt+p+h2+table li.committed',
+           :headers => %w{name},
+           :select => proc { |row| ElectricUtility.exists?(:name => row['name']) } do
+      key 'name'
+      store 'green_button_committer', :static => true
+    end
+
+    import 'Green Button committers (by alias)',
+           :url => 'http://greenbuttondata.org/greenadopt.html',
+           :row_css => '#adopt+p+h2+table li.committed',
+           :headers => %w{alias},
+           :select => proc { |row| ElectricUtility.exists?(:alias => row['alias']) } do
+      key 'alias'
       store 'green_button_committer', :static => true
     end
   end
