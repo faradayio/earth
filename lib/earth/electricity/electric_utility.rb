@@ -1,3 +1,5 @@
+require 'earth/locality'
+
 class ElectricUtility < ActiveRecord::Base
   self.primary_key = "eia_id"
   
