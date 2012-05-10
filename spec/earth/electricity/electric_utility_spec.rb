@@ -15,5 +15,9 @@ describe ElectricUtility do
     it 'should include, specifically, MG&E' do
       ElectricUtility.find(11479).name.should == 'Madison Gas & Electric Co'
     end
+
+    it 'should include aliases' do
+      ElectricUtility.find(14328).alias.should == 'PG&E'
+    end
   end
 end

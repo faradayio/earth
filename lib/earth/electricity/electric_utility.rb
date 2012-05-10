@@ -5,6 +5,7 @@ class ElectricUtility < ActiveRecord::Base
   
   col :eia_id, :type => :integer
   col :name
+  col :alias
   col :state_postal_abbreviation
   col :nerc_abbreviation
 end

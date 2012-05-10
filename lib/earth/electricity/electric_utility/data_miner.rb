@@ -9,5 +9,10 @@ ElectricUtility.class_eval do
       store 'state_postal_abbreviation', :field_name => 'MAIL_STATE'
       store 'nerc_abbreviation', :field_name => 'NERC_LOCATION'
     end
+
+    import 'Aliases', :url => 'https://docs.google.com/spreadsheet/pub?key=0AtyCBJLCFHlwdEM5WjVxRjBKWVJRcTJ3c1BhUnlSVXc&single=true&gid=0&output=csv' do
+      key 'eia_id', :field_name => 'utility_id'
+      store 'alias'
+    end
   end
 end
