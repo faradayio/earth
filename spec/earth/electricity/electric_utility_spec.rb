@@ -3,7 +3,7 @@ require 'earth/electricity/electric_utility'
 
 describe ElectricUtility do
   describe 'Electric utility data', :data_miner => true do
-    before do
+    before :all do
       Earth.init :electricity, :load_data_miner => true, :skip_parent_associations => :true
       ElectricUtility.run_data_miner!
     end
@@ -19,5 +19,9 @@ describe ElectricUtility do
     it 'should include aliases' do
       ElectricUtility.find(14328).alias.should == 'PG&E'
     end
+
+    after :all do
+      ElectricUtility.delete_all
+    end    
   end
 end
