@@ -1,5 +1,9 @@
 ElectricUtility.class_eval do
   data_miner do
+    process "make sure green button adoption is populated" do
+      GreenButtonAdoption.run_data_miner!
+    end
+
     import 'EIA Form 861 records from 2010 (revised)',
            :url => 'http://www.eia.gov/Ftproot/pub/electricity/f86110.zip',
            :filename => 'file1_2010.xls',
