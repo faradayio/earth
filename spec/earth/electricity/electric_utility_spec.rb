@@ -17,15 +17,15 @@ describe ElectricUtility do
     end
 
     it 'should include aliases' do
-      ElectricUtility.find(14328).alias.should == 'PG&E'
+      ElectricUtility.find(14328).nickname.should == 'PG&E'
     end
 
     it 'should reveal which utilities have implemented the Green Button program' do
-      assert ElectricUtility.find(14328).green_button_implementer?
+      ElectricUtility.find(14328).green_button_implementer?.should == true
     end
 
     it 'should reveal which utilities have committed to the Green Button program' do
-      assert ElectricUtility.find(14940).green_button_committer?
+      ElectricUtility.find(14940).green_button_committer?.should == true
     end
 
     after :all do

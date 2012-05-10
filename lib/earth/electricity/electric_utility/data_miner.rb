@@ -12,43 +12,7 @@ ElectricUtility.class_eval do
 
     import 'Aliases', :url => 'https://docs.google.com/spreadsheet/pub?key=0AtyCBJLCFHlwdEM5WjVxRjBKWVJRcTJ3c1BhUnlSVXc&single=true&gid=0&output=csv' do
       key 'eia_id', :field_name => 'utility_id'
-      store 'alias'
-    end
-
-    import 'Green Button implementers (by name)',
-           :url => 'http://greenbuttondata.org/greenadopt.html',
-           :row_css => '#adopt+p+h2+table li.implemented',
-           :headers => %w{name},
-           :select => proc { |row| ElectricUtility.exists?(:name => row['name']) } do
-      key 'name'
-      store 'green_button_implementer', :static => true
-    end
-
-    import 'Green Button implementers (by alias)',
-           :url => 'http://greenbuttondata.org/greenadopt.html',
-           :row_css => '#adopt+p+h2+table li.implemented',
-           :headers => %w{alias},
-           :select => proc { |row| ElectricUtility.exists?(:alias => row['alias']) } do
-      key 'alias'
-      store 'green_button_implementer', :static => true
-    end
-
-    import 'Green Button committers (by name)',
-           :url => 'http://greenbuttondata.org/greenadopt.html',
-           :row_css => '#adopt+p+h2+table li.committed',
-           :headers => %w{name},
-           :select => proc { |row| ElectricUtility.exists?(:name => row['name']) } do
-      key 'name'
-      store 'green_button_committer', :static => true
-    end
-
-    import 'Green Button committers (by alias)',
-           :url => 'http://greenbuttondata.org/greenadopt.html',
-           :row_css => '#adopt+p+h2+table li.committed',
-           :headers => %w{alias},
-           :select => proc { |row| ElectricUtility.exists?(:alias => row['alias']) } do
-      key 'alias'
-      store 'green_button_committer', :static => true
+      store 'nickname', :field_name => 'alias'
     end
   end
 end

@@ -9,9 +9,15 @@ class ElectricUtility < ActiveRecord::Base
   
   col :eia_id, :type => :integer
   col :name
-  col :alias
+  col :nickname
   col :state_postal_abbreviation
   col :nerc_abbreviation
-  col :green_button_implementer, :type => :boolean
-  col :green_button_committer, :type => :boolean
+
+  def green_button_implementer?
+    GreenButtonAdoption.implemented? name, nickname 
+  end
+
+  def green_button_committer?
+    GreenButtonAdoption.committed? name, nickname
+  end
 end
