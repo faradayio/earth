@@ -42,11 +42,7 @@ class AutomobileMakeModelYearVariant < ActiveRecord::Base
   col :turbo,        :type => :boolean
   col :supercharger, :type => :boolean
   col :injection,    :type => :boolean
-  col :carline_mfr_code,   :type => :integer
-  col :vi_mfr_code,        :type => :integer
-  col :carline_code,       :type => :integer
-  col :carline_class_code, :type => :integer
-  col :carline_class_name
+  col :carline_class
   add_index :make_name
   add_index :model_name
   add_index :year
