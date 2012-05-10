@@ -14,5 +14,18 @@ ElectricUtility.class_eval do
       key 'eia_id', :field_name => 'utility_id'
       store 'alias'
     end
+
+    import 'Green Button implementors', :url => 'http://greenbuttondata.org/greenadopt.html' do
+      # CSS selector "#adopt+p+h2+table li.implemented" will get you the utilities that have implemented
+      # The tricky thing is that, for each record from this page, we want to set green_button_implementer=true on ALL ElectricUtility records whose `name` or `alias` attributes match this text from the bullet
+      # If a matching record can't be found, we should avoid saving a *new* record here, if that is possible
+      store 'green_button_implementer', :static => true
+    end
+
+    import 'Green Button committers', :url => 'http://greenbuttondata.org/greenadopt.html' do
+      # CSS selector "#adopt+p+h2+table li.committed" will get you the utilities that have committed
+      # Same caveats as above
+      store 'green_button_committer', :static => true
+    end
   end
 end

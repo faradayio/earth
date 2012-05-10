@@ -8,4 +8,6 @@ class ElectricUtility < ActiveRecord::Base
   col :alias
   col :state_postal_abbreviation
   col :nerc_abbreviation
+  col :green_button_implementer, :type => :boolean
+  col :green_button_committer, :type => :boolean
 end

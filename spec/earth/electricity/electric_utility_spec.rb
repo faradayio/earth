@@ -20,6 +20,14 @@ describe ElectricUtility do
       ElectricUtility.find(14328).alias.should == 'PG&E'
     end
 
+    it 'should reveal which utilities have implemented the Green Button program' do
+      assert ElectricUtility.find(14328).green_button_implementer?
+    end
+
+    it 'should reveal which utilities have committed to the Green Button program' do
+      assert ElectricUtility.find(14940).green_button_committer?
+    end
+
     after :all do
       ElectricUtility.delete_all
     end    
