@@ -22,10 +22,6 @@ class AutomobileMakeModelYearVariant < ActiveRecord::Base
   col :fuel_efficiency_city_units
   col :fuel_efficiency_highway,       :type => :float
   col :fuel_efficiency_highway_units
-  col :raw_fuel_efficiency_city,      :type => :float
-  col :raw_fuel_efficiency_city_units
-  col :raw_fuel_efficiency_highway,   :type => :float
-  col :raw_fuel_efficiency_highway_units
   col :alt_fuel_code
   col :alt_fuel_efficiency,               :type => :float
   col :alt_fuel_efficiency_units
@@ -33,10 +29,6 @@ class AutomobileMakeModelYearVariant < ActiveRecord::Base
   col :alt_fuel_efficiency_city_units
   col :alt_fuel_efficiency_highway,       :type => :float
   col :alt_fuel_efficiency_highway_units
-  col :alt_raw_fuel_efficiency_city,      :type => :float
-  col :alt_raw_fuel_efficiency_city_units
-  col :alt_raw_fuel_efficiency_highway,   :type => :float
-  col :alt_raw_fuel_efficiency_highway_units
   col :cylinders,    :type => :integer
   col :displacement, :type => :float
   col :turbo,        :type => :boolean

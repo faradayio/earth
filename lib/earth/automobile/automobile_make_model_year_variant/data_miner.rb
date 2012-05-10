@@ -1,4 +1,3 @@
-require 'ruby-debug'
 require 'earth/automobile/automobile_make_model_year_variant/parser'
 
 AutomobileMakeModelYearVariant.class_eval do
@@ -21,7 +20,7 @@ AutomobileMakeModelYearVariant.class_eval do
     [["ford", "contour"], ["hyundai", "sonata"], ["jaguar", "xjr"], ["jaguar", "xjs convertible"], ["jaguar", "xjs coupe"], ["mercury", "mystique"], ["mitsubishi", "mirage"], ["volvo", "850"], ["volvo", "850 wagon"], ["volvo", "940"], ["volvo", "940 wagon"]].each do |make_name, model_name|
       method_name = :"is_a_1995_#{make_name}_#{model_name.gsub(' ', '_')}_missing_fuel_efficiency?"
       define_method method_name do |row|
-        row['year'] == 1995 and row['make_name'].downcase == make_name and row['model_name'].downcase == model_name and (row['raw_fuel_efficiency_city'].blank? or row['raw_fuel_efficiency_highway'].blank?)
+        row['year'] == 1995 and row['make_name'].downcase == make_name and row['model_name'].downcase == model_name and (row['fuel_efficiency_city'] == 0 or row['fuel_efficiency_highway'] == 0)
       end
     end
     
@@ -43,8 +42,6 @@ AutomobileMakeModelYearVariant.class_eval do
   end
   
   data_miner do
-    # FIXME TODO 2005 Mercedes-Benz SLK55 AMG has NULL speeds (it does in the EPA FEG also)
-    
     fuel_economy_guides = (1985..1997).inject({}) do |memo, year|
       yy = year.to_s[2..3]
       memo[year] = {
@@ -97,11 +94,11 @@ AutomobileMakeModelYearVariant.class_eval do
         store 'speeds'
         store 'drive'
         store 'fuel_code'
-        store 'raw_fuel_efficiency_city',    :from_units => :miles_per_gallon, :to_units => :kilometres_per_litre
-        store 'raw_fuel_efficiency_highway', :from_units => :miles_per_gallon, :to_units => :kilometres_per_litre
+        store 'fuel_efficiency_city',    :from_units => :miles_per_gallon, :to_units => :kilometres_per_litre
+        store 'fuel_efficiency_highway', :from_units => :miles_per_gallon, :to_units => :kilometres_per_litre
         store 'alt_fuel_code'
-        store 'alt_raw_fuel_efficiency_city',    :from_units => :miles_per_gallon, :to_units => :kilometres_per_litre
-        store 'alt_raw_fuel_efficiency_highway', :from_units => :miles_per_gallon, :to_units => :kilometres_per_litre
+        store 'alt_fuel_efficiency_city',    :from_units => :miles_per_gallon, :to_units => :kilometres_per_litre
+        store 'alt_fuel_efficiency_highway', :from_units => :miles_per_gallon, :to_units => :kilometres_per_litre
         store 'cylinders'
         store 'displacement'
         store 'turbo'
@@ -111,32 +108,11 @@ AutomobileMakeModelYearVariant.class_eval do
       end
     end
     
-    # Note: equation designed for miles / gallon so need to convert to km / l
-    # Note: EPA seems to adjust differently for plug-in hybrid electric vehicles (e.g. Leaf and Volt)
-    process "Calculate adjusted fuel efficiency using the latest EPA equations from EPA Fuel Economy Trends report Appendix A including conversion from miles per gallon to kilometres per litre" do
-      where("raw_fuel_efficiency_city IS NOT NULL").update_all(%{
-        fuel_efficiency_city = 1.0 / ((0.003259 / #{1.miles_per_gallon.to(:kilometres_per_litre)}) + (1.1805 / raw_fuel_efficiency_city)),
-        fuel_efficiency_city_units = 'kilometres_per_litre'
-      })
-      where("raw_fuel_efficiency_highway IS NOT NULL").update_all(%{
-        fuel_efficiency_highway = 1.0 / ((0.001376 / #{1.miles_per_gallon.to(:kilometres_per_litre)}) + (1.3466 / raw_fuel_efficiency_highway)),
-        fuel_efficiency_highway_units = 'kilometres_per_litre'
-      })
-      where("alt_raw_fuel_efficiency_city IS NOT NULL").update_all(%{
-        alt_fuel_efficiency_city = 1.0 / ((0.003259 / #{1.miles_per_gallon.to(:kilometres_per_litre)}) + (1.1805 / alt_raw_fuel_efficiency_city)),
-        alt_fuel_efficiency_city_units = 'kilometres_per_litre'
-      })
-      where("alt_raw_fuel_efficiency_highway IS NOT NULL").update_all(%{
-        alt_fuel_efficiency_highway = 1.0 / ((0.001376 / #{1.miles_per_gallon.to(:kilometres_per_litre)}) + (1.3466 / alt_raw_fuel_efficiency_highway)),
-        alt_fuel_efficiency_highway_units = 'kilometres_per_litre'
-      })
-    end
-    
-    # This will be useful later for calculating MakeModel and Make fuel efficiency based on Variant
+    # Combined fuel efficiency will be useful later when deriving MakeModel and Make fuel efficiency
     # NOTE: we use a 43/57 city/highway weighting per the latest EPA analysis of real-world driving behavior
     # This results in a deviation from EPA fuel economy label values which use a historical 55/45 weighting
     process "Calculate combined adjusted fuel efficiency using the latest EPA equation" do
-      update_all(%{
+      where("fuel_efficiency_city IS NOT NULL AND fuel_efficiency_highway IS NOT NULL").update_all(%{
         fuel_efficiency = 1.0 / ((0.43 / fuel_efficiency_city) + (0.57 / fuel_efficiency_highway)),
         fuel_efficiency_units = 'kilometres_per_litre'
       })

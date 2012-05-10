@@ -95,40 +95,48 @@ describe AutomobileMakeModelYearVariant do
     it { AutomobileMakeModelYearVariant.where("year > 1997 AND carline_class IS NULL").count.should == 0 }
     
     # spot check fuel efficiency calcs
-    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2012, :make_name => 'Chevrolet', :model_name => 'VOLT'}).raw_fuel_efficiency_city.should    be_within(0.0001).of(20.1943) }
-    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2012, :make_name => 'Chevrolet', :model_name => 'VOLT'}).raw_fuel_efficiency_highway.should be_within(0.0001).of(22.7877) }
-    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2012, :make_name => 'Chevrolet', :model_name => 'VOLT'}).fuel_efficiency_city.should        be_within(0.0001).of(15.1234) }
-    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2012, :make_name => 'Chevrolet', :model_name => 'VOLT'}).fuel_efficiency_highway.should     be_within(0.0001).of(16.0437) }
-    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2012, :make_name => 'Chevrolet', :model_name => 'VOLT'}).fuel_efficiency.should             be_within(0.0001).of(15.6346) }
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2012, :make_name => 'Chevrolet', :model_name => 'VOLT'}).fuel_efficiency_city.should    be_within(0.0001).of(14.8800) }
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2012, :make_name => 'Chevrolet', :model_name => 'VOLT'}).fuel_efficiency_highway.should be_within(0.0001).of(17.0057) }
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2012, :make_name => 'Chevrolet', :model_name => 'VOLT'}).fuel_efficiency.should         be_within(0.0001).of(16.0216) }
     
-    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2012, :make_name => 'Chevrolet', :model_name => 'VOLT'}).alt_raw_fuel_efficiency_city.should    be_within(0.0001).of(57.3944) }
-    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2012, :make_name => 'Chevrolet', :model_name => 'VOLT'}).alt_raw_fuel_efficiency_highway.should be_within(0.0001).of(56.4166) }
-    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2012, :make_name => 'Chevrolet', :model_name => 'VOLT'}).alt_fuel_efficiency_city.should        be_within(0.0001).of(35.4185) }
-    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2012, :make_name => 'Chevrolet', :model_name => 'VOLT'}).alt_fuel_efficiency_highway.should     be_within(0.0001).of(36.8930) }
-    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2012, :make_name => 'Chevrolet', :model_name => 'VOLT'}).alt_fuel_efficiency.should             be_within(0.0001).of(36.2442) }
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2012, :make_name => 'Chevrolet', :model_name => 'VOLT'}).alt_fuel_efficiency_city.should    be_within(0.0001).of(40.3887) }
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2012, :make_name => 'Chevrolet', :model_name => 'VOLT'}).alt_fuel_efficiency_highway.should be_within(0.0001).of(39.5384) }
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2012, :make_name => 'Chevrolet', :model_name => 'VOLT'}).alt_fuel_efficiency.should         be_within(0.0001).of(39.8996) }
     
-    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2011, :make_name => 'Chevrolet', :model_name => 'VOLT'}).raw_fuel_efficiency_city.should    be_within(0.0001).of(19.3067) }
-    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2011, :make_name => 'Chevrolet', :model_name => 'VOLT'}).raw_fuel_efficiency_highway.should be_within(0.0001).of(22.4262) }
-    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2011, :make_name => 'Chevrolet', :model_name => 'VOLT'}).fuel_efficiency_city.should        be_within(0.0001).of(14.5327) }
-    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2011, :make_name => 'Chevrolet', :model_name => 'VOLT'}).fuel_efficiency_highway.should     be_within(0.0001).of(15.8022) }
-    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2011, :make_name => 'Chevrolet', :model_name => 'VOLT'}).fuel_efficiency.should             be_within(0.0001).of(15.2301) }
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2011, :make_name => 'Chevrolet', :model_name => 'VOLT'}).fuel_efficiency_city.should    be_within(0.0001).of(14.8800) }
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2011, :make_name => 'Chevrolet', :model_name => 'VOLT'}).fuel_efficiency_highway.should be_within(0.0001).of(17.0057) }
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2011, :make_name => 'Chevrolet', :model_name => 'VOLT'}).fuel_efficiency.should         be_within(0.0001).of(16.0216) }
     
-    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2011, :make_name => 'Chevrolet', :model_name => 'VOLT'}).alt_raw_fuel_efficiency_city.should    be_within(0.0001).of(57.4369) }
-    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2011, :make_name => 'Chevrolet', :model_name => 'VOLT'}).alt_raw_fuel_efficiency_highway.should be_within(0.0001).of(56.4166) }
-    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2011, :make_name => 'Chevrolet', :model_name => 'VOLT'}).alt_fuel_efficiency_city.should        be_within(0.0001).of(35.4376) }
-    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2011, :make_name => 'Chevrolet', :model_name => 'VOLT'}).alt_fuel_efficiency_highway.should     be_within(0.0001).of(36.8930) }
-    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2011, :make_name => 'Chevrolet', :model_name => 'VOLT'}).alt_fuel_efficiency.should             be_within(0.0001).of(36.2528) }
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2011, :make_name => 'Chevrolet', :model_name => 'VOLT'}).alt_fuel_efficiency_city.should    be_within(0.0001).of(40.3887) }
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2011, :make_name => 'Chevrolet', :model_name => 'VOLT'}).alt_fuel_efficiency_highway.should be_within(0.0001).of(38.2629) }
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2011, :make_name => 'Chevrolet', :model_name => 'VOLT'}).alt_fuel_efficiency.should         be_within(0.0001).of(39.1489) }
     
-    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2010, :make_name => 'Dodge', :model_name => 'AVENGER', :alt_fuel_code => 'E'}).raw_fuel_efficiency_city.should    be_within(0.0001).of(10.2885) }
-    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2010, :make_name => 'Dodge', :model_name => 'AVENGER', :alt_fuel_code => 'E'}).raw_fuel_efficiency_highway.should be_within(0.0001).of(16.2830) }
-    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2010, :make_name => 'Dodge', :model_name => 'AVENGER', :alt_fuel_code => 'E'}).fuel_efficiency_city.should        be_within(0.0001).of( 8.1696) }
-    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2010, :make_name => 'Dodge', :model_name => 'AVENGER', :alt_fuel_code => 'E'}).fuel_efficiency_highway.should     be_within(0.0001).of(11.6365) }
-    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2010, :make_name => 'Dodge', :model_name => 'AVENGER', :alt_fuel_code => 'E'}).fuel_efficiency.should             be_within(0.0001).of(9.8408) }
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2010, :make_name => 'Dodge', :model_name => 'AVENGER', :alt_fuel_code => 'E'}).fuel_efficiency_city.should    be_within(0.0001).of( 8.0777) }
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2010, :make_name => 'Dodge', :model_name => 'AVENGER', :alt_fuel_code => 'E'}).fuel_efficiency_highway.should be_within(0.0001).of(11.4789) }
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2010, :make_name => 'Dodge', :model_name => 'AVENGER', :alt_fuel_code => 'E'}).fuel_efficiency.should         be_within(0.0001).of( 9.7192) }
     
-    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2010, :make_name => 'Dodge', :model_name => 'AVENGER', :alt_fuel_code => 'E'}).alt_raw_fuel_efficiency_city.should    be_within(0.0001).of( 7.1849) }
-    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2010, :make_name => 'Dodge', :model_name => 'AVENGER', :alt_fuel_code => 'E'}).alt_raw_fuel_efficiency_highway.should be_within(0.0001).of(11.8190) }
-    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2010, :make_name => 'Dodge', :model_name => 'AVENGER', :alt_fuel_code => 'E'}).alt_fuel_efficiency_city.should        be_within(0.0001).of( 5.8150) }
-    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2010, :make_name => 'Dodge', :model_name => 'AVENGER', :alt_fuel_code => 'E'}).alt_fuel_efficiency_highway.should     be_within(0.0001).of( 8.5345) }
-    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2010, :make_name => 'Dodge', :model_name => 'AVENGER', :alt_fuel_code => 'E'}).alt_fuel_efficiency.should             be_within(0.0001).of( 7.1056) }
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2010, :make_name => 'Dodge', :model_name => 'AVENGER', :alt_fuel_code => 'E'}).alt_fuel_efficiency_city.should    be_within(0.0001).of(5.9520) }
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2010, :make_name => 'Dodge', :model_name => 'AVENGER', :alt_fuel_code => 'E'}).alt_fuel_efficiency_highway.should be_within(0.0001).of(8.5029) }
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2010, :make_name => 'Dodge', :model_name => 'AVENGER', :alt_fuel_code => 'E'}).alt_fuel_efficiency.should         be_within(0.0001).of(7.1797) }
+    
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2009, :make_name => 'Toyota', :model_name => 'PRIUS'}).fuel_efficiency_city.should    be_within(0.0001).of(20.2602) }
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2009, :make_name => 'Toyota', :model_name => 'PRIUS'}).fuel_efficiency_highway.should be_within(0.0001).of(19.1879) }
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2009, :make_name => 'Toyota', :model_name => 'PRIUS'}).fuel_efficiency.should         be_within(0.0001).of(19.6347) }
+    
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 1998, :make_name => 'Honda', :model_name => 'ODYSSEY'}).fuel_efficiency_city.should    be_within(0.0001).of( 7.9773) }
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 1998, :make_name => 'Honda', :model_name => 'ODYSSEY'}).fuel_efficiency_highway.should be_within(0.0001).of(10.2480) }
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 1998, :make_name => 'Honda', :model_name => 'ODYSSEY'}).fuel_efficiency.should         be_within(0.0001).of( 9.1305) }
+    
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 1997, :make_name => 'Honda', :model_name => 'ODYSSEY'}).fuel_efficiency_city.should    be_within(0.0001).of( 7.7886) }
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 1997, :make_name => 'Honda', :model_name => 'ODYSSEY'}).fuel_efficiency_highway.should be_within(0.0001).of(10.3739) }
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 1997, :make_name => 'Honda', :model_name => 'ODYSSEY'}).fuel_efficiency.should         be_within(0.0001).of( 9.0782) }
+    
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 1995, :make_name => 'Jaguar', :model_name => 'XJR'}).fuel_efficiency_city.should    be_within(0.0001).of(5.8670) }
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 1995, :make_name => 'Jaguar', :model_name => 'XJR'}).fuel_efficiency_highway.should be_within(0.0001).of(8.2903) }
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 1995, :make_name => 'Jaguar', :model_name => 'XJR'}).fuel_efficiency.should         be_within(0.0001).of(7.0399) }
+    
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 1985, :make_name => 'Jaguar', :model_name => 'XJ'}).fuel_efficiency_city.should    be_within(0.0001).of(5.8479) }
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 1985, :make_name => 'Jaguar', :model_name => 'XJ'}).fuel_efficiency_highway.should be_within(0.0001).of(7.3958) }
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 1985, :make_name => 'Jaguar', :model_name => 'XJ'}).fuel_efficiency.should         be_within(0.0001).of(6.6401) }
   end
 end

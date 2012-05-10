@@ -65,62 +65,67 @@ class AutomobileMakeModelYearVariant::Parser
   end
   
   def apply(row)
+    # Pre-2010 fuel efficiencies need to be adjusted downwards to reflect real-world driving
+    # We do this by applying equations to the *unadjusted* city and highway fuel efficiency
+    # Source for the equations is EPA Fuel Economy Trends report Appendix A
+    # Starting in 2008 we could use the *adjusted* values from the FEG but this would require writing a new case for 2008 and 2009
+    # Starting in 2010 we use the *adjusted* fuel efficiencies from the FEG
     case year
     when (1985..1997)
       row.merge!({
-        'make_name'                   => row['carline_mfr_name'],
-        'model_name'                  => row['carline_name'],
-        'year'                        => year,
-        'transmission'                => TRANSMISSIONS[row['model_trans'][0,1].to_s],
-        'speeds'                      => row['model_trans'][1,1] == 'V' ? 'variable' : row['model_trans'][1,1],
-        'drive'                       => row['drive_system'],
-        'fuel_code'                   => row['fuel_type'],
-        'raw_fuel_efficiency_city'    => row['unadj_city_mpg'],
-        'raw_fuel_efficiency_highway' => row['unadj_hwy_mpg'],
-        'cylinders'                   => row['no_cyl'],
-        'displacement'                => _displacement(row),
-        'turbo'                       => _turbo(row),
-        'supercharger'                => [ENGINE_TYPES[row['engine_desc1'].to_s], ENGINE_TYPES[row['engine_desc2'].to_s]].flatten.include?('supercharger'),
-        'injection'                   => row['fuel_system'] == 'FI' ? true : false
+        'make_name'               => row['carline_mfr_name'],
+        'model_name'              => row['carline_name'],
+        'year'                    => year,
+        'transmission'            => TRANSMISSIONS[row['model_trans'][0,1].to_s],
+        'speeds'                  => row['model_trans'][1,1] == 'V' ? 'variable' : row['model_trans'][1,1],
+        'drive'                   => row['drive_system'],
+        'fuel_code'               => row['fuel_type'],
+        'fuel_efficiency_city'    => 1.0 / (0.003259 + (1.1805 / row['unadj_city_mpg'].to_f)), # adjust for real-world driving
+        'fuel_efficiency_highway' => 1.0 / (0.001376 + (1.3466 / row['unadj_hwy_mpg'].to_f)),  # adjust for real-world driving
+        'cylinders'               => row['no_cyl'],
+        'displacement'            => _displacement(row),
+        'turbo'                   => _turbo(row),
+        'supercharger'            => [ENGINE_TYPES[row['engine_desc1'].to_s], ENGINE_TYPES[row['engine_desc2'].to_s]].flatten.include?('supercharger'),
+        'injection'               => row['fuel_system'] == 'FI' ? true : false
       })
     when (1998..2009)
       row.merge!({
-        'make_name'                   => row['Manufacturer']  || row['MFR'],
-        'model_name'                  => (row['carline name'] || row['CAR LINE']).upcase,
-        'year'                        => year,
-        'transmission'                => TRANSMISSIONS[(row['trans'] || row['TRANS'])[-3,1]],
-        'speeds'                      => ((row['trans'] || row['TRANS'])[-2,1] == 'V') ? 'variable' : (row['trans'] || row['TRANS'])[-2,1],
-        'drive'                       => ((row['drv'] || row['DRIVE SYS']) + 'WD').gsub('.0', ''),
-        'fuel_code'                   => row['fl']    || row['FUEL TYPE'],
-        'raw_fuel_efficiency_city'    => row['uhwy']  || row['UNRND HWY (EPA)'],
-        'raw_fuel_efficiency_highway' => row['ucty']  || row['UNRND CITY (EPA)'],
-        'cylinders'                   => row['cyl']   || row['NUMB CYL'],
-        'displacement'                => row['displ'] || row['DISPLACEMENT'],
-        'turbo'                       => ((row['T'] || row['TURBO']) == 'T' || (row['carline name'] || row['CAR LINE']).downcase.include?('turbo')) ? true : false,
-        'supercharger'                => (row['S'] || row['SPCHGR']) == 'S',
-        'injection'                   => true,
-        'carline_class'               => row['Class'] || row['CLASS']
+        'make_name'               => row['Manufacturer']  || row['MFR'],
+        'model_name'              => (row['carline name'] || row['CAR LINE']).upcase,
+        'year'                    => year,
+        'transmission'            => TRANSMISSIONS[(row['trans'] || row['TRANS'])[-3,1]],
+        'speeds'                  => ((row['trans'] || row['TRANS'])[-2,1] == 'V') ? 'variable' : (row['trans'] || row['TRANS'])[-2,1],
+        'drive'                   => ((row['drv'] || row['DRIVE SYS']) + 'WD').gsub('.0', ''),
+        'fuel_code'               => row['fl']    || row['FUEL TYPE'],
+        'fuel_efficiency_city'    => 1.0 / (0.003259 + (1.1805 / (row['ucty'] || row['UNRND CITY (EPA)']).to_f)), # adjust for real-world driving
+        'fuel_efficiency_highway' => 1.0 / (0.001376 + (1.3466 / (row['uhwy'] || row['UNRND HWY (EPA)']).to_f)),  # adjust for real-world driving
+        'cylinders'               => row['cyl']   || row['NUMB CYL'],
+        'displacement'            => row['displ'] || row['DISPLACEMENT'],
+        'turbo'                   => ((row['T'] || row['TURBO']) == 'T' || (row['carline name'] || row['CAR LINE']).downcase.include?('turbo')) ? true : false,
+        'supercharger'            => (row['S'] || row['SPCHGR']) == 'S',
+        'injection'               => true,
+        'carline_class'           => row['Class'] || row['CLASS']
       })
     else # 2010..present
       row.merge!({
-        'make_name'                       => row['Division'],
-        'model_name'                      => row['Carline'].upcase,
-        'year'                            => year,
-        'transmission'                    => TRANSMISSIONS[row['Trans']],
-        'speeds'                          => row['# Gears'].to_i,
-        'drive'                           => row['Drive Sys'] + 'WD',
-        'fuel_code'                       => FUEL_CODES[row['Fuel Usage  - Conventional Fuel']],
-        'raw_fuel_efficiency_city'        => row['City Unadj FE - Conventional Fuel'],
-        'raw_fuel_efficiency_highway'     => row['Hwy Unadj FE - Conventional Fuel'],
-        'alt_fuel_code'                   => FUEL_CODES[row[' Fuel2 Usage - Alternative Fuel']],
-        'alt_raw_fuel_efficiency_city'    => row['City2 Unadj Fuel FE - Alternative Fuel'] || row['City2 Unadj FE - Alternative Fuel'],
-        'alt_raw_fuel_efficiency_highway' => row['Hwy2 Unadj Fuel FE - Alternative Fuel']  || row['Hwy2 Unadj FE - Alternative Fuel'],
-        'cylinders'                       => row['# Cyl'],
-        'displacement'                    => row['Eng Displ'],
-        'turbo'                           => row['Air Aspir Method'] == 'TC',
-        'supercharger'                    => row['Air Aspir Method'] == 'SC',
-        'injection'                       => row['# Cyl'].present? ? true : false,
-        'carline_class'                   => row['Carline Class Desc']
+        'make_name'                   => row['Division'],
+        'model_name'                  => row['Carline'].upcase,
+        'year'                        => year,
+        'transmission'                => TRANSMISSIONS[row['Trans']],
+        'speeds'                      => row['# Gears'].to_i,
+        'drive'                       => row['Drive Sys'] + 'WD',
+        'fuel_code'                   => FUEL_CODES[row['Fuel Usage  - Conventional Fuel']],
+        'fuel_efficiency_city'        => row['City FE (Guide) - Conventional Fuel'],
+        'fuel_efficiency_highway'     => row['Hwy FE (Guide) - Conventional Fuel'],
+        'alt_fuel_code'               => FUEL_CODES[row[' Fuel2 Usage - Alternative Fuel']],
+        'alt_fuel_efficiency_city'    => row['City2 FE (Guide) - Alternative Fuel'],
+        'alt_fuel_efficiency_highway' => row['Hwy2 Fuel FE (Guide) - Alternative Fuel'],
+        'cylinders'                   => row['# Cyl'],
+        'displacement'                => row['Eng Displ'],
+        'turbo'                       => row['Air Aspir Method'] == 'TC',
+        'supercharger'                => row['Air Aspir Method'] == 'SC',
+        'injection'                   => row['# Cyl'].present? ? true : false,
+        'carline_class'               => row['Carline Class Desc']
       })
     end
   end
