@@ -1,3 +1,5 @@
+require 'earth/locality'
+
 class ElectricMarket < ActiveRecord::Base
   self.primary_key = "FIXME" # dunno what this should be
   
