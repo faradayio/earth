@@ -1,6 +1,4 @@
 require 'spec_helper'
-require 'earth/electricity/electric_market'
-require 'earth/locality/zip_code'
 require 'earth/electricity/electric_utility'
 
 describe ElectricUtility do
@@ -18,6 +16,6 @@ describe ElectricUtility do
       ZipCode.delete_all
       ElectricMarket.delete_all
       ElectricUtility.delete_all
-    end    
+    end
   end
 end

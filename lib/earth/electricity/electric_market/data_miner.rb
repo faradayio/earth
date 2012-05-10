@@ -1,3 +1,5 @@
+require 'earth/locality/data_miner'
+
 ElectricMarket.class_eval do
   data_miner do
     import 'IOU markets',

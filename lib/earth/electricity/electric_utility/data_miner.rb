@@ -1,3 +1,5 @@
+require 'earth/locality/data_miner'
+
 ElectricUtility.class_eval do
   data_miner do
     process "make sure green button adoption is populated" do
