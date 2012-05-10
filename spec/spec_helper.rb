@@ -43,7 +43,7 @@ logger.level = Logger::DEBUG
 ActiveRecord::Base.logger = logger
 DataMiner.logger = logger
 
-DataMiner:Run.auto_upgrade!
+DataMiner::Run.auto_upgrade!
 
 RSpec.configure do |c|
   unless ENV['ALL'] == 'true'
