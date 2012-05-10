@@ -25,7 +25,6 @@ date,name,email,type,section,action,x,y,condition,notes
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,reject,/^PAS/i,,,"1989, 1991-1993"
 11/19/2011,Ian Hough,ian@brighterplanet.com,technical,make,reject,/^QUANTUM/i,,,appears to be just chevy cavaliers
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,reject,/^RED SHIFT/i,,,"1987, 1988"
-7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,reject,/^ROUSH/i,,,"2002-2004, 2007-2010"
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,reject,/^RUF AUTOMOBILE/i,,,"1987, 1988"
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,reject,/^VIXEN MOTOR COMPANY/i,,,1986
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,reject,/^VOLGA ASSOCIATED/i,,,1986
@@ -34,24 +33,28 @@ date,name,email,type,section,action,x,y,condition,notes
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,reject,/IMPORT/i,,,"1988, 1989, 1991, 1992"
 10/18/2011,Ian Hough,ian@brighterplanet.com,editorial,make,replace,/^AMERICAN MOTORS.*/i,Eagle,,1985-1987
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,editorial,make,replace,/^(AUSTIN )?ROVER.*/i,Land Rover,,"1987-1991, 1993-1996"
-10/18/2011,Ian Hough,ian@brighterplanet.com,editorial,make,replace,/^BMW.*/i,Alpina,Model contains Alpina,2011
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,editorial,make,replace,/^CX ?AUTOMOTIVE.*/i,Citroën,,"1987-1989, 1991-1993"
 10/18/2011,Ian Hough,ian@brighterplanet.com,editorial,make,replace,/^GM$/i,Chevrolet,,"2003, 2004"
+5/7/2012,Ian Hough,ian@brighterplanet.com,editorial,make,replace,/^Lincoln-Mercury/i,Mercury,Model contains Milan
+5/7/2012,Ian Hough,ian@brighterplanet.com,editorial,make,replace,/^Lincoln-Mercury/i,Mercury,Model contains Marquis
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,replace,/^MERCEDES-BENZ$/i,Maybach,Model contains Maybach,2004-2010
 6/8/2011,Ian Hough,ian@brighterplanet.com,editorial,make,replace,/^MERCEDES-BENZ.*/i,Smart,Model contains Smart,"2008, 2010, 2011"
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,replace,/^ROLLS-ROYCE.*/i,Bentley,Model contains Bentley,1987-1997
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,replace,/^ROLLS-ROYCE.*/i,Bentley,Is a Turbo Brooklands,1995
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,editorial,make,replace,/^R-R MTR.+/i,Rolls-Royce,,1998-2002
+5/7/2012,Ian Hough,ian@brighterplanet.com,editorial,make,replace,/^Roush Industries/i,Roush Performance
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,editorial,make,replace,/^SHLBY$/i,Shelby,,2008
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,editorial,make,replace,/^SPYKR$/i,Spyker,,"2007, 2009"
 10/18/2011,Ian Hough,ian@brighterplanet.com,editorial,make,replace,/^TCSTR$/i,Tecstar,,2008
-10/18/2011,Ian Hough,ian@brighterplanet.com,editorial,make,replace,/^VEHICLE PRODUCTION GROUP.*/i,VPG,,2011
+5/7/2012,Ian Hough,ian@brighterplanet.com,editorial,make,replace,/^Toyota$/i,Scion,Model contains Scion
+10/18/2011,Ian Hough,ian@brighterplanet.com,editorial,make,replace,/.*VEHICLE PRODUCTION GROUP.*/i,VPG,,2011
 7/8/2009,Andy Rossmeissl,andy@brighterplanet.com,editorial,make,replace,/^VW$/,Volkswagen,,2009
 7/8/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,truncate,Acura
 7/8/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,truncate,Alfa Romeo
 7/8/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,truncate,Alpina
 7/8/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,truncate,Aston Martin
 7/8/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,truncate,Audi
+5/7/2012,Ian Hough,ian@brighterplanet.com,editorial,make,truncate,Azure Dynamics
 7/8/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,truncate,Bentley
 7/8/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,truncate,Bertone
 7/8/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,truncate,Bitter
@@ -60,12 +63,14 @@ date,name,email,type,section,action,x,y,condition,notes
 7/8/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,truncate,Cadillac
 7/8/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,truncate,Chevrolet
 7/8/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,truncate,Chrysler
+5/7/2012,Ian Hough,ian@brighterplanet.com,editorial,make,truncate,CODA Automotive
 7/8/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,truncate,Daewoo
 7/8/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,truncate,Daihatsu
 7/8/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,truncate,Dodge
 7/8/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,truncate,Eagle
 7/8/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,truncate,Excalibur
 7/8/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,truncate,Ferrari
+5/7/2012,Ian Hough,ian@brighterplanet.com,editorial,make,truncate,Fiat
 7/8/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,truncate,Ford
 7/8/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,truncate,Geo
 7/8/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,truncate,Honda
@@ -81,8 +86,7 @@ date,name,email,type,section,action,x,y,condition,notes
 7/8/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,truncate,Lamborghini
 7/8/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,truncate,Land Rover
 7/8/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,truncate,Lexus
-7/8/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,truncate,Lincoln-Mercury,,,must precede replace on 'Lincoln'
-7/8/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,replace,/^lincoln .+/i,Lincoln
+7/8/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,truncate,Lincoln
 7/8/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,truncate,Lotus
 10/18/2011,Ian Hough,ian@brighterplanet.com,technical,make,truncate,Mahindra
 7/8/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,truncate,Maserati
@@ -105,6 +109,7 @@ date,name,email,type,section,action,x,y,condition,notes
 7/8/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,truncate,Qvale
 7/8/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,truncate,Renault
 7/8/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,truncate,Rolls-Royce
+5/7/2012,Ian Hough,ian@brighterplanet.com,technical,make,truncate,Roush Performance
 7/8/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,truncate,Saab
 7/8/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,truncate,Saleen
 7/8/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,make,truncate,Saturn
@@ -149,7 +154,7 @@ date,name,email,type,section,action,x,y,condition,notes
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,model,delete,/ (turbo)?diesel$/i,,,clean fuel
 10/18/2011,Ian Hough,ian@brighterplanet.com,technical,model,delete,/ natural gas$/i,,,clean fuel
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,model,delete,/ ffv/i,,,clean fuel
-7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,model,delete,/ inc$/i,,,delete terminal ' inc'
+7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,model,delete,/ inc$/i,,,delete ' inc' suffix
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,model,delete,/^alfa romeo /i,,,clean up alfa romeo
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,model,replace,/^GTV6 2.5$/i,GTV,,clean up alfa romeo
 10/18/2011,Ian Hough,ian@brighterplanet.com,technical,model,delete,/^(bmw( |\/))?alpina /i,,is a alpina,clean up alpina
@@ -221,8 +226,8 @@ date,name,email,type,section,action,x,y,condition,notes
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,editorial,model,delete,/^austin rover /i,,,clean up land rover
 10/18/2011,Ian Hough,ian@brighterplanet.com,editorial,model,replace,/discovery ser ii/i,DISCOVERY SERIES II,,clean up land rover
 10/18/2011,Ian Hough,ian@brighterplanet.com,editorial,model,replace,/([a-z]{2}) (\d{3})/i,\1\2,is a lexus,clean up lexus
-10/18/2011,Ian Hough,ian@brighterplanet.com,editorial,model,delete,/^lincoli?n /i,,,clean up lincoln-mercury
-7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,model,replace,/^sable wagon.+/i,SABLE WAGON,,clean up lincoln-mercury
+10/18/2011,Ian Hough,ian@brighterplanet.com,editorial,model,delete,/^lincoli?n /i,,,clean up lincoln
+7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,model,replace,/^sable wagon.+/i,SABLE WAGON,,clean up lincoln
 10/18/2011,Ian Hough,ian@brighterplanet.com,editorial,model,delete,/^lotus /i,,,clean up lotus
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,editorial,model,replace,/^98 esrit V8$/i,ESPRIT V8,,clean up lotus
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,editorial,model,replace,/^esprit\.v8$/i,ESPRIT V8,,clean up lotus
@@ -263,6 +268,7 @@ date,name,email,type,section,action,x,y,condition,notes
 10/18/2011,Ian Hough,ian@brighterplanet.com,editorial,model,delete,/^saab ?/i,,,clean up saab
 10/18/2011,Ian Hough,ian@brighterplanet.com,editorial,model,replace,/sportcombi/i,SPORT COMBI,,clean up saab
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,editorial,model,delete,/^saleen /i,,,clean up saleen
+5/7/2012,Ian Hough,ian@brighterplanet.com,editorial,model,delete,/^scion /i,,,clean up scion
 10/18/2011,Ian Hough,ian@brighterplanet.com,editorial,model,delete,/^shelby /i,,,clean up shelby
 10/18/2011,Ian Hough,ian@brighterplanet.com,editorial,model,delete,/^smart fortwo /i,,,clean up smart
 10/18/2011,Ian Hough,ian@brighterplanet.com,editorial,model,replace,/^elec\. drive/i,ELECTRIC,,clean up smart
@@ -281,3 +287,4 @@ date,name,email,type,section,action,x,y,condition,notes
 10/18/2011,Ian Hough,ian@brighterplanet.com,editorial,model,replace,/^XC (\d{2})$/i,XC\1,is a volvo,clean up volvo
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,model,replace,/^s80\/s80 (executive|premier)$/i,S80,,clean up volvo
 10/18/2011,Ian Hough,ian@brighterplanet.com,editorial,model,delete,/yugo /i,,is a yugo,clean up yugo
+5/7/2012,Ian Hough,ian@brighterplanet.com,editorial,Eng Displ,delete,/^0.0$/i,,,clean up cars with no engine
