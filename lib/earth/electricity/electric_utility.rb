@@ -1,4 +1,5 @@
 require 'earth/locality'
+require 'earth/electricity/green_button_adoption'
 
 class ElectricUtility < ActiveRecord::Base
   self.primary_key = "eia_id"
@@ -11,7 +12,8 @@ class ElectricUtility < ActiveRecord::Base
   col :name
   col :nickname
   col :state_postal_abbreviation
-  col :nerc_abbreviation
+  col :nerc_region_abbreviation
+  col :second_nerc_region_abbreviation
 
   def green_button_implementer?
     GreenButtonAdoption.implemented? name, nickname 
