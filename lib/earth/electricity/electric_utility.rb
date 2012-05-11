@@ -4,7 +4,7 @@ class ElectricUtility < ActiveRecord::Base
   self.primary_key = "eia_id"
   
   belongs_to :state, :foreign_key => 'state_postal_abbreviation'
-  has_many :electric_markets
+  has_many :electric_markets, :foreign_key => :electric_utility_eia_id
   has_many :zip_codes, :through => :electric_markets
   
   col :eia_id, :type => :integer
