@@ -2,11 +2,11 @@ require 'spec_helper'
 require 'earth/electricity/electric_utility'
 
 describe ElectricUtility do
+  before :all do
+    Earth.init :electricity, :load_data_miner => true, :skip_parent_associations => :true
+  end
+  
   describe 'import electric utility data', :data_miner => true do
-    before :all do
-      Earth.init :electricity, :load_data_miner => true, :skip_parent_associations => :true
-    end
-    
     it 'imports data' do
       ElectricUtility.run_data_miner!
     end

@@ -1,5 +1,4 @@
 require 'earth/locality'
-require 'earth/electricity/green_button_adoption'
 
 class ElectricUtility < ActiveRecord::Base
   self.primary_key = "eia_id"
