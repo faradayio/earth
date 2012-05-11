@@ -40,6 +40,7 @@ task :test => :examples
 task :default => :test
 
 require 'earth/version'
+require 'rdoc/task'
 Rake::RDocTask.new do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
   rdoc.title = "earth #{Earth::VERSION}"
