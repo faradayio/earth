@@ -18,5 +18,9 @@ describe GreenButtonAdoption do
     it 'should recognize that PG&E has implemented' do
       GreenButtonAdoption.find('PG&E').implemented?.should == true
     end
+
+    it 'should recognize that TXU Energy has committed' do
+      GreenButtonAdoption.find('TXU Energy').committed?.should == true
+    end
   end
 end
