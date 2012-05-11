@@ -1,3 +1,5 @@
+require 'earth/automobile/automobile_make_model_year_variant'
+
 class AutomobileMakeModelYearVariant::Parser
   attr_reader :year
   
