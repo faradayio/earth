@@ -36,7 +36,10 @@ if RUBY_VERSION =~ /^1\.8/
   end
 end
 
+desc "Run tests with RSpec"
 task :test => :examples
+
+desc "Run tests with RSpec"
 task :default => :test
 
 require 'earth/version'
