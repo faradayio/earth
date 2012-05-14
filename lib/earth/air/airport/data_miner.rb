@@ -34,7 +34,7 @@ Airport.class_eval do
            :headers => %w{ id name city country_name iata_code icao_code latitude longitude altitude timezone daylight_savings },
            :select => proc { |record| record['iata_code'].present? },
            :errata => { :url => "file://#{Earth::ERRATA_DIR}/airport/openflights_errata.csv",
-                        :responder => Airport::Guru.new } do
+                        :responder => "Airport::Guru" } do
       key 'iata_code'
       store 'name'
       store 'city'

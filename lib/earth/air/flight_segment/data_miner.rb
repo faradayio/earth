@@ -192,7 +192,7 @@ FlightSegment.class_eval do
              :form_data => form_data,
              :compression => :zip,
              :glob => '/*.csv',
-             :errata => { :url => "file://#{Earth::ERRATA_DIR}/flight_segment/bts_errata.csv", :responder => FlightSegment::Guru.new },
+             :errata => { :url => "file://#{Earth::ERRATA_DIR}/flight_segment/bts_errata.csv", :responder => "FlightSegment::Guru" },
              :select => proc { |record| record['DEPARTURES_PERFORMED'].to_i > 0 } do
         key 'row_hash'
         store 'origin_airport_iata_code',          :field_name => 'ORIGIN'
