@@ -27,13 +27,14 @@ describe Earth do
       Earth.resources.should include('Industry')
     end
     it 'should filter resource_map by domain' do
-      Earth.resources('air').length.should == 10
+      Earth.resources('air').length.should == 8
       Earth.resources('automobile').length.should == 16
       Earth.resources('bus').length.should == 4
       Earth.resources('computation').length.should == 3
       Earth.resources('diet').length.should == 2
+      Earth.resources('electricity').length.should == 3
       Earth.resources('fuel').length.should == 5
-      Earth.resources('hospitality').length.should == 4
+      Earth.resources('hospitality').length.should == 3
       Earth.resources('industry').length.should == 18
       Earth.resources('locality').length.should == 10
       Earth.resources('pet').length.should == 4
@@ -46,7 +47,7 @@ describe Earth do
 
   describe '.domains' do
     it 'should return a list of all domains' do
-      Earth.domains.should == %w{air automobile bus computation diet fuel hospitality industry locality pet rail residence shipping}
+      Earth.domains.should == %w{air automobile bus computation diet electricity fuel hospitality industry locality pet rail residence shipping}
     end
   end
 end
