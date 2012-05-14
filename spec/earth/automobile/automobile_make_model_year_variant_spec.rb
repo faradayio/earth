@@ -1,14 +1,13 @@
 # -*- encoding: utf-8 -*-
 require 'spec_helper'
 require 'earth/automobile/automobile_make_model_year_variant'
-require 'earth/automobile/automobile_make_model_year_variant/parser' # needed for some tests
 
 describe AutomobileMakeModelYearVariant do
+  before :all do
+    Earth.init :automobile, :load_data_miner => true, :skip_parent_associations => :true
+  end
+  
   describe 'import', :data_miner => true do
-    before do
-      Earth.init :automobile, :load_data_miner => true, :skip_parent_associations => :true
-    end
-    
     it 'should import data' do
       AutomobileMakeModelYearVariant.run_data_miner!
       AutomobileMakeModelYearVariant.all.count.should == 28811
