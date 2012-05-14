@@ -16,7 +16,7 @@ describe Country do
   
   describe 'verify imported data', :sanity => true do
     it 'should have all the data' do
-      Country.all.count.should == 249
+      Country.count.should == 249
     end
     it 'uses UTF-8 encoding' do
       Country.find('AX').name.should == "Åland Islands"

@@ -14,7 +14,7 @@ describe AutomobileFuel do
   
   describe 'verify imported data', :sanity => true do
     it 'should have all the data' do
-      AutomobileFuel.all.count.should == 9
+      AutomobileFuel.count.should == 9
     end
     it 'correctly assigns hfc_emission_factor' do
       AutomobileFuel.first.hfc_emission_factor.should == 0.124799

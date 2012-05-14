@@ -14,7 +14,7 @@ describe FlightSegment do
   
   describe "verify imported data", :sanity => true do
     it "should have all the data" do
-      FlightSegment.all.count.should == 1_149_003
+      FlightSegment.count.should == 1_149_003
     end
     
     it "should have year from 2009 to present" do

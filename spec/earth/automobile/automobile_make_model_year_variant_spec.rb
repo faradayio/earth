@@ -10,7 +10,7 @@ describe AutomobileMakeModelYearVariant do
   describe 'import', :data_miner => true do
     it 'should import data' do
       AutomobileMakeModelYearVariant.run_data_miner!
-      AutomobileMakeModelYearVariant.all.count.should == 28811
+      AutomobileMakeModelYearVariant.count.should == 28811
     end
   end
   

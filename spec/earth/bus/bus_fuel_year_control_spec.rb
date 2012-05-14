@@ -14,7 +14,7 @@ describe 'BusFuelYearControl' do
   
   describe 'verify imported data', :sanity => true do
     it 'should have all the data' do
-      BusFuelYearControl.all.count.should == 67
+      BusFuelYearControl.count.should == 67
     end
     it 'is related to BusFuelControl' do
       BusFuelYearControl.first.control.should_not be_nil

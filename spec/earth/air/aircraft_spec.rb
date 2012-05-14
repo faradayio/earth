@@ -14,7 +14,7 @@ describe Aircraft do
   
   describe "verify imported data", :sanity => true do
     it "should have all the data" do
-      Aircraft.all.count.should == 437
+      Aircraft.count.should == 437
     end
   end
   

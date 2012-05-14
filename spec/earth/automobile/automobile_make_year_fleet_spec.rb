@@ -14,7 +14,7 @@ describe AutomobileMakeYearFleet do
   
   describe 'verify imported data', :sanity => true do
     it 'should have all the data' do
-      AutomobileMakeYearFleet.all.count.should == 1349
+      AutomobileMakeYearFleet.count.should == 1349
     end
     
     it 'should have year from 1978 to 2011' do

@@ -14,7 +14,7 @@ describe BtsAircraft do
   
   describe 'verify imported data', :sanity => true do
     it 'should have all the data' do
-      BtsAircraft.all.count.should == 379
+      BtsAircraft.count.should == 379
     end
   end
 end
