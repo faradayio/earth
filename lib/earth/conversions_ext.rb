@@ -59,6 +59,15 @@ Conversions.register :million_btu_per_barrel,               :megajoules_per_litr
 Conversions.register :btus_per_cubic_foot,                  :megajoules_per_cubic_metre,              (1.btus.to(:megajoules) / 1.cubic_feet.to(:cubic_metres)) # Fuel
 Conversions.register :teragrams_per_quadrillion_btu,        :grams_per_megajoule,                     (1_000_000_000_000 / 1_000_000_000_000_000.btus.to(:megajoules)) # Fuel
 
+# Odd units for EPA fuel economy guide
+# Conversions.register :epa_gallon_gasoline_equivalents,          :kilowatt_hours,                        33.705
+# Conversions.register :epa_gallon_gasoline_equivalents,          :cubic_metres_compressed_natural_gas,    3.587
+# Conversions.register :epa_gallon_gasoline_equivalents,          :kilograms_hydrogen,                     1.012
+# Conversions.register :epa_miles_per_gallon_gasoline_equivalent, :kilometres_per_litre,                  (1.miles_per_gallon.to(:kilometres_per_litre))
+# Conversions.register :epa_miles_per_gallon_gasoline_equivalent, :kilowatt_hours_per_hundred_kilometres, (1 / (1.kilowatt_hours.to(:epa_gallon_gasoline_equivalents) / 100.kilometres.to(:miles)))
+# Conversions.register :epa_miles_per_gallon_gasoline_equivalent, :cubic_metres_per_hundred_kilometres,   (1 / (1.cubic_metres_compressed_natural_gas.to(:epa_gallon_gasoline_equivalents) / 100.kilometres.to(:miles)))
+# Conversions.register :epa_miles_per_gallon_gasoline_equivalent, :kilograms_per_hundred_kilometres,      (1 / (1.kilograms_hydrogen.to(:epa_gallon_gasoline_equivalents) / 100.kilometres.to(:miles)))
+
 # Odd units for pet - FIXME use megajoules rather than joules
 Conversions.register :kilocalories,           :joules,              4_184.0
 Conversions.register :kilocalories_per_pound, :joules_per_kilogram, (1.kilocalories.to(:joules) / 1.pounds.to(:kilograms))

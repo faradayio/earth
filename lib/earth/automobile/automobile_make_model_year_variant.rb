@@ -1,4 +1,3 @@
-require 'earth/fuel'
 class AutomobileMakeModelYearVariant < ActiveRecord::Base
   self.primary_key = "row_hash"
   
@@ -17,26 +16,25 @@ class AutomobileMakeModelYearVariant < ActiveRecord::Base
   col :speeds
   col :drive
   col :fuel_code
+  col :fuel_efficiency,               :type => :float
+  col :fuel_efficiency_units
+  col :fuel_efficiency_city,          :type => :float
+  col :fuel_efficiency_city_units
+  col :fuel_efficiency_highway,       :type => :float
+  col :fuel_efficiency_highway_units
+  col :alt_fuel_code
+  col :alt_fuel_efficiency,               :type => :float
+  col :alt_fuel_efficiency_units
+  col :alt_fuel_efficiency_city,          :type => :float
+  col :alt_fuel_efficiency_city_units
+  col :alt_fuel_efficiency_highway,       :type => :float
+  col :alt_fuel_efficiency_highway_units
   col :cylinders,    :type => :integer
   col :displacement, :type => :float
   col :turbo,        :type => :boolean
   col :supercharger, :type => :boolean
   col :injection,    :type => :boolean
-  col :fuel_efficiency,             :type => :float
-  col :fuel_efficiency_units
-  col :fuel_efficiency_city,        :type => :float
-  col :fuel_efficiency_city_units
-  col :fuel_efficiency_highway,     :type => :float
-  col :fuel_efficiency_highway_units
-  col :raw_fuel_efficiency_city,    :type => :float
-  col :raw_fuel_efficiency_city_units
-  col :raw_fuel_efficiency_highway, :type => :float
-  col :raw_fuel_efficiency_highway_units
-  col :carline_mfr_code,   :type => :integer
-  col :vi_mfr_code,        :type => :integer
-  col :carline_code,       :type => :integer
-  col :carline_class_code, :type => :integer
-  col :carline_class_name
+  col :carline_class
   add_index :make_name
   add_index :model_name
   add_index :year
