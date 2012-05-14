@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'earth/bus/bus_fuel_control'
 
 describe 'BusFuelControl' do
   describe 'import', :data_miner => true do
