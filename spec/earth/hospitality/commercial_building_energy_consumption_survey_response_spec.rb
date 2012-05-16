@@ -13,9 +13,17 @@ describe CommercialBuildingEnergyConsumptionSurveyResponse do
   end
   
   describe "verify imported data", :sanity => true do
-    it "should have all the data" do
-      CommercialBuildingEnergyConsumptionSurveyResponse.count.should == 5215
-    end
+    it { CommercialBuildingEnergyConsumptionSurveyResponse.count.should == 5215 }
+    
+    it { CommercialBuildingEnergyConsumptionSurveyResponse.where(:electricity_use      => nil).count.should == 0 }
+    it { CommercialBuildingEnergyConsumptionSurveyResponse.where(:electricity_energy   => nil).count.should == 0 }
+    it { CommercialBuildingEnergyConsumptionSurveyResponse.where(:natural_gas_use      => nil).count.should == 0 }
+    it { CommercialBuildingEnergyConsumptionSurveyResponse.where(:natural_gas_energy   => nil).count.should == 0 }
+    it { CommercialBuildingEnergyConsumptionSurveyResponse.where(:fuel_oil_use         => nil).count.should == 0 }
+    it { CommercialBuildingEnergyConsumptionSurveyResponse.where(:fuel_oil_energy      => nil).count.should == 0 }
+    it { CommercialBuildingEnergyConsumptionSurveyResponse.where(:district_heat_use    => nil).count.should == 0 }
+    it { CommercialBuildingEnergyConsumptionSurveyResponse.where(:district_heat_energy => nil).count.should == 0 }
+    
     it "should have room nights and fuel intensities per room night for lodging_records" do
       spot_check = CommercialBuildingEnergyConsumptionSurveyResponse.lodging_records.first
       spot_check.room_nights.should == 6205

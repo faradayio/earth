@@ -51,7 +51,7 @@ CommercialBuildingEnergyConsumptionSurveyResponse.class_eval do
       store 'heating_degree_days', :field_name => 'HDD658', :from_units => :degrees_fahrenheit, :to_units => :degrees_celsius
       store 'cooling_degree_days', :field_name => 'CDD658', :from_units => :degrees_fahrenheit, :to_units => :degrees_celsius
       store 'electricity_use',     :synthesize => proc { |row| row['ELCNS8'].to_i }, :units => :kilowatt_hours
-      store 'electricity_energy',  :field_name => 'ELBTU8', :from_units => :kbtus, :to_units => :megajoules
+      store 'electricity_energy',  :synthesize => proc { |row| row['ELBTU8'].to_i.kbtus.to(:megajoules) }, :units => :megajoules
     end
     
     import 'fuel use characteristics from the 2003 EIA CBECS',
@@ -59,12 +59,12 @@ CommercialBuildingEnergyConsumptionSurveyResponse.class_eval do
            :skip => 1,
            :headers => ["PUBID8", "REGION8", "CENDIV8", "SQFT8", "SQFTC8", "YRCONC8", "PBA8", "ELUSED8", "NGUSED8", "FKUSED8", "PRUSED8", "STUSED8", "HWUSED8", "ADJWT8", "STRATUM8", "PAIR8", "NGCNS8", "NGBTU8", "NGEXP8", "ZNGCNS8", "ZNGEXP8", "FKCNS8", "FKBTU8", "FKEXP8", "ZFKCNS8", "ZFKEXP8", "DHUSED8", "DHHT18", "DHHT28", "DHCOOL8", "DHWATR8", "DHCOOK8", "DHMANU8", "DHOTH8", "DHCNS8", "DHBTU8", "DHEXP8", "ZDHCNS8", "ZDHEXP8"] do
       key 'id', :field_name => 'PUBID8'
-      store 'natural_gas_use',      :field_name => 'NGCNS8', :from_units => :hundred_cubic_feet, :to_units => :cubic_metres
-      store 'natural_gas_energy',   :field_name => 'NGBTU8', :from_units => :kbtus,              :to_units => :megajoules
-      store 'fuel_oil_use',         :field_name => 'FKCNS8', :from_units => :gallons,            :to_units => :litres
-      store 'fuel_oil_energy',      :field_name => 'FKBTU8', :from_units => :kbtus,              :to_units => :megajoules
-      store 'district_heat_use',    :field_name => 'DHBTU8', :from_units => :kbtus,              :to_units => :megajoules
-      store 'district_heat_energy', :field_name => 'DHBTU8', :from_units => :kbtus,              :to_units => :megajoules
+      store 'natural_gas_use',      :synthesize => proc { |row| row['NGCNS8'].to_i.hundred_cubic_feet.to(:cubic_metres) }, :units => :cubic_metres
+      store 'fuel_oil_use',         :synthesize => proc { |row| row['FKCNS8'].to_i.gallons.to(:litres) }, :units => :litres
+      store 'district_heat_use',    :synthesize => proc { |row| row['DHBTU8'].to_i.kbtus.to(:megajoules) }, :units => :megajoules
+      store 'natural_gas_energy',   :synthesize => proc { |row| row['NGBTU8'].to_i.kbtus.to(:megajoules) }, :units => :megajoules
+      store 'fuel_oil_energy',      :synthesize => proc { |row| row['FKBTU8'].to_i.kbtus.to(:megajoules) }, :units => :megajoules
+      store 'district_heat_energy', :synthesize => proc { |row| row['DHBTU8'].to_i.kbtus.to(:megajoules) }, :units => :megajoules
     end
     
     process "Derive room nights for lodging records" do
