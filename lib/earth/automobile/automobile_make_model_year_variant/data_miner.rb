@@ -366,6 +366,28 @@ AutomobileMakeModelYearVariant.class_eval do
       end
     end
     
+    process "Update model name to indicate CNG variants" do
+      where(:fuel_code => 'C').update_all "model_name = model_name || ' CNG'"
+    end
+    
+    process "Update model name to indicate flex-fuel variants of models where not all variants are flex-fuel" do
+      where(:alt_fuel_code => 'E').each do |variant|
+        if where(:make_name => variant.make_name, :model_name => variant.model_name, :year => variant.year, :alt_fuel_code => nil).any?
+          variant.model_name += ' FFV'
+          variant.save!
+        end
+      end
+    end
+    
+    process "Update model name to indicate diesel variants of models where not all variants are diesel" do
+      where(:fuel_code => 'D').each do |variant|
+        if where(:make_name => variant.make_name, :model_name => variant.model_name, :year => variant.year, :fuel_code => ['R', 'P']).any?
+          variant.model_name += ' DIESEL'
+          variant.save!
+        end
+      end
+    end
+    
     # Combined fuel efficiency will be useful later when deriving MakeModel and Make fuel efficiency
     # NOTE: we use a 43/57 city/highway weighting per the latest EPA analysis of real-world driving behavior
     # This results in a deviation from EPA fuel economy label values which use a historical 55/45 weighting
