@@ -1,3 +1,4 @@
+require 'timeframe'
 require 'earth/locality/data_miner'
 
 FlightSegment.class_eval do
@@ -167,26 +168,22 @@ FlightSegment.class_eval do
     VarType=Char
   }.gsub /[\s]+/,''
   
-  def self.form_data_per_month(year_range)
-    months = {}
-    year_range.each do |year|
-      (1..12).each do |month|
-        time = ::Time.gm year, month
-        form_data = FORM_DATA.dup
-        form_data.gsub! '__YEAR__', time.year.to_s
-        form_data.gsub! '__MONTH_NUMBER__', time.month.to_s
-        form_data.gsub! '__MONTH_NAME__', time.strftime('%B')
-        months[time] = form_data
-      end
+  def self.form_data_per_month
+    Timeframe.new(Date.parse('2009-01-01'), Date.today).first_days_of_months.inject({}) do |memo, day|
+      form_data = FORM_DATA.dup
+      form_data.gsub! '__YEAR__', day.year.to_s
+      form_data.gsub! '__MONTH_NUMBER__', day.month.to_s
+      form_data.gsub! '__MONTH_NAME__', day.strftime('%B')
+      memo[day] = form_data
+      memo
     end
-    months
   end
   
   data_miner do
     process "Start from scratch" do
       delete_all
     end
-    FlightSegment.form_data_per_month(2009..::Time.now.year).each do |month, form_data|
+    FlightSegment.form_data_per_month.each do |month, form_data|
       import "T100 flight segment data for #{month.strftime('%B %Y')}",
              :url => URL,
              :form_data => form_data,
