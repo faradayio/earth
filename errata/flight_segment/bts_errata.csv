@@ -1,1 +1,4 @@
-date,name,email,type,section,action,x,y,condition,notes6/7/11,Ian Hough,ian@brighterplanet.com,meta,Intended use,,http://www.transtats.bts.gov/DL_SelectFields.asp?Table_ID=2936/7/11,Ian Hough,ian@brighterplanet.com,technical,UNIQUE_CARRIER,replace,/^$/i,0OQ,in may 2009,unique carrier code for OpenSkies is missing in May 20096/7/11,Ian Hough,ian@brighterplanet.com,technical,UNIQUE_CARRIER,replace,/^$/i,0OQ,in july 2009,unique carrier code for OpenSkies is missing in July 2009
+date,name,email,type,section,action,x,y,condition,notes
+6/7/11,Ian Hough,ian@brighterplanet.com,meta,Intended use,,http://www.transtats.bts.gov/DL_SelectFields.asp?Table_ID=293
+6/7/11,Ian Hough,ian@brighterplanet.com,technical,UNIQUE_CARRIER,replace,/^$/i,0OQ,in may 2009,unique carrier code for OpenSkies is missing in May 2009
+6/7/11,Ian Hough,ian@brighterplanet.com,technical,UNIQUE_CARRIER,replace,/^$/i,0OQ,in july 2009,unique carrier code for OpenSkies is missing in July 2009
