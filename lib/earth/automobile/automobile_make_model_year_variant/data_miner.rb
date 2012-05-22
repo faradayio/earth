@@ -329,6 +329,43 @@ AutomobileMakeModelYearVariant.class_eval do
       end
     end
     
+    process "Merge rows for dual-fuel Chevy Cavaliers (these are listed once for each fuel type)" do
+      where(:make_name => 'Chevrolet', :model_name => 'CAVALIER DUAL-FUEL', :fuel_code => 'C').each do |cng_variant|
+        gasoline_variant = where(:make_name => 'Chevrolet', :model_name => 'CAVALIER DUAL-FUEL', :fuel_code => ['R', 'P'], :alt_fuel_code => nil).find_by_year(cng_variant.year)
+        %w{ fuel_code fuel_efficiency_city fuel_efficiency_city_units fuel_efficiency_highway fuel_efficiency_highway_units }.each do |attribute|
+          gasoline_variant.send("alt_#{attribute}=", cng_variant.send(attribute))
+        end
+        gasoline_variant.save!
+        cng_variant.destroy
+      end
+    end
+    
+    process "Merge rows for flex-fuel vehicles (these are listed once for each fuel type)" do
+      where(:fuel_code => 'E').each do |ethanol_variant|
+        gasoline_variant = where(%{
+          (fuel_code = 'R' OR fuel_code = 'P')
+          AND alt_fuel_code IS NULL
+          AND make_name    = '#{ethanol_variant.make_name}'
+          AND model_name   = '#{ethanol_variant.model_name}'
+          AND year         = #{ethanol_variant.year}
+          AND transmission = '#{ethanol_variant.transmission}'
+          AND speeds       = '#{ethanol_variant.speeds}'
+          AND drive        = '#{ethanol_variant.drive}'
+          AND cylinders    = #{ethanol_variant.cylinders}
+          AND displacement < #{ethanol_variant.displacement + 0.01}
+          AND displacement > #{ethanol_variant.displacement - 0.01}
+        }).first
+        
+        if gasoline_variant.present?
+          %w{ fuel_code fuel_efficiency_city fuel_efficiency_city_units fuel_efficiency_highway fuel_efficiency_highway_units }.each do |attribute|
+            gasoline_variant.send("alt_#{attribute}=", ethanol_variant.send(attribute))
+          end
+          gasoline_variant.save!
+        end
+        ethanol_variant.destroy # no vehicles run exclusively on ethanol so delete the row even if there was no matching gasoline variant
+      end
+    end
+    
     # Combined fuel efficiency will be useful later when deriving MakeModel and Make fuel efficiency
     # NOTE: we use a 43/57 city/highway weighting per the latest EPA analysis of real-world driving behavior
     # This results in a deviation from EPA fuel economy label values which use a historical 55/45 weighting
