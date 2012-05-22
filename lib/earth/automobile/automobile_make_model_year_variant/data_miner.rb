@@ -240,6 +240,10 @@ AutomobileMakeModelYearVariant.class_eval do
   end
   
   data_miner do
+    process "Start from scratch" do
+      delete_all
+    end
+    
     fuel_economy_guides = (1985..1997).inject({}) do |memo, year|
       yy = year.to_s[2..3]
       memo[year] = {
