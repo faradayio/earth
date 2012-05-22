@@ -10,7 +10,7 @@ describe AutomobileMakeModelYearVariant do
   describe 'import', :data_miner => true do
     it 'should import data' do
       AutomobileMakeModelYearVariant.run_data_miner!
-      AutomobileMakeModelYearVariant.count.should == 28811
+      AutomobileMakeModelYearVariant.count.should == 28433
     end
   end
   
@@ -31,16 +31,16 @@ describe AutomobileMakeModelYearVariant do
     it { AutomobileMakeModelYearVariant.where(:year => 1997).count.should ==  727 }
     it { AutomobileMakeModelYearVariant.where(:year => 1998).count.should ==  794 }
     it { AutomobileMakeModelYearVariant.where(:year => 1999).count.should ==  800 }
-    it { AutomobileMakeModelYearVariant.where(:year => 2000).count.should ==  845 }
-    it { AutomobileMakeModelYearVariant.where(:year => 2001).count.should ==  849 }
-    it { AutomobileMakeModelYearVariant.where(:year => 2002).count.should ==  940 }
-    it { AutomobileMakeModelYearVariant.where(:year => 2003).count.should == 1031 }
-    it { AutomobileMakeModelYearVariant.where(:year => 2004).count.should == 1134 }
-    it { AutomobileMakeModelYearVariant.where(:year => 2005).count.should == 1105 }
-    it { AutomobileMakeModelYearVariant.where(:year => 2006).count.should == 1076 }
-    it { AutomobileMakeModelYearVariant.where(:year => 2007).count.should == 1184 }
-    it { AutomobileMakeModelYearVariant.where(:year => 2008).count.should == 1247 }
-    it { AutomobileMakeModelYearVariant.where(:year => 2009).count.should == 1182 }
+    it { AutomobileMakeModelYearVariant.where(:year => 2000).count.should ==  834 }
+    it { AutomobileMakeModelYearVariant.where(:year => 2001).count.should ==  846 }
+    it { AutomobileMakeModelYearVariant.where(:year => 2002).count.should ==  933 }
+    it { AutomobileMakeModelYearVariant.where(:year => 2003).count.should ==  995 }
+    it { AutomobileMakeModelYearVariant.where(:year => 2004).count.should == 1091 }
+    it { AutomobileMakeModelYearVariant.where(:year => 2005).count.should == 1069 }
+    it { AutomobileMakeModelYearVariant.where(:year => 2006).count.should == 1043 }
+    it { AutomobileMakeModelYearVariant.where(:year => 2007).count.should == 1126 }
+    it { AutomobileMakeModelYearVariant.where(:year => 2008).count.should == 1186 }
+    it { AutomobileMakeModelYearVariant.where(:year => 2009).count.should == 1092 }
     it { AutomobileMakeModelYearVariant.where(:year => 2010).count.should == 1107 }
     it { AutomobileMakeModelYearVariant.where(:year => 2011).count.should == 1097 }
     it { AutomobileMakeModelYearVariant.where(:year => 2012).count.should == 1129 }
@@ -93,6 +93,24 @@ describe AutomobileMakeModelYearVariant do
     # confirm carline class is present for recent years
     it { AutomobileMakeModelYearVariant.where("year > 1997 AND carline_class IS NULL").count.should == 0 }
     
+    # confirm flex-fuel variants of models where not all variants are flex-fuel have been identified
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2012, :make_name => 'Toyota', :model_name => 'SEQUOIA FFV'}).alt_fuel_code.should == 'E' }
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2012, :make_name => 'Toyota', :model_name => 'SEQUOIA'}).alt_fuel_code.should == nil }
+    
+    # confirm certain hybrids have been identified
+    it { AutomobileMakeModelYearVariant.where(:year => 2012, :make_name => 'Buick', :model_name => 'LACROSSE HYBRID').count.should == 1 }
+    it { AutomobileMakeModelYearVariant.where(:year => 2012, :make_name => 'Buick', :model_name => 'REGAL HYBRID').count.should == 1 }
+    
+    # confirm dual-fuel and CNG variants have been merged and identified
+    it { AutomobileMakeModelYearVariant.where(:make_name => 'Chevrolet', :model_name => 'CAVALIER DUAL-FUEL', :fuel_code => 'C').count.should == 0 }
+    it { AutomobileMakeModelYearVariant.where(:make_name => 'Chevrolet', :model_name => 'CAVALIER DUAL-FUEL', :fuel_code => 'R', :alt_fuel_code => 'C').count.should == 5 }
+    it { AutomobileMakeModelYearVariant.where(:fuel_code => 'C').count.should == AutomobileMakeModelYearVariant.where("model_name LIKE '%CNG'").count }
+    
+    # confirm FFV variants have been merged and identified
+    it { AutomobileMakeModelYearVariant.where(:fuel_code => 'E').count.should == 0 }
+    it { AutomobileMakeModelYearVariant.where(:alt_fuel_code => 'E').count.should > 0 }
+    it { AutomobileMakeModelYearVariant.where("model_name LIKE '%FFV'").count.should > 0 }
+    
     # spot check fuel efficiency calcs
     it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2012, :make_name => 'Chevrolet', :model_name => 'VOLT'}).fuel_efficiency_city.should    be_within(0.0001).of(14.8800) }
     it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2012, :make_name => 'Chevrolet', :model_name => 'VOLT'}).fuel_efficiency_highway.should be_within(0.0001).of(17.0057) }
@@ -110,13 +128,13 @@ describe AutomobileMakeModelYearVariant do
     it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2011, :make_name => 'Chevrolet', :model_name => 'VOLT'}).alt_fuel_efficiency_highway.should be_within(0.0001).of(38.2629) }
     it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2011, :make_name => 'Chevrolet', :model_name => 'VOLT'}).alt_fuel_efficiency.should         be_within(0.0001).of(39.1489) }
     
-    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2010, :make_name => 'Dodge', :model_name => 'AVENGER', :alt_fuel_code => 'E'}).fuel_efficiency_city.should    be_within(0.0001).of( 8.0777) }
-    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2010, :make_name => 'Dodge', :model_name => 'AVENGER', :alt_fuel_code => 'E'}).fuel_efficiency_highway.should be_within(0.0001).of(11.4789) }
-    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2010, :make_name => 'Dodge', :model_name => 'AVENGER', :alt_fuel_code => 'E'}).fuel_efficiency.should         be_within(0.0001).of( 9.7192) }
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2010, :make_name => 'Dodge', :model_name => 'AVENGER FFV'}).fuel_efficiency_city.should    be_within(0.0001).of( 8.0777) }
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2010, :make_name => 'Dodge', :model_name => 'AVENGER FFV'}).fuel_efficiency_highway.should be_within(0.0001).of(11.4789) }
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2010, :make_name => 'Dodge', :model_name => 'AVENGER FFV'}).fuel_efficiency.should         be_within(0.0001).of( 9.7192) }
     
-    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2010, :make_name => 'Dodge', :model_name => 'AVENGER', :alt_fuel_code => 'E'}).alt_fuel_efficiency_city.should    be_within(0.0001).of(5.9520) }
-    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2010, :make_name => 'Dodge', :model_name => 'AVENGER', :alt_fuel_code => 'E'}).alt_fuel_efficiency_highway.should be_within(0.0001).of(8.5029) }
-    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2010, :make_name => 'Dodge', :model_name => 'AVENGER', :alt_fuel_code => 'E'}).alt_fuel_efficiency.should         be_within(0.0001).of(7.1797) }
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2010, :make_name => 'Dodge', :model_name => 'AVENGER FFV'}).alt_fuel_efficiency_city.should    be_within(0.0001).of(5.9520) }
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2010, :make_name => 'Dodge', :model_name => 'AVENGER FFV'}).alt_fuel_efficiency_highway.should be_within(0.0001).of(8.5029) }
+    it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2010, :make_name => 'Dodge', :model_name => 'AVENGER FFV'}).alt_fuel_efficiency.should         be_within(0.0001).of(7.1797) }
     
     it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2009, :make_name => 'Toyota', :model_name => 'PRIUS'}).fuel_efficiency_city.should    be_within(0.0001).of(20.2602) }
     it { AutomobileMakeModelYearVariant.find(:first, :conditions => {:year => 2009, :make_name => 'Toyota', :model_name => 'PRIUS'}).fuel_efficiency_highway.should be_within(0.0001).of(19.1879) }
