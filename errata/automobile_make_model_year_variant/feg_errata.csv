@@ -185,6 +185,7 @@ date,name,email,type,section,action,x,y,condition,notes
 5/21/2012,Ian Hough,ian@brighterplanet.com,technical,model_name,replace,/dual-fuel cavalier/i,CAVALIER DUAL-FUEL,,clean up chevrolet
 10/18/2011,Ian Hough,ian@brighterplanet.com,technical,model_name,replace,/suburbn/i,SUBURBAN,,clean up chevrolet
 10/18/2011,Ian Hough,ian@brighterplanet.com,technical,model_name,replace,/^g1500\/g2500/i,G1500/2500,,clean up chevrolet
+5/22/2012,Ian Hough,ian@brighterplanet.com,technical,model_name,replace,/^[KC](\d+.*)$/i,\1,is a chevrolet,clean up chevrolet
 10/18/2011,Ian Hough,ian@brighterplanet.com,technical,model_name,delete,/^chrysler /i,,,clean up chrysler
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,model_name,replace,/impe$/i,IMPERIAL,,clean up chrysler
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,model_name,replace,/5th/i,FIFTH,,clean up chrysler
@@ -208,6 +209,7 @@ date,name,email,type,section,action,x,y,condition,notes
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,editorial,model_name,replace,/station wag$/i,STATION WAGON,,clean up ford
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,model_name,replace,/^taurus wagon.+$/i,TAURUS WAGON,,clean up ford
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,model_name,replace,/15sierraclassichybrid/i,15 SIERRA CLASSIC HYBRID,,clean up gmc
+5/22/2012,Ian Hough,ian@brighterplanet.com,technical,model_name,replace,/^[KC](\d+.*)$/i,\1,is a gmc,clean up gmc
 10/18/2011,Ian Hough,ian@brighterplanet.com,technical,model_name,replace,/^xg 350$/i,XG350,,clean up hyundai
 10/18/2011,Ian Hough,ian@brighterplanet.com,technical,model_name,delete,/^isuzu /i,,,clean up isuzu
 10/18/2011,Ian Hough,ian@brighterplanet.com,technical,model_name,replace,/^p'up.+/i,P'UP,,clean up isuzu
