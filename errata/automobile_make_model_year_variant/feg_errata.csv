@@ -34,6 +34,7 @@ date,name,email,type,section,action,x,y,condition,notes
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,editorial,make_name,replace,/^(AUSTIN )?ROVER.*/i,Land Rover,,"1987-1991, 1993-1996"
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,editorial,make_name,replace,/^CX ?AUTOMOTIVE.*/i,Citroën,,"1987-1989, 1991-1993"
 10/18/2011,Ian Hough,ian@brighterplanet.com,editorial,make_name,replace,/^GM$/i,Chevrolet,,"2003, 2004"
+5/22/2012,Ian Hough,ian@brighterplanet.com,editorial,make_name,replace,/^Impco/i,Chevrolet,,dual-fuel cavaliers
 5/7/2012,Ian Hough,ian@brighterplanet.com,editorial,make_name,replace,/^Lincoln-Mercury/i,Mercury,Model contains Milan
 5/7/2012,Ian Hough,ian@brighterplanet.com,editorial,make_name,replace,/^Lincoln-Mercury/i,Mercury,Model contains Marquis
 5/9/2012,Ian Hough,ian@brighterplanet.com,editorial,make_name,replace,/^Lincoln-Mercury/i,Mercury,Model contains Mystique
@@ -137,6 +138,7 @@ date,name,email,type,section,action,x,y,condition,notes
 10/18/2011,Ian Hough,ian@brighterplanet.com,technical,model_name,delete,/ \(new version\)/i,,,clean (): cut '(new version)'
 10/18/2011,Ian Hough,ian@brighterplanet.com,technical,model_name,delete,/ \(new v$/i,,,clean (): cut terminal '(new v'
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,model_name,delete,/ \(incl\. outback\)/i,,,clean (): cut '(incl. outback)'
+5/22/2012,Ian Hough,ian@brighterplanet.com,technical,model_name,delete,/ CNG$/i,,,clean 'cng'
 10/18/2011,Ian Hough,ian@brighterplanet.com,technical,model_name,replace,/ ?\((.+)\)/i, \1,,clean (): cut keeping interior text
 10/18/2011,Ian Hough,ian@brighterplanet.com,technical,model_name,replace,/(\d)-?dr/i,\1-DOOR,,clean doors: 'x-dr' -> 'x-DOOR'
 10/18/2011,Ian Hough,ian@brighterplanet.com,technical,model_name,replace,/(\d) door/i,\1-DOOR,,clean doors: 'x door' -> 'x-DOOR'
@@ -180,6 +182,7 @@ date,name,email,type,section,action,x,y,condition,notes
 10/18/2011,Ian Hough,ian@brighterplanet.com,technical,model_name,replace,/slvrd$/i,SILVERADO,,clean up chevrolet
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,model_name,replace,/montecarlo/i,MONTE CARLO,,clean up chevrolet
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,model_name,replace,/postal\*cab\*chassis.*/i,POSTAL CAB CHASSIS,,clean up chevrolet
+5/21/2012,Ian Hough,ian@brighterplanet.com,technical,model_name,replace,/dual-fuel cavalier/i,CAVALIER DUAL-FUEL,,clean up chevrolet
 10/18/2011,Ian Hough,ian@brighterplanet.com,technical,model_name,replace,/suburbn/i,SUBURBAN,,clean up chevrolet
 10/18/2011,Ian Hough,ian@brighterplanet.com,technical,model_name,replace,/^g1500\/g2500/i,G1500/2500,,clean up chevrolet
 10/18/2011,Ian Hough,ian@brighterplanet.com,technical,model_name,delete,/^chrysler /i,,,clean up chrysler
@@ -197,6 +200,7 @@ date,name,email,type,section,action,x,y,condition,notes
 10/18/2011,Ian Hough,ian@brighterplanet.com,technical,model_name,replace,/f 40/i,F40,is a ferrari,clean up ferrari
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,model_name,replace,/^599 GTB$/,599 GTB Fiorano,,clean up ferrari
 10/18/2011,Ian Hough,ian@brighterplanet.com,technical,model_name,delete,/^ford /i,,,clean up ford
+5/21/2012,Ian Hough,ian@brighterplanet.com,technical,model_name,delete,/ethanol/i,,is a ford,clean up ford
 5/17/2012,Ian Hough,ian@brighterplanet.com,technical,model_name,replace,/victoriacng/i,VICTORIA,is a ford,clean up ford
 10/18/2011,Ian Hough,ian@brighterplanet.com,technical,model_name,replace,/^escape hev$/i,ESCAPE HYBRID,,clean up ford
 10/18/2011,Ian Hough,ian@brighterplanet.com,technical,model_name,replace,/chassis cab/i,CAB CHASSIS,,clean up ford
