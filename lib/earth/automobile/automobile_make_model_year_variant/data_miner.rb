@@ -310,6 +310,25 @@ AutomobileMakeModelYearVariant.class_eval do
       end
     end
     
+    # FIXME TODO hybrids listed on FEG website but not in downloadable files
+    # 2001 Honda Insight (automatic, variable transmission) - listed twice on FEG website
+    # 2003 Honda Civic Hybrid (manual, 5-speed, lower mpg)
+    # 2003 Honda Civic Hybrid (automatic, variable transmission, higher mpg)
+    # 2005 Honda Accord Hybrid
+    # 2006 Honda Accord Hybrid
+    # 2009 Chrysler Aspen HEV
+    # 2009 Dodge Durango HEV
+    # 2009 Saturn Vue Hybrid (automatic, variable transmission)
+    process "Update the model names of certain hybrid variants" do
+      [
+        where(:make_name => 'Buick', :model_name => 'LACROSSE', :year => 2012).first,
+        where(:make_name => 'Buick', :model_name => 'REGAL', :year => 2012).sort_by!(&:fuel_efficiency).last
+      ].each do |variant|
+        variant.model_name += ' HYBRID'
+        variant.save!
+      end
+    end
+    
     # Combined fuel efficiency will be useful later when deriving MakeModel and Make fuel efficiency
     # NOTE: we use a 43/57 city/highway weighting per the latest EPA analysis of real-world driving behavior
     # This results in a deviation from EPA fuel economy label values which use a historical 55/45 weighting
