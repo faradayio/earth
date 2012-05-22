@@ -23,6 +23,12 @@ describe FlightSegment do
       FlightSegment.where("year IS NULL OR year < 2009 OR year > #{::Time.now.year}").count.should == 0
     end
     
+    it "should have data through 7 months ago" do
+      latest = Date.today << 7
+      FlightSegment.maximum(:year).should == latest.year
+      FlightSegment.where(:year => latest.year).maximum(:month).should == latest.month
+    end
+    
     it "should have origin airport in airports" do
       # FIXME TODO
     end
@@ -39,10 +45,9 @@ describe FlightSegment do
       # FIXME TODO
     end
     
-    # FIXME TODO fix this
-    # it "should have airline name" do
-    #   FlightSegment.where(:airline_name => nil).count.should == 0
-    # end
+    it "should have airline name" do
+      FlightSegment.where(:airline_name => nil).count.should == 0
+    end
     
     it "should have aircraft description" do
       FlightSegment.where(:aircraft_description => nil).count.should == 0
