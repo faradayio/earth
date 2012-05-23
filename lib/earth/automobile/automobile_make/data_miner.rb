@@ -5,50 +5,17 @@ AutomobileMake.class_eval do
       delete_all
     end
     
-    process "Ensure AutomobileMakeModelYearVariant and AutomobileMakeYearFleet are populated" do
-      AutomobileMakeModelYearVariant.run_data_miner!
+    process "Ensure AutomobileMakeYear and AutomobileMakeYearFleet are populated" do
+      AutomobileMakeYear.run_data_miner!
       AutomobileMakeYearFleet.run_data_miner!
     end
     
-    process "Derive manufacturer names from automobile make model year variants" do
+    process "Derive manufacturer names from AutomobileMakeYear" do
       ::Earth::Utils.insert_ignore(
-        :src => AutomobileMakeModelYearVariant,
+        :src => AutomobileMakeYear,
         :dest => AutomobileMake,
         :cols => { :make_name => :name }
       )
-    end
-    
-    # sabshere 1/31/11 add Avanti, DaimlerChrysler, IHC, Tesla, etc.
-    process "Derive extra manufacturer names from CAFE data" do
-      ::Earth::Utils.insert_ignore(
-        :src => AutomobileMakeYearFleet,
-        :dest => AutomobileMake,
-        :cols => { :make_name => :name }
-      )
-    end
-    
-    # FIXME TODO derive units here
-    process "Calculate fuel efficiency from CAFE data" do
-      makes = arel_table
-      year_fleets = AutomobileMakeYearFleet.arel_table
-      conditional_relation = makes[:name].eq(year_fleets[:make_name])
-      relation = AutomobileMakeYearFleet.weighted_average_relation(:fuel_efficiency, :weighted_by => :volume).where(conditional_relation)
-      update_all(%{
-        fuel_efficiency = (#{relation.to_sql}),
-        fuel_efficiency_units = 'kilometres_per_litre'
-      })
-    end
-    
-    # FIXME TODO derive units here
-    process "Calculate any missing fuel effeciencies from automobile make model year variants" do
-      makes = arel_table
-      variants = AutomobileMakeModelYearVariant.arel_table
-      conditional_relation = variants[:make_name].eq(makes[:name])
-      relation = variants.project(variants[:fuel_efficiency].average).where(conditional_relation)
-      where(:fuel_efficiency => nil).update_all(%{
-        fuel_efficiency = (#{relation.to_sql}),
-        fuel_efficiency_units = 'kilometres_per_litre'
-      })
     end
   end
 end
