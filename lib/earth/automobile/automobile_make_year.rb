@@ -7,5 +7,5 @@ class AutomobileMakeYear < ActiveRecord::Base
   col :year, :type => :integer
   col :fuel_efficiency, :type => :float
   col :fuel_efficiency_units
-  col :volume, :type => :integer # This will sometimes be null because not all make_years have CAFE data
+  col :weighting, :type => :float # for calculating AutomobileMake fuel efficiences
 end
