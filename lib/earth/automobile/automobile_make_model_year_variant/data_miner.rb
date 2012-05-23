@@ -356,13 +356,13 @@ AutomobileMakeModelYearVariant.class_eval do
           AND displacement > #{ethanol_variant.displacement - 0.01}
         }).first
         
-        if gasoline_variant.present?
+        if gasoline_variant.present? # as of May 2012 only one Mazda B3000 variant from 2000 doesn't have a matching gasoline variant
           %w{ fuel_code fuel_efficiency_city fuel_efficiency_city_units fuel_efficiency_highway fuel_efficiency_highway_units }.each do |attribute|
             gasoline_variant.send("alt_#{attribute}=", ethanol_variant.send(attribute))
           end
           gasoline_variant.save!
         end
-        ethanol_variant.destroy # no vehicles run exclusively on ethanol so delete the row even if there was no matching gasoline variant
+        ethanol_variant.destroy
       end
     end
     
@@ -370,25 +370,25 @@ AutomobileMakeModelYearVariant.class_eval do
       where(:fuel_code => 'C').update_all "model_name = model_name || ' CNG'"
     end
     
-    process "Update model name to indicate flex-fuel variants of models where not all variants are flex-fuel" do
+    process "Update model name to indicate flex-fuel variants of models where variants in some years are not flex-fuel" do
       where(:alt_fuel_code => 'E').each do |variant|
-        if where(:make_name => variant.make_name, :model_name => variant.model_name, :year => variant.year, :alt_fuel_code => nil).any?
+        if where(:make_name => variant.make_name, :model_name => variant.model_name, :alt_fuel_code => nil).any?
           variant.model_name += ' FFV'
           variant.save!
         end
       end
     end
     
-    process "Update model name to indicate diesel variants of models where not all variants are diesel" do
+    process "Update model name to indicate diesel variants of models where variants in some years are not diesel" do
       where(:fuel_code => 'D').each do |variant|
-        if where(:make_name => variant.make_name, :model_name => variant.model_name, :year => variant.year, :fuel_code => ['R', 'P']).any?
+        if where(:make_name => variant.make_name, :model_name => variant.model_name, :fuel_code => ['R', 'P']).any?
           variant.model_name += ' DIESEL'
           variant.save!
         end
       end
     end
     
-    # Combined fuel efficiency will be useful later when deriving MakeModel and Make fuel efficiency
+    # Combined fuel efficiency will be useful for deriving fuel efficiency for other classes
     # NOTE: we use a 43/57 city/highway weighting per the latest EPA analysis of real-world driving behavior
     # This results in a deviation from EPA fuel economy label values which use a historical 55/45 weighting
     process "Calculate combined adjusted fuel efficiency using the latest EPA equation" do
