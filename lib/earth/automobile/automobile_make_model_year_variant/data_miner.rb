@@ -1,7 +1,7 @@
 AutomobileMakeModelYearVariant.class_eval do
   # For errata
   class AutomobileMakeModelYearVariant::Guru
-    %w{ alpina bentley chevrolet dodge ferrari ford gmc jaguar kia lexus maybach mercedes-benz mitsubishi porsche toyota tvr volvo yugo }.each do |make|
+    %w{ alpina bentley chevrolet chrysler dodge ferrari ford gmc jaguar kia lexus maybach mercedes-benz mitsubishi porsche toyota tvr volvo yugo }.each do |make|
       method_name = :"is_a_#{make.gsub('-', '_')}?"
       define_method method_name do |row|
         row['make_name'].downcase == make
