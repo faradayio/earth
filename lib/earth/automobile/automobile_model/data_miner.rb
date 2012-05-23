@@ -9,7 +9,7 @@ AutomobileModel.class_eval do
       AutomobileMakeModelYearVariant.run_data_miner!
     end
     
-    process "Derive model names from automobile make model year variants" do
+    process "Derive model names from AutomobileMakeModelYearVariant" do
       ::Earth::Utils.insert_ignore(
         :src => AutomobileMakeModelYearVariant,
         :dest => AutomobileModel,
