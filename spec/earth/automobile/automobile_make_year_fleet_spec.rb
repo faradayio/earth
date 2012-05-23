@@ -13,24 +13,10 @@ describe AutomobileMakeYearFleet do
   end
   
   describe 'verify imported data', :sanity => true do
-    it 'should have all the data' do
-      AutomobileMakeYearFleet.count.should == 1349
-    end
-    
-    it 'should have year from 1978 to 2011' do
-      AutomobileMakeYearFleet.where('year IS NULL OR year < 1978 OR year > 2011').count.should == 0
-    end
-    
-    it 'should have volume greater than zero' do
-      AutomobileMakeYearFleet.where('volume IS NULL OR volume <= 0').count.should == 0
-    end
-    
-    it 'should have fuel efficiency greater than zero' do
-      AutomobileMakeYearFleet.where('fuel_efficiency IS NULL OR fuel_efficiency <= 0').count.should == 0
-    end
-    
-    it 'should have fuel efficiency units of kilometres per litre' do
-      AutomobileMakeYearFleet.where("fuel_efficiency_units IS NULL OR fuel_efficiency_units != 'kilometres_per_litre'").count.should == 0
-    end
+    it { AutomobileMakeYearFleet.count.should == 1349 }
+    it { AutomobileMakeYearFleet.where('year >= 1978 AND year <= 2011').count.should == AutomobileMakeYearFleet.count }
+    it { AutomobileMakeYearFleet.where('volume > 0').count.should == AutomobileMakeYearFleet.count }
+    it { AutomobileMakeYearFleet.where('fuel_efficiency > 0').count.should == AutomobileMakeYearFleet.count }
+    it { AutomobileMakeYearFleet.where(:fuel_efficiency_units => 'kilometres_per_litre').count.should == AutomobileMakeYearFleet.count }
   end
 end

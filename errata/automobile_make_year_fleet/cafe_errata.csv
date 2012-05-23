@@ -21,7 +21,7 @@ date,name,email,type,section,action,x,y,condition,notes
 7/9/09,Seamus Abshere,seamus@brighterplanet.com,editorial,manufacturer_name,replace,ROLLS ROYCE,Rolls-Royce,,
 7/9/09,Seamus Abshere,seamus@brighterplanet.com,editorial,manufacturer_name,replace,SUN INTERN.,Renault,,
 7/9/09,Seamus Abshere,seamus@brighterplanet.com,editorial,manufacturer_name,replace,/\Adaimler\z/i,DaimlerChrysler,,
-7/9/09,Seamus Abshere,seamus@brighterplanet.com,editorial,manufacturer_name,replace,/\Avw\z/,Volkswagen,,
+7/9/09,Seamus Abshere,seamus@brighterplanet.com,editorial,manufacturer_name,replace,/^vw$/i,Volkswagen,,
 4/12/12,Ian Hough,ian@brighterplanet.com,technical,year_content,replace,/\A(\d\d)\z/,19\1,,
 7/9/09,Seamus Abshere,seamus@brighterplanet.com,editorial,manufacturer_name,truncate,Aston Martin,,,
 7/9/09,Seamus Abshere,seamus@brighterplanet.com,editorial,manufacturer_name,truncate,Avanti,,,
