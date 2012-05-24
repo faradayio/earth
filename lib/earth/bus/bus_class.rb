@@ -22,9 +22,9 @@ class BusClass < ActiveRecord::Base
                 :methanol_intensity_units => 'litres_per_kilometre',
                 :biodiesel_intensity => 0.00979.gallons_per_mile.to(:litres_per_kilometre),
                 :biodiesel_intensity_units => 'litres_per_kilometre',
-                :electricity_intensity => 0.00001804 / 1.miles.to(:kilometres),
+                :electricity_intensity => 0.00001804 / 1.miles.to.kilometres.to_f,
                 :electricity_intensity_units => 'kilowatt_hours_per_kilometre',
-                :air_conditioning_emission_factor => 0.04779 / 1.miles.to(:kilometres),
+                :air_conditioning_emission_factor => 0.04779 / 1.miles.to.kilometres.to_f,
                 :air_conditioning_emission_factor_units => 'kilograms_co2e_per_kilometre'
   
   col :name

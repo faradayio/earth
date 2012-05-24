@@ -16,24 +16,24 @@ Gem::Specification.new do |s|
 
   s.require_paths = ["lib"]
   
+  s.add_runtime_dependency 'active_record_inline_schema'
   s.add_runtime_dependency 'activerecord'
   s.add_runtime_dependency 'activesupport'
+  s.add_runtime_dependency 'alchemist'
   s.add_runtime_dependency 'cohort_analysis'
-  s.add_runtime_dependency 'conversions'
   s.add_runtime_dependency 'data_miner', '>=2'
   s.add_runtime_dependency 'falls_back_on'
   s.add_runtime_dependency 'fixed_width-multibyte'
   s.add_runtime_dependency 'fuzzy_match', '>=1.3.3'
   s.add_runtime_dependency 'geokit'
-  s.add_runtime_dependency 'active_record_inline_schema'
   s.add_runtime_dependency 'remote_table', '>=1.3.0'
   s.add_runtime_dependency 'table_warnings', '>=0.0.6'
+  s.add_runtime_dependency 'timeframe'
   s.add_runtime_dependency 'to_regexp'
   s.add_runtime_dependency 'weighted_average', '>=1.0.2'
-  s.add_runtime_dependency 'timeframe'
   s.add_development_dependency 'bueller'
   s.add_development_dependency 'bundler'
-  s.add_development_dependency 'charisma'
+  #s.add_development_dependency 'charisma'
   s.add_development_dependency 'cucumber'
   s.add_development_dependency 'mysql2' # for bin/earth_tester.rb; use mysql2 for utf-8 compatibility
   s.add_development_dependency 'pg'

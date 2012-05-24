@@ -138,7 +138,7 @@ ResidentialEnergyConsumptionSurveyResponse.class_eval do
         [ 'annual_energy_from_electricity_for_heating_water', :kbtus, :joules ],
         [ 'annual_energy_from_electricity_for_other_appliances', :kbtus, :joules ],
       ].each do |attr_name, from_units, to_units|
-        update_all "#{attr_name} = 1.0 * #{attr_name} * #{Conversions::Unit.exchange_rate from_units, to_units}"
+        update_all "#{attr_name} = #{attr_name} * #{1.from(from_units).to(to_units)}"
       end
     end
       

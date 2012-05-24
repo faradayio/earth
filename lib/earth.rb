@@ -10,7 +10,7 @@ require 'table_warnings'
 require 'fuzzy_match'
 
 require 'earth/utils'
-require 'earth/conversions_ext'
+require 'earth/alchemist_ext'
 require 'earth/inflectors'
 
 # The earth module is an interface for loading data models from various domains.
