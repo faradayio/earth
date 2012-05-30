@@ -34,7 +34,7 @@ class AutomobileMakeModelYearVariant < ActiveRecord::Base
   col :turbo,        :type => :boolean
   col :supercharger, :type => :boolean
   col :injection,    :type => :boolean
-  col :carline_class
+  col :size_class
   add_index :make_name
   add_index :model_name
   add_index :year

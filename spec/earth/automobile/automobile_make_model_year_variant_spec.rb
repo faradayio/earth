@@ -1,11 +1,11 @@
 # -*- encoding: utf-8 -*-
 require 'spec_helper'
 require 'earth/automobile/automobile_make_model_year_variant'
+require 'earth/acronyms' # lets us use AMMYV to refer to AutomobileMakeModelYearVariant
 
 describe AutomobileMakeModelYearVariant do
   before :all do
     Earth.init :automobile, :load_data_miner => true, :skip_parent_associations => :true
-    AMMYV = AutomobileMakeModelYearVariant
   end
   
   describe 'import', :data_miner => true do
@@ -46,10 +46,11 @@ describe AutomobileMakeModelYearVariant do
     it { AMMYV.where(:year => 2011).count.should == 1097 }
     it { AMMYV.where(:year => 2012).count.should == 1129 }
     
-    # confirm make, model, year aren't missing
+    # confirm make, model, year, and size class aren't missing
     it { AMMYV.where(:make_name => nil).count.should == 0 }
     it { AMMYV.where(:model_name => nil).count.should == 0 }
     it { AMMYV.where(:year => nil).count.should == 0 }
+    it { AMMYV.where(:size_class => nil).count.should == 0 }
     
     it 'should have valid transmissions' do
       AMMYV.connection.select_values("SELECT DISTINCT transmission FROM #{AMMYV.quoted_table_name}").each do |transmission|
@@ -98,9 +99,6 @@ describe AutomobileMakeModelYearVariant do
     it { AMMYV.where(:alt_fuel_efficiency_units => 'kilometres_per_litre').count.should == AMMYV.where("alt_fuel_code IS NOT NULL").count }
     it { AMMYV.where(:alt_fuel_efficiency_city_units => 'kilometres_per_litre').count.should == AMMYV.where("alt_fuel_code IS NOT NULL").count }
     it { AMMYV.where(:alt_fuel_efficiency_highway_units => 'kilometres_per_litre').count.should == AMMYV.where("alt_fuel_code IS NOT NULL").count }
-    
-    # confirm carline class is present for recent years
-    it { AMMYV.where("year > 1997 AND carline_class IS NULL").count.should == 0 }
     
     # confirm flex-fuel variants of models where not all variants are flex-fuel have been identified
     it { AMMYV.find(:first, :conditions => {:year => 2012, :make_name => 'Toyota', :model_name => 'SEQUOIA FFV'}).alt_fuel_code.should == 'E' }

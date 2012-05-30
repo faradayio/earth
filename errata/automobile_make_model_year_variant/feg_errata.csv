@@ -193,6 +193,7 @@ date,name,email,type,section,action,x,y,condition,notes
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,model_name,replace,/town and country/i,TOWN & COUNTRY,,clean up chrysler
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,model_name,replace,/town&c(oun)?try/i,TOWN & COUNTRY,,clean up chrysler
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,model_name,delete,/^daewoo /i,,,clean up daewoo
+5/29/2012,Ian Hough,ian@brighterplanet.com,technical,model_name,replace,/^nubira$/i,NUBIRA STATION WAGON,is a station wagon,clean up daewoo
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,model_name,delete,/ ?dodge ?/i,,is a dodge,clean up dodge
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,model_name,delete,/p\/u/i,,is a dodge,clean up dodge
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,model_name,replace,/ram50/i,RAM 50,is a dodge,clean up dodge
@@ -249,12 +250,14 @@ date,name,email,type,section,action,x,y,condition,notes
 10/18/2011,Ian Hough,ian@brighterplanet.com,editorial,model_name,replace,/^(\d{3}[de])(\d\.\d)/i,\1 \2,is a mercedes benz,clean up mercedes-benz
 10/18/2011,Ian Hough,ian@brighterplanet.com,editorial,model_name,replace,"/^([a-z]{1,3}) (\d{2,3})/i",\1\2,is a mercedes benz,clean up mercedes-benz
 10/18/2011,Ian Hough,ian@brighterplanet.com,editorial,model_name,replace,/^clk320cabriolet$/i,CLK320 CABRIOLET,,clean up mercedes-benz
+5/29/2012,Ian Hough,ian@brighterplanet.com,editorial,model_name,replace,/^e320$/i,E320 WAGON,is a station wagon,clean up mercedes-benz
 10/18/2011,Ian Hough,ian@brighterplanet.com,editorial,model_name,replace,/^mountainer$/i,MOUNTAINEER,,clean up mercury
 10/18/2011,Ian Hough,ian@brighterplanet.com,editorial,model_name,delete,/^mini /i,,,clean up mini
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,editorial,model_name,replace,/ clubm$/i, CLUBMAN,,clean up mini
 10/18/2011,Ian Hough,ian@brighterplanet.com,editorial,model_name,delete,/^mitsubishi /i,,,clean up mitsubishi
 10/18/2011,Ian Hough,ian@brighterplanet.com,technical,model_name,replace,/^expo\.lrv$/i,EXPO LRV,,clean up mitsubishi
 10/18/2011,Ian Hough,ian@brighterplanet.com,editorial,model_name,replace,/^3000 gt/i,3000GT,is a mitsubishi,clean up mitsubishi
+5/29/2012,Ian Hough,ian@brighterplanet.com,editorial,model_name,replace,/^mirage$/i,MIRAGE WAGON,is a station wagon,clean up mitsubishi
 10/18/2011,Ian Hough,ian@brighterplanet.com,editorial,model_name,replace,/ty eight/i,TY-EIGHT,,clean up oldsmobile
 10/18/2011,Ian Hough,ian@brighterplanet.com,editorial,model_name,delete,/^panoz /i,,,clean up panoz
 10/18/2011,Ian Hough,ian@brighterplanet.com,editorial,model_name,delete,/^pininfarina /i,,,clean up plymouth
@@ -325,24 +328,30 @@ date,name,email,type,section,action,x,y,condition,notes
 5/9/2012,Ian Hough,ian@brighterplanet.com,editorial,fuel_efficiency_highway,replace,,22.3,is a 1995 volvo 940 missing fuel efficiency,fix missing fuel efficiency in 1995
 5/9/2012,Ian Hough,ian@brighterplanet.com,editorial,fuel_efficiency_city,replace,,16.8,is a 1995 volvo 940 wagon missing fuel efficiency,fix missing fuel efficiency in 1995
 5/9/2012,Ian Hough,ian@brighterplanet.com,editorial,fuel_efficiency_highway,replace,,23.7,is a 1995 volvo 940 wagon missing fuel efficiency,fix missing fuel efficiency in 1995
-5/10/2012,Ian Hough,ian@brighterplanet.com,editorial,carline_class,replace,/pick-up/i,pickup
-5/10/2012,Ian Hough,ian@brighterplanet.com,editorial,carline_class,replace,"/Vans, Cargo.+/i",Cargo vans
-5/10/2012,Ian Hough,ian@brighterplanet.com,editorial,carline_class,replace,"/VANS, PASSENGER.+/i",Passenger vans
-5/10/2012,Ian Hough,ian@brighterplanet.com,editorial,carline_class,replace,/.*minivan.+2WD/i,Minivans 2WD
-5/10/2012,Ian Hough,ian@brighterplanet.com,editorial,carline_class,replace,/.*minivan.+4WD/i,Minivans 4WD
-5/10/2012,Ian Hough,ian@brighterplanet.com,editorial,carline_class,replace,/.*S\.?U\.?V\.?.+2WD/i,SUV 2WD
-5/10/2012,Ian Hough,ian@brighterplanet.com,editorial,carline_class,replace,/.*S\.?U\.?V\.?.+4WD/i,SUV 4WD
-5/10/2012,Ian Hough,ian@brighterplanet.com,editorial,carline_class,truncate,Two seaters
-5/10/2012,Ian Hough,ian@brighterplanet.com,editorial,carline_class,truncate,Minicompact cars
-5/10/2012,Ian Hough,ian@brighterplanet.com,editorial,carline_class,truncate,Subcompact cars
-5/10/2012,Ian Hough,ian@brighterplanet.com,editorial,carline_class,truncate,Compact cars
-5/10/2012,Ian Hough,ian@brighterplanet.com,editorial,carline_class,truncate,Midsize cars
-5/10/2012,Ian Hough,ian@brighterplanet.com,editorial,carline_class,truncate,Large cars
-5/10/2012,Ian Hough,ian@brighterplanet.com,editorial,carline_class,truncate,Small station wagons
-5/10/2012,Ian Hough,ian@brighterplanet.com,editorial,carline_class,truncate,Midsize station wagons
-5/10/2012,Ian Hough,ian@brighterplanet.com,editorial,carline_class,truncate,Small pickup trucks 2WD
-5/10/2012,Ian Hough,ian@brighterplanet.com,editorial,carline_class,truncate,Small pickup trucks 4WD
-5/10/2012,Ian Hough,ian@brighterplanet.com,editorial,carline_class,truncate,Standard pickup trucks 2WD
-5/10/2012,Ian Hough,ian@brighterplanet.com,editorial,carline_class,truncate,Standard pickup trucks 4WD
-5/10/2012,Ian Hough,ian@brighterplanet.com,editorial,carline_class,truncate,Special Purpose Vehicle 2WD
-5/10/2012,Ian Hough,ian@brighterplanet.com,editorial,carline_class,truncate,Special Purpose Vehicle 4WD
+5/10/2012,Ian Hough,ian@brighterplanet.com,editorial,size_class,replace,/pick-up/i,pickup
+5/10/2012,Ian Hough,ian@brighterplanet.com,editorial,size_class,replace,"/Vans, Cargo.+/i",Cargo vans
+5/10/2012,Ian Hough,ian@brighterplanet.com,editorial,size_class,replace,"/VANS, PASSENGER.+/i",Passenger vans
+5/10/2012,Ian Hough,ian@brighterplanet.com,editorial,size_class,replace,/.*minivan.+/i,Minivans
+5/30/2012,Ian Hough,ian@brighterplanet.com,editorial,size_class,replace,/^special purpose vehicle.+/i,Special purpose vehicles
+5/10/2012,Ian Hough,ian@brighterplanet.com,editorial,size_class,replace,/.*S\.?U\.?V\.?.+/i,Sport utility vehicles
+5/10/2012,Ian Hough,ian@brighterplanet.com,editorial,size_class,truncate,Two seaters
+5/10/2012,Ian Hough,ian@brighterplanet.com,editorial,size_class,truncate,Minicompact cars
+5/10/2012,Ian Hough,ian@brighterplanet.com,editorial,size_class,truncate,Subcompact cars
+5/10/2012,Ian Hough,ian@brighterplanet.com,editorial,size_class,truncate,Compact cars
+5/10/2012,Ian Hough,ian@brighterplanet.com,editorial,size_class,truncate,Midsize cars
+5/10/2012,Ian Hough,ian@brighterplanet.com,editorial,size_class,truncate,Large cars
+5/10/2012,Ian Hough,ian@brighterplanet.com,editorial,size_class,truncate,Small station wagons
+5/10/2012,Ian Hough,ian@brighterplanet.com,editorial,size_class,truncate,Midsize station wagons
+5/10/2012,Ian Hough,ian@brighterplanet.com,editorial,size_class,truncate,Small pickup trucks
+5/10/2012,Ian Hough,ian@brighterplanet.com,editorial,size_class,truncate,Standard pickup trucks
+5/10/2012,Ian Hough,ian@brighterplanet.com,editorial,size_class,truncate,Special purpose vehicles
+5/30/2012,Ian Hough,ian@brighterplanet.com,editorial,size_class,replace,/^special purpose vehicles$/i,Subcompact cars,is a hatchback,fix vehicles marked as special b/c of 4wd
+5/30/2012,Ian Hough,ian@brighterplanet.com,editorial,size_class,replace,/^special purpose vehicles$/i,Subcompact cars,is a justy,fix vehicles marked as special b/c of 4wd
+5/30/2012,Ian Hough,ian@brighterplanet.com,editorial,size_class,replace,/^special purpose vehicles$/i,Compact cars,is a loyale,fix vehicles marked as special b/c of 4wd
+5/30/2012,Ian Hough,ian@brighterplanet.com,editorial,size_class,replace,/^special purpose vehicles$/i,Small station wagons,is a loyale wagon,fix vehicles marked as special b/c of 4wd
+5/30/2012,Ian Hough,ian@brighterplanet.com,editorial,size_class,replace,/^special purpose vehicles$/i,Small station wagons,is a space wagon,fix vehicles marked as special b/c of 4wd
+5/30/2012,Ian Hough,ian@brighterplanet.com,editorial,size_class,replace,/^special purpose vehicles$/i,Midsize station wagons,is a stanza wagon,fix vehicles marked as special b/c of 4wd
+5/30/2012,Ian Hough,ian@brighterplanet.com,editorial,size_class,replace,/^special purpose vehicles$/i,Small station wagons,is a wagon,fix vehicles marked as special b/c of 4wd
+5/30/2012,Ian Hough,ian@brighterplanet.com,editorial,size_class,replace,/^special purpose vehicles$/i,Subcompact cars,is a xt,fix vehicles marked as special b/c of 4wd
+5/30/2012,Ian Hough,ian@brighterplanet.com,editorial,size_class,replace,/^special purpose vehicles$/i,Small station wagons,is a colt vista or wagon,fix vehicles marked as special b/c of 4wd
+5/30/2012,Ian Hough,ian@brighterplanet.com,editorial,size_class,replace,/^special purpose vehicles$/i,Compact cars,is a subaru sedan,fix vehicles marked as special b/c of 4wd

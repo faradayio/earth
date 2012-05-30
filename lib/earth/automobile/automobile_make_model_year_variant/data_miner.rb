@@ -37,6 +37,25 @@ AutomobileMakeModelYearVariant.class_eval do
     def is_a_2005_mercedes_benz_slk55_amg?(row)
       row['make_name'].downcase == 'mercedes-benz' and row['model_name'].downcase == 'slk55 amg' and row['year'] == 2005
     end
+    
+    def is_a_station_wagon?(row)
+      row['size_class'] =~ /station wagons/i
+    end
+    
+    %w{ hatchback justy loyale loyale_wagon space_wagon stanza_wagon wagon xt }.each do |model_name|
+      method_name = :"is_a_#{model_name}?"
+      define_method method_name do |row|
+        row['model_name'] =~ /^#{model_name.gsub('_', ' ')}$/i
+      end
+    end
+    
+    def is_a_colt_vista_or_wagon?(row)
+      row['model_name'] =~ /^colt [vw].+$/i
+    end
+    
+    def is_a_subaru_sedan?(row)
+      row['make_name'] =~ /subaru/i and row['model_name'] =~ /^sedan(\/.+)?$/i
+    end
   end
   
   # To parse the FEG files
@@ -101,6 +120,28 @@ AutomobileMakeModelYearVariant.class_eval do
       'PE'  => 'EL'  # plug-in electric
     }
     
+    CLASS_CODES = {
+      '1' => 'Two seaters',
+      '2' => 'Minicompact cars',
+      '3' => 'Subcompact cars',
+      '4' => 'Compact cars',
+      '5' => 'Midsize cars',
+      '6' => 'Large cars',
+      '7' => 'Small station wagons',
+      '8' => 'Midsize station wagons',
+      '9' => 'Large station wagons',
+      '10' => 'Small pickup trucks 2WD',
+      '11' => 'Small pickup trucks 4WD',
+      '12' => 'Standard pickup trucks 2WD',
+      '13' => 'Standard pickup trucks 4WD',
+      '14' => 'Cargo vans',
+      '15' => 'Passenger vans',
+      '16' => nil,
+      '17' => 'Special purpose vehicles 2WD',
+      '18' => 'Special purpose vehicles 4WD',
+      '19' => 'Special purpose vehicles'
+    }
+    
     def initialize(options = {})
       options = options.stringify_keys
       @year = options['year']
@@ -119,7 +160,7 @@ AutomobileMakeModelYearVariant.class_eval do
           'model_name'              => row['carline_name'],
           'year'                    => year,
           'transmission'            => TRANSMISSIONS[row['model_trans'][0,1].to_s],
-          'speeds'                  => row['model_trans'][1,1] == 'V' ? 'variable' : row['model_trans'][1,1],
+          'speeds'                  => (row['model_trans'][1,1] == 'V') ? 'variable' : row['model_trans'][1,1],
           'drive'                   => row['drive_system'],
           'fuel_code'               => row['fuel_type'],
           'fuel_efficiency_city'    => 1.0 / (0.003259 + (1.1805 / row['unadj_city_mpg'].to_f)), # adjust for real-world driving
@@ -128,7 +169,8 @@ AutomobileMakeModelYearVariant.class_eval do
           'displacement'            => _displacement(row),
           'turbo'                   => _turbo(row),
           'supercharger'            => [ENGINE_TYPES[row['engine_desc1'].to_s], ENGINE_TYPES[row['engine_desc2'].to_s]].flatten.include?('supercharger'),
-          'injection'               => row['fuel_system'] == 'FI' ? true : false
+          'injection'               => (row['fuel_system'] == 'FI') ? true : false,
+          'size_class'              => CLASS_CODES[row['size_class']]
         })
       when (1998..2009)
         row.merge!({
@@ -146,7 +188,7 @@ AutomobileMakeModelYearVariant.class_eval do
           'turbo'                   => ((row['T'] || row['TURBO']) == 'T' || (row['carline name'] || row['CAR LINE']).downcase.include?('turbo')) ? true : false,
           'supercharger'            => (row['S'] || row['SPCHGR']) == 'S',
           'injection'               => true,
-          'carline_class'           => row['Class'] || row['CLASS']
+          'size_class'              => row['Class'] || row['CLASS']
         })
       else # 2010..present
         row.merge!({
@@ -167,7 +209,7 @@ AutomobileMakeModelYearVariant.class_eval do
           'turbo'                       => row['Air Aspir Method'] == 'TC',
           'supercharger'                => row['Air Aspir Method'] == 'SC',
           'injection'                   => row['# Cyl'].present? ? true : false,
-          'carline_class'               => row['Carline Class Desc']
+          'size_class'                  => row['Carline Class Desc']
         })
       end
     end
@@ -195,7 +237,7 @@ AutomobileMakeModelYearVariant.class_eval do
         row.trap { true } # there's only one section
         row.column 'active_year',       4, :type => :integer # ACTIVE YEAR
         row.column 'state_code',        1, :type => :string  # STATE CODE:  F=49-STATE,C=CALIFORNIA
-        row.column 'carline_clss',      2, :type => :integer # CARLINE CLASS CODE
+        row.column 'size_class',        2, :type => :integer # CARLINE CLASS CODE
         row.column 'carline_mfr_code',  3, :type => :integer # CARLINE MANUFACTURER CODE
         row.column 'carline_name',     28, :type => :string  # CARLINE NAME
         row.column 'disp_cub_in',       4, :type => :integer # DISP CUBIC INCHES
@@ -306,7 +348,7 @@ AutomobileMakeModelYearVariant.class_eval do
         store 'turbo'
         store 'supercharger'
         store 'injection'
-        store 'carline_class'
+        store 'size_class'
       end
     end
     
