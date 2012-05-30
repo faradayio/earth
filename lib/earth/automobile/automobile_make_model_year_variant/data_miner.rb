@@ -38,6 +38,27 @@ AutomobileMakeModelYearVariant.class_eval do
       row['make_name'].downcase == 'mercedes-benz' and row['model_name'].downcase == 'slk55 amg' and row['year'] == 2005
     end
     
+    def is_a_1995_ffv?(row)
+      row['year'] == 1995 and row['model_name'] =~ / ffv$/i
+    end
+    
+    def is_a_1999_ffv?(row)
+      row['year'] == 1999 and row['model_name'] =~ / ffv$/i
+    end
+    
+    def is_a_2000_ford_4wd_ffv?(row)
+      row['year'] == 2000 and row['make_name'].downcase == 'ford' and row['drive'] == '4WD' and row['model_name'] =~ / ffv$/i
+    end
+    
+    def is_2000_b3000_5_spd_4wd_ethanol_ucity_19?(row)
+      row['year'] == 2000 and
+        row['model_name'] =~ /b3000 ffv/i and
+        row['speeds'] == '5' and
+        row['drive'] == '4WD' and
+        row['fuel_code'] == 'E' and
+        row['ucty'].to_i == 19
+    end
+    
     def is_a_station_wagon?(row)
       row['size_class'] =~ /station wagons/i
     end
@@ -282,10 +303,6 @@ AutomobileMakeModelYearVariant.class_eval do
   end
   
   data_miner do
-    process "Start from scratch" do
-      delete_all
-    end
-    
     fuel_economy_guides = (1985..1997).inject({}) do |memo, year|
       yy = year.to_s[2..3]
       memo[year] = {
@@ -329,6 +346,10 @@ AutomobileMakeModelYearVariant.class_eval do
     end
     
     fuel_economy_guides.each do |year, options|
+      process "Clear old data from #{year}" do
+        where(:year => year).delete_all
+      end
+      
       import "#{year} Fuel Economy Guide", options do
         key   'row_hash'
         store 'make_name'
@@ -362,12 +383,16 @@ AutomobileMakeModelYearVariant.class_eval do
     # 2009 Dodge Durango HEV
     # 2009 Saturn Vue Hybrid (automatic, variable transmission)
     process "Update the model names of certain hybrid variants" do
-      [
-        where(:make_name => 'Buick', :model_name => 'LACROSSE', :year => 2012).first,
-        where(:make_name => 'Buick', :model_name => 'REGAL', :year => 2012).sort_by!(&:fuel_efficiency).last
-      ].each do |variant|
-        variant.model_name += ' HYBRID'
-        variant.save!
+      hybrids = []
+      if where(:make_name => 'Buick', :model_name => 'LACROSSE HYBRID', :year => 2012).none? and where(:make_name => 'Buick', :model_name => 'LACROSSE', :year => 2012, :alt_fuel_code => nil).any?
+        hybrids << where(:make_name => 'Buick', :model_name => 'LACROSSE', :year => 2012, :alt_fuel_code => nil).first
+      end
+      if where(:make_name => 'Buick', :model_name => 'REGAL HYBRID', :year => 2012).none? and where(:make_name => 'Buick', :model_name => 'REGAL', :year => 2012, :alt_fuel_code => nil).any?
+        hybrids << where(:make_name => 'Buick', :model_name => 'REGAL', :year => 2012, :alt_fuel_code => nil).sort_by!(&:fuel_efficiency_city).last
+      end
+      hybrids.each do |hybrid|
+        hybrid.model_name += ' HYBRID'
+        hybrid.save!
       end
     end
     
@@ -382,38 +407,48 @@ AutomobileMakeModelYearVariant.class_eval do
       end
     end
     
+    process "Update model name to indicate CNG variants" do
+      where("fuel_code = 'C' AND model_name NOT LIKE '% CNG'").update_all "model_name = model_name || ' CNG'"
+    end
+    
     process "Merge rows for flex-fuel vehicles (these are listed once for each fuel type)" do
       where(:fuel_code => 'E').each do |ethanol_variant|
         gasoline_variant = where(%{
           (fuel_code = 'R' OR fuel_code = 'P')
           AND alt_fuel_code IS NULL
-          AND make_name    = '#{ethanol_variant.make_name}'
-          AND model_name   = '#{ethanol_variant.model_name}'
-          AND year         = #{ethanol_variant.year}
-          AND transmission = '#{ethanol_variant.transmission}'
-          AND speeds       = '#{ethanol_variant.speeds}'
-          AND drive        = '#{ethanol_variant.drive}'
-          AND cylinders    = #{ethanol_variant.cylinders}
-          AND displacement < #{ethanol_variant.displacement + 0.01}
-          AND displacement > #{ethanol_variant.displacement - 0.01}
-        }).first
+          AND make_name    = ?
+          AND model_name   = ?
+          AND year         = ?
+          AND transmission = ?
+          AND speeds       = ?
+          AND drive        = ?
+          AND cylinders    = ?
+          AND displacement < ?
+          AND displacement > ?
+        },
+          ethanol_variant.make_name,
+          ethanol_variant.model_name,
+          ethanol_variant.year,
+          ethanol_variant.transmission,
+          ethanol_variant.speeds,
+          ethanol_variant.drive,
+          ethanol_variant.cylinders,
+          (ethanol_variant.displacement + 0.01),
+          (ethanol_variant.displacement - 0.01)
+        ).first
         
-        if gasoline_variant.present? # as of May 2012 only one Mazda B3000 variant from 2000 doesn't have a matching gasoline variant
+        if gasoline_variant.present?
           %w{ fuel_code fuel_efficiency_city fuel_efficiency_city_units fuel_efficiency_highway fuel_efficiency_highway_units }.each do |attribute|
             gasoline_variant.send("alt_#{attribute}=", ethanol_variant.send(attribute))
           end
           gasoline_variant.save!
+          ethanol_variant.destroy
         end
-        ethanol_variant.destroy
       end
     end
     
-    process "Update model name to indicate CNG variants" do
-      where(:fuel_code => 'C').update_all "model_name = model_name || ' CNG'"
-    end
-    
     process "Update model name to indicate flex-fuel variants of models where variants in some years are not flex-fuel" do
-      where(:alt_fuel_code => 'E').each do |variant|
+      where("alt_fuel_code = 'E' AND model_name NOT LIKE '% FFV'").each do |variant|
         if where(:make_name => variant.make_name, :model_name => variant.model_name, :alt_fuel_code => nil).any?
           variant.model_name += ' FFV'
           variant.save!
@@ -422,8 +457,8 @@ AutomobileMakeModelYearVariant.class_eval do
     end
     
     process "Update model name to indicate diesel variants of models where variants in some years are not diesel" do
-      where(:fuel_code => 'D').each do |variant|
-        if where(:make_name => variant.make_name, :model_name => variant.model_name, :fuel_code => ['R', 'P']).any?
+      where("fuel_code = 'D' AND model_name NOT LIKE '% DIESEL'").each do |variant|
+        if where("make_name = ? AND model_name = ? AND fuel_code != 'D'", variant.make_name, variant.model_name).any?
           variant.model_name += ' DIESEL'
           variant.save!
         end

@@ -52,6 +52,37 @@ describe AutomobileMakeModelYearVariant do
     it { AMMYV.where(:year => nil).count.should == 0 }
     it { AMMYV.where(:size_class => nil).count.should == 0 }
     
+    # confirm it handles special characters
+    it { AMMYV.where(:make_name => 'Citroën').count.should > 13 }
+    
+    # confirm Chevy and GMC model names have been simplified
+    it { AMMYV.where("make_name IN ('Chevrolet', 'GMC') AND model_name REGEXP '^[CK][0-9]+'").count.should == 0 }
+    
+    # confirm certain hybrids have been identified
+    it { AMMYV.where(:year => 2012, :make_name => 'Buick', :model_name => 'LACROSSE HYBRID').count.should == 1 }
+    it { AMMYV.find(:first, :conditions => {:year => 2012, :make_name => 'Buick', :model_name => 'LACROSSE HYBRID'}).fuel_efficiency.should be_within(1e-4).of(12.8701) }
+    it { AMMYV.where(:year => 2012, :make_name => 'Buick', :model_name => 'REGAL HYBRID').count.should == 1 }
+    it { AMMYV.find(:first, :conditions => {:year => 2012, :make_name => 'Buick', :model_name => 'REGAL HYBRID'}).fuel_efficiency.should be_within(1e-4).of(12.8701) }
+    
+    # confirm dual-fuel and CNG variants have been merged and identified
+    it { AMMYV.where(:make_name => 'Chevrolet', :model_name => 'CAVALIER DUAL-FUEL', :fuel_code => 'C').count.should == 0 }
+    it { AMMYV.where(:make_name => 'Chevrolet', :model_name => 'CAVALIER DUAL-FUEL', :fuel_code => 'R', :alt_fuel_code => 'C').count.should == 5 }
+    it { AMMYV.where(:fuel_code => 'C').count.should == AMMYV.where("model_name LIKE '%CNG'").count }
+    
+    # confirm FFV variants have been merged
+    it { AMMYV.where(:fuel_code => 'E').count.should == 0 }
+    it { AMMYV.where(:alt_fuel_code => 'E').count.should > 750 }
+    
+    # confirm flex-fuel variants of models where not all variants are flex-fuel have been identified
+    it { AMMYV.where("model_name LIKE '%FFV'").count.should > 700 }
+    it { AMMYV.find(:first, :conditions => {:year => 2012, :make_name => 'Toyota', :model_name => 'SEQUOIA FFV'}).alt_fuel_code.should == 'E' }
+    it { AMMYV.find(:first, :conditions => {:year => 2012, :make_name => 'Toyota', :model_name => 'SEQUOIA'}).alt_fuel_code.should == nil }
+    
+    # confirm diesel variants of models where not all variants are diesel have been identified
+    it { AMMYV.where("model_name LIKE '%DIESEL'").count.should > 575 }
+    it { AMMYV.find(:first, :conditions => {:year => 2012, :make_name => 'Volkswagen', :model_name => 'JETTA DIESEL'}).fuel_code.should == 'D' }
+    it { AMMYV.find(:first, :conditions => {:year => 2012, :make_name => 'Volkswagen', :model_name => 'JETTA'}).fuel_code.should_not == 'D' }
+    
     it 'should have valid transmissions' do
       AMMYV.connection.select_values("SELECT DISTINCT transmission FROM #{AMMYV.quoted_table_name}").each do |transmission|
         fail "#{transmission} is not a valid transmission" unless AMMYV::Parser::TRANSMISSIONS.values.include?(transmission)
@@ -99,27 +130,6 @@ describe AutomobileMakeModelYearVariant do
     it { AMMYV.where(:alt_fuel_efficiency_units => 'kilometres_per_litre').count.should == AMMYV.where("alt_fuel_code IS NOT NULL").count }
     it { AMMYV.where(:alt_fuel_efficiency_city_units => 'kilometres_per_litre').count.should == AMMYV.where("alt_fuel_code IS NOT NULL").count }
     it { AMMYV.where(:alt_fuel_efficiency_highway_units => 'kilometres_per_litre').count.should == AMMYV.where("alt_fuel_code IS NOT NULL").count }
-    
-    # confirm flex-fuel variants of models where not all variants are flex-fuel have been identified
-    it { AMMYV.find(:first, :conditions => {:year => 2012, :make_name => 'Toyota', :model_name => 'SEQUOIA FFV'}).alt_fuel_code.should == 'E' }
-    it { AMMYV.find(:first, :conditions => {:year => 2012, :make_name => 'Toyota', :model_name => 'SEQUOIA'}).alt_fuel_code.should == nil }
-    
-    # confirm certain hybrids have been identified
-    it { AMMYV.where(:year => 2012, :make_name => 'Buick', :model_name => 'LACROSSE HYBRID').count.should == 1 }
-    it { AMMYV.where(:year => 2012, :make_name => 'Buick', :model_name => 'REGAL HYBRID').count.should == 1 }
-    
-    # confirm dual-fuel and CNG variants have been merged and identified
-    it { AMMYV.where(:make_name => 'Chevrolet', :model_name => 'CAVALIER DUAL-FUEL', :fuel_code => 'C').count.should == 0 }
-    it { AMMYV.where(:make_name => 'Chevrolet', :model_name => 'CAVALIER DUAL-FUEL', :fuel_code => 'R', :alt_fuel_code => 'C').count.should == 5 }
-    it { AMMYV.where(:fuel_code => 'C').count.should == AMMYV.where("model_name LIKE '%CNG'").count }
-    
-    # confirm FFV variants have been merged and identified
-    it { AMMYV.where(:fuel_code => 'E').count.should == 0 }
-    it { AMMYV.where(:alt_fuel_code => 'E').count.should > 0 }
-    it { AMMYV.where("model_name LIKE '%FFV'").count.should > 0 }
-    
-    # confirm Chevy and GMC model names have been simplified
-    it { AMMYV.where("make_name IN ('Chevrolet', 'GMC') AND model_name REGEXP '^[CK][0-9]+'").count.should == 0 }
     
     # spot check fuel efficiency calcs
     it { AMMYV.find(:first, :conditions => {:year => 2012, :make_name => 'Chevrolet', :model_name => 'VOLT'}).fuel_efficiency_city.should    be_within(0.0001).of(14.8800) }

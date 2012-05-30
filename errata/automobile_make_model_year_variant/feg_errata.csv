@@ -155,9 +155,9 @@ date,name,email,type,section,action,x,y,condition,notes
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,model_name,replace,/soft( -)top/i,SOFTTOP,,clean softtop
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,model_name,delete,/ (turbo)?diesel$/i,,,clean fuel
 10/18/2011,Ian Hough,ian@brighterplanet.com,technical,model_name,delete,/ natural gas$/i,,,clean fuel
-7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,model_name,delete,/ ffv/i,,,clean fuel
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,model_name,delete,/ inc$/i,,,delete ' inc' suffix
 5/10/2012,Ian Hough,ian@brighterplanet.com,editorial,model_name,delete,/ pickup/i,,,clean up pickups
+5/30/2012,Ian Hough,ian@brighterplanet.com,editorial,model_name,delete,/ FFV$/i,,is a 1999 ffv,1999 feg is missing ethanol rows for ffv variants
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,model_name,delete,/^alfa romeo /i,,,clean up alfa romeo
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,model_name,replace,/^GTV6 2.5$/i,GTV,,clean up alfa romeo
 10/18/2011,Ian Hough,ian@brighterplanet.com,technical,model_name,delete,/^(bmw( |\/))?alpina /i,,is a alpina,clean up alpina
@@ -203,7 +203,8 @@ date,name,email,type,section,action,x,y,condition,notes
 10/18/2011,Ian Hough,ian@brighterplanet.com,technical,model_name,replace,/f 40/i,F40,is a ferrari,clean up ferrari
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,model_name,replace,/^599 GTB$/,599 GTB Fiorano,,clean up ferrari
 10/18/2011,Ian Hough,ian@brighterplanet.com,technical,model_name,delete,/^ford /i,,,clean up ford
-5/21/2012,Ian Hough,ian@brighterplanet.com,technical,model_name,delete,/ethanol/i,,is a ford,clean up ford
+5/30/2012,Ian Hough,ian@brighterplanet.com,technical,model_name,delete,/ ffv$/i,,is a 1995 ffv,clean up ford
+5/30/2012,Ian Hough,ian@brighterplanet.com,technical,model_name,delete,/ ffv$/i,,is a 2000 ford 4wd ffv,clean up ford
 5/17/2012,Ian Hough,ian@brighterplanet.com,technical,model_name,replace,/victoriacng/i,VICTORIA,is a ford,clean up ford
 10/18/2011,Ian Hough,ian@brighterplanet.com,technical,model_name,replace,/^escape hev$/i,ESCAPE HYBRID,,clean up ford
 10/18/2011,Ian Hough,ian@brighterplanet.com,technical,model_name,replace,/chassis cab/i,CAB CHASSIS,,clean up ford
@@ -245,6 +246,7 @@ date,name,email,type,section,action,x,y,condition,notes
 10/18/2011,Ian Hough,ian@brighterplanet.com,editorial,model_name,delete,/^maserati /i,,,clean up maserati
 10/18/2011,Ian Hough,ian@brighterplanet.com,editorial,model_name,delete,/^maybach /i,,,clean up maybach
 10/18/2011,Ian Hough,ian@brighterplanet.com,editorial,model_name,replace,/^57 S$/i,57S,is a maybach,clean up maybach
+5/30/2012,Ian Hough,ian@brighterplanet.com,editorial,model_name,reject,/B3000 FFV/i,,is 2000 b3000 5 spd 4wd ethanol ucity 19,clean up mazda - duplicate row with wrong fe
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,editorial,model_name,delete,/^mazda ?/i,,,clean up mazda
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,model_name,delete,/-16$/i,,is a mercedes benz,clean up mercedes-benz
 10/18/2011,Ian Hough,ian@brighterplanet.com,editorial,model_name,replace,/^(\d{3}[de])(\d\.\d)/i,\1 \2,is a mercedes benz,clean up mercedes-benz
