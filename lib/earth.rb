@@ -13,6 +13,8 @@ require 'earth/utils'
 require 'earth/alchemist_ext'
 require 'earth/inflectors'
 
+DataMiner.unit_converter = :alchemist
+
 # The earth module is an interface for loading data models from various domains.
 module Earth
   TAPS_SOURCE = 'http://carbon:neutral@data.brighterplanet.com:5000'
