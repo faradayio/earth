@@ -9,4 +9,6 @@ class AutomobileMakeModel < ActiveRecord::Base
   col :fuel_efficiency_city_units
   col :fuel_efficiency_highway, :type => :float
   col :fuel_efficiency_highway_units
+
+  warn_unless_size 2041
 end

@@ -36,4 +36,11 @@ class NationalTransitDatabaseCompany < ActiveRecord::Base
   col :acronym
   col :zip_code_name
   col :duns_number
+
+  warn_if_nulls_except(
+    :acronym,
+    :duns_number
+  )
+
+  warn_unless_size 710
 end

@@ -20,4 +20,11 @@ class State < ActiveRecord::Base
   col :electricity_emission_factor, :type => :float
   col :electricity_emission_factor_units
   col :electricity_loss_factor, :type => :float
+
+  warn_if_nulls_except(
+    :census_division_number,
+    :petroleum_administration_for_defense_district_code
+  )
+
+  warn_unless_size 57
 end

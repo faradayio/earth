@@ -6,4 +6,6 @@ class FuelPrice < ActiveRecord::Base
   col :name
   col :price, :type => :float
   col :price_units
+
+  warn_unless_size 34
 end

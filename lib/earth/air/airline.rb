@@ -6,4 +6,6 @@ class Airline < ActiveRecord::Base
   col :bts_code
   col :iata_code
   col :icao_code
+
+  warn_unless_size 504
 end

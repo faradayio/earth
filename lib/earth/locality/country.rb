@@ -91,4 +91,8 @@ class Country < ActiveRecord::Base
   col :rail_trip_diesel_intensity_units
   col :rail_trip_co2_emission_factor, :type => :float
   col :rail_trip_co2_emission_factor_units
+
+  warn_if_nulls_except /heating/, /cooling/
+
+  warn_unless_size 249
 end

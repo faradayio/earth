@@ -11,4 +11,6 @@ class FlightDistanceClassSeatClass < ActiveRecord::Base
   col :distance_class_name
   col :seat_class_name
   col :multiplier, :type => :float
+
+  warn_unless_size 7
 end

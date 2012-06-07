@@ -10,4 +10,6 @@ class BusFuelYearControl < ActiveRecord::Base
   col :control
   col :bus_fuel_control_name
   col :total_travel_percent, :type => :float
+
+  warn_unless_size 67
 end

@@ -13,4 +13,11 @@ class PetroleumAdministrationForDefenseDistrict < ActiveRecord::Base
   col :district_name
   col :subdistrict_code
   col :subdistrict_name
+
+  warn_if_nulls_except(
+    :subdistrict_code,
+    :subdistrict_name
+  )
+
+  warn_unless_size 7
 end

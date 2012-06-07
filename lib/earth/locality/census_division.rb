@@ -26,4 +26,6 @@ class CensusDivision < ActiveRecord::Base
   col :meeting_building_electricity_intensity_units
   col :meeting_building_district_heat_intensity, :type => :float
   col :meeting_building_district_heat_intensity_units
+
+  warn_unless_size 9
 end

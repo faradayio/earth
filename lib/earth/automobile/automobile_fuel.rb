@@ -8,9 +8,9 @@ class AutomobileFuel < ActiveRecord::Base
   belongs_to :base_fuel,         :class_name => 'Fuel',                      :foreign_key => 'base_fuel_name'
   belongs_to :blend_fuel,        :class_name => 'Fuel',                      :foreign_key => 'blend_fuel_name'
     
-  warn_if_blanks_in :distance_key
-  warn_if_blanks_in :ef_key
-  warn do
+  warn_if_blanks :distance_key
+  warn_if_blanks :ef_key
+  warn_if do
     catch :culprit do
       find_each do |record|
         throw :culprit, %{Records exist without base_fuel (possibly invalid key "#{record.base_fuel_name}")} unless record.base_fuel
@@ -18,12 +18,12 @@ class AutomobileFuel < ActiveRecord::Base
       false
     end
   end
-  warn do
+  warn_if do
     if exists?(['blend_portion IS NOT NULL AND (blend_portion < ? OR blend_portion > ?)', 0, 1])
       "Blend portions less than 0 or greater than 1"
     end
   end
-  warn do
+  warn_if do
     %w{co2_emission_factor co2_biogenic_emission_factor}.map do |col|
       if exists?(["#{col} IS NULL OR #{col} < ?", 0])
         "Records non-positive #{col}"
@@ -110,8 +110,15 @@ class AutomobileFuel < ActiveRecord::Base
   col :emission_factor,              :type => :float # DEPRECATED but motorcycle needs this
   col :emission_factor_units # FIXME TODO DEPRECATED but motorcycle needs this
   
+  warn_if_nulls_except(
+    :blend_fuel_name,
+    :blend_portion
+  )
+
   CODES = {
     :electricity => 'El',
     :diesel => 'D'
   }
+
+  warn_unless_size 9
 end

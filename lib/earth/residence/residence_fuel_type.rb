@@ -34,4 +34,6 @@ class ResidenceFuelType < ActiveRecord::Base
       find_by_name fuel.to_s.humanize.downcase
     end
   end
+
+  warn_unless_size 7
 end

@@ -25,4 +25,20 @@ class RailCompany < ActiveRecord::Base
   col :diesel_intensity_units
   col :co2_emission_factor, :type => :float
   col :co2_emission_factor_units
+
+  warn_if_nulls_except(
+    :duns_number,
+    :train_time,
+    :train_time_units,
+    :speed,
+    :speed_units,
+    :electricity_intensity,
+    :electricity_intensity_units,
+    :diesel_intensity,
+    :diesel_intensity_units,
+    :co2_emission_factor,
+    :co2_emission_factor_units
+  )
+
+  warn_unless_size 97
 end

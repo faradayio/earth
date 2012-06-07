@@ -16,4 +16,6 @@ class ResidenceFuelPrice < ActiveRecord::Base
   col :locatable_type
   add_index [:price, :residence_fuel_type_name, :month, :year, :locatable_type, :locatable_id]
   add_index [:price, :residence_fuel_type_name]
+
+  warn_unless_size 13005
 end

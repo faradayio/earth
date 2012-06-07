@@ -8,4 +8,6 @@ class ComputationCarrierRegion < ActiveRecord::Base
   col :computation_carrier_name
   col :region
   col :egrid_subregion_abbreviation
+
+  warn_unless_size 4
 end

@@ -8,4 +8,11 @@ class Breed < ActiveRecord::Base
   col :species_name
   col :weight, :type => :float
   col :weight_units
+
+  warn_if_nulls_except(
+    :weight,
+    :weight_units
+  )
+
+  warn_unless_size 522
 end

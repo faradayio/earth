@@ -6,4 +6,6 @@ class ClothesMachineUse < ActiveRecord::Base
   col :name
   col :annual_energy_from_electricity_for_clothes_driers, :type => :float
   col :annual_energy_from_electricity_for_clothes_driers_units
+
+  warn_unless_size 5
 end

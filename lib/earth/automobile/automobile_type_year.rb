@@ -55,4 +55,6 @@ class AutomobileTypeYear < ActiveRecord::Base
   #   end
   # end
   
+
+  warn_unless_size 38
 end

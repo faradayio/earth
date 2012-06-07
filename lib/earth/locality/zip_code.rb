@@ -29,4 +29,8 @@ class ZipCode < ActiveRecord::Base
   col :egrid_subregion_abbreviation
   col :climate_division_name
   col :population, :type => :integer
+
+  warn_if_nonexistent_owner_except :egrid_subregion
+
+  warn_unless_size 43770
 end

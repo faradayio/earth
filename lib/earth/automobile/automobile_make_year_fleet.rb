@@ -9,4 +9,6 @@ class AutomobileMakeYearFleet < ActiveRecord::Base
   col :fuel_efficiency, :type => :float
   col :fuel_efficiency_units
   col :volume, :type => :integer
+
+  warn_unless_size 1298
 end

@@ -52,4 +52,6 @@ class GreenhouseGas < ActiveRecord::Base
   #   end
   # end
   
+
+  warn_unless_size 4
 end

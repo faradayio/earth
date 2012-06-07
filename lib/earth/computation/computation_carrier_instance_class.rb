@@ -32,4 +32,6 @@ class ComputationCarrierInstanceClass < ActiveRecord::Base
   #   end
   # end
   
+
+  warn_unless_size 8
 end

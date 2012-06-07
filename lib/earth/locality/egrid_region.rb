@@ -11,4 +11,7 @@ class EgridRegion < ActiveRecord::Base
   col :name
   col :country_name
   col :loss_factor, :type => :float
+
+  warn_unless_size 6
+  warn_if_blanks_except :country_name, :conditions => { :name => 'US' }
 end

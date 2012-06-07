@@ -20,4 +20,6 @@ class DietClass < ActiveRecord::Base
   col :fruit_share, :type => :float
   col :vegetables_share, :type => :float
   col :oils_and_sugars_share, :type => :float
+
+  warn_unless_size 3
 end

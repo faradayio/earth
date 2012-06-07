@@ -12,4 +12,6 @@ class FlightDistanceClass < ActiveRecord::Base
   col :min_distance_units
   col :max_distance, :type => :float
   col :max_distance_units
+
+  warn_unless_size 2
 end

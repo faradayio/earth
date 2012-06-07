@@ -57,4 +57,6 @@ class Species < ActiveRecord::Base
   def cat?
     eql? self.class[:cat]
   end
+
+  warn_unless_size 18
 end

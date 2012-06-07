@@ -15,4 +15,8 @@ class AutomobileMakeModelYear < ActiveRecord::Base
   col :fuel_efficiency_city_units
   col :fuel_efficiency_highway, :type => :float
   col :fuel_efficiency_highway_units
+
+  warn_if_nulls_except :fuel_code
+
+  warn_unless_size 9935
 end

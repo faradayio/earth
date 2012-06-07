@@ -32,4 +32,6 @@ class ShipmentMode < ActiveRecord::Base
   #   end
   # end
   
+
+  warn_unless_size 3
 end

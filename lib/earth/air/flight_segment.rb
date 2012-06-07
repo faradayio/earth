@@ -75,4 +75,14 @@ class FlightSegment < ActiveRecord::Base
   add_index :aircraft_bts_code
   add_index :aircraft_description
   add_index :year
+
+  warn_if_nulls_except(
+    :origin_airport_city,
+    :destination_airport_city,
+    :airline_icao_code,
+    :load_factor,
+    :freight_share
+  )
+
+  warn_unless_size 966913
 end

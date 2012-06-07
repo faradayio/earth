@@ -109,4 +109,6 @@ class Fuel < ActiveRecord::Base
       latest_fuel_year.co2_biogenic_emission_factor_units
     end
   end
+
+  warn_unless_size 21
 end

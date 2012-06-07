@@ -12,4 +12,6 @@ class CountryRailTraction < ActiveRecord::Base
   col :diesel_intensity_units
   col :co2_emission_factor, :type => :float
   col :co2_emission_factor_units
+
+  warn_unless_size 50
 end

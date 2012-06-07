@@ -9,4 +9,6 @@ class CensusRegion < ActiveRecord::Base
   
   col :number, :type => :integer
   col :name
+
+  warn_unless_size 4
 end

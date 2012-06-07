@@ -25,4 +25,6 @@ class Industry < ActiveRecord::Base
     prefix = naics_code.to_s[0,2]
     %w{42 44 45}.include?(prefix)
   end
+
+  warn_unless_size 2341
 end

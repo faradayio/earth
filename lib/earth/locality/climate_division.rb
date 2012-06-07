@@ -12,4 +12,6 @@ class ClimateDivision < ActiveRecord::Base
   col :cooling_degree_days, :type => :float
   col :cooling_degree_days_units
   col :state_postal_abbreviation
+
+  warn_unless_size 359
 end

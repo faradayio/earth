@@ -10,4 +10,6 @@ class ResidenceClass < ActiveRecord::Base
   end
 
   col :name
+
+  warn_unless_size 5
 end

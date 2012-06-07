@@ -31,4 +31,6 @@ class AutomobileTypeFuelYearControl < ActiveRecord::Base
   
   # FIXME TODO verify "Total travel percent for each type fuel year should sum to one"
   
+
+  warn_unless_size 247
 end

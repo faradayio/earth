@@ -9,4 +9,6 @@ class NationalTransitDatabaseMode < ActiveRecord::Base
   col :code
   col :name
   col :rail_mode, :type => :boolean
+
+  warn_unless_size 14
 end

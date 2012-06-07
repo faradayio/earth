@@ -6,4 +6,6 @@ class DishwasherUse < ActiveRecord::Base
   col :name
   col :annual_energy_from_electricity_for_dishwashers, :type => :float
   col :annual_energy_from_electricity_for_dishwashers_units
+
+  warn_unless_size 5
 end

@@ -118,4 +118,6 @@ class ResidentialEnergyConsumptionSurveyResponse < ActiveRecord::Base
   col :urbanity_id
   col :weighting, :type => :float
   col :window_ac_use
+
+  warn_unless_size 4382
 end

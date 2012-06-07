@@ -8,4 +8,6 @@ class BusFuelControl < ActiveRecord::Base
   col :ch4_emission_factor_units
   col :n2o_emission_factor, :type => :float
   col :n2o_emission_factor_units
+
+  warn_unless_size 9
 end

@@ -9,4 +9,6 @@ class BreedGender < ActiveRecord::Base
   col :gender_name
   col :weight, :type => :float
   col :weight_units
+
+  warn_unless_size 586
 end

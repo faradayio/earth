@@ -143,4 +143,20 @@ class Aircraft < ActiveRecord::Base
   col :b, :type => :float
   col :b_units
   col :fuel_use_specificity
+
+  warn_if_nulls_except(
+    :seats,
+    :seats_specificity,
+    :m3,
+    :m3_units,
+    :m2,
+    :m2_units,
+    :m1,
+    :m1_units,
+    :b,
+    :b_units,
+    :fuel_use_specificity,
+  )
+
+  warn_unless_size 437
 end

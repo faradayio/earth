@@ -17,4 +17,6 @@ class FoodGroup < ActiveRecord::Base
   col :energy, :type => :float
   col :energy_units
   col :suggested_imperial_measurement # ?
+
+  warn_unless_size 10
 end

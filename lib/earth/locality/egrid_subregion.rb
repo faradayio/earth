@@ -34,4 +34,6 @@ class EgridSubregion < ActiveRecord::Base
   col :electricity_n2o_emission_factor_units
   col :electricity_emission_factor, :type => :float
   col :electricity_emission_factor_units
+
+  warn_unless_size 27
 end

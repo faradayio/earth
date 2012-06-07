@@ -15,4 +15,6 @@ class ComputationCarrier < ActiveRecord::Base
   #     end
   #   end
   # end
+
+  warn_unless_size 1
 end

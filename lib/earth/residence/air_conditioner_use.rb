@@ -9,4 +9,6 @@ class AirConditionerUse < ActiveRecord::Base
   col :name
   col :fugitive_emission, :type => :float
   col :fugitive_emission_units
+
+  warn_unless_size 4
 end

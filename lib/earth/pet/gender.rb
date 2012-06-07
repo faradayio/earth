@@ -4,4 +4,6 @@ class Gender < ActiveRecord::Base
   has_many :breed_genders, :foreign_key => 'gender_name'
   
   col :name
+
+  warn_unless_size 2
 end

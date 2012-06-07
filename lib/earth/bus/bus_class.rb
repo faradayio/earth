@@ -51,4 +51,6 @@ class BusClass < ActiveRecord::Base
   col :electricity_intensity_units
   col :air_conditioning_emission_factor, :type => :float
   col :air_conditioning_emission_factor_units
+
+  warn_unless_size 2
 end

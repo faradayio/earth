@@ -17,4 +17,6 @@ class Airport < ActiveRecord::Base
   col :country_iso_3166_code
   col :latitude, :type => :float
   col :longitude, :type => :float
+
+  warn_unless_size 5149
 end

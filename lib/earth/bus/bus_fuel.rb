@@ -91,4 +91,6 @@ class BusFuel < ActiveRecord::Base
   #     end
   #   end
   # end
+
+  warn_unless_size 7
 end

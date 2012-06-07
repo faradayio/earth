@@ -24,4 +24,6 @@ class FuelType < ActiveRecord::Base
   # col :energy_content_units
   # col :carbon_content, :type => :float
   # col :carbon_content_units
+
+  warn_unless_size 36
 end

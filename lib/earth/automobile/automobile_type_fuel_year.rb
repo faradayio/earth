@@ -65,4 +65,6 @@ class AutomobileTypeFuelYear < ActiveRecord::Base
   #     end
   #   end
   # end
+
+  warn_unless_size 76
 end

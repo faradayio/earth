@@ -39,4 +39,26 @@ class NationalTransitDatabaseRecord < ActiveRecord::Base
   col :other_fuel, :type => :float
   col :other_fuel_units
   col :other_fuel_description
+
+  warn_if_nulls_except(
+    :electricity,
+    :electricity_units,
+    :diesel,
+    :diesel_units,
+    :lpg,
+    :lpg_units,
+    :lng,
+    :lng_units,
+    :cng,
+    :cng_units,
+    :kerosene,
+    :kerosene_units,
+    :biodiesel,
+    :biodiesel_units,
+    :other_fuel,
+    :other_fuel_units,
+    :other_fuel_description
+  )
+
+  warn_unless_size 1310
 end

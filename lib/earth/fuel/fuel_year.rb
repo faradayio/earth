@@ -59,4 +59,6 @@ class FuelYear < ActiveRecord::Base
   # end
   # 
   # FIXME TODO verify units
+
+  warn_unless_size 171
 end

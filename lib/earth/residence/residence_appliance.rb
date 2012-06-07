@@ -13,4 +13,6 @@ class ResidenceAppliance < ActiveRecord::Base
   col :name
   col :annual_energy_from_electricity, :type => :float
   col :annual_energy_from_electricity_units
+
+  warn_unless_size 2
 end
