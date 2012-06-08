@@ -63,7 +63,7 @@ AutomobileMakeModelYearVariant.class_eval do
       row['size_class'] =~ /station wagons/i
     end
     
-    %w{ hatchback justy loyale loyale_wagon space_wagon stanza_wagon wagon xt }.each do |model_name|
+    %w{ 5 hatchback justy loyale loyale_wagon odyssey pt_cruiser_convertible space_wagon stanza_wagon wagon xt }.each do |model_name|
       method_name = :"is_a_#{model_name}?"
       define_method method_name do |row|
         row['model_name'] =~ /^#{model_name.gsub('_', ' ')}$/i
@@ -477,6 +477,21 @@ AutomobileMakeModelYearVariant.class_eval do
         alt_fuel_efficiency = 1.0 / ((0.43 / alt_fuel_efficiency_city) + (0.57 / alt_fuel_efficiency_highway)),
         alt_fuel_efficiency_units = 'kilometres_per_litre'
       })
+    end
+    
+    process "Derive type name from size class" do
+      where(:size_class => [
+        'Two seaters',
+        'Minicompact cars',
+        'Subcompact cars',
+        'Compact cars',
+        'Midsize cars',
+        'Large cars',
+        'Small station wagons',
+        'Midsize station wagons',
+        'Large station wagons'
+      ]).update_all "type_name = 'Passenger cars'"
+      where(:type_name => nil).update_all "type_name = 'Light-duty trucks'"
     end
   end
 end

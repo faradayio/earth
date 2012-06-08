@@ -11,23 +11,23 @@ class AutomobileMakeModelYearVariant < ActiveRecord::Base
   col :row_hash
   col :make_name
   col :model_name
-  col :year,         :type => :integer
+  col :year, :type => :integer
   col :transmission
   col :speeds
   col :drive
   col :fuel_code
-  col :fuel_efficiency,               :type => :float
+  col :fuel_efficiency, :type => :float
   col :fuel_efficiency_units
-  col :fuel_efficiency_city,          :type => :float
+  col :fuel_efficiency_city, :type => :float
   col :fuel_efficiency_city_units
-  col :fuel_efficiency_highway,       :type => :float
+  col :fuel_efficiency_highway, :type => :float
   col :fuel_efficiency_highway_units
   col :alt_fuel_code
-  col :alt_fuel_efficiency,               :type => :float
+  col :alt_fuel_efficiency, :type => :float
   col :alt_fuel_efficiency_units
-  col :alt_fuel_efficiency_city,          :type => :float
+  col :alt_fuel_efficiency_city, :type => :float
   col :alt_fuel_efficiency_city_units
-  col :alt_fuel_efficiency_highway,       :type => :float
+  col :alt_fuel_efficiency_highway, :type => :float
   col :alt_fuel_efficiency_highway_units
   col :cylinders,    :type => :integer
   col :displacement, :type => :float
@@ -35,6 +35,7 @@ class AutomobileMakeModelYearVariant < ActiveRecord::Base
   col :supercharger, :type => :boolean
   col :injection,    :type => :boolean
   col :size_class
+  col :type_name
   add_index :make_name
   add_index :model_name
   add_index :year

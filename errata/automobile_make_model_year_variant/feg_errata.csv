@@ -189,6 +189,7 @@ date,name,email,type,section,action,x,y,condition,notes
 10/18/2011,Ian Hough,ian@brighterplanet.com,technical,model_name,delete,/^chrysler /i,,,clean up chrysler
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,model_name,replace,/impe$/i,IMPERIAL,,clean up chrysler
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,model_name,replace,/5th/i,FIFTH,,clean up chrysler
+6/1/2012,Ian Hough,ian@brighterplanet.com,technical,model_name,replace,/^ptcruiser convertible\/cabrio$/i,PT CRUISER CONVERTIBLE,is a chrysler,clean up chrysler
 5/23/2012,Ian Hough,ian@brighterplanet.com,technical,model_name,replace,/^voyager$/i,VOYAGER/TOWN & COUNTRY,is a chrysler,clean up chrysler
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,model_name,replace,/town and country/i,TOWN & COUNTRY,,clean up chrysler
 7/7/2009,Andy Rossmeissl,andy@brighterplanet.com,technical,model_name,replace,/town&c(oun)?try/i,TOWN & COUNTRY,,clean up chrysler
@@ -357,3 +358,6 @@ date,name,email,type,section,action,x,y,condition,notes
 5/30/2012,Ian Hough,ian@brighterplanet.com,editorial,size_class,replace,/^special purpose vehicles$/i,Subcompact cars,is a xt,fix vehicles marked as special b/c of 4wd
 5/30/2012,Ian Hough,ian@brighterplanet.com,editorial,size_class,replace,/^special purpose vehicles$/i,Small station wagons,is a colt vista or wagon,fix vehicles marked as special b/c of 4wd
 5/30/2012,Ian Hough,ian@brighterplanet.com,editorial,size_class,replace,/^special purpose vehicles$/i,Compact cars,is a subaru sedan,fix vehicles marked as special b/c of 4wd
+6/1/2012,Ian Hough,ian@brighterplanet.com,editorial,size_class,replace,/^sport utility vehicles$/i,Compact cars,is a pt cruiser convertible,fix misclassification
+6/1/2012,Ian Hough,ian@brighterplanet.com,editorial,size_class,replace,/^midsize station wagons$/i,Minivans,is a 5,fix misclassification
+6/1/2012,Ian Hough,ian@brighterplanet.com,editorial,size_class,replace,/^midsize station wagons$/i,Minivans,is a odyssey,fix misclassification
