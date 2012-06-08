@@ -3,7 +3,7 @@ require 'earth/automobile/automobile_model'
 
 describe AutomobileModel do
   before :all do
-    Earth.init :automobile, :load_data_miner => true, :skip_parent_associations => :true
+    Earth.init :automobile, :load_data_miner => true
   end
   
   describe 'import', :data_miner => true do
