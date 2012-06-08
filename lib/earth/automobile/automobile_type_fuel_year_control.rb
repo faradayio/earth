@@ -1,34 +1,34 @@
-require 'earth/fuel'
 class AutomobileTypeFuelYearControl < ActiveRecord::Base
   self.primary_key = "name"
+  
+  # Needs to be a belongs_to so that it gets imported with taps for AutomobileTypeFuelYear ch4 and n2o ef calculation
+  belongs_to :type_fuel_control, :foreign_key => :type_fuel_control_name, :class_name => 'AutomobileTypeFuelControl'
+  
+  # Used by AutomobileTypeFuelYear
+  def self.find_all_by_type_name_and_fuel_common_name_and_closest_year(type_name, fuel_common_name, year)
+    if year > maximum(:year)
+      where(:type_name => type_name, :fuel_common_name => fuel_common_name, :year => maximum(:year))
+    else
+      where(:type_name => type_name, :fuel_common_name => fuel_common_name, :year => [year, minimum(:year)].max)
+    end
+  end
+  
+  %w{ ch4_emission_factor n2o_emission_factor }.each do |method|
+    define_method method do
+      type_fuel_control.send(method)
+    end
+    
+    units_method = method + '_units'
+    define_method units_method do
+      type_fuel_control.send(units_method)
+    end
+  end
   
   col :name
   col :type_name
   col :fuel_common_name
   col :year, :type => :integer
   col :control_name
+  col :type_fuel_control_name
   col :total_travel_percent, :type => :float
-  
-  # %w{ type_name fuel_common_name control_name type_fuel_control_name type_fuel_year_name }.each do |attribute|
-  #   verify "#{attribute.humanize} should never be missing" do
-  #     AutomobileTypeFuelYearControl.all.each do |record|
-  #       value = record.send(:"#{attribute}")
-  #       unless value.present?
-  #         raise "Missing #{attribute.humanize.downcase} for AutomobileTypeFuelYearControl '#{record.name}'"
-  #       end
-  #     end
-  #   end
-  # end
-  # 
-  # verify "Year should be from 1990 to 2008" do
-  #   AutomobileTypeFuelYearControl.all.each do |record|
-  #     year = record.send(:year)
-  #     unless year > 1989 and year < 2009
-  #       raise "Invalid year for AutomobileTypeFuelYearControl '#{record.name}': #{year} (should be from 1990 to 2008)"
-  #     end
-  #   end
-  # end
-  
-  # FIXME TODO verify "Total travel percent for each type fuel year should sum to one"
-  
 end
