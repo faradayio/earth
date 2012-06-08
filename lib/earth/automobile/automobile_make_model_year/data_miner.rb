@@ -1,4 +1,3 @@
-require 'earth/fuel/data_miner'
 AutomobileMakeModelYear.class_eval do
   data_miner do
     process "Start from scratch" do
@@ -58,6 +57,14 @@ AutomobileMakeModelYear.class_eval do
           alt_#{fe} = (#{variants.project(variants["alt_#{fe}"].average).where(join_relation).to_sql}),
           alt_#{fe}_units = 'kilometres_per_litre'
         })
+      end
+    end
+    
+    process "Derive type name from AutomobileMakeModelYearVariant" do
+      find_each do |ammy|
+        type_names = AutomobileMakeModelYearVariant.where(:make_name => ammy.make_name, :model_name => ammy.model_name, :year => ammy.year).map(&:type_name).uniq
+        ammy.type_name = (type_names.one? ? type_names.first : nil)
+        ammy.save!
       end
     end
     

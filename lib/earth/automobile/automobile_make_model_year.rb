@@ -1,9 +1,9 @@
-require 'earth/fuel'
 class AutomobileMakeModelYear < ActiveRecord::Base
   self.primary_key = "name"
   
-  # Need this so Automobile and AutomobileTrip can do characteristics[:make_model_year].automobile_fuel
-  belongs_to :automobile_fuel, :foreign_key => 'fuel_code', :primary_key => 'code'
+  # Used by Automobile and AutomobileTrip to look up auto fuel and alt auto fuel
+  belongs_to :automobile_fuel,     :foreign_key => 'fuel_code',     :primary_key => 'code'
+  belongs_to :alt_automobile_fuel, :foreign_key => 'alt_fuel_code', :primary_key => 'code', :class_name => 'AutomobileFuel'
   
   col :name
   col :make_name
@@ -20,5 +20,6 @@ class AutomobileMakeModelYear < ActiveRecord::Base
   col :alt_fuel_efficiency_city_units
   col :alt_fuel_efficiency_highway, :type => :float
   col :alt_fuel_efficiency_highway_units
+  col :type_name # whether the vehicle is a passenger car or light-duty truck
   col :weighting, :type => :float # for calculating AutomobileMakeModel fuel efficiencies
 end

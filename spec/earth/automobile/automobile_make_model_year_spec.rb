@@ -4,7 +4,7 @@ require 'earth/automobile/automobile_make_model_year'
 describe AutomobileMakeModelYear do
   before :all do
     Earth.init :automobile, :load_data_miner => true, :skip_parent_associations => :true
-    AMMY = AutomobileMakeModelYear
+    require 'earth/acronyms'
   end
   
   describe 'import', :data_miner => true do
@@ -40,8 +40,10 @@ describe AutomobileMakeModelYear do
     
     it { AMMY.where(:hybridity => true).count.should == 170 }
     
-    AutomobileMakeModelYear.connection.select_values("SELECT DISTINCT year FROM #{AutomobileMakeModelYear.quoted_table_name}").each do |year|
-      it { AMMY.where(:year => year).first.weighting.should == AutomobileYear.weighting(year) }
+    it 'should have proper weightings' do
+      AutomobileMakeModelYear.connection.select_values("SELECT DISTINCT year FROM #{AutomobileMakeModelYear.quoted_table_name}").each do |year|
+        AMMY.where(:year => year).first.weighting.should == AutomobileYear.weighting(year)
+      end
     end
     
     # confirm fuel efficiencies are valid and proper units
@@ -80,5 +82,9 @@ describe AutomobileMakeModelYear do
     
     it { AMMY.find(:first, :conditions => {:year => 2010, :make_name => 'Dodge', :model_name => 'AVENGER'}).alt_fuel_efficiency_city.should    == nil }
     it { AMMY.find(:first, :conditions => {:year => 2010, :make_name => 'Dodge', :model_name => 'AVENGER'}).alt_fuel_efficiency_highway.should == nil }
+    
+    it { AMMY.where(:type_name => nil).count.should == 0 }
+    it { AMMY.find(:first, :conditions => {:make_name => 'Toyota', :model_name => 'Prius'}).type_name.should == 'Passenger cars' }
+    it { AMMY.find(:first, :conditions => {:make_name => 'Toyota', :model_name => 'Highlander'}).type_name.should == 'Light-duty trucks' }
   end
 end
