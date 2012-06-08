@@ -1,4 +1,3 @@
-require 'earth/fuel'
 class AutomobileMakeYearFleet < ActiveRecord::Base
   self.primary_key = "name"
   
