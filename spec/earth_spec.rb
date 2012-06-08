@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Earth do
   describe '.init' do
     before :all do
-      Earth.init :all, :apply_schemas => true
+      Earth.init :all
     end
 
     it 'should require all Earth models' do
@@ -22,13 +22,13 @@ describe Earth do
 
   describe '.resources' do
     it 'should get a list of all resource names' do
-      Earth.resources.length.should == 100
+      Earth.resources.length.should == 101
       Earth.resources.should include('Aircraft')
       Earth.resources.should include('Industry')
     end
     it 'should filter resource_map by domain' do
       Earth.resources('air').length.should == 8
-      Earth.resources('automobile').length.should == 16
+      Earth.resources('automobile').length.should == 17
       Earth.resources('bus').length.should == 4
       Earth.resources('computation').length.should == 3
       Earth.resources('diet').length.should == 2
