@@ -1,5 +1,9 @@
 Fuel.class_eval do
   data_miner do
+    process "Start from scratch" do
+      delete_all
+    end
+    
     process "Ensure FuelYear is populated" do
       FuelYear.run_data_miner!
     end
@@ -30,6 +34,17 @@ Fuel.class_eval do
       store 'physical_units', :static => 'cubic_metre'
       store 'energy_content', :from_units => :btus_per_cubic_foot,           :to_units => :megajoules_per_cubic_metre
       store 'carbon_content', :from_units => :teragrams_per_quadrillion_btu, :to_units => :grams_per_megajoule
+      store 'oxidation_factor'
+      store 'biogenic_fraction'
+    end
+    
+    import "hydrogen",
+           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdGJmYkdtajZyV3Byb0lrd21xLVhXUGc&output=csv',
+           :select => proc {|row| row['energy_content_units'] == 'megajoules_per_kilogram'} do
+      key 'name'
+      store 'physical_units', :static => 'kilogram'
+      store 'energy_content', :units_field_name => 'energy_content_units'
+      store 'carbon_content', :units_field_name => 'carbon_content_units'
       store 'oxidation_factor'
       store 'biogenic_fraction'
     end
