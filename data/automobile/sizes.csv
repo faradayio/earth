@@ -1,0 +1,16 @@
+name,type_name,fuel_efficiency_city,fuel_efficiency_city_units,fuel_efficiency_highway,fuel_efficiency_highway_units,source
+Small car,Passenger cars,9.507608111,kilometres_per_litre,12.06127288,kilometres_per_litre,calculated from annual_auto_sizes.csv and AutomobileTypeFuelAge
+Midsize car,Passenger cars,7.907344355,kilometres_per_litre,10.59783468,kilometres_per_litre,calculated from annual_auto_sizes.csv and AutomobileTypeFuelAge
+Large car,Passenger cars,6.956238321,kilometres_per_litre,9.858452792,kilometres_per_litre,calculated from annual_auto_sizes.csv and AutomobileTypeFuelAge
+Small wagon,Passenger cars,10.08958142,kilometres_per_litre,12.48228073,kilometres_per_litre,calculated from annual_auto_sizes.csv and AutomobileTypeFuelAge
+Midsize wagon,Passenger cars,7.945059549,kilometres_per_litre,10.40585092,kilometres_per_litre,calculated from annual_auto_sizes.csv and AutomobileTypeFuelAge
+Large wagon,Passenger cars,6.620965184,kilometres_per_litre,9.374464007,kilometres_per_litre,calculated from annual_auto_sizes.csv and AutomobileTypeFuelAge
+Small van,Light-duty trucks,7.852571062,kilometres_per_litre,9.296583708,kilometres_per_litre,calculated from annual_auto_sizes.csv and AutomobileTypeFuelAge
+Midsize van,Light-duty trucks,6.603576871,kilometres_per_litre,8.18359555,kilometres_per_litre,calculated from annual_auto_sizes.csv and AutomobileTypeFuelAge
+Large van,Light-duty trucks,5.517019607,kilometres_per_litre,6.6831936,kilometres_per_litre,calculated from annual_auto_sizes.csv and AutomobileTypeFuelAge
+Small suv,Light-duty trucks,7.471146196,kilometres_per_litre,8.66408952,kilometres_per_litre,calculated from annual_auto_sizes.csv and AutomobileTypeFuelAge
+Midsize suv,Light-duty trucks,6.093912094,kilometres_per_litre,7.566206863,kilometres_per_litre,calculated from annual_auto_sizes.csv and AutomobileTypeFuelAge
+Large suv,Light-duty trucks,5.403449343,kilometres_per_litre,6.929243589,kilometres_per_litre,calculated from annual_auto_sizes.csv and AutomobileTypeFuelAge
+Small pickup,Light-duty trucks,8.570311983,kilometres_per_litre,10.032403,kilometres_per_litre,calculated from annual_auto_sizes.csv and AutomobileTypeFuelAge
+Midsize pickup,Light-duty trucks,8.219906572,kilometres_per_litre,10.23109577,kilometres_per_litre,calculated from annual_auto_sizes.csv and AutomobileTypeFuelAge
+Large pickup,Light-duty trucks,5.948040215,kilometres_per_litre,7.264028651,kilometres_per_litre,calculated from annual_auto_sizes.csv and AutomobileTypeFuelAge
