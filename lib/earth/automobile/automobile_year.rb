@@ -1,9 +1,9 @@
-require 'earth/fuel'
 class AutomobileYear < ActiveRecord::Base
   self.primary_key = "year"
   
   # Estimate of % of vehicles currently in use that were manufactured in each year
   # Derived from 2012 EPA GHG inventory appendix tables A-91, A-92, and A-95
+  # Used by AutomobileMakeModelYear and AutomobileMakeYear to get weighting so other classes can derive weighted fuel efficiency
   def self.weighting(year)
     {
       2012 => 0.0607,
