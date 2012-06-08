@@ -1,11 +1,11 @@
 # -*- encoding: utf-8 -*-
 require 'spec_helper'
 require 'earth/automobile/automobile_make_model_year_variant'
-require 'earth/acronyms' # lets us use AMMYV to refer to AutomobileMakeModelYearVariant
 
 describe AutomobileMakeModelYearVariant do
   before :all do
-    Earth.init :automobile, :load_data_miner => true, :skip_parent_associations => :true
+    Earth.init :automobile, :load_data_miner => true
+    require 'earth/acronyms'
   end
   
   describe 'import', :data_miner => true do
@@ -46,11 +46,12 @@ describe AutomobileMakeModelYearVariant do
     it { AMMYV.where(:year => 2011).count.should == 1097 }
     it { AMMYV.where(:year => 2012).count.should == 1129 }
     
-    # confirm make, model, year, and size class aren't missing
+    # confirm make, model, year, size class, and type aren't missing
     it { AMMYV.where(:make_name => nil).count.should == 0 }
     it { AMMYV.where(:model_name => nil).count.should == 0 }
     it { AMMYV.where(:year => nil).count.should == 0 }
     it { AMMYV.where(:size_class => nil).count.should == 0 }
+    it { AMMYV.where(:type_name => nil).count.should == 0 }
     
     # confirm it handles special characters
     it { AMMYV.where(:make_name => 'Citroën').count.should > 13 }
@@ -82,6 +83,16 @@ describe AutomobileMakeModelYearVariant do
     it { AMMYV.where("model_name LIKE '%DIESEL'").count.should > 575 }
     it { AMMYV.find(:first, :conditions => {:year => 2012, :make_name => 'Volkswagen', :model_name => 'JETTA DIESEL'}).fuel_code.should == 'D' }
     it { AMMYV.find(:first, :conditions => {:year => 2012, :make_name => 'Volkswagen', :model_name => 'JETTA'}).fuel_code.should_not == 'D' }
+    
+    it "type name shouldn't vary within a make model" do
+      AMMYV.connection.select_values(%{
+        SELECT * FROM
+        (SELECT make_name, model_name, GROUP_CONCAT(DISTINCT type_name) AS types
+        FROM #{AMMYV.quoted_table_name}
+        GROUP BY make_name, model_name) AS t1
+        WHERE types LIKE '%,%'
+      }).count.should == 0
+    end
     
     it 'should have valid transmissions' do
       AMMYV.connection.select_values("SELECT DISTINCT transmission FROM #{AMMYV.quoted_table_name}").each do |transmission|
