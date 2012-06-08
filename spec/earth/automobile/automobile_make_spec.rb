@@ -2,16 +2,11 @@ require 'spec_helper'
 require 'earth/automobile/automobile_make'
 
 describe AutomobileMake do
+  let(:honda) { AutomobileMake.find('Honda') } # MakeYear with fe from CAFE data
+  let(:acura) { AutomobileMake.find('Acura') } # MakeYear with fe from average of variants
+  
   before :all do
-    Earth.init :automobile, :load_data_miner => true, :skip_parent_associations => :true
-    
-    # MakeYear fe from CAFE data
-    @honda = AutomobileMake.find('Honda')
-    @honda_years = AutomobileMakeYear.where(:make_name => 'Honda')
-    
-    # MakeYear fe from average of variants
-    @acura = AutomobileMake.find('Acura')
-    @acura_years = AutomobileMakeYear.where(:make_name => 'Acura')
+    Earth.init :automobile, :load_data_miner => true
   end
   
   describe 'import', :data_miner => true do
@@ -21,21 +16,12 @@ describe AutomobileMake do
     end
   end
   
-  describe '#make_years' do
-    it { @honda.make_years.sort.should == @honda_years.sort }
-    it { @acura.make_years.sort.should == @acura_years.sort }
-  end
-  
-  describe '#fuel_efficiency' do
-    it { @honda.fuel_efficiency.should_not == nil }
-    it { @honda.fuel_efficiency.should == @honda_years.weighted_average(:fuel_efficiency) }
+  describe 'verify', :sanity => true do
+    it { AutomobileMake.where("fuel_efficiency > 0").count.should == AutomobileMake.count }
+    it { AutomobileMake.where(:fuel_efficiency_units => 'kilometres_per_litre').count.should == AutomobileMake.count }
     
-    it { @acura.fuel_efficiency.should_not == nil }
-    it { @acura.fuel_efficiency.should == @acura_years.weighted_average(:fuel_efficiency) }
-  end
-  
-  describe '#fuel_efficiency_units' do
-    it { @honda.fuel_efficiency_units.should == 'kilometres_per_litre' }
-    it { @acura.fuel_efficiency_units.should == 'kilometres_per_litre' }
+    # spot checks
+    it { honda.fuel_efficiency.should be_within(1e-4).of(13.0594) }
+    it { acura.fuel_efficiency.should be_within(1e-4).of(9.1347) }
   end
 end

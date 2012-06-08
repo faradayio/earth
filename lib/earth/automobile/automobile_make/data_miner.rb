@@ -1,13 +1,11 @@
-require 'earth/fuel/data_miner'
 AutomobileMake.class_eval do
   data_miner do
     process "Start from scratch" do
       delete_all
     end
     
-    process "Ensure AutomobileMakeYear and AutomobileMakeYearFleet are populated" do
+    process "Ensure AutomobileMakeYear is populated" do
       AutomobileMakeYear.run_data_miner!
-      AutomobileMakeYearFleet.run_data_miner!
     end
     
     process "Derive manufacturer names from AutomobileMakeYear" do
@@ -16,6 +14,14 @@ AutomobileMake.class_eval do
         :dest => AutomobileMake,
         :cols => { :make_name => :name }
       )
+    end
+    
+    process "Derive fuel efficiency from AutomobileMakeYear" do
+      find_each do |make|
+        make.fuel_efficiency = make.make_years.weighted_average(:fuel_efficiency)
+        make.fuel_efficiency_units = make.make_years.first.fuel_efficiency_units
+        make.save!
+      end
     end
   end
 end
