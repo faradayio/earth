@@ -43,7 +43,7 @@ describe AutomobileTypeFuelYear do
     it { ATFY.find_by_type_name_and_fuel_common_name_and_closest_year('Passenger cars', 'gasoline', 2012).should == ATFY.find_by_type_name_and_fuel_common_name_and_year('Passenger cars', 'gasoline', 2009) }
   end
   
-  describe '#type_fuel_controls' do
+  describe '#type_fuel_year_controls' do
     it "should find controls from 1985 when year < 1985" do
       ATFY.where("year < 1985").each do |atfy|
         atfy.type_fuel_year_controls.first.year.should == 1985

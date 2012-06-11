@@ -29,3 +29,14 @@ SizeClass
 ActivityYear
 	ActivityYearType
 		ActivityYearTypeFuel
+
+
+
+
+year
+model
+make
+makeyear
+makemodel
+makemodelyear
+makemodelyearvariant

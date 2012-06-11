@@ -1,5 +1,4 @@
 require 'earth/fuel/data_miner'
-require 'earth/locality/data_miner'
 
 AutomobileFuel.class_eval do
   data_miner do

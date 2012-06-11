@@ -17,10 +17,10 @@ AutomobileActivityYearType.class_eval do
     end
     
     process "Derive hfc emission factor from AutomobileActivityYearTypeFuel" do
-      find_each do |aytf|
-        aytf.hfc_emission_factor = aytf.hfc_emissions / aytf.activity_year_type_fuels.sum(:distance)
-        aytf.hfc_emission_factor_units = aytf.hfc_emissions_units + '_per_' + aytf.activity_year_type_fuels.first.distance_units.singularize
-        aytf.save!
+      find_each do |ayt|
+        ayt.hfc_emission_factor = ayt.hfc_emissions / ayt.activity_year_type_fuels.sum(:distance)
+        ayt.hfc_emission_factor_units = ayt.hfc_emissions_units + '_per_' + ayt.activity_year_type_fuels.first.distance_units.singularize
+        ayt.save!
       end
     end
   end

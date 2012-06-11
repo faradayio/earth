@@ -60,12 +60,12 @@ describe AutomobileFuel do
     end
   end
   
-  describe '.gasoline' do
-    it { AutomobileFuel.gasoline.should == AutomobileFuel.find('gasoline') }
-  end
-  
   describe '.diesel' do
     it { AutomobileFuel.diesel.should == AutomobileFuel.find('diesel') }
+  end
+  
+  describe '.gasoline' do
+    it { AutomobileFuel.gasoline.should == AutomobileFuel.find('gasoline') }
   end
   
   describe '.fallback_blend_portion' do
