@@ -55,11 +55,13 @@ AutomobileFuel.class_eval do
       find_each do |record|
         if (type_fuels = record.type_fuels).any?
           %w{ annual_distance ch4_emission_factor n2o_emission_factor }.each do |item|
-            record.send("#{item}=", type_fuels.weighted_average("#{item}", :weighted_by => :vehicles))
+            record.send("#{item}=", type_fuels.weighted_average(item, :weighted_by => :vehicles))
             record.send("#{item}_units=", type_fuels.first.send("#{item}_units"))
           end
-          record.total_consumption = record.type_fuels.sum(:fuel_consumption)
-          record.total_consumption_units = record.type_fuels.first.fuel_consumption_units
+          unless record.name =~ / gasoline/
+            record.total_consumption = record.type_fuels.sum(:fuel_consumption)
+            record.total_consumption_units = record.type_fuels.first.fuel_consumption_units
+          end
           record.save!
         end
       end

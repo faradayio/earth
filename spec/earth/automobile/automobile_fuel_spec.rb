@@ -22,6 +22,7 @@ describe AutomobileFuel do
     it { AutomobileFuel.where("co2_biogenic_emission_factor >= 0").count.should == AutomobileFuel.count - 1 }
     it { AutomobileFuel.where("ch4_emission_factor >= 0").count.should == AutomobileFuel.count }
     it { AutomobileFuel.where("n2o_emission_factor >= 0").count.should == AutomobileFuel.count }
+    it { AutomobileFuel.where("total_consumption >= 0").count.should == 2 }
     
     it { AutomobileFuel.find('gasoline').annual_distance.should be_within(0.1).of(17568.6) }
     it { AutomobileFuel.find('gasoline').energy_content.should be_within(1e-5).of(34.6272) }
@@ -41,18 +42,19 @@ describe AutomobileFuel do
     it { AutomobileFuel.find('diesel').ch4_emission_factor.should be_within(1e-9).of(1.3887e-5) }
     it { AutomobileFuel.find('diesel').n2o_emission_factor.should be_within(1e-8).of(2.5812e-4) }
     
-    # it { AutomobileFuel.find('gasoline').total_consumption.should > 455_000_000_000 }
-    # it { AutomobileFuel.find('diesel').total_consumption.should > 5_800_000_000 }
-    # 
+    it { AutomobileFuel.find('gasoline').total_consumption.should > 455_000_000_000 }
+    it { AutomobileFuel.find('diesel').total_consumption.should > 5_800_000_000 }
+    
     it { AutomobileFuel.find('Electricity').energy_content.should == 3.6 }
     it { AutomobileFuel.find('Electricity').co2_emission_factor.should == nil }
     it { AutomobileFuel.find('Electricity').co2_biogenic_emission_factor.should == nil }
     it { AutomobileFuel.find('Electricity').ch4_emission_factor.should == 0 }
     it { AutomobileFuel.find('Electricity').n2o_emission_factor.should == 0 }
     
-    it "all grades of gasoline should be the same" do
+    it "all grades of gasoline should have same annual distance and emission factors" do
       AutomobileFuel.where("name LIKE '%gasoline'").each do |fuel|
         fuel.common_name.should == 'gasoline'
+        fuel.annual_distance.should == AutomobileFuel.gasoline.annual_distance
         fuel.co2_emission_factor.should == AutomobileFuel.gasoline.co2_emission_factor
         fuel.ch4_emission_factor.should == AutomobileFuel.gasoline.ch4_emission_factor
         fuel.n2o_emission_factor.should == AutomobileFuel.gasoline.n2o_emission_factor
