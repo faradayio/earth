@@ -69,6 +69,7 @@ class AutomobileFuel < ActiveRecord::Base
   col :name
   col :code
   col :common_name
+  col :distance_key
   col :base_fuel_name
   col :blend_fuel_name
   col :blend_portion, :type => :float # the portion of the blend that is the blend fuel

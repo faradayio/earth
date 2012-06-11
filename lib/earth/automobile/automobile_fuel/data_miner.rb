@@ -9,8 +9,9 @@ AutomobileFuel.class_eval do
     import "a Brighter Planet-curated list of automobile fuels",
            :url => "file://#{Earth::DATA_DIR}/automobile/auto_fuel_data.csv" do
       key   'name'
-      store 'common_name'
       store 'code'
+      store 'common_name'
+      store 'distance_key'
       store 'base_fuel_name', :nullify => true
       store 'blend_fuel_name', :nullify => true
       store 'blend_portion', :nullify => true
@@ -64,6 +65,16 @@ AutomobileFuel.class_eval do
           end
           record.save!
         end
+      end
+    end
+    
+    process "Derive annual distance for alternative fuels" do
+      %w{ diesel gasoline }.each do |key|
+        reference_fuel = find(key)
+        where(:annual_distance => nil, :distance_key => key).update_all %{
+          annual_distance = #{reference_fuel.annual_distance},
+          annual_distance_units = '#{reference_fuel.annual_distance_units}'
+        }
       end
     end
     

@@ -16,7 +16,8 @@ describe AutomobileFuel do
   
   describe 'verify imported data', :sanity => true do
     it { AutomobileFuel.count.should == 12 }
-    it { AutomobileFuel.where("annual_distance >= 0").count.should == 4 }
+    it { AutomobileFuel.where(:distance_key => nil).count.should == 0 }
+    it { AutomobileFuel.where("annual_distance >= 0").count.should == AutomobileFuel.count }
     it { AutomobileFuel.where("energy_content >= 0").count.should == AutomobileFuel.count }
     it { AutomobileFuel.where("co2_emission_factor >= 0").count.should == AutomobileFuel.count - 1 }
     it { AutomobileFuel.where("co2_biogenic_emission_factor >= 0").count.should == AutomobileFuel.count - 1 }
