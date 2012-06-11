@@ -14,9 +14,9 @@ describe AutomobileActivityYearTypeFuel do
   end
   
   describe 'verify', :sanity => true do
-    it { AAYTF.count.should == 80 }
+    it { AAYTF.count.should == 120 }
     it { AAYTF.where(:distance => nil).count.should == 0 }
-    it { AAYTF.where(:fuel_consumption => nil).count.should == 0 }
+    it { AAYTF.where("fuel_common_name != 'alternative' AND fuel_consumption IS NULL").count.should == 0 }
   end
   
   describe '.latest' do

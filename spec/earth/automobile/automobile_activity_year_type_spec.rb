@@ -20,7 +20,7 @@ describe AutomobileActivityYearType do
     
     # spot check
     it { AAYT.first.hfc_emissions.should be_within(0.1).of(31000000000) }
-    it { AAYT.first.hfc_emission_factor.should be_within(1e-5).of(0.0244) }
+    it { AAYT.first.hfc_emission_factor.should be_within(1e-5).of(0.02438) }
     it { AAYT.first.hfc_emission_factor_units.should == 'kilograms_co2e_per_kilometre' }
   end
   

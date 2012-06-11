@@ -31,18 +31,18 @@ AutomobileActivityYearTypeFuel.class_eval do
         store 'distance', :field_name => type, :from_units => :billion_miles, :to_units => :kilometres
       end
       
-      # import "annual vehicle miles travelled by alternative fuel #{type.downcase} from the 2011 EPA GHG Inventory",
-      #        :url => 'http://www.epa.gov/climatechange/emissions/downloads11/Annex%20Tables.zip',
-      #        :filename => 'Annex Tables/Table A-91.csv',
-      #        :skip => 1,
-      #        :headers => ['Year', 'Passenger cars', 'Light-duty trucks', 'ignore', 'ignore'],
-      #        :select => proc { |row| row['Year'].to_i.to_s == row['Year'] } do
-      #   key   'name', :synthesize => proc { |row| "#{row['Year']} #{type} alternative" }
-      #   store 'activity_year', :field_name => 'Year'
-      #   store 'type_name', :static => type
-      #   store 'fuel_common_name', :static => 'alternative'
-      #   store 'distance', :field_name => type, :from_units => :billion_miles, :to_units => :kilometres
-      # end
+      import "annual vehicle miles travelled by alternative fuel #{type.downcase} from the 2011 EPA GHG Inventory",
+             :url => 'http://www.epa.gov/climatechange/emissions/downloads11/Annex%20Tables.zip',
+             :filename => 'Annex Tables/Table A-91.csv',
+             :skip => 1,
+             :headers => ['Year', 'Passenger cars', 'Light-duty trucks', 'ignore', 'ignore'],
+             :select => proc { |row| row['Year'].to_i.to_s == row['Year'] } do
+        key   'name', :synthesize => proc { |row| "#{row['Year']} #{type} alternative" }
+        store 'activity_year', :field_name => 'Year'
+        store 'type_name', :static => type
+        store 'fuel_common_name', :static => 'alternative'
+        store 'distance', :field_name => type, :from_units => :billion_miles, :to_units => :kilometres
+      end
     end
     
     import "fuel consumption derived from 2012 EPA GHG Inventory",

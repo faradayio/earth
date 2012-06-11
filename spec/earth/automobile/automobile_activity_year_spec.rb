@@ -18,7 +18,7 @@ describe AutomobileActivityYear do
     it { AAY.where("hfc_emission_factor > 0").count.should == AAY.count }
     
     # spot check
-    it { AAY.first.hfc_emission_factor.should be_within(1e-5).of(0.01657) }
+    it { AAY.first.hfc_emission_factor.should be_within(1e-5).of(0.01656) }
     it { AAY.first.hfc_emission_factor_units.should == 'kilograms_co2e_per_kilometre' }
   end
   
