@@ -6,7 +6,7 @@ describe AutomobileMake do
   let(:acura) { AutomobileMake.find('Acura') } # MakeYear with fe from average of variants
   
   before :all do
-    Earth.init :automobile, :load_data_miner => true
+    Earth.init :automobile, :load_data_miner => true, :skip_parent_associations => true
   end
   
   describe 'import', :data_miner => true do
