@@ -44,6 +44,7 @@ ActiveRecord::Base.logger = logger
 DataMiner.logger = logger
 
 DataMiner::Run.auto_upgrade!
+DataMiner.unit_converter = :conversions
 
 RSpec.configure do |c|
   unless ENV['ALL'] == 'true'
