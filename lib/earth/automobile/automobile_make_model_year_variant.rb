@@ -11,44 +11,35 @@ class AutomobileMakeModelYearVariant < ActiveRecord::Base
   col :row_hash
   col :make_name
   col :model_name
-  col :year,         :type => :integer
+  col :year, :type => :integer
   col :transmission
   col :speeds
   col :drive
   col :fuel_code
-  col :fuel_efficiency,               :type => :float
+  col :fuel_efficiency, :type => :float
   col :fuel_efficiency_units
-  col :fuel_efficiency_city,          :type => :float
+  col :fuel_efficiency_city, :type => :float
   col :fuel_efficiency_city_units
-  col :fuel_efficiency_highway,       :type => :float
+  col :fuel_efficiency_highway, :type => :float
   col :fuel_efficiency_highway_units
   col :alt_fuel_code
-  col :alt_fuel_efficiency,               :type => :float
+  col :alt_fuel_efficiency, :type => :float
   col :alt_fuel_efficiency_units
-  col :alt_fuel_efficiency_city,          :type => :float
+  col :alt_fuel_efficiency_city, :type => :float
   col :alt_fuel_efficiency_city_units
-  col :alt_fuel_efficiency_highway,       :type => :float
+  col :alt_fuel_efficiency_highway, :type => :float
   col :alt_fuel_efficiency_highway_units
   col :cylinders,    :type => :integer
   col :displacement, :type => :float
   col :turbo,        :type => :boolean
   col :supercharger, :type => :boolean
   col :injection,    :type => :boolean
-  col :carline_class
+  col :size_class
+  col :type_name
   add_index :make_name
   add_index :model_name
   add_index :year
-
-  warn_if_nulls_except(
-    :alt_fuel_code,
-    :carline_mfr_code,
-    :vi_mfr_code,
-    :carline_code,
-    :carline_class_code,
-    :carline_class_name,
-  )
-  warn_if_nulls /alt_fuel_efficiency/, :conditions => 'alt_fuel_code IS NOT NULL'
-  warn_if_nulls :carline_class, :conditions => 'year < 1998'
+  
   warn_unless_size 28433
   warn_unless_size 1152, :conditions => { :year => 1985 }
   warn_unless_size 1183, :conditions => { :year => 1986 }
@@ -58,17 +49,17 @@ class AutomobileMakeModelYearVariant < ActiveRecord::Base
   warn_unless_size 1049, :conditions => { :year => 1990 }
   warn_unless_size 1062, :conditions => { :year => 1991 }
   warn_unless_size 1055, :conditions => { :year => 1992 }
-  warn_unless_size 986,  :conditions => { :year => 1993 }
-  warn_unless_size 963,  :conditions => { :year => 1994 }
-  warn_unless_size 917,  :conditions => { :year => 1995 }
-  warn_unless_size 750,  :conditions => { :year => 1996 }
-  warn_unless_size 727,  :conditions => { :year => 1997 }
-  warn_unless_size 794,  :conditions => { :year => 1998 }
-  warn_unless_size 800,  :conditions => { :year => 1999 }
-  warn_unless_size 834,  :conditions => { :year => 2000 }
-  warn_unless_size 846,  :conditions => { :year => 2001 }
-  warn_unless_size 933,  :conditions => { :year => 2002 }
-  warn_unless_size 995,  :conditions => { :year => 2003 }
+  warn_unless_size  986, :conditions => { :year => 1993 }
+  warn_unless_size  963, :conditions => { :year => 1994 }
+  warn_unless_size  917, :conditions => { :year => 1995 }
+  warn_unless_size  750, :conditions => { :year => 1996 }
+  warn_unless_size  727, :conditions => { :year => 1997 }
+  warn_unless_size  794, :conditions => { :year => 1998 }
+  warn_unless_size  800, :conditions => { :year => 1999 }
+  warn_unless_size  834, :conditions => { :year => 2000 }
+  warn_unless_size  846, :conditions => { :year => 2001 }
+  warn_unless_size  933, :conditions => { :year => 2002 }
+  warn_unless_size  995, :conditions => { :year => 2003 }
   warn_unless_size 1091, :conditions => { :year => 2004 }
   warn_unless_size 1069, :conditions => { :year => 2005 }
   warn_unless_size 1043, :conditions => { :year => 2006 }
@@ -78,4 +69,9 @@ class AutomobileMakeModelYearVariant < ActiveRecord::Base
   warn_unless_size 1107, :conditions => { :year => 2010 }
   warn_unless_size 1097, :conditions => { :year => 2011 }
   warn_unless_size 1129, :conditions => { :year => 2012 }
+  warn_if_nulls_except(
+    :alt_fuel_code,
+    :cylinders
+  )
+  warn_if_nulls /alt_fuel_efficiency/, :conditions => 'alt_fuel_code IS NOT NULL'
 end

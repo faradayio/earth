@@ -15,7 +15,7 @@ describe Fuel do
   
   describe 'after importing data', :sanity => true do
     it 'should have all the data' do
-      Fuel.count.should == 22
+      Fuel.count.should == 23
     end
     
     it 'should have a record for district heat' do

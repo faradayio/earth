@@ -1,0 +1,9 @@
+name,ch4_emission_factor,ch4_emission_factor_units,n2o_emission_factor,n2o_emission_factor_units,source,source_detail,source_url
+CNG,0.737,grams_per_mile,0.050,grams_per_mile,EPA (2012) Table A-104,U.S. EPA (2012) Inventory of U.S. Greenhouse Gas Emissions and Sinks: 1990-2010,http://www.epa.gov/climatechange/emissions/usinventoryreport.html
+E85,0.055,grams_per_mile,0.067,grams_per_mile,EPA (2012) Table A-104,U.S. EPA (2012) Inventory of U.S. Greenhouse Gas Emissions and Sinks: 1990-2010,http://www.epa.gov/climatechange/emissions/usinventoryreport.html
+E10,0.055,grams_per_mile,0.067,grams_per_mile,assumed to be same as E85
+B100,0.0005,grams_per_mile,0.001,grams_per_mile,assumed to be same as B20
+B20,0.0005,grams_per_mile,0.001,grams_per_mile,EPA (2012) Table A-104,U.S. EPA (2012) Inventory of U.S. Greenhouse Gas Emissions and Sinks: 1990-2010,http://www.epa.gov/climatechange/emissions/usinventoryreport.html
+B5,0.0005,grams_per_mile,0.001,grams_per_mile,assumed to be same as B20
+electricity,0,grams_per_mile,0,grams_per_mile,no tailpipe emissions
+hydrogen,0,grams_per_mile,0,grams_per_mile,no tailpipe emissions

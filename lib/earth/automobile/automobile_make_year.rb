@@ -1,4 +1,3 @@
-require 'earth/fuel'
 class AutomobileMakeYear < ActiveRecord::Base
   self.primary_key = "name"
   
@@ -7,9 +6,8 @@ class AutomobileMakeYear < ActiveRecord::Base
   col :year, :type => :integer
   col :fuel_efficiency, :type => :float
   col :fuel_efficiency_units
-  col :volume, :type => :integer # This will sometimes be null because not all make_years have CAFE data
-
-  warn_if_nulls_except :volume
-
-  warn_unless_size 1224
+  col :weighting, :type => :float # for calculating AutomobileMake fuel efficiences
+  
+  warn_unless_size 1276
+  warn_if_any_nulls
 end

@@ -1,0 +1,13 @@
+name,code,common_name,distance_key,base_fuel_name,blend_fuel_name,blend_portion
+B100,BP-B100,b100,diesel,Biodiesel
+B20,BP-B20,b20,diesel,Distillate Fuel Oil No. 2,Biodiesel,0.2
+B5,BP-B5,b5,diesel,Distillate Fuel Oil No. 2,Biodiesel,0.05
+CNG,C,cng,gasoline,Pipeline Natural Gas
+diesel,D,diesel,diesel,Distillate Fuel Oil No. 2
+E10,BP-E10,e10,gasoline,Motor Gasoline,Ethanol,0.1
+E85,E,e85,gasoline,Motor Gasoline,Ethanol,0.85
+electricity,EL,electricity,gasoline
+gasoline,G,gasoline,gasoline,Motor Gasoline
+premium gasoline,P,gasoline,gasoline,Motor Gasoline
+regular gasoline,R,gasoline,gasoline,Motor Gasoline
+hydrogen,H,hydrogen,gasoline,Hydrogen

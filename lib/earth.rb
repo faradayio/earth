@@ -19,6 +19,7 @@ module Earth
   TAPS_DESCRIPTION = "Brighter Planet's reference data web service"
   VENDOR_DIR = ::File.expand_path '../../vendor', __FILE__
   LIB_DIR = ::File.expand_path '../earth', __FILE__
+  DATA_DIR = ::File.expand_path '../../data', __FILE__
   ERRATA_DIR = ::File.expand_path '../../errata', __FILE__
 
   def Earth.domains

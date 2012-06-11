@@ -3,6 +3,7 @@ require 'conversions'
 # Distance: base unit = kilometre
 Conversions.register :kilometres, :miles,          0.621371192
 Conversions.register :kilometres, :nautical_miles, 0.539956803
+Conversions.register :kilometres, :billion_miles,  1.kilometres.to(:miles) / 1_000_000_000 # for AutomobileTypeFuelYear
 
 # Area
 Conversions.register :square_metres, :square_feet,         10.7639104
@@ -67,6 +68,11 @@ Conversions.register :teragrams_per_quadrillion_btu,        :grams_per_megajoule
 # Conversions.register :epa_miles_per_gallon_gasoline_equivalent, :kilowatt_hours_per_hundred_kilometres, (1 / (1.kilowatt_hours.to(:epa_gallon_gasoline_equivalents) / 100.kilometres.to(:miles)))
 # Conversions.register :epa_miles_per_gallon_gasoline_equivalent, :cubic_metres_per_hundred_kilometres,   (1 / (1.cubic_metres_compressed_natural_gas.to(:epa_gallon_gasoline_equivalents) / 100.kilometres.to(:miles)))
 # Conversions.register :epa_miles_per_gallon_gasoline_equivalent, :kilograms_per_hundred_kilometres,      (1 / (1.kilograms_hydrogen.to(:epa_gallon_gasoline_equivalents) / 100.kilometres.to(:miles)))
+
+# Odd units for EPA automobile data
+Conversions.register :grams_per_mile,  :kilograms_per_kilometre, 1.grams.to(:kilograms) / 1.miles.to(:kilometres)
+Conversions.register :teragrams_co2e,  :kilograms_co2e,          1_000_000_000.0
+Conversions.register :million_gallons, :litres,                  1_000_000.gallons.to(:litres)
 
 # Odd units for pet - FIXME use megajoules rather than joules
 Conversions.register :kilocalories,           :joules,              4_184.0

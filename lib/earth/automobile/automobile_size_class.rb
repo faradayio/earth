@@ -1,4 +1,3 @@
-require 'earth/fuel'
 class AutomobileSizeClass < ActiveRecord::Base
   self.primary_key = "name"
   
@@ -10,8 +9,6 @@ class AutomobileSizeClass < ActiveRecord::Base
   
   col :name
   col :type_name
-  col :annual_distance, :type => :float
-  col :annual_distance_units
   col :fuel_efficiency_city, :type => :float
   col :fuel_efficiency_city_units
   col :fuel_efficiency_highway, :type => :float
@@ -20,14 +17,12 @@ class AutomobileSizeClass < ActiveRecord::Base
   col :hybrid_fuel_efficiency_highway_multiplier, :type => :float
   col :conventional_fuel_efficiency_city_multiplier, :type => :float
   col :conventional_fuel_efficiency_highway_multiplier, :type => :float
-
+  
+  warn_unless_size 15
   warn_if_nulls_except(
     :hybrid_fuel_efficiency_city_multiplier,
     :hybrid_fuel_efficiency_highway_multiplier,
     :conventional_fuel_efficiency_city_multiplier,
     :conventional_fuel_efficiency_highway_multiplier
   )
-
-
-  warn_unless_size 15
 end

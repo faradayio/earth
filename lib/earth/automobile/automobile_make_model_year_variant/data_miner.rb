@@ -1,7 +1,7 @@
 AutomobileMakeModelYearVariant.class_eval do
   # For errata
   class AutomobileMakeModelYearVariant::Guru
-    %w{ alpina bentley chevrolet dodge ferrari ford jaguar kia lexus maybach mercedes-benz mitsubishi porsche toyota tvr volvo yugo }.each do |make|
+    %w{ alpina bentley chevrolet chrysler dodge ferrari ford gmc jaguar kia lexus maybach mercedes-benz mitsubishi porsche toyota tvr volvo yugo }.each do |make|
       method_name = :"is_a_#{make.gsub('-', '_')}?"
       define_method method_name do |row|
         row['make_name'].downcase == make
@@ -36,6 +36,46 @@ AutomobileMakeModelYearVariant.class_eval do
     
     def is_a_2005_mercedes_benz_slk55_amg?(row)
       row['make_name'].downcase == 'mercedes-benz' and row['model_name'].downcase == 'slk55 amg' and row['year'] == 2005
+    end
+    
+    def is_a_1995_ffv?(row)
+      row['year'] == 1995 and row['model_name'] =~ / ffv$/i
+    end
+    
+    def is_a_1999_ffv?(row)
+      row['year'] == 1999 and row['model_name'] =~ / ffv$/i
+    end
+    
+    def is_a_2000_ford_4wd_ffv?(row)
+      row['year'] == 2000 and row['make_name'].downcase == 'ford' and row['drive'] == '4WD' and row['model_name'] =~ / ffv$/i
+    end
+    
+    def is_2000_b3000_5_spd_4wd_ethanol_ucity_19?(row)
+      row['year'] == 2000 and
+        row['model_name'] =~ /b3000 ffv/i and
+        row['speeds'] == '5' and
+        row['drive'] == '4WD' and
+        row['fuel_code'] == 'E' and
+        row['ucty'].to_i == 19
+    end
+    
+    def is_a_station_wagon?(row)
+      row['size_class'] =~ /station wagons/i
+    end
+    
+    %w{ 5 hatchback justy loyale loyale_wagon odyssey pt_cruiser_convertible space_wagon stanza_wagon wagon xt }.each do |model_name|
+      method_name = :"is_a_#{model_name}?"
+      define_method method_name do |row|
+        row['model_name'] =~ /^#{model_name.gsub('_', ' ')}$/i
+      end
+    end
+    
+    def is_a_colt_vista_or_wagon?(row)
+      row['model_name'] =~ /^colt [vw].+$/i
+    end
+    
+    def is_a_subaru_sedan?(row)
+      row['make_name'] =~ /subaru/i and row['model_name'] =~ /^sedan(\/.+)?$/i
     end
   end
   
@@ -101,6 +141,28 @@ AutomobileMakeModelYearVariant.class_eval do
       'PE'  => 'EL'  # plug-in electric
     }
     
+    CLASS_CODES = {
+      '1' => 'Two seaters',
+      '2' => 'Minicompact cars',
+      '3' => 'Subcompact cars',
+      '4' => 'Compact cars',
+      '5' => 'Midsize cars',
+      '6' => 'Large cars',
+      '7' => 'Small station wagons',
+      '8' => 'Midsize station wagons',
+      '9' => 'Large station wagons',
+      '10' => 'Small pickup trucks 2WD',
+      '11' => 'Small pickup trucks 4WD',
+      '12' => 'Standard pickup trucks 2WD',
+      '13' => 'Standard pickup trucks 4WD',
+      '14' => 'Cargo vans',
+      '15' => 'Passenger vans',
+      '16' => nil,
+      '17' => 'Special purpose vehicles 2WD',
+      '18' => 'Special purpose vehicles 4WD',
+      '19' => 'Special purpose vehicles'
+    }
+    
     def initialize(options = {})
       options = options.stringify_keys
       @year = options['year']
@@ -119,7 +181,7 @@ AutomobileMakeModelYearVariant.class_eval do
           'model_name'              => row['carline_name'],
           'year'                    => year,
           'transmission'            => TRANSMISSIONS[row['model_trans'][0,1].to_s],
-          'speeds'                  => row['model_trans'][1,1] == 'V' ? 'variable' : row['model_trans'][1,1],
+          'speeds'                  => (row['model_trans'][1,1] == 'V') ? 'variable' : row['model_trans'][1,1],
           'drive'                   => row['drive_system'],
           'fuel_code'               => row['fuel_type'],
           'fuel_efficiency_city'    => 1.0 / (0.003259 + (1.1805 / row['unadj_city_mpg'].to_f)), # adjust for real-world driving
@@ -128,7 +190,8 @@ AutomobileMakeModelYearVariant.class_eval do
           'displacement'            => _displacement(row),
           'turbo'                   => _turbo(row),
           'supercharger'            => [ENGINE_TYPES[row['engine_desc1'].to_s], ENGINE_TYPES[row['engine_desc2'].to_s]].flatten.include?('supercharger'),
-          'injection'               => row['fuel_system'] == 'FI' ? true : false
+          'injection'               => (row['fuel_system'] == 'FI') ? true : false,
+          'size_class'              => CLASS_CODES[row['size_class']]
         })
       when (1998..2009)
         row.merge!({
@@ -146,7 +209,7 @@ AutomobileMakeModelYearVariant.class_eval do
           'turbo'                   => ((row['T'] || row['TURBO']) == 'T' || (row['carline name'] || row['CAR LINE']).downcase.include?('turbo')) ? true : false,
           'supercharger'            => (row['S'] || row['SPCHGR']) == 'S',
           'injection'               => true,
-          'carline_class'           => row['Class'] || row['CLASS']
+          'size_class'              => row['Class'] || row['CLASS']
         })
       else # 2010..present
         row.merge!({
@@ -167,7 +230,7 @@ AutomobileMakeModelYearVariant.class_eval do
           'turbo'                       => row['Air Aspir Method'] == 'TC',
           'supercharger'                => row['Air Aspir Method'] == 'SC',
           'injection'                   => row['# Cyl'].present? ? true : false,
-          'carline_class'               => row['Carline Class Desc']
+          'size_class'                  => row['Carline Class Desc']
         })
       end
     end
@@ -195,7 +258,7 @@ AutomobileMakeModelYearVariant.class_eval do
         row.trap { true } # there's only one section
         row.column 'active_year',       4, :type => :integer # ACTIVE YEAR
         row.column 'state_code',        1, :type => :string  # STATE CODE:  F=49-STATE,C=CALIFORNIA
-        row.column 'carline_clss',      2, :type => :integer # CARLINE CLASS CODE
+        row.column 'size_class',        2, :type => :integer # CARLINE CLASS CODE
         row.column 'carline_mfr_code',  3, :type => :integer # CARLINE MANUFACTURER CODE
         row.column 'carline_name',     28, :type => :string  # CARLINE NAME
         row.column 'disp_cub_in',       4, :type => :integer # DISP CUBIC INCHES
@@ -283,6 +346,10 @@ AutomobileMakeModelYearVariant.class_eval do
     end
     
     fuel_economy_guides.each do |year, options|
+      process "Clear old data from #{year}" do
+        where(:year => year).delete_all
+      end
+      
       import "#{year} Fuel Economy Guide", options do
         key   'row_hash'
         store 'make_name'
@@ -302,11 +369,103 @@ AutomobileMakeModelYearVariant.class_eval do
         store 'turbo'
         store 'supercharger'
         store 'injection'
-        store 'carline_class'
+        store 'size_class'
       end
     end
     
-    # Combined fuel efficiency will be useful later when deriving MakeModel and Make fuel efficiency
+    # FIXME TODO hybrids listed on FEG website but not in downloadable files
+    # 2001 Honda Insight (automatic, variable transmission) - listed twice on FEG website
+    # 2003 Honda Civic Hybrid (manual, 5-speed, lower mpg)
+    # 2003 Honda Civic Hybrid (automatic, variable transmission, higher mpg)
+    # 2005 Honda Accord Hybrid
+    # 2006 Honda Accord Hybrid
+    # 2009 Chrysler Aspen HEV
+    # 2009 Dodge Durango HEV
+    # 2009 Saturn Vue Hybrid (automatic, variable transmission)
+    process "Update the model names of certain hybrid variants" do
+      hybrids = []
+      if where(:make_name => 'Buick', :model_name => 'LACROSSE HYBRID', :year => 2012).none? and where(:make_name => 'Buick', :model_name => 'LACROSSE', :year => 2012, :alt_fuel_code => nil).any?
+        hybrids << where(:make_name => 'Buick', :model_name => 'LACROSSE', :year => 2012, :alt_fuel_code => nil).first
+      end
+      if where(:make_name => 'Buick', :model_name => 'REGAL HYBRID', :year => 2012).none? and where(:make_name => 'Buick', :model_name => 'REGAL', :year => 2012, :alt_fuel_code => nil).any?
+        hybrids << where(:make_name => 'Buick', :model_name => 'REGAL', :year => 2012, :alt_fuel_code => nil).sort_by!(&:fuel_efficiency_city).last
+      end
+      hybrids.each do |hybrid|
+        hybrid.model_name += ' HYBRID'
+        hybrid.save!
+      end
+    end
+    
+    process "Merge rows for dual-fuel Chevy Cavaliers (these are listed once for each fuel type)" do
+      where(:make_name => 'Chevrolet', :model_name => 'CAVALIER DUAL-FUEL', :fuel_code => 'C').each do |cng_variant|
+        gasoline_variant = where(:make_name => 'Chevrolet', :model_name => 'CAVALIER DUAL-FUEL', :fuel_code => ['R', 'P'], :alt_fuel_code => nil).find_by_year(cng_variant.year)
+        %w{ fuel_code fuel_efficiency_city fuel_efficiency_city_units fuel_efficiency_highway fuel_efficiency_highway_units }.each do |attribute|
+          gasoline_variant.send("alt_#{attribute}=", cng_variant.send(attribute))
+        end
+        gasoline_variant.save!
+        cng_variant.destroy
+      end
+    end
+    
+    process "Update model name to indicate CNG variants" do
+      where("fuel_code = 'C' AND model_name NOT LIKE '% CNG'").update_all "model_name = model_name || ' CNG'"
+    end
+    
+    process "Merge rows for flex-fuel vehicles (these are listed once for each fuel type)" do
+      where(:fuel_code => 'E').each do |ethanol_variant|
+        gasoline_variant = where(%{
+          (fuel_code = 'R' OR fuel_code = 'P')
+          AND alt_fuel_code IS NULL
+          AND make_name    = ?
+          AND model_name   = ?
+          AND year         = ?
+          AND transmission = ?
+          AND speeds       = ?
+          AND drive        = ?
+          AND cylinders    = ?
+          AND displacement < ?
+          AND displacement > ?
+        },
+          ethanol_variant.make_name,
+          ethanol_variant.model_name,
+          ethanol_variant.year,
+          ethanol_variant.transmission,
+          ethanol_variant.speeds,
+          ethanol_variant.drive,
+          ethanol_variant.cylinders,
+          (ethanol_variant.displacement + 0.01),
+          (ethanol_variant.displacement - 0.01)
+        ).first
+        
+        if gasoline_variant.present?
+          %w{ fuel_code fuel_efficiency_city fuel_efficiency_city_units fuel_efficiency_highway fuel_efficiency_highway_units }.each do |attribute|
+            gasoline_variant.send("alt_#{attribute}=", ethanol_variant.send(attribute))
+          end
+          gasoline_variant.save!
+          ethanol_variant.destroy
+        end
+      end
+    end
+    
+    process "Update model name to indicate flex-fuel variants of models where variants in some years are not flex-fuel" do
+      where("alt_fuel_code = 'E' AND model_name NOT LIKE '% FFV'").each do |variant|
+        if where(:make_name => variant.make_name, :model_name => variant.model_name, :alt_fuel_code => nil).any?
+          variant.model_name += ' FFV'
+          variant.save!
+        end
+      end
+    end
+    
+    process "Update model name to indicate diesel variants of models where variants in some years are not diesel" do
+      where("fuel_code = 'D' AND model_name NOT LIKE '% DIESEL'").each do |variant|
+        if where("make_name = ? AND model_name = ? AND fuel_code != 'D'", variant.make_name, variant.model_name).any?
+          variant.model_name += ' DIESEL'
+          variant.save!
+        end
+      end
+    end
+    
+    # Combined fuel efficiency will be useful for deriving fuel efficiency for other classes
     # NOTE: we use a 43/57 city/highway weighting per the latest EPA analysis of real-world driving behavior
     # This results in a deviation from EPA fuel economy label values which use a historical 55/45 weighting
     process "Calculate combined adjusted fuel efficiency using the latest EPA equation" do
@@ -318,6 +477,21 @@ AutomobileMakeModelYearVariant.class_eval do
         alt_fuel_efficiency = 1.0 / ((0.43 / alt_fuel_efficiency_city) + (0.57 / alt_fuel_efficiency_highway)),
         alt_fuel_efficiency_units = 'kilometres_per_litre'
       })
+    end
+    
+    process "Derive type name from size class" do
+      where(:size_class => [
+        'Two seaters',
+        'Minicompact cars',
+        'Subcompact cars',
+        'Compact cars',
+        'Midsize cars',
+        'Large cars',
+        'Small station wagons',
+        'Midsize station wagons',
+        'Large station wagons'
+      ]).update_all "type_name = 'Passenger cars'"
+      where(:type_name => nil).update_all "type_name = 'Light-duty trucks'"
     end
   end
 end

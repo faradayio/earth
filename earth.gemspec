@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'activesupport'
   s.add_runtime_dependency 'cohort_analysis'
   s.add_runtime_dependency 'conversions'
-  s.add_runtime_dependency 'data_miner', '>=2'
+  s.add_runtime_dependency 'data_miner', '>=2.2.0'
   s.add_runtime_dependency 'falls_back_on'
   s.add_runtime_dependency 'fixed_width-multibyte'
   s.add_runtime_dependency 'fuzzy_match', '>=1.3.3'
