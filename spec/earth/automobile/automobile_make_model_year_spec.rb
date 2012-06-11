@@ -10,7 +10,7 @@ describe AutomobileMakeModelYear do
   describe 'import', :data_miner => true do
     it 'should import data' do
       AMMY.run_data_miner!
-      AMMY.count.should == AMMY.connection.select_value("SELECT COUNT(DISTINCT make_name, model_name, year) FROM #{AutomobileMakeModelYearVariant.quoted_table_name}")
+      AMMY.count.should == AMMY.connection.select_value("SELECT COUNT(DISTINCT make_name, model_name, year) FROM #{AMMYV.quoted_table_name}")
     end
   end
   
