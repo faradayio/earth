@@ -3,7 +3,7 @@ class AutomobileTypeFuelControl < ActiveRecord::Base
 
   col :name
   col :type_name
-  col :fuel_common_name
+  col :fuel_group
   col :control_name
   col :ch4_emission_factor, :type => :float
   col :ch4_emission_factor_units

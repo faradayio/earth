@@ -54,7 +54,7 @@ describe AutomobileFuel do
     
     it "all grades of gasoline should have same annual distance and emission factors" do
       AutomobileFuel.where("name LIKE '%gasoline'").each do |fuel|
-        fuel.common_name.should == 'gasoline'
+        fuel.group.should == 'gasoline'
         fuel.annual_distance.should == AutomobileFuel.gasoline.annual_distance
         fuel.co2_emission_factor.should == AutomobileFuel.gasoline.co2_emission_factor
         fuel.ch4_emission_factor.should == AutomobileFuel.gasoline.ch4_emission_factor

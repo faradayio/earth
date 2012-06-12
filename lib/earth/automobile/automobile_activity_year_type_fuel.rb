@@ -9,7 +9,7 @@ class AutomobileActivityYearTypeFuel < ActiveRecord::Base
   col :name
   col :activity_year, :type => :integer
   col :type_name
-  col :fuel_common_name
+  col :fuel_group
   col :distance, :type => :float
   col :distance_units
   col :fuel_consumption, :type => :float

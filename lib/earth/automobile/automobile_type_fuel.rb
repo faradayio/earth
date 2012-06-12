@@ -3,12 +3,12 @@ class AutomobileTypeFuel < ActiveRecord::Base
   
   # for calculating vehicles
   def latest_activity_year_type_fuel
-    AutomobileActivityYearTypeFuel.latest.where(:type_name => type_name, :fuel_common_name => fuel_common_name).first
+    AutomobileActivityYearTypeFuel.latest.where(:type_name => type_name, :fuel_group => fuel_group).first
   end
   
   col :name
   col :type_name
-  col :fuel_common_name
+  col :fuel_group
   col :annual_distance, :type => :float
   col :annual_distance_units
   col :fuel_consumption, :type => :float

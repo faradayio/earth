@@ -7,7 +7,7 @@ AutomobileTypeFuelControl.class_eval do
            :url => "file://#{Earth::DATA_DIR}/automobile/emission_control_techs.csv" do
       key   'name'
       store 'type_name'
-      store 'fuel_common_name'
+      store 'fuel_group'
       store 'control_name'
       store 'ch4_emission_factor', :from_units => :grams_per_mile, :to_units => :kilograms_per_kilometre
       store 'n2o_emission_factor', :from_units => :grams_per_mile, :to_units => :kilograms_per_kilometre

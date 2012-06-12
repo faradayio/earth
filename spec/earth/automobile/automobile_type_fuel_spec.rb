@@ -37,7 +37,7 @@ describe AutomobileTypeFuel do
     it 'should always be a match from 2009' do
       AutomobileTypeFuel.find_each do |atf|
         atf.latest_activity_year_type_fuel.type_name.should == atf.type_name
-        atf.latest_activity_year_type_fuel.fuel_common_name.should == atf.fuel_common_name
+        atf.latest_activity_year_type_fuel.fuel_group.should == atf.fuel_group
         atf.latest_activity_year_type_fuel.activity_year.should == 2009
       end
     end

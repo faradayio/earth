@@ -8,7 +8,7 @@ class AutomobileFuel < ActiveRecord::Base
   belongs_to :blend_fuel, :class_name => 'Fuel', :foreign_key => 'blend_fuel_name'
   
   # for calculating gas and diesel annual distance and ch4 + n2o efs
-  has_many :type_fuels, :foreign_key => :fuel_common_name, :primary_key => :common_name, :class_name => 'AutomobileTypeFuel'
+  has_many :type_fuels, :foreign_key => :fuel_group, :primary_key => :group, :class_name => 'AutomobileTypeFuel'
   
   # for fallback
   class << self
@@ -68,7 +68,7 @@ class AutomobileFuel < ActiveRecord::Base
   
   col :name
   col :code
-  col :common_name
+  col :group
   col :distance_key
   col :base_fuel_name
   col :blend_fuel_name
@@ -89,7 +89,7 @@ class AutomobileFuel < ActiveRecord::Base
   col :total_consumption_units
   
   warn_unless_size 12
-  warn_if_blanks :code, :common_name, :distance_key
+  warn_if_blanks :code, :group, :distance_key
   warn_if do
     if exists?("name != 'electricity' AND base_fuel_name IS NULL")
       "Records missing #{col}"
