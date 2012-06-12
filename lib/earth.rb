@@ -12,6 +12,7 @@ require 'fuzzy_match'
 require 'earth/utils'
 require 'earth/conversions_ext'
 require 'earth/inflectors'
+require 'earth/resources'
 
 # The earth module is an interface for loading data models from various domains.
 module Earth
@@ -22,28 +23,6 @@ module Earth
   DATA_DIR = ::File.expand_path '../../data', __FILE__
   ERRATA_DIR = ::File.expand_path '../../errata', __FILE__
 
-  def Earth.domains
-    @domains ||= ::Dir[::File.join(LIB_DIR, '*')].map do |path|
-      if ::File.directory? path
-        ::File.basename path
-      end
-    end.compact.uniq.sort
-  end
-  
-  def Earth.resources(*search_domains)
-    search_domains = search_domains.flatten.compact.map(&:to_s)
-    if search_domains.empty?
-      search_domains = domains
-    end
-    search_domains.map do |domain|
-      ::Dir[::File.join(LIB_DIR, domain, '**', '*.rb')].map do |possible_resource|
-        unless possible_resource.include?('data_miner')
-          ::File.basename(possible_resource, '.rb').camelcase
-        end
-      end
-    end.flatten.compact.sort
-  end
-
   # Earth.init will load any specified domains, any needed ActiveRecord plugins, 
   # and will apply each domain model's schema to the database if the 
   # :apply_schemas option is given. See Earth.domains for the list of allowable 
@@ -51,6 +30,14 @@ module Earth
   #
   # Earth.init should be performed after a connection is made to the database and 
   # before any domain models are referenced.
+  #
+  # options: 
+  # * :apply_schemas, if true, immediately runs schema migrations on all models
+  # * :load_data_miner, if true, mines data from original sources. If false, data
+  #           is mined from data.brighterplanet.com (faster)
+  # * :skip_parent_associations, if true, does not data-mine parent objects. 
+  #           For example, ZipCode.run_data_miner! will not automatically 
+  #           data-mine CensusDivision.
   def Earth.init(*args)
     options = args.extract_options!
     domains = args
@@ -69,8 +56,8 @@ module Earth
     end
     
     # be sure to look at both explicitly and implicitly loaded resources
-    resources.select do |resource|
-      ::Object.const_defined?(resource)
+    RESOURCES.select do |resource|
+      Object.const_defined?(resource)
     end.each do |resource|
       resource_model = resource.constantize
       unless options[:skip_parent_associations]
@@ -112,7 +99,7 @@ module Earth
     return if @require_glob.include?(args)
     @require_glob << args
     data_miner_paths = []
-    ::Dir[glob].each do |path|
+    Dir[glob].each do |path|
       if path.include?('data_miner')
         data_miner_paths << path
       else
