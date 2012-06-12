@@ -35,6 +35,7 @@ module Earth
   # * :apply_schemas, if true, immediately runs schema migrations on all models
   # * :load_data_miner, if true, mines data from original sources. If false, data
   #           is mined from data.brighterplanet.com (faster)
+  # * :mine_data, if true, immediately runs data miner on all models
   # * :skip_parent_associations, if true, does not data-mine parent objects. 
   #           For example, ZipCode.run_data_miner! will not automatically 
   #           data-mine CensusDivision.
@@ -70,6 +71,9 @@ module Earth
       end
       if options[:apply_schemas]
         resource_model.auto_upgrade!
+      end
+      if options[:mine_data]
+        resource_model.run_data_miner!
       end
     end
   end
