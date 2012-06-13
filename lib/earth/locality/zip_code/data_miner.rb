@@ -1,15 +1,11 @@
-# FIXME TODO try to clean up this data
 ZipCode.class_eval do
-  # sabshere 9/20/10 this isn't called anywhere
-  # def set_latitude_and_longitude
-  #   return if latitude.present? and longitude.present?
-  #   a = Geokit::Geocoders::YahooGeocoder.geocode name
-  #   update_attributes! :latitude => a.lat, :longitude => a.lng
-  # end
-  
   data_miner do
+    process "Start from scratch" do
+      delete_all
+    end
+    
     import 'the Mapping Hacks zipcode database',
-           :url => 'http://archive.data.brighterplanet.com/zipcode.zip', # http://mappinghacks.com/data/zipcode.zip'
+           :url => 'http://mappinghacks.com/data/zipcode.zip', # http://archive.data.brighterplanet.com/zipcode.zip
            :filename => 'zipcode.csv' do
       key   'name', :field_name => 'zip', :sprintf => '%05d'
       store 'state_postal_abbreviation', :field_name => 'state'
@@ -19,7 +15,7 @@ ZipCode.class_eval do
     end
     
     import 'a list of zipcode states and eGRID Subregions from the US EPA',
-           :url => 'http://www.epa.gov/cleanenergy/documents/egridzips/Power_Profiler_Zipcode_Tool_v3-2.xlsx',
+           :url => 'http://www.epa.gov/cleanenergy/documents/egridzips/Power_Profiler_Zipcode_Tool_v4-0.xlsx',
            :sheet => 'Zip-subregion' do
       key   'name', :field_name => 'ZIP (character)'
       store 'state_postal_abbreviation', :field_name => 'State'
@@ -27,7 +23,7 @@ ZipCode.class_eval do
     end
     
     import 'a Brighter Planet-created list of zipcode Climate Divisions',
-           :url => 'http://static.brighterplanet.com/science/data/geography/zip_code_name-climate_division_name.csv' do
+           :url => "file://#{Earth::DATA_DIR}/locality/zip_climate_divisions.csv" do
       key   'name', :field_name => 'zip_code_name', :sprintf => '%05d'
       store 'climate_division_name'
     end
@@ -40,10 +36,25 @@ ZipCode.class_eval do
     end
     
     import 'misc zip code data not included in other sources',
-           :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdHFYaUE1cEdHTzZCcTFQOEZOTGVUemc&output=csv' do
+           :url => "file://#{Earth::DATA_DIR}/locality/misc_zip_data.csv" do
       key 'name', :sprintf => '%05d'
-      store 'state_postal_abbreviation'
-      store 'egrid_subregion_abbreviation'
+      store 'state_postal_abbreviation', :nullify => true
+      store 'egrid_subregion_abbreviation', :nullify => true
     end
+    
+    process "Derive missing state postal abbreviations from climate division name" do
+      where("state_postal_abbreviation IS NULL AND climate_division_name IS NOT NULL").update_all %{
+        state_postal_abbreviation = LEFT(climate_division_name, 2)
+      }
+    end
+    
+    # FIXME TODO figure out how to speed this up then re-enable it
+    # process "Look up missing latitude and longitude" do
+    #   where("latitude IS NULL OR longitude IS NULL").each do |zip|
+    #     if (location = Geokit::Geocoders::MultiGeocoder.geocode zip.name).success
+    #       zip.update_attributes! :latitude => location.lat, :longitude => location.lng
+    #     end
+    #   end
+    # end
   end
 end
