@@ -13,11 +13,11 @@ class AutomobileFuel < ActiveRecord::Base
   # for fallback
   class << self
     def diesel
-      AutomobileFuel.find 'diesel'
+      find 'diesel'
     end
     
     def gasoline
-      AutomobileFuel.find 'gasoline'
+      find 'gasoline'
     end
     
     def fallback_blend_portion
