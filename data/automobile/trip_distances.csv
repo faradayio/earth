@@ -1,0 +1,5 @@
+type,trip_distance,trip_distance_units,sample_size,source,source_detail,source_url
+Car,9.74,miles,529,076,FHWA (2009),FHWA (2009) National Household Travel Survey 2009: Average Person Trip (PT) Length by Mode and Purpose,http://nhts.ornl.gov/tables09/fatcat/2009/aptl_TRPTRANS_WHYTRP1S.html
+Van,9.61,miles,118,686,FHWA (2009),FHWA (2009) National Household Travel Survey 2009: Average Person Trip (PT) Length by Mode and Purpose,http://nhts.ornl.gov/tables09/fatcat/2009/aptl_TRPTRANS_WHYTRP1S.html
+SUV,10.73,miles,213,422,FHWA (2009),FHWA (2009) National Household Travel Survey 2009: Average Person Trip (PT) Length by Mode and Purpose,http://nhts.ornl.gov/tables09/fatcat/2009/aptl_TRPTRANS_WHYTRP1S.html
+Pickup Truck,11.28,miles,136,988,FHWA (2009),FHWA (2009) National Household Travel Survey 2009: Average Person Trip (PT) Length by Mode and Purpose,http://nhts.ornl.gov/tables09/fatcat/2009/aptl_TRPTRANS_WHYTRP1S.html

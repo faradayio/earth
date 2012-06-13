@@ -1,4 +1,5 @@
 require 'earth/automobile/data_miner'
+require 'earth/fuel/data_miner'
 require 'earth/hospitality/data_miner'
 require 'earth/rail/data_miner'
 
@@ -19,7 +20,7 @@ Country.class_eval do
     end
     
     import "heating and cooling degree day data from WRI CAIT",
-           :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdDN4MkRTSWtWRjdfazhRdWllTkVSMkE&output=csv',
+           :url => "file://#{Earth::DATA_DIR}/locality/wri_hdd_cdd_data.csv",
            :select => proc { |record| record['country'] != 'European Union (27)' },
            :errata => { :url => "file://#{Earth::ERRATA_DIR}/country/wri_errata.csv" } do
       key 'name', :field_name => 'country'
@@ -28,59 +29,36 @@ Country.class_eval do
     end
     
     process "set Montenegro's heating and cooling degree days to the same as Serbia's" do
-      montenegro = Country.find 'ME'
       serbia = Country.find 'RS'
-      montenegro.heating_degree_days = serbia.heating_degree_days
-      montenegro.heating_degree_days_units = serbia.heating_degree_days_units
-      montenegro.cooling_degree_days = serbia.cooling_degree_days
-      montenegro.cooling_degree_days_units = serbia.cooling_degree_days_units
-      montenegro.save!
+      Country.find('ME').update_attributes!(
+        :heating_degree_days => serbia.heating_degree_days,
+        :heating_degree_days_units => serbia.heating_degree_days_units,
+        :cooling_degree_days => serbia.cooling_degree_days,
+        :cooling_degree_days_units => serbia.cooling_degree_days_units
+      )
     end
     
     # AUTOMOBILE
     import "automobile-related data for the US",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdDdZRm1tNjY0c2dYNG00bXJ3TXRqUVE&gid=0&output=csv' do
+           :url => "file://#{Earth::DATA_DIR}/locality/us_auto_data.csv" do
       key 'iso_3166_code'
       store 'automobile_urbanity'
-      store 'automobile_city_speed',    :units_field_name => 'automobile_city_speed_units'
-      store 'automobile_highway_speed', :units_field_name => 'automobile_highway_speed_units'
-      store 'automobile_trip_distance', :units_field_name => 'automobile_trip_distance_units'
+      store 'automobile_city_speed',    :from_units => :miles_per_hour, :to_units => :kilometres_per_hour
+      store 'automobile_highway_speed', :from_units => :miles_per_hour, :to_units => :kilometres_per_hour
+      store 'automobile_trip_distance', :from_units => :miles, :to_units => :kilometres
     end
     
-    process "Ensure AutomobileTypeFuelYear is populated" do
-      AutomobileTypeFuelYear.run_data_miner!
+    process "Ensure AutomobileActivityYearTypeFuel is populated" do
+      # AutomobileActivityYearTypeFuel.run_data_miner!
     end
     
-    process "Derive US average automobile fuel efficiency from AutomobileTypeFuelYear" do
-      fuel_years = AutomobileTypeFuelYear.where(:year => AutomobileTypeFuelYear.maximum(:year))
+    process "Derive US average automobile fuel efficiency from AutomobileActivityYearTypeFuel" do
+      max_year = AutomobileActivityYearTypeFuel.maximum(:activity_year)
+      fuel_years = AutomobileActivityYearTypeFuel.where("activity_year = #{max_year} AND fuel_consumption IS NOT NULL")
       where(:iso_3166_code => 'US').update_all(
-        :automobile_fuel_efficiency => (fuel_years.sum(:total_travel).to_f / fuel_years.sum(:fuel_consumption)),
-        :automobile_fuel_efficiency_units => (fuel_years.first.total_travel_units + '_per_' + fuel_years.first.fuel_consumption_units.singularize)
+        :automobile_fuel_efficiency => (fuel_years.sum(:distance).to_f / fuel_years.sum(:fuel_consumption)),
+        :automobile_fuel_efficiency_units => (fuel_years.first.distance_units + '_per_' + fuel_years.first.fuel_consumption_units.singularize)
       )
-    end
-    
-    process "Convert automobile city speed from miles per hour to kilometres per hour" do
-      conversion_factor = 1.miles.to(:kilometres)
-      where(:automobile_city_speed_units => 'miles_per_hour').update_all(%{
-        automobile_city_speed = 1.0 * automobile_city_speed * #{conversion_factor},
-        automobile_city_speed_units = 'kilometres_per_hour'
-      })
-    end
-    
-    process "Convert automobile highway speed from miles per hour to kilometres per hour" do
-      conversion_factor = 1.miles.to(:kilometres)
-      where(:automobile_highway_speed_units => 'miles_per_hour').update_all(%{
-        automobile_highway_speed = 1.0 * automobile_highway_speed * #{conversion_factor},
-        automobile_highway_speed_units = 'kilometres_per_hour'
-      })
-    end
-    
-    process "Convert automobile trip distance from miles to kilometres" do
-      conversion_factor = 1.miles.to(:kilometres)
-      where(:automobile_trip_distance_units => 'miles').update_all(%{
-        automobile_trip_distance = 1.0 * automobile_trip_distance * #{conversion_factor},
-        automobile_trip_distance_units = 'kilometres'
-      })
     end
     
     # ELECTRICITY
@@ -101,67 +79,67 @@ Country.class_eval do
     end
     
     process "Ensure EgridSubregion and EgridRegion are populated" do
-      EgridSubregion.run_data_miner!
-      EgridRegion.run_data_miner!
+      # EgridSubregion.run_data_miner!
+      # EgridRegion.run_data_miner!
     end
     
     process "Derive average US electricity emission factor and loss factor from eGRID" do
-      us = united_states
-      us.electricity_emission_factor = EgridSubregion.fallback.electricity_emission_factor
-      us.electricity_emission_factor_units = EgridSubregion.fallback.electricity_emission_factor_units
-      us.electricity_loss_factor = EgridRegion.fallback.loss_factor
-      us.save!
+      united_states.update_attributes!(
+        :electricity_emission_factor =>       EgridSubregion.fallback.electricity_emission_factor,
+        :electricity_emission_factor_units => EgridSubregion.fallback.electricity_emission_factor_units,
+        :electricity_loss_factor =>           EgridRegion.fallback.loss_factor
+      )
     end
     
     # FLIGHT
     import "country-specific flight route inefficiency factors derived from Kettunen et al. (2005)",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdEJoRVBZaGhnUmlhX240VXE3X0F3WkE&output=csv' do
+           :url => "file://#{Earth::DATA_DIR}/locality/country_flight_data.csv" do
       key   'iso_3166_code'
       store 'flight_route_inefficiency_factor'
     end
     
     # HOSPITALITY
     process "Define US average lodging occupancy rate" do
-      country = united_states
-      country.lodging_occupancy_rate = 0.601 # per http://www.pwc.com/us/en/press-releases/2012/pwc-us-lodging-industry-forecast.jhtml
-      country.save!
+      united_states.update_attributes! :lodging_occupancy_rate => 0.601 # per http://www.pwc.com/us/en/press-releases/2012/pwc-us-lodging-industry-forecast.jhtml
     end
     
     process "Ensure CountryLodgingClass is populated" do
-      CountryLodgingClass.run_data_miner!
+      # CountryLodgingClass.run_data_miner!
     end
     
     process "Derive average hotel characteristics from CountryLodgingClass" do
       find_each do |country|
-        if country.lodging_classes.any?
-          country.lodging_natural_gas_intensity = country.lodging_classes.weighted_average(:natural_gas_intensity)
-          country.lodging_natural_gas_intensity_units = 'cubic_metres_per_occupied_room_night' # FIXME TODO derive this
-          country.lodging_fuel_oil_intensity = country.lodging_classes.weighted_average(:fuel_oil_intensity)
-          country.lodging_fuel_oil_intensity_units = 'gallons_per_occupied_room_night' # FIXME TODO derive this
-          country.lodging_electricity_intensity = country.lodging_classes.weighted_average(:electricity_intensity)
-          country.lodging_electricity_intensity_units = 'kilowatt_hours_per_occupied_room_night' # FIXME TODO derive this
-          country.lodging_district_heat_intensity = country.lodging_classes.weighted_average(:district_heat_intensity)
-          country.lodging_district_heat_intensity_units = 'megajoules_per_occupied_room_night' # FIXME TODO derive this
-          country.save!
+        if (lodging_classes = country.lodging_classes).any?
+          country.update_attributes!(
+            :lodging_natural_gas_intensity         => lodging_classes.weighted_average(:natural_gas_intensity),
+            :lodging_fuel_oil_intensity            => lodging_classes.weighted_average(:fuel_oil_intensity),
+            :lodging_electricity_intensity         => lodging_classes.weighted_average(:electricity_intensity),
+            :lodging_district_heat_intensity       => lodging_classes.weighted_average(:district_heat_intensity),
+            :lodging_natural_gas_intensity_units   => 'cubic_metres_per_occupied_room_night', # FIXME TODO derive this
+            :lodging_fuel_oil_intensity_units      => 'litres_per_occupied_room_night', # FIXME TODO derive this
+            :lodging_electricity_intensity_units   => 'kilowatt_hours_per_occupied_room_night', # FIXME TODO derive this
+            :lodging_district_heat_intensity_units => 'megajoules_per_occupied_room_night' # FIXME TODO derive this
+          )
         end
       end
     end
     
     # RAIL
     process "Ensure RailCompany and RailFuel are populated" do
-      RailCompany.run_data_miner!
-      RailFuel.run_data_miner!
+      # RailCompany.run_data_miner!
+      # RailFuel.run_data_miner!
     end
     
     process "Calculate rail passengers, trip distance, and speed from RailCompany" do
       find_each do |country|
-        if country.rail_companies.any?
-          country.rail_passengers = country.rail_companies.sum(:passengers)
-          country.rail_trip_distance = country.rail_companies.weighted_average(:trip_distance, :weighted_by => :passengers)
-          country.rail_trip_distance_units = 'kilometres' if country.rail_trip_distance.present?
-          country.rail_speed = country.rail_companies.weighted_average(:speed, :weighted_by => :passengers)
-          country.rail_speed_units = 'kilometres_per_hour' if country.rail_speed.present?
-          country.save!
+        if (rail_companies = country.rail_companies).any?
+          country.update_attributes!(
+            :rail_passengers          => rail_companies.sum(:passengers),
+            :rail_trip_distance       => rail_companies.weighted_average(:trip_distance, :weighted_by => :passengers),
+            :rail_speed               => rail_companies.weighted_average(:speed, :weighted_by => :passengers),
+            :rail_trip_distance_units => ('kilometres' if country.rail_trip_distance.present?),
+            :rail_speed_units         => ('kilometres_per_hour' if country.rail_speed.present?)
+          )
         end
       end
     end
@@ -190,14 +168,15 @@ Country.class_eval do
     end
     
     process "Derive US rail fuel and emission data from RailCompany" do
-      country = united_states
-      country.rail_trip_electricity_intensity = country.rail_companies.weighted_average(:electricity_intensity, :weighted_by => :passengers)
-      country.rail_trip_electricity_intensity_units = 'kilowatt_hours_per_passenger_kilometre'
-      country.rail_trip_diesel_intensity = country.rail_companies.weighted_average(:diesel_intensity, :weighted_by => :passengers)
-      country.rail_trip_diesel_intensity_units = 'litres_per_passenger_kilometre'
-      country.rail_trip_co2_emission_factor = country.rail_companies.weighted_average(:co2_emission_factor, :weighted_by => :passengers)
-      country.rail_trip_co2_emission_factor_units = 'kilograms_per_passenger_kilometre'
-      country.save!
+      rail_companies = united_states.rail_companies
+      united_states.update_attributes!(
+        :rail_trip_electricity_intensity       => rail_companies.weighted_average(:electricity_intensity, :weighted_by => :passengers),
+        :rail_trip_diesel_intensity            => rail_companies.weighted_average(:diesel_intensity, :weighted_by => :passengers),
+        :rail_trip_co2_emission_factor         => rail_companies.weighted_average(:co2_emission_factor, :weighted_by => :passengers),
+        :rail_trip_electricity_intensity_units => 'kilowatt_hours_per_passenger_kilometre',
+        :rail_trip_diesel_intensity_units      => 'litres_per_passenger_kilometre',
+        :rail_trip_co2_emission_factor_units   => 'kilograms_per_passenger_kilometre'
+      )
     end
   end
 end

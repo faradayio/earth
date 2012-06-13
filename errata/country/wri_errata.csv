@@ -1,25 +1,25 @@
 date,name,email,type,section,action,x,y,condition,notes
-1/25/2012,Ian Hough,ian@brighterplanet.com,meta,Intended use,,Country degree days import
-1/25/2012,Ian Hough,ian@brighterplanet.com,technical,country,replace,Bolivia,"Bolivia, Plurinational State of",,match iso country names
-1/25/2012,Ian Hough,ian@brighterplanet.com,technical,country,replace,Bosnia & Herzegovina,Bosnia and Herzegovina,,match iso country names
-1/25/2012,Ian Hough,ian@brighterplanet.com,technical,country,replace,Brunei*,Brunei Darussalam,,match iso country names
-1/25/2012,Ian Hough,ian@brighterplanet.com,technical,country,replace,"Congo, Dem. Republic","Congo, The Democratic Republic of the",,match iso country names
-3/15/2012,Ian Hough,ian@brighterplanet.com,technical,country,replace,Cote d'Ivoire,Côte d'Ivoire,,be sure to include utf8 chars
-1/25/2012,Ian Hough,ian@brighterplanet.com,technical,country,replace,Iran,"Iran, Islamic Republic of",,match iso country names
-1/25/2012,Ian Hough,ian@brighterplanet.com,technical,country,replace,Iraq*,Iraq,,match iso country names
-1/25/2012,Ian Hough,ian@brighterplanet.com,technical,country,replace,Korea (North),"Korea, Democratic People's Republic of ",,match iso country names
-1/25/2012,Ian Hough,ian@brighterplanet.com,technical,country,replace,Korea (South),"Korea, Republic of ",,match iso country names
-1/25/2012,Ian Hough,ian@brighterplanet.com,technical,country,replace,Laos,Lao People's Democratic Republic,,match iso country names
-1/25/2012,Ian Hough,ian@brighterplanet.com,technical,country,replace,Libya,Libyan Arab Jamahiriya,,match iso country names
-1/25/2012,Ian Hough,ian@brighterplanet.com,technical,country,replace,"Macedonia, FYR","Macedonia, The Former Yugoslav Republic of",,match iso country names
-1/25/2012,Ian Hough,ian@brighterplanet.com,technical,country,replace,Moldova,"Moldova, Republic of",,match iso country names
-1/25/2012,Ian Hough,ian@brighterplanet.com,technical,country,replace,Saint Kitts & Nevis,Saint Kitts and Nevis,,match iso country names
-1/25/2012,Ian Hough,ian@brighterplanet.com,technical,country,replace,Sao Tome & Principe,Sao Tome and Principe,,match iso country names
-1/25/2012,Ian Hough,ian@brighterplanet.com,technical,country,replace,Serbia & Montenegro,Serbia,,match iso country names
-1/25/2012,Ian Hough,ian@brighterplanet.com,technical,country,replace,Syria,Syrian Arab Republic,,match iso country names
-1/25/2012,Ian Hough,ian@brighterplanet.com,technical,country,replace,Taiwan*,"Taiwan, Province of China",,match iso country names
-1/25/2012,Ian Hough,ian@brighterplanet.com,technical,country,replace,Tanzania,"Tanzania, United Republic of",,match iso country names
-1/25/2012,Ian Hough,ian@brighterplanet.com,technical,country,replace,Trinidad & Tobago,Trinidad and Tobago,,match iso country names
-1/25/2012,Ian Hough,ian@brighterplanet.com,technical,country,replace,United States of America,United States,,match iso country names
-1/25/2012,Ian Hough,ian@brighterplanet.com,technical,country,replace,Venezuela,"Venezuela, Bolivarian Republic of",,match iso country names
-1/25/2012,Ian Hough,ian@brighterplanet.com,technical,country,replace,Vietnam,Viet Nam,,match iso country names
+1/25/12,Ian Hough,ian@brighterplanet.com,meta,Intended use,,Country degree days import,,,
+1/25/12,Ian Hough,ian@brighterplanet.com,technical,country,replace,Bolivia,"Bolivia, Plurinational State of",,match iso country names
+1/25/12,Ian Hough,ian@brighterplanet.com,technical,country,replace,Bosnia & Herzegovina,Bosnia and Herzegovina,,match iso country names
+1/25/12,Ian Hough,ian@brighterplanet.com,technical,country,replace,Brunei*,Brunei Darussalam,,match iso country names
+1/25/12,Ian Hough,ian@brighterplanet.com,technical,country,replace,"Congo, Dem. Republic","Congo, The Democratic Republic of the",,match iso country names
+3/15/12,Ian Hough,ian@brighterplanet.com,technical,country,replace,Cote d'Ivoire,Côte d'Ivoire,,be sure to include utf8 chars
+1/25/12,Ian Hough,ian@brighterplanet.com,technical,country,replace,Iran,"Iran, Islamic Republic of",,match iso country names
+1/25/12,Ian Hough,ian@brighterplanet.com,technical,country,replace,Iraq*,Iraq,,match iso country names
+1/25/12,Ian Hough,ian@brighterplanet.com,technical,country,replace,Korea (North),"Korea, Democratic People's Republic of ",,match iso country names
+1/25/12,Ian Hough,ian@brighterplanet.com,technical,country,replace,Korea (South),"Korea, Republic of ",,match iso country names
+1/25/12,Ian Hough,ian@brighterplanet.com,technical,country,replace,Laos,Lao People's Democratic Republic,,match iso country names
+1/25/12,Ian Hough,ian@brighterplanet.com,technical,country,replace,Libya,Libyan Arab Jamahiriya,,match iso country names
+1/25/12,Ian Hough,ian@brighterplanet.com,technical,country,replace,"Macedonia, FYR","Macedonia, The Former Yugoslav Republic of",,match iso country names
+1/25/12,Ian Hough,ian@brighterplanet.com,technical,country,replace,Moldova,"Moldova, Republic of",,match iso country names
+1/25/12,Ian Hough,ian@brighterplanet.com,technical,country,replace,Saint Kitts & Nevis,Saint Kitts and Nevis,,match iso country names
+1/25/12,Ian Hough,ian@brighterplanet.com,technical,country,replace,Sao Tome & Principe,Sao Tome and Principe,,match iso country names
+1/25/12,Ian Hough,ian@brighterplanet.com,technical,country,replace,Serbia & Montenegro,Serbia,,match iso country names
+1/25/12,Ian Hough,ian@brighterplanet.com,technical,country,replace,Syria,Syrian Arab Republic,,match iso country names
+1/25/12,Ian Hough,ian@brighterplanet.com,technical,country,replace,Taiwan*,"Taiwan, Province of China",,match iso country names
+1/25/12,Ian Hough,ian@brighterplanet.com,technical,country,replace,Tanzania,"Tanzania, United Republic of",,match iso country names
+1/25/12,Ian Hough,ian@brighterplanet.com,technical,country,replace,Trinidad & Tobago,Trinidad and Tobago,,match iso country names
+1/25/12,Ian Hough,ian@brighterplanet.com,technical,country,replace,United States of America,United States,,match iso country names
+1/25/12,Ian Hough,ian@brighterplanet.com,technical,country,replace,Venezuela,"Venezuela, Bolivarian Republic of",,match iso country names
+1/25/12,Ian Hough,ian@brighterplanet.com,technical,country,replace,Vietnam,Viet Nam,,match iso country names

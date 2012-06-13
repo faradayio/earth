@@ -1,4 +1,5 @@
 require 'earth/automobile'
+require 'earth/fuel'
 require 'earth/hospitality'
 require 'earth/rail'
 
@@ -46,10 +47,6 @@ class Country < ActiveRecord::Base
     find_by_iso_3166_code('US')
   end
   
-  def united_states?
-    iso_3166_code == 'US'
-  end
-  
   col :iso_3166_code                            # alpha-2 2-letter like GB
   col :iso_3166_numeric_code, :type => :integer # numeric like 826; aka UN M49 code
   col :iso_3166_alpha_3_code                    # 3-letter like GBR
@@ -91,8 +88,7 @@ class Country < ActiveRecord::Base
   col :rail_trip_diesel_intensity_units
   col :rail_trip_co2_emission_factor, :type => :float
   col :rail_trip_co2_emission_factor_units
-
-  warn_if_nulls_except /heating/, /cooling/
-
+  
   warn_unless_size 249
+  warn_if_nulls_except /heating/, /cooling/
 end
