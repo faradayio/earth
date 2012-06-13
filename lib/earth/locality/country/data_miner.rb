@@ -49,7 +49,7 @@ Country.class_eval do
     end
     
     process "Ensure AutomobileActivityYearTypeFuel is populated" do
-      # AutomobileActivityYearTypeFuel.run_data_miner!
+      AutomobileActivityYearTypeFuel.run_data_miner!
     end
     
     process "Derive US average automobile fuel efficiency from AutomobileActivityYearTypeFuel" do
@@ -79,8 +79,8 @@ Country.class_eval do
     end
     
     process "Ensure EgridSubregion and EgridRegion are populated" do
-      # EgridSubregion.run_data_miner!
-      # EgridRegion.run_data_miner!
+      EgridSubregion.run_data_miner!
+      EgridRegion.run_data_miner!
     end
     
     process "Derive average US electricity emission factor and loss factor from eGRID" do
@@ -104,7 +104,7 @@ Country.class_eval do
     end
     
     process "Ensure CountryLodgingClass is populated" do
-      # CountryLodgingClass.run_data_miner!
+      CountryLodgingClass.run_data_miner!
     end
     
     process "Derive average hotel characteristics from CountryLodgingClass" do
@@ -126,8 +126,8 @@ Country.class_eval do
     
     # RAIL
     process "Ensure RailCompany and RailFuel are populated" do
-      # RailCompany.run_data_miner!
-      # RailFuel.run_data_miner!
+      RailCompany.run_data_miner!
+      RailFuel.run_data_miner!
     end
     
     process "Calculate rail passengers, trip distance, and speed from RailCompany" do
