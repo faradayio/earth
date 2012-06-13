@@ -13,9 +13,7 @@ describe Industry do
   end
   
   describe "verify imported data", :sanity => true do
-    it "should have all the data" do
-      Industry.count.should == 2341
-    end
+    it { Industry.count.should == 2341 }
   end
   
   describe "methods" do
