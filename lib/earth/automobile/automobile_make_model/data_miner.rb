@@ -25,18 +25,17 @@ AutomobileMakeModel.class_eval do
       find_each do |amm|
         codes = amm.model_years.map(&:fuel_code).uniq
         if codes.count == 1
-          amm.fuel_code = codes.first
+          amm.update_attributes! :fuel_code => codes.first
         elsif codes.all?{ |code| ['R', 'P', 'G'].include? code }
-          amm.fuel_code = 'G'
+          amm.update_attributes! :fuel_code => 'G'
         end
         
         alt_codes = amm.model_years.map(&:alt_fuel_code).uniq
-        amm.alt_fuel_code = (alt_codes.first if alt_codes.count == 1)
-        
         type_names = amm.model_years.map(&:type_name).uniq
-        amm.type_name = (type_names.one? ? type_names.first : nil)
-        
-        amm.save!
+        amm.update_attributes!(
+          :alt_fuel_code => (alt_codes.first if alt_codes.count == 1),
+          :type_name => (type_names.first if type_names.one?)
+        )
       end
     end
     

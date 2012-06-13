@@ -22,10 +22,10 @@ AutomobileFuel.class_eval do
     end
     
     process "Derive energy content and co2 emission factors from Fuel" do
-      elec = AutomobileFuel.find 'electricity'
-      elec.energy_content = 1.kilowatt_hours.to(:megajoules)
-      elec.energy_content_units = 'megajoules_per_kilowatt_hour'
-      elec.save!
+      AutomobileFuel.find('electricity').update_attributes!(
+        :energy_content => 1.kilowatt_hours.to(:megajoules),
+        :energy_content_units => 'megajoules_per_kilowatt_hour'
+      )
       
       where("name != 'electricity'").each do |auto_fuel|
         %w{ energy_content co2_emission_factor co2_biogenic_emission_factor }.each do |method|
@@ -34,10 +34,12 @@ AutomobileFuel.class_eval do
           else
             auto_fuel.base_fuel.send method
           end
-          auto_fuel.send("#{method}=", value)
-          auto_fuel.send("#{method}_units=", auto_fuel.base_fuel.send("#{method}_units"))
+          
+          auto_fuel.update_attributes!(
+            :"#{method}" => value,
+            :"#{method}_units" => auto_fuel.base_fuel.send("#{method}_units")
+          )
         end
-        auto_fuel.save!
       end
     end
     
@@ -56,14 +58,17 @@ AutomobileFuel.class_eval do
       find_each do |record|
         if (type_fuels = record.type_fuels).any?
           %w{ annual_distance ch4_emission_factor n2o_emission_factor }.each do |item|
-            record.send("#{item}=", type_fuels.weighted_average(item, :weighted_by => :vehicles))
-            record.send("#{item}_units=", type_fuels.first.send("#{item}_units"))
+            record.update_attributes!(
+              :"#{item}" => type_fuels.weighted_average(item, :weighted_by => :vehicles),
+              :"#{item}_units" => type_fuels.first.send("#{item}_units")
+            )
           end
           unless record.name =~ / gasoline/
-            record.total_consumption = record.type_fuels.sum(:fuel_consumption)
-            record.total_consumption_units = record.type_fuels.first.fuel_consumption_units
+            record.update_attributes!(
+              :total_consumption => record.type_fuels.sum(:fuel_consumption),
+              :total_consumption_units => record.type_fuels.first.fuel_consumption_units
+            )
           end
-          record.save!
         end
       end
     end
