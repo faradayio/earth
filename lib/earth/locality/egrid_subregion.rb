@@ -1,4 +1,5 @@
-require 'earth/fuel'
+require 'earth/locality/egrid_region'
+
 class EgridSubregion < ActiveRecord::Base
   self.primary_key = "abbreviation"
   
@@ -7,14 +8,14 @@ class EgridSubregion < ActiveRecord::Base
   
   falls_back_on :name => 'fallback',
                 :egrid_region => lambda { EgridRegion.fallback },
-                :electricity_co2_emission_factor => lambda { weighted_average(:electricity_co2_emission_factor, :weighted_by => :net_generation) },
-                :electricity_co2_emission_factor_units => 'kilograms_per_kilowatt_hour',
-                :electricity_co2_biogenic_emission_factor => lambda { weighted_average(:electricity_co2_biogenic_emission_factor, :weighted_by => :net_generation) },
-                :electricity_co2_biogenic_emission_factor_units => 'kilograms_per_kilowatt_hour',
-                :electricity_ch4_emission_factor => lambda { weighted_average(:electricity_ch4_emission_factor, :weighted_by => :net_generation) },
-                :electricity_ch4_emission_factor_units => 'kilograms_co2e_per_kilowatt_hour',
-                :electricity_n2o_emission_factor => lambda { weighted_average(:electricity_n2o_emission_factor, :weighted_by => :net_generation) },
-                :electricity_n2o_emission_factor_units => 'kilograms_co2e_per_kilowatt_hour',
+                :co2_emission_factor => lambda { weighted_average(:co2_emission_factor, :weighted_by => :net_generation) },
+                :co2_emission_factor_units => 'kilograms_per_kilowatt_hour',
+                :co2_biogenic_emission_factor => lambda { weighted_average(:co2_biogenic_emission_factor, :weighted_by => :net_generation) },
+                :co2_biogenic_emission_factor_units => 'kilograms_per_kilowatt_hour',
+                :ch4_emission_factor => lambda { weighted_average(:ch4_emission_factor, :weighted_by => :net_generation) },
+                :ch4_emission_factor_units => 'kilograms_co2e_per_kilowatt_hour',
+                :n2o_emission_factor => lambda { weighted_average(:n2o_emission_factor, :weighted_by => :net_generation) },
+                :n2o_emission_factor_units => 'kilograms_co2e_per_kilowatt_hour',
                 :electricity_emission_factor => lambda { weighted_average(:electricity_emission_factor, :weighted_by => :net_generation) },
                 :electricity_emission_factor_units => 'kilograms_co2e_per_kilowatt_hour'
   
@@ -24,16 +25,17 @@ class EgridSubregion < ActiveRecord::Base
   col :egrid_region_name
   col :net_generation, :type => :float
   col :net_generation_units
-  col :electricity_co2_emission_factor, :type => :float
-  col :electricity_co2_emission_factor_units
-  col :electricity_co2_biogenic_emission_factor, :type => :float
-  col :electricity_co2_biogenic_emission_factor_units
-  col :electricity_ch4_emission_factor, :type => :float
-  col :electricity_ch4_emission_factor_units
-  col :electricity_n2o_emission_factor, :type => :float
-  col :electricity_n2o_emission_factor_units
+  col :co2_emission_factor, :type => :float
+  col :co2_emission_factor_units
+  col :co2_biogenic_emission_factor, :type => :float
+  col :co2_biogenic_emission_factor_units
+  col :ch4_emission_factor, :type => :float
+  col :ch4_emission_factor_units
+  col :n2o_emission_factor, :type => :float
+  col :n2o_emission_factor_units
   col :electricity_emission_factor, :type => :float
   col :electricity_emission_factor_units
-
-  warn_unless_size 27
+  
+  warn_unless_size 26
+  warn_if_any_nulls
 end
