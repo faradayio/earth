@@ -54,6 +54,7 @@ require 'earth'
 
 domain = ARGV[0]
 
+DataMiner.unit_converter = :conversions
 Earth.init domain, :load_data_miner => true, :apply_schemas => true
 DataMiner::Run.auto_upgrade!
 
