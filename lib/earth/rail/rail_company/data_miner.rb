@@ -90,7 +90,7 @@ RailCompany.class_eval do
         end
         
         if company.electricity_intensity.present?
-          company.co2_emission_factor += company.electricity_intensity * (EgridSubregion.fallback.electricity_co2_emission_factor / (1 - EgridRegion.fallback.loss_factor))
+          company.co2_emission_factor += company.electricity_intensity * (EgridSubregion.fallback.co2_emission_factor / (1 - EgridRegion.fallback.loss_factor))
         end
         
         company.co2_emission_factor_units = 'kilograms_per_passenger_kilometre'
