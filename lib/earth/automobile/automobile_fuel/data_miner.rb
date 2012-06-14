@@ -10,7 +10,7 @@ AutomobileFuel.class_eval do
            :url => "file://#{Earth::DATA_DIR}/automobile/auto_fuel_data.csv" do
       key   'name'
       store 'code'
-      store 'group'
+      store 'family'
       store 'distance_key'
       store 'base_fuel_name', :nullify => true
       store 'blend_fuel_name', :nullify => true

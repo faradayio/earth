@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'earth/automobile/automobile_type_fuel_year'
 
 describe AutomobileTypeFuelYear do
-  let(:test_atfy) { ATFY.where(:type_name => 'Passenger cars', :fuel_group => 'gasoline', :year => 2005).first }
+  let(:test_atfy) { ATFY.where(:type_name => 'Passenger cars', :fuel_family => 'gasoline', :year => 2005).first }
   
   before :all do
     Earth.init :automobile, :load_data_miner => true
@@ -19,7 +19,7 @@ describe AutomobileTypeFuelYear do
     it { ATFY.count.should == 124 }
     
     it 'shares should sum to 1' do
-      ATFY.sum(:share_of_type, :group => [:type_name, :fuel_group]).each do |groupers, total|
+      ATFY.sum(:share_of_type, :group => [:type_name, :fuel_family]).each do |groupers, total|
         total.should be_within(1e-2).of(1.0)
       end
     end
@@ -37,10 +37,10 @@ describe AutomobileTypeFuelYear do
     it { test_atfy.n2o_emission_factor_units.should == 'kilograms_co2e_per_kilometre' }
   end
   
-  describe '.find_by_type_name_and_fuel_group_and_closest_year' do
-    it { ATFY.find_by_type_name_and_fuel_group_and_closest_year('Passenger cars', 'gasoline', 1970).should == ATFY.find_by_type_name_and_fuel_group_and_year('Passenger cars', 'gasoline', 1979) }
-    it { ATFY.find_by_type_name_and_fuel_group_and_closest_year('Passenger cars', 'gasoline', 2005).should == ATFY.find_by_type_name_and_fuel_group_and_year('Passenger cars', 'gasoline', 2005) }
-    it { ATFY.find_by_type_name_and_fuel_group_and_closest_year('Passenger cars', 'gasoline', 2012).should == ATFY.find_by_type_name_and_fuel_group_and_year('Passenger cars', 'gasoline', 2009) }
+  describe '.find_by_type_name_and_fuel_family_and_closest_year' do
+    it { ATFY.find_by_type_name_and_fuel_family_and_closest_year('Passenger cars', 'gasoline', 1970).should == ATFY.find_by_type_name_and_fuel_family_and_year('Passenger cars', 'gasoline', 1979) }
+    it { ATFY.find_by_type_name_and_fuel_family_and_closest_year('Passenger cars', 'gasoline', 2005).should == ATFY.find_by_type_name_and_fuel_family_and_year('Passenger cars', 'gasoline', 2005) }
+    it { ATFY.find_by_type_name_and_fuel_family_and_closest_year('Passenger cars', 'gasoline', 2012).should == ATFY.find_by_type_name_and_fuel_family_and_year('Passenger cars', 'gasoline', 2009) }
   end
   
   describe '#type_fuel_year_controls' do

@@ -14,7 +14,7 @@ AutomobileActivityYearTypeFuel.class_eval do
         key   'name', :synthesize => proc { |row| "#{row['Year']} #{type} gasoline" }
         store 'activity_year', :field_name => 'Year'
         store 'type_name', :static => type
-        store 'fuel_group', :static => 'gasoline'
+        store 'fuel_family', :static => 'gasoline'
         store 'distance', :field_name => type, :from_units => :billion_miles, :to_units => :kilometres
       end
       
@@ -27,7 +27,7 @@ AutomobileActivityYearTypeFuel.class_eval do
         key   'name', :synthesize => proc { |row| "#{row['Year']} #{type} diesel" }
         store 'activity_year', :field_name => 'Year'
         store 'type_name', :static => type
-        store 'fuel_group', :static => 'diesel'
+        store 'fuel_family', :static => 'diesel'
         store 'distance', :field_name => type, :from_units => :billion_miles, :to_units => :kilometres
       end
       
@@ -40,7 +40,7 @@ AutomobileActivityYearTypeFuel.class_eval do
         key   'name', :synthesize => proc { |row| "#{row['Year']} #{type} alternative" }
         store 'activity_year', :field_name => 'Year'
         store 'type_name', :static => type
-        store 'fuel_group', :static => 'alternative'
+        store 'fuel_family', :static => 'alternative'
         store 'distance', :field_name => type, :from_units => :billion_miles, :to_units => :kilometres
       end
     end
@@ -50,7 +50,7 @@ AutomobileActivityYearTypeFuel.class_eval do
       key   'name'
       store 'activity_year'
       store 'type_name'
-      store 'fuel_group'
+      store 'fuel_family'
       store 'fuel_consumption', :from_units => :million_gallons, :to_units => :litres
     end
   end

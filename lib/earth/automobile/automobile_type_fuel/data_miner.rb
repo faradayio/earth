@@ -13,9 +13,9 @@ AutomobileTypeFuel.class_eval do
         :src => AutomobileTypeFuelYear,
         :dest => AutomobileTypeFuel,
         :cols => {
-          [:type_name, :fuel_group] => :name,
+          [:type_name, :fuel_family] => :name,
           :type_name => :type_name,
-          :fuel_group => :fuel_group
+          :fuel_family => :fuel_family
         }
       )
     end
@@ -23,7 +23,7 @@ AutomobileTypeFuel.class_eval do
     process "Derive annual distance and emission factors from AutomobileTypeFuelYear" do
       type_fuels = arel_table
       type_fuel_years = AutomobileTypeFuelYear.arel_table
-      join_relation = type_fuel_years[:type_name].eq(type_fuels[:type_name]).and(type_fuel_years[:fuel_group].eq(type_fuels[:fuel_group]))
+      join_relation = type_fuel_years[:type_name].eq(type_fuels[:type_name]).and(type_fuel_years[:fuel_family].eq(type_fuels[:fuel_family]))
       
       %w{ annual_distance ch4_emission_factor n2o_emission_factor }.each do |item|
         item_sql = AutomobileTypeFuelYear.where(join_relation).weighted_average_relation(:"#{item}", :weighted_by => :share_of_type).to_sql

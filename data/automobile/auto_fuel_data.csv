@@ -1,4 +1,4 @@
-name,code,group,distance_key,base_fuel_name,blend_fuel_name,blend_portion
+name,code,family,distance_key,base_fuel_name,blend_fuel_name,blend_portion
 B100,BP-B100,b100,diesel,Biodiesel
 B20,BP-B20,b20,diesel,Distillate Fuel Oil No. 2,Biodiesel,0.2
 B5,BP-B5,b5,diesel,Distillate Fuel Oil No. 2,Biodiesel,0.05

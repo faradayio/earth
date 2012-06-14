@@ -1,4 +1,4 @@
-name,type_name,fuel_group,control_name,ch4_emission_factor,ch4_emission_factor_units,n2o_emission_factor,n2o_emission_factor_units,source,source_detail,source_url
+name,type_name,fuel_family,control_name,ch4_emission_factor,ch4_emission_factor_units,n2o_emission_factor,n2o_emission_factor_units,source,source_detail,source_url
 Light-duty trucks diesel advanced,Light-duty trucks,diesel,advanced,0.001,grams_per_mile,0.0015,grams_per_mile,EPA (2012) Table A-103,U.S. EPA (2012) Inventory of U.S. Greenhouse Gas Emissions and Sinks: 1990-2010,http://www.epa.gov/climatechange/emissions/usinventoryreport.html
 Light-duty trucks diesel moderate,Light-duty trucks,diesel,moderate,0.0009,grams_per_mile,0.0014,grams_per_mile,EPA (2012) Table A-103,U.S. EPA (2012) Inventory of U.S. Greenhouse Gas Emissions and Sinks: 1990-2010,http://www.epa.gov/climatechange/emissions/usinventoryreport.html
 Light-duty trucks diesel uncontrolled,Light-duty trucks,diesel,uncontrolled,0.0011,grams_per_mile,0.0017,grams_per_mile,EPA (2012) Table A-103,U.S. EPA (2012) Inventory of U.S. Greenhouse Gas Emissions and Sinks: 1990-2010,http://www.epa.gov/climatechange/emissions/usinventoryreport.html

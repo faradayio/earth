@@ -1,4 +1,4 @@
-name,activity_year,type_name,fuel_group,fuel_consumption,fuel_consumption_units,source,source_detail,source_url
+name,activity_year,type_name,fuel_family,fuel_consumption,fuel_consumption_units,source,source_detail,source_url
 1990 Light-duty trucks diesel,1990,Light-duty trucks,diesel,1118.5,million_gallons,EPA (2012) Table A-88,U.S. EPA (2012) Inventory of U.S. Greenhouse Gas Emissions and Sinks: 1990-2010,http://www.epa.gov/climatechange/emissions/usinventoryreport.html
 1991 Light-duty trucks diesel,1991,Light-duty trucks,diesel,1107.8,million_gallons,EPA (2012) Table A-88,U.S. EPA (2012) Inventory of U.S. Greenhouse Gas Emissions and Sinks: 1990-2010,http://www.epa.gov/climatechange/emissions/usinventoryreport.html
 1992 Light-duty trucks diesel,1992,Light-duty trucks,diesel,1224.7,million_gallons,EPA (2012) Table A-88,U.S. EPA (2012) Inventory of U.S. Greenhouse Gas Emissions and Sinks: 1990-2010,http://www.epa.gov/climatechange/emissions/usinventoryreport.html

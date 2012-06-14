@@ -8,10 +8,10 @@ AutomobileTypeFuelYearControl.class_eval do
            :url => "file://#{Earth::DATA_DIR}/automobile/annual_emission_controls.csv" do
       key   'name'
       store 'type_name'
-      store 'fuel_group'
+      store 'fuel_family'
       store 'year'
       store 'control_name'
-      store 'type_fuel_control_name', :synthesize => proc { |row| [row['type_name'], row['fuel_group'], row['control_name']].join(' ') }
+      store 'type_fuel_control_name', :synthesize => proc { |row| [row['type_name'], row['fuel_family'], row['control_name']].join(' ') }
       store 'total_travel_percent'
     end
   end

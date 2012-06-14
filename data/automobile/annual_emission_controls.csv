@@ -1,4 +1,4 @@
-name,type_name,fuel_group,year,control_name,total_travel_percent,source,source_detail,source_url
+name,type_name,fuel_family,year,control_name,total_travel_percent,source,source_detail,source_url
 Light-duty trucks diesel 1985 moderate,Light-duty trucks,diesel,1985,moderate,1,EPA (2012) Table A-102,U.S. EPA (2012) Inventory of U.S. Greenhouse Gas Emissions and Sinks: 1990-2010,http://www.epa.gov/climatechange/emissions/usinventoryreport.html
 Light-duty trucks diesel 1986 moderate,Light-duty trucks,diesel,1986,moderate,1,EPA (2012) Table A-102,U.S. EPA (2012) Inventory of U.S. Greenhouse Gas Emissions and Sinks: 1990-2010,http://www.epa.gov/climatechange/emissions/usinventoryreport.html
 Light-duty trucks diesel 1987 moderate,Light-duty trucks,diesel,1987,moderate,1,EPA (2012) Table A-102,U.S. EPA (2012) Inventory of U.S. Greenhouse Gas Emissions and Sinks: 1990-2010,http://www.epa.gov/climatechange/emissions/usinventoryreport.html

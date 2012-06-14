@@ -16,7 +16,7 @@ AutomobileTypeFuelYear.class_eval do
                :select => proc { |row| row['age'].to_i.to_s == row['age'] } do
           key 'name', :synthesize => proc { |row| "#{type} #{fuel} #{2009 - row['age'].to_i}" }
           store 'type_name', :static => type
-          store 'fuel_group', :static => fuel
+          store 'fuel_family', :static => fuel
           store 'year', :synthesize => proc { |row| 2009 - row['age'].to_i }
           store 'share_of_type', :synthesize => proc { |row| row[code].to_f / (code == 'LDDV' ? 57.5 : 100) } # total percent only sums to 57.5 for diesel cars
         end

@@ -5,11 +5,11 @@ class AutomobileTypeFuelYearControl < ActiveRecord::Base
   belongs_to :type_fuel_control, :foreign_key => :type_fuel_control_name, :class_name => 'AutomobileTypeFuelControl'
   
   # Used by AutomobileTypeFuelYear
-  def self.find_all_by_type_name_and_fuel_group_and_closest_year(type_name, fuel_group, year)
+  def self.find_all_by_type_name_and_fuel_family_and_closest_year(type_name, fuel_family, year)
     if year > maximum(:year)
-      where(:type_name => type_name, :fuel_group => fuel_group, :year => maximum(:year))
+      where(:type_name => type_name, :fuel_family => fuel_family, :year => maximum(:year))
     else
-      where(:type_name => type_name, :fuel_group => fuel_group, :year => [year, minimum(:year)].max)
+      where(:type_name => type_name, :fuel_family => fuel_family, :year => [year, minimum(:year)].max)
     end
   end
   
@@ -26,7 +26,7 @@ class AutomobileTypeFuelYearControl < ActiveRecord::Base
   
   col :name
   col :type_name
-  col :fuel_group
+  col :fuel_family
   col :year, :type => :integer
   col :control_name
   col :type_fuel_control_name
