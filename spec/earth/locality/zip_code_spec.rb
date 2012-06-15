@@ -16,7 +16,7 @@ describe ZipCode do
     it { ZipCode.count.should == 43770 }
     it { ZipCode.where(:state_postal_abbreviation => nil).count.should == 0 }
     it { ZipCode.where('latitude IS NOT NULL AND longitude IS NOT NULL').count.should == 43191 }
-    it { ZipCode.where('egrid_subregion_abbreviation IS NOT NULL').count.should == 41334 }
+    it { ZipCode.where('egrid_subregion_abbreviation IS NOT NULL').count.should == 41333 }
     it { ZipCode.where('climate_division_name IS NOT NULL').count.should == 41358 }
     it { ZipCode.where('population IS NOT NULL').count.should == 33120 }
   end
@@ -34,8 +34,8 @@ describe ZipCode do
   
   describe '#latitude_longitude' do
     it 'should return the lat and lng as an array of strings' do
-      ZipCode.find('00001').latitude_longitude.should == ['55.856236', '21.0960915']
-      ZipCode.find('00002').latitude_longitude.should == [nil, nil]
+      ZipCode.find('00001').latitude_longitude.should == [nil, nil]
+      ZipCode.find('00210').latitude_longitude.should == ['43.005895', '-71.013202']
     end
   end
   

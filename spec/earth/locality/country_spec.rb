@@ -71,12 +71,12 @@ describe Country do
       it { Country.where("rail_trip_co2_emission_factor > 0").count.should == 26 }
       
       # spot checks
-      it { us.rail_passengers.should == 4467000000 }
+      it { us.rail_passengers.should be_within(10_000).of(4_466_991_391) }
       it { us.rail_trip_distance.should be_within(5e-5).of(12.9952) }
       it { us.rail_speed.should be_within(5e-5).of(32.4972) }
-      it { us.rail_trip_electricity_intensity.should be_within(5e-5).of(0.140512) }
-      it { us.rail_trip_diesel_intensity.should be_within(5e-5).of(0.0194) }
-      it { us.rail_trip_co2_emission_factor.should be_within(5e-5).of(0.0958) }
+      it { us.rail_trip_electricity_intensity.should be_within(5e-5).of(0.14051) }
+      it { us.rail_trip_diesel_intensity.should be_within(5e-5).of(0.01942) }
+      it { us.rail_trip_co2_emission_factor.should be_within(5e-5).of(0.0909) }
       
       it { uk.rail_passengers.should == 1352150000 }
       it { uk.rail_trip_distance.should be_within(5e-5).of(40.6904) }

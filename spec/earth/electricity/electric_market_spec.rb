@@ -18,7 +18,7 @@ describe ElectricMarket do
     
     it { ElectricMarket.where(:electric_utility_eia_id => nil).count.should == 0 } # some ids aren't found in our electric_utilities table
     
-    it 'Properly links 53704 to MG&E' do
+    it 'links 53704 to MG&E' do
       ZipCode.find('53704').electric_utilities.should include(ElectricUtility.find 11479)
     end
   end
