@@ -49,6 +49,18 @@ class AutomobileFuel < ActiveRecord::Base
     end
   end
   
+  # for AutomobileMakeModel.custom_find
+  def suffix
+    case code
+    when 'D', 'BP-B5', 'BP-B20', 'BP-B100'
+      'DIESEL'
+    when 'E'
+      'FFV'
+    when 'C'
+      'CNG'
+    end
+  end
+  
   falls_back_on :name => 'fallback',
                 :base_fuel_name => 'Motor Gasoline',
                 :blend_fuel_name => 'Distillate Fuel Oil No. 2',

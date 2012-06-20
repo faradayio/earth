@@ -68,6 +68,46 @@ describe AutomobileMakeModel do
     it { f150_ffv.type_name.should == 'Light-duty trucks' }
   end
   
+  describe '.custom_find' do
+    it 'considers fuel' do
+      %w{ diesel B5 B20 B100 }.each do |fuel|
+        AMM.custom_find(
+          {
+            :make => AutomobileMake.find('Volkswagen'),
+            :model => AutomobileModel.find('Jetta'),
+            :automobile_fuel => AutomobileFuel.find(fuel)
+          }
+        ).name.should == 'Volkswagen JETTA DIESEL'
+      end
+      
+      AMM.custom_find(
+        {
+          :make => AutomobileMake.find('Ford'),
+          :model => AutomobileModel.find('F150'),
+          :automobile_fuel => AutomobileFuel.find('E85')
+        }
+      ).name.should == 'Ford F150 FFV'
+      
+      AMM.custom_find(
+        {
+          :make => AutomobileMake.find('Honda'),
+          :model => AutomobileModel.find('Civic'),
+          :automobile_fuel => AutomobileFuel.find('CNG')
+        }
+      ).name.should == 'Honda CIVIC CNG'
+    end
+    
+    it 'ignores fuel if it does not help' do
+      AMM.custom_find(
+        {
+          :make => AutomobileMake.find('Volkswagen'),
+          :model => AutomobileModel.find('Jetta'),
+          :automobile_fuel => AutomobileFuel.find('CNG')
+        }
+      ).name.should == 'Volkswagen JETTA'
+    end
+  end
+  
   describe '#model_years' do
     it { civic.model_years.sort.should == civic_years.sort }
   end
