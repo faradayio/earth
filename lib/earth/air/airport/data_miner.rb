@@ -54,7 +54,8 @@ Airport.class_eval do
     end
     
     process "Fill in blank cities (assume airport name is city name)" do
-      where(:city => nil).update_all "city = name"
+      t = Airport.arel_table
+      where(:city => nil).update_all(t[:city].eq(t[:name]).to_sql)
     end
     
     process "Fill in blank country codes" do
