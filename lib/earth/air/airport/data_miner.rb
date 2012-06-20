@@ -37,20 +37,24 @@ Airport.class_eval do
                         :responder => "Airport::Guru" } do
       key 'iata_code'
       store 'name'
-      store 'city'
+      store 'city', :nullify => true
       store 'country_name', :synthesize => proc { |row| Airport.countries_dictionary.find(row['country_name'], :must_match_at_least_one_word => true).try(:name) }
       store 'latitude'
       store 'longitude'
     end
     
     import "airports missing from the OpenFlights.org database",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdHpyR3NudEl5V21ZcEdXQXFDNU8zTWc&output=csv' do
+           :url => "#{Earth::DATA_DIR}/air/airports.csv" do
       key 'iata_code'
       store 'name'
       store 'city'
       store 'country_name'
       store 'latitude'
       store 'longitude'
+    end
+    
+    process "Fill in blank cities (assume airport name is city name)" do
+      where(:city => nil).update_all "city = name"
     end
     
     process "Fill in blank country codes" do

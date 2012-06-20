@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 require 'spec_helper'
 require 'earth/air/airport'
 
@@ -17,12 +19,17 @@ describe Airport do
       Airport.count.should == 5324
     end
     
+    it "should use utf-8 encoding" do
+      Airport.find('PDA').city.should == 'Puerto Inírida'
+    end
+    
     it "should have name" do
       Airport.where(:name => nil).count.should == 0
     end
     
     it "should have city" do
       Airport.where(:city => nil).count.should == 0
+      Airport.where(:city => '').count.should == 0
     end
     
     it "should have country code" do
