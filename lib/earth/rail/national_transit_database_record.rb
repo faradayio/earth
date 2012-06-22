@@ -41,10 +41,14 @@ class NationalTransitDatabaseRecord < ActiveRecord::Base
   col :other_fuel_description
 
   warn_if_nulls_except(
+    :passenger_distance,
+    :passenger_distance_units,
     :electricity,
     :electricity_units,
     :diesel,
     :diesel_units,
+    :gasoline,
+    :gasoline_units,
     :lpg,
     :lpg_units,
     :lng,
