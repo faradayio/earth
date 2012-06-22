@@ -25,6 +25,7 @@ date,name,email,type,section,action,x,y,condition,notes
 5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Aerosvit Ukranian Airlines,Aerosvit Airlines,,
 5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Alia-(The) Royal Jordanian,Royal Jordanian|Alia,,
 5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Arrow Air,Arrow Cargo,,match name for ICAO/IATA codes
+6/22/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Continental Air Lines,Continental Airlines,,typo
 5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,China Cargo Airline,China Cargo Airlines,,match name for ICAO/IATA codes
 5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Federal Express,FedEx,,match name for ICAO/IATA codes
 5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,/Grand Canyon Airlines.+Scenic Airlines/i,Grand Canyon Airlines|Scenic Airlines,,
