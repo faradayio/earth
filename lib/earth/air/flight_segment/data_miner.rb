@@ -180,11 +180,12 @@ FlightSegment.class_eval do
   end
   
   data_miner do
-    process "Start from scratch" do
-      delete_all
-    end
-    FlightSegment.form_data_per_month.each do |month, form_data|
-      import "T100 flight segment data for #{month.strftime('%B %Y')}",
+    FlightSegment.form_data_per_month.each do |date, form_data|
+      process "Clear current data from #{date.strftime('%B %Y')}" do
+        where(:year => date.year, :month => date.month).delete_all
+      end
+      
+      import "T100 flight segment data for #{date.strftime('%B %Y')}",
              :url => URL,
              :form_data => form_data,
              :compression => :zip,
