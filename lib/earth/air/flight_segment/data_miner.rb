@@ -237,13 +237,5 @@ FlightSegment.class_eval do
     process "Data mine Aircraft because it's like a belongs-to association" do
       Aircraft.run_data_miner!
     end
-    
-    # verify origin_airport_iata_code is in airports
-    # verify destination_airport_iata_code is in airports
-    # verify origin_country_iso_3166_code is in countries
-    # verify destination_country_iso_3166_code is in countries
-    # verify airline_name is never missing
-    # verify aircraft_description is never missing
-    # verify year is never missing
   end
 end
