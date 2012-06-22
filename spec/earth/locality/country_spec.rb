@@ -10,7 +10,6 @@ describe Country do
     end
     
     it 'should import data' do
-      Country.delete_all if Country.table_exists?
       Country.run_data_miner!
     end
   end
