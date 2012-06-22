@@ -15,7 +15,7 @@ ClothesMachineUse.class_eval do
     
     # sabshere 5/20/10 weird that this uses cohort
     process "precalculate annual energy use" do
-      find_each do |record|
+      safe_find_each do |record|
         record.annual_energy_from_electricity_for_clothes_driers = ResidentialEnergyConsumptionSurveyResponse.cohort(:clothes_machine_use_id => record.name).weighted_average :annual_energy_from_electricity_for_clothes_driers
         record.annual_energy_from_electricity_for_clothes_driers_units = 'joules'
         record.save!

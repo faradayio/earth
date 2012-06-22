@@ -15,7 +15,7 @@ DishwasherUse.class_eval do
     
     # sabshere 5/25/10 weird that this uses cohort
     process "precalculate annual energy" do
-      find_each do |record|
+      safe_find_each do |record|
         record.annual_energy_from_electricity_for_dishwashers = ResidentialEnergyConsumptionSurveyResponse.cohort(:dishwasher_use_id => record.name).weighted_average :annual_energy_from_electricity_for_dishwashers
         record.annual_energy_from_electricity_for_dishwashers_units = 'joules'
         record.save!

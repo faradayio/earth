@@ -18,7 +18,7 @@ CountryRailTractionClass.class_eval do
     end
     
     process "Standardize diesel intensity units" do
-      CountryRailTractionClass.where(:diesel_intensity_units => 'grams_per_passenger_kilometre').find_each do |record|
+      CountryRailTractionClass.where(:diesel_intensity_units => 'grams_per_passenger_kilometre').safe_find_each do |record|
         diesel = RailFuel.find_by_name("diesel")
         record.diesel_intensity = record.diesel_intensity.grams.to(:kilograms) / diesel.density
         record.diesel_intensity_units = [diesel.density_units.split("_per_")[1].pluralize, record.diesel_intensity_units.split("_per_")[1]].join('_per_')
@@ -27,7 +27,7 @@ CountryRailTractionClass.class_eval do
     end
     
     process "Standardize co2 emission factor units" do
-      CountryRailTractionClass.where(:co2_emission_factor_units => 'grams_per_passenger_kilometre').find_each do |record|
+      CountryRailTractionClass.where(:co2_emission_factor_units => 'grams_per_passenger_kilometre').safe_find_each do |record|
         record.co2_emission_factor = record.co2_emission_factor.grams.to(:kilograms)
         record.co2_emission_factor_units = ['kilograms', record.co2_emission_factor_units.split("_per_")[1]].join('_per_')
         record.save!

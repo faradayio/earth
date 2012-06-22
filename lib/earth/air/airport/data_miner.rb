@@ -59,7 +59,7 @@ Airport.class_eval do
     end
     
     process "Fill in blank country codes" do
-      Country.find_each do |country|
+      Country.safe_find_each do |country|
         if country.name.present? and country.iso_3166_code.present?
           where(:country_name => country.name).update_all :country_iso_3166_code => country.iso_3166_code
         end

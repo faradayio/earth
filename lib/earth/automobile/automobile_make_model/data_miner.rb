@@ -22,7 +22,7 @@ AutomobileMakeModel.class_eval do
     end
     
     process "Derive fuel codes and type name from AutomobileMakeModelYear" do
-      find_each do |amm|
+      safe_find_each do |amm|
         codes = amm.model_years.map(&:fuel_code).uniq
         if codes.count == 1
           amm.update_attributes! :fuel_code => codes.first

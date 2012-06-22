@@ -13,6 +13,9 @@ require 'earth/utils'
 require 'earth/conversions_ext'
 require 'earth/inflectors'
 
+require 'earth/active_record_base_class_methods'
+ActiveRecord::Base.extend Earth::ActiveRecordBaseClassMethods
+
 # The earth module is an interface for loading data models from various domains.
 module Earth
   TAPS_SOURCE = 'http://carbon:neutral@data.brighterplanet.com:5000'

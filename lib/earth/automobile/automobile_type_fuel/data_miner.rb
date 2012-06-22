@@ -41,7 +41,7 @@ AutomobileTypeFuel.class_eval do
     end
     
     process "Derive number of vehicles and fuel consumption from AutomobileActivityYearTypeFuel" do
-      find_each do |atf|
+      safe_find_each do |atf|
         atf.update_attributes!(
           :vehicles => atf.latest_activity_year_type_fuel.distance / atf.annual_distance,
           :fuel_consumption => atf.latest_activity_year_type_fuel.fuel_consumption,

@@ -15,7 +15,7 @@ RailFuel.class_eval do
     end
     
     process "Convert ch4 and n2o emission factor units to kg co2e / l" do
-      RailFuel.find_each do |fuel|
+      RailFuel.safe_find_each do |fuel|
         if fuel.ch4_emission_factor_units == "grams_per_kilogram" and fuel.density_units == "kilograms_per_litre"
           fuel.ch4_emission_factor = GreenhouseGas["ch4"].global_warming_potential * fuel.density * fuel.ch4_emission_factor / 1000.0
           fuel.ch4_emission_factor_units = "kilograms_co2e_per_litre"

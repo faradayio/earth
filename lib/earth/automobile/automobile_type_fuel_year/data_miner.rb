@@ -39,7 +39,7 @@ AutomobileTypeFuelYear.class_eval do
     
     # Can't use an update all here b/c efs are methods defined on ATFYC that look up the ef from ATFC
     process "Derive ch4 and n2o emission factor from AutomobileTypeFuelYearControl" do
-      find_each do |atfy|
+      safe_find_each do |atfy|
         atfy.update_attributes!(
           :ch4_emission_factor => atfy.type_fuel_year_controls.sum{ |atfyc| atfyc.total_travel_percent * atfyc.ch4_emission_factor },
           :n2o_emission_factor => atfy.type_fuel_year_controls.sum{ |atfyc| atfyc.total_travel_percent * atfyc.n2o_emission_factor },

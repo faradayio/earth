@@ -57,7 +57,7 @@ RailCompany.class_eval do
     end
     
     process "Calculate average trip distance" do
-      find_each do |company|
+      safe_find_each do |company|
         if company.passenger_distance.present? and company.passengers.present? and company.passengers > 0
           company.trip_distance = company.passenger_distance / company.passengers
           company.trip_distance_units = company.passenger_distance_units
@@ -67,7 +67,7 @@ RailCompany.class_eval do
     end
     
     process "Calculate average trip speed" do
-      find_each do |company|
+      safe_find_each do |company|
         if company.train_distance.present? and company.train_time.present? and company.train_time > 0
           company.speed = company.train_distance / company.train_time
           company.speed_units = "#{company.train_distance_units}_per_#{company.train_time_units.singularize}"
@@ -82,7 +82,7 @@ RailCompany.class_eval do
     end
     
     process "Calculate co2 emission factor for US rail companies" do
-      where(:country_iso_3166_code => 'US').find_each do |company|
+      where(:country_iso_3166_code => 'US').safe_find_each do |company|
         company.co2_emission_factor = 0
         
         if company.diesel_intensity.present?

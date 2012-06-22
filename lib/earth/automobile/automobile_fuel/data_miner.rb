@@ -55,7 +55,7 @@ AutomobileFuel.class_eval do
     end
     
     process "Derive annual distance, emission factors, and total consumption from AutomobileTypeFuel" do
-      find_each do |record|
+      safe_find_each do |record|
         if (type_fuels = record.type_fuels).any?
           %w{ annual_distance ch4_emission_factor n2o_emission_factor }.each do |item|
             record.update_attributes!(

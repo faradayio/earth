@@ -17,7 +17,7 @@ AutomobileMake.class_eval do
     end
     
     process "Derive fuel efficiency from AutomobileMakeYear" do
-      find_each do |make|
+      safe_find_each do |make|
         make.update_attributes!(
           :fuel_efficiency => make.make_years.weighted_average(:fuel_efficiency),
           :fuel_efficiency_units => make.make_years.first.fuel_efficiency_units

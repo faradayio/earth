@@ -17,7 +17,7 @@ AutomobileActivityYearType.class_eval do
     end
     
     process "Derive hfc emission factor from AutomobileActivityYearTypeFuel" do
-      find_each do |ayt|
+      safe_find_each do |ayt|
         ayt.update_attributes!(
           :hfc_emission_factor => ayt.hfc_emissions / ayt.activity_year_type_fuels.sum(:distance),
           :hfc_emission_factor_units => ayt.hfc_emissions_units + '_per_' + ayt.activity_year_type_fuels.first.distance_units.singularize

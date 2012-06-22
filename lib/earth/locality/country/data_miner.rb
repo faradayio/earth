@@ -112,7 +112,7 @@ Country.class_eval do
     end
     
     process "Derive average hotel characteristics from CountryLodgingClass" do
-      find_each do |country|
+      safe_find_each do |country|
         if (lodging_classes = country.lodging_classes).any?
           country.update_attributes!(
             :lodging_natural_gas_intensity         => lodging_classes.weighted_average(:natural_gas_intensity),
@@ -135,7 +135,7 @@ Country.class_eval do
     end
     
     process "Calculate rail passengers, trip distance, and speed from RailCompany" do
-      find_each do |country|
+      safe_find_each do |country|
         if (rail_companies = country.rail_companies).any?
           country.update_attributes!(
             :rail_passengers          => rail_companies.sum(:passengers),

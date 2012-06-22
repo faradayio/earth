@@ -61,7 +61,7 @@ AutomobileMakeModelYear.class_eval do
     end
     
     process "Derive type name from AutomobileMakeModelYearVariant" do
-      find_each do |ammy|
+      safe_find_each do |ammy|
         type_names = AutomobileMakeModelYearVariant.where(:make_name => ammy.make_name, :model_name => ammy.model_name, :year => ammy.year).map(&:type_name).uniq
         ammy.update_attributes! :type_name => (type_names.first if type_names.one?)
       end
