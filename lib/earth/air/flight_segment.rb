@@ -84,5 +84,5 @@ class FlightSegment < ActiveRecord::Base
     :freight_share
   )
 
-  warn_unless_size 966913
+  warn_unless_size 1_254_412
 end
