@@ -20,7 +20,7 @@ Airline.class_eval do
     end
     
     import "a Brighter Planet-curated list of airlines and codes not included in our proprietary sources",
-           :url => 'https://spreadsheets.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdGJoaFpENXRqMEM2NW42am5tNURGU2c&output=csv' do
+           :url => "#{Earth::DATA_DIR}/air/airlines.csv" do
       key 'name'
       store 'secondary_name', :nullify => true
       store 'iata_code',      :nullify => true
