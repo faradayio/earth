@@ -18,5 +18,5 @@ class Airport < ActiveRecord::Base
   col :latitude, :type => :float
   col :longitude, :type => :float
 
-  warn_unless_size 5149
+  warn_unless_size 5324
 end

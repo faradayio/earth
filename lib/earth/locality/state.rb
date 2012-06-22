@@ -26,5 +26,5 @@ class State < ActiveRecord::Base
     :petroleum_administration_for_defense_district_code
   )
 
-  warn_unless_size 57
+  warn_unless_size 51
 end

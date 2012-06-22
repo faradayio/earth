@@ -7,5 +7,5 @@ class Airline < ActiveRecord::Base
   col :iata_code
   col :icao_code
 
-  warn_unless_size 504
+  warn_unless_size 1523
 end

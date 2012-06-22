@@ -90,5 +90,13 @@ class Country < ActiveRecord::Base
   col :rail_trip_co2_emission_factor_units
   
   warn_unless_size 249
-  warn_if_nulls_except /heating/, /cooling/
+  warn_if_nulls_except(
+     /heating/,
+     /cooling/,
+     /automobile/,
+     /electricity/,
+     /flight/,
+     /lodging/,
+     /rail/
+  )
 end

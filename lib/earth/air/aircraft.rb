@@ -145,6 +145,7 @@ class Aircraft < ActiveRecord::Base
   col :fuel_use_specificity
 
   warn_if_nulls_except(
+    :passengers,
     :seats,
     :seats_specificity,
     :m3,
@@ -155,7 +156,7 @@ class Aircraft < ActiveRecord::Base
     :m1_units,
     :b,
     :b_units,
-    :fuel_use_specificity,
+    :fuel_use_specificity
   )
 
   warn_unless_size 437

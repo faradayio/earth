@@ -110,5 +110,5 @@ class Fuel < ActiveRecord::Base
     end
   end
 
-  warn_unless_size 21
+  warn_unless_size 23
 end

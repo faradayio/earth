@@ -3,5 +3,5 @@ class BtsAircraft < ActiveRecord::Base
   col :bts_code
   col :description
 
-  warn_unless_size 376
+  warn_unless_size 379
 end

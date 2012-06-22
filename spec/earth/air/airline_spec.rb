@@ -14,7 +14,7 @@ describe Airline do
   
   describe "verify imported data", :sanity => true do
     it "should have all the data" do
-      Airline.count.should == 1522
+      Airline.count.should == 1523
     end
   end
 end
