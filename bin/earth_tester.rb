@@ -7,6 +7,11 @@ end
 if File.exist?(File.join(Dir.pwd, 'earth.gemspec'))
   require 'bundler'
   Bundler.setup
+  if Bundler.definition.specs['debugger'].first
+    require 'debugger'
+  elsif Bundler.definition.specs['ruby-debug'].first
+    require 'ruby-debug'
+  end
   $LOAD_PATH.unshift(File.dirname(__FILE__))
   $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 end
@@ -14,48 +19,33 @@ end
 require 'active_support/all'
 require 'active_record'
 
-case ENV['EARTH_DB_ADAPTER']
-when 'mysql'
-  adapter = 'mysql2'
-  database = 'test_earth'
-  username = 'root'
-  password = 'password'
-  
-  # system %{mysql -u #{username} -p#{password} -e "DROP DATABASE #{database}"}
-  # system %{mysql -u #{username} -p#{password} -e "CREATE DATABASE #{database}"}
-when 'sqlite'
-  adapter = 'sqlite3'
-  database = ':memory:'
-  username = nil
-  password = nil
+case ENV['DATABASE']
+when /postgr/i
+  system %{dropdb test_earth}
+  system %{createdb test_earth}
+  ActiveRecord::Base.establish_connection(
+    'adapter' => 'postgresql',
+    'encoding' => 'utf8',
+    'database' => 'test_earth',
+    'username' => `whoami`.chomp
+  )
+when /sqlite/i
+  ActiveRecord::Base.establish_connection(:adapter => "sqlite3", :database => ":memory:")
 else
-  adapter = 'postgresql'
-  username = ENV['EARTH_POSTGRES_USERNAME'] || `whoami`.chomp
-  password = ENV['EARTH_POSTGRES_PASSWORD']
-  database = ENV['EARTH_POSTGRES_DATABASE'] || 'test_earth'
-
-  createdb_bin = ENV['EARTH_CREATEDB_BIN'] || 'createdb'
-  dropdb_bin = ENV['EARTH_DROPDB_BIN'] || 'dropdb'
-  # system %{#{dropdb_bin} #{database}}
-  # system %{#{createdb_bin} #{database}}
+  system %{mysql -u root -ppassword -e "DROP DATABASE test_earth; CREATE DATABASE test_earth CHARSET utf8"}
+  ActiveRecord::Base.establish_connection(
+    'adapter' => (RUBY_PLATFORM == 'java' ? 'mysql' : 'mysql2'),
+    'encoding' => 'utf8',
+    'database' => 'test_earth',
+    'username' => 'root',
+    'password' => 'password'
+  )
 end
-
-config = {
-  'encoding' => 'utf8',
-  'adapter' => adapter,
-  'database' => database,
-}
-config['username'] = username if username
-config['password'] = password if password
-
-ActiveRecord::Base.establish_connection config
 
 require 'earth'
 
-domain = ARGV[0]
-
 DataMiner.unit_converter = :conversions
-Earth.init domain, :load_data_miner => true, :apply_schemas => true
+
 DataMiner::Run.auto_upgrade!
 
 ActiveRecord::Base.logger = Logger.new $stderr
@@ -75,15 +65,16 @@ def show_resource(resource)
   end
 end
 
-if (resource = ARGV[1].to_s.camelcase).present?
-  $stderr.puts "domain: #{domain} resource: #{resource}"
-  resource.constantize.run_data_miner!
-  show_resource resource
-else
-  $stderr.puts "domain: #{domain}"
-  DataMiner.run
-  Earth.resources(domain).each do |resource|
-    show_resource resource
-  end
+def init(domain)
+  Earth.init domain, :load_data_miner => true, :apply_schemas => true
 end
-# ARGV[1].split(/[^a-z_]/i).each { |underscore| underscore.camelcase.constantize.run_data_miner! }
+
+if ARGV[0]
+  init ARGV[0]
+end
+
+require 'pry'
+Pry.color = false
+
+# you prob want to init() something
+binding.pry
