@@ -8,12 +8,10 @@ module Earth
       batch_size = 1000
       offset = 0
       # Get the relation and keep going over it until there's nothing left
-      unscoped do
-        relation = order("#{quoted_table_name}.#{quoted_primary_key} ASC").limit(batch_size)
-        while (results = relation.offset(offset).limit(batch_size).all).any?
-          block.call results
-          offset += batch_size
-        end
+      relation = order("#{quoted_table_name}.#{quoted_primary_key} ASC").limit(batch_size)
+      while (results = relation.offset(offset).limit(batch_size).all).any?
+        unscoped { block.call(results) }
+        offset += batch_size
       end
       nil
     end
