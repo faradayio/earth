@@ -33,7 +33,7 @@ when /sqlite/i
   ActiveRecord::Base.establish_connection(:adapter => "sqlite3", :database => ":memory:")
 else
   system %{mysql -u root -ppassword -e "DROP DATABASE test_earth"}
-  system %{mysql -u root -ppassword -e "CREATE DATABASE test_data_miner CHARSET utf8"}
+  system %{mysql -u root -ppassword -e "CREATE DATABASE test_earth CHARSET utf8"}
   ActiveRecord::Base.establish_connection(
     'adapter' => (RUBY_PLATFORM == 'java' ? 'mysql' : 'mysql2'),
     'encoding' => 'utf8',
