@@ -20,7 +20,7 @@ describe Fuel do
     
     it 'should have a record for district heat' do
       district_heat = Fuel.find 'District Heat'
-      district_heat.co2_emission_factor.should be_within(0.00001).of(0.0766528)
+      district_heat.co2_emission_factor.should be_within(5e-6).of(0.07598)
     end
     
     # TODO is there a way to check whether the value in the fuels table is NULL?

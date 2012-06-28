@@ -57,7 +57,7 @@ Fuel.class_eval do
     
     process "Create district heat" do
       natural_gas = find_by_name 'Pipeline Natural Gas'
-      fuel_oil = find_by_name 'Residual Fuel Oil No. 6'
+      fuel_oil = find_by_name 'Distillate Fuel Oil No. 2'
       district_heat = find_or_create_by_name "District Heat"
       
       # Assumptions:              half nat gas at 81.7% efficiency    half fuel oil at 84.6% efficiency      5% transmission losses
@@ -79,7 +79,5 @@ Fuel.class_eval do
         co2_biogenic_emission_factor_units = 'kilograms_per_' || physical_units
       })
     end
-    
-    # FIXME TODO verify this stuff
   end
 end

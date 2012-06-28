@@ -98,7 +98,7 @@ Conversions.register :trillion_btus_per_million_square_feet, :megajoules_per_squ
 Conversions.register :kilowatt_hours_per_square_foot, :megajoules_per_square_metre,            (1.kilowatt_hours.to(:megajoules) / 1.square_feet.to(:square_metres))
 Conversions.register :billion_cubic_feet_of_natural_gas, :megajoules,                          (1_000_000_000.cubic_feet.to(:cubic_metres) * 38.3395) # 2003 NatGas energy content MJ/m3
 Conversions.register :cubic_feet_of_natural_gas_per_square_foot, :megajoules_per_square_metre, ((1.cubic_feet.to(:cubic_metres) * 38.3395) / 1.square_feet.to(:square_metres))
-Conversions.register :million_gallons_of_fuel_oil, :megajoules,                                (1_000_000.gallons.to(:litres) * 41.9203) # Residual Fuel Oil No. 6 energy content MJ/l from Fuels
+Conversions.register :million_gallons_of_fuel_oil, :megajoules,                                (1_000_000.gallons.to(:litres) * 38.5491) # Distillate Fuel Oil No. 2 energy content MJ/l from Fuels
 Conversions.register :gallons_of_fuel_oil_per_square_foot, :megajoules_per_square_metre,       ((41.9203 * 1.gallons.to(:litres)) / 1.square_feet.to(:square_metres))
 
 # Only used in app1
