@@ -27,7 +27,7 @@ describe CommercialBuildingEnergyConsumptionSurveyResponse do
     it "should have room nights and fuel intensities per room night for lodging_records" do
       spot_check = CommercialBuildingEnergyConsumptionSurveyResponse.lodging_records.first
       spot_check.room_nights.should == 6205
-      spot_check.natural_gas_per_room_night.should be_within(0.00001).of(1.62234)
+      spot_check.natural_gas_per_room_night.should be_within(5e-6).of(2.37087)
       spot_check.natural_gas_per_room_night_units.should == 'cubic_metres_per_room_night'
     end
   end

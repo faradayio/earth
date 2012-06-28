@@ -1,10 +1,13 @@
-require 'earth/locality/data_miner'
 CommercialBuildingEnergyConsumptionSurveyResponse.class_eval do
   data_miner do
+    process "Start from scratch" do
+      delete_all
+    end
+    
     import 'building characteristics from the 2003 EIA CBECS - part 1',
            :url => 'http://www.eia.gov/emeu/cbecs/cbecs2003/public_use_2003/data/FILE01.csv',
            :skip => 1,
-           :headers => ["PUBID8", "REGION8", "CENDIV8", "SQFT8", "SQFTC8", "YRCONC8", "PBA8", "ELUSED8", "NGUSED8", "FKUSED8", "PRUSED8", "STUSED8", "HWUSED8", "CLIMATE8", "FREESTN8", "WLCNS8", "RFCNS8", "GLSSPC8", "EQGLSS8", "SUNGLS8", "BLDSHP8", "NFLOOR8", "ELEVTR8", "NELVTR8", "ESCLTR8", "NESLTR8", "YRCON8", "MONCON8", "RENOV8", "RENADD8", "RENRDC8", "RENCOS8", "RENEXT8", "RENINT8", "RENHVC8", "RENLGT8", "RENWIN8", "RENPLB8", "RENINS8", "RENOTH8", "GOVOWN8", "GOVTYP8", "OWNER8", "OWNOCC8", "NOCC8", "NOCCAT8", "MONUSE8", "PORVAC8", "OPEN248", "OPNMF8", "OPNWE8", "WKHRS8", "WKHRSC8", "NWKER8", "NWKERC8", "HT18", "HT28", "COOL8", "WATR8", "COOK8", "MANU8", "GENR8", "ADJWT8", "STRATUM8", "PAIR8"] do
+           :headers => %w{ PUBID8 REGION8 CENDIV8 SQFT8 SQFTC8 YRCONC8 PBA8 ELUSED8 NGUSED8 FKUSED8 PRUSED8 STUSED8 HWUSED8 CLIMATE8 FREESTN8 WLCNS8 RFCNS8 GLSSPC8 EQGLSS8 SUNGLS8 BLDSHP8 NFLOOR8 ELEVTR8 NELVTR8 ESCLTR8 NESLTR8 YRCON8 MONCON8 RENOV8 RENADD8 RENRDC8 RENCOS8 RENEXT8 RENINT8 RENHVC8 RENLGT8 RENWIN8 RENPLB8 RENINS8 RENOTH8 GOVOWN8 GOVTYP8 OWNER8 OWNOCC8 NOCC8 NOCCAT8 MONUSE8 PORVAC8 OPEN248 OPNMF8 OPNWE8 WKHRS8 WKHRSC8 NWKER8 NWKERC8 HT18 HT28 COOL8 WATR8 COOK8 MANU8 GENR8 ADJWT8 STRATUM8 PAIR8 } do
       key 'id', :field_name => 'PUBID8'
       store 'census_region_number',   :field_name => 'REGION8'
       store 'census_division_number', :field_name => 'CENDIV8'
@@ -23,7 +26,7 @@ CommercialBuildingEnergyConsumptionSurveyResponse.class_eval do
     import 'building characteristics from the 2003 EIA CBECS - part 2',
            :url => 'http://www.eia.gov/emeu/cbecs/cbecs2003/public_use_2003/data/FILE02.csv',
            :skip => 1,
-           :headers => ["PUBID8","REGION8","CENDIV8","SQFT8","SQFTC8","YRCONC8","PBA8","ELUSED8","NGUSED8","FKUSED8","PRUSED8","STUSED8","HWUSED8","ONEACT8","ACT18","ACT28","ACT38","ACT1PCT8","ACT2PCT8","ACT3PCT8","PBAPLUS8","VACANT8","RWSEAT8","PBSEAT8","EDSEAT8","FDSEAT8","HCBED8","NRSBED8","LODGRM8","FACIL8","FEDFAC8","FACACT8","MANIND8","PLANT8","FACDST8","FACDHW8","FACDCW8","FACELC8","BLDPLT8","ADJWT8","STRATUM8","PAIR8"] do
+           :headers => %w{ PUBID8 REGION8 CENDIV8 SQFT8 SQFTC8 YRCONC8 PBA8 ELUSED8 NGUSED8 FKUSED8 PRUSED8 STUSED8 HWUSED8 ONEACT8 ACT18 ACT28 ACT38 ACT1PCT8 ACT2PCT8 ACT3PCT8 PBAPLUS8 VACANT8 RWSEAT8 PBSEAT8 EDSEAT8 FDSEAT8 HCBED8 NRSBED8 LODGRM8 FACIL8 FEDFAC8 FACACT8 MANIND8 PLANT8 FACDST8 FACDHW8 FACDCW8 FACELC8 BLDPLT8 ADJWT8 STRATUM8 PAIR8 } do
       key 'id', :field_name => 'PUBID8'
       store 'detailed_activity',     :field_name => 'PBAPLUS8', :dictionary => { :input => 'detailed_activity_code', :output => 'detailed_activity', :url => 'https://docs.google.com/spreadsheet/pub?&key=0AoQJbWqPrREqdHRGVHczYXRoU2dFLV90aDdET0dQLUE&single=true&gid=3&output=csv' }
       store 'first_activity',        :field_name => 'ACT18',    :dictionary => { :input => 'activity_code', :output => 'activity', :url => 'https://docs.google.com/spreadsheet/pub?&key=0AoQJbWqPrREqdHRGVHczYXRoU2dFLV90aDdET0dQLUE&single=true&gid=4&output=csv' }
@@ -38,15 +41,25 @@ CommercialBuildingEnergyConsumptionSurveyResponse.class_eval do
     import 'building characteristics from the 2003 EIA CBECS - part 3',
            :url => 'http://www.eia.gov/emeu/cbecs/cbecs2003/public_use_2003/data/FILE03.csv',
            :skip => 1,
-           :headers => ["PUBID8","REGION8","CENDIV8","SQFT8","SQFTC8","YRCONC8","PBA8","ELUSED8","NGUSED8","FKUSED8","PRUSED8","STUSED8","HWUSED8","HEATP8","HTLS508","FURNAC8","BOILER8","PKGHT8","SLFCON8","HTPMPH8","STHW8","OTHTEQ8","FURNP8","BOILP8","PKGHP8","SLFCNP8","HTPHP8","STHWP8","OTHTP8","MAINHT8","PKGHPS8","SPLHPS8","RMHPS8","AIRHPT8","GRDHPT8","WTRHPT8","NWMNHT8","RDHTNF8","HWRDHT8","COOLP8","PKGCL8","RCAC8","ACWNWL8","HTPMPC8","CHWT8","CHILLR8","EVAPCL8","OTCLEQ8","PKGCP8","RCACP8","ACWNWP8","HTPCP8","CHWTP8","CHILP8","EVAPP8","OTCLP8","MAINCL8","PKGCPS8","SPLCPS8","RMCPS8","AIRCPT8","GRDCPT8","WTRCPT8","NWMNCL8","RDCLNF8","HWRDCL8","VAV8","ECN8","MAINT8","EMCS8","ADJWT8","STRATUM8","PAIR8"] do
+           :headers => %w{ PUBID8 REGION8 CENDIV8 SQFT8 SQFTC8 YRCONC8 PBA8 ELUSED8 NGUSED8 FKUSED8 PRUSED8 STUSED8 HWUSED8 HEATP8 HTLS508 FURNAC8 BOILER8 PKGHT8 SLFCON8 HTPMPH8 STHW8 OTHTEQ8 FURNP8 BOILP8 PKGHP8 SLFCNP8 HTPHP8 STHWP8 OTHTP8 MAINHT8 PKGHPS8 SPLHPS8 RMHPS8 AIRHPT8 GRDHPT8 WTRHPT8 NWMNHT8 RDHTNF8 HWRDHT8 COOLP8 PKGCL8 RCAC8 ACWNWL8 HTPMPC8 CHWT8 CHILLR8 EVAPCL8 OTCLEQ8 PKGCP8 RCACP8 ACWNWP8 HTPCP8 CHWTP8 CHILP8 EVAPP8 OTCLP8 MAINCL8 PKGCPS8 SPLCPS8 RMCPS8 AIRCPT8 GRDCPT8 WTRCPT8 NWMNCL8 RDCLNF8 HWRDCL8 VAV8 ECN8 MAINT8 EMCS8 ADJWT8 STRATUM8 PAIR8 } do
       key 'id', :field_name => 'PUBID8'
       store 'percent_cooled', :synthesize => proc { |row| row['COOLP8'].to_f / 100.0 }
+    end
+    
+    import 'building characteristics from the 2003 EIA CBECS - part 4',
+           :url => 'http://www.eia.gov/emeu/cbecs/cbecs2003/public_use_2003/data/FILE04.csv',
+           :skip => 1,
+           :headers => %w{ PUBID8 REGION8 CENDIV8 SQFT8 SQFTC8 YRCONC8 PBA8 ELUSED8 NGUSED8 FKUSED8 PRUSED8 STUSED8 HWUSED8 WTHTEQ8 INSTWT8 FDRM8 SNACK8 FASTFD8 CAF8 FDPREP8 KITCHN8 OTFDRM8 HWTRM8 LAUNDR8 MEDEQP8 LABEQP8 MCHEQP8 POOL8 HTPOOL8 PLSRC8 RFGEQP8 RFGWI8 RFGOP8 RFGCL8 RFGRES8 RFGVEN8 RFGWIN8 RFGOPN8 RFGRSN8 RFGCLN8 RFGVNN8 PCTERM8 SERVER8 MNFRM8 SRVFRM8 TRNGRM8 STDNRM8 OTPCRM8 PCRMP8 SRVNUM8 SRVRC8 PCNUM8 PCTRMC8 FLAT8 FLATC8 PRNTRN8 PRNTYP8 RGSTRN8 COPIER8 COPRN8 FAX8 RDOFEQ8 ADJWT8 STRATUM8 PAIR8 } do
+      key 'id', :field_name => 'PUBID8'
+      store 'food_prep_room', :synthesize => proc { |row| row['FDRM8'] == '1' }
+      store 'laundry', :field_name => 'LAUNDR8'
+      store 'indoor_pool', :synthesize => proc { |row| row['POOL8'] == '1' or row['HTPOOL8'] == '1' }
     end
     
     import 'electricity use from the 2003 EIA CBECS',
            :url => 'http://www.eia.gov/emeu/cbecs/cbecs2003/public_use_2003/data/FILE15.csv',
            :skip => 1,
-           :headers => ["PUBID8", "REGION8", "CENDIV8", "SQFT8", "SQFTC8", "YRCONC8", "PBA8", "ELUSED8", "NGUSED8", "FKUSED8", "PRUSED8", "STUSED8", "HWUSED8", "ADJWT8", "STRATUM8", "PAIR8", "HDD658", "CDD658", "MFUSED8", "MFBTU8", "MFEXP8", "ELCNS8", "ELBTU8", "ELEXP8", "ZELCNS8", "ZELEXP8"] do
+           :headers => %w{ PUBID8 REGION8 CENDIV8 SQFT8 SQFTC8 YRCONC8 PBA8 ELUSED8 NGUSED8 FKUSED8 PRUSED8 STUSED8 HWUSED8 ADJWT8 STRATUM8 PAIR8 HDD658 CDD658 MFUSED8 MFBTU8 MFEXP8 ELCNS8 ELBTU8 ELEXP8 ZELCNS8 ZELEXP8 } do
       key 'id', :field_name => 'PUBID8'
       store 'heating_degree_days', :field_name => 'HDD658', :from_units => :degrees_fahrenheit, :to_units => :degrees_celsius
       store 'cooling_degree_days', :field_name => 'CDD658', :from_units => :degrees_fahrenheit, :to_units => :degrees_celsius
@@ -57,7 +70,7 @@ CommercialBuildingEnergyConsumptionSurveyResponse.class_eval do
     import 'fuel use characteristics from the 2003 EIA CBECS',
            :url => 'http://www.eia.gov/emeu/cbecs/cbecs2003/public_use_2003/data/FILE16.csv',
            :skip => 1,
-           :headers => ["PUBID8", "REGION8", "CENDIV8", "SQFT8", "SQFTC8", "YRCONC8", "PBA8", "ELUSED8", "NGUSED8", "FKUSED8", "PRUSED8", "STUSED8", "HWUSED8", "ADJWT8", "STRATUM8", "PAIR8", "NGCNS8", "NGBTU8", "NGEXP8", "ZNGCNS8", "ZNGEXP8", "FKCNS8", "FKBTU8", "FKEXP8", "ZFKCNS8", "ZFKEXP8", "DHUSED8", "DHHT18", "DHHT28", "DHCOOL8", "DHWATR8", "DHCOOK8", "DHMANU8", "DHOTH8", "DHCNS8", "DHBTU8", "DHEXP8", "ZDHCNS8", "ZDHEXP8"] do
+           :headers => %w{ PUBID8 REGION8 CENDIV8 SQFT8 SQFTC8 YRCONC8 PBA8 ELUSED8 NGUSED8 FKUSED8 PRUSED8 STUSED8 HWUSED8 ADJWT8 STRATUM8 PAIR8 NGCNS8 NGBTU8 NGEXP8 ZNGCNS8 ZNGEXP8 FKCNS8 FKBTU8 FKEXP8 ZFKCNS8 ZFKEXP8 DHUSED8 DHHT18 DHHT28 DHCOOL8 DHWATR8 DHCOOK8 DHMANU8 DHOTH8 DHCNS8 DHBTU8 DHEXP8 ZDHCNS8 ZDHEXP8 } do
       key 'id', :field_name => 'PUBID8'
       store 'natural_gas_use',      :synthesize => proc { |row| row['NGCNS8'].to_i.hundred_cubic_feet.to(:cubic_metres) }, :units => :cubic_metres
       store 'fuel_oil_use',         :synthesize => proc { |row| row['FKCNS8'].to_i.gallons.to(:litres) }, :units => :litres
@@ -81,6 +94,19 @@ CommercialBuildingEnergyConsumptionSurveyResponse.class_eval do
           #{fuel}_per_room_night_units = #{fuel}_use_units || '_per_room_night'
         }
       end
+    end
+    
+    process "Add estimated outsourced laundry energy use per room night for hotels without laundry facilities" do
+      # laundry per room night and fuel use per tonne laundry taken from Hotel Carbon Measurement Initiative guidelines 1.0
+      laundry_gas = 0.00512 * 1560.kilowatt_hours.to(:megajoules) / 38.414 # cubic metres
+      laundry_oil = 0.00512 * 111 # litres
+      laundry_elec = 0.00512 * 180 # kWh
+      
+      lodging_records.where(:laundry => false).update_all %{
+        natural_gas_per_room_night = natural_gas_per_room_night + #{laundry_gas},
+        fuel_oil_per_room_night = fuel_oil_per_room_night + #{laundry_oil},
+        electricity_per_room_night = electricity_per_room_night + #{laundry_elec}
+      }
     end
   end
 end

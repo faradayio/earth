@@ -1,4 +1,3 @@
-require 'earth/locality'
 class CommercialBuildingEnergyConsumptionSurveyResponse < ActiveRecord::Base
   self.primary_key = "id"
   self.table_name = :cbecs_responses
@@ -21,6 +20,9 @@ class CommercialBuildingEnergyConsumptionSurveyResponse < ActiveRecord::Base
   col :floors,                 :type => :integer
   col :lodging_rooms,          :type => :integer
   col :percent_cooled,         :type => :float
+  col :food_prep_room,         :type => :boolean
+  col :laundry,                :type => :boolean
+  col :indoor_pool,            :type => :boolean
   col :principal_activity
   col :detailed_activity
   col :first_activity
