@@ -3,6 +3,14 @@ require 'fuzzy_match/cached_result'
 
 class FlightSegment < ActiveRecord::Base
   self.primary_key = "row_hash"
+
+  belongs_to :airline, :primary_key => :bts_code,
+    :foreign_key => :airline_bts_code
+
+  belongs_to :origin_airport, :class_name => 'Airport',
+    :primary_key => :iata_code, :foreign_key => :origin_airport_iata_code
+  belongs_to :destination_airport, :class_name => 'Airport',
+    :primary_key => :iata_code, :foreign_key => :destination_airport_iata_code
   
   # Cutting this for now because if iata code is missing we have to look up airports using both city and country; don't know how to do this with ActiveRecord
   # - Ian 6/12/2011

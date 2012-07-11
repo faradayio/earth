@@ -1,5 +1,8 @@
 class Airline < ActiveRecord::Base
   self.primary_key = "name"
+
+  has_many :flight_segments, :primary_key => :bts_code,
+    :foreign_key => :airline_bts_code
   
   col :name
   col :secondary_name
