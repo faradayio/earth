@@ -29,11 +29,11 @@ describe AutomobileTypeFuelYear do
     it { ATFY.where("n2o_emission_factor > 0").count.should == ATFY.count }
     
     # spot checks
-    it { test_atfy.annual_distance.should == be_within(0.01).of(19598.59) }
+    it { test_atfy.annual_distance.should be_within(0.05).of(19598.6) }
     it { test_atfy.annual_distance_units.should == 'kilometres' }
-    it { test_atfy.ch4_emission_factor.should == be_within(1e-8).of(2.286e-4) }
+    it { test_atfy.ch4_emission_factor.should be_within(5e-7).of(0.000229) }
     it { test_atfy.ch4_emission_factor_units.should == 'kilograms_co2e_per_kilometre' }
-    it { test_atfy.n2o_emission_factor.should == be_within(1e-7).of(1.4688e-3) }
+    it { test_atfy.n2o_emission_factor.should be_within(5e-6).of(0.00147) }
     it { test_atfy.n2o_emission_factor_units.should == 'kilograms_co2e_per_kilometre' }
   end
   

@@ -19,7 +19,7 @@ describe MecsRatio do
     it 'spot checks the data' do
       apparel = MecsRatio.find_by_naics_code '315'
       apparel.census_region_number.should be_nil
-      apparel.energy_per_dollar_of_shipments.should == be_within(0.000_001).of(0.5.kbtus.to(:megajoules))
+      apparel.energy_per_dollar_of_shipments.should be_within(5e-6).of(0.5.kbtus.to(:megajoules))
       apparel.energy_per_dollar_of_shipments_units.should == 'megajoules'
     end
   end

@@ -21,13 +21,13 @@ describe MecsEnergy do
       apparel.census_region_number.should be_nil
       apparel.energy.should be_within(20_000).of(14770781900)
       apparel.energy_units.should == 'megajoules'
-      apparel.electricity.should == be_within(1_000).of(7.trillion_btus.to(:megajoules))
+      apparel.electricity.should be_within(1_000).of(7.trillion_btus.to(:megajoules))
       apparel.electricity_units.should == 'megajoules'
       apparel.residual_fuel_oil.should == 0
       apparel.residual_fuel_oil_units.should == 'megajoules'
       apparel.distillate_fuel_oil.should == 0
       apparel.distillate_fuel_oil_units.should == 'megajoules'
-      apparel.natural_gas.should == be_within(1_000).of(7.trillion_btus.to(:megajoules))
+      apparel.natural_gas.should be_within(1_000).of(7.trillion_btus.to(:megajoules))
       apparel.natural_gas_units.should == 'megajoules'
       apparel.lpg_and_ngl.should == 0
       apparel.lpg_and_ngl_units.should == 'megajoules'

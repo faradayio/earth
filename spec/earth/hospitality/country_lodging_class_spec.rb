@@ -19,12 +19,12 @@ describe CountryLodgingClass do
     
     it "should have fuel intensities" do
       us_hotel = CountryLodgingClass.find 'US Hotel'
-      us_hotel.fuel_oil_intensity.should be_within(0.00001).of(0.25014)
+      us_hotel.fuel_oil_intensity.should be_within(5e-6).of(0.25014)
       us_hotel.fuel_oil_intensity_units.should == 'litres_per_occupied_room_night'
     end
     
     it "should have the correct total weighting for the US" do
-      CountryLodgingClass.where(:country_iso_3166_code => 'US').sum(&:weighting).should == be_within(0.1).of(89209.2)
+      CountryLodgingClass.where(:country_iso_3166_code => 'US').sum(&:weighting).should be_within(5e-2).of(89209.2)
     end
   end
 end
