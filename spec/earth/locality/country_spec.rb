@@ -34,32 +34,6 @@ describe Country do
       it { us.automobile_trip_distance.should be_within(5e-5).of(16.3348) }
     end
     
-    describe 'electricity data' do
-      it { Country.where('electricity_emission_factor >= 0').count.should == 136 }
-      it { Country.where(:electricity_emission_factor_units => 'kilograms_co2e_per_kilowatt_hour').count.should == 136 }
-      it { Country.where('electricity_co2_emission_factor >= 0').count.should == 136 }
-      it { Country.where(:electricity_co2_emission_factor_units => 'kilograms_per_kilowatt_hour').count.should == 136 }
-      it { Country.where('electricity_ch4_emission_factor >= 0').count.should == 136 }
-      it { Country.where(:electricity_ch4_emission_factor_units => 'kilograms_co2e_per_kilowatt_hour').count.should == 136 }
-      it { Country.where('electricity_n2o_emission_factor >= 0').count.should == 136 }
-      it { Country.where(:electricity_n2o_emission_factor_units => 'kilograms_co2e_per_kilowatt_hour').count.should == 136 }
-      it { Country.where('electricity_loss_factor >= 0').count.should == 136 }
-      it { Country.maximum(:electricity_loss_factor).should < 0.3 }
-      
-      # spot checks
-      it { us.electricity_emission_factor.should be_within(5e-6).of(0.55437) }
-      it { us.electricity_co2_emission_factor.should be_within(5e-6).of(0.55165) }
-      it { us.electricity_ch4_emission_factor.should be_within(5e-9).of(0.00027255) }
-      it { us.electricity_n2o_emission_factor.should be_within(5e-8).of(0.0024437) }
-      it { us.electricity_loss_factor.should be_within(5e-6).of(0.06503) }
-      
-      it { uk.electricity_emission_factor.should be_within(5e-6).of(0.51020) }
-      it { uk.electricity_co2_emission_factor.should be_within(5e-6).of(0.5085) }
-      it { uk.electricity_ch4_emission_factor.should be_within(5e-9).of(0.00016885) }
-      it { uk.electricity_n2o_emission_factor.should be_within(5e-8).of(0.0015262) }
-      it { uk.electricity_loss_factor.should be_within(5e-4).of(0.073) }
-    end
-    
     describe 'flight data' do
       it { Country.where("flight_route_inefficiency_factor > 0").count.should == 17 }
       it { us.flight_route_inefficiency_factor.should == 1.07 }
@@ -102,17 +76,8 @@ describe Country do
   end
   
   describe '.fallback' do
-    it 'has fallback electricity emission factors and electricity loss factor' do
-      fallback = Country.fallback
-      fallback.electricity_emission_factor.should be_within(5e-6).of(0.62609)
-      fallback.electricity_emission_factor_units.should == 'kilograms_co2e_per_kilowatt_hour'
-      fallback.electricity_co2_emission_factor.should be_within(5e-6).of(0.62354)
-      fallback.electricity_co2_emission_factor_units.should == 'kilograms_per_kilowatt_hour'
-      fallback.electricity_ch4_emission_factor.should be_within(5e-6).of(0.00021)
-      fallback.electricity_ch4_emission_factor_units.should == 'kilograms_co2e_per_kilowatt_hour'
-      fallback.electricity_n2o_emission_factor.should be_within(5e-6).of(0.00234)
-      fallback.electricity_n2o_emission_factor_units.should == 'kilograms_co2e_per_kilowatt_hour'
-      fallback.electricity_loss_factor.should be_within(5e-4).of(0.096)
-    end
+    let(:fallback) { Country.fallback }
+    it { fallback.name.should == 'fallback' }
+    it { fallback.electricity_mix.should == ElectricityMix.fallback }
   end
 end

@@ -32,6 +32,13 @@ describe ZipCode do
     end
   end
   
+  describe '#electricity_mix' do
+    it 'should return an eGRID subregion or a state-specific electricity mix' do
+      ZipCode.find('99501').electricity_mix.should == ElectricityMix.find_by_egrid_subregion_abbreviation('AKGD')
+      ZipCode.find('00001').electricity_mix.should == State.find('AK').electricity_mix
+    end
+  end
+  
   describe '#latitude_longitude' do
     it 'should return the lat and lng as an array of strings' do
       ZipCode.find('00001').latitude_longitude.should == [nil, nil]
