@@ -59,4 +59,12 @@ describe ElectricityMix do
     it { ElectricityMix.fallback.n2o_emission_factor.should be_within(5e-6).of(0.00234) }
     it { ElectricityMix.fallback.loss_factor.should be_within(5e-6).of(0.096) }
   end
+  
+  describe '#energy_content' do
+    it { ElectricityMix.first.energy_content.should be_within(5e-6).of(3.6) }
+  end
+  
+  describe '#energy_content_units' do
+    it { ElectricityMix.first.energy_content_units.should == 'megajoules_per_kilowatt_hour' }
+  end
 end

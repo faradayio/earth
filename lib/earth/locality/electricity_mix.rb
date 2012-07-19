@@ -1,6 +1,14 @@
 class ElectricityMix < ActiveRecord::Base
   self.primary_key = :name
   
+  def energy_content
+    1.kilowatt_hours.to(:megajoules)
+  end
+  
+  def energy_content_units
+    'megajoules_per_kilowatt_hour'
+  end
+  
   falls_back_on :name => 'fallback',
                 :co2_emission_factor => 0.623537, # from ecometrica paper FIXME TODO calculate this
                 :co2_emission_factor_units => 'kilograms_per_kilowatt_hour',
