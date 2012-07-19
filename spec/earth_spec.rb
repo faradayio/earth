@@ -22,7 +22,7 @@ describe Earth do
 
   describe '.resources' do
     it 'should get a list of all resource names' do
-      Earth.resources.length.should == 102
+      Earth.resources.length.should == 101
       Earth.resources.should include('Aircraft')
       Earth.resources.should include('Industry')
     end
@@ -34,7 +34,7 @@ describe Earth do
       Earth.resources('diet').length.should == 2
       Earth.resources('electricity').length.should == 3
       Earth.resources('fuel').length.should == 5
-      Earth.resources('hospitality').length.should == 3
+      Earth.resources('hospitality').length.should == 2
       Earth.resources('industry').length.should == 18
       Earth.resources('locality').length.should == 11
       Earth.resources('pet').length.should == 4

@@ -41,9 +41,9 @@ describe Country do
     end
     
     describe 'lodging data' do
-      it { us.lodging_occupancy_rate.should be_within(0.001).of(0.601) }
-      it { us.lodging_natural_gas_intensity.should be_within(0.00001).of(1.93316) }
-      it { us.lodging_natural_gas_intensity_units.should == 'cubic_metres_per_occupied_room_night' }
+      it { us.lodging_occupancy_rate.should be_within(5e-4).of(0.601) }
+      it { us.lodging_natural_gas_intensity.should be_within(5e-3).of(62.06) }
+      it { us.lodging_natural_gas_intensity_units.should == 'megajoules_per_room_night' }
     end
     
     describe 'rail data' do
