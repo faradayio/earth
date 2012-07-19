@@ -1,4 +1,5 @@
 require 'active_support/core_ext'
+require 'active_support/string_inquirer'
 require 'active_record'
 require 'data_miner'
 require 'falls_back_on'
@@ -55,8 +56,13 @@ module Earth
   # Earth.init should be performed after a connection is made to the database and 
   # before any domain models are referenced.
   def Earth.init(*args)
+    unless ActiveRecord::Base.connected?
+      ActiveRecord::Base.establish_connection(ActiveRecord::Base.configurations[Earth.env])
+    end
+
     options = args.extract_options!
     domains = args
+    domains << Earth.global_domain if domains.empty?
 
     warn_unless_mysql_ansi_mode
     load_plugins
@@ -145,6 +151,14 @@ module Earth
     end
   end
 
+  def Earth.env
+    ActiveSupport::StringInquirer.new(ENV['EARTH_ENV'] || ENV['RAILS_ENV'] || 'test')
+  end
+
+  def Earth.global_domain
+    ENV['EARTH_DOMAIN'] ? ENV['EARTH_DOMAIN'].to_sym : :all
+  end
+
   def Earth.database_configurations
     yaml_path = File.join(Dir.pwd, 'config/database.yml')
     if File.exist?(yaml_path)
@@ -177,5 +191,17 @@ module Earth
 
       config
     end
+  end
+
+  def Earth.run_data_miner!
+    resources.select do |resource|
+      Object.const_defined?(resource)
+    end.each do |resource|
+      resource.constantize.run_data_miner!
+    end
+  end
+
+  def Earth.logger
+    @logger ||= Logger.new 'log/test.log'
   end
 end

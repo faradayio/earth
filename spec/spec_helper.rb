@@ -11,10 +11,7 @@ require 'earth'
 require 'support/integration'
 include Integration
 
-ActiveRecord::Base.establish_connection Earth.database_configurations['test']
-
-logger = Logger.new 'log/test.log'
-logger.level = Logger::DEBUG
+Earth.logger.level = Logger::DEBUG
 
 ActiveRecord::Base.logger = logger
 DataMiner.logger = logger
