@@ -11,31 +11,7 @@ require 'earth'
 require 'support/integration'
 include Integration
 
-case ENV['EARTH_DB_ADAPTER']
-when 'mysql'
-  adapter = 'mysql2'
-  database = 'test_earth'
-  username = 'root'
-  password = 'password'
-  
-  # system %{mysql -u #{username} -p#{password} -e "DROP DATABASE #{database}"}
-  # system %{mysql -u #{username} -p#{password} -e "CREATE DATABASE #{database}"}
-else
-  adapter = 'postgresql'
-  database = 'test_earth'
-  username = nil
-  password = nil
-end
-
-config = {
-  'encoding' => 'utf8',
-  'adapter' => adapter,
-  'database' => database,
-}
-config['username'] = username if username
-config['password'] = password if password
-
-ActiveRecord::Base.establish_connection config
+ActiveRecord::Base.establish_connection Earth.database_configurations['test']
 
 logger = Logger.new 'log/test.log'
 logger.level = Logger::DEBUG

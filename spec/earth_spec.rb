@@ -50,4 +50,31 @@ describe Earth do
       Earth.domains.should == %w{air automobile bus computation diet electricity fuel hospitality industry locality pet rail residence shipping}
     end
   end
+
+  describe '.database_configurations' do
+    it 'reads configuration from a yaml file' do
+      require 'sandbox'
+      require 'fileutils'
+      Sandbox.play do |path|
+        Dir.chdir path do
+          FileUtils.mkdir 'config'
+          File.open 'config/database.yml', 'w' do |f|
+            f.puts <<-YML
+  test:
+    adapter: mysql
+    database: just_a_test
+            YML
+          end
+
+          Earth.database_configurations['test'].should == {
+            'adapter' => 'mysql',
+            'database' => 'just_a_test'
+          }
+        end
+      end
+    end
+    it "defaults to Earth's test environment" do
+      Earth.database_configurations['test']['database'].should == 'test_earth'
+    end
+  end
 end

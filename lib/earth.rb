@@ -144,4 +144,38 @@ module Earth
       ::Kernel.load pluginit
     end
   end
+
+  def Earth.database_configurations
+    yaml_path = File.join(Dir.pwd, 'config/database.yml')
+    if File.exist?(yaml_path)
+      require 'yaml'
+      YAML::load_file yaml_path
+    else
+      case ENV['EARTH_DB_ADAPTER']
+      when 'mysql'
+        adapter = 'mysql2'
+        database = 'test_earth'
+        username = 'root'
+        password = 'password'
+      else
+        adapter = 'postgresql'
+        database = 'test_earth'
+        username = nil
+        password = nil
+      end
+
+      config = {
+        'test' => {
+          'encoding' => 'utf8',
+          'adapter' => adapter,
+          'database' => database,
+        }
+      }
+
+      config['username'] = username if username
+      config['password'] = password if password
+
+      config
+    end
+  end
 end
