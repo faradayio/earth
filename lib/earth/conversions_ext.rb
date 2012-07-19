@@ -20,10 +20,10 @@ Conversions.register :cubic_metres, :hundred_cubic_feet, (1.cubic_metres.to(:cub
 Conversions.register :cubic_metres, :billion_cubic_feet, (1.cubic_metres.to(:cubic_feet) / 1_000_000_000)
 
 # Mass: base unit = kilogram
-Conversions.register :kilograms, :grams,         1_000.0
-Conversions.register :kilograms, :metric_tonnes, 0.001
-Conversions.register :kilograms, :pounds,        2.20462262
-Conversions.register :kilograms, :tons,          0.00110231131
+Conversions.register :kilograms, :grams,      1_000.0
+Conversions.register :kilograms, :tonnes,     0.001
+Conversions.register :kilograms, :pounds,     2.20462262
+Conversions.register :kilograms, :short_tons, 0.00110231131
 
 # Energy: base unit = megajoule
 Conversions.register :btus,                   :megajoules, 0.00105505585
