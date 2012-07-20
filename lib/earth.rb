@@ -57,7 +57,7 @@ module Earth
   # before any domain models are referenced.
   def Earth.init(*args)
     unless ActiveRecord::Base.connected?
-      ActiveRecord::Base.establish_connection(ActiveRecord::Base.configurations[Earth.env])
+      ActiveRecord::Base.establish_connection(Earth.database_configurations[Earth.env])
     end
 
     options = args.extract_options!
@@ -152,7 +152,7 @@ module Earth
   end
 
   def Earth.env
-    ActiveSupport::StringInquirer.new(ENV['EARTH_ENV'] || ENV['RAILS_ENV'] || 'test')
+    ActiveSupport::StringInquirer.new(ENV['EARTH_ENV'] || ENV['RAILS_ENV'] || 'development')
   end
 
   def Earth.global_domain
