@@ -22,6 +22,24 @@ describe State do
       State.find('MT').population.should == 990213
       State.find('NM').population.should == 2056349
     end
+    
+    it 'should have an average electricity emission factor' do
+      State.find('VT').electricity_emission_factor.should be_within(5e-6).of(0.33313)
+      State.find('VT').electricity_emission_factor_units.should == "kilograms_co2e_per_kilowatt_hour"
+      State.find('CA').electricity_emission_factor.should be_within(5e-6).of(0.30281)
+      State.find('CA').electricity_emission_factor_units.should == "kilograms_co2e_per_kilowatt_hour"
+      State.find('MT').electricity_emission_factor.should be_within(5e-6).of(0.39160)
+      State.find('MT').electricity_emission_factor_units.should == "kilograms_co2e_per_kilowatt_hour"
+      State.find('NM').electricity_emission_factor.should be_within(5e-6).of(0.54601)
+      State.find('NM').electricity_emission_factor_units.should == "kilograms_co2e_per_kilowatt_hour"
+    end
+    
+    it 'should have an average electricity loss factor' do
+      State.find('VT').electricity_loss_factor.should be_within(5e-6).of(0.05822)
+      State.find('CA').electricity_loss_factor.should be_within(5e-6).of(0.08208)
+      State.find('MT').electricity_loss_factor.should be_within(5e-6).of(0.08094)
+      State.find('NM').electricity_loss_factor.should be_within(5e-6).of(0.08007)
+    end
   end
   
   describe '#country' do

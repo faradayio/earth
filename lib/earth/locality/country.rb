@@ -20,6 +20,15 @@ class Country < ActiveRecord::Base
                 :automobile_trip_distance => lambda { united_states.automobile_trip_distance }, # for now assume US represents world
                 :automobile_trip_distance_units => lambda { united_states.automobile_trip_distance_units }, # for now assume US represents world
                 :electricity_mix => lambda { ElectricityMix.fallback },
+                :electricity_emission_factor => 0.626089, # from ecometrica paper - FIXME TODO calculate this
+                :electricity_emission_factor_units => 'kilograms_co2e_per_kilowatt_hour', # FIXME TODO derive this
+                :electricity_co2_emission_factor => 0.623537, # from ecometrica paper - FIXME TODO calculate this
+                :electricity_co2_emission_factor_units => 'kilograms_per_kilowatt_hour', # FIXME TODO derive this
+                :electricity_ch4_emission_factor => 0.000208, # from ecometrica paper - FIXME TODO calculate this
+                :electricity_ch4_emission_factor_units => 'kilograms_co2e_per_kilowatt_hour', # FIXME TODO derive this
+                :electricity_n2o_emission_factor => 0.002344, # from ecometrica paper - FIXME TODO calculate this
+                :electricity_n2o_emission_factor_units => 'kilograms_co2e_per_kilowatt_hour', # FIXME TODO derive this
+                :electricity_loss_factor => 0.096, # from ecometrica paper - FIXME TODO calculate this
                 :flight_route_inefficiency_factor => lambda { maximum(:flight_route_inefficiency_factor) }, # default to the largest inefficiency factor
                 :lodging_occupancy_rate => lambda { united_states.lodging_occupancy_rate }, # for now assume US represents world
                 :lodging_natural_gas_intensity => lambda { united_states.lodging_natural_gas_intensity }, # for now assume US represents world
@@ -62,6 +71,15 @@ class Country < ActiveRecord::Base
   col :automobile_highway_speed_units
   col :automobile_trip_distance, :type => :float
   col :automobile_trip_distance_units
+  col :electricity_emission_factor, :type => :float
+  col :electricity_emission_factor_units
+  col :electricity_co2_emission_factor, :type => :float
+  col :electricity_co2_emission_factor_units
+  col :electricity_ch4_emission_factor, :type => :float
+  col :electricity_ch4_emission_factor_units
+  col :electricity_n2o_emission_factor, :type => :float
+  col :electricity_n2o_emission_factor_units
+  col :electricity_loss_factor, :type => :float
   col :flight_route_inefficiency_factor, :type => :float
   col :lodging_occupancy_rate, :type => :float
   col :lodging_natural_gas_intensity, :type => :float

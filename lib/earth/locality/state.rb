@@ -1,8 +1,8 @@
 class State < ActiveRecord::Base
   self.primary_key = "postal_abbreviation"
   
+  has_many :zip_codes,         :foreign_key => 'state_postal_abbreviation'
   has_many :climate_divisions, :foreign_key => 'state_postal_abbreviation'
-  has_many :zip_codes, :foreign_key => 'state_postal_abbreviation'
   belongs_to :census_division, :foreign_key => 'census_division_number'
   has_one :census_region, :through => :census_division
   has_one :electricity_mix, :foreign_key => 'state_postal_abbreviation'
@@ -18,6 +18,9 @@ class State < ActiveRecord::Base
   col :census_division_number, :type => :integer
   col :petroleum_administration_for_defense_district_code
   col :population, :type => :integer
+  col :electricity_emission_factor, :type => :float
+  col :electricity_emission_factor_units
+  col :electricity_loss_factor, :type => :float
   
   warn_if_nulls_except(
     :census_division_number,
