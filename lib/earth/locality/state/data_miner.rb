@@ -39,22 +39,22 @@ State.class_eval do
     
     process 'derive average electricity emission factor and loss factor from zip code and eGRID data' do
       safe_find_each do |state|
-        subregion_populations = state.zip_codes.where("egrid_subregion_abbreviation IS NOT NULL").sum(:population, :group => :egrid_subregion)
+        sub_pops = state.zip_codes.known_subregion.sum(:population, :group => :egrid_subregion)
         
-        ef = subregion_populations.inject(0) do |memo, (subregion, population)|
+        ef = sub_pops.inject(0) do |memo, (subregion, population)|
           memo += subregion.electricity_emission_factor * population
           memo
-        end / subregion_populations.values.sum
+        end / sub_pops.values.sum
         
         state.update_attributes!(
           :electricity_emission_factor => ef,
           :electricity_emission_factor_units => 'kilograms_co2e_per_kilowatt_hour'
         )
         
-        loss_factor = subregion_populations.inject(0) do |memo, (subregion, population)|
+        loss_factor = sub_pops.inject(0) do |memo, (subregion, population)|
           memo += subregion.egrid_region.loss_factor * population
           memo
-        end / subregion_populations.values.sum
+        end / sub_pops.values.sum
         
         state.update_attributes! :electricity_loss_factor => loss_factor
       end

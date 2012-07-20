@@ -57,32 +57,31 @@ ElectricityMix.class_eval do
     
     process "Derive state electricity mixes" do
       State.safe_find_each do |state|
-        find_or_create_by_name_and_state_postal_abbreviation [state.postal_abbreviation, 'state electricity'].join(' '), state.postal_abbreviation
-      end
-      
-      %w{ co2 ch4 n2o }.each do |gas|
-        where("state_postal_abbreviation IS NOT NULL").update_all %{
-          #{gas}_emission_factor = (
-            SELECT SUM(zip_codes.population * egrid_subregions.#{gas}_emission_factor) / SUM(zip_codes.population)
-            FROM zip_codes
-            INNER JOIN egrid_subregions ON egrid_subregions.abbreviation = zip_codes.egrid_subregion_abbreviation
-            WHERE zip_codes.state_postal_abbreviation = electricity_mixes.state_postal_abbreviation
-            AND zip_codes.population > 0
-          ),
-          #{gas}_emission_factor_units = 'kilograms#{'_co2e' unless gas == 'co2'}_per_kilowatt_hour'
-        }
-      end
-      
-      where("state_postal_abbreviation IS NOT NULL").update_all %{
-        loss_factor = (
-          SELECT SUM(zip_codes.population * egrid_regions.loss_factor) / SUM(zip_codes.population)
-          FROM zip_codes
-          INNER JOIN egrid_subregions ON egrid_subregions.abbreviation = zip_codes.egrid_subregion_abbreviation
-          INNER JOIN egrid_regions ON egrid_regions.name = egrid_subregions.egrid_region_name
-          WHERE zip_codes.state_postal_abbreviation = electricity_mixes.state_postal_abbreviation
-          AND zip_codes.population > 0
+        mix = find_or_create_by_name_and_state_postal_abbreviation(
+          [state.postal_abbreviation, 'state electricity'].join(' '), state.postal_abbreviation
         )
-      }
+        
+        sub_pops = state.zip_codes.known_subregion.sum(:population, :group => :egrid_subregion)
+        
+        %w{ co2 ch4 n2o }.each do |gas|
+          ef = sub_pops.inject(0) do |memo, (subregion, population)|
+            memo += subregion.send("#{gas}_emission_factor") * population
+            memo
+          end / sub_pops.values.sum
+          
+          mix.update_attributes!(
+            :"#{gas}_emission_factor" => ef,
+            :"#{gas}_emission_factor_units" => sub_pops.keys.first.send("#{gas}_emission_factor_units")
+          )
+        end
+        
+        lf = sub_pops.inject(0) do |memo, (subregion, population)|
+          memo += subregion.egrid_region.loss_factor * population
+          memo
+        end / sub_pops.values.sum
+        
+        mix.update_attributes! :loss_factor => lf
+      end
     end
   end
 end
