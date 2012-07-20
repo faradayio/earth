@@ -10,6 +10,8 @@ class ZipCode < ActiveRecord::Base
   has_many :electric_markets,   :foreign_key => 'zip_code_name'
   has_many :electric_utilities, :through => :electric_markets
   
+  scope :known_subregion, where('egrid_subregion_abbreviation IS NOT NULL')
+  
   def country
     Country.united_states
   end
