@@ -6,7 +6,6 @@ class Country < ActiveRecord::Base
   self.primary_key = "iso_3166_code"
   
   has_many :rail_companies,  :foreign_key => 'country_iso_3166_code' # used to calculate rail data
-  has_many :lodging_classes, :foreign_key => 'country_iso_3166_code', :class_name => 'CountryLodgingClass'
   has_one :electricity_mix, :foreign_key => 'country_iso_3166_code'
   
   falls_back_on :name => 'fallback',
