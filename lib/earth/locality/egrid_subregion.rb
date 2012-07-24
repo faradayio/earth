@@ -4,6 +4,7 @@ class EgridSubregion < ActiveRecord::Base
   self.primary_key = "abbreviation"
   
   belongs_to :egrid_region, :foreign_key => 'egrid_region_name'
+  has_one :electricity_mix, :foreign_key => 'egrid_subregion_abbreviation'
   
   falls_back_on :name => 'fallback',
                 :egrid_region => lambda { EgridRegion.fallback },
