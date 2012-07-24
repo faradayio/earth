@@ -20,10 +20,10 @@ Conversions.register :cubic_metres, :hundred_cubic_feet, (1.cubic_metres.to(:cub
 Conversions.register :cubic_metres, :billion_cubic_feet, (1.cubic_metres.to(:cubic_feet) / 1_000_000_000)
 
 # Mass: base unit = kilogram
-Conversions.register :kilograms, :grams,         1_000.0
-Conversions.register :kilograms, :metric_tonnes, 0.001
-Conversions.register :kilograms, :pounds,        2.20462262
-Conversions.register :kilograms, :tons,          0.00110231131
+Conversions.register :kilograms, :grams,      1_000.0
+Conversions.register :kilograms, :tonnes,     0.001
+Conversions.register :kilograms, :pounds,     2.20462262
+Conversions.register :kilograms, :short_tons, 0.00110231131
 
 # Energy: base unit = megajoule
 Conversions.register :btus,                   :megajoules, 0.00105505585
@@ -60,7 +60,8 @@ Conversions.register :million_btu_per_barrel,               :megajoules_per_litr
 Conversions.register :btus_per_cubic_foot,                  :megajoules_per_cubic_metre,              (1.btus.to(:megajoules) / 1.cubic_feet.to(:cubic_metres)) # Fuel
 Conversions.register :teragrams_per_quadrillion_btu,        :grams_per_megajoule,                     (1_000_000_000_000 / 1_000_000_000_000_000.btus.to(:megajoules)) # Fuel
 Conversions.register :kilometres_per_hour,                  :miles_per_hour,                          1.kilometres.to(:miles)
-
+Conversions.register :kilograms_per_kilowatt_hour,          :pounds_per_megawatt_hour,                1.kilograms.to(:pounds) * 1_000
+Conversions.register :kilograms_per_kilowatt_hour,          :pounds_per_gigawatt_hour,                1.kilograms.to(:pounds) * 1_000_000
 
 # Odd units for EPA fuel economy guide
 # Conversions.register :epa_gallon_gasoline_equivalents,          :kilowatt_hours,                        33.705

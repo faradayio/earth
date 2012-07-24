@@ -71,11 +71,11 @@ Country.class_eval do
     end
     
     import "national average electricity emission factors from Brander et al. (2011)",
-           :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdDZmWHFjLVdBZGRBdGxVdDdqd1YtYWc&output=csv' do
+           :url => "file://#{Earth::DATA_DIR}/locality/national_electricity_efs.csv" do
       key 'iso_3166_code', :field_name => 'country_iso_3166_code'
-      store 'electricity_co2_emission_factor', :units_field_name => 'electricity_co2_emission_factor_units'
-      store 'electricity_ch4_emission_factor', :synthesize => proc { |row| row['electricity_ch4_emission_factor'].to_f * GreenhouseGas[:ch4].global_warming_potential }, :units => 'kilograms_co2e_per_kilowatt_hour'
-      store 'electricity_n2o_emission_factor', :synthesize => proc { |row| row['electricity_n2o_emission_factor'].to_f * GreenhouseGas[:n2o].global_warming_potential }, :units => 'kilograms_co2e_per_kilowatt_hour'
+      store 'electricity_co2_emission_factor', :field_name => 'co2_emission_factor', :units_field_name => 'co2_emission_factor_units'
+      store 'electricity_ch4_emission_factor', :synthesize => proc { |row| row['ch4_emission_factor'].to_f * GreenhouseGas[:ch4].global_warming_potential }, :units => 'kilograms_co2e_per_kilowatt_hour'
+      store 'electricity_n2o_emission_factor', :synthesize => proc { |row| row['n2o_emission_factor'].to_f * GreenhouseGas[:n2o].global_warming_potential }, :units => 'kilograms_co2e_per_kilowatt_hour'
       store 'electricity_loss_factor', :field_name => 'loss_factor'
     end
     
@@ -92,7 +92,7 @@ Country.class_eval do
         :electricity_ch4_emission_factor_units => EgridSubregion.fallback.ch4_emission_factor_units,
         :electricity_n2o_emission_factor =>       EgridSubregion.fallback.n2o_emission_factor,
         :electricity_n2o_emission_factor_units => EgridSubregion.fallback.n2o_emission_factor_units,
-        :electricity_loss_factor =>               EgridRegion.fallback.loss_factor
+        :electricity_loss_factor =>               EgridSubregion.fallback.egrid_region.loss_factor
       )
     end
     
@@ -115,25 +115,23 @@ Country.class_eval do
       united_states.update_attributes! :lodging_occupancy_rate => 0.601 # per http://www.pwc.com/us/en/press-releases/2012/pwc-us-lodging-industry-forecast.jhtml
     end
     
-    process "Ensure CountryLodgingClass is populated" do
-      CountryLodgingClass.run_data_miner!
+    process "Ensure CommercialBuildingEnergyConsumptionSurveyResponse is populated" do
+      CommercialBuildingEnergyConsumptionSurveyResponse.run_data_miner!
     end
     
-    process "Derive average hotel characteristics from CountryLodgingClass" do
-      safe_find_each do |country|
-        if (lodging_classes = country.lodging_classes).any?
-          country.update_attributes!(
-            :lodging_natural_gas_intensity         => lodging_classes.weighted_average(:natural_gas_intensity),
-            :lodging_fuel_oil_intensity            => lodging_classes.weighted_average(:fuel_oil_intensity),
-            :lodging_electricity_intensity         => lodging_classes.weighted_average(:electricity_intensity),
-            :lodging_district_heat_intensity       => lodging_classes.weighted_average(:district_heat_intensity),
-            :lodging_natural_gas_intensity_units   => 'cubic_metres_per_occupied_room_night', # FIXME TODO derive this
-            :lodging_fuel_oil_intensity_units      => 'litres_per_occupied_room_night', # FIXME TODO derive this
-            :lodging_electricity_intensity_units   => 'kilowatt_hours_per_occupied_room_night', # FIXME TODO derive this
-            :lodging_district_heat_intensity_units => 'megajoules_per_occupied_room_night' # FIXME TODO derive this
-          )
-        end
-      end
+    process "Derive US average hotel characteristics from CommercialBuildingEnergyConsumptionSurveyResponse" do
+      records = CommercialBuildingEnergyConsumptionSurveyResponse.lodging_records
+      
+      united_states.update_attributes!(
+        :lodging_natural_gas_intensity         => records.weighted_average(:natural_gas_per_room_night),
+        :lodging_fuel_oil_intensity            => records.weighted_average(:fuel_oil_per_room_night),
+        :lodging_electricity_intensity         => records.weighted_average(:electricity_per_room_night),
+        :lodging_district_heat_intensity       => records.weighted_average(:district_heat_per_room_night),
+        :lodging_natural_gas_intensity_units   => records.first.natural_gas_per_room_night_units,
+        :lodging_fuel_oil_intensity_units      => records.first.fuel_oil_per_room_night_units,
+        :lodging_electricity_intensity_units   => records.first.electricity_per_room_night_units,
+        :lodging_district_heat_intensity_units => records.first.district_heat_per_room_night_units
+      )
     end
     
     # RAIL

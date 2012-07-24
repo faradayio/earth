@@ -47,7 +47,7 @@ describe Country do
       it { Country.maximum(:electricity_loss_factor).should < 0.3 }
       
       # spot checks
-      it { us.electricity_emission_factor.should be_within(5e-6).of(0.55437) }
+      it { us.electricity_emission_factor.should be_within(6e-6).of(0.55437) }
       it { us.electricity_co2_emission_factor.should be_within(5e-6).of(0.55165) }
       it { us.electricity_ch4_emission_factor.should be_within(5e-9).of(0.00027255) }
       it { us.electricity_n2o_emission_factor.should be_within(5e-8).of(0.0024437) }
@@ -55,8 +55,8 @@ describe Country do
       
       it { uk.electricity_emission_factor.should be_within(5e-6).of(0.51020) }
       it { uk.electricity_co2_emission_factor.should be_within(5e-6).of(0.5085) }
-      it { uk.electricity_ch4_emission_factor.should be_within(5e-9).of(0.00016885) }
-      it { uk.electricity_n2o_emission_factor.should be_within(5e-8).of(0.0015262) }
+      it { uk.electricity_ch4_emission_factor.should be_within(5e-9).of(0.00016875) }
+      it { uk.electricity_n2o_emission_factor.should be_within(5e-8).of(0.00152576) }
       it { uk.electricity_loss_factor.should be_within(5e-4).of(0.073) }
     end
     
@@ -67,9 +67,9 @@ describe Country do
     end
     
     describe 'lodging data' do
-      it { us.lodging_occupancy_rate.should be_within(0.001).of(0.601) }
-      it { us.lodging_natural_gas_intensity.should be_within(0.00001).of(1.93316) }
-      it { us.lodging_natural_gas_intensity_units.should == 'cubic_metres_per_occupied_room_night' }
+      it { us.lodging_occupancy_rate.should be_within(5e-4).of(0.601) }
+      it { us.lodging_natural_gas_intensity.should be_within(5e-3).of(62.06) }
+      it { us.lodging_natural_gas_intensity_units.should == 'megajoules_per_room_night' }
     end
     
     describe 'rail data' do
@@ -102,17 +102,18 @@ describe Country do
   end
   
   describe '.fallback' do
-    it 'has fallback electricity emission factors and electricity loss factor' do
-      fallback = Country.fallback
-      fallback.electricity_emission_factor.should be_within(5e-6).of(0.62609)
-      fallback.electricity_emission_factor_units.should == 'kilograms_co2e_per_kilowatt_hour'
-      fallback.electricity_co2_emission_factor.should be_within(5e-6).of(0.62354)
-      fallback.electricity_co2_emission_factor_units.should == 'kilograms_per_kilowatt_hour'
-      fallback.electricity_ch4_emission_factor.should be_within(5e-6).of(0.00021)
-      fallback.electricity_ch4_emission_factor_units.should == 'kilograms_co2e_per_kilowatt_hour'
-      fallback.electricity_n2o_emission_factor.should be_within(5e-6).of(0.00234)
-      fallback.electricity_n2o_emission_factor_units.should == 'kilograms_co2e_per_kilowatt_hour'
-      fallback.electricity_loss_factor.should be_within(5e-4).of(0.096)
-    end
+    let(:fallback) { Country.fallback }
+    
+    it { fallback.name.should == 'fallback' }
+    it { fallback.electricity_emission_factor.should be_within(5e-6).of(0.62609) }
+    it { fallback.electricity_emission_factor_units.should == 'kilograms_co2e_per_kilowatt_hour' }
+    it { fallback.electricity_co2_emission_factor.should be_within(5e-6).of(0.62354) }
+    it { fallback.electricity_co2_emission_factor_units.should == 'kilograms_per_kilowatt_hour' }
+    it { fallback.electricity_ch4_emission_factor.should be_within(5e-6).of(0.00021) }
+    it { fallback.electricity_ch4_emission_factor_units.should == 'kilograms_co2e_per_kilowatt_hour' }
+    it { fallback.electricity_n2o_emission_factor.should be_within(5e-6).of(0.00234) }
+    it { fallback.electricity_n2o_emission_factor_units.should == 'kilograms_co2e_per_kilowatt_hour' }
+    it { fallback.electricity_loss_factor.should be_within(5e-4).of(0.096) }
+    it { fallback.electricity_mix.should == ElectricityMix.fallback }
   end
 end

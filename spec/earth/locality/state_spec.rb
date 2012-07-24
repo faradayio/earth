@@ -24,21 +24,21 @@ describe State do
     end
     
     it 'should have an average electricity emission factor' do
-      State.find('VT').electricity_emission_factor.should be_within(0.00001).of(0.37848)
+      State.find('VT').electricity_emission_factor.should be_within(5e-6).of(0.33313)
       State.find('VT').electricity_emission_factor_units.should == "kilograms_co2e_per_kilowatt_hour"
-      State.find('CA').electricity_emission_factor.should be_within(0.00001).of(0.31315)
+      State.find('CA').electricity_emission_factor.should be_within(5e-6).of(0.30281)
       State.find('CA').electricity_emission_factor_units.should == "kilograms_co2e_per_kilowatt_hour"
-      State.find('MT').electricity_emission_factor.should be_within(0.00001).of(0.41092)
+      State.find('MT').electricity_emission_factor.should be_within(5e-6).of(0.39160)
       State.find('MT').electricity_emission_factor_units.should == "kilograms_co2e_per_kilowatt_hour"
-      State.find('NM').electricity_emission_factor.should be_within(0.00001).of(0.57194)
+      State.find('NM').electricity_emission_factor.should be_within(5e-6).of(0.54601)
       State.find('NM').electricity_emission_factor_units.should == "kilograms_co2e_per_kilowatt_hour"
     end
     
     it 'should have an average electricity loss factor' do
-      State.find('VT').electricity_loss_factor.should be_within(0.00001).of(0.0647079)
-      State.find('CA').electricity_loss_factor.should be_within(0.00001).of(0.0483723)
-      State.find('MT').electricity_loss_factor.should be_within(0.00001).of(0.0491516)
-      State.find('NM').electricity_loss_factor.should be_within(0.00001).of(0.0499872)
+      State.find('VT').electricity_loss_factor.should be_within(5e-6).of(0.05822)
+      State.find('CA').electricity_loss_factor.should be_within(5e-6).of(0.08208)
+      State.find('MT').electricity_loss_factor.should be_within(5e-6).of(0.08094)
+      State.find('NM').electricity_loss_factor.should be_within(5e-6).of(0.08007)
     end
   end
   
@@ -47,9 +47,8 @@ describe State do
       require 'earth/locality/country'
     end
     
-    it 'should the United States' do
+    it 'should return the United States' do
       State.first.country.should == Country.united_states
-      State.last.country.should == Country.united_states
     end
   end
 end

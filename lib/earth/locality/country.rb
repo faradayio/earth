@@ -1,5 +1,4 @@
 require 'earth/automobile'
-require 'earth/fuel'
 require 'earth/hospitality'
 require 'earth/rail'
 
@@ -7,7 +6,7 @@ class Country < ActiveRecord::Base
   self.primary_key = "iso_3166_code"
   
   has_many :rail_companies,  :foreign_key => 'country_iso_3166_code' # used to calculate rail data
-  has_many :lodging_classes, :foreign_key => 'country_iso_3166_code', :class_name => 'CountryLodgingClass'
+  has_one :electricity_mix, :foreign_key => 'country_iso_3166_code'
   
   falls_back_on :name => 'fallback',
                 :automobile_urbanity => lambda { united_states.automobile_urbanity }, # for now assume US represents world
@@ -19,6 +18,7 @@ class Country < ActiveRecord::Base
                 :automobile_highway_speed_units => lambda { united_states.automobile_highway_speed_units }, # for now assume US represents world
                 :automobile_trip_distance => lambda { united_states.automobile_trip_distance }, # for now assume US represents world
                 :automobile_trip_distance_units => lambda { united_states.automobile_trip_distance_units }, # for now assume US represents world
+                :electricity_mix => lambda { ElectricityMix.fallback },
                 :electricity_emission_factor => 0.626089, # from ecometrica paper - FIXME TODO calculate this
                 :electricity_emission_factor_units => 'kilograms_co2e_per_kilowatt_hour', # FIXME TODO derive this
                 :electricity_co2_emission_factor => 0.623537, # from ecometrica paper - FIXME TODO calculate this

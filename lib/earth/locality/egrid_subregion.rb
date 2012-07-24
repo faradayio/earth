@@ -3,8 +3,8 @@ require 'earth/locality/egrid_region'
 class EgridSubregion < ActiveRecord::Base
   self.primary_key = "abbreviation"
   
-  has_many :zip_codes, :foreign_key => 'egrid_subregion_abbreviation'
   belongs_to :egrid_region, :foreign_key => 'egrid_region_name'
+  has_one :electricity_mix, :foreign_key => 'egrid_subregion_abbreviation'
   
   falls_back_on :name => 'fallback',
                 :egrid_region => lambda { EgridRegion.fallback },
@@ -15,9 +15,7 @@ class EgridSubregion < ActiveRecord::Base
                 :ch4_emission_factor => lambda { weighted_average(:ch4_emission_factor, :weighted_by => :net_generation) },
                 :ch4_emission_factor_units => 'kilograms_co2e_per_kilowatt_hour',
                 :n2o_emission_factor => lambda { weighted_average(:n2o_emission_factor, :weighted_by => :net_generation) },
-                :n2o_emission_factor_units => 'kilograms_co2e_per_kilowatt_hour',
-                :electricity_emission_factor => lambda { weighted_average(:electricity_emission_factor, :weighted_by => :net_generation) },
-                :electricity_emission_factor_units => 'kilograms_co2e_per_kilowatt_hour'
+                :n2o_emission_factor_units => 'kilograms_co2e_per_kilowatt_hour'
   
   col :abbreviation
   col :name
@@ -33,8 +31,6 @@ class EgridSubregion < ActiveRecord::Base
   col :ch4_emission_factor_units
   col :n2o_emission_factor, :type => :float
   col :n2o_emission_factor_units
-  col :electricity_emission_factor, :type => :float
-  col :electricity_emission_factor_units
   
   warn_unless_size 26
   warn_if_any_nulls

@@ -52,7 +52,7 @@ CommercialBuildingEnergyConsumptionSurveyResponse.class_eval do
            :headers => %w{ PUBID8 REGION8 CENDIV8 SQFT8 SQFTC8 YRCONC8 PBA8 ELUSED8 NGUSED8 FKUSED8 PRUSED8 STUSED8 HWUSED8 WTHTEQ8 INSTWT8 FDRM8 SNACK8 FASTFD8 CAF8 FDPREP8 KITCHN8 OTFDRM8 HWTRM8 LAUNDR8 MEDEQP8 LABEQP8 MCHEQP8 POOL8 HTPOOL8 PLSRC8 RFGEQP8 RFGWI8 RFGOP8 RFGCL8 RFGRES8 RFGVEN8 RFGWIN8 RFGOPN8 RFGRSN8 RFGCLN8 RFGVNN8 PCTERM8 SERVER8 MNFRM8 SRVFRM8 TRNGRM8 STDNRM8 OTPCRM8 PCRMP8 SRVNUM8 SRVRC8 PCNUM8 PCTRMC8 FLAT8 FLATC8 PRNTRN8 PRNTYP8 RGSTRN8 COPIER8 COPRN8 FAX8 RDOFEQ8 ADJWT8 STRATUM8 PAIR8 } do
       key 'id', :field_name => 'PUBID8'
       store 'food_prep_room', :synthesize => proc { |row| row['FDRM8'] == '1' }
-      store 'laundry', :field_name => 'LAUNDR8'
+      store 'laundry', :synthesize => proc { |row| row['LAUNDR8'] == '1' }
       store 'indoor_pool', :synthesize => proc { |row| row['POOL8'] == '1' or row['HTPOOL8'] == '1' }
     end
     
@@ -87,13 +87,29 @@ CommercialBuildingEnergyConsumptionSurveyResponse.class_eval do
         update_all "room_nights = (365.0 * (1 / 7.0)   * (1 / 12.0)   * months_used * weekly_hours * (1 / 24.0)  * lodging_rooms)"
     end
     
-    process "Derive fuel intensities per room night for lodging records" do
+    process "Derive fuel intensities (including outsourced laundry energy) per room night for lodging records" do
       [:natural_gas, :fuel_oil, :electricity, :district_heat].each do |fuel|
         lodging_records.update_all %{
-          #{fuel}_per_room_night = #{fuel}_use / room_nights,
-          #{fuel}_per_room_night_units = #{fuel}_use_units || '_per_room_night'
+          #{fuel}_per_room_night = #{fuel}_energy / room_nights,
+          #{fuel}_per_room_night_units = #{fuel}_energy_units || '_per_room_night'
         }
       end
+      
+      # 2003 average hotel occupancy rate = 59%
+      # from Hotel Carbon Measurement Initiative guidelines 1.0
+      #   5.12 kg laundry / occupied room-night
+      #   180 kWh elec / kg laundry
+      #   1560 kWh nat gas / kg laundry
+      #   111 l fuel oil / kg laundry
+      laundry_gas = 5.12.kilograms.to(:tonnes) * (1560).kilowatt_hours.to(:megajoules) / 0.59
+      laundry_oil = 5.12.kilograms.to(:tonnes) * 111 * 38.549 / 0.59 # 38.549 megajoules / litre distillate fuel oil
+      laundry_elec = 5.12.kilograms.to(:tonnes) * (180).kilowatt_hours.to(:megajoules) / 0.59
+      
+      lodging_records.where(:laundry => false).update_all %{
+        natural_gas_per_room_night = natural_gas_per_room_night + #{laundry_gas},
+        fuel_oil_per_room_night = fuel_oil_per_room_night + #{laundry_oil},
+        electricity_per_room_night = electricity_per_room_night + #{laundry_elec}
+      }
     end
     
     process "Add estimated outsourced laundry energy use per room night for hotels without laundry facilities" do

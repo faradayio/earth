@@ -1,4 +1,3 @@
-require 'earth/locality'
 class LodgingClass < ActiveRecord::Base
   self.primary_key = "name"
   

@@ -12,11 +12,11 @@ describe FlightSegment do
     end
   end
   
-  describe "verify imported data", :sanity => true do
+  describe "verify imported data", :sanity => true, :flight_segment => true do
     it "should have all the data" do
-      FlightSegment.where(:year => 2009).count.should == 403_959
-      FlightSegment.where(:year => 2010).count.should == 421_725
-      FlightSegment.where(:year => 2011).count.should >= 357_688
+      FlightSegment.where(:year => 2009).count.should == 403_980
+      FlightSegment.where(:year => 2010).count.should == 421_884
+      FlightSegment.where(:year => 2011).count.should == 428_550
     end
     
     it "should have year from 2009 to present" do

@@ -21,6 +21,15 @@ describe ZipCode do
     it { ZipCode.where('population IS NOT NULL').count.should == 33120 }
   end
   
+  # from acts_as_mappable
+  describe '.find_within' do
+    it { ZipCode.find_within(15, :units => :kms, :origin => ZipCode.find('05753').latitude_longitude).count.should == 7 }
+  end
+  
+  describe '.known_subregion' do
+    it { ZipCode.known_subregion.where(:egrid_subregion_abbreviation => nil).count.should == 0 }
+  end
+  
   describe '#country' do
     before do
       require 'earth/locality/country'
@@ -37,10 +46,5 @@ describe ZipCode do
       ZipCode.find('00001').latitude_longitude.should == [nil, nil]
       ZipCode.find('00210').latitude_longitude.should == ['43.005895', '-71.013202']
     end
-  end
-  
-  # from acts_as_mappable
-  describe '.find_within' do
-    it { ZipCode.find_within(15, :units => :kms, :origin => ZipCode.find('05753').latitude_longitude).count.should == 7 }
   end
 end

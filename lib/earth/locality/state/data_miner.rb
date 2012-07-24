@@ -1,5 +1,9 @@
 State.class_eval do
   data_miner do
+    process "Start from scratch" do
+      delete_all
+    end
+    
     # state names, FIPS codes, and postal abbreviations
     import 'the U.S. Census State ANSI Code file',
            :url => 'http://www.census.gov/geo/www/ansi/state.txt',
@@ -34,27 +38,54 @@ State.class_eval do
     end
     
     process 'derive average electricity emission factor and loss factor from zip code and eGRID data' do
-      update_all %{
-        electricity_emission_factor = (
-          SELECT SUM(zip_codes.population * egrid_subregions.electricity_emission_factor) / SUM(zip_codes.population)
-          FROM zip_codes
-          INNER JOIN egrid_subregions ON egrid_subregions.abbreviation = zip_codes.egrid_subregion_abbreviation
-          WHERE zip_codes.state_postal_abbreviation = states.postal_abbreviation
-        ),
-        electricity_emission_factor_units = 'kilograms_co2e_per_kilowatt_hour',
-        electricity_loss_factor = (
-          SELECT SUM(zip_codes.population * egrid_regions.loss_factor) / SUM(zip_codes.population)
-          FROM zip_codes
-          INNER JOIN egrid_subregions ON egrid_subregions.abbreviation = zip_codes.egrid_subregion_abbreviation
-          INNER JOIN egrid_regions ON egrid_regions.name = egrid_subregions.egrid_region_name
-          WHERE zip_codes.state_postal_abbreviation = states.postal_abbreviation
+      safe_find_each do |state|
+        sub_pops = state.zip_codes.known_subregion.sum(:population, :group => :egrid_subregion)
+        
+        ef = sub_pops.inject(0) do |memo, (subregion, population)|
+          memo += subregion.electricity_emission_factor * population
+          memo
+        end / sub_pops.values.sum
+        
+        state.update_attributes!(
+          :electricity_emission_factor => ef,
+          :electricity_emission_factor_units => 'kilograms_co2e_per_kilowatt_hour'
         )
-      }
+        
+        loss_factor = sub_pops.inject(0) do |memo, (subregion, population)|
+          memo += subregion.egrid_region.loss_factor * population
+          memo
+        end / sub_pops.values.sum
+        
+        state.update_attributes! :electricity_loss_factor => loss_factor
+      end
+      
+      # Same thing using SQL:
+      # update_all %{
+      #   electricity_emission_factor = (
+      #     SELECT SUM(zip_codes.population * egrid_subregions.electricity_emission_factor) / SUM(zip_codes.population)
+      #     FROM zip_codes
+      #     INNER JOIN egrid_subregions ON egrid_subregions.abbreviation = zip_codes.egrid_subregion_abbreviation
+      #     WHERE zip_codes.state_postal_abbreviation = states.postal_abbreviation
+      #   ),
+      #   electricity_emission_factor_units = 'kilograms_co2e_per_kilowatt_hour',
+      #   electricity_loss_factor = (
+      #     SELECT SUM(zip_codes.population * egrid_regions.loss_factor) / SUM(zip_codes.population)
+      #     FROM zip_codes
+      #     INNER JOIN egrid_subregions ON egrid_subregions.abbreviation = zip_codes.egrid_subregion_abbreviation
+      #     INNER JOIN egrid_regions ON egrid_regions.name = egrid_subregions.egrid_region_name
+      #     WHERE zip_codes.state_postal_abbreviation = states.postal_abbreviation
+      #   )
+      # }
     end
     
     # TODO import this from US census? would be slightly different: 0.7% for Alaska, 0.2% for New Mexico, etc.
     process 'derive population from zip code data' do
-      update_all "population = (SELECT SUM(population) FROM zip_codes WHERE zip_codes.state_postal_abbreviation = states.postal_abbreviation)"
+      safe_find_each do |state|
+        state.update_attributes! :population => state.zip_codes.sum(:population)
+      end
+      
+      # Same this using SQL
+      # update_all "population = (SELECT SUM(population) FROM zip_codes WHERE zip_codes.state_postal_abbreviation = states.postal_abbreviation)"
     end
   end
 end
