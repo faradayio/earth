@@ -8,6 +8,13 @@ class State < ActiveRecord::Base
   has_one :electricity_mix, :foreign_key => 'state_postal_abbreviation'
   belongs_to :petroleum_administration_for_defense_district, :foreign_key => 'petroleum_administration_for_defense_district_code'
   
+  data_miner do
+    process "Ensure Country and ElectricityMix are imported because they're like belongs_to associations" do
+      Country.run_data_miner!
+      ElectricityMix.run_data_miner!
+    end
+  end
+  
   def country
     Country.united_states
   end

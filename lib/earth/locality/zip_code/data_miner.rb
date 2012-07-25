@@ -48,6 +48,10 @@ ZipCode.class_eval do
       }
     end
     
+    process "Data mine Country because it's like a belongs_to association" do
+      Country.run_data_miner!
+    end
+    
     # FIXME TODO figure out how to speed this up then re-enable it
     # process "Look up missing latitude and longitude" do
     #   where("latitude IS NULL OR longitude IS NULL").each do |zip|

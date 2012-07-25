@@ -103,6 +103,10 @@ Country.class_eval do
       })
     end
     
+    process "Ensure ElectricityMix is data mined because it's like a belongs_to association" do
+      ElectricityMix.run_data_miner!
+    end
+    
     # FLIGHT
     import "country-specific flight route inefficiency factors derived from Kettunen et al. (2005)",
            :url => "file://#{Earth::DATA_DIR}/locality/country_flight_data.csv" do

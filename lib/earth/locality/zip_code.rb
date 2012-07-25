@@ -11,6 +11,12 @@ class ZipCode < ActiveRecord::Base
   
   scope :known_subregion, where('egrid_subregion_abbreviation IS NOT NULL')
   
+  data_miner do
+    process "Ensure Country is imported because it's like a belongs_to association" do
+      Country.run_data_miner!
+    end
+  end
+  
   def country
     Country.united_states
   end

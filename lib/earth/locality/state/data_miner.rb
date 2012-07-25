@@ -66,5 +66,10 @@ State.class_eval do
         state.update_attributes! :population => state.zip_codes.sum(:population)
       end
     end
+    
+    process "Data mine Country and ElectricityMix because they're like belongs_to associations" do
+      Country.run_data_miner!
+      ElectricityMix.run_data_miner!
+    end
   end
 end
