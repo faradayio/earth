@@ -16,7 +16,7 @@ describe CommercialBuildingEnergyConsumptionSurveyResponse do
   
   describe "verify imported data", :sanity => true do
     let(:total) { cbecs.count }
-    let(:first) { cbecs.lodging_records.first }
+    let(:first_lodging) { cbecs.lodging_records.first }
     
     it { total.should == 5215 }
     it { cbecs.where("electricity_use >= 0").count.should == total }
@@ -30,10 +30,19 @@ describe CommercialBuildingEnergyConsumptionSurveyResponse do
     
     # spot check
     it "should have room nights and fuel intensities per room night for lodging_records" do
-      first.room_nights.should == 6205
-      first.natural_gas_energy.should be_within(0.5).of(386700)
-      first.natural_gas_per_room_night.should be_within(5e-4).of(111.056)
-      first.natural_gas_per_room_night_units.should == 'megajoules_per_room_night'
+      first_lodging.room_nights.should == 6205
+      
+      first_lodging.electricity_energy.should be_within(0.5).of(221809)
+      first_lodging.electricity_per_room_night.should be_within(5e-4).of(37.711)
+      first_lodging.electricity_per_room_night_units.should == 'megajoules_per_room_night'
+      
+      first_lodging.natural_gas_energy.should be_within(0.5).of(386700)
+      first_lodging.natural_gas_per_room_night.should be_within(5e-4).of(79.343)
+      first_lodging.natural_gas_per_room_night_units.should == 'megajoules_per_room_night'
+      
+      first_lodging.fuel_oil_energy.should be_within(5e-4).of(0)
+      first_lodging.fuel_oil_per_room_night.should be_within(5e-4).of(12.97)
+      first_lodging.fuel_oil_per_room_night_units.should == 'megajoules_per_room_night'
     end
   end
   

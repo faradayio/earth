@@ -68,7 +68,7 @@ describe Country do
     
     describe 'lodging data' do
       it { us.lodging_occupancy_rate.should be_within(5e-4).of(0.601) }
-      it { us.lodging_natural_gas_intensity.should be_within(5e-3).of(62.06) }
+      it { us.lodging_natural_gas_intensity.should be_within(5e-4).of(50.719) }
       it { us.lodging_natural_gas_intensity_units.should == 'megajoules_per_room_night' }
     end
     

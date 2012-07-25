@@ -21,7 +21,7 @@ class CommercialBuildingEnergyConsumptionSurveyResponse < ActiveRecord::Base
   col :lodging_rooms,          :type => :integer
   col :percent_cooled,         :type => :float
   col :food_prep_room,         :type => :boolean
-  col :laundry,                :type => :boolean
+  col :laundry_onsite,         :type => :boolean
   col :indoor_pool,            :type => :boolean
   col :principal_activity
   col :detailed_activity
