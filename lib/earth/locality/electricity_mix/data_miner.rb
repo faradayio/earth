@@ -70,8 +70,8 @@ ElectricityMix.class_eval do
           end / sub_pops.values.sum
           
           mix.update_attributes!(
-            :"#{gas}_emission_factor" => ef,
-            :"#{gas}_emission_factor_units" => sub_pops.keys.first.send("#{gas}_emission_factor_units")
+            "#{gas}_emission_factor" => ef,
+            "#{gas}_emission_factor_units" => sub_pops.keys.first.send("#{gas}_emission_factor_units")
           )
         end
         
