@@ -55,5 +55,8 @@ describe EgridSubregion do
     it { fallback.co2_biogenic_emission_factor.should == nil }
     it { fallback.ch4_emission_factor.should be_within(5e-6).of(0.00027) }
     it { fallback.n2o_emission_factor.should be_within(5e-6).of(0.00244) }
+    
+    # DEPRECATED
+    it { fallback.electricity_emission_factor.should be_within(5e-6).of(0.55437) }
   end
 end

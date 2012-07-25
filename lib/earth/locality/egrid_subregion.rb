@@ -15,7 +15,9 @@ class EgridSubregion < ActiveRecord::Base
                 :ch4_emission_factor => lambda { weighted_average(:ch4_emission_factor, :weighted_by => :net_generation) },
                 :ch4_emission_factor_units => 'kilograms_co2e_per_kilowatt_hour',
                 :n2o_emission_factor => lambda { weighted_average(:n2o_emission_factor, :weighted_by => :net_generation) },
-                :n2o_emission_factor_units => 'kilograms_co2e_per_kilowatt_hour'
+                :n2o_emission_factor_units => 'kilograms_co2e_per_kilowatt_hour',
+                :electricity_emission_factor => lambda { weighted_average(:electricity_emission_factor, :weighted_by => :net_generation) },
+                :electricity_emission_factor_units => 'kilograms_co2e_per_kilowatt_hour'
   
   col :abbreviation
   col :name
