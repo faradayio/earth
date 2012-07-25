@@ -39,5 +39,13 @@ EgridSubregion.class_eval do
         })
       end
     end
+    
+    # DEPRECATED - but don't remove until cut State.electricity_emission_factor
+    process "Calculate combined electricity emission factor" do
+      update_all %{
+        electricity_emission_factor = co2_emission_factor + ch4_emission_factor + n2o_emission_factor,
+        electricity_emission_factor_units = 'kilograms_co2e_per_kilowatt_hour'
+      }
+    end
   end
 end
