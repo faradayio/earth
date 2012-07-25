@@ -2,7 +2,7 @@
 
 Earth is a collection of data models that represent various things found here on Earth, such as pet breeds, kinds of rail travel, zip codes, and Petroleum Administration for Defense Districts.
 
-The data that these models represent can be pulled from preconfigured authoritative sources.
+The data that these models represent can be pulled from preconfigured authoritative sources. By default, data is pulled from [Brighter Planet's open reference data site](http://data.brighterplanet.com) using the [taps gem](http://rubygems.org/gems/taps).
 
 ## Usage
 
@@ -14,6 +14,8 @@ ft = AutomobileFuel.first
 ```
 
 `Earth.init` loads desired "data domains" as well as any supporting classes and plugins that each data model needs. A "data domain" is a grouping of related data models. For instance, all automobile-related data is in the `:automobile` domain.
+
+See the [rdocs](http://rdoc.info/github/brighterplanet/earth) for more details on the Earth module.
 
 ### Domains
 
@@ -114,6 +116,23 @@ Earth.init :automobile
 require 'earth/automobile/data_miner'
 AutomobileMake.run_data_miner!
 ```
+
+### Rake tasks
+
+Earth provides handy rails tasks for creating, migrating, and data mining models whether your using it from a Rails app or a standalone Ruby app.
+
+In your Rakefile, add:
+
+    require 'earth/tasks'
+    Earth::Tasks.new
+
+If you're using Earth outside of Rails, all of the default `rake db:*` tasks will now be available. Within rails, certain tasks are augmented to 
+help manage your Earth models using data_miner and active_record_inline_schema in addition to standard migrations.
+
+Of note are the following tasks:
+
+* `rake db:migrate` runs `.auto_upgrade!` on each Earth resource model.
+* `rake db:seed` runs `.run_data_miner!` on each Earth resource model.
 
 ## Collaboration cycle 
 Brighter Planet vigorously encourages collaborative improvement.

@@ -1,3 +1,3 @@
 # lib/earth/computation.rb
 require 'earth'
-Earth.require_related __FILE__
+Earth::Loader.require_related __FILE__
