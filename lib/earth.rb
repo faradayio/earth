@@ -167,7 +167,7 @@ module Earth
     yaml_path = File.join(Dir.pwd, 'config/database.yml')
     if File.exist?(yaml_path)
       require 'yaml'
-      YAML::load_file yaml_path
+      YAML.load_file yaml_path
     else
       case ENV['EARTH_DB_ADAPTER']
       when 'mysql'
