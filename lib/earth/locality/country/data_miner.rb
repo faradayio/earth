@@ -65,6 +65,7 @@ Country.class_eval do
       )
     end
     
+    # DEPRECATED - eventually cut all elec stuff (replaced by ElectricityMix)
     # ELECTRICITY
     process "Ensure GreehouseGas is populated" do
       GreenhouseGas.run_data_miner!
@@ -79,12 +80,11 @@ Country.class_eval do
       store 'electricity_loss_factor', :field_name => 'loss_factor'
     end
     
-    process "Ensure EgridSubregion and EgridRegion are populated" do
+    process "Ensure EgridSubregion is populated" do
       EgridSubregion.run_data_miner!
-      EgridRegion.run_data_miner!
     end
     
-    process "Derive average US electricity emission factors from eGRID" do
+    process "Derive average US electricity data from EgridSubregion" do
       united_states.update_attributes!(
         :electricity_co2_emission_factor =>       EgridSubregion.fallback.co2_emission_factor,
         :electricity_co2_emission_factor_units => EgridSubregion.fallback.co2_emission_factor_units,
@@ -96,7 +96,7 @@ Country.class_eval do
       )
     end
     
-    process "Calculate average combined electricity emission factor" do
+    process "Calculate combined electricity emission factor" do
       where('electricity_co2_emission_factor IS NOT NULL').update_all(%{
         electricity_emission_factor = electricity_co2_emission_factor + electricity_ch4_emission_factor + electricity_n2o_emission_factor,
         electricity_emission_factor_units = 'kilograms_co2e_per_kilowatt_hour'
@@ -120,17 +120,17 @@ Country.class_eval do
     end
     
     process "Derive US average hotel characteristics from CommercialBuildingEnergyConsumptionSurveyResponse" do
-      records = CommercialBuildingEnergyConsumptionSurveyResponse.lodging_records
+      lodgings = CommercialBuildingEnergyConsumptionSurveyResponse.lodging_records
       
       united_states.update_attributes!(
-        :lodging_natural_gas_intensity         => records.weighted_average(:natural_gas_per_room_night),
-        :lodging_fuel_oil_intensity            => records.weighted_average(:fuel_oil_per_room_night),
-        :lodging_electricity_intensity         => records.weighted_average(:electricity_per_room_night),
-        :lodging_district_heat_intensity       => records.weighted_average(:district_heat_per_room_night),
-        :lodging_natural_gas_intensity_units   => records.first.natural_gas_per_room_night_units,
-        :lodging_fuel_oil_intensity_units      => records.first.fuel_oil_per_room_night_units,
-        :lodging_electricity_intensity_units   => records.first.electricity_per_room_night_units,
-        :lodging_district_heat_intensity_units => records.first.district_heat_per_room_night_units
+        :lodging_natural_gas_intensity         => lodgings.weighted_average(:natural_gas_per_room_night),
+        :lodging_fuel_oil_intensity            => lodgings.weighted_average(:fuel_oil_per_room_night),
+        :lodging_electricity_intensity         => lodgings.weighted_average(:electricity_per_room_night),
+        :lodging_district_heat_intensity       => lodgings.weighted_average(:district_heat_per_room_night),
+        :lodging_natural_gas_intensity_units   => lodgings.first.natural_gas_per_room_night_units,
+        :lodging_fuel_oil_intensity_units      => lodgings.first.fuel_oil_per_room_night_units,
+        :lodging_electricity_intensity_units   => lodgings.first.electricity_per_room_night_units,
+        :lodging_district_heat_intensity_units => lodgings.first.district_heat_per_room_night_units
       )
     end
     

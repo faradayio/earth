@@ -8,6 +8,10 @@ class Country < ActiveRecord::Base
   has_many :rail_companies,  :foreign_key => 'country_iso_3166_code' # used to calculate rail data
   has_one :electricity_mix, :foreign_key => 'country_iso_3166_code'
   
+  def self.united_states
+    find_by_iso_3166_code('US')
+  end
+  
   falls_back_on :name => 'fallback',
                 :automobile_urbanity => lambda { united_states.automobile_urbanity }, # for now assume US represents world
                 :automobile_fuel_efficiency => ((22.5 + 16.2) / 2.0).miles_per_gallon.to(:kilometres_per_litre), # average of passenger car fuel unknown and light goods vehicle fuel unknown - WRI Mobile Combustion calculation tool v2.0
@@ -48,10 +52,6 @@ class Country < ActiveRecord::Base
                 :rail_trip_diesel_intensity_units => 'litres_per_passenger_kilometre', # FIXME TODO derive this
                 :rail_trip_co2_emission_factor => lambda { weighted_average(:rail_trip_co2_emission_factor, :weighted_by => :rail_passengers) },
                 :rail_trip_co2_emission_factor_units => 'kilograms_per_passenger_kilometre' # FIXME TODO derive this
-  
-  def self.united_states
-    find_by_iso_3166_code('US')
-  end
   
   col :iso_3166_code                            # alpha-2 2-letter like GB
   col :iso_3166_numeric_code, :type => :integer # numeric like 826; aka UN M49 code

@@ -4,7 +4,7 @@ require 'earth/locality/state'
 describe State do
   describe 'when importing data', :data_miner => true do
     before do
-      Earth.init :locality, :load_data_miner => true, :skip_parent_associations => :true
+      Earth.init :locality, :load_data_miner => true
     end
     
     it 'imports data' do

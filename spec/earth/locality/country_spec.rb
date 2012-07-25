@@ -6,7 +6,7 @@ require 'earth/locality/country'
 describe Country do
   describe 'import', :data_miner => true do
     before do
-      Earth.init :locality, :load_data_miner => true, :skip_parent_associations => :true
+      Earth.init :locality, :load_data_miner => true
     end
     
     it 'should import data' do
