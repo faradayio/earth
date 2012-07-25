@@ -46,4 +46,15 @@ RSpec.configure do |c|
   if ENV['SKIP_FLIGHT_SEGMENT'] == 'true'
     c.filter_run_excluding :flight_segment => true
   end
+  c.before(:each) do
+    ActiveRecord::Base.connection.increment_open_transactions
+    ActiveRecord::Base.connection.transaction_joinable = false
+    ActiveRecord::Base.connection.begin_db_transaction
+  end
+  c.after(:each) do
+    ActiveRecord::Base.connection.rollback_db_transaction
+    ActiveRecord::Base.connection.decrement_open_transactions
+  end
 end
+
+Dir["#{File.dirname(__FILE__)}/factories/*.rb"].each { |path| require path }

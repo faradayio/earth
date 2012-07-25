@@ -35,6 +35,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'bundler'
   s.add_development_dependency 'charisma'
   s.add_development_dependency 'cucumber'
+  s.add_development_dependency 'factory_girl'
   s.add_development_dependency 'mysql2' # for bin/earth_tester.rb; use mysql2 for utf-8 compatibility
   s.add_development_dependency 'pg'
   s.add_development_dependency 'rake'

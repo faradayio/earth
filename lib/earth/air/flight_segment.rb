@@ -3,26 +3,6 @@ require 'fuzzy_match/cached_result'
 
 class FlightSegment < ActiveRecord::Base
   self.primary_key = "row_hash"
-
-  belongs_to :airline,
-    :primary_key => :bts_code,
-    :foreign_key => :airline_bts_code
-
-  belongs_to :origin_airport,
-    :class_name => 'Airport',
-    :primary_key => :iata_code,
-    :foreign_key => :origin_airport_iata_code
-  belongs_to :destination_airport,
-    :class_name => 'Airport',
-    :primary_key => :iata_code,
-    :foreign_key => :destination_airport_iata_code
-  
-  # Cutting this for now because if iata code is missing we have to look up airports using both city and country; don't know how to do this with ActiveRecord
-  # - Ian 6/12/2011
-  # # If airport iata code is missing, associate with all airports in a city
-  # # We need this to calculate distance when importing ICAO segments - see cm1 flight_segment.rb
-  # has_many :origin_city_airports,      :foreign_key => 'city', :primary_key => 'origin_airport_city',      :class_name => 'Airport'
-  # has_many :destination_city_airports, :foreign_key => 'city', :primary_key => 'destination_airport_city', :class_name => 'Airport'
   
   # Enable flight_segment.aircraft
   cache_fuzzy_match_with :aircraft, :primary_key => :aircraft_description, :foreign_key => :description
@@ -89,6 +69,8 @@ class FlightSegment < ActiveRecord::Base
   add_index :aircraft_description
   add_index :year
 
+  attr_accessible :row_hash
+
   warn_if_nulls_except(
     :origin_airport_city,
     :destination_airport_city,
@@ -98,4 +80,12 @@ class FlightSegment < ActiveRecord::Base
   )
 
   warn_unless_size 1_254_412
+
+  def airline
+    if airline_bts_code
+      Airline.where(:bts_code => airline_bts_code).first
+    else
+      Airline.where(:icao_code => airline_icao_code).first
+    end
+  end
 end

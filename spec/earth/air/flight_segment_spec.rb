@@ -3,16 +3,16 @@ require 'earth/air/flight_segment'
 
 describe FlightSegment do
   describe 'import', :data_miner => true do
-    before do
-      Earth.init :air, :load_data_miner => true, :skip_parent_associations => :true
-    end
-    
     it 'should import data' do
       FlightSegment.run_data_miner!
     end
   end
   
   describe "verify imported data", :sanity => true, :flight_segment => true do
+    before :all do
+      FlightSegment.run_data_miner!
+    end
+
     it "should have all the data" do
       FlightSegment.where(:year => 2009).count.should == 403_980
       FlightSegment.where(:year => 2010).count.should == 421_884
@@ -62,9 +62,34 @@ describe FlightSegment do
         Airline.exists?(:name => name).should == true
       end
     end
+
+    it 'should relate to airline' do
+      FlightSegment.any? { |fs| !fs.airline.nil? }.should be_true
+    end
     
     it "should have aircraft description" do
       FlightSegment.where(:aircraft_description => nil).count.should == 0
+    end
+  end
+
+  describe '#airline' do
+    it 'finds an airline by BTS code' do
+      FactoryGirl.create :airline, :delta
+      FactoryGirl.create :airline, :united
+
+      fs = FactoryGirl.build :flight_segment, :delta
+      fs.airline.bts_code.should == 'DL'
+    end
+    it 'finds an airline by ICAO code' do
+      FactoryGirl.create :airline, :delta
+      FactoryGirl.create :airline, :united
+
+      fs = FactoryGirl.build :flight_segment, :delta_icao
+      fs.airline.bts_code.should == 'DL'
+    end
+    it 'returns nil if there is no airline' do
+      fs = FactoryGirl.build :flight_segment
+      fs.airline.should be_nil
     end
   end
 end
