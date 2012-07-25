@@ -56,9 +56,7 @@ module Earth
   # Earth.init should be performed after a connection is made to the database and 
   # before any domain models are referenced.
   def Earth.init(*args)
-    unless ActiveRecord::Base.connected?
-      ActiveRecord::Base.establish_connection(Earth.database_configurations[Earth.env])
-    end
+    connect
 
     options = args.extract_options!
     domains = args
@@ -93,6 +91,12 @@ module Earth
       if options[:apply_schemas]
         resource_model.auto_upgrade!
       end
+    end
+  end
+
+  def Earth.connect
+    unless ActiveRecord::Base.connected?
+      ActiveRecord::Base.establish_connection(Earth.database_configurations[Earth.env])
     end
   end
 

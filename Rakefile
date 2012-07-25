@@ -64,3 +64,4 @@ Rake::RDocTask.new do |rdoc|
 end
 
 require 'earth/tasks'
+Earth::Tasks.new
