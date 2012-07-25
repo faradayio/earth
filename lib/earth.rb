@@ -156,7 +156,7 @@ module Earth
   end
 
   def Earth.env
-    ActiveSupport::StringInquirer.new(ENV['EARTH_ENV'] || ENV['RAILS_ENV'] || 'development')
+    @env ||= ActiveSupport::StringInquirer.new(ENV['EARTH_ENV'] || ENV['RAILS_ENV'] || ENV['RACK_ENV'] ||'development')
   end
 
   def Earth.global_domain
