@@ -36,8 +36,8 @@ AutomobileFuel.class_eval do
           end
           
           auto_fuel.update_attributes!(
-            :"#{method}" => value,
-            :"#{method}_units" => auto_fuel.base_fuel.send("#{method}_units")
+            "#{method}" => value,
+            "#{method}_units" => auto_fuel.base_fuel.send("#{method}_units")
           )
         end
       end
@@ -59,8 +59,8 @@ AutomobileFuel.class_eval do
         if (type_fuels = record.type_fuels).any?
           %w{ annual_distance ch4_emission_factor n2o_emission_factor }.each do |item|
             record.update_attributes!(
-              :"#{item}" => type_fuels.weighted_average(item, :weighted_by => :vehicles),
-              :"#{item}_units" => type_fuels.first.send("#{item}_units")
+              "#{item}" => type_fuels.weighted_average(item, :weighted_by => :vehicles),
+              "#{item}_units" => type_fuels.first.send("#{item}_units")
             )
           end
           unless record.name =~ / gasoline/

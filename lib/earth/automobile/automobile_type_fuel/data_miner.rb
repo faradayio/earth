@@ -26,7 +26,7 @@ AutomobileTypeFuel.class_eval do
       join_relation = type_fuel_years[:type_name].eq(type_fuels[:type_name]).and(type_fuel_years[:fuel_family].eq(type_fuels[:fuel_family]))
       
       %w{ annual_distance ch4_emission_factor n2o_emission_factor }.each do |item|
-        item_sql = AutomobileTypeFuelYear.where(join_relation).weighted_average_relation(:"#{item}", :weighted_by => :share_of_type).to_sql
+        item_sql = AutomobileTypeFuelYear.where(join_relation).weighted_average_relation("#{item}", :weighted_by => :share_of_type).to_sql
         item_units = AutomobileTypeFuelYear.first.send("#{item}_units")
         
         update_all %{

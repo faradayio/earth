@@ -2,21 +2,21 @@ AutomobileMakeModelYearVariant.class_eval do
   # For errata
   class AutomobileMakeModelYearVariant::Guru
     %w{ alpina bentley chevrolet chrysler dodge ferrari ford gmc jaguar kia lexus maybach mercedes-benz mitsubishi porsche toyota tvr volvo yugo }.each do |make|
-      method_name = :"is_a_#{make.gsub('-', '_')}?"
+      method_name = "is_a_#{make.gsub('-', '_')}?"
       define_method method_name do |row|
         row['make_name'].downcase == make
       end
     end
     
     %w{ alpina bentley marquis maybach milan mystique scion smart }.each do |model_name|
-      method_name = :"model_contains_#{model_name}?"
+      method_name = "model_contains_#{model_name}?"
       define_method method_name do |row|
         row['model_name'].to_s =~ /#{model_name}/i
       end
     end
     
     [["ford", "contour"], ["hyundai", "sonata"], ["jaguar", "xjr"], ["jaguar", "xjs convertible"], ["jaguar", "xjs coupe"], ["mercury", "mystique"], ["mitsubishi", "mirage"], ["volvo", "850"], ["volvo", "850 wagon"], ["volvo", "940"], ["volvo", "940 wagon"]].each do |make_name, model_name|
-      method_name = :"is_a_1995_#{make_name}_#{model_name.gsub(' ', '_')}_missing_fuel_efficiency?"
+      method_name = "is_a_1995_#{make_name}_#{model_name.gsub(' ', '_')}_missing_fuel_efficiency?"
       define_method method_name do |row|
         row['year'] == 1995 and row['make_name'].downcase == make_name and row['model_name'].downcase == model_name and (row['fuel_efficiency_city'] == 0 or row['fuel_efficiency_highway'] == 0)
       end
@@ -64,7 +64,7 @@ AutomobileMakeModelYearVariant.class_eval do
     end
     
     %w{ 5 hatchback justy loyale loyale_wagon odyssey pt_cruiser_convertible space_wagon stanza_wagon wagon xt }.each do |model_name|
-      method_name = :"is_a_#{model_name}?"
+      method_name = "is_a_#{model_name}?"
       define_method method_name do |row|
         row['model_name'] =~ /^#{model_name.gsub('_', ' ')}$/i
       end
@@ -399,7 +399,7 @@ AutomobileMakeModelYearVariant.class_eval do
       where(:make_name => 'Chevrolet', :model_name => 'CAVALIER DUAL-FUEL', :fuel_code => 'C').each do |cng_variant|
         gasoline_variant = where(:make_name => 'Chevrolet', :model_name => 'CAVALIER DUAL-FUEL', :fuel_code => ['R', 'P'], :alt_fuel_code => nil).find_by_year(cng_variant.year)
         %w{ fuel_code fuel_efficiency_city fuel_efficiency_city_units fuel_efficiency_highway fuel_efficiency_highway_units }.each do |attribute|
-          gasoline_variant.update_attributes! :"alt_#{attribute}" => cng_variant.send(attribute)
+          gasoline_variant.update_attributes! "alt_#{attribute}" => cng_variant.send(attribute)
         end
         cng_variant.destroy
       end
@@ -437,7 +437,7 @@ AutomobileMakeModelYearVariant.class_eval do
         
         if gasoline_variant.present?
           %w{ fuel_code fuel_efficiency_city fuel_efficiency_city_units fuel_efficiency_highway fuel_efficiency_highway_units }.each do |attribute|
-            gasoline_variant.update_attributes! :"alt_#{attribute}" => ethanol_variant.send(attribute)
+            gasoline_variant.update_attributes! "alt_#{attribute}" => ethanol_variant.send(attribute)
           end
           ethanol_variant.destroy
         end
