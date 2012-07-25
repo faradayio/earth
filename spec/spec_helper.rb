@@ -6,49 +6,42 @@ require 'active_record'
 require 'data_miner'
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+
+ENV['EARTH_ENV'] ||= 'test'
+
 require 'earth'
 
 require 'support/integration'
 include Integration
 
-case ENV['EARTH_DB_ADAPTER']
-when 'mysql'
-  adapter = 'mysql2'
-  database = 'test_earth'
-  username = 'root'
-  password = 'password'
-  
-  # system %{mysql -u #{username} -p#{password} -e "DROP DATABASE #{database}"}
-  # system %{mysql -u #{username} -p#{password} -e "CREATE DATABASE #{database}"}
-else
-  adapter = 'postgresql'
-  database = 'test_earth'
-  username = nil
-  password = nil
-end
-
-config = {
-  'encoding' => 'utf8',
-  'adapter' => adapter,
-  'database' => database,
-}
-config['username'] = username if username
-config['password'] = password if password
-
-ActiveRecord::Base.establish_connection config
+Earth.logger.level = Logger::DEBUG
 
 logger = Logger.new 'log/test.log'
-logger.level = Logger::DEBUG
-
 ActiveRecord::Base.logger = logger
 DataMiner.logger = logger
 
-DataMiner::Run.auto_upgrade!
 DataMiner.unit_converter = :conversions
 
 RSpec.configure do |c|
   unless ENV['ALL'] == 'true'
     c.filter_run_excluding :data_miner => true
+    c.filter_run_excluding :sanity => true
+  end
+  c.before :all do
+    Earth.init :all, :load_data_miner => true, :skip_parent_associations => :true
+  end
+  c.before :all, :data_miner => true do
+    Earth.run_data_miner!
+  end
+
+  c.before(:each) do
+    ActiveRecord::Base.connection.increment_open_transactions
+    ActiveRecord::Base.connection.transaction_joinable = false
+    ActiveRecord::Base.connection.begin_db_transaction
+  end
+  c.after(:each) do
+    ActiveRecord::Base.connection.rollback_db_transaction
+    ActiveRecord::Base.connection.decrement_open_transactions
   end
   if ENV['SKIP_FLIGHT_SEGMENT'] == 'true'
     c.filter_run_excluding :flight_segment => true

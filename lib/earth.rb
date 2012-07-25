@@ -1,4 +1,5 @@
 require 'active_support/core_ext'
+require 'active_support/string_inquirer'
 require 'active_record'
 require 'data_miner'
 require 'falls_back_on'
@@ -55,8 +56,11 @@ module Earth
   # Earth.init should be performed after a connection is made to the database and 
   # before any domain models are referenced.
   def Earth.init(*args)
+    connect
+
     options = args.extract_options!
     domains = args
+    domains << Earth.global_domain if domains.empty?
 
     warn_unless_mysql_ansi_mode
     load_plugins
@@ -87,6 +91,12 @@ module Earth
       if options[:apply_schemas]
         resource_model.auto_upgrade!
       end
+    end
+  end
+
+  def Earth.connect
+    unless ActiveRecord::Base.connected?
+      ActiveRecord::Base.establish_connection(Earth.database_configurations[Earth.env])
     end
   end
 
@@ -143,5 +153,59 @@ module Earth
       $LOAD_PATH.unshift ::File.join(::File.dirname(pluginit), 'lib')
       ::Kernel.load pluginit
     end
+  end
+
+  def Earth.env
+    @env ||= ActiveSupport::StringInquirer.new(ENV['EARTH_ENV'] || ENV['RAILS_ENV'] || ENV['RACK_ENV'] ||'development')
+  end
+
+  def Earth.global_domain
+    ENV['EARTH_DOMAIN'] ? ENV['EARTH_DOMAIN'].to_sym : :all
+  end
+
+  def Earth.database_configurations
+    yaml_path = File.join(Dir.pwd, 'config/database.yml')
+    if File.exist?(yaml_path)
+      require 'yaml'
+      YAML.load_file yaml_path
+    else
+      case ENV['EARTH_DB_ADAPTER']
+      when 'mysql'
+        adapter = 'mysql2'
+        database = 'test_earth'
+        username = 'root'
+        password = 'password'
+      else
+        adapter = 'postgresql'
+        database = 'test_earth'
+        username = nil
+        password = nil
+      end
+
+      config = {
+        'test' => {
+          'encoding' => 'utf8',
+          'adapter' => adapter,
+          'database' => database,
+        }
+      }
+
+      config['username'] = username if username
+      config['password'] = password if password
+
+      config
+    end
+  end
+
+  def Earth.run_data_miner!
+    resources.select do |resource|
+      Object.const_defined?(resource)
+    end.each do |resource|
+      resource.constantize.run_data_miner!
+    end
+  end
+
+  def Earth.logger
+    @logger ||= Logger.new 'log/test.log'
   end
 end
