@@ -2,7 +2,7 @@ class AutomobileTypeFuelYearControl < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "automobile_type_fuel_year_controls"
   (
-     "name"                   CHARACTER VARYING(255) NOT NULL,
+     "name"                   CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "type_name"              CHARACTER VARYING(255),
      "fuel_family"            CHARACTER VARYING(255),
      "year"                   INTEGER,
@@ -10,7 +10,6 @@ CREATE TABLE "automobile_type_fuel_year_controls"
      "type_fuel_control_name" CHARACTER VARYING(255),
      "total_travel_percent"   FLOAT
   );
-ALTER TABLE "automobile_type_fuel_year_controls" ADD PRIMARY KEY ("name")
 EOS
 
   self.primary_key = "name"

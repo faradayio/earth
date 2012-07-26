@@ -2,13 +2,12 @@ class PetroleumAdministrationForDefenseDistrict < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "petroleum_districts"
   (
-     "code"             CHARACTER VARYING(255) NOT NULL,
+     "code"             CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "district_code"    CHARACTER VARYING(255),
      "district_name"    CHARACTER VARYING(255),
      "subdistrict_code" CHARACTER VARYING(255),
      "subdistrict_name" CHARACTER VARYING(255)
   );
-ALTER TABLE "petroleum_districts" ADD PRIMARY KEY ("code")
 EOS
 
   self.primary_key = "code"

@@ -2,14 +2,13 @@ class ClimateDivision < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "climate_divisions"
   (
-     "name"                      CHARACTER VARYING(255) NOT NULL,
+     "name"                      CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "heating_degree_days"       FLOAT,
      "heating_degree_days_units" CHARACTER VARYING(255),
      "cooling_degree_days"       FLOAT,
      "cooling_degree_days_units" CHARACTER VARYING(255),
      "state_postal_abbreviation" CHARACTER VARYING(255)
   );
-ALTER TABLE "climate_divisions" ADD PRIMARY KEY ("name")
 EOS
 
   self.primary_key = "name"

@@ -2,7 +2,7 @@ class Species < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "species"
   (
-     "name"                               CHARACTER VARYING(255) NOT NULL,
+     "name"                               CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "population"                         INTEGER,
      "diet_emission_intensity"            FLOAT,
      "diet_emission_intensity_units"      CHARACTER VARYING(255),
@@ -17,7 +17,6 @@ CREATE TABLE "species"
      "maximum_weight"                     FLOAT,
      "maximum_weight_units"               CHARACTER VARYING(255)
   );
-ALTER TABLE "species" ADD PRIMARY KEY ("name")
 EOS
 
   self.primary_key = "name"

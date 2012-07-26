@@ -2,7 +2,7 @@ class Carrier < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "carriers"
   (
-     "name"                            CHARACTER VARYING(255) NOT NULL,
+     "name"                            CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "full_name"                       CHARACTER VARYING(255),
      "package_volume"                  FLOAT,
      "route_inefficiency_factor"       FLOAT,
@@ -11,7 +11,6 @@ CREATE TABLE "carriers"
      "corporate_emission_factor"       FLOAT,
      "corporate_emission_factor_units" CHARACTER VARYING(255)
   );
-ALTER TABLE "carriers" ADD PRIMARY KEY ("name")
 EOS
 
   self.primary_key = "name"

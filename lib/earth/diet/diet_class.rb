@@ -2,7 +2,7 @@ class DietClass < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "diet_classes"
   (
-     "name"                     CHARACTER VARYING(255) NOT NULL,
+     "name"                     CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "intensity"                FLOAT,
      "intensity_units"          CHARACTER VARYING(255),
      "red_meat_share"           FLOAT,
@@ -16,7 +16,6 @@ CREATE TABLE "diet_classes"
      "vegetables_share"         FLOAT,
      "oils_and_sugars_share"    FLOAT
   );
-ALTER TABLE "diet_classes" ADD PRIMARY KEY ("name")
 EOS
 
   self.primary_key = "name"

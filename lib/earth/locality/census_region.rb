@@ -2,10 +2,9 @@ class CensusRegion < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "census_regions"
   (
-     "number" INTEGER NOT NULL,
+     "number" INTEGER NOT NULL PRIMARY KEY,
      "name"   CHARACTER VARYING(255)
   );
-ALTER TABLE "census_regions" ADD PRIMARY KEY ("number")
 EOS
 
   self.primary_key = "number"

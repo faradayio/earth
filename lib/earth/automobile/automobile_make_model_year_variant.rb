@@ -2,7 +2,7 @@ class AutomobileMakeModelYearVariant < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "automobile_make_model_year_variants"
   (
-     "row_hash"                          CHARACTER VARYING(255) NOT NULL,
+     "row_hash"                          CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "make_name"                         CHARACTER VARYING(255),
      "model_name"                        CHARACTER VARYING(255),
      "year"                              INTEGER,
@@ -31,7 +31,6 @@ CREATE TABLE "automobile_make_model_year_variants"
      "size_class"                        CHARACTER VARYING(255),
      "type_name"                         CHARACTER VARYING(255)
   );
-ALTER TABLE "automobile_make_model_year_variants" ADD PRIMARY KEY ("row_hash");
 CREATE INDEX "index_automobile_make_model_year_variants_on_make_name" ON "automobile_make_model_year_variants" ("make_name");
 CREATE INDEX "index_automobile_make_model_year_variants_on_model_name" ON "automobile_make_model_year_variants" ("model_name");
 CREATE INDEX "index_automobile_make_model_year_variants_on_year" ON "automobile_make_model_year_variants" ("year")

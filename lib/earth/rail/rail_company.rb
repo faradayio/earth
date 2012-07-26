@@ -4,7 +4,7 @@ class RailCompany < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "rail_companies"
   (
-     "name"                        CHARACTER VARYING(255) NOT NULL,
+     "name"                        CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "country_iso_3166_code"       CHARACTER VARYING(255),
      "duns_number"                 CHARACTER VARYING(255),
      "passengers"                  FLOAT,
@@ -25,7 +25,6 @@ CREATE TABLE "rail_companies"
      "co2_emission_factor"         FLOAT,
      "co2_emission_factor_units"   CHARACTER VARYING(255)
   );
-ALTER TABLE "rail_companies" ADD PRIMARY KEY ("name")
 EOS
 
   self.primary_key = "name"

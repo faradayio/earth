@@ -4,8 +4,6 @@ module Earth
     COMMENT = %r{/\*(?:.|[\r\n])*?\*/}
     WHITESPACE = /\s+/
     SEMICOLON = / ?; ?/
-    SQLITE = /sqlite/i
-    ALTER_TABLE = /ALTER TABLE.*PRIMARY KEY/
 
     def create_table!(force = true)
       c = ActiveRecord::Base.connection_pool.checkout
@@ -17,13 +15,6 @@ module Earth
       c.execute %{DROP TABLE IF EXISTS "#{table_name}"}
 
       statements = const_get(:TABLE_STRUCTURE).gsub(COMMENT, '').gsub(WHITESPACE, ' ').split(SEMICOLON).select(&:present?)
-
-      # change how primary keys are defined if we're using sqlite
-      if c.adapter_name =~ SQLITE
-        # ALTER TABLE "flight_segments" ADD PRIMARY KEY ("row_hash")
-        idx = statements.index { |sql| sql =~ ALTER_TABLE }
-        statements[idx] = %{CREATE UNIQUE INDEX "index_#{table_name}_on_#{primary_key}" ON "#{table_name}" ("#{primary_key}")}
-      end
 
       statements.each do |sql|
         c.execute sql

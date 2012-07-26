@@ -4,11 +4,10 @@ class ElectricMarket < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "electric_markets"
   (
-     "id"                      CHARACTER VARYING(255) NOT NULL,
+     "id"                      CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "electric_utility_eia_id" INTEGER,
      "zip_code_name"           CHARACTER VARYING(255)
   );
-ALTER TABLE "electric_markets" ADD PRIMARY KEY ("id")
 EOS
 
   self.primary_key = "id" # string

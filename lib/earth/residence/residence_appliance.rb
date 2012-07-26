@@ -2,11 +2,10 @@ class ResidenceAppliance < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "residence_appliances"
   (
-     "name"                                 CHARACTER VARYING(255) NOT NULL,
+     "name"                                 CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "annual_energy_from_electricity"       FLOAT,
      "annual_energy_from_electricity_units" CHARACTER VARYING(255)
   );
-ALTER TABLE "residence_appliances" ADD PRIMARY KEY ("name")
 EOS
 
   self.primary_key = "name"

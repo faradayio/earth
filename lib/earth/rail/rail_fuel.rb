@@ -3,14 +3,13 @@ class RailFuel < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "rail_fuels"
   (
-     "name"                      CHARACTER VARYING(255) NOT NULL,
+     "name"                      CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "fuel_name"                 CHARACTER VARYING(255),
      "ch4_emission_factor"       FLOAT,
      "ch4_emission_factor_units" CHARACTER VARYING(255),
      "n2o_emission_factor"       FLOAT,
      "n2o_emission_factor_units" CHARACTER VARYING(255)
   );
-ALTER TABLE "rail_fuels" ADD PRIMARY KEY ("name")
 EOS
 
   self.primary_key = "name"

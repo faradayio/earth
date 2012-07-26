@@ -2,11 +2,10 @@ class AutomobileActivityYear < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "automobile_activity_years"
   (
-     "activity_year"             INTEGER NOT NULL,
+     "activity_year"             INTEGER NOT NULL PRIMARY KEY,
      "hfc_emission_factor"       FLOAT,
      "hfc_emission_factor_units" CHARACTER VARYING(255)
   );
-ALTER TABLE "automobile_activity_years" ADD PRIMARY KEY ("activity_year")
 EOS
 
   self.primary_key = "activity_year"

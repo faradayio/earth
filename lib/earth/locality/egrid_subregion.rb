@@ -4,7 +4,7 @@ class EgridSubregion < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "egrid_subregions"
   (
-     "abbreviation"                       CHARACTER VARYING(255) NOT NULL,
+     "abbreviation"                       CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "name"                               CHARACTER VARYING(255),
      "nerc_abbreviation"                  CHARACTER VARYING(255),
      "egrid_region_name"                  CHARACTER VARYING(255),
@@ -21,7 +21,6 @@ CREATE TABLE "egrid_subregions"
      "electricity_emission_factor"        FLOAT,
      "electricity_emission_factor_units"  CHARACTER VARYING(255)
   );
-ALTER TABLE "egrid_subregions" ADD PRIMARY KEY ("abbreviation")
 EOS
 
   self.primary_key = "abbreviation"

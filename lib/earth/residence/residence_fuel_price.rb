@@ -3,7 +3,7 @@ class ResidenceFuelPrice < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "residence_fuel_prices"
   (
-     "row_hash"                 CHARACTER VARYING(255) NOT NULL,
+     "row_hash"                 CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "residence_fuel_type_name" CHARACTER VARYING(255),
      "year"                     INTEGER,
      "month"                    INTEGER,
@@ -13,7 +13,6 @@ CREATE TABLE "residence_fuel_prices"
      "locatable_id"             CHARACTER VARYING(255),
      "locatable_type"           CHARACTER VARYING(255)
   );
-ALTER TABLE "residence_fuel_prices" ADD PRIMARY KEY ("row_hash");
 CREATE INDEX "index_residence_fuel_prices_on_price_and_residence_fu239358947" ON "residence_fuel_prices" ("price", "residence_fuel_type_name", "month", "year", "locatable_type", "locatable_id");
 CREATE INDEX "index_residence_fuel_prices_on_price_and_residence_fu1975072203" ON "residence_fuel_prices" ("price", "residence_fuel_type_name")
 EOS

@@ -2,10 +2,9 @@ class Naics2007 < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "naics_2007"
   (
-     "code"        CHARACTER VARYING(255) NOT NULL,
+     "code"        CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "description" CHARACTER VARYING(255)
   );
-ALTER TABLE "naics_2007" ADD PRIMARY KEY ("code")
 EOS
 
   self.primary_key = "code"

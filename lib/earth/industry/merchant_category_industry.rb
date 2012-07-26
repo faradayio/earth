@@ -2,12 +2,11 @@ class MerchantCategoryIndustry < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "merchant_category_industries"
   (
-     "row_hash"   CHARACTER VARYING(255) NOT NULL,
+     "row_hash"   CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "mcc"        CHARACTER VARYING(255),
      "ratio"      FLOAT,
      "naics_code" CHARACTER VARYING(255)
   );
-ALTER TABLE "merchant_category_industries" ADD PRIMARY KEY ("row_hash")
 EOS
 
   self.primary_key = "row_hash"

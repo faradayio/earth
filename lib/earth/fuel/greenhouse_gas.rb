@@ -2,14 +2,13 @@ class GreenhouseGas < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "greenhouse_gases"
   (
-     "name"                     CHARACTER VARYING(255) NOT NULL,
+     "name"                     CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "abbreviation"             CHARACTER VARYING(255),
      "ipcc_report"              CHARACTER VARYING(255),
      "time_horizon"             INTEGER,
      "time_horizon_units"       CHARACTER VARYING(255),
      "global_warming_potential" INTEGER
   );
-ALTER TABLE "greenhouse_gases" ADD PRIMARY KEY ("name")
 EOS
 
   self.primary_key = "name"

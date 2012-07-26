@@ -2,9 +2,8 @@ class Gender < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "genders"
   (
-     "name" CHARACTER VARYING(255) NOT NULL
+     "name" CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
   );
-ALTER TABLE "genders" ADD PRIMARY KEY ("name")
 EOS
 
   self.primary_key = "name"

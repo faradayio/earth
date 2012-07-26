@@ -4,7 +4,7 @@ class MecsEnergy < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "mecs_energies"
   (
-     "name"                      CHARACTER VARYING(255) NOT NULL,
+     "name"                      CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "census_region_number"      INTEGER,
      "naics_code"                CHARACTER VARYING(255),
      "energy"                    FLOAT,
@@ -26,7 +26,6 @@ CREATE TABLE "mecs_energies"
      "other_fuel"                FLOAT,
      "other_fuel_units"          CHARACTER VARYING(255)
   );
-ALTER TABLE "mecs_energies" ADD PRIMARY KEY ("name")
 EOS
 
   self.primary_key = "name"

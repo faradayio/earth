@@ -3,10 +3,9 @@ class Industry < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "industries"
   (
-     "naics_code"  CHARACTER VARYING(255) NOT NULL,
+     "naics_code"  CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "description" CHARACTER VARYING(255)
   );
-ALTER TABLE "industries" ADD PRIMARY KEY ("naics_code")
 EOS
 
   self.primary_key = "naics_code"

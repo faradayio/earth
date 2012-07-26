@@ -3,13 +3,12 @@ class IndustryProduct < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "industry_products"
   (
-     "naics_product_code" CHARACTER VARYING(255) NOT NULL,
+     "naics_product_code" CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "description"        TEXT,
      "value"              FLOAT,
      "value_units"        CHARACTER VARYING(255),
      "naics_code"         CHARACTER VARYING(255)
   );
-ALTER TABLE "industry_products" ADD PRIMARY KEY ("naics_product_code")
 EOS
 
   self.primary_key = "naics_product_code"

@@ -5,7 +5,7 @@ class FlightSegment < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "flight_segments"
   (
-     "row_hash"                          CHARACTER VARYING(255) NOT NULL,
+     "row_hash"                          CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "origin_airport_iata_code"          CHARACTER VARYING(255),
      "origin_airport_city"               CHARACTER VARYING(255),
      "origin_country_iso_3166_code"      CHARACTER VARYING(255),
@@ -35,7 +35,6 @@ CREATE TABLE "flight_segments"
      "year"                              INTEGER,
      "source"                            CHARACTER VARYING(255)  /* 'BTS T100' or 'ICAO TFS' */
   );
-ALTER TABLE "flight_segments" ADD PRIMARY KEY ("row_hash");
 CREATE INDEX "index_flight_segments_on_origin_airport_iata_code" ON "flight_segments" ("origin_airport_iata_code");
 CREATE INDEX "index_flight_segments_on_origin_airport_city" ON "flight_segments" ("origin_airport_city");
 CREATE INDEX "index_flight_segments_on_destination_airport_iata_code" ON "flight_segments" ("destination_airport_iata_code");

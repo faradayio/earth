@@ -3,14 +3,13 @@ class BusFuelYearControl < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "bus_fuel_year_controls"
   (
-     "name"                  CHARACTER VARYING(255) NOT NULL,
+     "name"                  CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "bus_fuel_name"         CHARACTER VARYING(255),
      "year"                  INTEGER,
      "control"               CHARACTER VARYING(255),
      "bus_fuel_control_name" CHARACTER VARYING(255),
      "total_travel_percent"  FLOAT
   );
-ALTER TABLE "bus_fuel_year_controls" ADD PRIMARY KEY ("name")
 EOS
 
   self.primary_key = "name"

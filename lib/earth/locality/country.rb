@@ -6,9 +6,9 @@ class Country < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "countries"
   (
-     "iso_3166_code"                         CHARACTER VARYING(255) NOT NULL, /* alpha-2 2-letter like GB */
-     "iso_3166_numeric_code"                 INTEGER,                         /* numeric like 826; aka UN M49 code */
-     "iso_3166_alpha_3_code"                 CHARACTER VARYING(255),          /* 3-letter like GBR */
+     "iso_3166_code"                         CHARACTER VARYING(255) NOT NULL PRIMARY KEY, /* alpha-2 2-letter like GB */
+     "iso_3166_numeric_code"                 INTEGER,                                     /* numeric like 826; aka UN M49 code */
+     "iso_3166_alpha_3_code"                 CHARACTER VARYING(255),                      /* 3-letter like GBR */
      "name"                                  CHARACTER VARYING(255),
      "heating_degree_days"                   FLOAT,
      "heating_degree_days_units"             CHARACTER VARYING(255),
@@ -54,7 +54,6 @@ CREATE TABLE "countries"
      "rail_trip_co2_emission_factor"         FLOAT,
      "rail_trip_co2_emission_factor_units"   CHARACTER VARYING(255)
   );
-ALTER TABLE "countries" ADD PRIMARY KEY ("iso_3166_code")
 EOS
 
   self.primary_key = "iso_3166_code"

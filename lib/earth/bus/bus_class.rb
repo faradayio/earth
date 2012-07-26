@@ -3,7 +3,7 @@ class BusClass < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "bus_classes"
   (
-     "name"                                   CHARACTER VARYING(255) NOT NULL,
+     "name"                                   CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "distance"                               FLOAT,
      "distance_units"                         CHARACTER VARYING(255),
      "passengers"                             FLOAT,
@@ -28,7 +28,6 @@ CREATE TABLE "bus_classes"
      "air_conditioning_emission_factor"       FLOAT,
      "air_conditioning_emission_factor_units" CHARACTER VARYING(255)
   );
-ALTER TABLE "bus_classes" ADD PRIMARY KEY ("name")
 EOS
 
   self.primary_key = "name"

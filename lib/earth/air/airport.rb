@@ -5,7 +5,7 @@ class Airport < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "airports"
   (
-     "iata_code"             CHARACTER VARYING(255) NOT NULL,
+     "iata_code"             CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "name"                  CHARACTER VARYING(255),
      "city"                  CHARACTER VARYING(255),
      "country_name"          CHARACTER VARYING(255),
@@ -13,7 +13,6 @@ CREATE TABLE "airports"
      "latitude"              FLOAT,
      "longitude"             FLOAT
   );
-ALTER TABLE "airports" ADD PRIMARY KEY ("iata_code")
 EOS
 
   self.primary_key = "iata_code"

@@ -2,9 +2,8 @@ class AutomobileModel < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "automobile_models"
   (
-     "name" CHARACTER VARYING(255) NOT NULL
+     "name" CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
   );
-ALTER TABLE "automobile_models" ADD PRIMARY KEY ("name")
 EOS
 
   self.primary_key = "name"

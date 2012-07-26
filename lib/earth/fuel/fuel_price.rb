@@ -2,11 +2,10 @@ class FuelPrice < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "fuel_prices"
   (
-     "name"        CHARACTER VARYING(255) NOT NULL,
+     "name"        CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "price"       FLOAT,
      "price_units" CHARACTER VARYING(255)
   );
-ALTER TABLE "fuel_prices" ADD PRIMARY KEY ("name")
 EOS
 
   self.primary_key = "name"

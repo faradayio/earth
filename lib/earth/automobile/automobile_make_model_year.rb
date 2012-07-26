@@ -2,7 +2,7 @@ class AutomobileMakeModelYear < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "automobile_make_model_years"
   (
-     "name"                              CHARACTER VARYING(255) NOT NULL,
+     "name"                              CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "make_name"                         CHARACTER VARYING(255),
      "model_name"                        CHARACTER VARYING(255),
      "year"                              INTEGER,
@@ -20,7 +20,6 @@ CREATE TABLE "automobile_make_model_years"
      "type_name"                         CHARACTER VARYING(255), /* whether the vehicle is a passenger car or light-duty truck */
      "weighting"                         FLOAT                   /* for calculating AutomobileMakeModel fuel efficiencies */
   );
-ALTER TABLE "automobile_make_model_years" ADD PRIMARY KEY ("name")
 EOS
 
   self.primary_key = "name"
