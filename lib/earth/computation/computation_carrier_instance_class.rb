@@ -1,5 +1,17 @@
 require 'earth/locality'
 class ComputationCarrierInstanceClass < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "computation_carrier_instance_classes"
+  (
+     "name"                        CHARACTER VARYING(255) NOT NULL,
+     "computation_carrier_name"    CHARACTER VARYING(255),
+     "instance_class"              CHARACTER VARYING(255),
+     "electricity_intensity"       FLOAT,
+     "electricity_intensity_units" CHARACTER VARYING(255)
+  );
+ALTER TABLE "computation_carrier_instance_classes" ADD PRIMARY KEY ("name")
+EOS
+
   self.primary_key = "name"
   
   belongs_to :carrier, :class_name => 'ComputationCarrier', :foreign_key => 'computation_carrier_name'
@@ -8,11 +20,6 @@ class ComputationCarrierInstanceClass < ActiveRecord::Base
                 :electricity_intensity => lambda { ComputationCarrierInstanceClass.find_by_name('Amazon m1.small').electricity_intensity },
                 :electricity_intensity_units => lambda { ComputationCarrierInstanceClass.find_by_name('Amazon m1.small').electricity_intensity_units }
   
-  col :name
-  col :computation_carrier_name
-  col :instance_class
-  col :electricity_intensity, :type => :float
-  col :electricity_intensity_units
   
   # FIXME TODO verify that computation carrier name appears in computation_carriers
   

@@ -1,4 +1,17 @@
 class FoodGroup < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "food_groups"
+  (
+     "name"                           CHARACTER VARYING(255) NOT NULL,
+     "intensity"                      FLOAT,
+     "intensity_units"                CHARACTER VARYING(255),
+     "energy"                         FLOAT,
+     "energy_units"                   CHARACTER VARYING(255),
+     "suggested_imperial_measurement" CHARACTER VARYING(255)
+  );
+ALTER TABLE "food_groups" ADD PRIMARY KEY ("name")
+EOS
+
   self.primary_key = "name"
 
   class << self
@@ -11,12 +24,5 @@ class FoodGroup < ActiveRecord::Base
     end
   end
   
-  col :name
-  col :intensity, :type => :float
-  col :intensity_units
-  col :energy, :type => :float
-  col :energy_units
-  col :suggested_imperial_measurement # ?
-
   warn_unless_size 10
 end

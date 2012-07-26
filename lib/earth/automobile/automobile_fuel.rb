@@ -1,6 +1,34 @@
 require 'earth/fuel'
 
 class AutomobileFuel < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "automobile_fuels"
+  (
+     "name"                               CHARACTER VARYING(255) NOT NULL,
+     "code"                               CHARACTER VARYING(255),
+     "family"                             CHARACTER VARYING(255),
+     "distance_key"                       CHARACTER VARYING(255),
+     "base_fuel_name"                     CHARACTER VARYING(255),
+     "blend_fuel_name"                    CHARACTER VARYING(255),
+     "blend_portion"                      FLOAT,                  /* the portion of the blend that is the blend fuel */
+     "annual_distance"                    FLOAT,
+     "annual_distance_units"              CHARACTER VARYING(255),
+     "energy_content"                     FLOAT,
+     "energy_content_units"               CHARACTER VARYING(255),
+     "co2_emission_factor"                FLOAT,
+     "co2_emission_factor_units"          CHARACTER VARYING(255),
+     "co2_biogenic_emission_factor"       FLOAT,
+     "co2_biogenic_emission_factor_units" CHARACTER VARYING(255),
+     "ch4_emission_factor"                FLOAT,
+     "ch4_emission_factor_units"          CHARACTER VARYING(255),
+     "n2o_emission_factor"                FLOAT,
+     "n2o_emission_factor_units"          CHARACTER VARYING(255),
+     "total_consumption"                  FLOAT,                  /* for calculating fallback blend_portion */
+     "total_consumption_units"            CHARACTER VARYING(255)
+  );
+ALTER TABLE "automobile_fuels" ADD PRIMARY KEY ("name")
+EOS
+
   self.primary_key = "name"
   
   # for calculating energy content and co2 efs
@@ -77,28 +105,6 @@ class AutomobileFuel < ActiveRecord::Base
                 :ch4_emission_factor_units          => proc { AutomobileFuel.determine_fallback 'ch4_emission_factor_units' },
                 :n2o_emission_factor                => proc { AutomobileFuel.determine_fallback 'n2o_emission_factor' },
                 :n2o_emission_factor_units          => proc { AutomobileFuel.determine_fallback 'n2o_emission_factor_units' }
-  
-  col :name
-  col :code
-  col :family
-  col :distance_key
-  col :base_fuel_name
-  col :blend_fuel_name
-  col :blend_portion, :type => :float # the portion of the blend that is the blend fuel
-  col :annual_distance, :type => :float
-  col :annual_distance_units
-  col :energy_content, :type => :float
-  col :energy_content_units
-  col :co2_emission_factor, :type => :float
-  col :co2_emission_factor_units
-  col :co2_biogenic_emission_factor, :type => :float
-  col :co2_biogenic_emission_factor_units
-  col :ch4_emission_factor, :type => :float
-  col :ch4_emission_factor_units
-  col :n2o_emission_factor, :type => :float
-  col :n2o_emission_factor_units
-  col :total_consumption, :type => :float # for calculating fallback blend_portion
-  col :total_consumption_units
   
   warn_unless_size 12
   warn_if_blanks :code, :family, :distance_key

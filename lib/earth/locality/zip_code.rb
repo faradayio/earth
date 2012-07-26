@@ -1,6 +1,21 @@
 require ::File.join(Earth::VENDOR_DIR, 'geokit-rails', 'lib', 'geokit-rails') # for acts_as_mappable
 
 class ZipCode < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "zip_codes"
+  (
+     "name"                         CHARACTER VARYING(255) NOT NULL,
+     "state_postal_abbreviation"    CHARACTER VARYING(255),
+     "description"                  CHARACTER VARYING(255),
+     "latitude"                     CHARACTER VARYING(255),
+     "longitude"                    CHARACTER VARYING(255),
+     "egrid_subregion_abbreviation" CHARACTER VARYING(255),
+     "climate_division_name"        CHARACTER VARYING(255),
+     "population"                   INTEGER
+  );
+ALTER TABLE "zip_codes" ADD PRIMARY KEY ("name")
+EOS
+
   self.primary_key = "name"
   
   belongs_to :climate_division, :foreign_key => 'climate_division_name'
@@ -31,14 +46,6 @@ class ZipCode < ActiveRecord::Base
                    :lat_column_name => :latitude,
                    :lng_column_name => :longitude
   
-  col :name
-  col :state_postal_abbreviation
-  col :description
-  col :latitude
-  col :longitude
-  col :egrid_subregion_abbreviation
-  col :climate_division_name
-  col :population, :type => :integer
   
   warn_unless_size 43770
   warn_if_nonexistent_owner_except :egrid_subregion

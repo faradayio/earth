@@ -1,44 +1,51 @@
 require 'earth/locality'
 
 class CbecsEnergyIntensity < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "cbecs_energy_intensities"
+  (
+     "name"                           CHARACTER VARYING(255) NOT NULL,
+     "principal_building_activity"    CHARACTER VARYING(255),
+     "naics_code"                     CHARACTER VARYING(255),
+     "census_region_number"           INTEGER,
+     "census_division_number"         INTEGER,
+     "electricity"                    FLOAT,
+     "electricity_units"              CHARACTER VARYING(255),
+     "electricity_floorspace"         FLOAT,
+     "electricity_floorspace_units"   CHARACTER VARYING(255),
+     "electricity_intensity"          FLOAT,
+     "electricity_intensity_units"    CHARACTER VARYING(255),
+     "natural_gas"                    FLOAT,
+     "natural_gas_units"              CHARACTER VARYING(255),
+     "natural_gas_floorspace"         FLOAT,
+     "natural_gas_floorspace_units"   CHARACTER VARYING(255),
+     "natural_gas_intensity"          FLOAT,
+     "natural_gas_intensity_units"    CHARACTER VARYING(255),
+     "fuel_oil"                       FLOAT,
+     "fuel_oil_units"                 CHARACTER VARYING(255),
+     "fuel_oil_floorspace"            FLOAT,
+     "fuel_oil_floorspace_units"      CHARACTER VARYING(255),
+     "fuel_oil_intensity"             FLOAT,
+     "fuel_oil_intensity_units"       CHARACTER VARYING(255),
+     "district_heat"                  FLOAT,
+     "district_heat_units"            CHARACTER VARYING(255),
+     "district_heat_floorspace"       FLOAT,
+     "district_heat_floorspace_units" CHARACTER VARYING(255),
+     "district_heat_intensity"        FLOAT,
+     "district_heat_intensity_units"  CHARACTER VARYING(255)
+  );
+ALTER TABLE "cbecs_energy_intensities" ADD PRIMARY KEY ("name");
+CREATE INDEX "index_cbecs_energy_intensities_on_naics_code" ON "cbecs_energy_intensities" ("naics_code");
+CREATE INDEX "index_cbecs_energy_intensities_on_census_region_number" ON "cbecs_energy_intensities" ("census_region_number");
+CREATE INDEX "index_cbecs_energy_intensities_on_census_division_number" ON "cbecs_energy_intensities" ("census_division_number")
+EOS
+
   self.primary_key = "name"
   
-  col :name
-  col :principal_building_activity
-  col :naics_code
-  col :census_region_number, :type => :integer
-  col :census_division_number, :type => :integer
-  add_index :naics_code
-  add_index :census_region_number
-  add_index :census_division_number
 
-  col :electricity, :type => :float
-  col :electricity_units
-  col :electricity_floorspace, :type => :float
-  col :electricity_floorspace_units
-  col :electricity_intensity, :type => :float
-  col :electricity_intensity_units
 
-  col :natural_gas, :type => :float
-  col :natural_gas_units
-  col :natural_gas_floorspace, :type => :float
-  col :natural_gas_floorspace_units
-  col :natural_gas_intensity, :type => :float
-  col :natural_gas_intensity_units
 
-  col :fuel_oil, :type => :float
-  col :fuel_oil_units
-  col :fuel_oil_floorspace, :type => :float
-  col :fuel_oil_floorspace_units
-  col :fuel_oil_intensity, :type => :float
-  col :fuel_oil_intensity_units
 
-  col :district_heat, :type => :float
-  col :district_heat_units
-  col :district_heat_floorspace, :type => :float
-  col :district_heat_floorspace_units
-  col :district_heat_intensity, :type => :float
-  col :district_heat_intensity_units
 
   scope :divisional, where('census_region_number IS NOT NULL AND census_division_number IS NOT NULL')
   scope :regional, where('census_region_number IS NOT NULL AND census_division_number IS NULL')

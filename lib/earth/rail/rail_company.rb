@@ -1,30 +1,37 @@
 require 'earth/fuel'
 require 'earth/locality'
 class RailCompany < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "rail_companies"
+  (
+     "name"                        CHARACTER VARYING(255) NOT NULL,
+     "country_iso_3166_code"       CHARACTER VARYING(255),
+     "duns_number"                 CHARACTER VARYING(255),
+     "passengers"                  FLOAT,
+     "passenger_distance"          FLOAT,
+     "passenger_distance_units"    CHARACTER VARYING(255),
+     "trip_distance"               FLOAT,
+     "trip_distance_units"         CHARACTER VARYING(255),
+     "train_distance"              FLOAT,
+     "train_distance_units"        CHARACTER VARYING(255),
+     "train_time"                  FLOAT,
+     "train_time_units"            CHARACTER VARYING(255),
+     "speed"                       FLOAT,
+     "speed_units"                 CHARACTER VARYING(255),
+     "electricity_intensity"       FLOAT,
+     "electricity_intensity_units" CHARACTER VARYING(255),
+     "diesel_intensity"            FLOAT,
+     "diesel_intensity_units"      CHARACTER VARYING(255),
+     "co2_emission_factor"         FLOAT,
+     "co2_emission_factor_units"   CHARACTER VARYING(255)
+  );
+ALTER TABLE "rail_companies" ADD PRIMARY KEY ("name")
+EOS
+
   self.primary_key = "name"
   
   belongs_to :country, :foreign_key => 'country_iso_3166_code'
   
-  col :name
-  col :country_iso_3166_code
-  col :duns_number
-  col :passengers, :type => :float
-  col :passenger_distance, :type => :float
-  col :passenger_distance_units
-  col :trip_distance, :type => :float
-  col :trip_distance_units
-  col :train_distance, :type => :float
-  col :train_distance_units
-  col :train_time, :type => :float
-  col :train_time_units
-  col :speed, :type => :float
-  col :speed_units
-  col :electricity_intensity, :type => :float
-  col :electricity_intensity_units
-  col :diesel_intensity, :type => :float
-  col :diesel_intensity_units
-  col :co2_emission_factor, :type => :float
-  col :co2_emission_factor_units
 
   warn_if_nulls_except(
     :duns_number,

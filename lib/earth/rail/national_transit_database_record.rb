@@ -1,5 +1,42 @@
 require 'earth/fuel'
 class NationalTransitDatabaseRecord < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "ntd_records"
+  (
+     "name"                     CHARACTER VARYING(255) NOT NULL,
+     "company_id"               CHARACTER VARYING(255),
+     "mode_code"                CHARACTER VARYING(255),
+     "service_type"             CHARACTER VARYING(255),
+     "vehicle_distance"         FLOAT,
+     "vehicle_distance_units"   CHARACTER VARYING(255),
+     "vehicle_time"             FLOAT,
+     "vehicle_time_units"       CHARACTER VARYING(255),
+     "passenger_distance"       FLOAT,
+     "passenger_distance_units" CHARACTER VARYING(255),
+     "passengers"               FLOAT,
+     "electricity"              FLOAT,
+     "electricity_units"        CHARACTER VARYING(255),
+     "diesel"                   FLOAT,
+     "diesel_units"             CHARACTER VARYING(255),
+     "gasoline"                 FLOAT,
+     "gasoline_units"           CHARACTER VARYING(255),
+     "lpg"                      FLOAT,
+     "lpg_units"                CHARACTER VARYING(255),
+     "lng"                      FLOAT,
+     "lng_units"                CHARACTER VARYING(255),
+     "cng"                      FLOAT,
+     "cng_units"                CHARACTER VARYING(255),
+     "kerosene"                 FLOAT,
+     "kerosene_units"           CHARACTER VARYING(255),
+     "biodiesel"                FLOAT,
+     "biodiesel_units"          CHARACTER VARYING(255),
+     "other_fuel"               FLOAT,
+     "other_fuel_units"         CHARACTER VARYING(255),
+     "other_fuel_description"   CHARACTER VARYING(255)
+  );
+ALTER TABLE "ntd_records" ADD PRIMARY KEY ("name")
+EOS
+
   self.primary_key = "name"
   self.table_name = :ntd_records
   
@@ -9,36 +46,6 @@ class NationalTransitDatabaseRecord < ActiveRecord::Base
     where(:mode_code => NationalTransitDatabaseMode.rail_modes)
   end
   
-  col :name
-  col :company_id
-  col :mode_code
-  col :service_type
-  col :vehicle_distance, :type => :float
-  col :vehicle_distance_units
-  col :vehicle_time, :type => :float
-  col :vehicle_time_units
-  col :passenger_distance, :type => :float
-  col :passenger_distance_units
-  col :passengers, :type => :float
-  col :electricity, :type => :float
-  col :electricity_units
-  col :diesel, :type => :float
-  col :diesel_units
-  col :gasoline, :type => :float
-  col :gasoline_units
-  col :lpg, :type => :float
-  col :lpg_units
-  col :lng, :type => :float
-  col :lng_units
-  col :cng, :type => :float
-  col :cng_units
-  col :kerosene, :type => :float
-  col :kerosene_units
-  col :biodiesel, :type => :float
-  col :biodiesel_units
-  col :other_fuel, :type => :float
-  col :other_fuel_units
-  col :other_fuel_description
 
   warn_if_nulls_except(
     :passenger_distance,

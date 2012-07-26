@@ -1,12 +1,19 @@
 class ShipmentMode < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "shipment_modes"
+  (
+     "name"                            CHARACTER VARYING(255) NOT NULL,
+     "route_inefficiency_factor"       FLOAT,
+     "transport_emission_factor"       FLOAT,
+     "transport_emission_factor_units" CHARACTER VARYING(255)
+  );
+ALTER TABLE "shipment_modes" ADD PRIMARY KEY ("name")
+EOS
+
   self.primary_key = "name"
   
   has_many :carrier_modes, :foreign_key => 'mode_name', :primary_key => 'name'
   
-  col :name
-  col :route_inefficiency_factor, :type => :float
-  col :transport_emission_factor, :type => :float
-  col :transport_emission_factor_units
   
   # verify "Route inefficiency factor should be one or more" do
   #   ShipmentMode.all.each do |mode|

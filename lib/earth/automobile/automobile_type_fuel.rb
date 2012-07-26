@@ -1,4 +1,23 @@
 class AutomobileTypeFuel < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "automobile_type_fuels"
+  (
+     "name"                      CHARACTER VARYING(255) NOT NULL,
+     "type_name"                 CHARACTER VARYING(255),
+     "fuel_family"               CHARACTER VARYING(255),
+     "annual_distance"           FLOAT,
+     "annual_distance_units"     CHARACTER VARYING(255),
+     "fuel_consumption"          FLOAT,
+     "fuel_consumption_units"    CHARACTER VARYING(255),
+     "ch4_emission_factor"       FLOAT,
+     "ch4_emission_factor_units" CHARACTER VARYING(255),
+     "n2o_emission_factor"       FLOAT,
+     "n2o_emission_factor_units" CHARACTER VARYING(255),
+     "vehicles"                  FLOAT
+  );
+ALTER TABLE "automobile_type_fuels" ADD PRIMARY KEY ("name")
+EOS
+
   self.primary_key = "name"
   
   # for calculating vehicles
@@ -6,18 +25,6 @@ class AutomobileTypeFuel < ActiveRecord::Base
     AutomobileActivityYearTypeFuel.latest.where(:type_name => type_name, :fuel_family => fuel_family).first
   end
   
-  col :name
-  col :type_name
-  col :fuel_family
-  col :annual_distance, :type => :float
-  col :annual_distance_units
-  col :fuel_consumption, :type => :float
-  col :fuel_consumption_units
-  col :ch4_emission_factor, :type => :float
-  col :ch4_emission_factor_units
-  col :n2o_emission_factor, :type => :float
-  col :n2o_emission_factor_units
-  col :vehicles, :type => :float
   
   warn_unless_size 4
 end

@@ -1,14 +1,21 @@
 class BreedGender < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "breed_genders"
+  (
+     "name"         CHARACTER VARYING(255) NOT NULL,
+     "breed_name"   CHARACTER VARYING(255),
+     "gender_name"  CHARACTER VARYING(255),
+     "weight"       FLOAT,
+     "weight_units" CHARACTER VARYING(255)
+  );
+ALTER TABLE "breed_genders" ADD PRIMARY KEY ("name")
+EOS
+
   self.primary_key = "name"
   
   belongs_to :breed, :foreign_key => 'breed_name'
   belongs_to :gender, :foreign_key => 'gender_name'
   
-  col :name
-  col :breed_name
-  col :gender_name
-  col :weight, :type => :float
-  col :weight_units
 
   warn_unless_size 586
 end

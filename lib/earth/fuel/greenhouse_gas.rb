@@ -1,4 +1,17 @@
 class GreenhouseGas < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "greenhouse_gases"
+  (
+     "name"                     CHARACTER VARYING(255) NOT NULL,
+     "abbreviation"             CHARACTER VARYING(255),
+     "ipcc_report"              CHARACTER VARYING(255),
+     "time_horizon"             INTEGER,
+     "time_horizon_units"       CHARACTER VARYING(255),
+     "global_warming_potential" INTEGER
+  );
+ALTER TABLE "greenhouse_gases" ADD PRIMARY KEY ("name")
+EOS
+
   self.primary_key = "name"
     
   class << self
@@ -7,12 +20,6 @@ class GreenhouseGas < ActiveRecord::Base
     end
   end
   
-  col :name
-  col :abbreviation
-  col :ipcc_report
-  col :time_horizon, :type => :integer
-  col :time_horizon_units
-  col :global_warming_potential, :type => :integer
   
   # verify "Abbreviation and IPCC report should never be missing" do
   #   GreenhouseGas.all.each do |record|

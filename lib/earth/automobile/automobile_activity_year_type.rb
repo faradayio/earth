@@ -1,4 +1,18 @@
 class AutomobileActivityYearType < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "automobile_activity_year_types"
+  (
+     "name"                      CHARACTER VARYING(255) NOT NULL,
+     "activity_year"             INTEGER,
+     "type_name"                 CHARACTER VARYING(255),
+     "hfc_emissions"             FLOAT,
+     "hfc_emissions_units"       CHARACTER VARYING(255),
+     "hfc_emission_factor"       FLOAT,
+     "hfc_emission_factor_units" CHARACTER VARYING(255)
+  );
+ALTER TABLE "automobile_activity_year_types" ADD PRIMARY KEY ("name")
+EOS
+
   self.primary_key = "name"
   
   # Used by Automobile and AutomobileTrip
@@ -15,13 +29,6 @@ class AutomobileActivityYearType < ActiveRecord::Base
     AutomobileActivityYearTypeFuel.where(:activity_year => activity_year, :type_name => type_name)
   end
   
-  col :name
-  col :activity_year, :type => :integer
-  col :type_name
-  col :hfc_emissions, :type => :float
-  col :hfc_emissions_units
-  col :hfc_emission_factor, :type => :float
-  col :hfc_emission_factor_units
   
   warn_unless_size 30
 end

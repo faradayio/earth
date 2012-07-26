@@ -1,5 +1,14 @@
 # TODO replace this with NAICS 2002?
 class Industry < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "industries"
+  (
+     "naics_code"  CHARACTER VARYING(255) NOT NULL,
+     "description" CHARACTER VARYING(255)
+  );
+ALTER TABLE "industries" ADD PRIMARY KEY ("naics_code")
+EOS
+
   self.primary_key = "naics_code"
   
   has_many :merchant_category_industries, :foreign_key => 'naics_code'
@@ -10,8 +19,6 @@ class Industry < ActiveRecord::Base
   has_many :industry_sectors, :foreign_key => 'naics_code'
   has_many :sectors, :through => :industry_sectors
   
-  col :naics_code
-  col :description
   
   class << self
     def format_naics_code(input)

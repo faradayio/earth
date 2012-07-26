@@ -1,5 +1,19 @@
 # DEPRECATED but FuelPurchase still uses this
 class FuelType < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "fuel_types"
+  (
+     "name"                          CHARACTER VARYING(255) NOT NULL,
+     "emission_factor"               FLOAT,
+     "emission_factor_units"         CHARACTER VARYING(255),
+     "density"                       FLOAT,
+     "density_units"                 CHARACTER VARYING(255),
+     "average_purchase_volume"       FLOAT,
+     "average_purchase_volume_units" CHARACTER VARYING(255)
+  );
+ALTER TABLE "fuel_types" ADD PRIMARY KEY ("name")
+EOS
+
   self.primary_key = "name"
   
   has_many :prices, :class_name => 'FuelPrice', :foreign_key => 'name' # weird
@@ -13,17 +27,5 @@ class FuelType < ActiveRecord::Base
     prices.average :price
   end
   
-  col :name
-  col :emission_factor, :type => :float
-  col :emission_factor_units
-  col :density, :type => :float
-  col :density_units
-  col :average_purchase_volume, :type => :float
-  col :average_purchase_volume_units
-  # col :energy_content, :type => :float
-  # col :energy_content_units
-  # col :carbon_content, :type => :float
-  # col :carbon_content_units
-
   warn_unless_size 36
 end

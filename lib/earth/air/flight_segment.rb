@@ -2,6 +2,52 @@ require 'earth/locality'
 require 'fuzzy_match/cached_result'
 
 class FlightSegment < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "flight_segments"
+  (
+     "row_hash"                          CHARACTER VARYING(255) NOT NULL,
+     "origin_airport_iata_code"          CHARACTER VARYING(255),
+     "origin_airport_city"               CHARACTER VARYING(255),
+     "origin_country_iso_3166_code"      CHARACTER VARYING(255),
+     "destination_airport_iata_code"     CHARACTER VARYING(255),
+     "destination_airport_city"          CHARACTER VARYING(255),
+     "destination_country_iso_3166_code" CHARACTER VARYING(255),
+     "airline_bts_code"                  CHARACTER VARYING(255),
+     "airline_icao_code"                 CHARACTER VARYING(255),
+     "airline_name"                      CHARACTER VARYING(255), /* text description derived from bts or icao code */
+     "aircraft_bts_code"                 CHARACTER VARYING(255),
+     "aircraft_description"              CHARACTER VARYING(255), /* text description derived from BTS T100 or ICAO TFS */
+     "flights"                           INTEGER,                /* number of flights over month or year */
+     "passengers"                        INTEGER,                /* total passengers on all flights */
+     "seats"                             INTEGER,                /* total seats on all flights */
+     "seats_per_flight"                  FLOAT,                  /* average seats per flight */
+     "load_factor"                       FLOAT,                  /* passengers / seats */
+     "freight_share"                     FLOAT,                  /* (freight + mail) / (freight + mail + (passengers * average passenger weight)) */
+     "distance"                          FLOAT,
+     "distance_units"                    CHARACTER VARYING(255),
+     "payload_capacity"                  FLOAT,                  /* aircraft maximum payload capacity rating */
+     "payload_capacity_units"            CHARACTER VARYING(255),
+     "freight"                           FLOAT,                  /* total freight on all flights performed */
+     "freight_units"                     CHARACTER VARYING(255),
+     "mail"                              FLOAT,                  /* total mail on all flights performed */
+     "mail_units"                        CHARACTER VARYING(255),
+     "month"                             INTEGER,
+     "year"                              INTEGER,
+     "source"                            CHARACTER VARYING(255)  /* 'BTS T100' or 'ICAO TFS' */
+  );
+ALTER TABLE "flight_segments" ADD PRIMARY KEY ("row_hash");
+CREATE INDEX "index_flight_segments_on_origin_airport_iata_code" ON "flight_segments" ("origin_airport_iata_code");
+CREATE INDEX "index_flight_segments_on_origin_airport_city" ON "flight_segments" ("origin_airport_city");
+CREATE INDEX "index_flight_segments_on_destination_airport_iata_code" ON "flight_segments" ("destination_airport_iata_code");
+CREATE INDEX "index_flight_segments_on_destination_airport_city" ON "flight_segments" ("destination_airport_city");
+CREATE INDEX "index_flight_segments_on_airline_bts_code" ON "flight_segments" ("airline_bts_code");
+CREATE INDEX "index_flight_segments_on_airline_icao_code" ON "flight_segments" ("airline_icao_code");
+CREATE INDEX "index_flight_segments_on_airline_name" ON "flight_segments" ("airline_name");
+CREATE INDEX "index_flight_segments_on_aircraft_bts_code" ON "flight_segments" ("aircraft_bts_code");
+CREATE INDEX "index_flight_segments_on_aircraft_description" ON "flight_segments" ("aircraft_description");
+CREATE INDEX "index_flight_segments_on_year" ON "flight_segments" ("year")
+EOS
+
   self.primary_key = "row_hash"
   
   # Enable flight_segment.aircraft
@@ -29,46 +75,7 @@ class FlightSegment < ActiveRecord::Base
                 :load_factor      => lambda { weighted_average(:load_factor,      :weighted_by => :passengers) }, # 0.78073233770097  data1 10-12-2010
                 :freight_share    => lambda { weighted_average(:freight_share,    :weighted_by => :passengers) }  # 0.022567224170157 data1 10-12-2010
   
-  col :row_hash                            # auto-generated primary key
-  col :origin_airport_iata_code            # iata code
-  col :origin_airport_city                 # city
-  col :origin_country_iso_3166_code        # iso code
-  col :destination_airport_iata_code       # iata code
-  col :destination_airport_city            # city
-  col :destination_country_iso_3166_code   # iso code
-  col :airline_bts_code                    # bts code
-  col :airline_icao_code                   # icao code
-  col :airline_name                        # text description derived from bts or icao code
-  col :aircraft_bts_code                   # bts code
-  col :aircraft_description                # text description derived from BTS T100 or ICAO TFS
-  col :flights,          :type => :integer # number of flights over month or year
-  col :passengers,       :type => :integer # total passengers on all flights
-  col :seats,            :type => :integer # total seats on all flights
-  col :seats_per_flight, :type => :float   # average seats per flight; make this a float
-  col :load_factor,      :type => :float   # passengers / seats
-  col :freight_share,    :type => :float   # (freight + mail) / (freight + mail + (passengers * average passenger weight))
-  col :distance,         :type => :float   # flight distance
-  col :distance_units                      # 'kilometres'
-  col :payload_capacity, :type => :float   # aircraft maximum payload capacity rating; float b/c unit conversion
-  col :payload_capacity_units              # 'kilograms'
-  col :freight,          :type => :float   # total freight on all flights performed; float b/c unit conversion
-  col :freight_units                       # 'kilograms'
-  col :mail,             :type => :float   # total mail on all flights performed; float b/c unit conversion
-  col :mail_units                          # 'kilograms'
-  col :month,            :type => :integer # month of flight
-  col :year,             :type => :integer # year of flight
-  col :source                              # 'BTS T100' or 'ICAO TFS'
-  add_index :origin_airport_iata_code
-  add_index :origin_airport_city
-  add_index :destination_airport_iata_code
-  add_index :destination_airport_city
-  add_index :airline_bts_code
-  add_index :airline_icao_code
-  add_index :airline_name
-  add_index :aircraft_bts_code
-  add_index :aircraft_description
-  add_index :year
-
+  # FIXME remove this - wherever you're trying to create a flight segment, just don't use mass-assignment for the primary key
   attr_accessible :row_hash
 
   warn_if_nulls_except(

@@ -2,6 +2,20 @@ require ::File.join(Earth::VENDOR_DIR, 'geokit-rails', 'lib', 'geokit-rails')
 require 'earth/locality'
 
 class Airport < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "airports"
+  (
+     "iata_code"             CHARACTER VARYING(255) NOT NULL,
+     "name"                  CHARACTER VARYING(255),
+     "city"                  CHARACTER VARYING(255),
+     "country_name"          CHARACTER VARYING(255),
+     "country_iso_3166_code" CHARACTER VARYING(255),
+     "latitude"              FLOAT,
+     "longitude"             FLOAT
+  );
+ALTER TABLE "airports" ADD PRIMARY KEY ("iata_code")
+EOS
+
   self.primary_key = "iata_code"
   
   belongs_to :country,
@@ -18,13 +32,6 @@ class Airport < ActiveRecord::Base
                    :lat_column_name => :latitude,
                    :lng_column_name => :longitude
 
-  col :iata_code
-  col :name
-  col :city
-  col :country_name
-  col :country_iso_3166_code
-  col :latitude, :type => :float
-  col :longitude, :type => :float
 
   warn_unless_size 5324
 end

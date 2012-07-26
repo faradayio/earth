@@ -1,5 +1,36 @@
 require 'earth/fuel'
 class BusClass < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "bus_classes"
+  (
+     "name"                                   CHARACTER VARYING(255) NOT NULL,
+     "distance"                               FLOAT,
+     "distance_units"                         CHARACTER VARYING(255),
+     "passengers"                             FLOAT,
+     "speed"                                  FLOAT,
+     "speed_units"                            CHARACTER VARYING(255),
+     "gasoline_intensity"                     FLOAT,
+     "gasoline_intensity_units"               CHARACTER VARYING(255),
+     "diesel_intensity"                       FLOAT,
+     "diesel_intensity_units"                 CHARACTER VARYING(255),
+     "cng_intensity"                          FLOAT,
+     "cng_intensity_units"                    CHARACTER VARYING(255),
+     "lng_intensity"                          FLOAT,
+     "lng_intensity_units"                    CHARACTER VARYING(255),
+     "lpg_intensity"                          FLOAT,
+     "lpg_intensity_units"                    CHARACTER VARYING(255),
+     "methanol_intensity"                     FLOAT,
+     "methanol_intensity_units"               CHARACTER VARYING(255),
+     "biodiesel_intensity"                    FLOAT,
+     "biodiesel_intensity_units"              CHARACTER VARYING(255),
+     "electricity_intensity"                  FLOAT,
+     "electricity_intensity_units"            CHARACTER VARYING(255),
+     "air_conditioning_emission_factor"       FLOAT,
+     "air_conditioning_emission_factor_units" CHARACTER VARYING(255)
+  );
+ALTER TABLE "bus_classes" ADD PRIMARY KEY ("name")
+EOS
+
   self.primary_key = "name"
   
   # https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdHY0R0hjZnhRaTIxTnpvRk1HNThwUmc&hl=en&output=html
@@ -27,30 +58,6 @@ class BusClass < ActiveRecord::Base
                 :air_conditioning_emission_factor => 0.04779 / 1.miles.to(:kilometres),
                 :air_conditioning_emission_factor_units => 'kilograms_co2e_per_kilometre'
   
-  col :name
-  col :distance, :type => :float
-  col :distance_units
-  col :passengers, :type => :float
-  col :speed, :type => :float
-  col :speed_units
-  col :gasoline_intensity, :type => :float
-  col :gasoline_intensity_units
-  col :diesel_intensity, :type => :float
-  col :diesel_intensity_units
-  col :cng_intensity, :type => :float
-  col :cng_intensity_units
-  col :lng_intensity, :type => :float
-  col :lng_intensity_units
-  col :lpg_intensity, :type => :float
-  col :lpg_intensity_units
-  col :methanol_intensity, :type => :float
-  col :methanol_intensity_units
-  col :biodiesel_intensity, :type => :float
-  col :biodiesel_intensity_units
-  col :electricity_intensity, :type => :float
-  col :electricity_intensity_units
-  col :air_conditioning_emission_factor, :type => :float
-  col :air_conditioning_emission_factor_units
 
   warn_unless_size 2
 end

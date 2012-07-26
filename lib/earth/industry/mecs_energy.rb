@@ -1,29 +1,36 @@
 require 'earth/locality'
 
 class MecsEnergy < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "mecs_energies"
+  (
+     "name"                      CHARACTER VARYING(255) NOT NULL,
+     "census_region_number"      INTEGER,
+     "naics_code"                CHARACTER VARYING(255),
+     "energy"                    FLOAT,
+     "energy_units"              CHARACTER VARYING(255),
+     "electricity"               FLOAT,
+     "electricity_units"         CHARACTER VARYING(255),
+     "residual_fuel_oil"         FLOAT,
+     "residual_fuel_oil_units"   CHARACTER VARYING(255),
+     "distillate_fuel_oil"       FLOAT,
+     "distillate_fuel_oil_units" CHARACTER VARYING(255),
+     "natural_gas"               FLOAT,
+     "natural_gas_units"         CHARACTER VARYING(255),
+     "lpg_and_ngl"               FLOAT,
+     "lpg_and_ngl_units"         CHARACTER VARYING(255),
+     "coal"                      FLOAT,
+     "coal_units"                CHARACTER VARYING(255),
+     "coke_and_breeze"           FLOAT,
+     "coke_and_breeze_units"     CHARACTER VARYING(255),
+     "other_fuel"                FLOAT,
+     "other_fuel_units"          CHARACTER VARYING(255)
+  );
+ALTER TABLE "mecs_energies" ADD PRIMARY KEY ("name")
+EOS
+
   self.primary_key = "name"
   
-  col :name
-  col :census_region_number, :type => :integer
-  col :naics_code
-  col :energy, :type => :float
-  col :energy_units
-  col :electricity, :type => :float
-  col :electricity_units
-  col :residual_fuel_oil, :type => :float
-  col :residual_fuel_oil_units
-  col :distillate_fuel_oil, :type => :float
-  col :distillate_fuel_oil_units
-  col :natural_gas, :type => :float
-  col :natural_gas_units
-  col :lpg_and_ngl, :type => :float
-  col :lpg_and_ngl_units
-  col :coal, :type => :float
-  col :coal_units
-  col :coke_and_breeze, :type => :float
-  col :coke_and_breeze_units
-  col :other_fuel, :type => :float
-  col :other_fuel_units
   
   FUELS = [:electricity, :residual_fuel_oil, :distillate_fuel_oil,
            :natural_gas, :lpg_and_ngl, :coal, :coke_and_breeze, :other_fuel]

@@ -1,4 +1,14 @@
 class AutomobileActivityYear < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "automobile_activity_years"
+  (
+     "activity_year"             INTEGER NOT NULL,
+     "hfc_emission_factor"       FLOAT,
+     "hfc_emission_factor_units" CHARACTER VARYING(255)
+  );
+ALTER TABLE "automobile_activity_years" ADD PRIMARY KEY ("activity_year")
+EOS
+
   self.primary_key = "activity_year"
   
   # for calculating hfc ef
@@ -13,9 +23,6 @@ class AutomobileActivityYear < ActiveRecord::Base
     end
   end
   
-  col :activity_year, :type => :integer
-  col :hfc_emission_factor, :type => :float
-  col :hfc_emission_factor_units
   
   warn_unless_size 15
 end

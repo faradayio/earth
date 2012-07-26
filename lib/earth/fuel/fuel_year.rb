@@ -1,21 +1,28 @@
 class FuelYear < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "fuel_years"
+  (
+     "name"                               CHARACTER VARYING(255) NOT NULL,
+     "fuel_name"                          CHARACTER VARYING(255),
+     "year"                               INTEGER,
+     "energy_content"                     FLOAT,
+     "energy_content_units"               CHARACTER VARYING(255),
+     "carbon_content"                     FLOAT,
+     "carbon_content_units"               CHARACTER VARYING(255),
+     "oxidation_factor"                   FLOAT,
+     "biogenic_fraction"                  FLOAT,
+     "co2_emission_factor"                FLOAT,
+     "co2_emission_factor_units"          CHARACTER VARYING(255),
+     "co2_biogenic_emission_factor"       FLOAT,
+     "co2_biogenic_emission_factor_units" CHARACTER VARYING(255)
+  );
+ALTER TABLE "fuel_years" ADD PRIMARY KEY ("name")
+EOS
+
   self.primary_key = "name"
   
   belongs_to :fuel, :foreign_key => 'fuel_name'
   
-  col :name
-  col :fuel_name
-  col :year, :type => :integer
-  col :energy_content, :type => :float
-  col :energy_content_units
-  col :carbon_content, :type => :float
-  col :carbon_content_units
-  col :oxidation_factor, :type => :float
-  col :biogenic_fraction, :type => :float
-  col :co2_emission_factor, :type => :float
-  col :co2_emission_factor_units
-  col :co2_biogenic_emission_factor, :type => :float
-  col :co2_biogenic_emission_factor_units
   
   # FIXME TODO verify fuel name is in Fuel
   # verify "Fuel name should never be missing" do

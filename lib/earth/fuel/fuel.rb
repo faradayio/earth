@@ -1,22 +1,29 @@
 class Fuel < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "fuels"
+  (
+     "name"                               CHARACTER VARYING(255) NOT NULL,
+     "physical_units"                     CHARACTER VARYING(255),
+     "density"                            FLOAT,
+     "density_units"                      CHARACTER VARYING(255),
+     "energy_content"                     FLOAT,
+     "energy_content_units"               CHARACTER VARYING(255),
+     "carbon_content"                     FLOAT,
+     "carbon_content_units"               CHARACTER VARYING(255),
+     "oxidation_factor"                   FLOAT,
+     "biogenic_fraction"                  FLOAT,
+     "co2_emission_factor"                FLOAT,
+     "co2_emission_factor_units"          CHARACTER VARYING(255),
+     "co2_biogenic_emission_factor"       FLOAT,
+     "co2_biogenic_emission_factor_units" CHARACTER VARYING(255)
+  );
+ALTER TABLE "fuels" ADD PRIMARY KEY ("name")
+EOS
+
   self.primary_key = "name"
   
   has_many :fuel_years, :foreign_key => 'fuel_name'
   
-  col :name
-  col :physical_units
-  col :density, :type => :float
-  col :density_units
-  col :energy_content, :type => :float
-  col :energy_content_units
-  col :carbon_content, :type => :float
-  col :carbon_content_units
-  col :oxidation_factor, :type => :float
-  col :biogenic_fraction, :type => :float
-  col :co2_emission_factor, :type => :float
-  col :co2_emission_factor_units
-  col :co2_biogenic_emission_factor, :type => :float
-  col :co2_biogenic_emission_factor_units
   
   # Need to ensure FuelYear gets data_mined even when pulling with taps
   # b/c Fuel has instance methods to look up missing values from FuelYear

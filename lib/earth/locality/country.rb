@@ -3,6 +3,60 @@ require 'earth/hospitality'
 require 'earth/rail'
 
 class Country < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "countries"
+  (
+     "iso_3166_code"                         CHARACTER VARYING(255) NOT NULL, /* alpha-2 2-letter like GB */
+     "iso_3166_numeric_code"                 INTEGER,                         /* numeric like 826; aka UN M49 code */
+     "iso_3166_alpha_3_code"                 CHARACTER VARYING(255),          /* 3-letter like GBR */
+     "name"                                  CHARACTER VARYING(255),
+     "heating_degree_days"                   FLOAT,
+     "heating_degree_days_units"             CHARACTER VARYING(255),
+     "cooling_degree_days"                   FLOAT,
+     "cooling_degree_days_units"             CHARACTER VARYING(255),
+     "automobile_urbanity"                   FLOAT,                           /* float from 0 to 1 */
+     "automobile_fuel_efficiency"            FLOAT,
+     "automobile_fuel_efficiency_units"      CHARACTER VARYING(255),
+     "automobile_city_speed"                 FLOAT,
+     "automobile_city_speed_units"           CHARACTER VARYING(255),
+     "automobile_highway_speed"              FLOAT,
+     "automobile_highway_speed_units"        CHARACTER VARYING(255),
+     "automobile_trip_distance"              FLOAT,
+     "automobile_trip_distance_units"        CHARACTER VARYING(255),
+     "electricity_emission_factor"           FLOAT,
+     "electricity_emission_factor_units"     CHARACTER VARYING(255),
+     "electricity_co2_emission_factor"       FLOAT,
+     "electricity_co2_emission_factor_units" CHARACTER VARYING(255),
+     "electricity_ch4_emission_factor"       FLOAT,
+     "electricity_ch4_emission_factor_units" CHARACTER VARYING(255),
+     "electricity_n2o_emission_factor"       FLOAT,
+     "electricity_n2o_emission_factor_units" CHARACTER VARYING(255),
+     "electricity_loss_factor"               FLOAT,
+     "flight_route_inefficiency_factor"      FLOAT,
+     "lodging_occupancy_rate"                FLOAT,
+     "lodging_natural_gas_intensity"         FLOAT,
+     "lodging_natural_gas_intensity_units"   CHARACTER VARYING(255),
+     "lodging_fuel_oil_intensity"            FLOAT,
+     "lodging_fuel_oil_intensity_units"      CHARACTER VARYING(255),
+     "lodging_electricity_intensity"         FLOAT,
+     "lodging_electricity_intensity_units"   CHARACTER VARYING(255),
+     "lodging_district_heat_intensity"       FLOAT,
+     "lodging_district_heat_intensity_units" CHARACTER VARYING(255),
+     "rail_passengers"                       FLOAT,
+     "rail_trip_distance"                    FLOAT,
+     "rail_trip_distance_units"              CHARACTER VARYING(255),
+     "rail_speed"                            FLOAT,
+     "rail_speed_units"                      CHARACTER VARYING(255),
+     "rail_trip_electricity_intensity"       FLOAT,
+     "rail_trip_electricity_intensity_units" CHARACTER VARYING(255),
+     "rail_trip_diesel_intensity"            FLOAT,
+     "rail_trip_diesel_intensity_units"      CHARACTER VARYING(255),
+     "rail_trip_co2_emission_factor"         FLOAT,
+     "rail_trip_co2_emission_factor_units"   CHARACTER VARYING(255)
+  );
+ALTER TABLE "countries" ADD PRIMARY KEY ("iso_3166_code")
+EOS
+
   self.primary_key = "iso_3166_code"
   
   has_many :rail_companies,  :foreign_key => 'country_iso_3166_code' # used to calculate rail data
@@ -58,54 +112,6 @@ class Country < ActiveRecord::Base
                 :rail_trip_diesel_intensity_units => 'litres_per_passenger_kilometre', # FIXME TODO derive this
                 :rail_trip_co2_emission_factor => lambda { weighted_average(:rail_trip_co2_emission_factor, :weighted_by => :rail_passengers) },
                 :rail_trip_co2_emission_factor_units => 'kilograms_per_passenger_kilometre' # FIXME TODO derive this
-  
-  col :iso_3166_code                            # alpha-2 2-letter like GB
-  col :iso_3166_numeric_code, :type => :integer # numeric like 826; aka UN M49 code
-  col :iso_3166_alpha_3_code                    # 3-letter like GBR
-  col :name
-  col :heating_degree_days, :type => :float
-  col :heating_degree_days_units
-  col :cooling_degree_days, :type => :float
-  col :cooling_degree_days_units
-  col :automobile_urbanity, :type => :float # float from 0 to 1
-  col :automobile_fuel_efficiency, :type => :float
-  col :automobile_fuel_efficiency_units
-  col :automobile_city_speed, :type => :float
-  col :automobile_city_speed_units
-  col :automobile_highway_speed, :type => :float
-  col :automobile_highway_speed_units
-  col :automobile_trip_distance, :type => :float
-  col :automobile_trip_distance_units
-  col :electricity_emission_factor, :type => :float
-  col :electricity_emission_factor_units
-  col :electricity_co2_emission_factor, :type => :float
-  col :electricity_co2_emission_factor_units
-  col :electricity_ch4_emission_factor, :type => :float
-  col :electricity_ch4_emission_factor_units
-  col :electricity_n2o_emission_factor, :type => :float
-  col :electricity_n2o_emission_factor_units
-  col :electricity_loss_factor, :type => :float
-  col :flight_route_inefficiency_factor, :type => :float
-  col :lodging_occupancy_rate, :type => :float
-  col :lodging_natural_gas_intensity, :type => :float
-  col :lodging_natural_gas_intensity_units
-  col :lodging_fuel_oil_intensity, :type => :float
-  col :lodging_fuel_oil_intensity_units
-  col :lodging_electricity_intensity, :type => :float
-  col :lodging_electricity_intensity_units
-  col :lodging_district_heat_intensity, :type => :float
-  col :lodging_district_heat_intensity_units
-  col :rail_passengers, :type => :float
-  col :rail_trip_distance, :type => :float
-  col :rail_trip_distance_units
-  col :rail_speed, :type => :float
-  col :rail_speed_units
-  col :rail_trip_electricity_intensity, :type => :float
-  col :rail_trip_electricity_intensity_units
-  col :rail_trip_diesel_intensity, :type => :float
-  col :rail_trip_diesel_intensity_units
-  col :rail_trip_co2_emission_factor, :type => :float
-  col :rail_trip_co2_emission_factor_units
   
   warn_unless_size 249
   warn_if_nulls_except(

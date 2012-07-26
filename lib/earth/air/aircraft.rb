@@ -1,6 +1,34 @@
 require 'fuzzy_match/cached_result'
 
 class Aircraft < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "aircraft"
+  (
+     "icao_code"            CHARACTER VARYING(255) NOT NULL,
+     "manufacturer_name"    CHARACTER VARYING(255),
+     "model_name"           CHARACTER VARYING(255),
+     "description"          CHARACTER VARYING(255),
+     "aircraft_type"        CHARACTER VARYING(255),
+     "engine_type"          CHARACTER VARYING(255),
+     "engines"              INTEGER,
+     "weight_class"         CHARACTER VARYING(255),
+     "class_code"           CHARACTER VARYING(255),
+     "passengers"           FLOAT,
+     "seats"                FLOAT,
+     "seats_specificity"    CHARACTER VARYING(255),
+     "m3"                   FLOAT,
+     "m3_units"             CHARACTER VARYING(255),
+     "m2"                   FLOAT,
+     "m2_units"             CHARACTER VARYING(255),
+     "m1"                   FLOAT,
+     "m1_units"             CHARACTER VARYING(255),
+     "b"                    FLOAT,
+     "b_units"              CHARACTER VARYING(255),
+     "fuel_use_specificity" CHARACTER VARYING(255)
+  );
+ALTER TABLE "aircraft" ADD PRIMARY KEY ("icao_code")
+EOS
+
   self.primary_key = "icao_code"
   
   # Fuzzy association with FlightSegment
@@ -122,27 +150,6 @@ class Aircraft < ActiveRecord::Base
                 :m1_units => 'kilograms_per_nautical_mile',
                 :b_units  => 'kilograms'
   
-  col :icao_code
-  col :manufacturer_name
-  col :model_name
-  col :description
-  col :aircraft_type
-  col :engine_type
-  col :engines, :type => :integer
-  col :weight_class
-  col :class_code
-  col :passengers, :type => :float
-  col :seats, :type => :float
-  col :seats_specificity
-  col :m3, :type => :float
-  col :m3_units
-  col :m2, :type => :float
-  col :m2_units
-  col :m1, :type => :float
-  col :m1_units
-  col :b, :type => :float
-  col :b_units
-  col :fuel_use_specificity
 
   warn_if_nulls_except(
     :passengers,

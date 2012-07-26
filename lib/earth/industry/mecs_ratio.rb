@@ -2,15 +2,22 @@ require 'earth/locality'
 require 'earth/industry/industry'
 
 class MecsRatio < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "mecs_ratios"
+  (
+     "name"                                 CHARACTER VARYING(255) NOT NULL,
+     "census_region_number"                 INTEGER,
+     "naics_code"                           CHARACTER VARYING(255),
+     "energy_per_dollar_of_shipments"       FLOAT,
+     "energy_per_dollar_of_shipments_units" CHARACTER VARYING(255)
+  );
+ALTER TABLE "mecs_ratios" ADD PRIMARY KEY ("name")
+EOS
+
   self.primary_key = "name"
   
   belongs_to :industry
   
-  col :name
-  col :census_region_number, :type => :integer
-  col :naics_code
-  col :energy_per_dollar_of_shipments, :type => :float
-  col :energy_per_dollar_of_shipments_units
   
   # Find the first record whose naics_code matches code and whose energy per dollar shipment is present.
   # If no record found chop off the last character of code and try again, and so on.

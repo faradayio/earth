@@ -1,4 +1,24 @@
 class DietClass < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "diet_classes"
+  (
+     "name"                     CHARACTER VARYING(255) NOT NULL,
+     "intensity"                FLOAT,
+     "intensity_units"          CHARACTER VARYING(255),
+     "red_meat_share"           FLOAT,
+     "poultry_share"            FLOAT,
+     "fish_share"               FLOAT,
+     "eggs_share"               FLOAT,
+     "nuts_share"               FLOAT,
+     "dairy_share"              FLOAT,
+     "cereals_and_grains_share" FLOAT,
+     "fruit_share"              FLOAT,
+     "vegetables_share"         FLOAT,
+     "oils_and_sugars_share"    FLOAT
+  );
+ALTER TABLE "diet_classes" ADD PRIMARY KEY ("name")
+EOS
+
   self.primary_key = "name"
   
   class << self
@@ -7,19 +27,6 @@ class DietClass < ActiveRecord::Base
     end
   end
   
-  col :name
-  col :intensity, :type => :float
-  col :intensity_units
-  col :red_meat_share, :type => :float
-  col :poultry_share, :type => :float
-  col :fish_share, :type => :float
-  col :eggs_share, :type => :float
-  col :nuts_share, :type => :float
-  col :dairy_share, :type => :float
-  col :cereals_and_grains_share, :type => :float
-  col :fruit_share, :type => :float
-  col :vegetables_share, :type => :float
-  col :oils_and_sugars_share, :type => :float
 
   warn_unless_size 3
 end

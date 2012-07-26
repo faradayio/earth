@@ -1,4 +1,25 @@
 class AutomobileMakeModel < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "automobile_make_models"
+  (
+     "name"                              CHARACTER VARYING(255) NOT NULL,
+     "make_name"                         CHARACTER VARYING(255),
+     "model_name"                        CHARACTER VARYING(255),
+     "fuel_code"                         CHARACTER VARYING(255),
+     "fuel_efficiency_city"              FLOAT,
+     "fuel_efficiency_city_units"        CHARACTER VARYING(255),
+     "fuel_efficiency_highway"           FLOAT,
+     "fuel_efficiency_highway_units"     CHARACTER VARYING(255),
+     "alt_fuel_code"                     CHARACTER VARYING(255),
+     "alt_fuel_efficiency_city"          FLOAT,
+     "alt_fuel_efficiency_city_units"    CHARACTER VARYING(255),
+     "alt_fuel_efficiency_highway"       FLOAT,
+     "alt_fuel_efficiency_highway_units" CHARACTER VARYING(255),
+     "type_name"                         CHARACTER VARYING(255)
+  );
+ALTER TABLE "automobile_make_models" ADD PRIMARY KEY ("name")
+EOS
+
   self.primary_key = "name"
   
   # Used by Automobile and AutomobileTrip to look up auto fuel and alt auto fuel
@@ -23,20 +44,6 @@ class AutomobileMakeModel < ActiveRecord::Base
     AutomobileMakeModelYear.where(:make_name => make_name, :model_name => model_name)
   end
   
-  col :name
-  col :make_name
-  col :model_name
-  col :fuel_code
-  col :fuel_efficiency_city, :type => :float
-  col :fuel_efficiency_city_units
-  col :fuel_efficiency_highway, :type => :float
-  col :fuel_efficiency_highway_units
-  col :alt_fuel_code
-  col :alt_fuel_efficiency_city, :type => :float
-  col :alt_fuel_efficiency_city_units
-  col :alt_fuel_efficiency_highway, :type => :float
-  col :alt_fuel_efficiency_highway_units
-  col :type_name
   
   warn_unless_size 2353
   warn_if_nulls_except :alt_fuel_code

@@ -1,5 +1,24 @@
 require 'earth/fuel'
 class CensusDivision < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "census_divisions"
+  (
+     "number"                                         INTEGER NOT NULL,
+     "name"                                           CHARACTER VARYING(255),
+     "census_region_name"                             CHARACTER VARYING(255),
+     "census_region_number"                           INTEGER,
+     "meeting_building_natural_gas_intensity"         FLOAT,
+     "meeting_building_natural_gas_intensity_units"   CHARACTER VARYING(255),
+     "meeting_building_fuel_oil_intensity"            FLOAT,
+     "meeting_building_fuel_oil_intensity_units"      CHARACTER VARYING(255),
+     "meeting_building_electricity_intensity"         FLOAT,
+     "meeting_building_electricity_intensity_units"   CHARACTER VARYING(255),
+     "meeting_building_district_heat_intensity"       FLOAT,
+     "meeting_building_district_heat_intensity_units" CHARACTER VARYING(255)
+  );
+ALTER TABLE "census_divisions" ADD PRIMARY KEY ("number")
+EOS
+
   self.primary_key = "number"
   
   belongs_to :census_region, :foreign_key => 'census_region_number'
@@ -15,18 +34,6 @@ class CensusDivision < ActiveRecord::Base
                 :meeting_building_electricity_intensity => 0.0084323684 / 1.square_feet.to(:square_metres),
                 :meeting_building_district_heat_intensity => 0.0004776370.kbtus.to(:megajoules) / 1.square_feet.to(:square_metres)
   
-  col :number, :type => :integer
-  col :name
-  col :census_region_name
-  col :census_region_number, :type => :integer
-  col :meeting_building_natural_gas_intensity, :type => :float
-  col :meeting_building_natural_gas_intensity_units
-  col :meeting_building_fuel_oil_intensity, :type => :float
-  col :meeting_building_fuel_oil_intensity_units
-  col :meeting_building_electricity_intensity, :type => :float
-  col :meeting_building_electricity_intensity_units
-  col :meeting_building_district_heat_intensity, :type => :float
-  col :meeting_building_district_heat_intensity_units
 
   warn_unless_size 9
 end

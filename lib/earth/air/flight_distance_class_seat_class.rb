@@ -1,4 +1,15 @@
 class FlightDistanceClassSeatClass < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "flight_distance_class_seat_classes"
+  (
+     "name"                CHARACTER VARYING(255) NOT NULL,
+     "distance_class_name" CHARACTER VARYING(255),
+     "seat_class_name"     CHARACTER VARYING(255),
+     "multiplier"          FLOAT
+  );
+ALTER TABLE "flight_distance_class_seat_classes" ADD PRIMARY KEY ("name")
+EOS
+
   self.primary_key = "name"
   
   belongs_to :seat_class, :class_name => 'FlightSeatClass', :foreign_key => 'seat_class_name'
@@ -7,10 +18,6 @@ class FlightDistanceClassSeatClass < ActiveRecord::Base
   falls_back_on :name => 'fallback',
                 :multiplier => 1.0
   
-  col :name
-  col :distance_class_name
-  col :seat_class_name
-  col :multiplier, :type => :float
 
   warn_unless_size 7
 end

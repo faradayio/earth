@@ -1,4 +1,42 @@
 class AutomobileMakeModelYearVariant < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "automobile_make_model_year_variants"
+  (
+     "row_hash"                          CHARACTER VARYING(255) NOT NULL,
+     "make_name"                         CHARACTER VARYING(255),
+     "model_name"                        CHARACTER VARYING(255),
+     "year"                              INTEGER,
+     "transmission"                      CHARACTER VARYING(255),
+     "speeds"                            CHARACTER VARYING(255),
+     "drive"                             CHARACTER VARYING(255),
+     "fuel_code"                         CHARACTER VARYING(255),
+     "fuel_efficiency"                   FLOAT,
+     "fuel_efficiency_units"             CHARACTER VARYING(255),
+     "fuel_efficiency_city"              FLOAT,
+     "fuel_efficiency_city_units"        CHARACTER VARYING(255),
+     "fuel_efficiency_highway"           FLOAT,
+     "fuel_efficiency_highway_units"     CHARACTER VARYING(255),
+     "alt_fuel_code"                     CHARACTER VARYING(255),
+     "alt_fuel_efficiency"               FLOAT,
+     "alt_fuel_efficiency_units"         CHARACTER VARYING(255),
+     "alt_fuel_efficiency_city"          FLOAT,
+     "alt_fuel_efficiency_city_units"    CHARACTER VARYING(255),
+     "alt_fuel_efficiency_highway"       FLOAT,
+     "alt_fuel_efficiency_highway_units" CHARACTER VARYING(255),
+     "cylinders"                         INTEGER,
+     "displacement"                      FLOAT,
+     "turbo"                             BOOLEAN,
+     "supercharger"                      BOOLEAN,
+     "injection"                         BOOLEAN,
+     "size_class"                        CHARACTER VARYING(255),
+     "type_name"                         CHARACTER VARYING(255)
+  );
+ALTER TABLE "automobile_make_model_year_variants" ADD PRIMARY KEY ("row_hash");
+CREATE INDEX "index_automobile_make_model_year_variants_on_make_name" ON "automobile_make_model_year_variants" ("make_name");
+CREATE INDEX "index_automobile_make_model_year_variants_on_model_name" ON "automobile_make_model_year_variants" ("model_name");
+CREATE INDEX "index_automobile_make_model_year_variants_on_year" ON "automobile_make_model_year_variants" ("year")
+EOS
+
   self.primary_key = "row_hash"
   
   # It looks like synthesizing a unique name would require including pretty much every column from the FEGs
@@ -8,37 +46,6 @@ class AutomobileMakeModelYearVariant < ActiveRecord::Base
   # because it will be a bunch of work to include all the columns and the names will be really long and obtuse
   # -Ian 10/18/2011
   
-  col :row_hash
-  col :make_name
-  col :model_name
-  col :year, :type => :integer
-  col :transmission
-  col :speeds
-  col :drive
-  col :fuel_code
-  col :fuel_efficiency, :type => :float
-  col :fuel_efficiency_units
-  col :fuel_efficiency_city, :type => :float
-  col :fuel_efficiency_city_units
-  col :fuel_efficiency_highway, :type => :float
-  col :fuel_efficiency_highway_units
-  col :alt_fuel_code
-  col :alt_fuel_efficiency, :type => :float
-  col :alt_fuel_efficiency_units
-  col :alt_fuel_efficiency_city, :type => :float
-  col :alt_fuel_efficiency_city_units
-  col :alt_fuel_efficiency_highway, :type => :float
-  col :alt_fuel_efficiency_highway_units
-  col :cylinders,    :type => :integer
-  col :displacement, :type => :float
-  col :turbo,        :type => :boolean
-  col :supercharger, :type => :boolean
-  col :injection,    :type => :boolean
-  col :size_class
-  col :type_name
-  add_index :make_name
-  add_index :model_name
-  add_index :year
   
   warn_unless_size 28433
   warn_unless_size 1152, :conditions => { :year => 1985 }

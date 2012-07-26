@@ -1,4 +1,12 @@
 class AutomobileYear < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "automobile_years"
+  (
+     "year" INTEGER NOT NULL
+  );
+ALTER TABLE "automobile_years" ADD PRIMARY KEY ("year")
+EOS
+
   self.primary_key = "year"
   
   # Estimate of % of vehicles currently in use that were manufactured in each year
@@ -37,7 +45,6 @@ class AutomobileYear < ActiveRecord::Base
     }[year]
   end
   
-  col :year, :type => :integer
 
   warn_unless_size 28
 end

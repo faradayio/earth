@@ -1,4 +1,14 @@
 class NationalTransitDatabaseMode < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "ntd_modes"
+  (
+     "code"      CHARACTER VARYING(255) NOT NULL,
+     "name"      CHARACTER VARYING(255),
+     "rail_mode" BOOLEAN
+  );
+ALTER TABLE "ntd_modes" ADD PRIMARY KEY ("code")
+EOS
+
   self.primary_key = "code"
   self.table_name = :ntd_modes
   
@@ -6,9 +16,6 @@ class NationalTransitDatabaseMode < ActiveRecord::Base
     where(:rail_mode => true)
   end
   
-  col :code
-  col :name
-  col :rail_mode, :type => :boolean
 
   warn_unless_size 14
 end

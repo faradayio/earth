@@ -1,4 +1,18 @@
 class AutomobileTypeFuelYearControl < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "automobile_type_fuel_year_controls"
+  (
+     "name"                   CHARACTER VARYING(255) NOT NULL,
+     "type_name"              CHARACTER VARYING(255),
+     "fuel_family"            CHARACTER VARYING(255),
+     "year"                   INTEGER,
+     "control_name"           CHARACTER VARYING(255),
+     "type_fuel_control_name" CHARACTER VARYING(255),
+     "total_travel_percent"   FLOAT
+  );
+ALTER TABLE "automobile_type_fuel_year_controls" ADD PRIMARY KEY ("name")
+EOS
+
   self.primary_key = "name"
   
   # Needs to be a belongs_to so that it gets imported with taps for AutomobileTypeFuelYear ch4 and n2o ef calculation
@@ -24,13 +38,6 @@ class AutomobileTypeFuelYearControl < ActiveRecord::Base
     end
   end
   
-  col :name
-  col :type_name
-  col :fuel_family
-  col :year, :type => :integer
-  col :control_name
-  col :type_fuel_control_name
-  col :total_travel_percent, :type => :float
   
   warn_unless_size 142
 end

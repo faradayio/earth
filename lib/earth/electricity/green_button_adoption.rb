@@ -1,9 +1,16 @@
 class GreenButtonAdoption < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "green_button_adoptions"
+  (
+     "electric_utility_name" CHARACTER VARYING(255) NOT NULL,
+     "implemented"           BOOLEAN,
+     "committed"             BOOLEAN
+  );
+ALTER TABLE "green_button_adoptions" ADD PRIMARY KEY ("electric_utility_name")
+EOS
+
   self.primary_key = "electric_utility_name"
   
-  col :electric_utility_name
-  col :implemented, :type => :boolean
-  col :committed, :type => :boolean
 
   class << self
     def implemented?(*names)

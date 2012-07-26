@@ -1,4 +1,24 @@
 class State < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "states"
+  (
+     "postal_abbreviation"                                CHARACTER VARYING(255)
+     NOT NULL,
+     "fips_code"                                          INTEGER,
+     "name"                                               CHARACTER VARYING(255)
+     ,
+     "census_division_number"                             INTEGER,
+     "petroleum_administration_for_defense_district_code" CHARACTER VARYING(255)
+     ,
+     "population"                                         INTEGER,
+     "electricity_emission_factor"                        FLOAT,
+     "electricity_emission_factor_units"                  CHARACTER VARYING(255)
+     ,
+     "electricity_loss_factor"                            FLOAT
+  );
+ALTER TABLE "states" ADD PRIMARY KEY ("postal_abbreviation")
+EOS
+
   self.primary_key = "postal_abbreviation"
   
   has_many :zip_codes,         :foreign_key => 'state_postal_abbreviation'
@@ -19,15 +39,6 @@ class State < ActiveRecord::Base
     Country.united_states
   end
   
-  col :postal_abbreviation
-  col :fips_code, :type => :integer
-  col :name
-  col :census_division_number, :type => :integer
-  col :petroleum_administration_for_defense_district_code
-  col :population, :type => :integer
-  col :electricity_emission_factor, :type => :float
-  col :electricity_emission_factor_units
-  col :electricity_loss_factor, :type => :float
   
   warn_if_nulls_except(
     :census_division_number,

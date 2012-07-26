@@ -1,4 +1,21 @@
 class EgridCountry < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "egrid_countries"
+  (
+     "name"                       CHARACTER VARYING(255) NOT NULL,
+     "generation"                 FLOAT,
+     "generation_units"           CHARACTER VARYING(255),
+     "foreign_interchange"        FLOAT,
+     "foreign_interchange_units"  CHARACTER VARYING(255),
+     "domestic_interchange"       FLOAT,
+     "domestic_interchange_units" CHARACTER VARYING(255),
+     "consumption"                FLOAT,
+     "consumption_units"          CHARACTER VARYING(255),
+     "loss_factor"                FLOAT
+  );
+ALTER TABLE "egrid_countries" ADD PRIMARY KEY ("name")
+EOS
+
   self.primary_key = "name"
   
   class << self
@@ -7,16 +24,6 @@ class EgridCountry < ActiveRecord::Base
     end
   end
   
-  col :name
-  col :generation, :type => :float
-  col :generation_units
-  col :foreign_interchange, :type => :float
-  col :foreign_interchange_units
-  col :domestic_interchange, :type => :float
-  col :domestic_interchange_units
-  col :consumption, :type => :float
-  col :consumption_units
-  col :loss_factor, :type => :float
   
   warn_unless_size 1
   warn_if_any_nulls

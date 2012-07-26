@@ -1,4 +1,13 @@
 class Sic1987 < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "sic_1987"
+  (
+     "code"        CHARACTER VARYING(255) NOT NULL,
+     "description" CHARACTER VARYING(255)
+  );
+ALTER TABLE "sic_1987" ADD PRIMARY KEY ("code")
+EOS
+
   self.primary_key = "code"
   self.table_name = "sic_1987"
   
@@ -10,6 +19,4 @@ class Sic1987 < ActiveRecord::Base
     (desc = description.match /^(.+?) \(/) ? desc.captures.first : description
   end
   
-  col :code
-  col :description
 end

@@ -1,12 +1,19 @@
 require 'earth/locality'
 class ComputationCarrier < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "computation_carriers"
+  (
+     "name"                      CHARACTER VARYING(255) NOT NULL,
+     "power_usage_effectiveness" FLOAT
+  );
+ALTER TABLE "computation_carriers" ADD PRIMARY KEY ("name")
+EOS
+
   self.primary_key = "name"
   
   falls_back_on :name => 'fallback',
                 :power_usage_effectiveness => lambda { ComputationCarrier.maximum('power_usage_effectiveness') }
   
-  col :name
-  col :power_usage_effectiveness, :type => :float
   
   # verify "Power usage effectiveness should be one or more" do
   #   ComputationCarrier.all.each do |carrier|

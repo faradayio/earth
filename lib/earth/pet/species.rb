@@ -1,20 +1,27 @@
 class Species < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "species"
+  (
+     "name"                               CHARACTER VARYING(255) NOT NULL,
+     "population"                         INTEGER,
+     "diet_emission_intensity"            FLOAT,
+     "diet_emission_intensity_units"      CHARACTER VARYING(255),
+     "weight"                             FLOAT,
+     "weight_units"                       CHARACTER VARYING(255),
+     "marginal_dietary_requirement"       FLOAT,
+     "marginal_dietary_requirement_units" CHARACTER VARYING(255),
+     "fixed_dietary_requirement"          FLOAT,
+     "fixed_dietary_requirement_units"    CHARACTER VARYING(255),
+     "minimum_weight"                     FLOAT,
+     "minimum_weight_units"               CHARACTER VARYING(255),
+     "maximum_weight"                     FLOAT,
+     "maximum_weight_units"               CHARACTER VARYING(255)
+  );
+ALTER TABLE "species" ADD PRIMARY KEY ("name")
+EOS
+
   self.primary_key = "name"
   
-  col :name
-  col :population, :type => :integer
-  col :diet_emission_intensity, :type => :float
-  col :diet_emission_intensity_units
-  col :weight, :type => :float
-  col :weight_units
-  col :marginal_dietary_requirement, :type => :float
-  col :marginal_dietary_requirement_units
-  col :fixed_dietary_requirement, :type => :float
-  col :fixed_dietary_requirement_units
-  col :minimum_weight, :type => :float
-  col :minimum_weight_units
-  col :maximum_weight, :type => :float
-  col :maximum_weight_units
 
   has_many :breeds, :foreign_key => 'species_name'
   

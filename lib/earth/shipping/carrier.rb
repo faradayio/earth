@@ -1,4 +1,19 @@
 class Carrier < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "carriers"
+  (
+     "name"                            CHARACTER VARYING(255) NOT NULL,
+     "full_name"                       CHARACTER VARYING(255),
+     "package_volume"                  FLOAT,
+     "route_inefficiency_factor"       FLOAT,
+     "transport_emission_factor"       FLOAT,
+     "transport_emission_factor_units" CHARACTER VARYING(255),
+     "corporate_emission_factor"       FLOAT,
+     "corporate_emission_factor_units" CHARACTER VARYING(255)
+  );
+ALTER TABLE "carriers" ADD PRIMARY KEY ("name")
+EOS
+
   self.primary_key = "name"
   
   has_many :carrier_modes, :foreign_key => 'carrier_name', :primary_key => 'name'
@@ -8,14 +23,6 @@ class Carrier < ActiveRecord::Base
                 :transport_emission_factor => 0.0005266,
                 :corporate_emission_factor => 0.221
   
-  col :name
-  col :full_name
-  col :package_volume, :type => :float
-  col :route_inefficiency_factor, :type => :float
-  col :transport_emission_factor, :type => :float
-  col :transport_emission_factor_units
-  col :corporate_emission_factor, :type => :float
-  col :corporate_emission_factor_units
   
   # verify "Package volume should be greater than zero" do
   #   Carrier.all.each do |carrier|

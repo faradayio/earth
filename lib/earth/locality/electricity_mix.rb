@@ -1,4 +1,24 @@
 class ElectricityMix < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "electricity_mixes"
+  (
+     "name"                               CHARACTER VARYING(255) NOT NULL,
+     "egrid_subregion_abbreviation"       CHARACTER VARYING(255),
+     "state_postal_abbreviation"          CHARACTER VARYING(255),
+     "country_iso_3166_code"              CHARACTER VARYING(255),
+     "co2_emission_factor"                FLOAT,
+     "co2_emission_factor_units"          CHARACTER VARYING(255),
+     "co2_biogenic_emission_factor"       FLOAT,
+     "co2_biogenic_emission_factor_units" CHARACTER VARYING(255),
+     "ch4_emission_factor"                FLOAT,
+     "ch4_emission_factor_units"          CHARACTER VARYING(255),
+     "n2o_emission_factor"                FLOAT,
+     "n2o_emission_factor_units"          CHARACTER VARYING(255),
+     "loss_factor"                        FLOAT
+  );
+ALTER TABLE "electricity_mixes" ADD PRIMARY KEY ("name")
+EOS
+
   self.primary_key = :name
   
   def energy_content
@@ -18,19 +38,6 @@ class ElectricityMix < ActiveRecord::Base
                 :n2o_emission_factor_units => 'kilograms_co2e_per_kilowatt_hour',
                 :loss_factor => 0.096 # from ecometrica paper FIXME TODO calculate this
   
-  col :name
-  col :egrid_subregion_abbreviation
-  col :state_postal_abbreviation
-  col :country_iso_3166_code
-  col :co2_emission_factor, :type => :float
-  col :co2_emission_factor_units
-  col :co2_biogenic_emission_factor, :type => :float
-  col :co2_biogenic_emission_factor_units
-  col :ch4_emission_factor, :type => :float
-  col :ch4_emission_factor_units
-  col :n2o_emission_factor, :type => :float
-  col :n2o_emission_factor_units
-  col :loss_factor, :type => :float
   
   warn_unless_size 187
   warn_if_any_nulls

@@ -1,13 +1,17 @@
 class ResidenceFuelType < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "residence_fuel_types"
+  (
+     "name"                  CHARACTER VARYING(255) NOT NULL,
+     "emission_factor"       FLOAT,
+     "emission_factor_units" CHARACTER VARYING(255)
+  );
+ALTER TABLE "residence_fuel_types" ADD PRIMARY KEY ("name")
+EOS
+
   self.primary_key = "name"
   
   has_many :prices, :class_name => 'ResidenceFuelPrice', :foreign_key => 'residence_fuel_type_name'
-  
-  col :name
-  col :emission_factor, :type => :float
-  col :emission_factor_units
-  # col :energy_content, :type => :float
-  # col :energy_content_units
   
   def price_per_unit(relaxations = [])
     conditions = { :residence_fuel_type_name => self }

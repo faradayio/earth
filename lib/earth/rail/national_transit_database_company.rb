@@ -1,5 +1,17 @@
 require 'earth/locality'
 class NationalTransitDatabaseCompany < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "ntd_companies"
+  (
+     "id"            CHARACTER VARYING(255) NOT NULL,
+     "name"          CHARACTER VARYING(255),
+     "acronym"       CHARACTER VARYING(255),
+     "zip_code_name" CHARACTER VARYING(255),
+     "duns_number"   CHARACTER VARYING(255)
+  );
+ALTER TABLE "ntd_companies" ADD PRIMARY KEY ("id")
+EOS
+
   self.primary_key = "id"
   self.table_name = :ntd_companies
   
@@ -31,11 +43,6 @@ class NationalTransitDatabaseCompany < ActiveRecord::Base
     end
   end
   
-  col :id
-  col :name
-  col :acronym
-  col :zip_code_name
-  col :duns_number
 
   warn_if_nulls_except(
     :acronym,

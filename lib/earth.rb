@@ -6,7 +6,6 @@ require 'falls_back_on'
 require 'weighted_average'
 require 'fixed_width'
 require 'errata'
-require 'active_record_inline_schema'
 require 'table_warnings'
 require 'fuzzy_match'
 
@@ -19,10 +18,11 @@ require 'earth/warnings'
 require 'earth/active_record_base_class_methods'
 ActiveRecord::Base.extend Earth::ActiveRecordBaseClassMethods
 
+# only included in resource classes
+require 'earth/active_record_class_methods'
+
 # The earth module is an interface for loading data models from various domains.
 module Earth
-  TAPS_SOURCE = 'http://carbon:neutral@data.brighterplanet.com:5000'
-  TAPS_DESCRIPTION = "Brighter Planet's reference data web service"
   VENDOR_DIR = ::File.expand_path '../../vendor', __FILE__
   LIB_DIR = ::File.expand_path '../earth', __FILE__
   DATA_DIR = ::File.expand_path '../../data', __FILE__
@@ -67,16 +67,19 @@ module Earth
       ::Object.const_defined?(resource)
     end.each do |resource|
       resource_model = resource.constantize
+      resource_model.extend Earth::ActiveRecordClassMethods
+      script = resource_model.data_miner_script
       unless options[:skip_parent_associations]
-        resource_model.data_miner_script.append_once :process, :run_data_miner_on_parent_associations!
+        script.append_once :process, :run_data_miner_on_parent_associations!
       end
       if options[:load_data_miner]
-        resource_model.data_miner_script.prepend_once :process, :auto_upgrade!
+        script.prepend_once :process, :create_table!
       else
-        resource_model.data_miner_script.prepend_once :tap, TAPS_DESCRIPTION, TAPS_SOURCE
+        script.prepend_once :sql, "Brighter Planet's reference data", "http://data.brighterplanet.com/#{resource.underscore.pluralize}.sql"
       end
       if options[:apply_schemas]
-        resource_model.auto_upgrade!
+        # FIXME TODO apply_schemas should really be reset_schemas or something
+        resource_model.create_table! false
       end
     end
   end

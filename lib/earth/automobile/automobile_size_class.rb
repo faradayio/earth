@@ -1,4 +1,22 @@
 class AutomobileSizeClass < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "automobile_size_classes"
+  (
+     "name"                                            CHARACTER VARYING(255)
+     NOT NULL,
+     "type_name"                                       CHARACTER VARYING(255),
+     "fuel_efficiency_city"                            FLOAT,
+     "fuel_efficiency_city_units"                      CHARACTER VARYING(255),
+     "fuel_efficiency_highway"                         FLOAT,
+     "fuel_efficiency_highway_units"                   CHARACTER VARYING(255),
+     "hybrid_fuel_efficiency_city_multiplier"          FLOAT,
+     "hybrid_fuel_efficiency_highway_multiplier"       FLOAT,
+     "conventional_fuel_efficiency_city_multiplier"    FLOAT,
+     "conventional_fuel_efficiency_highway_multiplier" FLOAT
+  );
+ALTER TABLE "automobile_size_classes" ADD PRIMARY KEY ("name")
+EOS
+
   self.primary_key = "name"
   
   # FIXME TODO clean up size class in MakeModelYearVariant, derive size class for MakeModelYear, and calculate this from MakeModelYear
@@ -7,16 +25,6 @@ class AutomobileSizeClass < ActiveRecord::Base
                 :conventional_fuel_efficiency_city_multiplier => 0.987,
                 :conventional_fuel_efficiency_highway_multiplier => 0.996
   
-  col :name
-  col :type_name
-  col :fuel_efficiency_city, :type => :float
-  col :fuel_efficiency_city_units
-  col :fuel_efficiency_highway, :type => :float
-  col :fuel_efficiency_highway_units
-  col :hybrid_fuel_efficiency_city_multiplier, :type => :float
-  col :hybrid_fuel_efficiency_highway_multiplier, :type => :float
-  col :conventional_fuel_efficiency_city_multiplier, :type => :float
-  col :conventional_fuel_efficiency_highway_multiplier, :type => :float
   
   warn_unless_size 15
   warn_if_nulls_except(

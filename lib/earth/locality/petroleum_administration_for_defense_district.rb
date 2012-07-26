@@ -1,4 +1,16 @@
 class PetroleumAdministrationForDefenseDistrict < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "petroleum_districts"
+  (
+     "code"             CHARACTER VARYING(255) NOT NULL,
+     "district_code"    CHARACTER VARYING(255),
+     "district_name"    CHARACTER VARYING(255),
+     "subdistrict_code" CHARACTER VARYING(255),
+     "subdistrict_name" CHARACTER VARYING(255)
+  );
+ALTER TABLE "petroleum_districts" ADD PRIMARY KEY ("code")
+EOS
+
   self.primary_key = "code"
   self.table_name = :petroleum_districts
   
@@ -8,11 +20,6 @@ class PetroleumAdministrationForDefenseDistrict < ActiveRecord::Base
     str
   end
   
-  col :code
-  col :district_code
-  col :district_name
-  col :subdistrict_code
-  col :subdistrict_name
 
   warn_if_nulls_except(
     :subdistrict_code,

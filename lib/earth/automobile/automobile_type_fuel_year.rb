@@ -1,4 +1,22 @@
 class AutomobileTypeFuelYear < ActiveRecord::Base
+  TABLE_STRUCTURE = <<-EOS
+CREATE TABLE "automobile_type_fuel_years"
+  (
+     "name"                      CHARACTER VARYING(255) NOT NULL,
+     "type_name"                 CHARACTER VARYING(255),
+     "fuel_family"               CHARACTER VARYING(255),
+     "year"                      INTEGER,
+     "share_of_type"             FLOAT,
+     "annual_distance"           FLOAT,
+     "annual_distance_units"     CHARACTER VARYING(255),
+     "ch4_emission_factor"       FLOAT,
+     "ch4_emission_factor_units" CHARACTER VARYING(255),
+     "n2o_emission_factor"       FLOAT,
+     "n2o_emission_factor_units" CHARACTER VARYING(255)
+  );
+ALTER TABLE "automobile_type_fuel_years" ADD PRIMARY KEY ("name")
+EOS
+
   self.primary_key = "name"
   
   # Used by Automobile and AutomobileTrip
@@ -15,17 +33,6 @@ class AutomobileTypeFuelYear < ActiveRecord::Base
     AutomobileTypeFuelYearControl.find_all_by_type_name_and_fuel_family_and_closest_year(type_name, fuel_family, year)
   end
   
-  col :name
-  col :type_name
-  col :fuel_family
-  col :year, :type => :integer
-  col :share_of_type, :type => :float
-  col :annual_distance, :type => :float
-  col :annual_distance_units
-  col :ch4_emission_factor, :type => :float
-  col :ch4_emission_factor_units
-  col :n2o_emission_factor, :type => :float
-  col :n2o_emission_factor_units
   
   warn_unless_size 124
 end
