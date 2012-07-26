@@ -16,7 +16,7 @@ module Earth
 
       c.execute %{DROP TABLE IF EXISTS "#{table_name}"}
 
-      statements = const_get(:TABLE_STRUCTURE).gsub(COMMENT, '').gsub(WHITESPACE, ' ').split(SEMICOLON)
+      statements = const_get(:TABLE_STRUCTURE).gsub(COMMENT, '').gsub(WHITESPACE, ' ').split(SEMICOLON).select(&:present?)
 
       # change how primary keys are defined if we're using sqlite
       if c.adapter_name =~ SQLITE
