@@ -2,18 +2,14 @@ class State < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "states"
   (
-     "postal_abbreviation"                                CHARACTER VARYING(255)
-     NOT NULL,
+     "postal_abbreviation"                                CHARACTER VARYING(255) NOT NULL,
      "fips_code"                                          INTEGER,
-     "name"                                               CHARACTER VARYING(255)
-     ,
+     "name"                                               CHARACTER VARYING(255),
      "census_division_number"                             INTEGER,
-     "petroleum_administration_for_defense_district_code" CHARACTER VARYING(255)
-     ,
+     "petroleum_administration_for_defense_district_code" CHARACTER VARYING(255),
      "population"                                         INTEGER,
      "electricity_emission_factor"                        FLOAT,
-     "electricity_emission_factor_units"                  CHARACTER VARYING(255)
-     ,
+     "electricity_emission_factor_units"                  CHARACTER VARYING(255),
      "electricity_loss_factor"                            FLOAT
   );
 ALTER TABLE "states" ADD PRIMARY KEY ("postal_abbreviation")

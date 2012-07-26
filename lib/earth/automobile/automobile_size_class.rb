@@ -2,8 +2,7 @@ class AutomobileSizeClass < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "automobile_size_classes"
   (
-     "name"                                            CHARACTER VARYING(255)
-     NOT NULL,
+     "name"                                            CHARACTER VARYING(255) NOT NULL,
      "type_name"                                       CHARACTER VARYING(255),
      "fuel_efficiency_city"                            FLOAT,
      "fuel_efficiency_city_units"                      CHARACTER VARYING(255),
