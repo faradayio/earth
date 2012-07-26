@@ -5,10 +5,6 @@ require 'earth/rail/data_miner'
 
 Country.class_eval do
   data_miner do
-    process "Start from scratch" do
-      delete_all
-    end
-    
     # http://www.iso.org/iso/list-en1-semic-3.txt
     # http://unstats.un.org/unsd/methods/m49/m49alpha.htm
     import "OpenGeoCode.org's Country Codes to Country Names list",

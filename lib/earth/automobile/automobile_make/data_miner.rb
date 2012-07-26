@@ -1,9 +1,5 @@
 AutomobileMake.class_eval do
   data_miner do
-    process "Start from scratch" do
-      delete_all
-    end
-    
     process "Ensure AutomobileMakeYear is populated" do
       AutomobileMakeYear.run_data_miner!
     end

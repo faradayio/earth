@@ -1,9 +1,5 @@
 AutomobileMakeYearFleet.class_eval do
   data_miner do
-    process "Start from scratch" do
-      delete_all
-    end
-    
     import "annual corporate average fuel economy data for domestic and imported vehicle fleets from the NHTSA",
            :url => "file://#{Earth::DATA_DIR}/automobile/cafe_data.csv",
            :errata => { :url => "file://#{Earth::ERRATA_DIR}/automobile_make_year_fleet/cafe_errata.csv", :encoding => 'ISO-8859-1' },

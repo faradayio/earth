@@ -2,10 +2,6 @@ require 'earth/fuel/data_miner'
 
 AutomobileFuel.class_eval do
   data_miner do
-    process "Start from scratch" do
-      delete_all
-    end
-    
     import "a Brighter Planet-curated list of automobile fuels",
            :url => "file://#{Earth::DATA_DIR}/automobile/auto_fuel_data.csv" do
       key   'name'

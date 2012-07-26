@@ -1,9 +1,5 @@
 CommercialBuildingEnergyConsumptionSurveyResponse.class_eval do
   data_miner do
-    process "Start from scratch" do
-      delete_all
-    end
-    
     import 'building characteristics from the 2003 EIA CBECS - part 1',
            :url => 'http://www.eia.gov/emeu/cbecs/cbecs2003/public_use_2003/data/FILE01.csv',
            :skip => 1,

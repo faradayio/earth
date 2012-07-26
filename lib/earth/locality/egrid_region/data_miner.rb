@@ -1,9 +1,5 @@
 EgridRegion.class_eval do
   data_miner do
-    process "Start from scratch" do
-      delete_all
-    end
-    
     import "eGRID 2012 region data",
            :url => 'http://www.epa.gov/cleanenergy/documents/egridzips/eGRID2012V1_0_year09_DATA.xls',
            :sheet => 'GGL09',

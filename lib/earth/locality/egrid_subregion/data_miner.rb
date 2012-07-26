@@ -2,10 +2,6 @@ require 'earth/fuel/data_miner'
 
 EgridSubregion.class_eval do
   data_miner do
-    process "Start from scratch" do
-      delete_all
-    end
-    
     import "eGRID 2012 subregion data",
            :url => 'http://www.epa.gov/cleanenergy/documents/egridzips/eGRID2012V1_0_year09_DATA.xls',
            :sheet => 'SRL09',

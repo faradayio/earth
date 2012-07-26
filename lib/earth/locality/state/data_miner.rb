@@ -1,9 +1,5 @@
 State.class_eval do
   data_miner do
-    process "Start from scratch" do
-      delete_all
-    end
-    
     # state names, FIPS codes, and postal abbreviations
     import 'the U.S. Census State ANSI Code file',
            :url => 'http://www.census.gov/geo/www/ansi/state.txt',

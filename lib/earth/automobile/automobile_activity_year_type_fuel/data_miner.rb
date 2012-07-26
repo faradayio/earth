@@ -1,9 +1,5 @@
 AutomobileActivityYearTypeFuel.class_eval do
   data_miner do
-    process "Start from scratch" do
-      delete_all
-    end
-    
     ['Passenger cars', 'Light-duty trucks'].each do |type|
       import "annual vehicle miles travelled by gasoline #{type.downcase} from the 2011 EPA GHG Inventory",
              :url => 'http://www.epa.gov/climatechange/emissions/downloads11/Annex%20Tables.zip',

@@ -21,10 +21,6 @@ Airport.class_eval do
   end
   
   data_miner do
-    process "Start from scratch" do
-      delete_all
-    end
-    
     process "Ensure Country is populated" do
       Country.run_data_miner!
     end

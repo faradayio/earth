@@ -346,10 +346,6 @@ AutomobileMakeModelYearVariant.class_eval do
     end
     
     fuel_economy_guides.each do |year, options|
-      process "Clear old data from #{year}" do
-        where(:year => year).delete_all
-      end
-      
       import "#{year} Fuel Economy Guide", options do
         key   'row_hash'
         store 'make_name'

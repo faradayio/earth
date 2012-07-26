@@ -1,9 +1,5 @@
 ZipCode.class_eval do
   data_miner do
-    process "Start from scratch" do
-      delete_all
-    end
-    
     import 'the Mapping Hacks zipcode database',
            :url => 'http://mappinghacks.com/data/zipcode.zip', # http://archive.data.brighterplanet.com/zipcode.zip
            :filename => 'zipcode.csv' do

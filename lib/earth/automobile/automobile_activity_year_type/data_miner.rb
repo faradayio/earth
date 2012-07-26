@@ -1,9 +1,5 @@
 AutomobileActivityYearType.class_eval do
   data_miner do
-    process "Start from scratch" do
-      delete_all
-    end
-    
     import "annual automobile air conditioning emissions derived from the 2010 EPA GHG Inventory",
            :url => "file://#{Earth::DATA_DIR}/automobile/hfc_emissions.csv" do
       key   'name'

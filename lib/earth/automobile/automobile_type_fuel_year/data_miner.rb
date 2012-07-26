@@ -1,9 +1,5 @@
 AutomobileTypeFuelYear.class_eval do
   data_miner do
-    process "Start from scratch" do
-      delete_all
-    end
-    
     [['gasoline', 'G'], ['diesel', 'D']].each do |fuel, fuel_code|
       [['Passenger cars', 'V'], ['Light-duty trucks', 'T']].each do |type, type_code|
         code = "LD" + fuel_code + type_code
