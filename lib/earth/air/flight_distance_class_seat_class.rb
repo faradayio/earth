@@ -2,6 +2,9 @@ require 'falls_back_on'
 
 require 'earth/model'
 
+require 'earth/air/flight_distance_class'
+require 'earth/air/flight_seat_class'
+
 class FlightDistanceClassSeatClass < ActiveRecord::Base
   extend Earth::Model
 

@@ -1,6 +1,7 @@
 require 'earth/model'
-require 'earth/fuel'
-require 'earth/locality'
+
+require 'earth/locality/country'
+
 class RailCompany < ActiveRecord::Base
   extend Earth::Model
 

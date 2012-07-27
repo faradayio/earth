@@ -1,5 +1,7 @@
 require 'earth/model'
-require 'earth/locality'
+
+require 'earth/rail/national_transit_database_record'
+
 class NationalTransitDatabaseCompany < ActiveRecord::Base
   extend Earth::Model
 

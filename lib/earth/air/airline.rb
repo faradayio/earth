@@ -1,4 +1,5 @@
 require 'earth/model'
+
 require 'earth/air/flight_segment'
 
 class Airline < ActiveRecord::Base

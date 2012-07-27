@@ -3,7 +3,8 @@ require 'fuzzy_match/cached_result'
 
 require 'earth/model'
 
-require 'earth/locality'
+require 'earth/air/aircraft'
+require 'earth/air/airline'
 
 class FlightSegment < ActiveRecord::Base
   extend Earth::Model

@@ -1,5 +1,7 @@
 require 'earth/model'
 
+require 'earth/pet/breed_gender'
+
 class Gender < ActiveRecord::Base
   extend Earth::Model
 

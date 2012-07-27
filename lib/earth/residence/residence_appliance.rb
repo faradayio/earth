@@ -1,4 +1,5 @@
 require 'earth/model'
+
 class ResidenceAppliance < ActiveRecord::Base
   extend Earth::Model
 

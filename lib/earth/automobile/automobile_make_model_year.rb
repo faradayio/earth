@@ -1,5 +1,7 @@
 require 'earth/model'
 
+require 'earth/automobile/automobile_fuel'
+
 class AutomobileMakeModelYear < ActiveRecord::Base
   extend Earth::Model
 

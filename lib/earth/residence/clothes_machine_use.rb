@@ -1,4 +1,7 @@
 require 'earth/model'
+
+require 'earth/residence/residential_energy_consumption_survey_response'
+
 class ClothesMachineUse < ActiveRecord::Base
   extend Earth::Model
 

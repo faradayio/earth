@@ -2,6 +2,8 @@ require 'falls_back_on'
 
 require 'earth/model'
 
+require 'earth/pet/breed'
+
 class Species < ActiveRecord::Base
   extend Earth::Model
 

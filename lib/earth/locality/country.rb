@@ -2,9 +2,8 @@ require 'falls_back_on'
 
 require 'earth/model'
 
-require 'earth/automobile'
-require 'earth/hospitality'
-require 'earth/rail'
+require 'earth/electricity/electricity_mix'
+require 'earth/rail/rail_company'
 
 class Country < ActiveRecord::Base
   extend Earth::Model

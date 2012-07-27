@@ -1,5 +1,8 @@
 require 'earth/model'
 
+require 'earth/industry/industry'
+require 'earth/industry/merchant_category_industry'
+
 class MerchantCategory < ActiveRecord::Base
   extend Earth::Model
 

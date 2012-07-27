@@ -1,5 +1,7 @@
 require 'earth/model'
 
+require 'earth/fuel/fuel_type'
+
 class FuelPrice < ActiveRecord::Base
   extend Earth::Model
 

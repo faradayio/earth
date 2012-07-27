@@ -1,4 +1,7 @@
 require 'earth/model'
+  
+require 'earth/locality/state'
+require 'earth/locality/zip_code'
 
 class ClimateDivision < ActiveRecord::Base
   extend Earth::Model

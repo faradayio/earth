@@ -2,6 +2,8 @@ require 'falls_back_on'
 
 require 'earth/model'
 
+require 'earth/residence/residential_energy_consumption_survey_response'
+
 class AirConditionerUse < ActiveRecord::Base
   extend Earth::Model
 

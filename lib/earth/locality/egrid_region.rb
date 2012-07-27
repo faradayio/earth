@@ -3,6 +3,7 @@ require 'falls_back_on'
 require 'earth/model'
 
 require 'earth/locality/egrid_country'
+require 'earth/locality/egrid_subregion'
 
 class EgridRegion < ActiveRecord::Base
   extend Earth::Model

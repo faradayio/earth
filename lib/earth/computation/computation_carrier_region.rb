@@ -1,5 +1,7 @@
 require 'earth/model'
-require 'earth/locality'
+
+require 'earth/locality/egrid_subregion'
+
 class ComputationCarrierRegion < ActiveRecord::Base
   extend Earth::Model
 

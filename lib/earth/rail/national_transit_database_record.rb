@@ -1,5 +1,8 @@
 require 'earth/model'
-require 'earth/fuel'
+
+require 'earth/rail/national_transit_database_company'
+require 'earth/rail/national_transit_database_mode'
+
 class NationalTransitDatabaseRecord < ActiveRecord::Base
   extend Earth::Model
 

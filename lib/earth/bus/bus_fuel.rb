@@ -1,6 +1,8 @@
 require 'earth/model'
 
-require 'earth/fuel'
+require 'earth/bus/bus_fuel_year_control'
+require 'earth/fuel/fuel'
+
 class BusFuel < ActiveRecord::Base
   extend Earth::Model
 

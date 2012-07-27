@@ -1,5 +1,8 @@
 require 'earth/model'
-require 'earth/locality'
+
+require 'earth/industry/industry'
+require 'earth/industry/sector'
+
 class IndustrySector < ActiveRecord::Base
   extend Earth::Model
 
@@ -17,5 +20,4 @@ EOS
   
   belongs_to :industry,  :foreign_key => 'naics_code'
   belongs_to :sector,    :foreign_key => 'io_code'
-
 end
