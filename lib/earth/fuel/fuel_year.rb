@@ -6,7 +6,7 @@ class FuelYear < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "fuel_years"
   (
-     "name"                               CHARACTER VARYING(255) NOT NULL,
+     "name"                               CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "fuel_name"                          CHARACTER VARYING(255),
      "year"                               INTEGER,
      "energy_content"                     FLOAT,
@@ -20,7 +20,6 @@ CREATE TABLE "fuel_years"
      "co2_biogenic_emission_factor"       FLOAT,
      "co2_biogenic_emission_factor_units" CHARACTER VARYING(255)
   );
-ALTER TABLE "fuel_years" ADD PRIMARY KEY ("name")
 EOS
 
   self.primary_key = "name"

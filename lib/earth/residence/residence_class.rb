@@ -5,9 +5,8 @@ class ResidenceClass < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "residence_classes"
   (
-     "name" CHARACTER VARYING(255) NOT NULL
+     "name" CHARACTER VARYING(255) NOT NULL PRIMARY KEY
   );
-ALTER TABLE "residence_classes" ADD PRIMARY KEY ("name")
 EOS
 
   self.primary_key = "name"

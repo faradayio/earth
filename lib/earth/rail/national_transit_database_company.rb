@@ -6,13 +6,12 @@ class NationalTransitDatabaseCompany < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "ntd_companies"
   (
-     "id"            CHARACTER VARYING(255) NOT NULL,
+     "id"            CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "name"          CHARACTER VARYING(255),
      "acronym"       CHARACTER VARYING(255),
      "zip_code_name" CHARACTER VARYING(255),
      "duns_number"   CHARACTER VARYING(255)
   );
-ALTER TABLE "ntd_companies" ADD PRIMARY KEY ("id")
 EOS
 
   self.primary_key = "id"

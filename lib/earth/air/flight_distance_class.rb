@@ -6,7 +6,7 @@ class FlightDistanceClass < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "flight_distance_classes"
   (
-     "name"               CHARACTER VARYING(255) NOT NULL,
+     "name"               CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "distance"           FLOAT,
      "distance_units"     CHARACTER VARYING(255),
      "min_distance"       FLOAT,
@@ -14,7 +14,6 @@ CREATE TABLE "flight_distance_classes"
      "max_distance"       FLOAT,
      "max_distance_units" CHARACTER VARYING(255)
   );
-ALTER TABLE "flight_distance_classes" ADD PRIMARY KEY ("name")
 EOS
 
   self.primary_key = "name"

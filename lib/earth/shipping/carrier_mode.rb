@@ -6,7 +6,7 @@ class CarrierMode < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "carrier_modes"
   (
-     "name"                            CHARACTER VARYING(255) NOT NULL,
+     "name"                            CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "carrier_name"                    CHARACTER VARYING(255),
      "mode_name"                       CHARACTER VARYING(255),
      "package_volume"                  FLOAT,
@@ -14,7 +14,6 @@ CREATE TABLE "carrier_modes"
      "transport_emission_factor"       FLOAT,
      "transport_emission_factor_units" CHARACTER VARYING(255)
   );
-ALTER TABLE "carrier_modes" ADD PRIMARY KEY ("name")
 EOS
 
   self.primary_key = "name"

@@ -10,7 +10,7 @@ class AutomobileFuel < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "automobile_fuels"
   (
-     "name"                               CHARACTER VARYING(255) NOT NULL,
+     "name"                               CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "code"                               CHARACTER VARYING(255),
      "family"                             CHARACTER VARYING(255),
      "distance_key"                       CHARACTER VARYING(255),
@@ -32,7 +32,6 @@ CREATE TABLE "automobile_fuels"
      "total_consumption"                  FLOAT,                  /* for calculating fallback blend_portion */
      "total_consumption_units"            CHARACTER VARYING(255)
   );
-ALTER TABLE "automobile_fuels" ADD PRIMARY KEY ("name")
 EOS
 
   self.primary_key = "name"

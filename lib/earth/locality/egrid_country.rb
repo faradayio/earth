@@ -6,7 +6,7 @@ class EgridCountry < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "egrid_countries"
   (
-     "name"                       CHARACTER VARYING(255) NOT NULL,
+     "name"                       CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "generation"                 FLOAT,
      "generation_units"           CHARACTER VARYING(255),
      "foreign_interchange"        FLOAT,
@@ -17,7 +17,6 @@ CREATE TABLE "egrid_countries"
      "consumption_units"          CHARACTER VARYING(255),
      "loss_factor"                FLOAT
   );
-ALTER TABLE "egrid_countries" ADD PRIMARY KEY ("name")
 EOS
 
   self.primary_key = "name"

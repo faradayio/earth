@@ -8,7 +8,7 @@ class CensusDivision < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "census_divisions"
   (
-     "number"                                         INTEGER NOT NULL,
+     "number"                                         INTEGER NOT NULL PRIMARY KEY,
      "name"                                           CHARACTER VARYING(255),
      "census_region_name"                             CHARACTER VARYING(255),
      "census_region_number"                           INTEGER,
@@ -21,7 +21,6 @@ CREATE TABLE "census_divisions"
      "meeting_building_district_heat_intensity"       FLOAT,
      "meeting_building_district_heat_intensity_units" CHARACTER VARYING(255)
   );
-ALTER TABLE "census_divisions" ADD PRIMARY KEY ("number")
 EOS
 
   self.primary_key = "number"

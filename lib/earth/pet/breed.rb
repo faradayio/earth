@@ -6,12 +6,11 @@ class Breed < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "breeds"
   (
-     "name"         CHARACTER VARYING(255) NOT NULL,
+     "name"         CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "species_name" CHARACTER VARYING(255),
      "weight"       FLOAT,
      "weight_units" CHARACTER VARYING(255)
   );
-ALTER TABLE "breeds" ADD PRIMARY KEY ("name")
 EOS
 
   self.primary_key = "name"

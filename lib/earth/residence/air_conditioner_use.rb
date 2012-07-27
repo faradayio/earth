@@ -8,11 +8,10 @@ class AirConditionerUse < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "air_conditioner_uses"
   (
-     "name"                    CHARACTER VARYING(255) NOT NULL,
+     "name"                    CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "fugitive_emission"       FLOAT,
      "fugitive_emission_units" CHARACTER VARYING(255)
   );
-ALTER TABLE "air_conditioner_uses" ADD PRIMARY KEY ("name")
 EOS
 
   self.primary_key = "name"

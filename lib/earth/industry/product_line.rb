@@ -6,12 +6,11 @@ class ProductLine < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "product_lines"
   (
-     "ps_code"     CHARACTER VARYING(255) NOT NULL,
+     "ps_code"     CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "description" TEXT,
      "broadline"   CHARACTER VARYING(255), /* FIXME TODO do we need this? */
      "parent"      CHARACTER VARYING(255)  /* FIXME TODO do we need this? */
   );
-ALTER TABLE "product_lines" ADD PRIMARY KEY ("ps_code")
 EOS
 
   self.primary_key = "ps_code"

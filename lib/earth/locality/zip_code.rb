@@ -8,7 +8,7 @@ class ZipCode < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "zip_codes"
   (
-     "name"                         CHARACTER VARYING(255) NOT NULL,
+     "name"                         CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "state_postal_abbreviation"    CHARACTER VARYING(255),
      "description"                  CHARACTER VARYING(255),
      "latitude"                     CHARACTER VARYING(255),
@@ -17,7 +17,6 @@ CREATE TABLE "zip_codes"
      "climate_division_name"        CHARACTER VARYING(255),
      "population"                   INTEGER
   );
-ALTER TABLE "zip_codes" ADD PRIMARY KEY ("name")
 EOS
 
   self.primary_key = "name"

@@ -33,10 +33,12 @@ module Earth
   # @param [Hash] options load options
   # * :skip_parent_associations, if true, will not run data_miner on parent associations of a model. For instance, `Airport.run_data_miner!` will not data mine ZipCode, to which it belongs.
   # * :load_data_miner, if true, will load files necessary to data mine from scratch rather than via taps
+  # * :apply_schemas will run `create_table!` on each model
+  # * :connect will connect to the database for you
   def Earth.init(*args)
-    connect
-
     options = args.extract_options!
+
+    connect if options[:connect]
 
     Warnings.check_mysql_ansi_mode
     Loader.load_plugins
@@ -79,9 +81,7 @@ module Earth
   # Connect to the database according to current configurations in
   # Earth.database_configurations and the current environment in Earth.env.
   def Earth.connect
-    unless ActiveRecord::Base.connected?
-      ActiveRecord::Base.establish_connection(Earth.database_configurations[Earth.env])
-    end
+    ActiveRecord::Base.establish_connection Earth.database_configurations[Earth.env]
   end
 
   # The current environment. Earth detects the following environment variables:

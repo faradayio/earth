@@ -8,8 +8,7 @@ class AutomobileSizeClass < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "automobile_size_classes"
   (
-     "name"                                            CHARACTER VARYING(255)
-     NOT NULL,
+     "name"                                            CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "type_name"                                       CHARACTER VARYING(255),
      "fuel_efficiency_city"                            FLOAT,
      "fuel_efficiency_city_units"                      CHARACTER VARYING(255),
@@ -20,7 +19,6 @@ CREATE TABLE "automobile_size_classes"
      "conventional_fuel_efficiency_city_multiplier"    FLOAT,
      "conventional_fuel_efficiency_highway_multiplier" FLOAT
   );
-ALTER TABLE "automobile_size_classes" ADD PRIMARY KEY ("name")
 EOS
 
   self.primary_key = "name"

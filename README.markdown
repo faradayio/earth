@@ -131,7 +131,7 @@ help manage your Earth models using data_miner and active_record_inline_schema i
 
 Of note are the following tasks:
 
-* `rake db:migrate` runs `.auto_upgrade!` on each Earth resource model.
+* `rake db:migrate` runs `.create_table!` on each Earth resource model.
 * `rake db:seed` runs `.run_data_miner!` on each Earth resource model.
 
 ## Collaboration cycle 

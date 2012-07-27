@@ -8,10 +8,9 @@ class ComputationCarrier < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "computation_carriers"
   (
-     "name"                      CHARACTER VARYING(255) NOT NULL,
+     "name"                      CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "power_usage_effectiveness" FLOAT
   );
-ALTER TABLE "computation_carriers" ADD PRIMARY KEY ("name")
 EOS
 
   self.primary_key = "name"

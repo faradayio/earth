@@ -6,7 +6,7 @@ class AutomobileMakeYearFleet < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "automobile_make_year_fleets"
   (
-     "name"                  CHARACTER VARYING(255) NOT NULL,
+     "name"                  CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "make_name"             CHARACTER VARYING(255),
      "year"                  INTEGER,
      "fleet"                 CHARACTER VARYING(255),
@@ -14,7 +14,6 @@ CREATE TABLE "automobile_make_year_fleets"
      "fuel_efficiency_units" CHARACTER VARYING(255),
      "volume"                INTEGER
   );
-ALTER TABLE "automobile_make_year_fleets" ADD PRIMARY KEY ("name")
 EOS
 
   self.primary_key = "name"

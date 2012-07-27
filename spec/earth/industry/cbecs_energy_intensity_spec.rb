@@ -11,7 +11,7 @@ describe CbecsEnergyIntensity do
   describe 'import', :data_miner => true do
     before do
       require 'earth/industry/cbecs_energy_intensity/data_miner'
-      CbecsEnergyIntensity.auto_upgrade!
+      CbecsEnergyIntensity.create_table!
       CbecsEnergyIntensity.delete_all
     end
     it 'fetches electric, natural gas, fuel oil, and distric heat data' do

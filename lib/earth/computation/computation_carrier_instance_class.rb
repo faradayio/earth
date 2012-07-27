@@ -8,13 +8,12 @@ class ComputationCarrierInstanceClass < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "computation_carrier_instance_classes"
   (
-     "name"                        CHARACTER VARYING(255) NOT NULL,
+     "name"                        CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "computation_carrier_name"    CHARACTER VARYING(255),
      "instance_class"              CHARACTER VARYING(255),
      "electricity_intensity"       FLOAT,
      "electricity_intensity_units" CHARACTER VARYING(255)
   );
-ALTER TABLE "computation_carrier_instance_classes" ADD PRIMARY KEY ("name")
 EOS
 
   self.primary_key = "name"

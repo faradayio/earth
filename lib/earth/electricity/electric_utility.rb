@@ -7,14 +7,13 @@ class ElectricUtility < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "electric_utilities"
   (
-     "eia_id"                          INTEGER NOT NULL,
+     "eia_id"                          INTEGER NOT NULL PRIMARY KEY,
      "name"                            CHARACTER VARYING(255),
      "nickname"                        CHARACTER VARYING(255),
      "state_postal_abbreviation"       CHARACTER VARYING(255),
      "nerc_region_abbreviation"        CHARACTER VARYING(255),
      "second_nerc_region_abbreviation" CHARACTER VARYING(255)
   );
-ALTER TABLE "electric_utilities" ADD PRIMARY KEY ("eia_id")
 EOS
 
   self.primary_key = "eia_id"

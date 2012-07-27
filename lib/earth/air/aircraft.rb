@@ -11,7 +11,7 @@ class Aircraft < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "aircraft"
   (
-     "icao_code"            CHARACTER VARYING(255) NOT NULL,
+     "icao_code"            CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "manufacturer_name"    CHARACTER VARYING(255),
      "model_name"           CHARACTER VARYING(255),
      "description"          CHARACTER VARYING(255),
@@ -33,7 +33,7 @@ CREATE TABLE "aircraft"
      "b_units"              CHARACTER VARYING(255),
      "fuel_use_specificity" CHARACTER VARYING(255)
   );
-ALTER TABLE "aircraft" ADD PRIMARY KEY ("icao_code")
+CREATE INDEX "index_aircraft_on_description" ON "aircraft" ("description");
 EOS
 
   self.primary_key = "icao_code"

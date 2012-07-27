@@ -7,7 +7,7 @@ class CbecsEnergyIntensity < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "cbecs_energy_intensities"
   (
-     "name"                           CHARACTER VARYING(255) NOT NULL,
+     "name"                           CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      "principal_building_activity"    CHARACTER VARYING(255),
      "naics_code"                     CHARACTER VARYING(255),
      "census_region_number"           INTEGER,
@@ -37,7 +37,6 @@ CREATE TABLE "cbecs_energy_intensities"
      "district_heat_intensity"        FLOAT,
      "district_heat_intensity_units"  CHARACTER VARYING(255)
   );
-ALTER TABLE "cbecs_energy_intensities" ADD PRIMARY KEY ("name");
 CREATE INDEX "index_cbecs_energy_intensities_on_naics_code" ON "cbecs_energy_intensities" ("naics_code");
 CREATE INDEX "index_cbecs_energy_intensities_on_census_region_number" ON "cbecs_energy_intensities" ("census_region_number");
 CREATE INDEX "index_cbecs_energy_intensities_on_census_division_number" ON "cbecs_energy_intensities" ("census_division_number")

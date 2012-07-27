@@ -6,7 +6,7 @@ class CommercialBuildingEnergyConsumptionSurveyResponse < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "cbecs_responses"
   (
-     "id"                                 INTEGER NOT NULL,
+     "id"                                 INTEGER NOT NULL PRIMARY KEY,
      "census_region_number"               INTEGER,
      "census_division_number"             INTEGER,
      "climate_zone_number"                INTEGER,
@@ -63,7 +63,6 @@ CREATE TABLE "cbecs_responses"
      "district_heat_per_room_night"       FLOAT,
      "district_heat_per_room_night_units" CHARACTER VARYING(255)
   );
-ALTER TABLE "cbecs_responses" ADD PRIMARY KEY ("id")
 EOS
 
   self.primary_key = "id"
