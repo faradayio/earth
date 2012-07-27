@@ -41,7 +41,7 @@ module Earth
   # @param [Hash] options load options
   # * :skip_parent_associations, if true, will not run data_miner on parent associations of a model. For instance, `Airport.run_data_miner!` will not data mine ZipCode, to which it belongs.
   # * :load_data_miner, if true, will load files necessary to data mine from scratch rather than via taps
-  # * :apply_schemas will run `auto_upgrade!` on each model
+  # * :apply_schemas will run `create_table!` on each model
   def Earth.init(*args)
     connect
 
