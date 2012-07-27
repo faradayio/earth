@@ -2,7 +2,7 @@ class AutomobileYear < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "automobile_years"
   (
-     "year" INTEGER NOT NULL PRIMARY KEY,
+     "year" INTEGER NOT NULL PRIMARY KEY
   );
 EOS
 
