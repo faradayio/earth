@@ -131,7 +131,7 @@ module Earth
   #
   # Default is `development`
   def Earth.env
-    @env ||= ActiveSupport::StringInquirer.new(ENV['EARTH_ENV'] || ENV['RAILS_ENV'] || ENV['RACK_ENV'] ||'development')
+    @env ||= ActiveSupport::StringInquirer.new(ENV['EARTH_ENV'] || ENV['RAILS_ENV'] || ENV['RACK_ENV'] || 'development')
   end
 
   # If no domain is specified in Earth.init, the EARTH_DOMAIN environment 
@@ -169,9 +169,8 @@ module Earth
           'database' => database,
         }
       }
-
-      config['username'] = username if username
-      config['password'] = password if password
+      config['test']['username'] = username if username
+      config['test']['password'] = password if password
 
       config
     end
