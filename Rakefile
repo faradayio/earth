@@ -5,25 +5,15 @@ Bundler::GemHelper.install_tasks
 require 'bueller'
 Bueller::Tasks.new
 
-desc "Load a console and connect to the test db"
+desc "Load a test console"
 task :console do
+  ENV['EARTH_ENV'] ||= 'test'
   require 'earth'
-  logger = Logger.new('log/test.log')
-  DataMiner.logger = ActiveRecord::Base.logger = logger
-
-  case ENV['EARTH_DB_ADAPTER']
-  when 'mysql'
-    adapter = 'mysql2'
-    username = 'root'
-    password = 'password'
-  else
-    adapter = 'postgresql'
-    username = nil
-    password = nil
-  end
-  ActiveRecord::Base.establish_connection :adapter => adapter, :username => username, :password => password, :database => 'test_earth'
+  
+  DataMiner.logger = ActiveRecord::Base.logger = Logger.new('log/test.log')
+  
   Earth.init :all
-
+  
   require 'irb'
   ARGV.clear
   IRB.start
