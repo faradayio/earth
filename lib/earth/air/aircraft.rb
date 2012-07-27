@@ -26,6 +26,7 @@ CREATE TABLE "aircraft"
      "b_units"              CHARACTER VARYING(255),
      "fuel_use_specificity" CHARACTER VARYING(255)
   );
+CREATE INDEX "index_aircraft_on_description" ON "aircraft" ("description");
 EOS
 
   self.primary_key = "icao_code"
