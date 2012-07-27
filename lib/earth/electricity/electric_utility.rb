@@ -1,5 +1,9 @@
 require 'earth/model'
-require 'earth/locality'
+
+require 'earth/electricity/elctric_market'
+require 'earth/electricity/green_button_adoption'
+require 'earth/locality/state'
+require 'earth/locality/zip_code'
 
 class ElectricUtility < ActiveRecord::Base
   extend Earth::Model

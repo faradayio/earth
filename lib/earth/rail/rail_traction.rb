@@ -1,4 +1,5 @@
 require 'earth/model'
+
 class RailTraction < ActiveRecord::Base
   extend Earth::Model
 

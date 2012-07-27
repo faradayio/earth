@@ -2,6 +2,8 @@ require 'falls_back_on'
 
 require 'earth/model'
 
+require 'earth/shipping/carrier_mode'
+
 class Carrier < ActiveRecord::Base
   extend Earth::Model
 

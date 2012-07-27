@@ -2,7 +2,8 @@ require 'falls_back_on'
 
 require 'earth/model'
 
-require 'earth/fuel'
+require 'earth/automobile/automobile_type_fuel'
+require 'earth/fuel/fuel'
 
 class AutomobileFuel < ActiveRecord::Base
   extend Earth::Model

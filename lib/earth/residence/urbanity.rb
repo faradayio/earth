@@ -1,5 +1,7 @@
 require 'earth/model'
 
+require 'earth/residence/residential_energy_consumption_survey_response'
+
 class Urbanity < ActiveRecord::Base
   extend Earth::Model
 

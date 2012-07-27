@@ -2,6 +2,13 @@ require 'earth/model'
 require 'earth/loader'
 Earth::Loader.load_plugins
 
+require 'earth/locality/climate_division'
+require 'earth/locality/country'
+require 'earth/locality/egrid_subregion'
+require 'earth/locality/state'
+require 'earth/electricity/electric_market'
+require 'earth/electricity/electric_utility'
+
 class ZipCode < ActiveRecord::Base
   extend Earth::Model
 

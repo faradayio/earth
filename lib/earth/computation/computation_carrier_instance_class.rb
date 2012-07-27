@@ -2,6 +2,8 @@ require 'falls_back_on'
 
 require 'earth/model'
 
+require 'earth/computation/computation_carrier'
+
 class ComputationCarrierInstanceClass < ActiveRecord::Base
   extend Earth::Model
 

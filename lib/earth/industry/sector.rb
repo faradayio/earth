@@ -1,5 +1,7 @@
 require 'earth/model'
 
+require 'industry_sector'
+
 class Sector < ActiveRecord::Base
   extend Earth::Model
 
@@ -16,5 +18,4 @@ EOS
   self.primary_key = "io_code"
 
   has_many :industry_sectors, :foreign_key => 'io_code'
-  
 end

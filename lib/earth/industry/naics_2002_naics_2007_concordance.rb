@@ -1,5 +1,8 @@
 require 'earth/model'
 
+require 'earth/industry/naics_2002'
+require 'earth/industry/naics_2007'
+
 class Naics2002Naics2007Concordance < ActiveRecord::Base
   extend Earth::Model
 

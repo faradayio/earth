@@ -1,5 +1,6 @@
 require 'earth/model'
-require 'earth/locality'
+
+require 'earth/industry/industry'
 
 class MecsEnergy < ActiveRecord::Base
   extend Earth::Model

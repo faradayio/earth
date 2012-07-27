@@ -1,5 +1,7 @@
 require 'earth/model'
-require 'earth/locality'
+
+require 'earth/locality/electric_utility'
+require 'earth/locality/zip_code'
 
 class ElectricMarket < ActiveRecord::Base
   extend Earth::Model
@@ -17,5 +19,4 @@ EOS
   
   belongs_to :electric_utility, :foreign_key => 'electric_utility_eia_id'
   belongs_to :zip_code, :foreign_key => 'zip_code_name'
-  
 end

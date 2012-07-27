@@ -1,5 +1,9 @@
 require 'earth/model'
 
+require 'earth/industry/industry_product'
+require 'earth/industry/industry_product_line'
+require 'earth/industry/product_line_industry_product'
+
 class ProductLine < ActiveRecord::Base
   extend Earth::Model
 

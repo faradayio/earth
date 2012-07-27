@@ -1,5 +1,7 @@
 require 'earth/model'
-require 'earth/locality'
+
+require 'earth/residence/residence_fuel_type'
+
 class ResidenceFuelPrice < ActiveRecord::Base
   extend Earth::Model
 

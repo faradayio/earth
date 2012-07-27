@@ -2,6 +2,8 @@ require 'falls_back_on'
 
 require 'earth/model'
 
+require 'earth/fuel/fuel_price'
+
 # DEPRECATED but FuelPurchase still uses this
 class FuelType < ActiveRecord::Base
   extend Earth::Model

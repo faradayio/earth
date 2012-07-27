@@ -1,5 +1,8 @@
 require 'earth/model'
 
+require 'earth/shipping/carrier'
+require 'earth/shipping/shipment_mode'
+
 class CarrierMode < ActiveRecord::Base
   extend Earth::Model
 
