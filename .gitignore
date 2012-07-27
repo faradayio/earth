@@ -24,3 +24,5 @@ log
 Gemfile.lock
 *.gem
 earth_tester.sqlite3
+
+doc
