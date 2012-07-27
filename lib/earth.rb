@@ -27,6 +27,7 @@ module Earth
   LIB_DIR = ::File.expand_path '../earth', __FILE__
   DATA_DIR = ::File.expand_path '../../data', __FILE__
   ERRATA_DIR = ::File.expand_path '../../errata', __FILE__
+  FACTORY_DIR = ::File.expand_path '../../spec/factories', __FILE__
 
   # Earth.init is the gateway to using Earth. It will load any specified
   # domains, any needed ActiveRecord plugins, and will apply each domain
@@ -39,16 +40,15 @@ module Earth
   #
   # @param [Symbol] domain domain to load, e.g. `:all` (optional)
   # @param [Hash] options load options
-  # * :skip_parent_associations, if true, will not run data_miner on parent associations of a model. For instance, `Airport.run_data_miner!` will not data mine ZipCode, to which it belongs.
   # * :load_data_miner, if true, will load files necessary to data mine from scratch rather than via taps
   # * :apply_schemas will run `auto_upgrade!` on each model
   def Earth.init(*args)
     connect
-
+    
     options = args.extract_options!
     domains = args
     domains << Earth.global_domain if domains.empty?
-
+    
     Warnings.check_mysql_ansi_mode
     Loader.load_plugins
     
@@ -63,15 +63,11 @@ module Earth
     end
     
     # be sure to look at both explicitly and implicitly loaded resources
-    resources.select do |resource|
-      ::Object.const_defined?(resource)
-    end.each do |resource|
+    loaded_resources.each do |resource|
       resource_model = resource.constantize
       resource_model.extend Earth::ActiveRecordClassMethods
       script = resource_model.data_miner_script
-      unless options[:skip_parent_associations]
-        script.append_once :process, :run_data_miner_on_parent_associations!
-      end
+      script.append_once :process, :run_data_miner_on_parent_associations!
       if options[:load_data_miner]
         script.prepend_once :process, :create_table!
       else
@@ -98,7 +94,8 @@ module Earth
     end.compact.uniq.sort
   end
   
-  # List the currently loaded data model class names.
+  # List all data model class names in a particular domain.
+  # Defaults to all domains.
   #
   # @return [Array] a list of camelized resource names
   def Earth.resources(*search_domains)
@@ -114,7 +111,16 @@ module Earth
       end
     end.flatten.compact.sort
   end
-
+  
+  # List the currently loaded data model class names.
+  #
+  # @return [Array] a list of camelized resource names
+  def Earth.loaded_resources(search_domains = nil)
+    resources(search_domains).select do |resource|
+      ::Object.const_defined?(resource)
+    end
+  end
+  
   # Connect to the database according to current configurations in
   # Earth.database_configurations and the current environment in Earth.env.
   def Earth.connect
@@ -182,9 +188,7 @@ module Earth
   # via taps. In order to mine from scratch, call Earth.init 
   # with the :load_data_miner option.
   def Earth.run_data_miner!
-    resources.select do |resource|
-      Object.const_defined?(resource)
-    end.each do |resource|
+    loaded_resources.each do |resource|
       resource.constantize.run_data_miner!
     end
   end

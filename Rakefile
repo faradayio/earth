@@ -20,7 +20,6 @@ task :console do
 end
 
 require 'rspec/core/rake_task'
-desc "Run all examples"
 RSpec::Core::RakeTask.new(:examples) do |c|
   if ENV['RSPEC_FORMAT']
     c.rspec_opts = "-Ispec --format #{ENV['RSPEC_FORMAT']}"
@@ -38,10 +37,8 @@ if RUBY_VERSION =~ /^1\.8/
   end
 end
 
-desc "Run tests with RSpec"
+desc "Run tests with RSpec - see spec/spec_helper for configuration options e.g. data sanity-checking"
 task :test => :examples
-
-desc "Run tests with RSpec"
 task :default => :test
 
 require 'earth/version'
