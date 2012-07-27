@@ -1,4 +1,10 @@
+require 'falls_back_on'
+
+require 'earth/model'
+
 class AutomobileSizeClass < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "automobile_size_classes"
   (

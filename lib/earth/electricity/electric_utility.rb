@@ -1,6 +1,9 @@
+require 'earth/model'
 require 'earth/locality'
 
 class ElectricUtility < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "electric_utilities"
   (

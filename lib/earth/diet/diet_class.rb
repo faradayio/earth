@@ -1,4 +1,8 @@
+require 'earth/model'
+
 class DietClass < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "diet_classes"
   (

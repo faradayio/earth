@@ -1,4 +1,8 @@
+require 'earth/model'
+
 class ProductLine < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "product_lines"
   (

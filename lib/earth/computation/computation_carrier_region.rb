@@ -1,5 +1,8 @@
+require 'earth/model'
 require 'earth/locality'
 class ComputationCarrierRegion < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "computation_carrier_regions"
   (

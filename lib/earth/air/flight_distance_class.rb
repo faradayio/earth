@@ -1,4 +1,8 @@
+require 'earth/model'
+
 class FlightDistanceClass < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "flight_distance_classes"
   (

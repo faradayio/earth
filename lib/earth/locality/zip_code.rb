@@ -1,6 +1,10 @@
-require ::File.join(Earth::VENDOR_DIR, 'geokit-rails', 'lib', 'geokit-rails') # for acts_as_mappable
+require 'earth/model'
+require 'earth/loader'
+Earth::Loader.load_plugins
 
 class ZipCode < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "zip_codes"
   (

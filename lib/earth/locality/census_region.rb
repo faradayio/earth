@@ -1,4 +1,8 @@
+require 'earth/model'
+
 class CensusRegion < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "census_regions"
   (

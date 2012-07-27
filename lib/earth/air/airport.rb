@@ -1,7 +1,13 @@
-require ::File.join(Earth::VENDOR_DIR, 'geokit-rails', 'lib', 'geokit-rails')
-require 'earth/locality'
+require 'earth/model'
+require 'earth/loader'
+Earth::Loader.load_plugins
+
+require 'earth/locality/country'
+require 'earth/air/flight_segment'
 
 class Airport < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "airports"
   (

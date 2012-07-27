@@ -1,4 +1,7 @@
+require 'earth/model'
 class DishwasherUse < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "dishwasher_uses"
   (

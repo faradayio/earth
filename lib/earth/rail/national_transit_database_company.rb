@@ -1,5 +1,8 @@
+require 'earth/model'
 require 'earth/locality'
 class NationalTransitDatabaseCompany < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "ntd_companies"
   (

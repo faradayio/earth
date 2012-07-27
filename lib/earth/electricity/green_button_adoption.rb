@@ -1,4 +1,8 @@
+require 'earth/model'
+
 class GreenButtonAdoption < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "green_button_adoptions"
   (

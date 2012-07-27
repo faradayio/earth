@@ -1,5 +1,11 @@
+require 'falls_back_on'
+
+require 'earth/model'
+
 # DEPRECATED but FuelPurchase still uses this
 class FuelType < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "fuel_types"
   (

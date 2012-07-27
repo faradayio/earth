@@ -1,4 +1,8 @@
+require 'earth/model'
+
 class FuelPrice < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "fuel_prices"
   (

@@ -1,4 +1,7 @@
+require 'earth/model'
 class ResidenceClass < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "residence_classes"
   (

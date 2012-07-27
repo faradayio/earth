@@ -1,4 +1,8 @@
+require 'earth/model'
+
 class AutomobileTypeFuel < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "automobile_type_fuels"
   (

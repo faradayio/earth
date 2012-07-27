@@ -1,6 +1,13 @@
 require 'fuzzy_match/cached_result'
+require 'falls_back_on'
+
+require 'earth/model'
+
+require 'earth/air/flight_segment'
 
 class Aircraft < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "aircraft"
   (

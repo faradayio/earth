@@ -1,4 +1,8 @@
+require 'earth/model'
+
 class Naics2002Naics2007Concordance < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "naics2002_naics2007_concordances"
   (

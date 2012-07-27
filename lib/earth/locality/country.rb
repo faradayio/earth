@@ -1,8 +1,14 @@
+require 'falls_back_on'
+
+require 'earth/model'
+
 require 'earth/automobile'
 require 'earth/hospitality'
 require 'earth/rail'
 
 class Country < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "countries"
   (

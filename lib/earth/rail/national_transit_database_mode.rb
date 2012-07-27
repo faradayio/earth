@@ -1,4 +1,8 @@
+require 'earth/model'
+
 class NationalTransitDatabaseMode < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "ntd_modes"
   (

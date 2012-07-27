@@ -1,3 +1,4 @@
+require 'earth'
 
 module Earth
   module Loader
@@ -37,9 +38,9 @@ module Earth
     end
     
     def Loader.load_plugins
-      ::Dir[::File.expand_path('../../vendor/**/init.rb', __FILE__)].each do |pluginit|
+      Dir[File.expand_path('../../../vendor/**/init.rb', __FILE__)].each do |pluginit|
         $LOAD_PATH.unshift ::File.join(::File.dirname(pluginit), 'lib')
-        ::Kernel.load pluginit
+        Kernel.load pluginit
       end
     end
   end

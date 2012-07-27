@@ -1,4 +1,8 @@
+require 'earth/model'
+
 class FlightSeatClass < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "flight_seat_classes"
   (

@@ -1,4 +1,8 @@
+require 'earth/model'
+
 class BtsAircraft < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "bts_aircraft"
   (

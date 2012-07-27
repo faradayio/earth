@@ -1,4 +1,8 @@
+require 'earth/model'
+
 class RailClass < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "rail_classes"
   (

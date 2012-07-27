@@ -1,4 +1,8 @@
+require 'earth/model'
+
 class Naics2007 < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "naics_2007"
   (

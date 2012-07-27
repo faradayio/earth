@@ -1,5 +1,10 @@
+require 'falls_back_on'
+
+require 'earth/model'
 require 'earth/fuel'
 class CensusDivision < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "census_divisions"
   (
