@@ -1,20 +1,9 @@
 # encoding: UTF-8
-
 require 'spec_helper'
 require 'earth/air/airport'
 
 describe Airport do
-  describe "when importing data", :data_miner => true do
-    before do
-      Earth.init :air, :load_data_miner => true, :skip_parent_associations => :true
-    end
-    
-    it "imports all airports" do
-      Airport.run_data_miner!
-    end
-  end
-  
-  describe "verify imported data", :sanity => true do
+  describe "Sanity check", :sanity => true do
     it "should have all the data" do
       Airport.count.should == 5324
     end

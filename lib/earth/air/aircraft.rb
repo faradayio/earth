@@ -1,4 +1,5 @@
 require 'fuzzy_match/cached_result'
+require 'earth/air/flight_segment'
 
 class Aircraft < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
@@ -149,7 +150,6 @@ EOS
                 :m1_units => 'kilograms_per_nautical_mile',
                 :b_units  => 'kilograms'
   
-
   warn_if_nulls_except(
     :passengers,
     :seats,
@@ -164,6 +164,6 @@ EOS
     :b_units,
     :fuel_use_specificity
   )
-
+  
   warn_unless_size 437
 end

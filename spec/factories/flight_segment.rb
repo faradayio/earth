@@ -4,10 +4,10 @@ require 'earth/air/flight_segment'
 FactoryGirl.define do
   factory :flight_segment, :class => FlightSegment do
     row_hash { "fake-#{rand(1e11)}" }
-
+    
     trait(:from_lax) { origin_airport_iata_code 'LAX' }
     trait(:from_ord) { origin_airport_iata_code 'ORD' }
-
+    
     trait(:from_los_angeles) { origin_airport_city 'Los Angeles' }
     trait(:from_chicago) { origin_airport_city 'Chicago' }
     
@@ -15,7 +15,7 @@ FactoryGirl.define do
     trait(:to_msn) { destination_airport_iata_code 'MSN' }
     trait(:to_lax) { destination_airport_iata_code 'LAX' }
     trait(:to_ord) { destination_airport_iata_code 'ORD' }
-
+    
     trait(:to_los_angeles) { destination_airport_city 'Los Angeles' }
     trait(:to_chicago) { destination_airport_city 'Chicago' }
     

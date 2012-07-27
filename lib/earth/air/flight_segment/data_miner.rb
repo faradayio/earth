@@ -1,5 +1,7 @@
 require 'timeframe'
-require 'earth/locality/data_miner'
+require 'earth/air/aircraft'
+require 'earth/air/airline'
+require 'earth/air/bts_aircraft'
 
 FlightSegment.class_eval do
   # For import errata
