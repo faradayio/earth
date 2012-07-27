@@ -1,5 +1,8 @@
+require 'earth/model'
 require 'earth/locality'
 class ResidentialEnergyConsumptionSurveyResponse < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "recs_responses"
   (

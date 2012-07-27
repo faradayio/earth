@@ -1,4 +1,8 @@
+require 'earth/model'
+
 class MerchantCategory < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "merchant_categories"
   (

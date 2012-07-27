@@ -1,4 +1,8 @@
+require 'earth/model'
+
 class PetroleumAdministrationForDefenseDistrict < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "petroleum_districts"
   (

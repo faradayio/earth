@@ -1,5 +1,10 @@
-require 'earth/fuel'
+require 'falls_back_on'
+
+require 'earth/model'
+
 class BusClass < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "bus_classes"
   (

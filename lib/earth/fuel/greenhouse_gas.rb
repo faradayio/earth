@@ -1,4 +1,8 @@
+require 'earth/model'
+
 class GreenhouseGas < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "greenhouse_gases"
   (

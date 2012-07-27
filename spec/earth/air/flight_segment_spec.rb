@@ -1,5 +1,7 @@
 require 'spec_helper'
 require 'earth/air/flight_segment'
+require 'factories/flight_segment'
+require 'factories/airline'
 
 describe FlightSegment do
   describe 'import', :data_miner => true do

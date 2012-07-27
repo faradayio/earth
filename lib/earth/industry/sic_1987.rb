@@ -1,4 +1,8 @@
+require 'earth/model'
+
 class Sic1987 < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "sic_1987"
   (

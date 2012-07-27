@@ -1,5 +1,8 @@
+require 'earth/model'
 require 'earth/locality'
 class CountryRailClass < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "country_rail_classes"
   (

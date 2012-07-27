@@ -1,4 +1,10 @@
+require 'falls_back_on'
+
+require 'earth/model'
+
 class Species < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "species"
   (

@@ -1,4 +1,8 @@
+require 'earth/model'
+
 class Urbanity < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "urbanities"
   (

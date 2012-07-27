@@ -1,6 +1,12 @@
+require 'falls_back_on'
+
+require 'earth/model'
+
 require 'earth/fuel'
 
 class AutomobileFuel < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "automobile_fuels"
   (

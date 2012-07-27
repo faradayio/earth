@@ -1,5 +1,9 @@
+require 'earth/model'
+
 # TODO replace this with NAICS 2002?
 class Industry < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "industries"
   (

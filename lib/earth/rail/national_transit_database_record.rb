@@ -1,5 +1,8 @@
+require 'earth/model'
 require 'earth/fuel'
 class NationalTransitDatabaseRecord < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "ntd_records"
   (

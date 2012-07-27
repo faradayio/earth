@@ -1,4 +1,9 @@
+require 'earth/model'
+require 'earth/air/flight_segment'
+
 class Airline < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "airlines"
   (

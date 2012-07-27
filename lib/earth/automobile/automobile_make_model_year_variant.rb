@@ -1,4 +1,8 @@
+require 'earth/model'
+
 class AutomobileMakeModelYearVariant < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "automobile_make_model_year_variants"
   (

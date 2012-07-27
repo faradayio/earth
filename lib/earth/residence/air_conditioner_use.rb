@@ -1,4 +1,10 @@
+require 'falls_back_on'
+
+require 'earth/model'
+
 class AirConditionerUse < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "air_conditioner_uses"
   (

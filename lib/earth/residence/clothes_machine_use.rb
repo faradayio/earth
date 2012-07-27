@@ -1,4 +1,7 @@
+require 'earth/model'
 class ClothesMachineUse < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "clothes_machine_uses"
   (

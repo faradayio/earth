@@ -1,6 +1,12 @@
+require 'falls_back_on'
+
+require 'earth/model'
+
 require 'earth/locality/egrid_country'
 
 class EgridRegion < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "egrid_regions"
   (

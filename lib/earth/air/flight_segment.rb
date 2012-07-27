@@ -1,7 +1,13 @@
-require 'earth/locality'
+require 'falls_back_on'
 require 'fuzzy_match/cached_result'
 
+require 'earth/model'
+
+require 'earth/locality'
+
 class FlightSegment < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "flight_segments"
   (

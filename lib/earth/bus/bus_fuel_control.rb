@@ -1,5 +1,9 @@
+require 'earth/model'
+
 require 'earth/fuel'
 class BusFuelControl < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "bus_fuel_controls"
   (

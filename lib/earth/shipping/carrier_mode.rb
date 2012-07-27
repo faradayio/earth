@@ -1,4 +1,8 @@
+require 'earth/model'
+
 class CarrierMode < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "carrier_modes"
   (

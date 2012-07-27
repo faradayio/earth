@@ -1,4 +1,8 @@
+require 'earth/model'
+
 class CommercialBuildingEnergyConsumptionSurveyResponse < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "cbecs_responses"
   (

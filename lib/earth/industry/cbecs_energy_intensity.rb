@@ -1,6 +1,9 @@
+require 'earth/model'
 require 'earth/locality'
 
 class CbecsEnergyIntensity < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "cbecs_energy_intensities"
   (

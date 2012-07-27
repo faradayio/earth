@@ -1,21 +1,16 @@
-require 'rubygems'
-require 'bundler'
-Bundler.setup
-require 'logger'
+require 'bundler/setup'
+
 require 'active_record'
 require 'data_miner'
-$LOAD_PATH.unshift(File.dirname(__FILE__))
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+
+require 'factory_girl'
 
 ENV['EARTH_ENV'] ||= 'test'
-
-require 'earth'
 
 require 'support/integration'
 include Integration
 
-Earth.logger.level = Logger::DEBUG
-
+require 'logger'
 logger = Logger.new 'log/test.log'
 ActiveRecord::Base.logger = logger
 DataMiner.logger = logger
@@ -27,14 +22,16 @@ RSpec.configure do |c|
     c.filter_run_excluding :data_miner => true
     c.filter_run_excluding :sanity => true
   end
+  if ENV['SKIP_FLIGHT_SEGMENT'] == 'true'
+    c.filter_run_excluding :flight_segment => true
+  end
+
   c.before :all do
-    Earth.init :all, :load_data_miner => true, :skip_parent_associations => :true
+    require 'earth'
+    Earth.init :load_data_miner => true, :skip_parent_associations => :true
   end
   c.before :all, :data_miner => true do
     Earth.run_data_miner!
-  end
-  if ENV['SKIP_FLIGHT_SEGMENT'] == 'true'
-    c.filter_run_excluding :flight_segment => true
   end
 
   c.before(:each) do
@@ -47,5 +44,3 @@ RSpec.configure do |c|
     ActiveRecord::Base.connection.decrement_open_transactions
   end
 end
-
-Dir["#{File.dirname(__FILE__)}/factories/*.rb"].each { |path| require path }

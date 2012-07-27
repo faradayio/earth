@@ -1,6 +1,9 @@
+require 'earth/model'
 require 'earth/locality'
 
 class MecsEnergy < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "mecs_energies"
   (

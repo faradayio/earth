@@ -1,4 +1,8 @@
+require 'earth/model'
+
 class ClimateDivision < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "climate_divisions"
   (

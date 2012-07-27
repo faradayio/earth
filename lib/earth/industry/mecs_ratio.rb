@@ -1,7 +1,10 @@
+require 'earth/model'
 require 'earth/locality'
 require 'earth/industry/industry'
 
 class MecsRatio < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "mecs_ratios"
   (

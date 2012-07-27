@@ -1,4 +1,8 @@
+require 'earth/model'
+
 class BreedGender < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "breed_genders"
   (

@@ -1,5 +1,8 @@
+require 'earth/model'
 require 'earth/locality'
 class IndustryProduct < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "industry_products"
   (

@@ -34,10 +34,11 @@ module Earth
             ActiveRecord::Base.configurations = Earth.database_configurations
           end
           task :migrate => :load_config do
-            Earth.init :apply_schemas => true
+            Earth.init :all
+            Earth.reset_schemas!
           end
           task :seed => :load_config do
-            Earth.init 
+            Earth.init :all
             Earth.run_data_miner!
           end
         end

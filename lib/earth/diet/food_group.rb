@@ -1,4 +1,8 @@
+require 'earth/model'
+
 class FoodGroup < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "food_groups"
   (

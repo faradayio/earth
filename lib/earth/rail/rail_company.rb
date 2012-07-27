@@ -1,6 +1,9 @@
+require 'earth/model'
 require 'earth/fuel'
 require 'earth/locality'
 class RailCompany < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "rail_companies"
   (
