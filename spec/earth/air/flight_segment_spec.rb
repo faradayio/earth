@@ -81,5 +81,14 @@ describe FlightSegment do
     it "should have aircraft description" do
       FlightSegment.where(:aircraft_description => nil).count.should == 0
     end
+    
+    describe '.fallback' do
+      let(:fallback) { FlightSegment.fallback }
+      
+      it { fallback.distance.should be_within(0.5).of(2136) }
+      it { fallback.seats_per_flight.should be_within(0.5).of(146) }
+      it { fallback.load_factor.should be_within(5e-3).of(0.8) }
+      it { fallback.freight_share.should be_within(5e-3).of(0.04) }
+    end
   end
 end

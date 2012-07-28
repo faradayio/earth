@@ -77,6 +77,6 @@ RSpec.configure do |c|
     c.filter_run_excluding(:sanity => true)
   end
   
-  # SKIP_SLOW=true lets you skip slow sanity checks e.g. FlightSegment
+  # SKIP_SLOW=true lets you skip slow tests e.g. FlightSegment
   c.filter_run_excluding(:slow => true) if ENV['SKIP_SLOW'] == 'true'
 end

@@ -6,6 +6,14 @@ describe Aircraft do
     it "should have all the data" do
       Aircraft.count.should == 437
     end
+    
+    describe '.fallback' do
+      let(:fallback) { Aircraft.fallback }
+      it { fallback.m3.should be_within(5e-9).of(0.00000013) }
+      it { fallback.m2.should be_within(5e-6).of(-0.00024) }
+      it { fallback.m1.should be_within(5e-2).of(6.2) }
+      it { fallback.b.should be_within(0.5).of(1379) }
+    end
   end
   
   # FIXME TODO
