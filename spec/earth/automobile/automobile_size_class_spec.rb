@@ -2,16 +2,6 @@ require 'spec_helper'
 require 'earth/automobile/automobile_size_class'
 
 describe AutomobileSizeClass do
-  before :all do
-    Earth.init :automobile, :load_data_miner => true
-  end
-  
-  describe 'import', :data_miner => true do
-    it 'should import data' do
-      AutomobileSizeClass.run_data_miner!
-    end
-  end
-  
   describe 'verify', :sanity => true do
     it { AutomobileSizeClass.count.should == 15 }
     it { AutomobileSizeClass.where("fuel_efficiency_city > 0").count.should == AutomobileSizeClass.count }

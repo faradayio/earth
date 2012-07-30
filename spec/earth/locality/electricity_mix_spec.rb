@@ -2,16 +2,6 @@ require 'spec_helper'
 require 'earth/locality/electricity_mix'
 
 describe ElectricityMix do
-  describe 'import', :data_miner => true do
-    before do
-      Earth.init :locality, :load_data_miner => true
-    end
-    
-    it 'should import data' do
-      ElectricityMix.run_data_miner!
-    end
-  end
-  
   describe 'verify imported data', :sanity => true do
     let(:total) { ElectricityMix.count }
     let(:uk) { ElectricityMix.find_by_country_iso_3166_code 'GB' }

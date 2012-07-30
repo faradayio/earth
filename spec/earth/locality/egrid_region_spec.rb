@@ -2,16 +2,6 @@ require 'spec_helper'
 require 'earth/locality/egrid_region'
 
 describe EgridRegion do
-  describe 'import', :data_miner => true do
-    before do
-      Earth.init :locality, :load_data_miner => true
-    end
-    
-    it 'should import data' do
-      EgridRegion.run_data_miner!
-    end
-  end
-  
   describe 'verify imported data', :sanity => true do
     it { EgridRegion.count.should == 5 }
     it { EgridRegion.where("loss_factor > 0").count.should == EgridRegion.count }

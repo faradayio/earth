@@ -3,15 +3,6 @@ require 'earth/industry/mecs_energy'
 require 'earth/industry/industry' # MecsEnergy's custom find by method calls an Industry method
 
 describe MecsEnergy do
-  describe 'import', :data_miner => true do
-    before do
-      Earth.init :industry, :load_data_miner => true, :skip_parent_associations => :true
-    end
-    it 'retrieves Total US statistics' do
-      MecsEnergy.run_data_miner!
-    end
-  end
-  
   describe 'verify imported data', :sanity => true do
     it 'should have all the data' do
       MecsEnergy.count.should == 395

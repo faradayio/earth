@@ -21,6 +21,9 @@ module Earth
   DATA_DIR = ::File.expand_path '../../data', __FILE__
   ERRATA_DIR = ::File.expand_path '../../errata', __FILE__
 
+  mattr_accessor :mine_original_sources
+  mattr_accessor :skip_parent_associations
+
   # Earth.init is the gateway to using Earth. It 
   # domains, any needed ActiveRecord plugins, and will apply each domain
   # model's schema to the database if the :apply_schemas option is given.
@@ -32,8 +35,7 @@ module Earth
   # @param [Symbol] domain domain to load, e.g. `:all` (optional, deprecated)
   # @param [Hash] options load options
   # * :skip_parent_associations, if true, will not run data_miner on parent associations of a model. For instance, `Airport.run_data_miner!` will not data mine ZipCode, to which it belongs.
-  # * :load_data_miner, if true, will load files necessary to data mine from scratch rather than via taps
-  # * :apply_schemas will run `create_table!` on each model
+  # * :mine_original_sources, if true, will load files necessary to data mine from scratch rather than via taps
   # * :connect will connect to the database for you
   def Earth.init(*args)
     options = args.extract_options!
@@ -43,7 +45,6 @@ module Earth
     Warnings.check_mysql_ansi_mode
     Loader.load_plugins
     
-    
     if args.include? :all
       require 'earth/all'
     elsif args.length > 0
@@ -52,19 +53,9 @@ module Earth
         require "earth/#{argh}"
       end
     end
-    
-    # be sure to look at both explicitly and implicitly loaded resources
-    Earth.resource_models.each do |resource|
-      script = resource.data_miner_script
-      unless options[:skip_parent_associations]
-        script.append_once :process, :run_data_miner_on_parent_associations!
-      end
-      if options[:load_data_miner]
-        script.prepend_once :process, :create_table!
-      else
-        script.prepend_once :sql, "Brighter Planet's reference data", "http://data.brighterplanet.com/#{resource.to_s.underscore.pluralize}.sql"
-      end
-    end
+
+    Earth.mine_original_sources = options[:load_data_miner] || options[:mine_original_sources]
+    Earth.skip_parent_associations = options[:skip_parent_associations]
   end
   
   # List the currently loaded data model class names.

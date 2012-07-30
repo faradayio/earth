@@ -2,16 +2,6 @@ require 'spec_helper'
 require 'earth/locality/zip_code'
 
 describe ZipCode do
-  describe 'when importing data', :data_miner => true do
-    before do
-      Earth.init :locality, :load_data_miner => true, :skip_parent_associations => :true
-    end
-    
-    it 'imports data' do
-      ZipCode.run_data_miner!
-    end
-  end
-  
   describe 'verify imported data', :sanity => true do
     it { ZipCode.count.should == 43770 }
     it { ZipCode.where(:state_postal_abbreviation => nil).count.should == 0 }

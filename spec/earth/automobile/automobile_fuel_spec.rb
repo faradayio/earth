@@ -4,16 +4,6 @@ require 'earth/automobile'
 describe AutomobileFuel do
   let(:fallback) { AutomobileFuel.fallback }
   
-  describe 'import', :data_miner => true do
-    before do
-      Earth.init :automobile, :load_data_miner => true
-    end
-    
-    it 'should import data without problems' do
-      AutomobileFuel.run_data_miner!
-    end
-  end
-  
   describe 'verify imported data', :sanity => true do
     it { AutomobileFuel.count.should == 12 }
     it { AutomobileFuel.where(:distance_key => nil).count.should == 0 }

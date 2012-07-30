@@ -2,24 +2,14 @@ require 'spec_helper'
 require 'earth/industry/naics_2002_sic_1987_concordance'
 
 describe Naics2002Sic1987Concordance do
-  describe "when importing data", :data_miner => true do
-    before do
-      Earth.init :industry, :load_data_miner => true, :skip_parent_associations => :true
+  describe 'verify imported data', :sanity => true do
+    it 'should have all the data' do
+      Naics2002Sic1987Concordance.count.should == 2164
     end
     
     it "extracts a paranthetical note from a description" do
       Naics2002Sic1987Concordance.extract_note("Wood Household Furniture, Except Upholstered (wood box spring frames(parts))").
         should == "wood box spring frames(parts)"
-    end
-    
-    it "imports all naics codes" do
-      Naics2002Sic1987Concordance.run_data_miner!
-    end
-  end
-  
-  describe 'verify imported data', :sanity => true do
-    it 'should have all the data' do
-      Naics2002Sic1987Concordance.count.should == 2164
     end
   end
   

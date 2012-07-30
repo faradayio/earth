@@ -12,15 +12,7 @@ describe AutomobileMakeModel do
   let(:f150_ffv_years) { AMMY.where(:make_name => 'Ford', :model_name => 'F150 FFV') }
   
   before :all do
-    Earth.init :automobile, :load_data_miner => true, :skip_parent_associations => true
     require 'earth/acronyms'
-  end
-  
-  describe 'import', :data_miner => true do
-    it 'should import data' do
-      AMM.run_data_miner!
-      AMM.count.should == AMM.connection.select_value("SELECT COUNT(DISTINCT make_name, model_name) FROM #{AMMY.quoted_table_name}")
-    end
   end
   
   describe 'verify', :sanity => true do
