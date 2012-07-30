@@ -2,16 +2,6 @@ require 'spec_helper'
 require 'earth/locality/state'
 
 describe State do
-  describe 'when importing data', :data_miner => true do
-    before do
-      Earth.init :locality, :load_data_miner => true
-    end
-    
-    it 'imports data' do
-      State.run_data_miner!
-    end
-  end
-  
   describe 'verify imported data', :sanity => true do
     it 'should have all the data' do
       State.count.should == 51 # includes DC but not any territories

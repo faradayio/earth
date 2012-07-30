@@ -1,18 +1,9 @@
 require 'spec_helper'
 require 'earth/fuel/fuel'
+require 'earth/fuel/fuel/data_miner'
 require 'earth/fuel/fuel_year' # methods are delegated to FuelYear if value in fuels is null
 
 describe Fuel do
-  describe 'when importing data', :data_miner => true do
-    before do
-      Earth.init :fuel, :load_data_miner => true, :skip_parent_associations => :true
-    end
-    
-    it 'fetches all fuels' do
-      Fuel.run_data_miner!
-    end
-  end
-  
   describe 'after importing data', :sanity => true do
     it 'should have all the data' do
       Fuel.count.should == 23

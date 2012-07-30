@@ -4,16 +4,6 @@ require 'spec_helper'
 require 'earth/locality/country'
 
 describe Country do
-  describe 'import', :data_miner => true do
-    before do
-      Earth.init :locality, :load_data_miner => true
-    end
-    
-    it 'should import data' do
-      Country.run_data_miner!
-    end
-  end
-  
   describe 'verify imported data', :sanity => true do
     let(:us) { Country.united_states }
     let(:uk) { Country.find 'GB' }

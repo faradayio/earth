@@ -4,13 +4,39 @@ require 'table_warnings'
 module Earth
   module Model
     def Model.extended(target)
+      target.extend Mining
       target.extend SafeFinders
       target.extend Schema
+      target.mattr_accessor :source_file
       self.registry << target
+      target.source_file = caller.first.split(':').first
     end
 
     def Model.registry
       @registry ||= []
+    end
+
+    module Mining
+      def run_data_miner!
+        unless Earth.skip_parent_associations
+          data_miner_script.append_once :process, :run_data_miner_on_parent_associations!
+        end
+        if Earth.mine_original_sources
+          mine_original_sources
+        else
+          mine_brighterplanet
+        end
+        super
+      end
+
+      def mine_original_sources
+        data_miner_script.prepend_once :process, :create_table!
+        require File.join(File.dirname(source_file), File.basename(source_file, '.rb'), 'data_miner')
+      end
+
+      def mine_brighterplanet
+        data_miner_script.prepend_once :sql, "Brighter Planet's reference data", "http://data.brighterplanet.com/#{to_s.underscore.pluralize}.sql"
+      end
     end
     
     module Schema

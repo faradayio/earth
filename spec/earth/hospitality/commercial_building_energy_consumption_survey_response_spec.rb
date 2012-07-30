@@ -4,16 +4,6 @@ require 'earth/hospitality/commercial_building_energy_consumption_survey_respons
 describe CommercialBuildingEnergyConsumptionSurveyResponse do
   let(:cbecs) { CommercialBuildingEnergyConsumptionSurveyResponse }
   
-  describe "when importing data", :data_miner => true do
-    before do
-      Earth.init :hospitality, :load_data_miner => true, :skip_parent_associations => :true
-    end
-    
-    it "imports all naics codes" do
-      cbecs.run_data_miner!
-    end
-  end
-  
   describe "verify imported data", :sanity => true do
     let(:total) { cbecs.count }
     let(:first_lodging) { cbecs.lodging_records.first }

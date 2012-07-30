@@ -4,15 +4,7 @@ require 'earth/automobile/automobile_make_model_year_variant'
 
 describe AutomobileMakeModelYearVariant do
   before :all do
-    Earth.init :automobile, :load_data_miner => true
     require 'earth/acronyms'
-  end
-  
-  describe 'import', :data_miner => true do
-    it 'should import data' do
-      AMMYV.run_data_miner!
-      AMMYV.count.should == 28433
-    end
   end
   
   describe 'verify imported data', :sanity => true do

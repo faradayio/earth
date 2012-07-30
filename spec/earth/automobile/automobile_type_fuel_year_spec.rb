@@ -5,14 +5,7 @@ describe AutomobileTypeFuelYear, :data_miner => true do
   let(:test_atfy) { ATFY.where(:type_name => 'Passenger cars', :fuel_family => 'gasoline', :year => 2005).first }
   
   before :all do
-    Earth.init :automobile, :load_data_miner => true
     require 'earth/acronyms'
-  end
-  
-  describe 'import' do
-    it 'should import data' do
-      ATFY.run_data_miner!
-    end
   end
   
   describe 'verify', :sanity => true do

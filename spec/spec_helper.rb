@@ -19,7 +19,6 @@ DataMiner.unit_converter = :conversions
 
 RSpec.configure do |c|
   unless ENV['ALL'] == 'true'
-    c.filter_run_excluding :data_miner => true
     c.filter_run_excluding :sanity => true
   end
   if ENV['SKIP_FLIGHT_SEGMENT'] == 'true'
@@ -28,10 +27,10 @@ RSpec.configure do |c|
 
   c.before :all do
     require 'earth'
-    Earth.init :load_data_miner => true, :skip_parent_associations => true, :connect => true
+    Earth.init :mine_original_sources => true, :skip_parent_associations => true, :connect => true
   end
-  c.before :all, :data_miner => true do
-    Earth.run_data_miner!
+  c.before :all, :sanity => true do
+    described_class.run_data_miner!
   end
 
   c.before(:each) do

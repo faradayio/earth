@@ -3,15 +3,7 @@ require 'earth/automobile/automobile_make_model_year'
 
 describe AutomobileMakeModelYear do
   before :all do
-    Earth.init :automobile, :load_data_miner => true, :skip_parent_associations => :true
     require 'earth/acronyms'
-  end
-  
-  describe 'import', :data_miner => true do
-    it 'should import data' do
-      AMMY.run_data_miner!
-      AMMY.count.should == AMMY.connection.select_value("SELECT COUNT(DISTINCT make_name, model_name, year) FROM #{AMMYV.quoted_table_name}")
-    end
   end
   
   describe 'verify imported data', :sanity => true do

@@ -3,14 +3,7 @@ require 'earth/automobile/automobile_activity_year_type_fuel'
 
 describe AutomobileActivityYearTypeFuel do
   before :all do
-    Earth.init :automobile, :load_data_miner => true
     require 'earth/acronyms'
-  end
-  
-  describe 'import', :data_miner => true do
-    it 'should import data' do
-      AAYTF.run_data_miner!
-    end
   end
   
   describe 'verify', :sanity => true do
