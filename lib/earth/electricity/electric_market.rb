@@ -1,6 +1,6 @@
 require 'earth/model'
 
-require 'earth/locality/electric_utility'
+require 'earth/electricity/electric_utility'
 require 'earth/locality/zip_code'
 
 class ElectricMarket < ActiveRecord::Base

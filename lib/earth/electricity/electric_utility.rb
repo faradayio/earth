@@ -1,6 +1,6 @@
 require 'earth/model'
 
-require 'earth/electricity/elctric_market'
+require 'earth/electricity/electric_market'
 require 'earth/electricity/green_button_adoption'
 require 'earth/locality/state'
 require 'earth/locality/zip_code'
