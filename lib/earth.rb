@@ -43,7 +43,6 @@ module Earth
     connect if options[:connect]
 
     Warnings.check_mysql_ansi_mode
-    Loader.load_plugins
     
     if args.include? :all
       require 'earth/all'
