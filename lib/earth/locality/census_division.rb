@@ -4,9 +4,9 @@ require 'earth/model'
 
 require 'earth/locality/census_region'
 require 'earth/locality/climate_division'
-require 'earth/locality/residential_energy_consumption_survey_response'
 require 'earth/locality/state'
 require 'earth/locality/zip_code'
+require 'earth/residence/residential_energy_consumption_survey_response'
 
 class CensusDivision < ActiveRecord::Base
   extend Earth::Model

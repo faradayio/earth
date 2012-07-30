@@ -2,8 +2,8 @@ require 'falls_back_on'
 
 require 'earth/model'
 
-require 'earth/electricity/electricity_mix'
 require 'earth/locality/egrid_region'
+require 'earth/locality/electricity_mix'
 
 class EgridSubregion < ActiveRecord::Base
   extend Earth::Model

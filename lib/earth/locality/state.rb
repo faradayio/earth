@@ -1,10 +1,10 @@
 require 'earth/model'
 
-require 'earth/electricity/electricity_mix'
 require 'earth/locality/census_division'
 require 'earth/locality/census_region'
 require 'earth/locality/climate_division'
 require 'earth/locality/country'
+require 'earth/locality/electricity_mix'
 require 'earth/locality/petroleum_administration_for_defense_district'
 require 'earth/locality/zip_code'
 

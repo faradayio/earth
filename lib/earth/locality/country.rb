@@ -2,7 +2,7 @@ require 'falls_back_on'
 
 require 'earth/model'
 
-require 'earth/electricity/electricity_mix'
+require 'earth/locality/electricity_mix'
 require 'earth/rail/rail_company'
 
 class Country < ActiveRecord::Base

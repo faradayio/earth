@@ -1,6 +1,6 @@
 require 'earth/model'
 
-require 'industry_sector'
+require 'earth/industry/industry_sector'
 
 class Sector < ActiveRecord::Base
   extend Earth::Model

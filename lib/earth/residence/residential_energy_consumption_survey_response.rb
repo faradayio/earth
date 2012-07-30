@@ -2,11 +2,11 @@ require 'earth/model'
 
 require 'earth/locality/census_division'
 require 'earth/locality/census_region'
-require 'earth/locality/urbanity'
 require 'earth/residence/air_conditioner_use'
 require 'earth/residence/clothes_machine_use'
 require 'earth/residence/dishwasher_use'
 require 'earth/residence/residence_class'
+require 'earth/residence/urbanity'
 
 class ResidentialEnergyConsumptionSurveyResponse < ActiveRecord::Base
   extend Earth::Model
