@@ -1,3 +1,4 @@
+require 'earth/fuel/fuel'
 require 'earth/fuel/greenhouse_gas'
 
 RailFuel.class_eval do
