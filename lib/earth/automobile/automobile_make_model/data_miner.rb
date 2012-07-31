@@ -1,4 +1,5 @@
-require 'earth/fuel/data_miner'
+require 'earth/automobile/automobile_make_model_year'
+
 AutomobileMakeModel.class_eval do
   data_miner do
     process "Ensure AutomobileMakeModelYear is populated" do

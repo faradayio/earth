@@ -1,4 +1,6 @@
-require 'earth/fuel/data_miner'
+require 'earth/automobile/automobile_type_fuel'
+require 'earth/fuel/fuel'
+require 'earth/fuel/greenhouse_gas'
 
 AutomobileFuel.class_eval do
   data_miner do

@@ -1,4 +1,5 @@
-require 'earth/fuel/data_miner'
+require 'earth/fuel/greenhouse_gas'
+
 RailFuel.class_eval do
   data_miner do
     import "Rail diesel CH4 and N2O emission factors from the EPA GHG Inventory",

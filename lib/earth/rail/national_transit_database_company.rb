@@ -1,5 +1,6 @@
 require 'earth/model'
 
+require 'earth/rail/national_transit_database_mode'
 require 'earth/rail/national_transit_database_record'
 
 class NationalTransitDatabaseCompany < ActiveRecord::Base
