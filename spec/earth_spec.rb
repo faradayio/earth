@@ -11,13 +11,6 @@ describe Earth do
         Earth.resources.each { |k| k.constantize }
       end.should_not raise_error(NameError)
     end
-
-    it 'should include data_miner definitions' do
-      lambda do
-        Earth.resources.each { |k| k.constantize.should_receive(:data_miner) }
-      end
-      require 'earth/data_miner'
-    end
   end
 
   describe '.resources' do
