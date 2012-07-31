@@ -23,12 +23,11 @@ class EarthTester < Thor
   method_option :domains, :type => :array, :default => []
   method_option :database, :type => :string, :default => 'mysql'
   method_option :reset, :type => :boolean, :desc => 'Fully reset databases'
-  method_option :load_data_miner, :type => :boolean, :desc => "Load full data_miner blocks"
-  method_option :apply_schemas, :type => :boolean, :desc => "Immediately apply table schemas"
+  method_option :mine_original_sources, :type => :boolean, :desc => "Load full data_miner blocks"
   def console
     earth_options = options.inject({}) do |memo, (k, v)|
       k = k.to_sym
-      if [:load_data_miner, :apply_schemas].include?(k)
+      if [:mine_original_sources].include?(k)
         memo[k] = v
       end
       memo
