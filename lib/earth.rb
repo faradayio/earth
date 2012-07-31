@@ -43,6 +43,9 @@ module Earth
     connect if options[:connect]
 
     Warnings.check_mysql_ansi_mode
+
+    Earth.mine_original_sources = options[:load_data_miner] || options[:mine_original_sources]
+    Earth.skip_parent_associations = options[:skip_parent_associations]
     
     if args.include? :all
       require 'earth/all'
@@ -52,9 +55,6 @@ module Earth
         require "earth/#{argh}"
       end
     end
-
-    Earth.mine_original_sources = options[:load_data_miner] || options[:mine_original_sources]
-    Earth.skip_parent_associations = options[:skip_parent_associations]
   end
   
   # List the currently loaded data model class names.
