@@ -1,3 +1,5 @@
+require 'earth/automobile/automobile_type_fuel_year_control'
+
 AutomobileTypeFuelYear.class_eval do
   data_miner do
     [['gasoline', 'G'], ['diesel', 'D']].each do |fuel, fuel_code|
