@@ -60,11 +60,14 @@ module Earth
   # List the currently loaded data model class names.
   #
   # @return [Array] a list of camelized resource names
-  def Earth.resources
-    Earth.resource_models.map(&:to_s).sort
+  def Earth.resource_names
+    @resource_names ||= Earth.resources.map(&:to_s).sort
   end
 
-  def Earth.resource_models
+  # List the currently loaded data model classes
+  #
+  # @return [Array] a list of resource classes
+  def Earth.resources
     Earth::Model.registry
   end
 
@@ -125,7 +128,7 @@ module Earth
   # Drop and recreate tables for all currently loaded data models.
   #
   def Earth.reset_schemas!
-    Earth.resource_models.map(&:create_table!)
+    Earth.resources.each(&:create_table!)
   end
 
   # Run data miner on all currently loaded data models.
@@ -134,6 +137,6 @@ module Earth
   # via taps. In order to mine from scratch, call Earth.init 
   # with the :load_data_miner option.
   def Earth.run_data_miner!
-    Earth.resource_models.map(&:run_data_miner!)
+    DataMiner.run(Earth.resource_names)
   end
 end
