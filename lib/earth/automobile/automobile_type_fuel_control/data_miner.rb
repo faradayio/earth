@@ -1,5 +1,4 @@
 require 'earth/fuel/greenhouse_gas'
-require 'earth/fuel/greenhouse_gas/data_miner'
 
 AutomobileTypeFuelControl.class_eval do
   data_miner do

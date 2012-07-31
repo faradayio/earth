@@ -1,4 +1,3 @@
-require 'earth/locality/data_miner'
 ComputationCarrier.class_eval do
   data_miner do
     import "a list of computation carriers and their power usage effectiveness",

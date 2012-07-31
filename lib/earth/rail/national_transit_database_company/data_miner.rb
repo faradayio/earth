@@ -1,4 +1,3 @@
-require 'earth/locality/data_miner'
 NationalTransitDatabaseCompany.class_eval do
   data_miner do
     import "US transit companies from the National Transit Database",

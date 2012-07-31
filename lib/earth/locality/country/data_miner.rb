@@ -1,7 +1,11 @@
-require 'earth/automobile/data_miner'
-require 'earth/fuel/data_miner'
-require 'earth/hospitality/data_miner'
-require 'earth/rail/data_miner'
+require 'earth/automobile/automobile_activity_year_type_fuel'
+require 'earth/fuel/greenhouse_gas'
+require 'earth/hospitality/commercial_building_energy_consumption_survey_response'
+require 'earth/locality/country'
+require 'earth/locality/egrid_subregion'
+require 'earth/locality/electricity_mix'
+require 'earth/rail/rail_company'
+require 'earth/rail/rail_fuel'
 
 Country.class_eval do
   data_miner do

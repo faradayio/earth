@@ -1,4 +1,4 @@
-require 'earth/fuel/fuel_year/data_miner'
+require 'earth/fuel/fuel_year'
 
 Fuel.class_eval do
   data_miner do

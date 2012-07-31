@@ -1,5 +1,5 @@
 require 'earth/eia'
-require 'earth/locality/data_miner'
+require 'earth/industry/industry'
 
 MecsRatio.class_eval do
   const_set(:CENSUS_REGIONS, {
