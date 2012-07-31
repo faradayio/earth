@@ -1,4 +1,5 @@
 require 'earth/fuel/greenhouse_gas'
+require 'earth/locality/egrid_country'
 
 EgridSubregion.class_eval do
   data_miner do

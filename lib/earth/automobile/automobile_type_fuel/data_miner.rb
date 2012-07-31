@@ -1,3 +1,5 @@
+require 'earth/automobile/automobile_type_fuel_year'
+
 AutomobileTypeFuel.class_eval do
   data_miner do
     process "Ensure AutomobileTypeFuelYear is populated" do

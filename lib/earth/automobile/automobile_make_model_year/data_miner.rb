@@ -1,3 +1,6 @@
+require 'earth/automobile/automobile_make_model_year_variant'
+require 'earth/automobile/automobile_year'
+
 AutomobileMakeModelYear.class_eval do
   data_miner do
     process "Ensure AutomobileMakeModelYearVariant is populated" do
