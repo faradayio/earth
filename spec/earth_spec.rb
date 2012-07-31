@@ -8,24 +8,24 @@ describe Earth do
 
     it 'should require all Earth models' do
       lambda do
-        Earth.resources.each { |k| k.constantize }
+        Earth.resource_names.each { |k| k.constantize }
       end.should_not raise_error(NameError)
     end
 
     it 'should include data_miner definitions' do
       lambda do
-        Earth.resources.each { |k| k.constantize.should_receive(:data_miner) }
+        Earth.resource_names.each { |k| k.constantize.should_receive(:data_miner) }
       end
       require 'earth/data_miner'
     end
   end
 
   describe '.resources' do
-    it 'should get a list of all resource names' do
+    it 'should get a list of all resource classes' do
       Earth.init :all
       Earth.resources.length.should == 100
-      Earth.resources.should include('Aircraft')
-      Earth.resources.should include('Industry')
+      Earth.resources.should include(Aircraft)
+      Earth.resources.should include(Industry)
     end
   end
 
