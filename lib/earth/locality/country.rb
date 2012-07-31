@@ -6,6 +6,12 @@ require 'earth/locality/electricity_mix'
 require 'earth/rail/rail_company'
 
 class Country < ActiveRecord::Base
+  data_miner do
+    process "Ensure ElectricityMix is imported because it's like a belongs_to association" do
+      ElectricityMix.run_data_miner!
+    end
+  end
+
   extend Earth::Model
 
   TABLE_STRUCTURE = <<-EOS
@@ -65,12 +71,6 @@ EOS
   
   has_many :rail_companies,  :foreign_key => 'country_iso_3166_code' # used to calculate rail data
   has_one :electricity_mix, :foreign_key => 'country_iso_3166_code'
-  
-  data_miner do
-    process "Ensure ElectricityMix is imported because it's like a belongs_to association" do
-      ElectricityMix.run_data_miner!
-    end
-  end
   
   def self.united_states
     find_by_iso_3166_code('US')
