@@ -1,3 +1,7 @@
+require 'earth/fuel/greenhouse_gas'
+require 'earth/locality/egrid_subregion'
+require 'earth/locality/state'
+
 ElectricityMix.class_eval do
   data_miner do
     process "Ensure GreenhouseGas is populated" do
