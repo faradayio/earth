@@ -5,8 +5,7 @@ require 'earth'
 describe 'Data Mining' do
   it 'is successful for each individual model' do
     Earth.init :all
-    #Earth.resource_models.each do |resource|
-    [RailFuel].each do |resource|
+    Earth.resource_models.each do |resource|
       begin
         puts resource.to_s
         script_file = File.join(Dir.pwd, 'miner.rb')

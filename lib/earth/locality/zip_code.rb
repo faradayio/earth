@@ -10,6 +10,12 @@ require 'earth/electricity/electric_market'
 require 'earth/electricity/electric_utility'
 
 class ZipCode < ActiveRecord::Base
+  data_miner do
+    process "Ensure Country is imported because it's like a belongs_to association" do
+      Country.run_data_miner!
+    end
+  end
+
   extend Earth::Model
 
   TABLE_STRUCTURE = <<-EOS
@@ -35,12 +41,6 @@ EOS
   has_many :electric_utilities, :through => :electric_markets
   
   scope :known_subregion, where('egrid_subregion_abbreviation IS NOT NULL')
-  
-  data_miner do
-    process "Ensure Country is imported because it's like a belongs_to association" do
-      Country.run_data_miner!
-    end
-  end
   
   def country
     Country.united_states

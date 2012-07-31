@@ -8,6 +8,10 @@ ElectricityMix.class_eval do
       GreenhouseGas.run_data_miner!
     end
     
+    process "Ensure EgridSubregion is populated" do
+      EgridSubregion.run_data_miner!
+    end
+    
     import "national electricity mixes from Brander et al. (2011)",
            :url => "file://#{Earth::DATA_DIR}/locality/national_electricity_efs.csv" do
       key :name, :synthesize => lambda { |row| [row['country_iso_3166_code'], 'national electricity'].join(' ') }
@@ -16,10 +20,6 @@ ElectricityMix.class_eval do
       store :ch4_emission_factor, :synthesize => proc { |row| row['ch4_emission_factor'].to_f * GreenhouseGas[:ch4].global_warming_potential }, :units => 'kilograms_co2e_per_kilowatt_hour'
       store :n2o_emission_factor, :synthesize => proc { |row| row['n2o_emission_factor'].to_f * GreenhouseGas[:n2o].global_warming_potential }, :units => 'kilograms_co2e_per_kilowatt_hour'
       store :loss_factor
-    end
-    
-    process "Ensure EgridSubregion is populated" do
-      EgridSubregion.run_data_miner!
     end
     
     process "Derive eGRID subregion electricity mixes" do

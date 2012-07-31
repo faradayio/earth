@@ -4,7 +4,6 @@ require 'table_warnings'
 module Earth
   module Model
     def Model.extended(target)
-      target.extend DM
       target.extend SafeFinders
       target.extend Schema
       target.mattr_accessor :source_file
@@ -18,24 +17,16 @@ module Earth
       @registry ||= []
     end
 
-    module DM
-      def run_data_miner!
-        warn "Data mining #{self} with #{self.data_miner_script.steps.map(&:description).inspect}"
-        super
-      end
-    end
-
     def Model.extend_mining(target)
-      unless Earth.skip_parent_associations
-        target.data_miner_script.append_once :process, :run_data_miner_on_parent_associations!
-      end
       if Earth.mine_original_sources
-        warn "#{target} script before: #{target.data_miner_script.steps.map(&:description).inspect}"
-        require File.join(File.dirname(target.source_file), File.basename(target.source_file, '.rb'), 'data_miner')
+        path = File.join(File.dirname(target.source_file), File.basename(target.source_file, '.rb'), 'data_miner')
+        require path if File.exist?(path + '.rb')
         target.data_miner_script.prepend_once :process, :create_table!
-        warn "#{target} script after: #{target.data_miner_script.steps.map(&:description).inspect}"
       else
         target.data_miner_script.prepend_once :sql, "Brighter Planet's reference data", "http://data.brighterplanet.com/#{to_s.underscore.pluralize}.sql"
+      end
+      unless Earth.skip_parent_associations
+        target.data_miner_script.append_once :process, :run_data_miner_on_parent_associations!
       end
     end
 
@@ -46,7 +37,6 @@ module Earth
       SEMICOLON = / ?; ?/
 
       def create_table!(force = true)
-        Kernel.warn "Creating table for #{self}"
         c = ActiveRecord::Base.connection_pool.checkout
 
         if c.table_exists?(table_name) and not force

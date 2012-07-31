@@ -3,6 +3,14 @@ require 'earth/model'
 require 'earth/fuel/fuel_year'
 
 class Fuel < ActiveRecord::Base
+  # Need to ensure FuelYear gets data_mined even when pulling with taps
+  # b/c Fuel has instance methods to look up missing values from FuelYear
+  data_miner do
+    process "Ensure FuelYear is imported" do
+      FuelYear.run_data_miner!
+    end
+  end
+  
   extend Earth::Model
 
   TABLE_STRUCTURE = <<-EOS
@@ -28,15 +36,6 @@ EOS
   self.primary_key = "name"
   
   has_many :fuel_years, :foreign_key => 'fuel_name'
-  
-  
-  # Need to ensure FuelYear gets data_mined even when pulling with taps
-  # b/c Fuel has instance methods to look up missing values from FuelYear
-  data_miner do
-    process "Ensure FuelYear is imported" do
-      FuelYear.run_data_miner!
-    end
-  end
   
   def latest_fuel_year
     fuel_years.find_by_year(fuel_years.maximum('year'))
