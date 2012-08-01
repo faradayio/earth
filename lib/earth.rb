@@ -85,7 +85,7 @@ module Earth
   #
   # Default is `development`
   def Earth.env
-    @env ||= ActiveSupport::StringInquirer.new(ENV['EARTH_ENV'] || ENV['RAILS_ENV'] || ENV['RACK_ENV'] ||'development')
+    @env ||= ActiveSupport::StringInquirer.new(ENV['EARTH_ENV'] || ENV['RAILS_ENV'] || ENV['RACK_ENV'] || 'development')
   end
 
   # Earth will load database connection parameters from 
@@ -117,9 +117,8 @@ module Earth
           'database' => database,
         }
       }
-
-      config['username'] = username if username
-      config['password'] = password if password
+      config['test']['username'] = username if username
+      config['test']['password'] = password if password
 
       config
     end
