@@ -22,6 +22,5 @@ EOS
     first :conditions => arel_table[:min_distance].lt(distance.to_f).and(arel_table[:max_distance].gteq(distance.to_f))
   end
   
-
   warn_unless_size 2
 end

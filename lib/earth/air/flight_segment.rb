@@ -1,7 +1,6 @@
+require 'earth/model'
 require 'falls_back_on'
 require 'fuzzy_match/cached_result'
-
-require 'earth/model'
 
 require 'earth/air/aircraft'
 require 'earth/air/airline'
@@ -76,24 +75,6 @@ EOS
     end
   end
   
-  falls_back_on :distance         => lambda { weighted_average(:distance,         :weighted_by => :passengers) }, # 2077.1205         data1 10-12-2010
-                :seats_per_flight => lambda { weighted_average(:seats_per_flight, :weighted_by => :passengers) }, # 144.15653537046   data1 10-12-2010
-                :load_factor      => lambda { weighted_average(:load_factor,      :weighted_by => :passengers) }, # 0.78073233770097  data1 10-12-2010
-                :freight_share    => lambda { weighted_average(:freight_share,    :weighted_by => :passengers) }  # 0.022567224170157 data1 10-12-2010
-  
-  # FIXME remove this - wherever you're trying to create a flight segment, just don't use mass-assignment for the primary key
-  attr_accessible :row_hash
-
-  warn_if_nulls_except(
-    :origin_airport_city,
-    :destination_airport_city,
-    :airline_icao_code,
-    :load_factor,
-    :freight_share
-  )
-
-  warn_unless_size 1_254_412
-
   def airline
     if airline_bts_code
       Airline.where(:bts_code => airline_bts_code).first
@@ -101,4 +82,22 @@ EOS
       Airline.where(:icao_code => airline_icao_code).first
     end
   end
+  
+  falls_back_on :distance         => lambda { weighted_average(:distance,         :weighted_by => :passengers) }, # 2077.1205         data1 10-12-2010
+                :seats_per_flight => lambda { weighted_average(:seats_per_flight, :weighted_by => :passengers) }, # 144.15653537046   data1 10-12-2010
+                :load_factor      => lambda { weighted_average(:load_factor,      :weighted_by => :passengers) }, # 0.78073233770097  data1 10-12-2010
+                :freight_share    => lambda { weighted_average(:freight_share,    :weighted_by => :passengers) }  # 0.022567224170157 data1 10-12-2010
+  
+  # FIXME remove this - wherever you're trying to create a flight segment, just don't use mass-assignment for the primary key
+  attr_accessible :row_hash
+  
+  warn_if_nulls_except(
+    :origin_airport_city,
+    :destination_airport_city,
+    :airline_icao_code,
+    :load_factor,
+    :freight_share
+  )
+  
+  warn_unless_size 1_254_412
 end

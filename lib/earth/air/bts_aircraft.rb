@@ -13,5 +13,5 @@ EOS
 
   self.primary_key = "bts_code"
 
-  warn_unless_size 379
+  warn_unless_size 378
 end

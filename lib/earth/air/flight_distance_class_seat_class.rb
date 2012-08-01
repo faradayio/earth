@@ -26,6 +26,5 @@ EOS
   falls_back_on :name => 'fallback',
                 :multiplier => 1.0
   
-
   warn_unless_size 7
 end

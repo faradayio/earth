@@ -20,23 +20,22 @@ CREATE TABLE "airports"
      "longitude"             FLOAT
   );
 EOS
-
+  
   self.primary_key = "iata_code"
   
   belongs_to :country,
     :foreign_key => 'country_iso_3166_code',
     :primary_key => 'iso_3166_code'
-  has_many :departing_flight_segments,
+  has_many :departing_flight_segments, # FIXME TODO consider replacing with a method that also matches ICAO segments by city
     :class_name => 'FlightSegment',
     :foreign_key => :origin_airport_iata_code
-  has_many :arriving_flight_segments,
+  has_many :arriving_flight_segments, # FIXME TODO consider replacing with a method that also matches ICAO segments by city
     :class_name => 'FlightSegment',
     :foreign_key => :destination_airport_iata_code
   
   acts_as_mappable :default_units => :nms,
                    :lat_column_name => :latitude,
                    :lng_column_name => :longitude
-
-
+  
   warn_unless_size 5324
 end

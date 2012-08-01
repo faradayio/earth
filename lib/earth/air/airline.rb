@@ -17,11 +17,10 @@ CREATE TABLE "airlines"
 EOS
 
   self.primary_key = "name"
-
+  
   has_many :flight_segments,
     :primary_key => :bts_code,
     :foreign_key => :airline_bts_code
   
-
-  warn_unless_size 1523 # note: this is overridden in data1, which imports extra airlines from proprietary data
+  warn_unless_size 1524 # this is overridden in data1, which imports extra airlines from proprietary data
 end

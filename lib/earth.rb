@@ -20,6 +20,7 @@ module Earth
   LIB_DIR = ::File.expand_path '../earth', __FILE__
   DATA_DIR = ::File.expand_path '../../data', __FILE__
   ERRATA_DIR = ::File.expand_path '../../errata', __FILE__
+  FACTORY_DIR = ::File.expand_path '../../spec/factories', __FILE__
 
   mattr_accessor :mine_original_sources
 
