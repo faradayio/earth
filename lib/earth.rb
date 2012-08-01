@@ -131,7 +131,7 @@ module Earth
   #
   # @note By default, data is mined from data.brighterplanet.com 
   # via taps. In order to mine from scratch, call Earth.init 
-  # with the :load_data_miner option.
+  # with the :mine_original_sources option.
   def Earth.run_data_miner!
     DataMiner.run(Earth.resources)
   end
