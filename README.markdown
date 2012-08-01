@@ -85,7 +85,7 @@ ft = AutomobileFuel.first
 
 ### Data storage
 
-You can store Earth data in any relational database. On your very first run, you will need to create the tables for data each model. You can either use the Rails standard rake tasks (see below) or with a call to `Earth.reset\_schemas!`
+You can store Earth data in any relational database. On your very first run, you will need to create the tables for data each model. You can either use the Rails standard rake tasks (see below) or with a call to `Earth.reset_schemas!`
 
 ### Pulling data from data.brighterplanet.com
 
@@ -113,7 +113,7 @@ AutomobileMake.run_data_miner!
 
 ### Rake tasks
 
-Earth provides handy rails tasks for creating, migrating, and data mining models whether your using it from a Rails app or a standalone Ruby app.
+Earth provides handy rails tasks for creating, migrating, and data mining models whether you're using it from a Rails app or a standalone Ruby app.
 
 In your Rakefile, add:
 
