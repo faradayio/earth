@@ -5,8 +5,8 @@ module Earth
   class Tasks
     include Rake::DSL
 
-    def initialize
-      init_earth_tasks
+    def initialize(auto_configure = true)
+      init_earth_tasks(auto_configure)
       init_bare unless Object.const_defined?('Rails')
 
       namespace :db do
@@ -27,18 +27,16 @@ module Earth
       Rake::Task['db:seed'].clear
     end
         
-    def init_earth_tasks
+    def init_earth_tasks(auto_configure = true)
       namespace :earth do
         namespace :db do
           task :load_config do
-            ActiveRecord::Base.configurations = Earth.database_configurations
+            ActiveRecord::Base.configurations = Earth.database_configurations if auto_configure
           end
           task :migrate => :load_config do
-            Earth.init :all
             Earth.reset_schemas!
           end
           task :seed => :load_config do
-            Earth.init :all
             Earth.run_data_miner!
           end
         end
