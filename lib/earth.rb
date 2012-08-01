@@ -23,17 +23,14 @@ module Earth
 
   mattr_accessor :mine_original_sources
 
-  # Earth.init is the gateway to using Earth. It 
-  # domains, any needed ActiveRecord plugins, and will apply each domain
-  # model's schema to the database if the :apply_schemas option is given.
-  # (See .domains for the list of allowable domains and an explanation
-  # of what a domain is)
+  # Earth.init is the gateway to using Earth. It can load all models at
+  # once, connect to the database using Rails conventions, and set up
+  # the models to pull data from original sources instead of Brighter 
+  # Planet's pre-processed data service.
   #
-  # Earth.init should be performed before any domain models are utilized.
-  #
-  # @param [Symbol] domain domain to load, e.g. `:all` (optional, deprecated)
+  # @param [Symbol] load_directive use `:all` to load all models at once (optional)
   # @param [Hash] options load options
-  # * :mine_original_sources, if true, will load files necessary to data mine from scratch rather than via taps
+  # * :mine_original_sources, if true, will load files necessary to data mine from scratch rather than downloading from data.brighterplanet.com. Note that you must run Earth.init before requiring models in order for this option to work properly.
   # * :connect will connect to the database for you
   def Earth.init(*args)
     options = args.extract_options!
