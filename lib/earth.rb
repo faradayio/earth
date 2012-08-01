@@ -22,6 +22,7 @@ module Earth
   ERRATA_DIR = ::File.expand_path '../../errata', __FILE__
 
   mattr_accessor :mine_original_sources
+  mattr_accessor :database_configurations
 
   # Earth.init is the gateway to using Earth. It can load all models at
   # once, connect to the database using Rails conventions, and set up
@@ -86,6 +87,8 @@ module Earth
   # config/database.yml (same as Rails' database configuration).
   # Otherwise, a default testing configuration is used.
   def Earth.database_configurations
+    return @database_configurations unless @database_configurations.nil?
+
     yaml_path = File.join(Dir.pwd, 'config/database.yml')
     if File.exist?(yaml_path)
       require 'yaml'
@@ -114,7 +117,7 @@ module Earth
       config['test']['username'] = username if username
       config['test']['password'] = password if password
 
-      config
+      @database_configurations = config
     end
   end
 
