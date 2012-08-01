@@ -1,8 +1,8 @@
 # earth
 
-Earth is a collection of *data models* that represent various things found here on Earth, such as pet breeds, kinds of rail travel, zip codes, and Petroleum Administration for Defense Districts.
+Earth is a collection of *data models* that represent various things found here on Earth, such as countries, automobiles, aircraft, zip codes, and pet breeds.
 
-The data that these models represent can be pulled from preconfigured authoritative sources. By default, data is pulled from [Brighter Planet's open reference data site](http://data.brighterplanet.com) using the [taps gem](http://rubygems.org/gems/taps).
+By default the data that these models represent is pulled from [Brighter Planet's open reference data site](http://data.brighterplanet.com) using the [taps gem](http://rubygems.org/gems/taps). The data can also be imported directly from preconfigured authoritative sources. 
 
 ## Usage
 
