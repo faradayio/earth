@@ -22,7 +22,6 @@ module Earth
   ERRATA_DIR = ::File.expand_path '../../errata', __FILE__
 
   mattr_accessor :mine_original_sources
-  mattr_accessor :skip_parent_associations
 
   # Earth.init is the gateway to using Earth. It 
   # domains, any needed ActiveRecord plugins, and will apply each domain
@@ -34,7 +33,6 @@ module Earth
   #
   # @param [Symbol] domain domain to load, e.g. `:all` (optional, deprecated)
   # @param [Hash] options load options
-  # * :skip_parent_associations, if true, will not run data_miner on parent associations of a model. For instance, `Airport.run_data_miner!` will not data mine ZipCode, to which it belongs.
   # * :mine_original_sources, if true, will load files necessary to data mine from scratch rather than via taps
   # * :connect will connect to the database for you
   def Earth.init(*args)
@@ -45,7 +43,6 @@ module Earth
     Warnings.check_mysql_ansi_mode
 
     Earth.mine_original_sources = options[:load_data_miner] || options[:mine_original_sources]
-    Earth.skip_parent_associations = options[:skip_parent_associations]
     
     if args.include? :all
       require 'earth/all'

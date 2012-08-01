@@ -27,7 +27,7 @@ RSpec.configure do |c|
 
   c.before :all do
     require 'earth'
-    Earth.init :mine_original_sources => true, :skip_parent_associations => true, :connect => true
+    Earth.init :mine_original_sources => true, :connect => true
   end
   c.before :all, :sanity => true do
     described_class.run_data_miner!
