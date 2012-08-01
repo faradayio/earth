@@ -22,7 +22,6 @@ module Earth
   ERRATA_DIR = ::File.expand_path '../../errata', __FILE__
 
   mattr_accessor :mine_original_sources
-  mattr_accessor :skip_parent_associations
 
   # Earth.init is the gateway to using Earth. It can load all models at
   # once, connect to the database using Rails conventions, and set up
@@ -31,7 +30,6 @@ module Earth
   #
   # @param [Symbol] load_directive use `:all` to load all models at once (optional)
   # @param [Hash] options load options
-  # * :skip_parent_associations, if true, will not run data_miner on parent associations of a model. For instance, `Airport.run_data_miner!` will not data mine ZipCode, to which it belongs
   # * :mine_original_sources, if true, will load files necessary to data mine from scratch rather than downloading from data.brighterplanet.com. Note that you must run Earth.init before requiring models in order for this option to work properly.
   # * :connect will connect to the database for you
   def Earth.init(*args)
@@ -42,7 +40,6 @@ module Earth
     Warnings.check_mysql_ansi_mode
 
     Earth.mine_original_sources = options[:load_data_miner] || options[:mine_original_sources]
-    Earth.skip_parent_associations = options[:skip_parent_associations]
     
     if args.include? :all
       require 'earth/all'
@@ -82,7 +79,7 @@ module Earth
   #
   # Default is `development`
   def Earth.env
-    @env ||= ActiveSupport::StringInquirer.new(ENV['EARTH_ENV'] || ENV['RAILS_ENV'] || ENV['RACK_ENV'] ||'development')
+    @env ||= ActiveSupport::StringInquirer.new(ENV['EARTH_ENV'] || ENV['RAILS_ENV'] || ENV['RACK_ENV'] || 'development')
   end
 
   # Earth will load database connection parameters from 
@@ -114,9 +111,8 @@ module Earth
           'database' => database,
         }
       }
-
-      config['username'] = username if username
-      config['password'] = password if password
+      config['test']['username'] = username if username
+      config['test']['password'] = password if password
 
       config
     end
@@ -132,7 +128,7 @@ module Earth
   #
   # @note By default, data is mined from data.brighterplanet.com 
   # via taps. In order to mine from scratch, call Earth.init 
-  # with the :load_data_miner option.
+  # with the :mine_original_sources option.
   def Earth.run_data_miner!
     DataMiner.run(Earth.resources)
   end

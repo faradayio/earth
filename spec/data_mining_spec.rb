@@ -14,7 +14,7 @@ describe 'Data Mining' do
 require 'earth'
 require 'conversions'
 DataMiner.unit_converter = :conversions
-Earth.init :skip_parent_associations => true, :mine_original_sources => true, :connect => true
+Earth.init :mine_original_sources => true, :connect => true
 require #{File.join(File.dirname(resource.source_file), File.basename(resource.source_file,'.rb')).inspect}
 #{resource.to_s}.run_data_miner!
           RUBY
