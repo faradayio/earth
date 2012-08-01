@@ -13,7 +13,7 @@ task :console do
   DataMiner.logger = ActiveRecord::Base.logger = Logger.new('log/test.log')
   DataMiner.unit_converter = :conversions
   
-  Earth.init :all
+  Earth.init :all, :connect => true
   
   require 'irb'
   ARGV.clear
