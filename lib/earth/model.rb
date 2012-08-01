@@ -25,9 +25,7 @@ module Earth
       else
         target.data_miner_script.prepend_once :sql, "Brighter Planet's reference data", "http://data.brighterplanet.com/#{to_s.underscore.pluralize}.sql"
       end
-      unless Earth.skip_parent_associations
-        target.data_miner_script.append_once :process, :run_data_miner_on_parent_associations!
-      end
+      target.data_miner_script.append_once :process, :run_data_miner_on_parent_associations!
     end
 
     module Schema
