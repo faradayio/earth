@@ -1,4 +1,3 @@
-require 'factory_girl'
 require 'earth/air/flight_distance_class'
 
 FactoryGirl.define do

@@ -1,4 +1,3 @@
-require 'factory_girl'
 require 'earth/air/flight_segment'
 
 FactoryGirl.define do
