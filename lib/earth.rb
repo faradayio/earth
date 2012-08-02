@@ -66,10 +66,10 @@ module Earth
     Earth::Model.registry
   end
 
-  # Connect to the database according to current configurations in
-  # Earth.database_configurations and the current environment in Earth.env.
+  # Connect to the database using ActiveRecord's default behavior
   def Earth.connect
-    ActiveRecord::Base.establish_connection Earth.database_configurations[Earth.env]
+    ActiveRecord::Base.establish_connection
+    ActiveRecord::Base.connection
   end
 
   # The current environment. Earth detects the following environment variables:
@@ -81,44 +81,6 @@ module Earth
   # Default is `development`
   def Earth.env
     @env ||= ActiveSupport::StringInquirer.new(ENV['EARTH_ENV'] || ENV['RAILS_ENV'] || ENV['RACK_ENV'] || 'development')
-  end
-
-  # Earth will load database connection parameters from 
-  # config/database.yml (same as Rails' database configuration).
-  # Otherwise, a default testing configuration is used.
-  def Earth.database_configurations
-    return @database_configurations unless @database_configurations.nil?
-
-    yaml_path = File.join(Dir.pwd, 'config/database.yml')
-    if File.exist?(yaml_path)
-      require 'yaml'
-      YAML.load_file yaml_path
-    else
-      case ENV['EARTH_DB_ADAPTER']
-      when 'mysql'
-        adapter = 'mysql2'
-        database = 'test_earth'
-        username = 'root'
-        password = 'password'
-      else
-        adapter = 'postgresql'
-        database = 'test_earth'
-        username = nil
-        password = nil
-      end
-
-      config = {
-        'test' => {
-          'encoding' => 'utf8',
-          'adapter' => adapter,
-          'database' => database,
-        }
-      }
-      config['test']['username'] = username if username
-      config['test']['password'] = password if password
-
-      @database_configurations = config
-    end
   end
 
   # Drop and recreate tables for all currently loaded data models.
