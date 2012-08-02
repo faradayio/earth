@@ -38,6 +38,5 @@ EOS
     AutomobileTypeFuelYearControl.find_all_by_type_name_and_fuel_family_and_closest_year(type_name, fuel_family, year)
   end
   
-  
   warn_unless_size 124
 end

@@ -1,3 +1,5 @@
+require 'earth/automobile/automobile_make_year'
+
 AutomobileMake.class_eval do
   data_miner do
     process "Ensure AutomobileMakeYear is populated" do

@@ -41,7 +41,7 @@ EOS
       end
       
       # use original model name if fuel suffix didn't help
-      make_model ? make_model : AutomobileMakeModel.find_by_make_name_and_model_name(characteristics[:make].name, characteristics[:model].name)
+      make_model ? make_model : find_by_make_name_and_model_name(characteristics[:make].name, characteristics[:model].name)
     end
   end
   
@@ -49,7 +49,6 @@ EOS
   def model_years
     AutomobileMakeModelYear.where(:make_name => make_name, :model_name => model_name)
   end
-  
   
   warn_unless_size 2353
   warn_if_nulls_except :alt_fuel_code

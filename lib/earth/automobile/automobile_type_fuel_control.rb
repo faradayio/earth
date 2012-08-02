@@ -18,7 +18,6 @@ CREATE TABLE "automobile_type_fuel_controls"
 EOS
 
   self.primary_key = "name"
-
   
   warn_unless_size 20
 end

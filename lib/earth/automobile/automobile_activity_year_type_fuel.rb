@@ -21,9 +21,8 @@ EOS
   
   # Used by AutomobileFuel to get records from latest activity year
   def self.latest
-    where(:activity_year => maximum(:activity_year))
+    where :activity_year => maximum(:activity_year)
   end
-  
   
   warn_unless_size 120
 end

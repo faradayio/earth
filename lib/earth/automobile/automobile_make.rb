@@ -19,6 +19,5 @@ EOS
   # for calculating fuel efficiency
   has_many :make_years, :foreign_key => :make_name, :primary_key => :name, :class_name => 'AutomobileMakeYear'
   
-  
   warn_unless_size 81
 end

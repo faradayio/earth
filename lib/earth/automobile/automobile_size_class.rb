@@ -29,7 +29,6 @@ EOS
                 :conventional_fuel_efficiency_city_multiplier => 0.987,
                 :conventional_fuel_efficiency_highway_multiplier => 0.996
   
-  
   warn_unless_size 15
   warn_if_nulls_except(
     :hybrid_fuel_efficiency_city_multiplier,

@@ -1,15 +1,32 @@
 require 'spec_helper'
-require 'earth/automobile/automobile_type_fuel'
+require "#{Earth::FACTORY_DIR}/automobile_type_fuel"
+require "#{Earth::FACTORY_DIR}/automobile_activity_year_type_fuel"
 
 describe AutomobileTypeFuel do
-  let(:test_type_fuel) { AutomobileTypeFuel.find('Light-duty trucks gasoline') }
+  let(:atf) { AutomobileTypeFuel }
+  let(:aaytf) { AutomobileActivityYearTypeFuel }
   
-  describe 'verify', :sanity => true do
-    it { AutomobileTypeFuel.count.should == 4 }
-    it { AutomobileTypeFuel.where("annual_distance > 0").count.should == AutomobileTypeFuel.count }
-    it { AutomobileTypeFuel.where("ch4_emission_factor > 0").count.should == AutomobileTypeFuel.count }
-    it { AutomobileTypeFuel.where("n2o_emission_factor > 0").count.should == AutomobileTypeFuel.count }
-    it { AutomobileTypeFuel.where("vehicles > 0").count.should == AutomobileTypeFuel.count }
+  describe '#latest_activity_year_type_fuel' do
+    it 'should always be a match from the latest activity year' do
+      aaytf.delete_all
+      AutomobileTypeFuel.delete_all
+      FactoryGirl.create :aaytf, :gas_car_2009
+      FactoryGirl.create :aaytf, :gas_car_2010
+      car_gas = FactoryGirl.create :atf, :car_gas
+      latest_year = aaytf.maximum :activity_year
+      car_gas.latest_activity_year_type_fuel.activity_year.should == latest_year
+    end
+  end
+  
+  describe 'Sanity check', :sanity => true do
+    let(:total) { atf.count }
+    let(:test_type_fuel) { AutomobileTypeFuel.find('Light-duty trucks gasoline') }
+    
+    it { total.should == 4 }
+    it { atf.where("annual_distance > 0").count.should == total }
+    it { atf.where("ch4_emission_factor > 0").count.should == total }
+    it { atf.where("n2o_emission_factor > 0").count.should == total }
+    it { atf.where("vehicles > 0").count.should == total }
     
     # spot checks
     it { test_type_fuel.annual_distance.should be_within(0.1).of(19626.6) }
@@ -21,15 +38,5 @@ describe AutomobileTypeFuel do
     it { test_type_fuel.vehicles.should be_within(50).of(87_877_167) }
     it { test_type_fuel.fuel_consumption.should be_within(1).of(129_881_000_000) }
     it { test_type_fuel.fuel_consumption_units.should == 'litres' }
-  end
-  
-  describe '#latest_activity_year_type_fuel' do
-    it 'should always be a match from 2009' do
-      AutomobileTypeFuel.safe_find_each do |atf|
-        atf.latest_activity_year_type_fuel.type_name.should == atf.type_name
-        atf.latest_activity_year_type_fuel.fuel_family.should == atf.fuel_family
-        atf.latest_activity_year_type_fuel.activity_year.should == 2009
-      end
-    end
   end
 end

@@ -34,6 +34,5 @@ EOS
     AutomobileActivityYearTypeFuel.where(:activity_year => activity_year, :type_name => type_name)
   end
   
-  
   warn_unless_size 30
 end
