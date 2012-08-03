@@ -1,4 +1,3 @@
-require 'earth/fuel/data_miner'
 NationalTransitDatabaseRecord.class_eval do
   data_miner do
     import "US National Transit Database service data",

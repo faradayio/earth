@@ -1,15 +1,21 @@
+require 'earth/model'
+
 class FlightDistanceClass < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "flight_distance_classes"
+
+CREATE TABLE flight_distance_classes
   (
-     "name"               CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "distance"           FLOAT,
-     "distance_units"     CHARACTER VARYING(255),
-     "min_distance"       FLOAT,
-     "min_distance_units" CHARACTER VARYING(255),
-     "max_distance"       FLOAT,
-     "max_distance_units" CHARACTER VARYING(255)
+     name               CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     distance           FLOAT,
+     distance_units     CHARACTER VARYING(255),
+     min_distance       FLOAT,
+     min_distance_units CHARACTER VARYING(255),
+     max_distance       FLOAT,
+     max_distance_units CHARACTER VARYING(255)
   );
+
 EOS
 
   self.primary_key = "name"

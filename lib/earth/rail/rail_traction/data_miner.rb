@@ -1,3 +1,8 @@
+require 'earth/rail/country_rail_traction'
+require 'earth/rail/country_rail_traction_class'
+require 'earth/rail/rail_company_traction'
+require 'earth/rail/rail_company_traction_class'
+
 RailTraction.class_eval do
   data_miner do
     process "Ensure CountryRailTraction, CountryRailTractionClass, RailCompanyTraction, and RailCompanyTractionClass are populated" do

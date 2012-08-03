@@ -1,71 +1,78 @@
-require 'earth/automobile'
-require 'earth/hospitality'
-require 'earth/rail'
+require 'falls_back_on'
+
+require 'earth/model'
+
+require 'earth/locality/electricity_mix'
+require 'earth/rail/rail_company'
 
 class Country < ActiveRecord::Base
+  data_miner do
+    process "Ensure ElectricityMix is imported because it's like a belongs_to association" do
+      ElectricityMix.run_data_miner!
+    end
+  end
+
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "countries"
+
+CREATE TABLE countries
   (
-     "iso_3166_code"                         CHARACTER VARYING(255) NOT NULL PRIMARY KEY, /* alpha-2 2-letter like GB */
-     "iso_3166_numeric_code"                 INTEGER,                                     /* numeric like 826; aka UN M49 code */
-     "iso_3166_alpha_3_code"                 CHARACTER VARYING(255),                      /* 3-letter like GBR */
-     "name"                                  CHARACTER VARYING(255),
-     "heating_degree_days"                   FLOAT,
-     "heating_degree_days_units"             CHARACTER VARYING(255),
-     "cooling_degree_days"                   FLOAT,
-     "cooling_degree_days_units"             CHARACTER VARYING(255),
-     "automobile_urbanity"                   FLOAT,                           /* float from 0 to 1 */
-     "automobile_fuel_efficiency"            FLOAT,
-     "automobile_fuel_efficiency_units"      CHARACTER VARYING(255),
-     "automobile_city_speed"                 FLOAT,
-     "automobile_city_speed_units"           CHARACTER VARYING(255),
-     "automobile_highway_speed"              FLOAT,
-     "automobile_highway_speed_units"        CHARACTER VARYING(255),
-     "automobile_trip_distance"              FLOAT,
-     "automobile_trip_distance_units"        CHARACTER VARYING(255),
-     "electricity_emission_factor"           FLOAT,
-     "electricity_emission_factor_units"     CHARACTER VARYING(255),
-     "electricity_co2_emission_factor"       FLOAT,
-     "electricity_co2_emission_factor_units" CHARACTER VARYING(255),
-     "electricity_ch4_emission_factor"       FLOAT,
-     "electricity_ch4_emission_factor_units" CHARACTER VARYING(255),
-     "electricity_n2o_emission_factor"       FLOAT,
-     "electricity_n2o_emission_factor_units" CHARACTER VARYING(255),
-     "electricity_loss_factor"               FLOAT,
-     "flight_route_inefficiency_factor"      FLOAT,
-     "lodging_occupancy_rate"                FLOAT,
-     "lodging_natural_gas_intensity"         FLOAT,
-     "lodging_natural_gas_intensity_units"   CHARACTER VARYING(255),
-     "lodging_fuel_oil_intensity"            FLOAT,
-     "lodging_fuel_oil_intensity_units"      CHARACTER VARYING(255),
-     "lodging_electricity_intensity"         FLOAT,
-     "lodging_electricity_intensity_units"   CHARACTER VARYING(255),
-     "lodging_district_heat_intensity"       FLOAT,
-     "lodging_district_heat_intensity_units" CHARACTER VARYING(255),
-     "rail_passengers"                       FLOAT,
-     "rail_trip_distance"                    FLOAT,
-     "rail_trip_distance_units"              CHARACTER VARYING(255),
-     "rail_speed"                            FLOAT,
-     "rail_speed_units"                      CHARACTER VARYING(255),
-     "rail_trip_electricity_intensity"       FLOAT,
-     "rail_trip_electricity_intensity_units" CHARACTER VARYING(255),
-     "rail_trip_diesel_intensity"            FLOAT,
-     "rail_trip_diesel_intensity_units"      CHARACTER VARYING(255),
-     "rail_trip_co2_emission_factor"         FLOAT,
-     "rail_trip_co2_emission_factor_units"   CHARACTER VARYING(255)
+     iso_3166_code                         CHARACTER VARYING(255) NOT NULL PRIMARY KEY, /* alpha-2 2-letter like GB */
+     iso_3166_numeric_code                 INTEGER,                                     /* numeric like 826; aka UN M49 code */
+     iso_3166_alpha_3_code                 CHARACTER VARYING(255),                      /* 3-letter like GBR */
+     name                                  CHARACTER VARYING(255),
+     heating_degree_days                   FLOAT,
+     heating_degree_days_units             CHARACTER VARYING(255),
+     cooling_degree_days                   FLOAT,
+     cooling_degree_days_units             CHARACTER VARYING(255),
+     automobile_urbanity                   FLOAT,                           /* float from 0 to 1 */
+     automobile_fuel_efficiency            FLOAT,
+     automobile_fuel_efficiency_units      CHARACTER VARYING(255),
+     automobile_city_speed                 FLOAT,
+     automobile_city_speed_units           CHARACTER VARYING(255),
+     automobile_highway_speed              FLOAT,
+     automobile_highway_speed_units        CHARACTER VARYING(255),
+     automobile_trip_distance              FLOAT,
+     automobile_trip_distance_units        CHARACTER VARYING(255),
+     electricity_emission_factor           FLOAT,
+     electricity_emission_factor_units     CHARACTER VARYING(255),
+     electricity_co2_emission_factor       FLOAT,
+     electricity_co2_emission_factor_units CHARACTER VARYING(255),
+     electricity_ch4_emission_factor       FLOAT,
+     electricity_ch4_emission_factor_units CHARACTER VARYING(255),
+     electricity_n2o_emission_factor       FLOAT,
+     electricity_n2o_emission_factor_units CHARACTER VARYING(255),
+     electricity_loss_factor               FLOAT,
+     flight_route_inefficiency_factor      FLOAT,
+     lodging_occupancy_rate                FLOAT,
+     lodging_natural_gas_intensity         FLOAT,
+     lodging_natural_gas_intensity_units   CHARACTER VARYING(255),
+     lodging_fuel_oil_intensity            FLOAT,
+     lodging_fuel_oil_intensity_units      CHARACTER VARYING(255),
+     lodging_electricity_intensity         FLOAT,
+     lodging_electricity_intensity_units   CHARACTER VARYING(255),
+     lodging_district_heat_intensity       FLOAT,
+     lodging_district_heat_intensity_units CHARACTER VARYING(255),
+     rail_passengers                       FLOAT,
+     rail_trip_distance                    FLOAT,
+     rail_trip_distance_units              CHARACTER VARYING(255),
+     rail_speed                            FLOAT,
+     rail_speed_units                      CHARACTER VARYING(255),
+     rail_trip_electricity_intensity       FLOAT,
+     rail_trip_electricity_intensity_units CHARACTER VARYING(255),
+     rail_trip_diesel_intensity            FLOAT,
+     rail_trip_diesel_intensity_units      CHARACTER VARYING(255),
+     rail_trip_co2_emission_factor         FLOAT,
+     rail_trip_co2_emission_factor_units   CHARACTER VARYING(255)
   );
+
 EOS
 
   self.primary_key = "iso_3166_code"
   
   has_many :rail_companies,  :foreign_key => 'country_iso_3166_code' # used to calculate rail data
   has_one :electricity_mix, :foreign_key => 'country_iso_3166_code'
-  
-  data_miner do
-    process "Ensure ElectricityMix is imported because it's like a belongs_to association" do
-      ElectricityMix.run_data_miner!
-    end
-  end
   
   def self.united_states
     find_by_iso_3166_code('US')

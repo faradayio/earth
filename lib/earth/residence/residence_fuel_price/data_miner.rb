@@ -1,4 +1,3 @@
-require 'earth/locality/data_miner'
 ResidenceFuelPrice.class_eval do
   class FuelOilParser
     def initialize(options = {})

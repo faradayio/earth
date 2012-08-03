@@ -1,42 +1,47 @@
+require 'earth/model'
 require 'earth/locality'
 
 class CbecsEnergyIntensity < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "cbecs_energy_intensities"
+
+CREATE TABLE cbecs_energy_intensities
   (
-     "name"                           CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "principal_building_activity"    CHARACTER VARYING(255),
-     "naics_code"                     CHARACTER VARYING(255),
-     "census_region_number"           INTEGER,
-     "census_division_number"         INTEGER,
-     "electricity"                    FLOAT,
-     "electricity_units"              CHARACTER VARYING(255),
-     "electricity_floorspace"         FLOAT,
-     "electricity_floorspace_units"   CHARACTER VARYING(255),
-     "electricity_intensity"          FLOAT,
-     "electricity_intensity_units"    CHARACTER VARYING(255),
-     "natural_gas"                    FLOAT,
-     "natural_gas_units"              CHARACTER VARYING(255),
-     "natural_gas_floorspace"         FLOAT,
-     "natural_gas_floorspace_units"   CHARACTER VARYING(255),
-     "natural_gas_intensity"          FLOAT,
-     "natural_gas_intensity_units"    CHARACTER VARYING(255),
-     "fuel_oil"                       FLOAT,
-     "fuel_oil_units"                 CHARACTER VARYING(255),
-     "fuel_oil_floorspace"            FLOAT,
-     "fuel_oil_floorspace_units"      CHARACTER VARYING(255),
-     "fuel_oil_intensity"             FLOAT,
-     "fuel_oil_intensity_units"       CHARACTER VARYING(255),
-     "district_heat"                  FLOAT,
-     "district_heat_units"            CHARACTER VARYING(255),
-     "district_heat_floorspace"       FLOAT,
-     "district_heat_floorspace_units" CHARACTER VARYING(255),
-     "district_heat_intensity"        FLOAT,
-     "district_heat_intensity_units"  CHARACTER VARYING(255)
+     name                           CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     principal_building_activity    CHARACTER VARYING(255),
+     naics_code                     CHARACTER VARYING(255),
+     census_region_number           INTEGER,
+     census_division_number         INTEGER,
+     electricity                    FLOAT,
+     electricity_units              CHARACTER VARYING(255),
+     electricity_floorspace         FLOAT,
+     electricity_floorspace_units   CHARACTER VARYING(255),
+     electricity_intensity          FLOAT,
+     electricity_intensity_units    CHARACTER VARYING(255),
+     natural_gas                    FLOAT,
+     natural_gas_units              CHARACTER VARYING(255),
+     natural_gas_floorspace         FLOAT,
+     natural_gas_floorspace_units   CHARACTER VARYING(255),
+     natural_gas_intensity          FLOAT,
+     natural_gas_intensity_units    CHARACTER VARYING(255),
+     fuel_oil                       FLOAT,
+     fuel_oil_units                 CHARACTER VARYING(255),
+     fuel_oil_floorspace            FLOAT,
+     fuel_oil_floorspace_units      CHARACTER VARYING(255),
+     fuel_oil_intensity             FLOAT,
+     fuel_oil_intensity_units       CHARACTER VARYING(255),
+     district_heat                  FLOAT,
+     district_heat_units            CHARACTER VARYING(255),
+     district_heat_floorspace       FLOAT,
+     district_heat_floorspace_units CHARACTER VARYING(255),
+     district_heat_intensity        FLOAT,
+     district_heat_intensity_units  CHARACTER VARYING(255)
   );
-CREATE INDEX "index_cbecs_energy_intensities_on_naics_code" ON "cbecs_energy_intensities" ("naics_code");
-CREATE INDEX "index_cbecs_energy_intensities_on_census_region_number" ON "cbecs_energy_intensities" ("census_region_number");
-CREATE INDEX "index_cbecs_energy_intensities_on_census_division_number" ON "cbecs_energy_intensities" ("census_division_number")
+CREATE INDEX index_cbecs_energy_intensities_on_naics_code ON cbecs_energy_intensities (naics_code);
+CREATE INDEX index_cbecs_energy_intensities_on_census_region_number ON cbecs_energy_intensities (census_region_number);
+CREATE INDEX index_cbecs_energy_intensities_on_census_division_number ON cbecs_energy_intensities (census_division_number)
+
 EOS
 
   self.primary_key = "name"

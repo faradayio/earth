@@ -1,4 +1,4 @@
-require 'earth/locality/data_miner'
+require 'earth/electricity/green_button_adoption'
 
 ElectricUtility.class_eval do
   data_miner do

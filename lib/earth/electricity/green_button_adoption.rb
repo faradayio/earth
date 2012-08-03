@@ -1,11 +1,17 @@
+require 'earth/model'
+
 class GreenButtonAdoption < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "green_button_adoptions"
+
+CREATE TABLE green_button_adoptions
   (
-     "electric_utility_name" CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "implemented"           BOOLEAN,
-     "committed"             BOOLEAN
+     electric_utility_name CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     implemented           BOOLEAN,
+     committed             BOOLEAN
   );
+
 EOS
 
   self.primary_key = "electric_utility_name"

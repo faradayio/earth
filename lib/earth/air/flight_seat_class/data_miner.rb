@@ -1,3 +1,5 @@
+require 'earth/air/flight_distance_class_seat_class'
+
 FlightSeatClass.class_eval do
   data_miner do
     process "Ensure that FlightDistanceClassSeatClass is populated" do

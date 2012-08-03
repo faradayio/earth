@@ -1,5 +1,10 @@
-require 'earth/fuel/data_miner'
-require 'earth/locality/data_miner'
+require 'earth/locality/egrid_region'
+require 'earth/locality/egrid_subregion'
+require 'earth/rail/national_transit_database_company'
+require 'earth/rail/national_transit_database_mode'
+require 'earth/rail/national_transit_database_record'
+require 'earth/rail/rail_fuel'
+
 RailCompany.class_eval do
   data_miner do
     import "european rail company data from the UIC",

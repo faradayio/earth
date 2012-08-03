@@ -1,3 +1,5 @@
+require 'earth/residence/residential_energy_consumption_survey_response'
+
 ResidenceAppliance.class_eval do
   data_miner do
     process "Ensure ResidentialEnergyConsumptionSurveyResponse is populated" do

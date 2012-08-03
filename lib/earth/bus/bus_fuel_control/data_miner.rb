@@ -1,4 +1,3 @@
-require 'earth/fuel/data_miner'
 BusFuelControl.class_eval do
   data_miner do
     import "a list of bus fuel controls",

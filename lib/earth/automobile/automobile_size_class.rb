@@ -1,18 +1,26 @@
+require 'falls_back_on'
+
+require 'earth/model'
+
 class AutomobileSizeClass < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "automobile_size_classes"
+
+CREATE TABLE automobile_size_classes
   (
-     "name"                                            CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "type_name"                                       CHARACTER VARYING(255),
-     "fuel_efficiency_city"                            FLOAT,
-     "fuel_efficiency_city_units"                      CHARACTER VARYING(255),
-     "fuel_efficiency_highway"                         FLOAT,
-     "fuel_efficiency_highway_units"                   CHARACTER VARYING(255),
-     "hybrid_fuel_efficiency_city_multiplier"          FLOAT,
-     "hybrid_fuel_efficiency_highway_multiplier"       FLOAT,
-     "conventional_fuel_efficiency_city_multiplier"    FLOAT,
-     "conventional_fuel_efficiency_highway_multiplier" FLOAT
+     name                                            CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     type_name                                       CHARACTER VARYING(255),
+     fuel_efficiency_city                            FLOAT,
+     fuel_efficiency_city_units                      CHARACTER VARYING(255),
+     fuel_efficiency_highway                         FLOAT,
+     fuel_efficiency_highway_units                   CHARACTER VARYING(255),
+     hybrid_fuel_efficiency_city_multiplier          FLOAT,
+     hybrid_fuel_efficiency_highway_multiplier       FLOAT,
+     conventional_fuel_efficiency_city_multiplier    FLOAT,
+     conventional_fuel_efficiency_highway_multiplier FLOAT
   );
+
 EOS
 
   self.primary_key = "name"

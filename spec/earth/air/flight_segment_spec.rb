@@ -1,18 +1,10 @@
 require 'spec_helper'
 require 'earth/air/flight_segment'
+require 'factories/flight_segment'
+require 'factories/airline'
 
 describe FlightSegment do
-  describe 'import', :data_miner => true do
-    it 'should import data' do
-      FlightSegment.run_data_miner!
-    end
-  end
-  
   describe "verify imported data", :sanity => true, :flight_segment => true do
-    before :all do
-      FlightSegment.run_data_miner!
-    end
-
     it "should have all the data" do
       FlightSegment.where(:year => 2009).count.should == 403_980
       FlightSegment.where(:year => 2010).count.should == 421_884

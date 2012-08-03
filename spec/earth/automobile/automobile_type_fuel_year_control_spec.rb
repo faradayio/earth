@@ -5,14 +5,7 @@ describe AutomobileTypeFuelYearControl do
   let(:test_year_control) { ATFYC.where(:type_name => 'Passenger cars', :fuel_family => 'gasoline', :year => 2005).first }
   
   before :all do
-    Earth.init :automobile, :load_data_miner => true
     require 'earth/acronyms'
-  end
-  
-  describe 'import', :data_miner => true do
-    it 'should import data' do
-      ATFYC.run_data_miner!
-    end
   end
   
   describe 'verify imported data', :sanity => true do

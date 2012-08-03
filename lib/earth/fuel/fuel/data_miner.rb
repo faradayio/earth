@@ -1,3 +1,5 @@
+require 'earth/fuel/fuel_year'
+
 Fuel.class_eval do
   data_miner do
     process "Ensure FuelYear is populated" do

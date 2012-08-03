@@ -1,19 +1,27 @@
+require 'earth/model'
+
+require 'earth/automobile/automobile_type_fuel_year_control'
+
 class AutomobileTypeFuelYear < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "automobile_type_fuel_years"
+
+CREATE TABLE automobile_type_fuel_years
   (
-     "name"                      CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "type_name"                 CHARACTER VARYING(255),
-     "fuel_family"               CHARACTER VARYING(255),
-     "year"                      INTEGER,
-     "share_of_type"             FLOAT,
-     "annual_distance"           FLOAT,
-     "annual_distance_units"     CHARACTER VARYING(255),
-     "ch4_emission_factor"       FLOAT,
-     "ch4_emission_factor_units" CHARACTER VARYING(255),
-     "n2o_emission_factor"       FLOAT,
-     "n2o_emission_factor_units" CHARACTER VARYING(255)
+     name                      CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     type_name                 CHARACTER VARYING(255),
+     fuel_family               CHARACTER VARYING(255),
+     year                      INTEGER,
+     share_of_type             FLOAT,
+     annual_distance           FLOAT,
+     annual_distance_units     CHARACTER VARYING(255),
+     ch4_emission_factor       FLOAT,
+     ch4_emission_factor_units CHARACTER VARYING(255),
+     n2o_emission_factor       FLOAT,
+     n2o_emission_factor_units CHARACTER VARYING(255)
   );
+
 EOS
 
   self.primary_key = "name"

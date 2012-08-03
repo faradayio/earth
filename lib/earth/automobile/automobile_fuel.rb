@@ -1,31 +1,40 @@
-require 'earth/fuel'
+require 'falls_back_on'
+
+require 'earth/model'
+
+require 'earth/automobile/automobile_type_fuel'
+require 'earth/fuel/fuel'
 
 class AutomobileFuel < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "automobile_fuels"
+
+CREATE TABLE automobile_fuels
   (
-     "name"                               CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "code"                               CHARACTER VARYING(255),
-     "family"                             CHARACTER VARYING(255),
-     "distance_key"                       CHARACTER VARYING(255),
-     "base_fuel_name"                     CHARACTER VARYING(255),
-     "blend_fuel_name"                    CHARACTER VARYING(255),
-     "blend_portion"                      FLOAT,                  /* the portion of the blend that is the blend fuel */
-     "annual_distance"                    FLOAT,
-     "annual_distance_units"              CHARACTER VARYING(255),
-     "energy_content"                     FLOAT,
-     "energy_content_units"               CHARACTER VARYING(255),
-     "co2_emission_factor"                FLOAT,
-     "co2_emission_factor_units"          CHARACTER VARYING(255),
-     "co2_biogenic_emission_factor"       FLOAT,
-     "co2_biogenic_emission_factor_units" CHARACTER VARYING(255),
-     "ch4_emission_factor"                FLOAT,
-     "ch4_emission_factor_units"          CHARACTER VARYING(255),
-     "n2o_emission_factor"                FLOAT,
-     "n2o_emission_factor_units"          CHARACTER VARYING(255),
-     "total_consumption"                  FLOAT,                  /* for calculating fallback blend_portion */
-     "total_consumption_units"            CHARACTER VARYING(255)
+     name                               CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     code                               CHARACTER VARYING(255),
+     family                             CHARACTER VARYING(255),
+     distance_key                       CHARACTER VARYING(255),
+     base_fuel_name                     CHARACTER VARYING(255),
+     blend_fuel_name                    CHARACTER VARYING(255),
+     blend_portion                      FLOAT,                  /* the portion of the blend that is the blend fuel */
+     annual_distance                    FLOAT,
+     annual_distance_units              CHARACTER VARYING(255),
+     energy_content                     FLOAT,
+     energy_content_units               CHARACTER VARYING(255),
+     co2_emission_factor                FLOAT,
+     co2_emission_factor_units          CHARACTER VARYING(255),
+     co2_biogenic_emission_factor       FLOAT,
+     co2_biogenic_emission_factor_units CHARACTER VARYING(255),
+     ch4_emission_factor                FLOAT,
+     ch4_emission_factor_units          CHARACTER VARYING(255),
+     n2o_emission_factor                FLOAT,
+     n2o_emission_factor_units          CHARACTER VARYING(255),
+     total_consumption                  FLOAT,                  /* for calculating fallback blend_portion */
+     total_consumption_units            CHARACTER VARYING(255)
   );
+
 EOS
 
   self.primary_key = "name"

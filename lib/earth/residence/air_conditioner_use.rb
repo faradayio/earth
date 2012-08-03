@@ -1,11 +1,21 @@
+require 'falls_back_on'
+
+require 'earth/model'
+
+require 'earth/residence/residential_energy_consumption_survey_response'
+
 class AirConditionerUse < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "air_conditioner_uses"
+
+CREATE TABLE air_conditioner_uses
   (
-     "name"                    CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "fugitive_emission"       FLOAT,
-     "fugitive_emission_units" CHARACTER VARYING(255)
+     name                    CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     fugitive_emission       FLOAT,
+     fugitive_emission_units CHARACTER VARYING(255)
   );
+
 EOS
 
   self.primary_key = "name"

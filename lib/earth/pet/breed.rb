@@ -1,12 +1,21 @@
+require 'earth/model'
+
+require 'earth/pet/breed_gender'
+require 'earth/pet/species'
+
 class Breed < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "breeds"
+
+CREATE TABLE breeds
   (
-     "name"         CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "species_name" CHARACTER VARYING(255),
-     "weight"       FLOAT,
-     "weight_units" CHARACTER VARYING(255)
+     name         CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     species_name CHARACTER VARYING(255),
+     weight       FLOAT,
+     weight_units CHARACTER VARYING(255)
   );
+
 EOS
 
   self.primary_key = "name"

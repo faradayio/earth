@@ -1,14 +1,22 @@
-require 'earth/locality'
+require 'earth/model'
+
+require 'earth/industry/industry'
+require 'earth/industry/product_line_industry_product'
+
 class IndustryProduct < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "industry_products"
+
+CREATE TABLE industry_products
   (
-     "naics_product_code" CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "description"        TEXT,
-     "value"              FLOAT,
-     "value_units"        CHARACTER VARYING(255),
-     "naics_code"         CHARACTER VARYING(255)
+     naics_product_code CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     description        TEXT,
+     value              FLOAT,
+     value_units        CHARACTER VARYING(255),
+     naics_code         CHARACTER VARYING(255)
   );
+
 EOS
 
   self.primary_key = "naics_product_code"

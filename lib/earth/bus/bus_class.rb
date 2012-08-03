@@ -1,33 +1,40 @@
-require 'earth/fuel'
+require 'falls_back_on'
+
+require 'earth/model'
+
 class BusClass < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "bus_classes"
+
+CREATE TABLE bus_classes
   (
-     "name"                                   CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "distance"                               FLOAT,
-     "distance_units"                         CHARACTER VARYING(255),
-     "passengers"                             FLOAT,
-     "speed"                                  FLOAT,
-     "speed_units"                            CHARACTER VARYING(255),
-     "gasoline_intensity"                     FLOAT,
-     "gasoline_intensity_units"               CHARACTER VARYING(255),
-     "diesel_intensity"                       FLOAT,
-     "diesel_intensity_units"                 CHARACTER VARYING(255),
-     "cng_intensity"                          FLOAT,
-     "cng_intensity_units"                    CHARACTER VARYING(255),
-     "lng_intensity"                          FLOAT,
-     "lng_intensity_units"                    CHARACTER VARYING(255),
-     "lpg_intensity"                          FLOAT,
-     "lpg_intensity_units"                    CHARACTER VARYING(255),
-     "methanol_intensity"                     FLOAT,
-     "methanol_intensity_units"               CHARACTER VARYING(255),
-     "biodiesel_intensity"                    FLOAT,
-     "biodiesel_intensity_units"              CHARACTER VARYING(255),
-     "electricity_intensity"                  FLOAT,
-     "electricity_intensity_units"            CHARACTER VARYING(255),
-     "air_conditioning_emission_factor"       FLOAT,
-     "air_conditioning_emission_factor_units" CHARACTER VARYING(255)
+     name                                   CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     distance                               FLOAT,
+     distance_units                         CHARACTER VARYING(255),
+     passengers                             FLOAT,
+     speed                                  FLOAT,
+     speed_units                            CHARACTER VARYING(255),
+     gasoline_intensity                     FLOAT,
+     gasoline_intensity_units               CHARACTER VARYING(255),
+     diesel_intensity                       FLOAT,
+     diesel_intensity_units                 CHARACTER VARYING(255),
+     cng_intensity                          FLOAT,
+     cng_intensity_units                    CHARACTER VARYING(255),
+     lng_intensity                          FLOAT,
+     lng_intensity_units                    CHARACTER VARYING(255),
+     lpg_intensity                          FLOAT,
+     lpg_intensity_units                    CHARACTER VARYING(255),
+     methanol_intensity                     FLOAT,
+     methanol_intensity_units               CHARACTER VARYING(255),
+     biodiesel_intensity                    FLOAT,
+     biodiesel_intensity_units              CHARACTER VARYING(255),
+     electricity_intensity                  FLOAT,
+     electricity_intensity_units            CHARACTER VARYING(255),
+     air_conditioning_emission_factor       FLOAT,
+     air_conditioning_emission_factor_units CHARACTER VARYING(255)
   );
+
 EOS
 
   self.primary_key = "name"
