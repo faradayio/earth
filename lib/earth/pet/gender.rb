@@ -16,6 +16,5 @@ EOS
   
   has_many :breed_genders, :foreign_key => 'gender_name'
   
-
   warn_unless_size 2
 end

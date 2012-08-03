@@ -21,7 +21,6 @@ EOS
   has_many :breed_genders, :foreign_key => 'breed_name'
   belongs_to :species, :foreign_key => 'species_name'
   
-
   warn_if_nulls_except(
     :weight,
     :weight_units
