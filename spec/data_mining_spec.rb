@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'fileutils'
 require 'earth'
 
-describe 'Data Mining' do
+describe 'Data Mining', :data_miner => true do
   it 'is successful for each individual model' do
     Earth.init :all
     Earth.resource_models.each do |resource|

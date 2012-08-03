@@ -21,6 +21,7 @@ DataMiner.unit_converter = :conversions
 RSpec.configure do |c|
   unless ENV['ALL'] == 'true'
     c.filter_run_excluding :sanity => true
+    c.filter_run_excluding :data_miner => true
   end
   if ENV['SKIP_FLIGHT_SEGMENT'] == 'true'
     c.filter_run_excluding :flight_segment => true
