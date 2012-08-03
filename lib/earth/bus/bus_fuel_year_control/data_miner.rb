@@ -18,7 +18,5 @@ BusFuelYearControl.class_eval do
     process "Derive bus fuel control name for association with BusFuelControl" do
       update_all "bus_fuel_control_name = bus_fuel_name || ' ' || control"
     end
-    
-    # FIXME TODO verify that for any year the percentages sum to 1
   end
 end
