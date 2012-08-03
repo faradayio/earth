@@ -37,11 +37,10 @@ module Earth
       def create_table!(force = true)
         c = ActiveRecord::Base.connection_pool.checkout
 
-        if c.table_exists?(table_name) and not force
-          return
+        if c.table_exists?(table_name)
+          return unless force
+          c.drop_table table_name
         end
-
-        c.execute %{DROP TABLE IF EXISTS "#{table_name}"}
 
         statements = const_get(:TABLE_STRUCTURE).gsub(COMMENT, '').gsub(WHITESPACE, ' ').split(SEMICOLON).select(&:present?)
 
