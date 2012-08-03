@@ -19,6 +19,5 @@ EOS
   
   belongs_to :egrid_subregion, :foreign_key => 'egrid_subregion_abbreviation'
 
-
   warn_unless_size 4
 end
