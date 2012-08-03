@@ -14,7 +14,6 @@ EOS
 
   self.primary_key = "electric_utility_name"
   
-
   class << self
     def implemented?(*names)
       names.any? do |name|
@@ -27,4 +26,6 @@ EOS
       end
     end
   end
+  
+  warn_unless_size 23
 end

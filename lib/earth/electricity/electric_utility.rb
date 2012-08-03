@@ -6,8 +6,14 @@ require 'earth/locality/state'
 require 'earth/locality/zip_code'
 
 class ElectricUtility < ActiveRecord::Base
+  data_miner do
+    process "Data mine GreenButtonAdoption because it's like a belongs_to association" do
+      GreenButtonAdoption.run_data_miner!
+    end
+  end
+  
   extend Earth::Model
-
+  
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE "electric_utilities"
   (
@@ -26,12 +32,13 @@ EOS
   has_many :electric_markets, :foreign_key => :electric_utility_eia_id
   has_many :zip_codes, :through => :electric_markets
   
-
   def green_button_implementer?
-    GreenButtonAdoption.implemented? name, nickname 
+    GreenButtonAdoption.implemented? name, nickname
   end
-
+  
   def green_button_committer?
     GreenButtonAdoption.committed? name, nickname
   end
+  
+  warn_unless_size 3265
 end
