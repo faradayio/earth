@@ -34,20 +34,19 @@ EOS
 
   self.primary_key = "name"
   
-  
   FUELS = [:electricity, :residual_fuel_oil, :distillate_fuel_oil,
            :natural_gas, :lpg_and_ngl, :coal, :coke_and_breeze, :other_fuel]
   
-   # Find the first record whose naics_code matches code and that has valid fuel ratios.
-   # If no record found chop off the last character of code and try again, and so on.
-   def self.find_by_naics_code(code)
-     find_by_naics_code_and_census_region_number(code, nil)
-   end
+  # Find the first record whose naics_code matches code and that has valid fuel ratios.
+  # If no record found chop off the last character of code and try again, and so on.
+  def self.find_by_naics_code(code)
+    find_by_naics_code_and_census_region_number(code, nil)
+  end
    
-   # Find the first record whose census_region_number matches number, whose naics_code matches code, and that has valid fuel ratios.
-   # If none found and we know census region number, try looking nationwide
-   # If none found and looking nationwide, chop off the last character of code and try again looking in census region
-   # And so on
+  # Find the first record whose census_region_number matches number, whose naics_code matches code, and that has valid fuel ratios.
+  # If none found and we know census region number, try looking nationwide
+  # If none found and looking nationwide, chop off the last character of code and try again looking in census region
+  # And so on
   def self.find_by_naics_code_and_census_region_number(code, number, original_number = number)
     if code.blank?
       record = nil

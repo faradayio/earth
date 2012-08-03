@@ -1,5 +1,5 @@
 require 'earth/eia'
-require 'earth/industry'
+require 'earth/industry/industry'
 
 CbecsEnergyIntensity.class_eval do
   const_set(:CBECS, {

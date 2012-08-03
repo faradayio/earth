@@ -23,4 +23,5 @@ EOS
     description
   end
 
+  warn_unless_size 285
 end

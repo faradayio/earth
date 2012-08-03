@@ -20,7 +20,6 @@ EOS
   
   belongs_to :industry
   
-  
   # Find the first record whose naics_code matches code and whose energy per dollar shipment is present.
   # If no record found chop off the last character of code and try again, and so on.
   def self.find_by_naics_code(code)
@@ -48,4 +47,6 @@ EOS
     end
     record
   end
+  
+  warn_unless_size 395
 end

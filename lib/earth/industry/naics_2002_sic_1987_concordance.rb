@@ -26,4 +26,5 @@ EOS
     (note = description.match /.+?\((.+)\)/) ? note.captures.first : nil
   end
   
+  warn_unless_size 2164
 end
