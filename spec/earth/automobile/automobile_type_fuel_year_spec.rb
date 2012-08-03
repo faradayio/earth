@@ -1,36 +1,33 @@
 require 'spec_helper'
 require "#{Earth::FACTORY_DIR}/automobile_type_fuel_year"
+require "#{Earth::FACTORY_DIR}/automobile_type_fuel_year_control"
 
 describe AutomobileTypeFuelYear, :data_miner => true do
   let(:atfy) { AutomobileTypeFuelYear } 
   
   describe '.find_by_type_name_and_fuel_family_and_closest_year' do
     it "should return the ATFY from the closest year" do
-      atfy.delete_all
-      car_1984 = FactoryGirl.create :atfy, :car_1984
-      car_2009 = FactoryGirl.create :atfy, :car_2009
-      car_2011 = FactoryGirl.create :atfy, :car_2011
+      cars_1984 = FactoryGirl.create :atfy, :cars_1984
+      cars_2009 = FactoryGirl.create :atfy, :cars_2009
+      cars_2011 = FactoryGirl.create :atfy, :cars_2011
       
-      atfy.find_by_type_name_and_fuel_family_and_closest_year('Passenger cars', 'gasoline', 1970).should == car_1984
-      atfy.find_by_type_name_and_fuel_family_and_closest_year('Passenger cars', 'gasoline', 2009).should == car_2009
-      atfy.find_by_type_name_and_fuel_family_and_closest_year('Passenger cars', 'gasoline', 2012).should == car_2011
+      atfy.find_by_type_name_and_fuel_family_and_closest_year('cars', 'gas', 1970).should == cars_1984
+      atfy.find_by_type_name_and_fuel_family_and_closest_year('cars', 'gas', 2009).should == cars_2009
+      atfy.find_by_type_name_and_fuel_family_and_closest_year('cars', 'gas', 2012).should == cars_2011
     end
   end
   
   describe '#type_fuel_year_controls' do
-    it "should find controls from 1985 when year < 1985" do
-      atfy.delete_all
-      FactoryGirl.create(:atfy, :car_1984).type_fuel_year_controls.first.year.should == 1985
-    end
-    
-    it "should find controls from year when year from 1985 to 2010" do
-      atfy.delete_all
-      FactoryGirl.create(:atfy, :car_2009).type_fuel_year_controls.first.year.should == 2009
-    end
-    
-    it "should find controls from 2010 when year > 2010" do
-      atfy.delete_all
-      FactoryGirl.create(:atfy, :car_2011).type_fuel_year_controls.first.year.should == 2010
+    it "should return the controls from the closest year" do
+      FactoryGirl.create :atfyc, :cars_1985_1
+      FactoryGirl.create :atfyc, :cars_2009_1
+      FactoryGirl.create :atfyc, :cars_2009_2
+      FactoryGirl.create :atfyc, :cars_2010_1
+      FactoryGirl.create :atfyc, :cars_2010_2
+      
+      FactoryGirl.create(:atfy, :cars_1984).type_fuel_year_controls.first.year.should == 1985
+      FactoryGirl.create(:atfy, :cars_2009).type_fuel_year_controls.first.year.should == 2009
+      FactoryGirl.create(:atfy, :cars_2011).type_fuel_year_controls.first.year.should == 2010
     end
   end
   

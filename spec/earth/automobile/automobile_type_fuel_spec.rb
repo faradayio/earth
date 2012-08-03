@@ -8,8 +8,6 @@ describe AutomobileTypeFuel do
   
   describe '#latest_activity_year_type_fuel' do
     it 'should always be a match from the latest activity year' do
-      aaytf.delete_all
-      AutomobileTypeFuel.delete_all
       FactoryGirl.create :aaytf, :gas_car_2009
       FactoryGirl.create :aaytf, :gas_car_2010
       car_gas = FactoryGirl.create :atf, :car_gas

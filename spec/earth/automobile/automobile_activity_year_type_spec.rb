@@ -7,14 +7,12 @@ describe AutomobileActivityYearType do
   
   describe '.find_by_type_name_and_closest_year' do
     it 'returns the AAYT with the closest year' do
-      aayt.delete_all
+      cars_2009 = FactoryGirl.create :aayt, :cars_2009
+      cars_2010 = FactoryGirl.create :aayt, :cars_2010
       
-      car_2009 = FactoryGirl.create :aayt, :car_2009
-      car_2010 = FactoryGirl.create :aayt, :car_2010
-      
-      aayt.find_by_type_name_and_closest_year('Passenger cars', 2011).should == car_2010
-      aayt.find_by_type_name_and_closest_year('Passenger cars', 2009).should == car_2009
-      aayt.find_by_type_name_and_closest_year('Passenger cars', 2000).should == car_2009
+      aayt.find_by_type_name_and_closest_year('cars', 2011).should == cars_2010
+      aayt.find_by_type_name_and_closest_year('cars', 2009).should == cars_2009
+      aayt.find_by_type_name_and_closest_year('cars', 2000).should == cars_2009
     end
   end
   
@@ -22,8 +20,8 @@ describe AutomobileActivityYearType do
     it 'returns activity year type fuels with the same activity year and type name' do
       d = FactoryGirl.create :aaytf, :diesel_car_2010
       g = FactoryGirl.create :aaytf, :gas_car_2010
-      car_2010 = FactoryGirl.create :aayt, :car_2010
-      car_2010.activity_year_type_fuels.should == [d,g]
+      cars_2010 = FactoryGirl.create :aayt, :cars_2010
+      cars_2010.activity_year_type_fuels.should == [d,g]
     end
   end
   

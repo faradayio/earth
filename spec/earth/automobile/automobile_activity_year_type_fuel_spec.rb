@@ -6,8 +6,6 @@ describe AutomobileActivityYearTypeFuel do
   
   describe '.latest' do
     it "returns all records from the latest year" do
-      aaytf.delete_all
-      
       FactoryGirl.create :aaytf, :gas_car_2009
       d = FactoryGirl.create :aaytf, :diesel_car_2010
       g = FactoryGirl.create :aaytf, :gas_car_2010

@@ -26,10 +26,11 @@ EOS
   
   # Used by Automobile and AutomobileTrip
   def self.find_by_type_name_and_fuel_family_and_closest_year(type_name, fuel_family, year)
-    if year > maximum(:year)
-      where(:type_name => type_name, :fuel_family => fuel_family, :year => maximum(:year)).first
+    candidates = where(:type_name => type_name, :fuel_family => fuel_family)
+    if year > (max_year = candidates.maximum(:year))
+      candidates.where(:year => max_year).first
     else
-      where(:type_name => type_name, :fuel_family => fuel_family, :year => [year, minimum(:year)].max).first
+      candidates.where(:year => [year, candidates.minimum(:year)].max).first
     end
   end
   
