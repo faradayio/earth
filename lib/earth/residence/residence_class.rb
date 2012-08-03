@@ -6,10 +6,12 @@ class ResidenceClass < ActiveRecord::Base
   extend Earth::Model
 
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "residence_classes"
+
+CREATE TABLE residence_classes
   (
-     "name" CHARACTER VARYING(255) NOT NULL PRIMARY KEY
+     name CHARACTER VARYING(255) NOT NULL PRIMARY KEY
   );
+
 EOS
 
   self.primary_key = "name"

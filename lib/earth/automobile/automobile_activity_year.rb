@@ -6,12 +6,14 @@ class AutomobileActivityYear < ActiveRecord::Base
   extend Earth::Model
 
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "automobile_activity_years"
+
+CREATE TABLE automobile_activity_years
   (
-     "activity_year"             INTEGER NOT NULL PRIMARY KEY,
-     "hfc_emission_factor"       FLOAT,
-     "hfc_emission_factor_units" CHARACTER VARYING(255)
+     activity_year             INTEGER NOT NULL PRIMARY KEY,
+     hfc_emission_factor       FLOAT,
+     hfc_emission_factor_units CHARACTER VARYING(255)
   );
+
 EOS
 
   self.primary_key = "activity_year"

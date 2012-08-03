@@ -7,14 +7,16 @@ class NationalTransitDatabaseCompany < ActiveRecord::Base
   extend Earth::Model
 
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "ntd_companies"
+
+CREATE TABLE ntd_companies
   (
-     "id"            CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "name"          CHARACTER VARYING(255),
-     "acronym"       CHARACTER VARYING(255),
-     "zip_code_name" CHARACTER VARYING(255),
-     "duns_number"   CHARACTER VARYING(255)
+     id            CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     name          CHARACTER VARYING(255),
+     acronym       CHARACTER VARYING(255),
+     zip_code_name CHARACTER VARYING(255),
+     duns_number   CHARACTER VARYING(255)
   );
+
 EOS
 
   self.primary_key = "id"

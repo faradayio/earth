@@ -9,16 +9,18 @@ class FuelType < ActiveRecord::Base
   extend Earth::Model
 
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "fuel_types"
+
+CREATE TABLE fuel_types
   (
-     "name"                          CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "emission_factor"               FLOAT,
-     "emission_factor_units"         CHARACTER VARYING(255),
-     "density"                       FLOAT,
-     "density_units"                 CHARACTER VARYING(255),
-     "average_purchase_volume"       FLOAT,
-     "average_purchase_volume_units" CHARACTER VARYING(255)
+     name                          CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     emission_factor               FLOAT,
+     emission_factor_units         CHARACTER VARYING(255),
+     density                       FLOAT,
+     density_units                 CHARACTER VARYING(255),
+     average_purchase_volume       FLOAT,
+     average_purchase_volume_units CHARACTER VARYING(255)
   );
+
 EOS
 
   self.primary_key = "name"

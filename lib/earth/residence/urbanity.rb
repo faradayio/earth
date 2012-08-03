@@ -6,10 +6,12 @@ class Urbanity < ActiveRecord::Base
   extend Earth::Model
 
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "urbanities"
+
+CREATE TABLE urbanities
   (
-     "name" CHARACTER VARYING(255) NOT NULL PRIMARY KEY
+     name CHARACTER VARYING(255) NOT NULL PRIMARY KEY
   );
+
 EOS
 
   self.primary_key = "name"

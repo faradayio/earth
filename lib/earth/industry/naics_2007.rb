@@ -7,11 +7,13 @@ class Naics2007 < ActiveRecord::Base
   extend Earth::Model
 
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "naics_2007"
+
+CREATE TABLE naics_2007
   (
-     "code"        CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "description" CHARACTER VARYING(255)
+     code        CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     description CHARACTER VARYING(255)
   );
+
 EOS
 
   self.primary_key = "code"

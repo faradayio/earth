@@ -6,30 +6,32 @@ class MecsEnergy < ActiveRecord::Base
   extend Earth::Model
 
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "mecs_energies"
+
+CREATE TABLE mecs_energies
   (
-     "name"                      CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "census_region_number"      INTEGER,
-     "naics_code"                CHARACTER VARYING(255),
-     "energy"                    FLOAT,
-     "energy_units"              CHARACTER VARYING(255),
-     "electricity"               FLOAT,
-     "electricity_units"         CHARACTER VARYING(255),
-     "residual_fuel_oil"         FLOAT,
-     "residual_fuel_oil_units"   CHARACTER VARYING(255),
-     "distillate_fuel_oil"       FLOAT,
-     "distillate_fuel_oil_units" CHARACTER VARYING(255),
-     "natural_gas"               FLOAT,
-     "natural_gas_units"         CHARACTER VARYING(255),
-     "lpg_and_ngl"               FLOAT,
-     "lpg_and_ngl_units"         CHARACTER VARYING(255),
-     "coal"                      FLOAT,
-     "coal_units"                CHARACTER VARYING(255),
-     "coke_and_breeze"           FLOAT,
-     "coke_and_breeze_units"     CHARACTER VARYING(255),
-     "other_fuel"                FLOAT,
-     "other_fuel_units"          CHARACTER VARYING(255)
+     name                      CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     census_region_number      INTEGER,
+     naics_code                CHARACTER VARYING(255),
+     energy                    FLOAT,
+     energy_units              CHARACTER VARYING(255),
+     electricity               FLOAT,
+     electricity_units         CHARACTER VARYING(255),
+     residual_fuel_oil         FLOAT,
+     residual_fuel_oil_units   CHARACTER VARYING(255),
+     distillate_fuel_oil       FLOAT,
+     distillate_fuel_oil_units CHARACTER VARYING(255),
+     natural_gas               FLOAT,
+     natural_gas_units         CHARACTER VARYING(255),
+     lpg_and_ngl               FLOAT,
+     lpg_and_ngl_units         CHARACTER VARYING(255),
+     coal                      FLOAT,
+     coal_units                CHARACTER VARYING(255),
+     coke_and_breeze           FLOAT,
+     coke_and_breeze_units     CHARACTER VARYING(255),
+     other_fuel                FLOAT,
+     other_fuel_units          CHARACTER VARYING(255)
   );
+
 EOS
 
   self.primary_key = "name"

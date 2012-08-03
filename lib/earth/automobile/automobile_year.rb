@@ -4,10 +4,12 @@ class AutomobileYear < ActiveRecord::Base
   extend Earth::Model
 
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "automobile_years"
+
+CREATE TABLE automobile_years
   (
-     "year" INTEGER NOT NULL PRIMARY KEY
+     year INTEGER NOT NULL PRIMARY KEY
   );
+
 EOS
 
   self.primary_key = "year"

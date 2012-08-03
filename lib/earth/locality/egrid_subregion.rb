@@ -9,25 +9,27 @@ class EgridSubregion < ActiveRecord::Base
   extend Earth::Model
 
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "egrid_subregions"
+
+CREATE TABLE egrid_subregions
   (
-     "abbreviation"                       CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "name"                               CHARACTER VARYING(255),
-     "nerc_abbreviation"                  CHARACTER VARYING(255),
-     "egrid_region_name"                  CHARACTER VARYING(255),
-     "net_generation"                     FLOAT,
-     "net_generation_units"               CHARACTER VARYING(255),
-     "co2_emission_factor"                FLOAT,
-     "co2_emission_factor_units"          CHARACTER VARYING(255),
-     "co2_biogenic_emission_factor"       FLOAT,
-     "co2_biogenic_emission_factor_units" CHARACTER VARYING(255),
-     "ch4_emission_factor"                FLOAT,
-     "ch4_emission_factor_units"          CHARACTER VARYING(255),
-     "n2o_emission_factor"                FLOAT,
-     "n2o_emission_factor_units"          CHARACTER VARYING(255),
-     "electricity_emission_factor"        FLOAT,
-     "electricity_emission_factor_units"  CHARACTER VARYING(255)
+     abbreviation                       CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     name                               CHARACTER VARYING(255),
+     nerc_abbreviation                  CHARACTER VARYING(255),
+     egrid_region_name                  CHARACTER VARYING(255),
+     net_generation                     FLOAT,
+     net_generation_units               CHARACTER VARYING(255),
+     co2_emission_factor                FLOAT,
+     co2_emission_factor_units          CHARACTER VARYING(255),
+     co2_biogenic_emission_factor       FLOAT,
+     co2_biogenic_emission_factor_units CHARACTER VARYING(255),
+     ch4_emission_factor                FLOAT,
+     ch4_emission_factor_units          CHARACTER VARYING(255),
+     n2o_emission_factor                FLOAT,
+     n2o_emission_factor_units          CHARACTER VARYING(255),
+     electricity_emission_factor        FLOAT,
+     electricity_emission_factor_units  CHARACTER VARYING(255)
   );
+
 EOS
 
   self.primary_key = "abbreviation"

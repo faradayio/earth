@@ -6,12 +6,14 @@ class DishwasherUse < ActiveRecord::Base
   extend Earth::Model
 
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "dishwasher_uses"
+
+CREATE TABLE dishwasher_uses
   (
-     "name"                                                 CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "annual_energy_from_electricity_for_dishwashers"       FLOAT,
-     "annual_energy_from_electricity_for_dishwashers_units" CHARACTER VARYING(255)
+     name                                                 CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     annual_energy_from_electricity_for_dishwashers       FLOAT,
+     annual_energy_from_electricity_for_dishwashers_units CHARACTER VARYING(255)
   );
+
 EOS
 
   self.primary_key = "name"

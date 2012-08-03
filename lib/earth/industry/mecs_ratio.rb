@@ -6,14 +6,16 @@ class MecsRatio < ActiveRecord::Base
   extend Earth::Model
 
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "mecs_ratios"
+
+CREATE TABLE mecs_ratios
   (
-     "name"                                 CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "census_region_number"                 INTEGER,
-     "naics_code"                           CHARACTER VARYING(255),
-     "energy_per_dollar_of_shipments"       FLOAT,
-     "energy_per_dollar_of_shipments_units" CHARACTER VARYING(255)
+     name                                 CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     census_region_number                 INTEGER,
+     naics_code                           CHARACTER VARYING(255),
+     energy_per_dollar_of_shipments       FLOAT,
+     energy_per_dollar_of_shipments_units CHARACTER VARYING(255)
   );
+
 EOS
 
   self.primary_key = "name"

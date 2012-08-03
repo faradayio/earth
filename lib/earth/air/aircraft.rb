@@ -9,31 +9,33 @@ class Aircraft < ActiveRecord::Base
   extend Earth::Model
 
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "aircraft"
+
+CREATE TABLE aircraft
   (
-     "icao_code"            CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "manufacturer_name"    CHARACTER VARYING(255),
-     "model_name"           CHARACTER VARYING(255),
-     "description"          CHARACTER VARYING(255),
-     "aircraft_type"        CHARACTER VARYING(255),
-     "engine_type"          CHARACTER VARYING(255),
-     "engines"              INTEGER,
-     "weight_class"         CHARACTER VARYING(255),
-     "class_code"           CHARACTER VARYING(255),
-     "passengers"           FLOAT,
-     "seats"                FLOAT,
-     "seats_specificity"    CHARACTER VARYING(255),
-     "m3"                   FLOAT,
-     "m3_units"             CHARACTER VARYING(255),
-     "m2"                   FLOAT,
-     "m2_units"             CHARACTER VARYING(255),
-     "m1"                   FLOAT,
-     "m1_units"             CHARACTER VARYING(255),
-     "b"                    FLOAT,
-     "b_units"              CHARACTER VARYING(255),
-     "fuel_use_specificity" CHARACTER VARYING(255)
+     icao_code            CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     manufacturer_name    CHARACTER VARYING(255),
+     model_name           CHARACTER VARYING(255),
+     description          CHARACTER VARYING(255),
+     aircraft_type        CHARACTER VARYING(255),
+     engine_type          CHARACTER VARYING(255),
+     engines              INTEGER,
+     weight_class         CHARACTER VARYING(255),
+     class_code           CHARACTER VARYING(255),
+     passengers           FLOAT,
+     seats                FLOAT,
+     seats_specificity    CHARACTER VARYING(255),
+     m3                   FLOAT,
+     m3_units             CHARACTER VARYING(255),
+     m2                   FLOAT,
+     m2_units             CHARACTER VARYING(255),
+     m1                   FLOAT,
+     m1_units             CHARACTER VARYING(255),
+     b                    FLOAT,
+     b_units              CHARACTER VARYING(255),
+     fuel_use_specificity CHARACTER VARYING(255)
   );
-CREATE INDEX "index_aircraft_on_description" ON "aircraft" ("description");
+CREATE INDEX index_aircraft_on_description ON aircraft (description);
+
 EOS
 
   self.primary_key = "icao_code"

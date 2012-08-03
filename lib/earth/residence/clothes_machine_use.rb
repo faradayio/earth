@@ -6,12 +6,14 @@ class ClothesMachineUse < ActiveRecord::Base
   extend Earth::Model
 
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "clothes_machine_uses"
+
+CREATE TABLE clothes_machine_uses
   (
-     "name"                                                    CHARACTER VARYING (255) NOT NULL PRIMARY KEY,
-     "annual_energy_from_electricity_for_clothes_driers"       FLOAT,
-     "annual_energy_from_electricity_for_clothes_driers_units" CHARACTER VARYING (255)
+     name                                                    CHARACTER VARYING (255) NOT NULL PRIMARY KEY,
+     annual_energy_from_electricity_for_clothes_driers       FLOAT,
+     annual_energy_from_electricity_for_clothes_driers_units CHARACTER VARYING (255)
   );
+
 EOS
 
   self.primary_key = "name"

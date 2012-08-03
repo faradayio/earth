@@ -10,48 +10,50 @@ class FlightSegment < ActiveRecord::Base
   extend Earth::Model
 
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "flight_segments"
+
+CREATE TABLE flight_segments
   (
-     "row_hash"                          CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "origin_airport_iata_code"          CHARACTER VARYING(255),
-     "origin_airport_city"               CHARACTER VARYING(255),
-     "origin_country_iso_3166_code"      CHARACTER VARYING(255),
-     "destination_airport_iata_code"     CHARACTER VARYING(255),
-     "destination_airport_city"          CHARACTER VARYING(255),
-     "destination_country_iso_3166_code" CHARACTER VARYING(255),
-     "airline_bts_code"                  CHARACTER VARYING(255),
-     "airline_icao_code"                 CHARACTER VARYING(255),
-     "airline_name"                      CHARACTER VARYING(255), /* text description derived from bts or icao code */
-     "aircraft_bts_code"                 CHARACTER VARYING(255),
-     "aircraft_description"              CHARACTER VARYING(255), /* text description derived from BTS T100 or ICAO TFS */
-     "flights"                           INTEGER,                /* number of flights over month or year */
-     "passengers"                        INTEGER,                /* total passengers on all flights */
-     "seats"                             INTEGER,                /* total seats on all flights */
-     "seats_per_flight"                  FLOAT,                  /* average seats per flight */
-     "load_factor"                       FLOAT,                  /* passengers / seats */
-     "freight_share"                     FLOAT,                  /* (freight + mail) / (freight + mail + (passengers * average passenger weight)) */
-     "distance"                          FLOAT,
-     "distance_units"                    CHARACTER VARYING(255),
-     "payload_capacity"                  FLOAT,                  /* aircraft maximum payload capacity rating */
-     "payload_capacity_units"            CHARACTER VARYING(255),
-     "freight"                           FLOAT,                  /* total freight on all flights performed */
-     "freight_units"                     CHARACTER VARYING(255),
-     "mail"                              FLOAT,                  /* total mail on all flights performed */
-     "mail_units"                        CHARACTER VARYING(255),
-     "month"                             INTEGER,
-     "year"                              INTEGER,
-     "source"                            CHARACTER VARYING(255)  /* 'BTS T100' or 'ICAO TFS' */
+     row_hash                          CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     origin_airport_iata_code          CHARACTER VARYING(255),
+     origin_airport_city               CHARACTER VARYING(255),
+     origin_country_iso_3166_code      CHARACTER VARYING(255),
+     destination_airport_iata_code     CHARACTER VARYING(255),
+     destination_airport_city          CHARACTER VARYING(255),
+     destination_country_iso_3166_code CHARACTER VARYING(255),
+     airline_bts_code                  CHARACTER VARYING(255),
+     airline_icao_code                 CHARACTER VARYING(255),
+     airline_name                      CHARACTER VARYING(255), /* text description derived from bts or icao code */
+     aircraft_bts_code                 CHARACTER VARYING(255),
+     aircraft_description              CHARACTER VARYING(255), /* text description derived from BTS T100 or ICAO TFS */
+     flights                           INTEGER,                /* number of flights over month or year */
+     passengers                        INTEGER,                /* total passengers on all flights */
+     seats                             INTEGER,                /* total seats on all flights */
+     seats_per_flight                  FLOAT,                  /* average seats per flight */
+     load_factor                       FLOAT,                  /* passengers / seats */
+     freight_share                     FLOAT,                  /* (freight + mail) / (freight + mail + (passengers * average passenger weight)) */
+     distance                          FLOAT,
+     distance_units                    CHARACTER VARYING(255),
+     payload_capacity                  FLOAT,                  /* aircraft maximum payload capacity rating */
+     payload_capacity_units            CHARACTER VARYING(255),
+     freight                           FLOAT,                  /* total freight on all flights performed */
+     freight_units                     CHARACTER VARYING(255),
+     mail                              FLOAT,                  /* total mail on all flights performed */
+     mail_units                        CHARACTER VARYING(255),
+     month                             INTEGER,
+     year                              INTEGER,
+     source                            CHARACTER VARYING(255)  /* 'BTS T100' or 'ICAO TFS' */
   );
-CREATE INDEX "index_flight_segments_on_origin_airport_iata_code" ON "flight_segments" ("origin_airport_iata_code");
-CREATE INDEX "index_flight_segments_on_origin_airport_city" ON "flight_segments" ("origin_airport_city");
-CREATE INDEX "index_flight_segments_on_destination_airport_iata_code" ON "flight_segments" ("destination_airport_iata_code");
-CREATE INDEX "index_flight_segments_on_destination_airport_city" ON "flight_segments" ("destination_airport_city");
-CREATE INDEX "index_flight_segments_on_airline_bts_code" ON "flight_segments" ("airline_bts_code");
-CREATE INDEX "index_flight_segments_on_airline_icao_code" ON "flight_segments" ("airline_icao_code");
-CREATE INDEX "index_flight_segments_on_airline_name" ON "flight_segments" ("airline_name");
-CREATE INDEX "index_flight_segments_on_aircraft_bts_code" ON "flight_segments" ("aircraft_bts_code");
-CREATE INDEX "index_flight_segments_on_aircraft_description" ON "flight_segments" ("aircraft_description");
-CREATE INDEX "index_flight_segments_on_year" ON "flight_segments" ("year")
+CREATE INDEX index_flight_segments_on_origin_airport_iata_code ON flight_segments (origin_airport_iata_code);
+CREATE INDEX index_flight_segments_on_origin_airport_city ON flight_segments (origin_airport_city);
+CREATE INDEX index_flight_segments_on_destination_airport_iata_code ON flight_segments (destination_airport_iata_code);
+CREATE INDEX index_flight_segments_on_destination_airport_city ON flight_segments (destination_airport_city);
+CREATE INDEX index_flight_segments_on_airline_bts_code ON flight_segments (airline_bts_code);
+CREATE INDEX index_flight_segments_on_airline_icao_code ON flight_segments (airline_icao_code);
+CREATE INDEX index_flight_segments_on_airline_name ON flight_segments (airline_name);
+CREATE INDEX index_flight_segments_on_aircraft_bts_code ON flight_segments (aircraft_bts_code);
+CREATE INDEX index_flight_segments_on_aircraft_description ON flight_segments (aircraft_description);
+CREATE INDEX index_flight_segments_on_year ON flight_segments (year)
+
 EOS
 
   self.primary_key = "row_hash"

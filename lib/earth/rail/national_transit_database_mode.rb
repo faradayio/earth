@@ -4,12 +4,14 @@ class NationalTransitDatabaseMode < ActiveRecord::Base
   extend Earth::Model
 
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "ntd_modes"
+
+CREATE TABLE ntd_modes
   (
-     "code"      CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "name"      CHARACTER VARYING(255),
-     "rail_mode" BOOLEAN
+     code      CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     name      CHARACTER VARYING(255),
+     rail_mode BOOLEAN
   );
+
 EOS
 
   self.primary_key = "code"

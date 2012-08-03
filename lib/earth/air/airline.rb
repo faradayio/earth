@@ -6,14 +6,16 @@ class Airline < ActiveRecord::Base
   extend Earth::Model
 
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "airlines"
+
+CREATE TABLE airlines
   (
-     "name"           CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "secondary_name" CHARACTER VARYING(255),
-     "bts_code"       CHARACTER VARYING(255),
-     "iata_code"      CHARACTER VARYING(255),
-     "icao_code"      CHARACTER VARYING(255)
+     name           CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     secondary_name CHARACTER VARYING(255),
+     bts_code       CHARACTER VARYING(255),
+     iata_code      CHARACTER VARYING(255),
+     icao_code      CHARACTER VARYING(255)
   );
+
 EOS
 
   self.primary_key = "name"

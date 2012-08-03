@@ -7,16 +7,18 @@ class CarrierMode < ActiveRecord::Base
   extend Earth::Model
 
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "carrier_modes"
+
+CREATE TABLE carrier_modes
   (
-     "name"                            CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "carrier_name"                    CHARACTER VARYING(255),
-     "mode_name"                       CHARACTER VARYING(255),
-     "package_volume"                  FLOAT,
-     "route_inefficiency_factor"       FLOAT,
-     "transport_emission_factor"       FLOAT,
-     "transport_emission_factor_units" CHARACTER VARYING(255)
+     name                            CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     carrier_name                    CHARACTER VARYING(255),
+     mode_name                       CHARACTER VARYING(255),
+     package_volume                  FLOAT,
+     route_inefficiency_factor       FLOAT,
+     transport_emission_factor       FLOAT,
+     transport_emission_factor_units CHARACTER VARYING(255)
   );
+
 EOS
 
   self.primary_key = "name"

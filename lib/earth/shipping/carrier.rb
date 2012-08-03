@@ -8,17 +8,19 @@ class Carrier < ActiveRecord::Base
   extend Earth::Model
 
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "carriers"
+
+CREATE TABLE carriers
   (
-     "name"                            CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "full_name"                       CHARACTER VARYING(255),
-     "package_volume"                  FLOAT,
-     "route_inefficiency_factor"       FLOAT,
-     "transport_emission_factor"       FLOAT,
-     "transport_emission_factor_units" CHARACTER VARYING(255),
-     "corporate_emission_factor"       FLOAT,
-     "corporate_emission_factor_units" CHARACTER VARYING(255)
+     name                            CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     full_name                       CHARACTER VARYING(255),
+     package_volume                  FLOAT,
+     route_inefficiency_factor       FLOAT,
+     transport_emission_factor       FLOAT,
+     transport_emission_factor_units CHARACTER VARYING(255),
+     corporate_emission_factor       FLOAT,
+     corporate_emission_factor_units CHARACTER VARYING(255)
   );
+
 EOS
 
   self.primary_key = "name"

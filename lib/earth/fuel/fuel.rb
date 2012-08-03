@@ -14,23 +14,25 @@ class Fuel < ActiveRecord::Base
   extend Earth::Model
 
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "fuels"
+
+CREATE TABLE fuels
   (
-     "name"                               CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "physical_units"                     CHARACTER VARYING(255),
-     "density"                            FLOAT,
-     "density_units"                      CHARACTER VARYING(255),
-     "energy_content"                     FLOAT,
-     "energy_content_units"               CHARACTER VARYING(255),
-     "carbon_content"                     FLOAT,
-     "carbon_content_units"               CHARACTER VARYING(255),
-     "oxidation_factor"                   FLOAT,
-     "biogenic_fraction"                  FLOAT,
-     "co2_emission_factor"                FLOAT,
-     "co2_emission_factor_units"          CHARACTER VARYING(255),
-     "co2_biogenic_emission_factor"       FLOAT,
-     "co2_biogenic_emission_factor_units" CHARACTER VARYING(255)
+     name                               CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     physical_units                     CHARACTER VARYING(255),
+     density                            FLOAT,
+     density_units                      CHARACTER VARYING(255),
+     energy_content                     FLOAT,
+     energy_content_units               CHARACTER VARYING(255),
+     carbon_content                     FLOAT,
+     carbon_content_units               CHARACTER VARYING(255),
+     oxidation_factor                   FLOAT,
+     biogenic_fraction                  FLOAT,
+     co2_emission_factor                FLOAT,
+     co2_emission_factor_units          CHARACTER VARYING(255),
+     co2_biogenic_emission_factor       FLOAT,
+     co2_biogenic_emission_factor_units CHARACTER VARYING(255)
   );
+
 EOS
 
   self.primary_key = "name"

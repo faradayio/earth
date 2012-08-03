@@ -19,17 +19,19 @@ class ZipCode < ActiveRecord::Base
   extend Earth::Model
 
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "zip_codes"
+
+CREATE TABLE zip_codes
   (
-     "name"                         CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "state_postal_abbreviation"    CHARACTER VARYING(255),
-     "description"                  CHARACTER VARYING(255),
-     "latitude"                     CHARACTER VARYING(255),
-     "longitude"                    CHARACTER VARYING(255),
-     "egrid_subregion_abbreviation" CHARACTER VARYING(255),
-     "climate_division_name"        CHARACTER VARYING(255),
-     "population"                   INTEGER
+     name                         CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     state_postal_abbreviation    CHARACTER VARYING(255),
+     description                  CHARACTER VARYING(255),
+     latitude                     CHARACTER VARYING(255),
+     longitude                    CHARACTER VARYING(255),
+     egrid_subregion_abbreviation CHARACTER VARYING(255),
+     climate_division_name        CHARACTER VARYING(255),
+     population                   INTEGER
   );
+
 EOS
 
   self.primary_key = "name"

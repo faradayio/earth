@@ -8,12 +8,14 @@ class AirConditionerUse < ActiveRecord::Base
   extend Earth::Model
 
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "air_conditioner_uses"
+
+CREATE TABLE air_conditioner_uses
   (
-     "name"                    CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "fugitive_emission"       FLOAT,
-     "fugitive_emission_units" CHARACTER VARYING(255)
+     name                    CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     fugitive_emission       FLOAT,
+     fugitive_emission_units CHARACTER VARYING(255)
   );
+
 EOS
 
   self.primary_key = "name"

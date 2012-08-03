@@ -9,16 +9,18 @@ class Airport < ActiveRecord::Base
   extend Earth::Model
 
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "airports"
+
+CREATE TABLE airports
   (
-     "iata_code"             CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "name"                  CHARACTER VARYING(255),
-     "city"                  CHARACTER VARYING(255),
-     "country_name"          CHARACTER VARYING(255),
-     "country_iso_3166_code" CHARACTER VARYING(255),
-     "latitude"              FLOAT,
-     "longitude"             FLOAT
+     iata_code             CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     name                  CHARACTER VARYING(255),
+     city                  CHARACTER VARYING(255),
+     country_name          CHARACTER VARYING(255),
+     country_iso_3166_code CHARACTER VARYING(255),
+     latitude              FLOAT,
+     longitude             FLOAT
   );
+
 EOS
 
   self.primary_key = "iata_code"

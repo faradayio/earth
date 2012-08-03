@@ -8,23 +8,25 @@ class Species < ActiveRecord::Base
   extend Earth::Model
 
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "species"
+
+CREATE TABLE species
   (
-     "name"                               CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "population"                         INTEGER,
-     "diet_emission_intensity"            FLOAT,
-     "diet_emission_intensity_units"      CHARACTER VARYING(255),
-     "weight"                             FLOAT,
-     "weight_units"                       CHARACTER VARYING(255),
-     "marginal_dietary_requirement"       FLOAT,
-     "marginal_dietary_requirement_units" CHARACTER VARYING(255),
-     "fixed_dietary_requirement"          FLOAT,
-     "fixed_dietary_requirement_units"    CHARACTER VARYING(255),
-     "minimum_weight"                     FLOAT,
-     "minimum_weight_units"               CHARACTER VARYING(255),
-     "maximum_weight"                     FLOAT,
-     "maximum_weight_units"               CHARACTER VARYING(255)
+     name                               CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     population                         INTEGER,
+     diet_emission_intensity            FLOAT,
+     diet_emission_intensity_units      CHARACTER VARYING(255),
+     weight                             FLOAT,
+     weight_units                       CHARACTER VARYING(255),
+     marginal_dietary_requirement       FLOAT,
+     marginal_dietary_requirement_units CHARACTER VARYING(255),
+     fixed_dietary_requirement          FLOAT,
+     fixed_dietary_requirement_units    CHARACTER VARYING(255),
+     minimum_weight                     FLOAT,
+     minimum_weight_units               CHARACTER VARYING(255),
+     maximum_weight                     FLOAT,
+     maximum_weight_units               CHARACTER VARYING(255)
   );
+
 EOS
 
   self.primary_key = "name"

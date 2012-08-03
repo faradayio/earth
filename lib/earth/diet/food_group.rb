@@ -4,15 +4,17 @@ class FoodGroup < ActiveRecord::Base
   extend Earth::Model
 
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "food_groups"
+
+CREATE TABLE food_groups
   (
-     "name"                           CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "intensity"                      FLOAT,
-     "intensity_units"                CHARACTER VARYING(255),
-     "energy"                         FLOAT,
-     "energy_units"                   CHARACTER VARYING(255),
-     "suggested_imperial_measurement" CHARACTER VARYING(255)
+     name                           CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     intensity                      FLOAT,
+     intensity_units                CHARACTER VARYING(255),
+     energy                         FLOAT,
+     energy_units                   CHARACTER VARYING(255),
+     suggested_imperial_measurement CHARACTER VARYING(255)
   );
+
 EOS
 
   self.primary_key = "name"

@@ -9,13 +9,15 @@ class FlightDistanceClassSeatClass < ActiveRecord::Base
   extend Earth::Model
 
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "flight_distance_class_seat_classes"
+
+CREATE TABLE flight_distance_class_seat_classes
   (
-     "name"                CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "distance_class_name" CHARACTER VARYING(255),
-     "seat_class_name"     CHARACTER VARYING(255),
-     "multiplier"          FLOAT
+     name                CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     distance_class_name CHARACTER VARYING(255),
+     seat_class_name     CHARACTER VARYING(255),
+     multiplier          FLOAT
   );
+
 EOS
 
   self.primary_key = "name"

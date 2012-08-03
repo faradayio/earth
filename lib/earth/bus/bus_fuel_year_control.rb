@@ -6,15 +6,17 @@ class BusFuelYearControl < ActiveRecord::Base
   extend Earth::Model
 
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "bus_fuel_year_controls"
+
+CREATE TABLE bus_fuel_year_controls
   (
-     "name"                  CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "bus_fuel_name"         CHARACTER VARYING(255),
-     "year"                  INTEGER,
-     "control"               CHARACTER VARYING(255),
-     "bus_fuel_control_name" CHARACTER VARYING(255),
-     "total_travel_percent"  FLOAT
+     name                  CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     bus_fuel_name         CHARACTER VARYING(255),
+     year                  INTEGER,
+     control               CHARACTER VARYING(255),
+     bus_fuel_control_name CHARACTER VARYING(255),
+     total_travel_percent  FLOAT
   );
+
 EOS
 
   self.primary_key = "name"

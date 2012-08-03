@@ -7,11 +7,13 @@ class MerchantCategory < ActiveRecord::Base
   extend Earth::Model
 
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "merchant_categories"
+
+CREATE TABLE merchant_categories
   (
-     "mcc"         CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "description" CHARACTER VARYING(255)
+     mcc         CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     description CHARACTER VARYING(255)
   );
+
 EOS
 
   self.primary_key = "mcc"

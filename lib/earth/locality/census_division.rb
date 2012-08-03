@@ -12,21 +12,23 @@ class CensusDivision < ActiveRecord::Base
   extend Earth::Model
 
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "census_divisions"
+
+CREATE TABLE census_divisions
   (
-     "number"                                         INTEGER NOT NULL PRIMARY KEY,
-     "name"                                           CHARACTER VARYING(255),
-     "census_region_name"                             CHARACTER VARYING(255),
-     "census_region_number"                           INTEGER,
-     "meeting_building_natural_gas_intensity"         FLOAT,
-     "meeting_building_natural_gas_intensity_units"   CHARACTER VARYING(255),
-     "meeting_building_fuel_oil_intensity"            FLOAT,
-     "meeting_building_fuel_oil_intensity_units"      CHARACTER VARYING(255),
-     "meeting_building_electricity_intensity"         FLOAT,
-     "meeting_building_electricity_intensity_units"   CHARACTER VARYING(255),
-     "meeting_building_district_heat_intensity"       FLOAT,
-     "meeting_building_district_heat_intensity_units" CHARACTER VARYING(255)
+     number                                         INTEGER NOT NULL PRIMARY KEY,
+     name                                           CHARACTER VARYING(255),
+     census_region_name                             CHARACTER VARYING(255),
+     census_region_number                           INTEGER,
+     meeting_building_natural_gas_intensity         FLOAT,
+     meeting_building_natural_gas_intensity_units   CHARACTER VARYING(255),
+     meeting_building_fuel_oil_intensity            FLOAT,
+     meeting_building_fuel_oil_intensity_units      CHARACTER VARYING(255),
+     meeting_building_electricity_intensity         FLOAT,
+     meeting_building_electricity_intensity_units   CHARACTER VARYING(255),
+     meeting_building_district_heat_intensity       FLOAT,
+     meeting_building_district_heat_intensity_units CHARACTER VARYING(255)
   );
+
 EOS
 
   self.primary_key = "number"

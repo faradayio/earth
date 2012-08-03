@@ -8,11 +8,13 @@ class CensusRegion < ActiveRecord::Base
   extend Earth::Model
 
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "census_regions"
+
+CREATE TABLE census_regions
   (
-     "number" INTEGER NOT NULL PRIMARY KEY,
-     "name"   CHARACTER VARYING(255)
+     number INTEGER NOT NULL PRIMARY KEY,
+     name   CHARACTER VARYING(255)
   );
+
 EOS
 
   self.primary_key = "number"

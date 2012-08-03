@@ -6,12 +6,14 @@ class ResidenceFuelType < ActiveRecord::Base
   extend Earth::Model
 
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "residence_fuel_types"
+
+CREATE TABLE residence_fuel_types
   (
-     "name"                  CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "emission_factor"       FLOAT,
-     "emission_factor_units" CHARACTER VARYING(255)
+     name                  CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     emission_factor       FLOAT,
+     emission_factor_units CHARACTER VARYING(255)
   );
+
 EOS
 
   self.primary_key = "name"
