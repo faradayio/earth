@@ -19,7 +19,7 @@ EOS
 
   class << self
     def names
-      connection.select_values arel_table.project(:name).to_sql
+      all.map(&:name)
     end
     
     def [](name)
