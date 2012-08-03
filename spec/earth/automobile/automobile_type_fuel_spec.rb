@@ -4,16 +4,6 @@ require 'earth/automobile/automobile_type_fuel'
 describe AutomobileTypeFuel do
   let(:test_type_fuel) { AutomobileTypeFuel.find('Light-duty trucks gasoline') }
   
-  before :all do
-    Earth.init :automobile, :load_data_miner => true
-  end
-  
-  describe 'import', :data_miner => true do
-    it 'should import data' do
-      AutomobileTypeFuel.run_data_miner!
-    end
-  end
-  
   describe 'verify', :sanity => true do
     it { AutomobileTypeFuel.count.should == 4 }
     it { AutomobileTypeFuel.where("annual_distance > 0").count.should == AutomobileTypeFuel.count }

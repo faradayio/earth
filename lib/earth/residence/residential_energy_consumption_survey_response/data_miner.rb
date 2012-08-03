@@ -1,4 +1,3 @@
-require 'earth/locality/data_miner'
 ResidentialEnergyConsumptionSurveyResponse.class_eval do
   data_miner do
     # conversions are NOT performed here, since we first have to zero out legitimate skips

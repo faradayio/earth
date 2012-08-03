@@ -1,4 +1,8 @@
-require 'earth/fuel/data_miner'
+require 'earth/bus/bus_fuel'
+require 'earth/bus/bus_fuel_year_control'
+require 'earth/fuel/fuel'
+require 'earth/fuel/greenhouse_gas'
+
 BusFuel.class_eval do
   data_miner do
     process "Ensure Fuel, GreenhouseGas, and BusFuelYearControl are populated" do

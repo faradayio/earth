@@ -2,16 +2,6 @@ require 'spec_helper'
 require 'earth/locality/zip_code'
 
 describe ZipCode do
-  describe 'when importing data', :data_miner => true do
-    before do
-      Earth.init :locality, :load_data_miner => true, :skip_parent_associations => :true
-    end
-    
-    it 'imports data' do
-      ZipCode.run_data_miner!
-    end
-  end
-  
   describe 'verify imported data', :sanity => true do
     it { ZipCode.count.should == 43770 }
     it { ZipCode.where(:state_postal_abbreviation => nil).count.should == 0 }
@@ -35,16 +25,18 @@ describe ZipCode do
       require 'earth/locality/country'
     end
     
-    it 'should return the US' do
-      ZipCode.first.country.should == Country.united_states
-      ZipCode.last.country.should == Country.united_states
+    it 'returns the US' do
+      ZipCode.new.country.should == Country.united_states
     end
   end
   
   describe '#latitude_longitude' do
+    it 'returns an array of nils for missing lat/lon' do
+      ZipCode.new.latitude_longitude.should == [nil, nil]
+    end
     it 'should return the lat and lng as an array of strings' do
-      ZipCode.find('00001').latitude_longitude.should == [nil, nil]
-      ZipCode.find('00210').latitude_longitude.should == ['43.005895', '-71.013202']
+      zip = ZipCode.new :latitude => '43.005895', :longitude => '-71.013202'
+      zip.latitude_longitude.should == ['43.005895', '-71.013202']
     end
   end
 end

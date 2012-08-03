@@ -1,3 +1,4 @@
+require 'earth'
 
 module Earth
   module Loader
@@ -5,7 +6,7 @@ module Earth
       path = ::File.expand_path path
       raise ::ArgumentError, %{[earth gem] #{path} is not in #{LIB_DIR}} unless path.start_with?(LIB_DIR)
       domain = %r{#{LIB_DIR}/([^\./]+)}.match(path).captures.first
-      require_domain domain, :load_data_miner => path.include?('data_miner')
+      require_domain domain, :mine_original_sources => path.include?('data_miner')
     end
     
     def Loader.require_all(options = {})
@@ -32,14 +33,14 @@ module Earth
       # load data_miner blocks second to make sure they override
       data_miner_paths.each do |path|
         require path
-      end if options[:load_data_miner]
+      end if options[:load_data_miner] || options[:mine_original_sources]
       nil
     end
     
     def Loader.load_plugins
-      ::Dir[::File.expand_path('../../vendor/**/init.rb', __FILE__)].each do |pluginit|
+      Dir[File.expand_path('../../../vendor/**/init.rb', __FILE__)].each do |pluginit|
         $LOAD_PATH.unshift ::File.join(::File.dirname(pluginit), 'lib')
-        ::Kernel.load pluginit
+        Kernel.load pluginit
       end
     end
   end

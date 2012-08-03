@@ -1,11 +1,17 @@
+require 'earth/model'
+
 class ResidenceAppliance < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "residence_appliances"
+
+CREATE TABLE residence_appliances
   (
-     "name"                                 CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "annual_energy_from_electricity"       FLOAT,
-     "annual_energy_from_electricity_units" CHARACTER VARYING(255)
+     name                                 CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     annual_energy_from_electricity       FLOAT,
+     annual_energy_from_electricity_units CHARACTER VARYING(255)
   );
+
 EOS
 
   self.primary_key = "name"

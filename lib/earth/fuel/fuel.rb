@@ -1,29 +1,8 @@
-class Fuel < ActiveRecord::Base
-  TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "fuels"
-  (
-     "name"                               CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "physical_units"                     CHARACTER VARYING(255),
-     "density"                            FLOAT,
-     "density_units"                      CHARACTER VARYING(255),
-     "energy_content"                     FLOAT,
-     "energy_content_units"               CHARACTER VARYING(255),
-     "carbon_content"                     FLOAT,
-     "carbon_content_units"               CHARACTER VARYING(255),
-     "oxidation_factor"                   FLOAT,
-     "biogenic_fraction"                  FLOAT,
-     "co2_emission_factor"                FLOAT,
-     "co2_emission_factor_units"          CHARACTER VARYING(255),
-     "co2_biogenic_emission_factor"       FLOAT,
-     "co2_biogenic_emission_factor_units" CHARACTER VARYING(255)
-  );
-EOS
+require 'earth/model'
 
-  self.primary_key = "name"
-  
-  has_many :fuel_years, :foreign_key => 'fuel_name'
-  
-  
+require 'earth/fuel/fuel_year'
+
+class Fuel < ActiveRecord::Base
   # Need to ensure FuelYear gets data_mined even when pulling with taps
   # b/c Fuel has instance methods to look up missing values from FuelYear
   data_miner do
@@ -31,6 +10,34 @@ EOS
       FuelYear.run_data_miner!
     end
   end
+  
+  extend Earth::Model
+
+  TABLE_STRUCTURE = <<-EOS
+
+CREATE TABLE fuels
+  (
+     name                               CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     physical_units                     CHARACTER VARYING(255),
+     density                            FLOAT,
+     density_units                      CHARACTER VARYING(255),
+     energy_content                     FLOAT,
+     energy_content_units               CHARACTER VARYING(255),
+     carbon_content                     FLOAT,
+     carbon_content_units               CHARACTER VARYING(255),
+     oxidation_factor                   FLOAT,
+     biogenic_fraction                  FLOAT,
+     co2_emission_factor                FLOAT,
+     co2_emission_factor_units          CHARACTER VARYING(255),
+     co2_biogenic_emission_factor       FLOAT,
+     co2_biogenic_emission_factor_units CHARACTER VARYING(255)
+  );
+
+EOS
+
+  self.primary_key = "name"
+  
+  has_many :fuel_years, :foreign_key => 'fuel_name'
   
   def latest_fuel_year
     fuel_years.find_by_year(fuel_years.maximum('year'))

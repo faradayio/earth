@@ -1,18 +1,26 @@
-require ::File.join(Earth::VENDOR_DIR, 'geokit-rails', 'lib', 'geokit-rails')
-require 'earth/locality'
+require 'earth/model'
+require 'earth/loader'
+Earth::Loader.load_plugins
+
+require 'earth/locality/country'
+require 'earth/air/flight_segment'
 
 class Airport < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "airports"
+
+CREATE TABLE airports
   (
-     "iata_code"             CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "name"                  CHARACTER VARYING(255),
-     "city"                  CHARACTER VARYING(255),
-     "country_name"          CHARACTER VARYING(255),
-     "country_iso_3166_code" CHARACTER VARYING(255),
-     "latitude"              FLOAT,
-     "longitude"             FLOAT
+     iata_code             CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     name                  CHARACTER VARYING(255),
+     city                  CHARACTER VARYING(255),
+     country_name          CHARACTER VARYING(255),
+     country_iso_3166_code CHARACTER VARYING(255),
+     latitude              FLOAT,
+     longitude             FLOAT
   );
+
 EOS
 
   self.primary_key = "iata_code"

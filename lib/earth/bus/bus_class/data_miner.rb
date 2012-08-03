@@ -1,4 +1,3 @@
-require 'earth/fuel/data_miner'
 BusClass.class_eval do
   data_miner do
     import "a list of bus classes and pre-calculated trip and fuel use characteristics",

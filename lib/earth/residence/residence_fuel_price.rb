@@ -1,20 +1,27 @@
-require 'earth/locality'
+require 'earth/model'
+
+require 'earth/residence/residence_fuel_type'
+
 class ResidenceFuelPrice < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "residence_fuel_prices"
+
+CREATE TABLE residence_fuel_prices
   (
-     "row_hash"                 CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "residence_fuel_type_name" CHARACTER VARYING(255),
-     "year"                     INTEGER,
-     "month"                    INTEGER,
-     "price"                    FLOAT,
-     "price_units"              CHARACTER VARYING(255),
-     "price_description"        CHARACTER VARYING(255),
-     "locatable_id"             CHARACTER VARYING(255),
-     "locatable_type"           CHARACTER VARYING(255)
+     row_hash                 CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     residence_fuel_type_name CHARACTER VARYING(255),
+     year                     INTEGER,
+     month                    INTEGER,
+     price                    FLOAT,
+     price_units              CHARACTER VARYING(255),
+     price_description        CHARACTER VARYING(255),
+     locatable_id             CHARACTER VARYING(255),
+     locatable_type           CHARACTER VARYING(255)
   );
-CREATE INDEX "index_residence_fuel_prices_on_price_and_residence_fu239358947" ON "residence_fuel_prices" ("price", "residence_fuel_type_name", "month", "year", "locatable_type", "locatable_id");
-CREATE INDEX "index_residence_fuel_prices_on_price_and_residence_fu1975072203" ON "residence_fuel_prices" ("price", "residence_fuel_type_name")
+CREATE INDEX index_residence_fuel_prices_on_price_and_residence_fu239358947 ON residence_fuel_prices (price, residence_fuel_type_name, month, year, locatable_type, locatable_id);
+CREATE INDEX index_residence_fuel_prices_on_price_and_residence_fu1975072203 ON residence_fuel_prices (price, residence_fuel_type_name)
+
 EOS
 
   self.primary_key = "row_hash"

@@ -8,19 +8,11 @@ def create_cbecs(name, args)
 end
 
 describe CbecsEnergyIntensity do
-  describe 'import', :data_miner => true do
-    before do
-      require 'earth/industry/cbecs_energy_intensity/data_miner'
-      CbecsEnergyIntensity.create_table!
-      CbecsEnergyIntensity.delete_all
-    end
-    it 'fetches electric, natural gas, fuel oil, and distric heat data' do
-      CbecsEnergyIntensity.run_data_miner!
+  describe 'verify imported data', :sanity => true do
+    it 'imports the right number of records' do
       CbecsEnergyIntensity.count.should == 182
     end
-  end
-  
-  describe 'verify imported data', :sanity => true do
+
     #TODO check values
     it 'checks census divisions' do
       divisionals = CbecsEnergyIntensity.divisional

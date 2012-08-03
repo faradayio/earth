@@ -1,9 +1,17 @@
+require 'earth/model'
+
+require 'earth/residence/residential_energy_consumption_survey_response'
+
 class Urbanity < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "urbanities"
+
+CREATE TABLE urbanities
   (
-     "name" CHARACTER VARYING(255) NOT NULL PRIMARY KEY
+     name CHARACTER VARYING(255) NOT NULL PRIMARY KEY
   );
+
 EOS
 
   self.primary_key = "name"

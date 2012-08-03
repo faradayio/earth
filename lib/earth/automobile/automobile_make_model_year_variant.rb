@@ -1,39 +1,45 @@
+require 'earth/model'
+
 class AutomobileMakeModelYearVariant < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "automobile_make_model_year_variants"
+
+CREATE TABLE automobile_make_model_year_variants
   (
-     "row_hash"                          CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "make_name"                         CHARACTER VARYING(255),
-     "model_name"                        CHARACTER VARYING(255),
-     "year"                              INTEGER,
-     "transmission"                      CHARACTER VARYING(255),
-     "speeds"                            CHARACTER VARYING(255),
-     "drive"                             CHARACTER VARYING(255),
-     "fuel_code"                         CHARACTER VARYING(255),
-     "fuel_efficiency"                   FLOAT,
-     "fuel_efficiency_units"             CHARACTER VARYING(255),
-     "fuel_efficiency_city"              FLOAT,
-     "fuel_efficiency_city_units"        CHARACTER VARYING(255),
-     "fuel_efficiency_highway"           FLOAT,
-     "fuel_efficiency_highway_units"     CHARACTER VARYING(255),
-     "alt_fuel_code"                     CHARACTER VARYING(255),
-     "alt_fuel_efficiency"               FLOAT,
-     "alt_fuel_efficiency_units"         CHARACTER VARYING(255),
-     "alt_fuel_efficiency_city"          FLOAT,
-     "alt_fuel_efficiency_city_units"    CHARACTER VARYING(255),
-     "alt_fuel_efficiency_highway"       FLOAT,
-     "alt_fuel_efficiency_highway_units" CHARACTER VARYING(255),
-     "cylinders"                         INTEGER,
-     "displacement"                      FLOAT,
-     "turbo"                             BOOLEAN,
-     "supercharger"                      BOOLEAN,
-     "injection"                         BOOLEAN,
-     "size_class"                        CHARACTER VARYING(255),
-     "type_name"                         CHARACTER VARYING(255)
+     row_hash                          CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     make_name                         CHARACTER VARYING(255),
+     model_name                        CHARACTER VARYING(255),
+     year                              INTEGER,
+     transmission                      CHARACTER VARYING(255),
+     speeds                            CHARACTER VARYING(255),
+     drive                             CHARACTER VARYING(255),
+     fuel_code                         CHARACTER VARYING(255),
+     fuel_efficiency                   FLOAT,
+     fuel_efficiency_units             CHARACTER VARYING(255),
+     fuel_efficiency_city              FLOAT,
+     fuel_efficiency_city_units        CHARACTER VARYING(255),
+     fuel_efficiency_highway           FLOAT,
+     fuel_efficiency_highway_units     CHARACTER VARYING(255),
+     alt_fuel_code                     CHARACTER VARYING(255),
+     alt_fuel_efficiency               FLOAT,
+     alt_fuel_efficiency_units         CHARACTER VARYING(255),
+     alt_fuel_efficiency_city          FLOAT,
+     alt_fuel_efficiency_city_units    CHARACTER VARYING(255),
+     alt_fuel_efficiency_highway       FLOAT,
+     alt_fuel_efficiency_highway_units CHARACTER VARYING(255),
+     cylinders                         INTEGER,
+     displacement                      FLOAT,
+     turbo                             BOOLEAN,
+     supercharger                      BOOLEAN,
+     injection                         BOOLEAN,
+     size_class                        CHARACTER VARYING(255),
+     type_name                         CHARACTER VARYING(255)
   );
-CREATE INDEX "index_automobile_make_model_year_variants_on_make_name" ON "automobile_make_model_year_variants" ("make_name");
-CREATE INDEX "index_automobile_make_model_year_variants_on_model_name" ON "automobile_make_model_year_variants" ("model_name");
-CREATE INDEX "index_automobile_make_model_year_variants_on_year" ON "automobile_make_model_year_variants" ("year")
+CREATE INDEX index_automobile_make_model_year_variants_on_make_name ON automobile_make_model_year_variants (make_name);
+CREATE INDEX index_automobile_make_model_year_variants_on_model_name ON automobile_make_model_year_variants (model_name);
+CREATE INDEX index_automobile_make_model_year_variants_on_year ON automobile_make_model_year_variants (year)
+
 EOS
 
   self.primary_key = "row_hash"

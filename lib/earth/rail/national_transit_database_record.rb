@@ -1,39 +1,47 @@
-require 'earth/fuel'
+require 'earth/model'
+
+require 'earth/rail/national_transit_database_company'
+require 'earth/rail/national_transit_database_mode'
+
 class NationalTransitDatabaseRecord < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "ntd_records"
+
+CREATE TABLE ntd_records
   (
-     "name"                     CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "company_id"               CHARACTER VARYING(255),
-     "mode_code"                CHARACTER VARYING(255),
-     "service_type"             CHARACTER VARYING(255),
-     "vehicle_distance"         FLOAT,
-     "vehicle_distance_units"   CHARACTER VARYING(255),
-     "vehicle_time"             FLOAT,
-     "vehicle_time_units"       CHARACTER VARYING(255),
-     "passenger_distance"       FLOAT,
-     "passenger_distance_units" CHARACTER VARYING(255),
-     "passengers"               FLOAT,
-     "electricity"              FLOAT,
-     "electricity_units"        CHARACTER VARYING(255),
-     "diesel"                   FLOAT,
-     "diesel_units"             CHARACTER VARYING(255),
-     "gasoline"                 FLOAT,
-     "gasoline_units"           CHARACTER VARYING(255),
-     "lpg"                      FLOAT,
-     "lpg_units"                CHARACTER VARYING(255),
-     "lng"                      FLOAT,
-     "lng_units"                CHARACTER VARYING(255),
-     "cng"                      FLOAT,
-     "cng_units"                CHARACTER VARYING(255),
-     "kerosene"                 FLOAT,
-     "kerosene_units"           CHARACTER VARYING(255),
-     "biodiesel"                FLOAT,
-     "biodiesel_units"          CHARACTER VARYING(255),
-     "other_fuel"               FLOAT,
-     "other_fuel_units"         CHARACTER VARYING(255),
-     "other_fuel_description"   CHARACTER VARYING(255)
+     name                     CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     company_id               CHARACTER VARYING(255),
+     mode_code                CHARACTER VARYING(255),
+     service_type             CHARACTER VARYING(255),
+     vehicle_distance         FLOAT,
+     vehicle_distance_units   CHARACTER VARYING(255),
+     vehicle_time             FLOAT,
+     vehicle_time_units       CHARACTER VARYING(255),
+     passenger_distance       FLOAT,
+     passenger_distance_units CHARACTER VARYING(255),
+     passengers               FLOAT,
+     electricity              FLOAT,
+     electricity_units        CHARACTER VARYING(255),
+     diesel                   FLOAT,
+     diesel_units             CHARACTER VARYING(255),
+     gasoline                 FLOAT,
+     gasoline_units           CHARACTER VARYING(255),
+     lpg                      FLOAT,
+     lpg_units                CHARACTER VARYING(255),
+     lng                      FLOAT,
+     lng_units                CHARACTER VARYING(255),
+     cng                      FLOAT,
+     cng_units                CHARACTER VARYING(255),
+     kerosene                 FLOAT,
+     kerosene_units           CHARACTER VARYING(255),
+     biodiesel                FLOAT,
+     biodiesel_units          CHARACTER VARYING(255),
+     other_fuel               FLOAT,
+     other_fuel_units         CHARACTER VARYING(255),
+     other_fuel_description   CHARACTER VARYING(255)
   );
+
 EOS
 
   self.primary_key = "name"

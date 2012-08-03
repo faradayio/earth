@@ -1,4 +1,5 @@
-require 'earth/fuel/data_miner'
+require 'earth/fuel/greenhouse_gas'
+require 'earth/locality/egrid_country'
 
 EgridSubregion.class_eval do
   data_miner do
@@ -21,7 +22,11 @@ EgridSubregion.class_eval do
       store 'egrid_region_name'
     end
     
-    process "Insure GreenhouseGas is populated" do
+    process "Ensure EgridCountry is populated" do
+      EgridCountry.run_data_miner!
+    end
+
+    process "Ensure GreenhouseGas is populated" do
       GreenhouseGas.run_data_miner!
     end
     

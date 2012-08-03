@@ -1,28 +1,28 @@
 # earth
 
-Earth is a collection of data models that represent various things found here on Earth, such as pet breeds, kinds of rail travel, zip codes, and Petroleum Administration for Defense Districts.
+Earth is a collection of *data models* that represent various things found here on Earth, such as countries, automobiles, aircraft, zip codes, and pet breeds.
 
-The data that these models represent can be pulled from preconfigured authoritative sources. By default, data is pulled from [Brighter Planet's open reference data site](http://data.brighterplanet.com) using the [taps gem](http://rubygems.org/gems/taps).
+By default the data that these models represent is pulled from [Brighter Planet's open reference data site](http://data.brighterplanet.com) using the [taps gem](http://rubygems.org/gems/taps). The data can also be imported directly from preconfigured authoritative sources. 
 
 ## Usage
 
 ``` ruby
 require 'earth'
-Earth.init :automobile, :locality
+require 'earth/automobile/automobile_fuel'
+
+Earth.init
 ft = AutomobileFuel.first
 # ...
 ```
 
-`Earth.init` loads desired "data domains" as well as any supporting classes and plugins that each data model needs. A "data domain" is a grouping of related data models. For instance, all automobile-related data is in the `:automobile` domain.
+`Earth.init` prepares the environment to load and download data for each data model. You can load all data models at once with `Earth.init :all`. There are several other options to `init` that configure data mining sources and database connections. See the [rdocs](http://rdoc.info/github/brighterplanet/earth) for more details on the Earth module.
 
-See the [rdocs](http://rdoc.info/github/brighterplanet/earth) for more details on the Earth module.
-
-### Domains
+### Data model categories
 
 <table>
   <thead>
   <tr>
-    <th>Domain</th>
+    <th>Category</th>
     <th>Models</th>
   </tr>
   </thead>
@@ -85,15 +85,7 @@ See the [rdocs](http://rdoc.info/github/brighterplanet/earth) for more details o
 
 ### Data storage
 
-You can store Earth data in any relational database. On your very first run, you will need to create the tables for data each model. This is done using [the `active_record_inline_schema` library](https://github.com/seamusabshere/active_record_inline_schema) if you pass the `apply_schemas` option:
-
-``` ruby
-require 'activerecord'
-ActiveRecord::Base.establish_connection :adapter => ...   # Not needed if using Rails
-
-require 'earth'
-Earth.init :all, :apply_schemas => true
-```
+You can store Earth data in any relational database. On your very first run, you will need to create the tables for data each model. You can either use the Rails standard rake tasks (see below) or with a call to `Earth.reset_schemas!`
 
 ### Pulling data from data.brighterplanet.com
 
@@ -101,25 +93,27 @@ By default, Earth will pull data from [data.brighterplanet.com](http://data.brig
 
 ``` ruby
 require 'earth'
-Earth.init :locality
+require 'earth/locality/zip_code'
+
+Earth.init
 ZipCode.run_data_miner!
 ```
 
 ### Pulling data from the original sources
 
-If you'd like to bypass the [data.brighterplanet.com](http://data.brighterplanet.com) proxy and pull data directly from authoritative sources (*e.g.,* automobile data from EPA), simply require the `data\_miner` file for the desired domain:
+If you'd like to bypass the [data.brighterplanet.com](http://data.brighterplanet.com) proxy and pull data directly from authoritative sources (*e.g.,* automobile data from EPA), simply specify the :mine_original_sources option to `Earth.init`
 
 ``` ruby
 require 'earth'
-Earth.init :automobile
+Earth.init :mine_original_sources => true
 
-require 'earth/automobile/data_miner'
+require 'earth/automobile'
 AutomobileMake.run_data_miner!
 ```
 
 ### Rake tasks
 
-Earth provides handy rails tasks for creating, migrating, and data mining models whether your using it from a Rails app or a standalone Ruby app.
+Earth provides handy rails tasks for creating, migrating, and data mining models whether you're using it from a Rails app or a standalone Ruby app.
 
 In your Rakefile, add:
 

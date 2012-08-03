@@ -1,12 +1,21 @@
+require 'earth/model'
+
+require 'earth/industry/naics_2002'
+require 'earth/industry/sic_1987'
+
 class Naics2002Sic1987Concordance < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "naics2002_sic1987_concordances"
+
+CREATE TABLE naics2002_sic1987_concordances
   (
-     "row_hash"        CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "naics_2002_code" CHARACTER VARYING(255),
-     "sic_1987_code"   CHARACTER VARYING(255),
-     "sic_note"        CHARACTER VARYING(255)
+     row_hash        CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     naics_2002_code CHARACTER VARYING(255),
+     sic_1987_code   CHARACTER VARYING(255),
+     sic_note        CHARACTER VARYING(255)
   );
+
 EOS
 
   self.primary_key = "row_hash"

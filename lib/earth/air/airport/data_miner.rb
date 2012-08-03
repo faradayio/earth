@@ -1,4 +1,4 @@
-require 'earth/locality/data_miner'
+require 'earth/locality/country'
 
 Airport.class_eval do
   class Airport::Guru

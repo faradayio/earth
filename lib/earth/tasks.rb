@@ -1,5 +1,6 @@
 require 'earth'
 require 'rake'
+require 'active_record/connection_adapters/abstract/connection_specification'
 
 module Earth
   class Tasks
@@ -10,7 +11,8 @@ module Earth
       init_bare unless Object.const_defined?('Rails')
 
       namespace :db do
-        task :load_config => 'earth:db:load_config'
+        task :create => 'earth:db:create'
+        task :drop => 'earth:db:drop'
         task :migrate => 'earth:db:migrate'
         task :seed => 'earth:db:seed'
       end
@@ -23,21 +25,34 @@ module Earth
       load 'active_record/railties/databases.rake'
 
       Rake::Task['db:load_config'].clear
+      Rake::Task['db:create'].clear
+      Rake::Task['db:drop'].clear
       Rake::Task['db:migrate'].clear
       Rake::Task['db:seed'].clear
+    end
+
+    def config
+      spec = ENV['DATABASE_URL']
+      resolver = ActiveRecord::Base::ConnectionSpecification::Resolver.new spec, {}
+      resolver.spec.config.stringify_keys
     end
         
     def init_earth_tasks
       namespace :earth do
         namespace :db do
+          task :create do
+            create_database(config)
+          end
+          task :drop do
+            drop_database_and_rescue(config)
+          end
           task :load_config do
-            ActiveRecord::Base.configurations = Earth.database_configurations
+            Earth.connect
           end
           task :migrate => :load_config do
-            Earth.init :apply_schemas => true
+            Earth.reset_schemas!
           end
           task :seed => :load_config do
-            Earth.init 
             Earth.run_data_miner!
           end
         end

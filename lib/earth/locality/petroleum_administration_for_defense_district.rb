@@ -1,13 +1,19 @@
+require 'earth/model'
+
 class PetroleumAdministrationForDefenseDistrict < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "petroleum_districts"
+
+CREATE TABLE petroleum_districts
   (
-     "code"             CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "district_code"    CHARACTER VARYING(255),
-     "district_name"    CHARACTER VARYING(255),
-     "subdistrict_code" CHARACTER VARYING(255),
-     "subdistrict_name" CHARACTER VARYING(255)
+     code             CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     district_code    CHARACTER VARYING(255),
+     district_name    CHARACTER VARYING(255),
+     subdistrict_code CHARACTER VARYING(255),
+     subdistrict_name CHARACTER VARYING(255)
   );
+
 EOS
 
   self.primary_key = "code"

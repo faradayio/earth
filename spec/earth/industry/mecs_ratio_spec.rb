@@ -3,15 +3,6 @@ require 'earth/industry/mecs_ratio'
 require 'earth/industry/industry' # MecsRatio's custom find by method calls an Industry method
 
 describe MecsRatio do
-  describe 'import', :data_miner => true do
-    before do
-      Earth.init :industry, :load_data_miner => true, :skip_parent_associations => :true
-    end
-    it 'retrieves Total US statistics' do
-      MecsRatio.run_data_miner!
-    end
-  end
-  
   describe 'verify imported data', :sanity => true do
     it 'should have all the data' do
       MecsRatio.count.should == 395

@@ -1,16 +1,25 @@
-require 'earth/locality'
+require 'earth/model'
+
+require 'earth/electricity/electric_market'
+require 'earth/electricity/green_button_adoption'
+require 'earth/locality/state'
+require 'earth/locality/zip_code'
 
 class ElectricUtility < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "electric_utilities"
+
+CREATE TABLE electric_utilities
   (
-     "eia_id"                          INTEGER NOT NULL PRIMARY KEY,
-     "name"                            CHARACTER VARYING(255),
-     "nickname"                        CHARACTER VARYING(255),
-     "state_postal_abbreviation"       CHARACTER VARYING(255),
-     "nerc_region_abbreviation"        CHARACTER VARYING(255),
-     "second_nerc_region_abbreviation" CHARACTER VARYING(255)
+     eia_id                          INTEGER NOT NULL PRIMARY KEY,
+     name                            CHARACTER VARYING(255),
+     nickname                        CHARACTER VARYING(255),
+     state_postal_abbreviation       CHARACTER VARYING(255),
+     nerc_region_abbreviation        CHARACTER VARYING(255),
+     second_nerc_region_abbreviation CHARACTER VARYING(255)
   );
+
 EOS
 
   self.primary_key = "eia_id"

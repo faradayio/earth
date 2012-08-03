@@ -1,4 +1,3 @@
-require 'earth/fuel/data_miner'
 CensusDivision.class_eval do
   data_miner do
     # http://www.census.gov/popest/geographic/codes02.csv

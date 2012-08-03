@@ -1,10 +1,22 @@
+require 'earth/model'
+
+require 'earth/industry/industry'
+require 'earth/industry/naics_2002_naics_2007_concordance'
+require 'earth/industry/naics_2002_sic_1987_concordance'
+require 'earth/industry/naics_2007'
+require 'earth/industry/sic_1987'
+
 class Naics2002 < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "naics_2002"
+
+CREATE TABLE naics_2002
   (
-     "code"        CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "description" CHARACTER VARYING(255)
+     code        CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     description CHARACTER VARYING(255)
   );
+
 EOS
 
   self.primary_key = "code"
@@ -17,5 +29,4 @@ EOS
   
   has_many :naics_2002_naics_2007_concordances, :foreign_key => :naics_2002_code
   has_many :naics_2007, :through => :naics_2002_naics_2007_concordances
-  
 end

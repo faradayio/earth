@@ -1,11 +1,18 @@
-require 'earth/locality'
+require 'falls_back_on'
+
+require 'earth/model'
+
 class ComputationCarrier < ActiveRecord::Base
+  extend Earth::Model
+
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE "computation_carriers"
+
+CREATE TABLE computation_carriers
   (
-     "name"                      CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     "power_usage_effectiveness" FLOAT
+     name                      CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
+     power_usage_effectiveness FLOAT
   );
+
 EOS
 
   self.primary_key = "name"
