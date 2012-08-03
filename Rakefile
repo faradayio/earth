@@ -63,5 +63,6 @@ Rake::RDocTask.new do |rdoc|
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
+ENV['DATABASE_URL'] ||= 'mysql2://root:password@localhost/test_earth'
 require 'earth/tasks'
 Earth::Tasks.new
