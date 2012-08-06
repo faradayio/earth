@@ -23,6 +23,10 @@ Country.class_eval do
       store 'name', :field_number => 5 # romanized version with utf-8 characters
     end
     
+    process "Add Kosovo using the FIPS code 'KV'" do
+      Country.find_or_create_by_iso_3166_code_and_name 'KV', 'Kosovo'
+    end
+    
     import "heating and cooling degree day data from WRI CAIT",
            :url => "file://#{Earth::DATA_DIR}/locality/wri_hdd_cdd_data.csv",
            :select => proc { |record| record['country'] != 'European Union (27)' },

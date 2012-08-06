@@ -15,7 +15,7 @@ describe Country do
     let(:us) { Country.united_states }
     let(:uk) { Country.find 'GB' }
     
-    it { Country.count.should == 249 }
+    it { Country.count.should == 250 }
     
     describe 'uses UTF-8 encoding' do
       it { Country.find('AX').name.should == "Åland Islands" }
