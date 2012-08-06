@@ -1,6 +1,5 @@
-require 'falls_back_on'
-
 require 'earth/model'
+require 'falls_back_on'
 
 require 'earth/locality/electricity_mix'
 require 'earth/rail/rail_company'

@@ -1,6 +1,5 @@
-require 'falls_back_on'
-
 require 'earth/model'
+require 'falls_back_on'
 
 require 'earth/locality/egrid_country'
 require 'earth/locality/egrid_subregion'
@@ -32,7 +31,6 @@ EOS
   
   falls_back_on :name => 'fallback',
                 :loss_factor => lambda { EgridCountry.us.loss_factor }
-  
   
   warn_unless_size 5
   warn_if_any_nulls

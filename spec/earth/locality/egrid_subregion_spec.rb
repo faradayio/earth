@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'earth/locality/egrid_subregion'
 
 describe EgridSubregion do
-  describe 'verify imported data', :sanity => true do
+  describe 'Sanity check', :sanity => true do
     let(:total) { EgridSubregion.count }
     let(:akgd) { EgridSubregion.find 'akgd' }
     
@@ -34,19 +34,19 @@ describe EgridSubregion do
     
     # DEPRECATED
     it { akgd.electricity_emission_factor_units.should == 'kilograms_co2e_per_kilowatt_hour' }
-  end
-  
-  describe '.fallback' do
-    let(:fallback) { EgridSubregion.fallback }
     
-    it { fallback.name.should == 'fallback' }
-    it { fallback.egrid_region.name.should == 'fallback' }
-    it { fallback.co2_emission_factor.should be_within(5e-6).of(0.55165) }
-    it { fallback.co2_biogenic_emission_factor.should == nil }
-    it { fallback.ch4_emission_factor.should be_within(5e-6).of(0.00027) }
-    it { fallback.n2o_emission_factor.should be_within(5e-6).of(0.00244) }
-    
-    # DEPRECATED
-    it { fallback.electricity_emission_factor.should be_within(5e-6).of(0.55437) }
+    describe '.fallback' do
+      let(:fallback) { EgridSubregion.fallback }
+      
+      it { fallback.name.should == 'fallback' }
+      it { fallback.egrid_region.name.should == 'fallback' }
+      it { fallback.co2_emission_factor.should be_within(5e-6).of(0.55165) }
+      it { fallback.co2_biogenic_emission_factor.should == nil }
+      it { fallback.ch4_emission_factor.should be_within(5e-6).of(0.00027) }
+      it { fallback.n2o_emission_factor.should be_within(5e-6).of(0.00244) }
+      
+      # DEPRECATED
+      it { fallback.electricity_emission_factor.should be_within(5e-6).of(0.55437) }
+    end
   end
 end

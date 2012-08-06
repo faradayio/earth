@@ -56,7 +56,6 @@ EOS
                    :lat_column_name => :latitude,
                    :lng_column_name => :longitude
   
-  
   warn_unless_size 43770
   warn_if_nonexistent_owner_except :egrid_subregion
 end

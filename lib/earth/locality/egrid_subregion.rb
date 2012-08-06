@@ -1,6 +1,5 @@
-require 'falls_back_on'
-
 require 'earth/model'
+require 'falls_back_on'
 
 require 'earth/locality/egrid_region'
 require 'earth/locality/electricity_mix'
@@ -47,7 +46,6 @@ EOS
                 :n2o_emission_factor_units => 'kilograms_co2e_per_kilowatt_hour',
                 :electricity_emission_factor => lambda { weighted_average(:electricity_emission_factor, :weighted_by => :net_generation) },
                 :electricity_emission_factor_units => 'kilograms_co2e_per_kilowatt_hour'
-  
   
   warn_unless_size 26
   warn_if_any_nulls

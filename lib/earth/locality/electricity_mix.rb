@@ -1,6 +1,5 @@
-require 'falls_back_on'
-
 require 'earth/model'
+require 'falls_back_on'
 
 class ElectricityMix < ActiveRecord::Base
   extend Earth::Model
@@ -43,7 +42,6 @@ EOS
                 :n2o_emission_factor_units => 'kilograms_co2e_per_kilowatt_hour',
                 :loss_factor => 0.096 # from ecometrica paper FIXME TODO calculate this
   
-  
-  warn_unless_size 187
+  warn_unless_size 213
   warn_if_any_nulls
 end

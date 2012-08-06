@@ -23,7 +23,6 @@ EOS
     str
   end
   
-
   warn_if_nulls_except(
     :subdistrict_code,
     :subdistrict_name

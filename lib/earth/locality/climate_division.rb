@@ -25,6 +25,5 @@ EOS
   
   RADIUS = 750
   
-
   warn_unless_size 359
 end

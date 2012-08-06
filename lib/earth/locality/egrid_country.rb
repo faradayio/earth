@@ -27,7 +27,6 @@ EOS
     end
   end
   
-  
   warn_unless_size 1
   warn_if_any_nulls
 end
