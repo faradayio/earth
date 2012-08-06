@@ -74,10 +74,6 @@ describe FlightSegment do
       end
     end
     
-    it 'should relate to airline' do
-      FlightSegment.any? { |fs| !fs.airline.nil? }.should be_true
-    end
-    
     it "should have aircraft description" do
       FlightSegment.where(:aircraft_description => nil).count.should == 0
     end
