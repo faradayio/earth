@@ -1,6 +1,7 @@
 require 'spec_helper'
-require "#{Earth::FACTORY_DIR}/flight_segment"
 require "#{Earth::FACTORY_DIR}/airline"
+require "#{Earth::FACTORY_DIR}/flight_segment"
+require 'earth/air/airport'
 
 describe FlightSegment do
   describe '#airline' do
@@ -30,7 +31,8 @@ describe FlightSegment do
     it "should have all the data" do
       FlightSegment.where(:year => 2009).count.should == 403_980
       FlightSegment.where(:year => 2010).count.should == 421_884
-      FlightSegment.where(:year => 2011).count.should == 428_550
+      FlightSegment.where(:year => 2011).count.should == 428_554
+      FlightSegment.where(:year => 2012).count.should ==  34_075
     end
     
     it "should have year from 2009 through 7 months ago" do
