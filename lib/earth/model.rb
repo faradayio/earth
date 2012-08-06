@@ -23,7 +23,7 @@ module Earth
         require path if File.exist?(path + '.rb')
         target.data_miner_script.prepend_once :process, :create_table!
       else
-        target.data_miner_script.prepend_once :sql, "Brighter Planet's reference data", "http://data.brighterplanet.com/#{to_s.underscore.pluralize}.sql"
+        target.data_miner_script.prepend_once :sql, "Brighter Planet's reference data", "http://data.brighterplanet.com/#{target.to_s.underscore.pluralize}.sql"
       end
       target.data_miner_script.append_once :process, :run_data_miner_on_parent_associations!
     end
