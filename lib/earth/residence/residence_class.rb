@@ -22,6 +22,5 @@ EOS
     CLASSIFICATIONS.detect { |c| name.downcase.include? c }
   end
 
-
   warn_unless_size 5
 end
