@@ -1,10 +1,9 @@
 # encoding: UTF-8
-
 require 'spec_helper'
 require 'earth/air/airport'
 
 describe Airport do
-  describe "verify imported data", :sanity => true do
+  describe "Sanity check", :sanity => true do
     it "should have all the data" do
       Airport.count.should == 5324
     end

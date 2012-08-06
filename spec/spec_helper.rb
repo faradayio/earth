@@ -12,35 +12,52 @@ require 'support/integration'
 include Integration
 
 require 'logger'
-logger = Logger.new 'log/test.log'
-ActiveRecord::Base.logger = logger
-DataMiner.logger = logger
+ActiveRecord::Base.logger = DataMiner.logger = Logger.new('log/test.log')
 
+require 'earth'
+Earth.init :connect => true, :mine_original_sources => true
 DataMiner.unit_converter = :conversions
 
 RSpec.configure do |c|
-  unless ENV['ALL'] == 'true'
-    c.filter_run_excluding :sanity => true
-    c.filter_run_excluding :data_miner => true
-  end
-  if ENV['SKIP_FLIGHT_SEGMENT'] == 'true'
-    c.filter_run_excluding :flight_segment => true
-  end
-
   c.before :all do
-    require 'earth'
-    Earth.init :mine_original_sources => true, :connect => true
+    # FULL_MINE=true clears, reloads, and sanity-checks data for the
+    # tested resource. This can be very slow because it clears and reloads
+    # data for any dependencies.
+    if ENV['FULL_MINE'] == 'true'
+      described_class.run_data_miner!
+    
+    # FAST_MINE=true clears, reloads, and sanity-checks data for the
+    # tested resource without reloading data for any dependencies. Only
+    # works if the test db already has sane data for those dependencies.
+    elsif ENV['FAST_MINE'] == 'true'
+      Earth.resource_models.each do |resource_model|
+        resource_model.data_miner_script.steps.clear unless resource_model == described_class
+      end
+      described_class.run_data_miner!
+    else
+      Earth.resource_models.each do |resource_model|
+        resource_model.create_table! false
+      end
+    end
   end
-  c.before :all, :sanity => true do
-    described_class.run_data_miner!
-  end
-
-  c.before(:each) do
+  
+  # SANITY=true sanity-checks data for the tested resource
+  c.filter_run_excluding(:sanity => true) unless (ENV['SANITY'] == 'true' || ENV['FAST_MINE'] == 'true' || ENV['FULL_MINE'] == 'true')
+  
+  # SKIP_SLOW=true lets you skip slow tests e.g. FlightSegment
+  c.filter_run_excluding(:slow => true) if ENV['SKIP_SLOW'] == 'true'
+  
+  # TEST_MINING=true runs spec/data_mining_spec.rb which data_mines all resources
+  c.filter_run_excluding :data_miner => true unless ENV['TEST_MINING'] == 'true'
+  
+  # Remember and revert any data added or removed by tests
+  # (doesn't apply to data loaded with FULL_MINE=true or FAST_MINE=true)
+  c.before :each do
     ActiveRecord::Base.connection.increment_open_transactions
     ActiveRecord::Base.connection.transaction_joinable = false
     ActiveRecord::Base.connection.begin_db_transaction
   end
-  c.after(:each) do
+  c.after :each do
     ActiveRecord::Base.connection.rollback_db_transaction
     ActiveRecord::Base.connection.decrement_open_transactions
   end

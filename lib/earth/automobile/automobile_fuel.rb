@@ -1,6 +1,5 @@
-require 'falls_back_on'
-
 require 'earth/model'
+require 'falls_back_on'
 
 require 'earth/automobile/automobile_type_fuel'
 require 'earth/fuel/fuel'

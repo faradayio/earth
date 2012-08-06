@@ -13,7 +13,6 @@ CREATE TABLE rail_tractions
 EOS
 
   self.primary_key = "name"
-  
 
   warn_unless_size 2
 end

@@ -50,6 +50,5 @@ EOS
     }[year]
   end
   
-
   warn_unless_size 28
 end

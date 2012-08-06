@@ -2,30 +2,21 @@ require 'spec_helper'
 require 'earth/industry/naics_2002_naics_2007_concordance'
 
 describe Naics2002Naics2007Concordance do
-  describe 'verify imported data', :sanity => true do
-    it "extracts a note from a description" do
-      Naics2002Naics2007Concordance.extract_note("Internet Service Providers - Internet services providers providing services via client-supplied telecommunications connection").
+  let(:n2n) { Naics2002Naics2007Concordance }
+  
+  describe '.extract_note(description)' do
+    it "extracts a paranthetical note from a description" do
+      n2n.extract_note("Internet Service Providers - Internet services providers providing services via client-supplied telecommunications connection").
         should == "Internet services providers providing services via client-supplied telecommunications connection"
-    end
-    it 'should have all the data' do
-      Naics2002Naics2007Concordance.count.should == 1200
     end
   end
   
-  describe "relationships" do
-    before do
-      require 'earth/industry/naics_2002'
-      require 'earth/industry/naics_2007'
+  describe 'Sanity check', :sanity => true do
+    it 'should have all the data' do
+      n2n.count.should == 1200
     end
     
-    it "belongs to :naics_2002" do
-      Naics2002Naics2007Concordance.find_by_naics_2002_code("111219").
-        naics_2002.should == Naics2002.find("111219")
-    end
-    
-    it "belongs to :naics_2007" do
-      Naics2002Naics2007Concordance.find_by_naics_2007_code("111211").
-        naics_2007.should == Naics2007.find("111211")
-    end
+    # spot check
+    it { n2n.where(:naics_2002_code => '111219').map(&:naics_2007_code).should == ['111219', '111211'] }
   end
 end

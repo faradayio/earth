@@ -21,4 +21,6 @@ EOS
   
   belongs_to :electric_utility, :foreign_key => 'electric_utility_eia_id'
   belongs_to :zip_code, :foreign_key => 'zip_code_name'
+
+  warn_unless_size 64864
 end

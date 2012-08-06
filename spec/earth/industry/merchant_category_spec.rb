@@ -2,11 +2,13 @@ require 'spec_helper'
 require 'earth/industry/merchant_category'
 
 describe MerchantCategory do
-  describe 'verify data', :sanity => true do
-    it 'should import valid data' do
-      MerchantCategory.count.should > 0
-      MerchantCategory.first.mcc.to_s.should =~ /^\d+$/
-      MerchantCategory.first.description.to_s.should_not be_empty
+  describe '#name' do
+    it "returns the description" do
+      MerchantCategory.new(:description => 'Description').name.should == 'Description'
     end
+  end
+  
+  describe 'Sanity check', :sanity => true do
+    it { MerchantCategory.count.should == 285 }
   end
 end

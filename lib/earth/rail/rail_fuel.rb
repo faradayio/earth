@@ -25,6 +25,5 @@ EOS
   
   delegate :density, :density_units, :co2_emission_factor, :co2_emission_factor_units, :co2_biogenic_emission_factor, :co2_biogenic_emission_factor_units, :to => :fuel, :allow_nil => true
   
-
   warn_unless_size 1
 end

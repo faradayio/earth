@@ -7,9 +7,5 @@ FlightDistanceClass.class_eval do
       store 'min_distance', :units_field_name => 'min_distance_units', :nullify => true
       store 'max_distance', :units_field_name => 'max_distance_units', :nullify => true
     end
-    
-    # FIXME TODO verify that min_distance >= 0
-    # FIXME TODO verify that max_distance > 0
-    # FIXME TODO verify that distance class distance bounds don't overlap
   end
 end

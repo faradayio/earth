@@ -2,7 +2,14 @@ require 'spec_helper'
 require 'earth/locality/state'
 
 describe State do
-  describe 'verify imported data', :sanity => true do
+  describe '#country' do
+    it 'should return the United States' do
+      us = Country.find_or_create_by_iso_3166_code 'US'
+      State.new.country.should == us
+    end
+  end
+  
+  describe 'Sanity check', :sanity => true do
     it 'should have all the data' do
       State.count.should == 51 # includes DC but not any territories
     end
@@ -29,16 +36,6 @@ describe State do
       State.find('CA').electricity_loss_factor.should be_within(5e-6).of(0.08208)
       State.find('MT').electricity_loss_factor.should be_within(5e-6).of(0.08094)
       State.find('NM').electricity_loss_factor.should be_within(5e-6).of(0.08007)
-    end
-  end
-  
-  describe '#country' do
-    before do
-      require 'earth/locality/country'
-    end
-    
-    it 'should return the United States' do
-      State.first.country.should == Country.united_states
     end
   end
 end

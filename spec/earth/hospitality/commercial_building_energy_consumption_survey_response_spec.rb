@@ -1,10 +1,21 @@
 require 'spec_helper'
-require 'earth/hospitality/commercial_building_energy_consumption_survey_response'
+require "#{Earth::FACTORY_DIR}/commercial_building_energy_consumption_survey_response"
 
 describe CommercialBuildingEnergyConsumptionSurveyResponse do
   let(:cbecs) { CommercialBuildingEnergyConsumptionSurveyResponse }
   
-  describe "verify imported data", :sanity => true do
+  describe ".lodging_records" do
+    it "should return records representing Hotels, Motels, and Inns with no other activity" do
+      cbecs.delete_all
+      h = FactoryGirl.create :cbecs_response, :hotel
+      m = FactoryGirl.create :cbecs_response, :motel
+      FactoryGirl.create :cbecs_response, :warehouse
+      FactoryGirl.create :cbecs_response, :hotel_warehouse
+      cbecs.lodging_records.should == [h, m]
+    end
+  end
+  
+  describe "Sanity check", :sanity => true do
     let(:total) { cbecs.count }
     let(:first_lodging) { cbecs.lodging_records.first }
     
@@ -33,14 +44,6 @@ describe CommercialBuildingEnergyConsumptionSurveyResponse do
       first_lodging.fuel_oil_energy.should be_within(5e-4).of(0)
       first_lodging.fuel_oil_per_room_night.should be_within(5e-4).of(12.97)
       first_lodging.fuel_oil_per_room_night_units.should == 'megajoules_per_room_night'
-    end
-  end
-  
-  describe ".lodging_records" do
-    it "should return records representing Hotels, Motels, and Inns with no other activity" do
-      cbecs.lodging_records.map(&:detailed_activity).uniq.sort.should == ['Hotel', 'Motel or inn']
-      cbecs.lodging_records.map(&:first_activity).uniq.should == [nil]
-      cbecs.lodging_records.count.should == 192
     end
   end
 end

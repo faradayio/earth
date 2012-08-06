@@ -30,7 +30,6 @@ EOS
   has_many :industry_sectors, :foreign_key => 'naics_code'
   has_many :sectors, :through => :industry_sectors
   
-  
   class << self
     def format_naics_code(input)
       "%d" % input.to_i
@@ -39,7 +38,7 @@ EOS
   
   def trade_industry?
     prefix = naics_code.to_s[0,2]
-    %w{42 44 45}.include?(prefix)
+    %w{42 44 45}.include? prefix
   end
 
   warn_unless_size 2341

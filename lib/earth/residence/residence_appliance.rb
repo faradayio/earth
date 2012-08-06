@@ -25,6 +25,5 @@ EOS
     end
   end
 
-
   warn_unless_size 2
 end

@@ -23,6 +23,5 @@ EOS
   
   belongs_to :fuel_control, :class_name => 'BusFuelControl', :foreign_key => 'bus_fuel_control_name'
 
-
   warn_unless_size 67
 end

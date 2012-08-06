@@ -1,6 +1,5 @@
-require 'falls_back_on'
-
 require 'earth/model'
+require 'falls_back_on'
 
 require 'earth/pet/breed'
 
@@ -31,7 +30,6 @@ EOS
 
   self.primary_key = "name"
   
-
   has_many :breeds, :foreign_key => 'species_name'
   
   scope :thoroughly_researched, :conditions => 'marginal_dietary_requirement IS NOT NULL'

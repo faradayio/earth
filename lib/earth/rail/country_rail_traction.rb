@@ -22,6 +22,5 @@ EOS
 
   self.primary_key = "name"
   
-
   warn_unless_size 50
 end
