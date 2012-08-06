@@ -1,7 +1,7 @@
 NationalTransitDatabaseRecord.class_eval do
   data_miner do
     import "US National Transit Database service data",
-           :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdF9Hbktvc3BMNDRWZHhDRU9uMVZfWVE&output=csv' do
+           :url => "#{Earth::DATA_DIR}/rail/ntd_service.csv" do
       key 'name', :synthesize => proc { |row| [row['trs_id'], row['mode_code'], row['service_code']].join(' ') }
       store 'company_id', :field_name => 'trs_id'
       store 'mode_code'
@@ -13,7 +13,7 @@ NationalTransitDatabaseRecord.class_eval do
     end
     
     import "US National Transit Database fuel consumption data",
-           :url => 'https://docs.google.com/spreadsheet/pub?key=0AoQJbWqPrREqdDItVVR5NjA2Y3FCVjgza25Ccy0zS2c&output=csv' do
+           :url => "#{Earth::DATA_DIR}/rail/ntd_fuel_consumption.csv" do
       key 'name', :synthesize => proc { |row| [row['trs_id'], row['mode_code'], row['service_code']].join(' ') }
       store 'company_id', :field_name => 'trs_id'
       store 'mode_code'

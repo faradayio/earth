@@ -51,7 +51,6 @@ EOS
     where(:mode_code => NationalTransitDatabaseMode.rail_modes)
   end
   
-
   warn_if_nulls_except(
     :passenger_distance,
     :passenger_distance_units,

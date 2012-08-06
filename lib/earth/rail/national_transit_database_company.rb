@@ -33,8 +33,7 @@ EOS
   # Methods to calculate summary statistics from rail_records
   [:rail_passengers, :rail_passenger_distance, :rail_vehicle_distance, :rail_vehicle_time, :rail_electricity, :rail_diesel].each do |method|
     define_method method do
-      attribute = method.to_s.split('rail_')[1].to_sym
-      rail_records.sum(attribute) > 0 ? rail_records.sum(attribute) : nil 
+      (sum = rail_records.sum(method.to_s.split('rail_')[1].to_sym)) > 0 ? sum : nil
     end
   end
   
@@ -48,7 +47,6 @@ EOS
     end
   end
   
-
   warn_if_nulls_except(
     :acronym,
     :duns_number
