@@ -8,14 +8,20 @@ module Earth
 
     def initialize
       init_earth_tasks
-      init_bare unless Object.const_defined?('Rails')
+      init_bare unless rails?
 
       namespace :db do
-        task :create => 'earth:db:create'
-        task :drop => 'earth:db:drop'
+        unless rails?
+          task :create => 'earth:db:create'
+          task :drop => 'earth:db:drop'
+        end
         task :migrate => 'earth:db:migrate'
         task :seed => 'earth:db:seed'
       end
+    end
+
+    def rails?
+      @rails ||= Object.const_defined?('Rails')
     end
 
     def init_bare
@@ -47,7 +53,11 @@ module Earth
             drop_database_and_rescue(config)
           end
           task :load_config do
-            Earth.connect
+            if rails?
+              Rake::Task['db:load_config'].invoke
+            else
+              Earth.connect
+            end
           end
           task :migrate => :load_config do
             Earth.reset_schemas!
