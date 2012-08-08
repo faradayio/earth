@@ -2,6 +2,29 @@ require 'earth/model'
 require 'earth/locality'
 
 class CbecsEnergyIntensity < ActiveRecord::Base
+  FUELS = {
+    :electricity => { 
+      :consumption => :billion_kilowatt_hours,
+      :intensity => :kilowatt_hours_per_square_foot,
+      :set => 10
+    },
+    :natural_gas => { 
+      :consumption => :billion_cubic_feet_of_natural_gas,
+      :intensity => :cubic_feet_of_natural_gas_per_square_foot,
+      :set => 11
+    },
+    :fuel_oil => { 
+      :consumption => :million_gallons_of_fuel_oil,
+      :intensity => :gallons_of_fuel_oil_per_square_foot,
+      :set => 12
+    },
+    :district_heat => { 
+      :consumption => :trillion_btu,
+      :intensity => :trillion_btu_per_million_square_feet,
+      :set => 13
+    }
+  }
+
   extend Earth::Model
 
   TABLE_STRUCTURE = <<-EOS
@@ -54,29 +77,6 @@ EOS
   scope :divisional, where('census_region_number IS NOT NULL AND census_division_number IS NOT NULL')
   scope :regional, where('census_region_number IS NOT NULL AND census_division_number IS NULL')
   scope :national, where(:census_region_number => nil, :census_division_number => nil)
-
-  FUELS = {
-    :electricity => { 
-      :consumption => :billion_kilowatt_hours,
-      :intensity => :kilowatt_hours_per_square_foot,
-      :set => 10
-    },
-    :natural_gas => { 
-      :consumption => :billion_cubic_feet_of_natural_gas,
-      :intensity => :cubic_feet_of_natural_gas_per_square_foot,
-      :set => 11
-    },
-    :fuel_oil => { 
-      :consumption => :million_gallons_of_fuel_oil,
-      :intensity => :gallons_of_fuel_oil_per_square_foot,
-      :set => 12
-    },
-    :district_heat => { 
-      :consumption => :trillion_btu,
-      :intensity => :trillion_btu_per_million_square_feet,
-      :set => 13
-    }
-  }
   
   # Find the first record whose naics_code matches code.
   # If no record found chop off the last character of code and try again, and so on.
