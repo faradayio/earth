@@ -1,7 +1,6 @@
-require 'fuzzy_match/cached_result'
-require 'falls_back_on'
-
 require 'earth/model'
+require 'falls_back_on'
+require 'fuzzy_match/cached_result'
 
 require 'earth/air/flight_segment'
 
@@ -159,7 +158,6 @@ EOS
                 :m1_units => 'kilograms_per_nautical_mile',
                 :b_units  => 'kilograms'
   
-
   warn_if_nulls_except(
     :passengers,
     :seats,
@@ -174,6 +172,6 @@ EOS
     :b_units,
     :fuel_use_specificity
   )
-
+  
   warn_unless_size 437
 end

@@ -2,20 +2,9 @@ require 'spec_helper'
 require 'earth/industry/sic_1987'
 
 describe Sic1987 do
-  describe "verify imported data", :sanity => true do
-    it "should have all the data" do
-      Sic1987.count.should == 1004
-    end
-    it "has a description for every code" do
-      Sic1987.find_by_description(nil).should be_nil
-    end
-  end
-  
-  describe "code translations" do
-    before do
-      require 'earth/industry/naics_2002'
-      require 'earth/industry/naics_2002_sic_1987_concordance'
-    end
+  describe "Sanity check", :sanity => true do
+    it { Sic1987.count.should == 1004 }
+    it { Sic1987.where(:description => nil).count.should == 0 }
     
     it "can be translated to a NAICS 2002 code" do
       {

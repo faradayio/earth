@@ -21,7 +21,5 @@ BusFuelControl.class_eval do
         n2o_emission_factor_units = 'kilograms_per_kilometre'
       })
     end
-    
-    # FIXME TODO verify this
   end
 end

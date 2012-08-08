@@ -7,8 +7,5 @@ ComputationCarrierRegion.class_eval do
       store 'region'
       store 'egrid_subregion_abbreviation'
     end
-    
-    # FIXME TODO verify carrier_name appears in Carrier
-    # FIXME TODO verify egrid_subregion_abbreviation appears in EgridSubregion
   end
 end

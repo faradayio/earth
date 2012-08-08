@@ -1,6 +1,5 @@
-require 'falls_back_on'
-
 require 'earth/model'
+require 'falls_back_on'
 
 require 'earth/locality/census_region'
 require 'earth/locality/climate_division'
@@ -46,6 +45,5 @@ EOS
                 :meeting_building_electricity_intensity => 0.0084323684 / 1.square_feet.to(:square_metres),
                 :meeting_building_district_heat_intensity => 0.0004776370.kbtus.to(:megajoules) / 1.square_feet.to(:square_metres)
   
-
   warn_unless_size 9
 end

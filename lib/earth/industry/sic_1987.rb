@@ -27,4 +27,5 @@ EOS
     (desc = description.match /^(.+?) \(/) ? desc.captures.first : description
   end
   
+  warn_unless_size 1004
 end

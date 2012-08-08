@@ -22,4 +22,5 @@ EOS
   has_many :naics_2002_naics_2007_concordances, :foreign_key => :naics_2007_code
   has_many :naics_2002, :through => :naics_2002_naics_2007_concordances
   
+  warn_unless_size 2328
 end

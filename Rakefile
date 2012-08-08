@@ -5,32 +5,22 @@ Bundler::GemHelper.install_tasks
 require 'bueller'
 Bueller::Tasks.new
 
-desc "Load a console and connect to the test db"
+desc "Load a console"
 task :console do
+  ENV['EARTH_ENV'] ||= 'test'
   require 'earth'
-  logger = Logger.new('log/test.log')
-  DataMiner.logger = ActiveRecord::Base.logger = logger
-
-  case ENV['EARTH_DB_ADAPTER']
-  when 'mysql'
-    adapter = 'mysql2'
-    username = 'root'
-    password = 'password'
-  else
-    adapter = 'postgresql'
-    username = nil
-    password = nil
-  end
-  ActiveRecord::Base.establish_connection :adapter => adapter, :username => username, :password => password, :database => 'test_earth'
-  Earth.init :all
-
+  
+  DataMiner.logger = ActiveRecord::Base.logger = Logger.new('log/test.log')
+  DataMiner.unit_converter = :conversions
+  
+  Earth.init :all, :connect => true
+  
   require 'irb'
   ARGV.clear
   IRB.start
 end
 
 require 'rspec/core/rake_task'
-desc "Run all examples"
 RSpec::Core::RakeTask.new(:examples) do |c|
   if ENV['RSPEC_FORMAT']
     c.rspec_opts = "-Ispec --format #{ENV['RSPEC_FORMAT']}"
@@ -48,10 +38,8 @@ if RUBY_VERSION =~ /^1\.8/
   end
 end
 
-desc "Run tests with RSpec"
+desc "Run tests with RSpec - see spec/spec_helper for configuration options e.g. data sanity-checking"
 task :test => :examples
-
-desc "Run tests with RSpec"
 task :default => :test
 
 require 'earth/version'

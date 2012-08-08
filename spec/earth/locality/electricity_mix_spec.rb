@@ -2,7 +2,15 @@ require 'spec_helper'
 require 'earth/locality/electricity_mix'
 
 describe ElectricityMix do
-  describe 'verify imported data', :sanity => true do
+  describe '#energy_content' do
+    it { ElectricityMix.new.energy_content.should be_within(5e-6).of(3.6) }
+  end
+  
+  describe '#energy_content_units' do
+    it { ElectricityMix.new.energy_content_units.should == 'megajoules_per_kilowatt_hour' }
+  end
+  
+  describe 'Sanity check', :sanity => true do
     let(:total) { ElectricityMix.count }
     let(:uk) { ElectricityMix.find_by_country_iso_3166_code 'GB' }
     let(:akgd) { ElectricityMix.find_by_egrid_subregion_abbreviation 'akgd' }
@@ -40,21 +48,13 @@ describe ElectricityMix do
     it { ca.ch4_emission_factor.should be_within(5e-6).of(0.00033) }
     it { ca.n2o_emission_factor.should be_within(5e-6).of(0.00085) }
     it { ca.loss_factor.should be_within(5e-6).of(0.08208) }
-  end
-  
-  describe '.fallback' do
-    it { ElectricityMix.fallback.name.should == 'fallback' }
-    it { ElectricityMix.fallback.co2_emission_factor.should be_within(5e-6).of(0.62354) }
-    it { ElectricityMix.fallback.ch4_emission_factor.should be_within(5e-6).of(0.00021) }
-    it { ElectricityMix.fallback.n2o_emission_factor.should be_within(5e-6).of(0.00234) }
-    it { ElectricityMix.fallback.loss_factor.should be_within(5e-6).of(0.096) }
-  end
-  
-  describe '#energy_content' do
-    it { ElectricityMix.first.energy_content.should be_within(5e-6).of(3.6) }
-  end
-  
-  describe '#energy_content_units' do
-    it { ElectricityMix.first.energy_content_units.should == 'megajoules_per_kilowatt_hour' }
+    
+    describe '.fallback' do
+      it { ElectricityMix.fallback.name.should == 'fallback' }
+      it { ElectricityMix.fallback.co2_emission_factor.should be_within(5e-6).of(0.62354) }
+      it { ElectricityMix.fallback.ch4_emission_factor.should be_within(5e-6).of(0.00021) }
+      it { ElectricityMix.fallback.n2o_emission_factor.should be_within(5e-6).of(0.00234) }
+      it { ElectricityMix.fallback.loss_factor.should be_within(5e-6).of(0.096) }
+    end
   end
 end

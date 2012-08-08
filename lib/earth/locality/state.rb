@@ -48,7 +48,6 @@ EOS
     Country.united_states
   end
   
-  
   warn_if_nulls_except(
     :census_division_number,
     :petroleum_administration_for_defense_district_code

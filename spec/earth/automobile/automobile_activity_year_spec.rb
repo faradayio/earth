@@ -1,23 +1,29 @@
 require 'spec_helper'
-require 'earth/automobile/automobile_activity_year'
+require "#{Earth::FACTORY_DIR}/automobile_activity_year"
 
 describe AutomobileActivityYear do
-  before :all do
-    require 'earth/acronyms'
-  end
-  
-  describe 'verify', :sanity => true do
-    it { AAY.count.should == 15 }
-    it { AAY.where("hfc_emission_factor > 0").count.should == AAY.count }
-    
-    # spot check
-    it { AAY.first.hfc_emission_factor.should be_within(1e-5).of(0.01656) }
-    it { AAY.first.hfc_emission_factor_units.should == 'kilograms_co2e_per_kilometre' }
-  end
+  let(:aay) { AutomobileActivityYear }
   
   describe '.find_by_closest_year' do
-    it { AAY.find_by_closest_year(1994).should == AAY.find(1995) }
-    it { AAY.find_by_closest_year(2005).should == AAY.find(2005) }
-    it { AAY.find_by_closest_year(2010).should == AAY.find(2009) }
+    it "returns the closest year" do
+      aay.delete_all
+      twenty_nine = FactoryGirl.create :aay, :twenty_nine
+      twenty_ten = FactoryGirl.create :aay, :twenty_ten
+      
+      aay.find_by_closest_year(2011).should == twenty_ten
+      aay.find_by_closest_year(2009).should == twenty_nine
+      aay.find_by_closest_year(2005).should == twenty_nine
+    end
+  end
+  
+  describe 'Sanity check', :sanity => true do
+    let(:total) { aay.count }
+    
+    it { total.should == 15 }
+    it { aay.where("hfc_emission_factor > 0").count.should == total }
+    
+    # spot check
+    it { aay.first.hfc_emission_factor.should be_within(1e-5).of(0.01656) }
+    it { aay.first.hfc_emission_factor_units.should == 'kilograms_co2e_per_kilometre' }
   end
 end

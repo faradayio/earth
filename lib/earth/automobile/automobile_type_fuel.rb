@@ -32,6 +32,5 @@ EOS
     AutomobileActivityYearTypeFuel.latest.where(:type_name => type_name, :fuel_family => fuel_family).first
   end
   
-  
   warn_unless_size 4
 end

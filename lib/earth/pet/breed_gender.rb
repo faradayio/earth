@@ -24,6 +24,5 @@ EOS
   belongs_to :breed, :foreign_key => 'breed_name'
   belongs_to :gender, :foreign_key => 'gender_name'
   
-
   warn_unless_size 586
 end

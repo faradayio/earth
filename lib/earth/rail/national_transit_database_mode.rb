@@ -20,7 +20,6 @@ EOS
   def self.rail_modes
     where(:rail_mode => true)
   end
-  
 
   warn_unless_size 14
 end

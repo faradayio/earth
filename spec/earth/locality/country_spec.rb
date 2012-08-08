@@ -4,11 +4,18 @@ require 'spec_helper'
 require 'earth/locality/country'
 
 describe Country do
-  describe 'verify imported data', :sanity => true do
+  describe '.united_states' do
+    it 'should return the United States' do
+      us = Country.find_or_create_by_iso_3166_code 'US'
+      Country.united_states.should == us
+    end
+  end
+  
+  describe 'Sanity check', :sanity => true do
     let(:us) { Country.united_states }
     let(:uk) { Country.find 'GB' }
     
-    it { Country.count.should == 249 }
+    it { Country.count.should == 250 }
     
     describe 'uses UTF-8 encoding' do
       it { Country.find('AX').name.should == "Åland Islands" }
@@ -83,27 +90,21 @@ describe Country do
       it { uk.rail_trip_diesel_intensity.should be_within(5e-5).of(0.0028) }
       it { uk.rail_trip_co2_emission_factor.should be_within(5e-5).of(0.0458) }
     end
-  end
-  
-  describe '.united_states' do
-    it 'should return the United States' do
-      Country.united_states.should == Country.find('US')
-    end
-  end
-  
-  describe '.fallback' do
-    let(:fallback) { Country.fallback }
     
-    it { fallback.name.should == 'fallback' }
-    it { fallback.electricity_emission_factor.should be_within(5e-6).of(0.62609) }
-    it { fallback.electricity_emission_factor_units.should == 'kilograms_co2e_per_kilowatt_hour' }
-    it { fallback.electricity_co2_emission_factor.should be_within(5e-6).of(0.62354) }
-    it { fallback.electricity_co2_emission_factor_units.should == 'kilograms_per_kilowatt_hour' }
-    it { fallback.electricity_ch4_emission_factor.should be_within(5e-6).of(0.00021) }
-    it { fallback.electricity_ch4_emission_factor_units.should == 'kilograms_co2e_per_kilowatt_hour' }
-    it { fallback.electricity_n2o_emission_factor.should be_within(5e-6).of(0.00234) }
-    it { fallback.electricity_n2o_emission_factor_units.should == 'kilograms_co2e_per_kilowatt_hour' }
-    it { fallback.electricity_loss_factor.should be_within(5e-4).of(0.096) }
-    it { fallback.electricity_mix.should == ElectricityMix.fallback }
+    describe '.fallback' do
+      let(:fallback) { Country.fallback }
+      
+      it { fallback.name.should == 'fallback' }
+      it { fallback.electricity_emission_factor.should be_within(5e-6).of(0.62609) }
+      it { fallback.electricity_emission_factor_units.should == 'kilograms_co2e_per_kilowatt_hour' }
+      it { fallback.electricity_co2_emission_factor.should be_within(5e-6).of(0.62354) }
+      it { fallback.electricity_co2_emission_factor_units.should == 'kilograms_per_kilowatt_hour' }
+      it { fallback.electricity_ch4_emission_factor.should be_within(5e-6).of(0.00021) }
+      it { fallback.electricity_ch4_emission_factor_units.should == 'kilograms_co2e_per_kilowatt_hour' }
+      it { fallback.electricity_n2o_emission_factor.should be_within(5e-6).of(0.00234) }
+      it { fallback.electricity_n2o_emission_factor_units.should == 'kilograms_co2e_per_kilowatt_hour' }
+      it { fallback.electricity_loss_factor.should be_within(5e-4).of(0.096) }
+      it { fallback.electricity_mix.should == ElectricityMix.fallback }
+    end
   end
 end

@@ -14,6 +14,19 @@ FlightSegment.class_eval do
     def in_july_2009?(row)
       row ['MONTH'].to_i == 7 and row['YEAR'].to_i == 2009
     end
+    
+    def method_missing(method_id, *args, &block)
+      if method_id.to_s =~ /^(origin|destination)_iata_([a-z]{3})\?$/
+        regexp = Regexp.new($2, Regexp::IGNORECASE)
+        if $1 == "origin"
+          args.first['ORIGIN'] =~ regexp
+        else
+          args.first['DEST'] =~ regexp
+        end
+      else
+        super
+      end
+    end
   end
   
   URL = 'http://www.transtats.bts.gov/DownLoad_Table.asp'

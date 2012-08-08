@@ -37,7 +37,6 @@ EOS
   
   belongs_to :country, :foreign_key => 'country_iso_3166_code'
   
-
   warn_if_nulls_except(
     :duns_number,
     :train_time,

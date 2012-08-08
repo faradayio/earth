@@ -64,6 +64,5 @@ EOS
                 :air_conditioning_emission_factor => 0.04779 / 1.miles.to(:kilometres),
                 :air_conditioning_emission_factor_units => 'kilograms_co2e_per_kilometre'
   
-
   warn_unless_size 2
 end

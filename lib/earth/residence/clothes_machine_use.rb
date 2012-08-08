@@ -20,6 +20,5 @@ EOS
   
   has_many :residential_energy_consumption_survey_responses
 
-
   warn_unless_size 5
 end
