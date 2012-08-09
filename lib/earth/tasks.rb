@@ -25,7 +25,8 @@ module Earth
     end
 
     def rails?
-      @rails ||= Object.const_defined?('Rails')
+      return @rails unless @rails.nil?
+      @rails = Object.const_defined?('Rails')
     end
 
     def init_bare
