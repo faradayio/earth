@@ -68,6 +68,8 @@ module Earth
             Earth.reset_schemas!
           end
           task :seed => :load_config do
+            require 'falls_back_on'
+
             FallsBackOn.clear
             Earth.run_data_miner!
           end
