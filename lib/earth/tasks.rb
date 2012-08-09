@@ -15,8 +15,12 @@ module Earth
           task :create => 'earth:db:create'
           task :drop => 'earth:db:drop'
         end
-        task :migrate => 'earth:db:migrate'
-        task :seed => 'earth:db:seed'
+        task :migrate do
+          Rake::Task['earth:db:migrate'].invoke
+        end
+        task :seed do
+          Rake::Task['earth:db:seed'].invoke
+        end
       end
     end
 
@@ -60,9 +64,11 @@ module Earth
             end
           end
           task :migrate => :load_config do
+            DataMiner::Run.auto_upgrade!
             Earth.reset_schemas!
           end
           task :seed => :load_config do
+            FallsBackOn.clear
             Earth.run_data_miner!
           end
         end
