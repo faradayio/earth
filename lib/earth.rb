@@ -37,9 +37,10 @@ module Earth
   def Earth.init(*args)
     options = args.extract_options!
 
-    connect if options[:connect]
-
-    Warnings.check_mysql_ansi_mode
+    if options[:connect]
+      connect 
+      Warnings.check_mysql_ansi_mode
+    end
 
     Earth.mine_original_sources = options[:load_data_miner] || options[:mine_original_sources]
     
