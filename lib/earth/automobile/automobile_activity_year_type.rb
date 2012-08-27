@@ -24,7 +24,7 @@ EOS
   
   # Used by Automobile and AutomobileTrip
   def self.find_by_type_name_and_closest_year(type_name, year)
-    candidates = where(:type_name => type_name)
+    return if (candidates = where(:type_name => type_name)).none?
     if year > (max_year = candidates.maximum(:activity_year))
       candidates.where(:activity_year => max_year).first
     else

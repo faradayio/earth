@@ -30,7 +30,7 @@ EOS
   
   # Used by AutomobileTypeFuelYear
   def self.find_all_by_type_name_and_fuel_family_and_closest_year(type_name, fuel_family, year)
-    candidates = where(:type_name => type_name, :fuel_family => fuel_family)
+    return if (candidates = where(:type_name => type_name, :fuel_family => fuel_family)).none?
     if year > (max_year = candidates.maximum(:year))
       candidates.where :year => max_year
     else
