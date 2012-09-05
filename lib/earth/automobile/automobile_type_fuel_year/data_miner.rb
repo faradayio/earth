@@ -7,7 +7,7 @@ AutomobileTypeFuelYear.class_eval do
         code = "LD" + fuel_code + type_code
         
         import "age distribution of #{fuel} #{type.downcase} from the 2011 EPA GHG Inventory",
-               :url => 'http://www.epa.gov/climatechange/emissions/downloads11/Annex%20Tables.zip',
+               :url => 'http://www.epa.gov/climatechange/Downloads/ghgemissions/2011-Annex-Tables.zip',
                :filename => 'Annex Tables/Table A-93.csv',
                :skip => 1,
                :headers => %w{ age LDGV LDGT HDGV LDDV LDDT HDDT MC },
@@ -20,7 +20,7 @@ AutomobileTypeFuelYear.class_eval do
         end
         
         import "average distance per vehicle for gasoline passenger cars from the 2011 EPA GHG Inventory",
-               :url => 'http://www.epa.gov/climatechange/emissions/downloads11/Annex%20Tables.zip',
+               :url => 'http://www.epa.gov/climatechange/Downloads/ghgemissions/2011-Annex-Tables.zip',
                :filename => 'Annex Tables/Table A-94.csv',
                :skip => 1,
                :headers => %w{ age LDGV LDGT HDGV LDDV LDDT HDDT MC },
