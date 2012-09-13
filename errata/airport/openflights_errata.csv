@@ -271,6 +271,8 @@ date,name,email,type,section,action,x,y,condition,notes
 3/29/12,Ian Hough,ian@brighterplanet.com,technical,longitude,replace,/.+/,-112.457,iata is dvt,wrong lng
 3/29/12,Ian Hough,ian@brighterplanet.com,technical,latitude,replace,/.+/,28.398,iata is dws,wrong lat/lng
 3/29/12,Ian Hough,ian@brighterplanet.com,technical,longitude,replace,/.+/,-81.57,iata is dws,wrong lat/lng
+9/11/12,Ian Hough,ian@brighterplanet.com,technical,name,replace,/^Dayong$/,Zhangjiajie,iata is dyg,fix name
+9/11/12,Ian Hough,ian@brighterplanet.com,technical,city,replace,/^Dayong$/,Zhangjiajie,iata is dyg,fix city
 3/29/12,Ian Hough,ian@brighterplanet.com,technical,city,replace,/.+/,Basel,iata is eap,bsl/eap/mlh is one airport with three codes
 3/29/12,Ian Hough,ian@brighterplanet.com,technical,country_name,replace,/.+/,Switzerland,iata is eap,bsl/eap/mlh is one airport with three codes
 3/29/12,Ian Hough,ian@brighterplanet.com,technical,name,replace,/.+/,EuroAirport Basel-Mulhouse-Freiburg,iata is eap,bsl/eap/mlh is one airport with three codes
@@ -286,6 +288,7 @@ date,name,email,type,section,action,x,y,condition,notes
 3/29/12,Ian Hough,ian@brighterplanet.com,technical,city,replace,/^Elat$/i,Eilat,iata is eth,fix city
 3/29/12,Ian Hough,ian@brighterplanet.com,technical,city,replace,/^Harstad/Narvik$/i,Evenes,iata is eve,fix city
 3/29/12,Ian Hough,ian@brighterplanet.com,technical,name,replace,/^Evenes$/i,Harstad/Narvik,iata is eve,fix name
+9/11/12,Ian Hough,ian@brighterplanet.com,technical,city,replace,/^Lubumashi$/i,Lubumbashi,iata is fbm,fix city
 3/29/12,Ian Hough,ian@brighterplanet.com,technical,latitude,replace,/.+/,61.392,iata is fde,wrong lat/lng
 3/29/12,Ian Hough,ian@brighterplanet.com,technical,longitude,replace,/.+/,5.763,iata is fde,wrong lat/lng
 3/29/12,Ian Hough,ian@brighterplanet.com,technical,city,replace,/^Fez$/i,Fes,iata is fez,fix city
@@ -299,6 +302,7 @@ date,name,email,type,section,action,x,y,condition,notes
 3/29/12,Ian Hough,ian@brighterplanet.com,technical,name,replace,/^Tolagnaro$/i,Taolagnaro,iata is ftu,fix name
 3/29/12,Ian Hough,ian@brighterplanet.com,technical,city,replace,/^Governor's Harbor$/i,Governors Harbour,iata is ghb,fix city
 3/29/12,Ian Hough,ian@brighterplanet.com,technical,city,replace,,La Gomera,iata is gmz,fix city
+9/11/12,Ian Hough,ian@brighterplanet.com,technical,city,replace,/^Gaberone$/i,Gaborone,iata is gbe,fix city
 3/29/12,Ian Hough,ian@brighterplanet.com,technical,city,replace,/^Gerona$/i,Girona,iata is gro,fix city
 3/29/12,Ian Hough,ian@brighterplanet.com,technical,latitude,replace,/.+/,52.475,iata is gww,wrong lat/lng
 3/29/12,Ian Hough,ian@brighterplanet.com,technical,longitude,replace,/.+/,13.139,iata is gww,wrong lat/lng
@@ -314,6 +318,8 @@ date,name,email,type,section,action,x,y,condition,notes
 3/29/12,Ian Hough,ian@brighterplanet.com,technical,city,replace,/^Wheeler Afb\.$/i,Wahiawa,iata is hhi,fix city
 3/29/12,Ian Hough,ian@brighterplanet.com,technical,city,replace,/^Hassi-messaoud$/i,Hassi Messaoud,iata is hme,fix city
 3/29/12,Ian Hough,ian@brighterplanet.com,technical,city,replace,/^Bahias Dehuatulco$/i,Huatulco,iata is hux,fix city
+9/11/12,Ian Hough,ian@brighterplanet.com,technical,name,replace,/^Hyakuri$/i,Ibaraki,iata is ibr,fix city
+9/11/12,Ian Hough,ian@brighterplanet.com,technical,city,replace,/^Ibaraki$/i,Omitama,iata is ibr,fix city
 3/29/12,Ian Hough,ian@brighterplanet.com,technical,city,replace,/^Isfahan$/i,Esfahan,iata is ifn,fix city
 3/29/12,Ian Hough,ian@brighterplanet.com,technical,latitude,replace,/.+/,35.416111,iata is ika,wrong lat/lng
 3/29/12,Ian Hough,ian@brighterplanet.com,technical,longitude,replace,/.+/,51.152222,iata is ika,wrong lat/lng
@@ -340,6 +346,7 @@ date,name,email,type,section,action,x,y,condition,notes
 3/29/12,Ian Hough,ian@brighterplanet.com,technical,city,replace,/^Paraguana$/i,Punto Fijo,iata is lsp,fix city
 3/29/12,Ian Hough,ian@brighterplanet.com,technical,latitude,replace,/.+/,-0.906833,iata is ltx,wrong lat/lng
 3/29/12,Ian Hough,ian@brighterplanet.com,technical,longitude,replace,/.+/,-78.615756,iata is ltx,wrong lat/lng
+9/11/12,Ian Hough,ian@brighterplanet.com,technical,city,replace,/^Luxi$/i,Dehong,iata is lum,fix city
 3/29/12,Ian Hough,ian@brighterplanet.com,technical,city,replace,/^Luxemburg$/i,Luxembourg,iata is lux,fix city
 3/29/12,Ian Hough,ian@brighterplanet.com,technical,city,replace,/^Madras$/i,Chennai,iata is maa,fix city
 3/29/12,Ian Hough,ian@brighterplanet.com,technical,latitude,replace,/.+/,36.234,iata is mhd,wrong lat/lng

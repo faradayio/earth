@@ -5,7 +5,7 @@ require 'earth/air/airport'
 describe Airport do
   describe "Sanity check", :sanity => true do
     it "should have all the data" do
-      Airport.count.should == 5324
+      Airport.count.should == 5325
     end
     
     it "should use utf-8 encoding" do
