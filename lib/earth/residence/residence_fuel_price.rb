@@ -29,5 +29,5 @@ EOS
   belongs_to :fuel, :class_name => 'ResidenceFuelType', :foreign_key => 'residence_fuel_type_name'
   belongs_to :locatable, :polymorphic => true
   
-  warn_unless_size 13741
+  warn_unless_size 13792
 end

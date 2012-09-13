@@ -45,5 +45,13 @@ EOS
                 :loss_factor => 0.096 # from ecometrica paper FIXME TODO calculate this
   
   warn_unless_size 213
-  warn_if_any_nulls
+  warn_if_nulls_except(
+    :egrid_subregion_abbreviation,
+    :state_postal_abbreviation,
+    :country_iso_3166_code,
+    :co2_biogenic_emission_factor,
+    :co2_biogenic_emission_factor_units
+  )
+  warn_if_nulls /abbreviation/, :conditions => 'country_iso_3166_code IS NULL'
+  warn_if_nulls :country_iso_3166_code, :conditions => 'egrid_subregion_abbreviation IS NULL AND state_postal_abbreviation IS NULL'
 end

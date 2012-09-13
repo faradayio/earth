@@ -50,5 +50,8 @@ EOS
                 :electricity_emission_factor_units => 'kilograms_co2e_per_kilowatt_hour'
   
   warn_unless_size 26
-  warn_if_any_nulls
+  warn_if_nulls_except(
+    :co2_biogenic_emission_factor,
+    :co2_biogenic_emission_factor_units
+  )
 end

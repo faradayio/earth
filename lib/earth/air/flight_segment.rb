@@ -101,5 +101,5 @@ EOS
     :freight_share
   )
   
-  warn_unless_size 1_288_493
+  warn_unless_size 1_321_586..1_830_000
 end

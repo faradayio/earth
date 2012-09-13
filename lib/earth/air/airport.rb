@@ -39,5 +39,5 @@ EOS
                    :lat_column_name => :latitude,
                    :lng_column_name => :longitude
   
-  warn_unless_size 5324
+  warn_unless_size 5325
 end
