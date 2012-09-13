@@ -1,8 +1,12 @@
 Airline.class_eval do
   # for errata
   class Airline::Guru
-    def not_expressjet?(row)
-      not row['Description'] =~ /expressjet/i
+    def method_missing(method_id, *args, &block)
+      if method_id.to_s =~ /\A(bts)_([^\?]+)/
+        args.first['Code'].downcase == $2 # row['Code'] == 'EV'
+      else
+        super
+      end
     end
   end
   
@@ -13,14 +17,6 @@ Airline.class_eval do
       key 'name',             :synthesize => proc { |row| row['Description'].split("|")[0] }
       store 'secondary_name', :synthesize => proc { |row| row['Description'].split("|")[1] }
       store 'bts_code', :field_name => 'Code'
-    end
-    
-    import "a Brighter Planet-curated list of airlines and codes not included in our proprietary sources",
-           :url => "#{Earth::DATA_DIR}/air/airlines.csv" do
-      key 'name'
-      store 'secondary_name', :nullify => true
-      store 'iata_code',      :nullify => true
-      store 'icao_code',      :nullify => true
     end
   end
 end

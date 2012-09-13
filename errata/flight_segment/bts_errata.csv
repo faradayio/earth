@@ -2,6 +2,7 @@ date,name,email,type,section,action,x,y,condition,notes
 6/7/11,Ian Hough,ian@brighterplanet.com,meta,Intended use,,http://www.transtats.bts.gov/DL_SelectFields.asp?Table_ID=293
 6/7/11,Ian Hough,ian@brighterplanet.com,technical,UNIQUE_CARRIER,replace,/^$/i,0OQ,in may 2009,unique carrier code for OpenSkies is missing in May 2009
 6/7/11,Ian Hough,ian@brighterplanet.com,technical,UNIQUE_CARRIER,replace,/^$/i,0OQ,in july 2009,unique carrier code for OpenSkies is missing in July 2009
+9/12/12,Ian Hough,ian@brighterplanet.com,technical,UNIQUE_CARRIER,replace,/^4C$/,L7,,now LAN Colombia
 8/6/12,Ian Hough,ian@brighterplanet.com,technical,ORIGIN_COUNTRY,replace,/^an$/i,CW,origin iata CUR,deal with netherlands antilles
 8/6/12,Ian Hough,ian@brighterplanet.com,technical,ORIGIN_COUNTRY,replace,/^an$/i,NL,origin iata BON,deal with netherlands antilles
 8/6/12,Ian Hough,ian@brighterplanet.com,technical,ORIGIN_COUNTRY,replace,/^an$/i,SX,origin iata SXM,deal with netherlands antilles
