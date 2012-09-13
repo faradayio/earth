@@ -32,7 +32,7 @@ describe FlightSegment do
       FlightSegment.where(:year => 2009).count.should == 403_980
       FlightSegment.where(:year => 2010).count.should == 421_884
       FlightSegment.where(:year => 2011).count.should == 428_554
-      FlightSegment.where(:year => 2012).count.should >   34_074
+      FlightSegment.where(:year => 2012).count.should >   67_168
     end
     
     it "should have year from 2009 through 7 months ago" do
@@ -46,34 +46,32 @@ describe FlightSegment do
       FlightSegment.where(:year => latest.year).maximum(:month).should == latest.month
     end
     
-    it "should have origin airport in airports" do
-      FlightSegment.connection.select_values("SELECT DISTINCT origin_airport_iata_code FROM flight_segments").each do |code|
-        Airport.exists?(:iata_code => code).should == true
+    it "should have origin and destination airport in airports" do
+      %w{ origin destination }.each do |attribute|
+        missing = []
+        FlightSegment.connection.select_values("SELECT DISTINCT #{attribute}_airport_iata_code FROM flight_segments").each do |code|
+          missing << code unless Airport.exists?(:iata_code => code)
+        end
+        raise "Could not find the following #{attribute} airports:\n#{missing}" if missing.any?
       end
     end
     
-    it "should have destination airport in airports" do
-      FlightSegment.connection.select_values("SELECT DISTINCT destination_airport_iata_code FROM flight_segments").each do |code|
-        Airport.exists?(:iata_code => code).should == true
-      end
-    end
-    
-    it "should have origin country iso code in countries" do
-      FlightSegment.connection.select_values("SELECT DISTINCT origin_country_iso_3166_code FROM flight_segments").each do |code|
-        Country.exists?(:iso_3166_code => code).should == true
-      end
-    end
-    
-    it "should have destination country iso code in countries" do
-      FlightSegment.connection.select_values("SELECT DISTINCT destination_country_iso_3166_code FROM flight_segments").each do |code|
-        Country.exists?(:iso_3166_code => code).should == true
+    it "should have origin and destination country in countries" do
+      %w{ origin destination }.each do |attribute|
+        missing = []
+        FlightSegment.connection.select_values("SELECT DISTINCT #{attribute}_country_iso_3166_code FROM flight_segments").each do |code|
+          missing << code unless Country.exists?(:iso_3166_code => code)
+        end
+        raise "Could not find the following #{attribute} countries:\n#{missing}" if missing.any?
       end
     end
     
     it "should have airline name in airlines" do
+      missing = []
       FlightSegment.connection.select_values("SELECT DISTINCT airline_name FROM flight_segments").each do |name|
-        Airline.exists?(:name => name).should == true
+        missing << name unless Airline.exists?(:name => name)
       end
+      raise "Could not find the following airlines:\n#{missing}" if missing.any?
     end
     
     it "should have aircraft description" do
@@ -83,7 +81,7 @@ describe FlightSegment do
     describe '.fallback' do
       let(:fallback) { FlightSegment.fallback }
       
-      it { fallback.distance.should be_within(0.5).of(2136) }
+      it { fallback.distance.should be_within(0.5).of(2135) }
       it { fallback.seats_per_flight.should be_within(0.5).of(146) }
       it { fallback.load_factor.should be_within(5e-3).of(0.8) }
       it { fallback.freight_share.should be_within(5e-3).of(0.04) }
