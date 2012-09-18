@@ -41,7 +41,7 @@ Aircraft.class_eval do
     end
     
     import "aircraft not included in the FAA database",
-           :url => 'https://spreadsheets.google.com/pub?key=0AoQJbWqPrREqdHRNaVpSUWw2Z2VhN3RUV25yYWdQX2c&output=csv' do
+           :url => "file:///#{Earth::DATA_DIR}/air/aircraft.csv" do
       key 'icao_code'
       store 'manufacturer_name'
       store 'model_name'

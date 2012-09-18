@@ -1,0 +1,7 @@
+icao_code,manufacturer_name,model_name,aircraft_type,engine_type,engines,weight_class,source,
+A388,AIRBUS,A380-800,Landplane,Jet,4,Heavy,Brighter Planet
+B77L,BOEING,777-200LR,Landplane,Jet,2,Heavy,Brighter Planet
+B788,BOEING,787-800,Landplane,Jet,2,Heavy,Brighter Planet
+C130,LOCKHEED,L-100 Hercules,Landplane,Turboprop,4,Medium,Brighter Planet
+FA7X,DASSAULT,Falcon 7X,Landplane,Jet,3,Medium,Brighter Planet
+G150,GULFSTREAM AEROSPACE,Gulfstream G150,Landplane,Jet,2,Medium,Brighter Planet

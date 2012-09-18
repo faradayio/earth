@@ -4,7 +4,7 @@ require 'earth/air/aircraft'
 describe Aircraft do
   describe "Sanity check", :sanity => true do
     it "should have all the data" do
-      Aircraft.count.should == 437
+      Aircraft.count.should == 438
     end
     
     describe '.fallback' do

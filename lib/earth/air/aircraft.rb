@@ -173,5 +173,5 @@ EOS
     :fuel_use_specificity
   )
   
-  warn_unless_size 437
+  warn_unless_size 438
 end
