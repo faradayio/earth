@@ -1,7 +1,9 @@
 require 'earth/model'
+require 'earth/insolation_scopes'
 
 class GlobalHorizontalInsolation < ActiveRecord::Base
   extend Earth::Model
+  include Earth::InsolationScopes
 
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE global_horizontal_insolations

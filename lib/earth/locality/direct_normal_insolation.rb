@@ -1,7 +1,9 @@
 require 'earth/model'
+require 'earth/insolation_scopes'
 
 class DirectNormalInsolation < ActiveRecord::Base
   extend Earth::Model
+  include Earth::InsolationScopes
 
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE direct_normal_insolations
