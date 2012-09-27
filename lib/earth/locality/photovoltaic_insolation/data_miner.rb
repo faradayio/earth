@@ -12,7 +12,7 @@ rescue LoadError
 end
 require 'unix_utils'
 
-Insolation.class_eval do
+PhotovoltaicInsolation.class_eval do
   data_miner do
     process 'Download and import PV Insolation shapefile from NREL at http://www.nrel.gov/gis/data_solar.html' do
       zip = UnixUtils.curl 'http://www.nrel.gov/gis/cfm/data/GIS_Data_Technology_Specific/United_States/Solar/High_Resolution/Lower_48_LATTILT_High_Resolution.zip'
@@ -21,25 +21,23 @@ Insolation.class_eval do
           shapefile.each do |record|
             shape = record.geometry.envelope
             data = record.data
-            zip_code = ZipCode.find :first, :origin => [shape.center.y, shape.center.x], :within => 100
-            Insolation.create :zip_code_name => zip_code.name,
-               :nw_lat => shape.upper_corner.y,
+            PhotovoltaicInsolation.create :nw_lat => shape.upper_corner.y,
                :nw_lon => shape.upper_corner.x,
                :se_lat => shape.lower_corner.y,
                :se_lon => shape.lower_corner.x,
-               :jan_insolation => data.jan,
-               :feb_insolation => data.feb,
-               :mar_insolation => data.mar,
-               :apr_insolation => data.apr,
-               :may_insolation => data.may,
-               :jun_insolation => data.jun,
-               :jul_insolation => data.jul,
-               :aug_insolation => data.aug,
-               :sep_insolation => data.sep,
-               :oct_insolation => data.oct,
-               :nov_insolation => data.nov,
-               :dec_insolation => data.dec,
-               :average_insolation => data.annual
+               :jan_average => data.jan,
+               :feb_average => data.feb,
+               :mar_average => data.mar,
+               :apr_average => data.apr,
+               :may_average => data.may,
+               :jun_average => data.jun,
+               :jul_average => data.jul,
+               :aug_average => data.aug,
+               :sep_average => data.sep,
+               :oct_average => data.oct,
+               :nov_average => data.nov,
+               :dec_average => data.dec,
+               :annual_average => data.annual
           end
         end
       end
