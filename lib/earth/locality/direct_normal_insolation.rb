@@ -8,7 +8,7 @@ class DirectNormalInsolation < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE direct_normal_insolations
   (
-     id     INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
+     id     INTEGER NOT NULL PRIMARY KEY,
      nw_lat         FLOAT,
      nw_lon         FLOAT,
      se_lat         FLOAT,

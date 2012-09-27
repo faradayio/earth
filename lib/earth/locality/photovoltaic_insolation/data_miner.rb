@@ -18,10 +18,12 @@ PhotovoltaicInsolation.class_eval do
       zip = UnixUtils.curl 'http://www.nrel.gov/gis/cfm/data/GIS_Data_Technology_Specific/United_States/Solar/High_Resolution/Lower_48_LATTILT_High_Resolution.zip'
       Dir.chdir UnixUtils.unzip(zip) do
         GeoRuby::Shp4r::ShpFile.open('us9805_latilt.shp') do |shapefile|
+          counter = 1
           shapefile.each do |record|
             shape = record.geometry.envelope
             data = record.data
-            PhotovoltaicInsolation.create :nw_lat => shape.upper_corner.y,
+            PhotovoltaicInsolation.create :id => counter,
+               :nw_lat => shape.upper_corner.y,
                :nw_lon => shape.upper_corner.x,
                :se_lat => shape.lower_corner.y,
                :se_lon => shape.lower_corner.x,
@@ -38,6 +40,7 @@ PhotovoltaicInsolation.class_eval do
                :nov_average => data.nov,
                :dec_average => data.dec,
                :annual_average => data.annual
+            counter += 1
           end
         end
       end
