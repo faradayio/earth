@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'fixed_width-multibyte'
   s.add_runtime_dependency 'fuzzy_match', '>=1.3.3'
   s.add_runtime_dependency 'geokit'
-  s.add_runtime_dependency 'remote_table', '>=2.0.2'
+  s.add_runtime_dependency 'remote_table', '>=2.1.0'
   s.add_runtime_dependency 'table_warnings', '>=1.0.1'
   s.add_runtime_dependency 'to_regexp'
   s.add_runtime_dependency 'weighted_average', '>=1.0.2'
