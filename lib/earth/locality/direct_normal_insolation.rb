@@ -8,7 +8,7 @@ class DirectNormalInsolation < ActiveRecord::Base
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE direct_normal_insolations
   (
-     id     INTEGER NOT NULL PRIMARY KEY,
+     row_hash       CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      nw_lat         FLOAT,
      nw_lon         FLOAT,
      se_lat         FLOAT,
@@ -28,6 +28,7 @@ CREATE TABLE direct_normal_insolations
      annual_average FLOAT
   );
 EOS
+  self.primary_key = 'row_hash'
   
   warn_if_any_nulls
 end

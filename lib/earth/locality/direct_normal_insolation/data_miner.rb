@@ -14,36 +14,27 @@ require 'unix_utils'
 
 DirectNormalInsolation.class_eval do
   data_miner do
-    process 'Download and import Direct Normal Insolation shapefile from NREL at http://www.nrel.gov/gis/data_solar.html' do
-      zip = UnixUtils.curl 'http://www.nrel.gov/gis/cfm/data/GIS_Data_Technology_Specific/United_States/Solar/High_Resolution/Lower_48_DNI_High_Resolution.zip'
-      Dir.chdir UnixUtils.unzip(zip) do
-        GeoRuby::Shp4r::ShpFile.open('us9805_dni.shp') do |shapefile|
-          counter = 1
-          shapefile.each do |record|
-            shape = record.geometry.envelope
-            data = record.data
-            DirectNormalInsolation.create :id => counter,
-              :nw_lat => shape.upper_corner.y,
-              :nw_lon => shape.upper_corner.x,
-              :se_lat => shape.lower_corner.y,
-              :se_lon => shape.lower_corner.x,
-              :jan_average => data.dni01,
-              :feb_average => data.dni02,
-              :mar_average => data.dni03,
-              :apr_average => data.dni04,
-              :may_average => data.dni05,
-              :jun_average => data.dni06,
-              :jul_average => data.dni07,
-              :aug_average => data.dni08,
-              :sep_average => data.dni09,
-              :oct_average => data.dni10,
-              :nov_average => data.dni11,
-              :dec_average => data.dni12,
-              :annual_average => data.dniann
-            counter += 1
-          end
-        end
-      end
+    import 'Direct Normal Insolation shapefile from NREL at http://www.nrel.gov/gis/data_solar.html',
+          :url => 'http://www.nrel.gov/gis/cfm/data/GIS_Data_Technology_Specific/United_States/Solar/High_Resolution/Lower_48_DNI_High_Resolution.zip',
+          :format => :shp do
+      key :row_hash
+      store 'nw_lat',         :field_name => 'upper_corner_y'
+      store 'nw_lon',         :field_name => 'upper_corner_x'
+      store 'se_lat',         :field_name => 'lower_corner_y'
+      store 'se_lon',         :field_name => 'lower_corner_x'
+      store 'jan_average',    :field_name => 'DNI01'
+      store 'feb_average',    :field_name => 'DNI02'
+      store 'mar_average',    :field_name => 'DNI03'
+      store 'apr_average',    :field_name => 'DNI04'
+      store 'may_average',    :field_name => 'DNI05'
+      store 'jun_average',    :field_name => 'DNI06'
+      store 'jul_average',    :field_name => 'DNI07'
+      store 'aug_average',    :field_name => 'DNI08'
+      store 'sep_average',    :field_name => 'DNI09'
+      store 'oct_average',    :field_name => 'DNI10'
+      store 'nov_average',    :field_name => 'DNI11'
+      store 'dec_average',    :field_name => 'DNI12'
+      store 'annual_average', :field_name => 'DNIANN'
     end
   end
 end

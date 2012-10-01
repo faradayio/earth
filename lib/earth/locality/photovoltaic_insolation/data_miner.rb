@@ -14,36 +14,27 @@ require 'unix_utils'
 
 PhotovoltaicInsolation.class_eval do
   data_miner do
-    process 'Download and import PV Insolation shapefile from NREL at http://www.nrel.gov/gis/data_solar.html' do
-      zip = UnixUtils.curl 'http://www.nrel.gov/gis/cfm/data/GIS_Data_Technology_Specific/United_States/Solar/High_Resolution/Lower_48_LATTILT_High_Resolution.zip'
-      Dir.chdir UnixUtils.unzip(zip) do
-        GeoRuby::Shp4r::ShpFile.open('us9805_latilt.shp') do |shapefile|
-          counter = 1
-          shapefile.each do |record|
-            shape = record.geometry.envelope
-            data = record.data
-            PhotovoltaicInsolation.create :id => counter,
-               :nw_lat => shape.upper_corner.y,
-               :nw_lon => shape.upper_corner.x,
-               :se_lat => shape.lower_corner.y,
-               :se_lon => shape.lower_corner.x,
-               :jan_average => data.jan,
-               :feb_average => data.feb,
-               :mar_average => data.mar,
-               :apr_average => data.apr,
-               :may_average => data.may,
-               :jun_average => data.jun,
-               :jul_average => data.jul,
-               :aug_average => data.aug,
-               :sep_average => data.sep,
-               :oct_average => data.oct,
-               :nov_average => data.nov,
-               :dec_average => data.dec,
-               :annual_average => data.annual
-            counter += 1
-          end
-        end
-      end
+    import 'Photovoltaic Insolation shapefile from NREL at http://www.nrel.gov/gis/data_solar.html',
+          :url => 'http://www.nrel.gov/gis/cfm/data/GIS_Data_Technology_Specific/United_States/Solar/High_Resolution/Lower_48_LATTILT_High_Resolution.zip',
+          :format => :shp do
+      key :row_hash
+      store 'nw_lat',         :field_name => 'upper_corner_y'
+      store 'nw_lon',         :field_name => 'upper_corner_x'
+      store 'se_lat',         :field_name => 'lower_corner_y'
+      store 'se_lon',         :field_name => 'lower_corner_x'
+      store 'jan_average',    :field_name => 'JAN'
+      store 'feb_average',    :field_name => 'FEB'
+      store 'mar_average',    :field_name => 'MAR'
+      store 'apr_average',    :field_name => 'APR'
+      store 'may_average',    :field_name => 'MAY'
+      store 'jun_average',    :field_name => 'JUN'
+      store 'jul_average',    :field_name => 'JUL'
+      store 'aug_average',    :field_name => 'AUG'
+      store 'sep_average',    :field_name => 'SEP'
+      store 'oct_average',    :field_name => 'OCT'
+      store 'nov_average',    :field_name => 'NOV'
+      store 'dec_average',    :field_name => 'DEC'
+      store 'annual_average', :field_name => 'ANNUAL'
     end
   end
 end

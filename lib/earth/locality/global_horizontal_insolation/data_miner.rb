@@ -14,36 +14,27 @@ require 'unix_utils'
 
 GlobalHorizontalInsolation.class_eval do
   data_miner do
-    process 'Download and import Global Horizontal Insolation shapefile from NREL at http://www.nrel.gov/gis/data_solar.html' do
-      zip = UnixUtils.curl 'http://www.nrel.gov/gis/cfm/data/GIS_Data_Technology_Specific/United_States/Solar/High_Resolution/Lower_48_GHI_High_Resolution.zip'
-      Dir.chdir UnixUtils.unzip(zip) do
-        GeoRuby::Shp4r::ShpFile.open('l48_ghi_10km.shp') do |shapefile|
-          counter = 1
-          shapefile.each do |record|
-            shape = record.geometry.envelope
-            data = record.data
-            GlobalHorizontalInsolation.create :id => counter,
-              :nw_lat => shape.upper_corner.y,
-              :nw_lon => shape.upper_corner.x,
-              :se_lat => shape.lower_corner.y,
-              :se_lon => shape.lower_corner.x,
-              :jan_average => data.ghi01,
-              :feb_average => data.ghi02,
-              :mar_average => data.ghi03,
-              :apr_average => data.ghi04,
-              :may_average => data.ghi05,
-              :jun_average => data.ghi06,
-              :jul_average => data.ghi07,
-              :aug_average => data.ghi08,
-              :sep_average => data.ghi09,
-              :oct_average => data.ghi10,
-              :nov_average => data.ghi11,
-              :dec_average => data.ghi12,
-              :annual_average => data.ghiann
-            counter += 1
-          end
-        end
-      end
+    import 'Global Horizontal Insolation shapefile from NREL at http://www.nrel.gov/gis/data_solar.html',
+          :url => 'http://www.nrel.gov/gis/cfm/data/GIS_Data_Technology_Specific/United_States/Solar/High_Resolution/Lower_48_GHI_High_Resolution.zip',
+          :format => :shp do
+      key :row_hash
+      store 'nw_lat',         :field_name => 'upper_corner_y'
+      store 'nw_lon',         :field_name => 'upper_corner_x'
+      store 'se_lat',         :field_name => 'lower_corner_y'
+      store 'se_lon',         :field_name => 'lower_corner_x'
+      store 'jan_average',    :field_name => 'GHI01'
+      store 'feb_average',    :field_name => 'GHI02'
+      store 'mar_average',    :field_name => 'GHI03'
+      store 'apr_average',    :field_name => 'GHI04'
+      store 'may_average',    :field_name => 'GHI05'
+      store 'jun_average',    :field_name => 'GHI06'
+      store 'jul_average',    :field_name => 'GHI07'
+      store 'aug_average',    :field_name => 'GHI08'
+      store 'sep_average',    :field_name => 'GHI09'
+      store 'oct_average',    :field_name => 'GHI10'
+      store 'nov_average',    :field_name => 'GHI11'
+      store 'dec_average',    :field_name => 'GHI12'
+      store 'annual_average', :field_name => 'GHIANN'
     end
   end
 end
