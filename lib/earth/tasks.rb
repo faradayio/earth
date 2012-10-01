@@ -31,6 +31,11 @@ module Earth
 
     def init_bare
       Object.const_set 'Rails', Earth
+      Earth.module_eval do
+        def self.logger
+          @logger ||= Logger.new(STDOUT)
+        end
+      end
 
       require 'active_record'
       load 'active_record/railties/databases.rake'
