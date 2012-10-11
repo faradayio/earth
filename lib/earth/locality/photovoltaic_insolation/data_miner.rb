@@ -35,6 +35,7 @@ PhotovoltaicInsolation.class_eval do
       store 'nov_average',    :field_name => 'NOV'
       store 'dec_average',    :field_name => 'DEC'
       store 'annual_average', :field_name => 'ANNUAL'
+      store 'units', :static => 'kilowatt_hours_per_square_metre_per_day'
     end
   end
 end

@@ -25,11 +25,13 @@ CREATE TABLE photovoltaic_insolations
      oct_average    FLOAT,
      nov_average    FLOAT,
      dec_average    FLOAT,
-     annual_average FLOAT
+     annual_average FLOAT,
+     units          CHARACTER VARYING(255)
   );
 EOS
 
   self.primary_key = 'row_hash'
-  
+
+  warn_unless_size 90469
   warn_if_any_nulls
 end
