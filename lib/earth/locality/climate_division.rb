@@ -1,5 +1,5 @@
 require 'earth/model'
-  
+
 require 'earth/locality/state'
 require 'earth/locality/zip_code'
 
@@ -17,13 +17,13 @@ CREATE TABLE climate_divisions
      cooling_degree_days_units CHARACTER VARYING(255),
      state_postal_abbreviation CHARACTER VARYING(255)
   );
-
 EOS
 
   self.primary_key = "name"
   
+  has_many :months,    :foreign_key => 'climate_division_name', :class_name => 'ClimateDivisionMonth'
   has_many :zip_codes, :foreign_key => 'climate_division_name'
-  belongs_to :state, :foreign_key => 'state_postal_abbreviation'
+  belongs_to :state,   :foreign_key => 'state_postal_abbreviation'
   
   RADIUS = 750
   
