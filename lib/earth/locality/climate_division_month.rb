@@ -24,4 +24,5 @@ EOS
   belongs_to :climate_division, :foreign_key => 'climate_division_name'
   
   warn_unless_size (344 * (((Date.today.year - 2011) * 12) + Date.today.prev_month.month))
+  warn_if_any_nulls
 end
