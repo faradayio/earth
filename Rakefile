@@ -2,9 +2,6 @@ require 'bundler'
 Bundler.setup
 Bundler::GemHelper.install_tasks
 
-require 'bueller'
-Bueller::Tasks.new
-
 desc "Load a console"
 task :console do
   ENV['EARTH_ENV'] ||= 'test'
