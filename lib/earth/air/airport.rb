@@ -1,12 +1,14 @@
 require 'earth/model'
 require 'earth/loader'
-Earth::Loader.load_plugins
 
 require 'earth/locality/country'
 require 'earth/air/flight_segment'
 
+require 'geocoder'
+
 class Airport < ActiveRecord::Base
   extend Earth::Model
+  extend Geocoder::Model::ActiveRecord
 
   TABLE_STRUCTURE = <<-EOS
 
@@ -34,10 +36,8 @@ EOS
   has_many :arriving_flight_segments, # FIXME TODO consider replacing with a method that also matches ICAO segments by city
     :class_name => 'FlightSegment',
     :foreign_key => :destination_airport_iata_code
-  
-  acts_as_mappable :default_units => :nms,
-                   :lat_column_name => :latitude,
-                   :lng_column_name => :longitude
+
+  reverse_geocoded_by :latitude, :longitude
   
   warn_unless_size 5325
 end

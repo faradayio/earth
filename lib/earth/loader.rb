@@ -36,12 +36,5 @@ module Earth
       end if options[:load_data_miner] || options[:mine_original_sources]
       nil
     end
-    
-    def Loader.load_plugins
-      Dir[File.expand_path('../../../vendor/**/init.rb', __FILE__)].each do |pluginit|
-        $LOAD_PATH.unshift ::File.join(::File.dirname(pluginit), 'lib')
-        Kernel.load pluginit
-      end
-    end
   end
 end
