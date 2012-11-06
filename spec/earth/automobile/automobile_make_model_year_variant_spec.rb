@@ -34,7 +34,7 @@ describe AutomobileMakeModelYearVariant do
     it { ammyv.where(:year => 2009).count.should == 1092 }
     it { ammyv.where(:year => 2010).count.should == 1107 }
     it { ammyv.where(:year => 2011).count.should == 1097 }
-    it { ammyv.where(:year => 2012).count.should == 1129 }
+    it { ammyv.where(:year => 2012).count.should == 1123 }
     
     # confirm make, model, year, size class, and type aren't missing
     it { ammyv.where(:make_name => nil).count.should == 0 }

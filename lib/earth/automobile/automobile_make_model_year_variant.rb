@@ -51,7 +51,7 @@ EOS
   # because it will be a bunch of work to include all the columns and the names will be really long and obtuse
   # -Ian 10/18/2011
   
-  warn_unless_size 28433
+  warn_unless_size 28427
   warn_unless_size 1152, :conditions => { :year => 1985 }
   warn_unless_size 1183, :conditions => { :year => 1986 }
   warn_unless_size 1206, :conditions => { :year => 1987 }
@@ -79,7 +79,7 @@ EOS
   warn_unless_size 1092, :conditions => { :year => 2009 }
   warn_unless_size 1107, :conditions => { :year => 2010 }
   warn_unless_size 1097, :conditions => { :year => 2011 }
-  warn_unless_size 1129, :conditions => { :year => 2012 }
+  warn_unless_size 1123, :conditions => { :year => 2012 }
   warn_if_nulls_except(
     :alt_fuel_code,
     :cylinders
