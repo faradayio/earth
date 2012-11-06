@@ -16,7 +16,7 @@ describe Earth do
   describe '.resources' do
     it 'should get a list of all resource names' do
       Earth.init :all
-      Earth.resources.length.should == 99
+      Earth.resources.length.should == 104
       Earth.resources.should include('Aircraft')
       Earth.resources.should include('Industry')
     end

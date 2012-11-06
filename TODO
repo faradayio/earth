@@ -1,4 +1,4 @@
+* make sure no airports are missing
 * convert former/current verify blocks into table_warnings warn {...} blocks
-* convert tests to minitest
 * fix residence fuel price locatable stuff
 * move some stuff from Country into other resources

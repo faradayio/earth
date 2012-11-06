@@ -9,7 +9,7 @@ describe ZipCode do
       zip2 = FactoryGirl.create :zip_code, :zip2
       zip3 = FactoryGirl.create :zip_code, :zip3
       
-      ZipCode.find_within(15, :units => :kms, :origin => zip1.latitude_longitude).should == [zip1, zip2]
+      ZipCode.near(zip1, 15, :units => :km).should == [zip1, zip2]
     end
   end
   
@@ -26,15 +26,6 @@ describe ZipCode do
     it 'returns the US' do
       us = Country.find_or_create_by_iso_3166_code 'US'
       ZipCode.new.country.should == us
-    end
-  end
-  
-  describe '#latitude_longitude' do
-    it 'returns the lat and lng as an array of strings' do
-      FactoryGirl.create(:zip_code, :zip1).latitude_longitude.should == ['50', '-75']
-    end
-    it 'returns an array of nils for missing lat/lon' do
-      ZipCode.new.latitude_longitude.should == [nil, nil]
     end
   end
   

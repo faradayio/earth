@@ -5,7 +5,7 @@ describe ClimateDivisionMonth do
   let(:cdm) { ClimateDivisionMonth }
   
   describe 'Sanity check', :sanity => true do
-    let(:total) { 344 * (((Date.today.year - 2011) * 12) + Date.today.prev_month.month) }
+    let(:total) { 344 * (((Date.today.year - 2011) * 12) + (Date.today - 7).prev_month.month) }
     let(:test_month) { cdm.find('VT3-2012-9') }
     
     it { cdm.count.should == total }
