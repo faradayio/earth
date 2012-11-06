@@ -35,6 +35,7 @@ DirectNormalInsolation.class_eval do
       store 'nov_average',    :field_name => 'DNI11'
       store 'dec_average',    :field_name => 'DNI12'
       store 'annual_average', :field_name => 'DNIANN'
+      store 'units', :static => 'kilowatt_hours_per_square_metre_per_day'
     end
   end
 end

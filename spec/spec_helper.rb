@@ -48,7 +48,7 @@ RSpec.configure do |c|
   c.filter_run_excluding(:slow => true) if ENV['SKIP_SLOW'] == 'true'
   
   # TEST_MINING=true runs spec/data_mining_spec.rb which data_mines all resources
-  c.filter_run_excluding :data_miner => true unless ENV['TEST_MINING'] == 'true'
+  c.filter_run_excluding :mine_all => true unless ENV['TEST_MINING'] == 'true'
   
   # Remember and revert any data added or removed by tests
   # (doesn't apply to data loaded with FULL_MINE=true or FAST_MINE=true)
