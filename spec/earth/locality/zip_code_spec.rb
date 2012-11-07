@@ -2,14 +2,14 @@ require 'spec_helper'
 require "#{Earth::FACTORY_DIR}/zip_code"
 
 describe ZipCode do
-  # from acts_as_mappable
-  describe '.find_within(radius, units, lat/lng)' do
-    it 'returns all zips within radius of the lat/lng' do
+  # from geocoder
+  describe '.near(point, radius)' do
+    it 'returns all zips within radius of the point' do
       zip1 = FactoryGirl.create :zip_code, :zip1
       zip2 = FactoryGirl.create :zip_code, :zip2
       zip3 = FactoryGirl.create :zip_code, :zip3
       
-      ZipCode.near(zip1, 15, :units => :km).should == [zip1, zip2]
+      ZipCode.near(zip1, 15).should == [zip1, zip2]
     end
   end
   

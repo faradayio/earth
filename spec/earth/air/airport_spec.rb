@@ -1,8 +1,19 @@
 # encoding: UTF-8
 require 'spec_helper'
 require 'earth/air/airport'
+require "#{Earth::FACTORY_DIR}/airport"
 
 describe Airport do
+  # from geocoder
+  describe '#distance_to' do
+    it "should return distance in km" do
+      a = FactoryGirl.create :airport, :airport1
+      b = FactoryGirl.create :airport, :airport2
+      
+      a.distance_to(b).should be_within(5e-6).of(111.19493)
+    end
+  end
+  
   describe "Sanity check", :sanity => true do
     it "should have all the data" do
       Airport.count.should == 5325

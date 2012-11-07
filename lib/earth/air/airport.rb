@@ -9,6 +9,7 @@ require 'geocoder'
 class Airport < ActiveRecord::Base
   extend Earth::Model
   extend Geocoder::Model::ActiveRecord
+  Geocoder::Configuration.units = :km
 
   TABLE_STRUCTURE = <<-EOS
 
