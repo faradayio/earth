@@ -12,7 +12,7 @@ describe Aircraft do
       it { fallback.m3.should be_within(5e-9).of(0.00000013) }
       it { fallback.m2.should be_within(5e-6).of(-0.00024) }
       it { fallback.m1.should be_within(5e-2).of(6.2) }
-      it { fallback.b.should be_within(0.5).of(1377) }
+      it { fallback.b.should be_within(0.5).of(1378) }
     end
   end
   

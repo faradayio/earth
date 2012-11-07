@@ -2,10 +2,7 @@ require 'earth/air/airport'
 
 FactoryGirl.define do
   factory :airport, :class => Airport do
-    trait(:lax) { iata_code 'LAX'; city 'Los Angeles' }
-    trait(:mdw) { iata_code 'MDW'; city 'Chicago' }
-    trait(:msn) { iata_code 'MSN'; city 'Madison' }
-    trait(:ord) { iata_code 'ORD'; city 'Chicago' }
-    trait(:sfo) { iata_code 'SFO'; city 'San Francisco' }
+    trait(:airport1) { iata_code 'test1'; latitude 0; longitude 0 }
+    trait(:airport2) { iata_code 'test2'; latitude 0; longitude 1 }
   end
 end
