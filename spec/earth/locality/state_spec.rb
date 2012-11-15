@@ -37,5 +37,12 @@ describe State do
       State.find('MT').electricity_loss_factor.should be_within(5e-6).of(0.08094)
       State.find('NM').electricity_loss_factor.should be_within(5e-6).of(0.08007)
     end
+    
+    it 'should have a RECS 2009 response grouping' do
+      State.find('VT').recs_grouping_id.should == 1
+      State.find('CA').recs_grouping_id.should == 26
+      State.find('MT').recs_grouping_id.should == 23
+      State.find('NM').recs_grouping_id.should == 25
+    end
   end
 end

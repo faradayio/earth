@@ -27,6 +27,13 @@ State.class_eval do
       store 'petroleum_administration_for_defense_district_code', :field_name => 'Code'
     end
     
+    # RECS 2009 grouping
+    import 'RECS 2009 response grouping ids',
+           :url => "file:///#{Earth::DATA_DIR}/residence/recs_response_groupings.csv" do
+      key 'postal_abbreviation', :field_name => 'state_postal_abbreviation'
+      store 'recs_grouping_id'
+    end
+    
     process 'ensure ZipCode and EgridSubregion are populated' do
       ZipCode.run_data_miner!
       EgridSubregion.run_data_miner!
