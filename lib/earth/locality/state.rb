@@ -30,7 +30,8 @@ CREATE TABLE states
      population                                         INTEGER,
      electricity_emission_factor                        FLOAT,
      electricity_emission_factor_units                  CHARACTER VARYING(255),
-     electricity_loss_factor                            FLOAT
+     electricity_loss_factor                            FLOAT,
+     recs_grouping_id                                   INTEGER
   );
 
 EOS
@@ -39,6 +40,7 @@ EOS
   
   has_many :zip_codes,         :foreign_key => 'state_postal_abbreviation'
   has_many :climate_divisions, :foreign_key => 'state_postal_abbreviation'
+  has_many :recs_2009_responses, :foreign_key => 'recs_grouping_id', :primary_key => 'recs_grouping_id'
   belongs_to :census_division, :foreign_key => 'census_division_number'
   has_one :census_region, :through => :census_division
   has_one :electricity_mix, :foreign_key => 'state_postal_abbreviation'

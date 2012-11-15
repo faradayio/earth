@@ -414,4 +414,6 @@ EOS
 
   self.table_name = "recs_2009_responses"
   self.primary_key = "id"
+
+  has_many :states, :foreign_key => :recs_grouping_id, :primary_key => :recs_grouping_id
 end
