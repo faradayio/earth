@@ -14,6 +14,11 @@ class Recs2009Response::Parser
     '0' => false,
     '1' => true
   }
+  BOOLEAN_NO_NIL = {
+    '0'  => false,
+    '1'  => true,
+    '-2' => false
+  }
   BUILDING_TYPE = {
     '1' => 'Mobile Home',
     '2' => 'Single-family Detached',
@@ -146,8 +151,8 @@ class Recs2009Response::Parser
     '7'  => 'Built-In Room Heaters',
     '8'  => 'Heating Stove',
     '9'  => 'Fireplace',
-    '10' => 'Portable Heaters', # Electric
-    '11' => 'Portable Heaters', # Kerosene
+    '10' => 'Portable Electric Heaters',
+    '11' => 'Portable Kerosene Heaters',
     '12' => 'Cooking Stove',
     '21' => 'Other'
   }
@@ -265,8 +270,8 @@ class Recs2009Response::Parser
     '7' => 'Multiple'
   }
   RENEWABLE = {
-    '1' => 'Grid-connected',
-    '2' => 'Off-grid'
+    '0' => 'Off-grid',
+    '1' => 'Grid-connected'
   }
   ROOF_MATERIAL = {
     '1' => 'Ceramic or Clay Tiles',
@@ -313,11 +318,6 @@ class Recs2009Response::Parser
     'U' => 'Urban',
     'R' => 'Rural'
   }
-  VAMPIRES = {
-    '1' => 'Chargers always unplugged',
-    '2' => 'Chargers never unplugged',
-    '3' => 'Chargers sometimes unplugged'
-  }
   WALL_MATERIAL = {
     '1' => 'Brick',
     '2' => 'Wood',
@@ -329,7 +329,7 @@ class Recs2009Response::Parser
     '8' => 'Glass',
     '9' => 'Other'
   }
-  WASHER = {
+  WASHER_TYPE = {
     '1' => 'Top-loading',
     '2' => 'Front-loading'
   }
@@ -435,9 +435,9 @@ class Recs2009Response::Parser
     end
   end
   
-  def numerize(value)
+  def numerize(value, negative_interpretation)
     number = value.to_i
-    number < 0 ? nil : number
+    number < 0 ? negative_interpretation : number
   end
   
   def oven_type(row)
@@ -481,11 +481,26 @@ class Recs2009Response::Parser
       'Built-In Room Heaters'          => (row['RMHTFUEL'] if BOOLEAN[row['ROOMHEAT']]),
       'Heating Stove'                  => (row['HSFUEL']   if BOOLEAN[row['WOODKILN']]),
       'Fireplace'                      => (row['FPFUEL']   if BOOLEAN[row['CHIMNEY' ]]),
-      'Portable Heaters'               => ('5'             if BOOLEAN[row['CARRYEL' ]]),
-      'Portable Heaters'               => ('4'             if BOOLEAN[row['CARRYKER']]),
+      'Portable Electric Heaters'      => ('5'             if BOOLEAN[row['CARRYEL' ]]),
+      'Portable Kerosene Heaters'      => ('4'             if BOOLEAN[row['CARRYKER']]),
       'Cooking Stove'                  => (row['RNGFUEL']  if BOOLEAN[row['RANGE'   ]]),
       'Other'                          => (row['DIFFUEL']  if BOOLEAN[row['DIFEQUIP']])
     }.keep_if{|k,v| v}
+  end
+  
+  def vampires(charging, unplugging)
+    if charging = '1'
+      'Chargers never unplugged'
+    else
+      case unplugging
+      when '1'
+        'Chargers always unplugged'
+      when '2'
+        'Chargers never unplugged'
+      when '3'
+        'Chargers sometimes unplugged'
+      end
+    end
   end
   
   def year_improved(improvement_age)
@@ -533,10 +548,7 @@ class Recs2009Response::Parser
       'propane_cost'           => row['DOLLARLP'],
       'recs_grouping_id'       => row['REPORTABLE_DOMAIN'],
       'rooms'                  => row['TOTROOMS'],
-      'sliding_doors'          => row['DOOR1SUM'],
       'stoves'                 => row['STOVEN'],
-      'storage_water_heaters'  => row['NUMH2OHTRS'],
-      'tankless_water_heaters' => row['NUMH2ONOTNK'],
       'tvs'                    => row['TVCOLOR'],
       'weighting'              => row['NWEIGHT'],
       'wood'                   => row['BTUWOOD'],
@@ -554,13 +566,13 @@ class Recs2009Response::Parser
     parsed_row.merge!({
       'answering_machine'          => BOOLEAN[row['ANSMACH']],
       'aquarium'                   => BOOLEAN[row['AQUARIUM']],
-      'apartments'                 => numerize(row['NUMAPTS']),
-      'attic'                      => FINISHED_SPACE[row['ATTICFIN']],
-      'attic_rooms'                => numerize(row['FINATTRMS']),
-      'basement'                   => FINISHED_SPACE[row['BASEFIN']],
-      'basement_rooms'             => numerize(row['FINBASERMS']),
-      'bedrooms'                   => numerize(row['BEDROOMS']),
-      'building_floors'            => [numerize(row['NUMFLRS']), STORIES[row['STORIES']]].compact.first,
+      'apartments'                 => numerize(row['NUMAPTS'], nil),
+      'attic_type'                 => FINISHED_SPACE[row['ATTICFIN']],
+      'attic_rooms'                => numerize(row['FINATTRMS'], 0),
+      'basement_type'              => FINISHED_SPACE[row['BASEFIN']],
+      'basement_rooms'             => numerize(row['FINBASERMS'], 0),
+      'bedrooms'                   => numerize(row['BEDROOMS'], 0),
+      'building_floors'            => [numerize(row['NUMFLRS'], nil), STORIES[row['STORIES']]].compact.first,
       'building_type'              => BUILDING_TYPE[row['TYPEHUQ']],
       'caulking_added'             => BOOLEAN[row['INSTLWS']],
       'caulking_added_year'        => year_improved(AGE[row['AGEWS']]),
@@ -588,17 +600,18 @@ class Recs2009Response::Parser
       'cool_auto_adjust_day'       => BOOLEAN[row['AUTOCOOLDAY']],
       'cool_auto_adjust_night'     => BOOLEAN[row['AUTOCOOLNITE']],
       'cool_basement_portion'      => heat_cool_coverage(row['BASECOOL'], row['BASECL2'], row['PCTBSTCL']),
-      'cool_rooms'                 => numerize(row['ACROOMS']),
-      'cool_temp_away'             => numerize(row['TEMPGONEAC']),
-      'cool_temp_day'              => numerize(row['TEMPHOMEAC']),
-      'cool_temp_night'            => numerize(row['TEMPNITEAC']),
+      'cool_garage'                => BOOLEAN[row['GARGCOOL']],
+      'cool_rooms'                 => numerize(row['ACROOMS'], 0),
+      'cool_temp_away'             => numerize(row['TEMPGONEAC'], nil),
+      'cool_temp_day'              => numerize(row['TEMPHOMEAC'], nil),
+      'cool_temp_night'            => numerize(row['TEMPNITEAC'], nil),
       'cooler_ac_age'              => AGE[row['WWACAGE']],
       'cooler_ac_energy_star'      => BOOLEAN[row['ESWWAC']],
       'cooler_ac_incent'           => INCENTIVE[row['HELPWWAC']],
       'cooler_ac_incent_year'      => YEAR_INCENTIVIZED[row['HELPWWACY']],
       'cooler_ac_replaced'         => BOOLEAN[row['REPLCWWAC']],
       'cooler_ac_use'              => COOLER_USE[row['USEWWAC']],
-      'cooler_acs'                 => numerize(row['NUMBERAC']),
+      'cooler_ac_units'            => numerize(row['NUMBERAC'], 0),
       'cooler_central_age'         => AGE[row['AGECENAC']],
       'cooler_central_incent'      => INCENTIVE[row['HELPCAC']],
       'cooler_central_incent_year' => YEAR_INCENTIVIZED[row['HELPCACY']],
@@ -606,10 +619,10 @@ class Recs2009Response::Parser
       'cooler_central_replaced'    => BOOLEAN[row['REPLCCAC']],
       'cooler_central_shared'      => BOOLEAN[row['ACOTHERS']],
       'cooler_central_use'         => COOLER_USE[row['USECENAC']],
-      'cooler_unused'              => COOLER[row['COOLTYPENOAC']],
+      'cooling'                    => BOOLEAN[row['AIRCOND']],
       'copier'                     => BOOLEAN[row['COPIER']],
       'cordless_phone'             => BOOLEAN[row['NOCORD']],
-      'crawlspace'                 => BOOLEAN[row['CRAWL']],
+      'crawlspace'                 => BOOLEAN_NO_NIL[row['CRAWL']],
       'dehumidifier_use'           => MONTHS_USE[row['USENOTMOIST']],
       'dishwasher_age'             => AGE[row['AGEDW']],
       'dishwasher_energy_star'     => BOOLEAN[row['ESDISHW']],
@@ -629,7 +642,7 @@ class Recs2009Response::Parser
       'electricity_cooking'        => BOOLEAN[row['ELFOOD']],
       'electricity_other'          => BOOLEAN[row['ELOTHER']],
       'electronic_charging'        => CHARGING[row['ELECCHRG']],
-      'electronic_vampires'        => VAMPIRES[row['CHRGPLGE']],
+      'electronic_vampires'        => vampires(row['ELECCHRG'], row['CHRGPLGE']),
       'electronics'                => DEVICES[row['ELECDEV']],
       'employment'                 => EMPLOYMENT[row['EMPLOYHH']],
       'energy_audit'               => BOOLEAN[row['AUDIT']],
@@ -640,7 +653,7 @@ class Recs2009Response::Parser
       'fax'                        => BOOLEAN[row['FAX']],
       'fan_use'                    => COOLER_USE[row['USECFAN']],
       'food_stamps'                => BOOLEAN[row['FOODASST']],
-      'freezers'                   => numerize(row['NUMFREEZ']),
+      'freezers'                   => numerize(row['NUMFREEZ'], 0),
       'freezer_age'                => AGE[row['AGEFRZR']],
       'freezer_defrost'            => DEFROST[row['FREEZER']],
       'freezer_incent'             => INCENTIVE[row['HELPFRZ']],
@@ -663,13 +676,13 @@ class Recs2009Response::Parser
       'fridge_2_energy_star'       => BOOLEAN[row['ESFRIG2']],
       'fridge_2_size'              => FRIDGE_SIZE[row['SIZRFRI2']],
       'fridge_2_type'              => FRIDGE_TYPE[row['TYPERFR2']],
-      'fridge_2_use'               => numerize(row['MONRFRI2']),
+      'fridge_2_use'               => numerize(row['MONRFRI2'], nil),
       'fridge_3_age'               => AGE[row['AGERFRI3']],
       'fridge_3_defrost'           => DEFROST[row['REFRIGT3']],
       'fridge_3_energy_star'       => BOOLEAN[row['ESFRIG3']],
       'fridge_3_size'              => FRIDGE_SIZE[row['SIZRFRI3']],
       'fridge_3_type'              => FRIDGE_TYPE[row['TYPERFR3']],
-      'fridge_3_use'               => numerize(row['MONRFRI3']),
+      'fridge_3_use'               => numerize(row['MONRFRI3'], nil),
       'fridge_incent'              => INCENTIVE[row['HELPFRI']],
       'fridge_incent_year'         => YEAR_INCENTIVIZED[row['HELPFRIY']],
       'fridge_replaced'            => BOOLEAN[row['REPLCFRI']],
@@ -677,31 +690,29 @@ class Recs2009Response::Parser
       'fuel_oil_heat_2'            => BOOLEAN[row['FOILAUX']],
       'fuel_oil_water'             => BOOLEAN[row['FOWATER']],
       'fuel_oil_other'             => BOOLEAN[row['FOOTHER']],
-      'garage'                     => garage(row),
-      'garage_cooled'              => BOOLEAN[row['GARGCOOL']],
-      'garage_heated'              => BOOLEAN[row['GARGHEAT']],
+      'garage_type'                => garage(row),
       'garage_size'                => GARAGE_SIZE[(BOOLEAN[row['PRKGPLC1']] ? row['SIZEOFGARAGE'] : row['SIZEOFDETACH'])],
       'heat_attic_portion'         => heat_cool_coverage(row['ATTCHEAT'], row['ATTCHT2'], row['PCTATTHT']),
       'heat_auto_adjust_day'       => BOOLEAN[row['AUTOHEATDAY']],
       'heat_auto_adjust_night'     => BOOLEAN[row['AUTOHEATNITE']],
       'heat_basement_portion'      => heat_cool_coverage(row['BASEHEAT'], row['BASEHT2'], row['PCTBSTHT']),
-      'heat_rooms'                 => numerize(row['HEATROOM']),
-      'heat_temp_away'             => numerize(row['TEMPGONE']),
-      'heat_temp_day'              => numerize(row['TEMPHOME']),
-      'heat_temp_night'            => numerize(row['TEMPNITE']),
-      'heater'                     => HEATER[row['EQUIPM']],
+      'heat_garage'                => BOOLEAN[row['GARGHEAT']],
+      'heat_rooms'                 => numerize(row['HEATROOM'], 0),
+      'heat_temp_away'             => numerize(row['TEMPGONE'], nil),
+      'heat_temp_day'              => numerize(row['TEMPHOME'], nil),
+      'heat_temp_night'            => numerize(row['TEMPNITE'], nil),
+      'heater'                     => [HEATER[row['EQUIPM']], HEATER[row['EQUIPNOHEAT']]].compact.first,
       'heater_age'                 => AGE[row['EQUIPAGE']],
-      'heater_fuel'                => FUEL[row['FUELHEAT']],
+      'heater_fuel'                => [FUEL[row['FUELHEAT']], FUEL[row['FUELNOHEAT']]].compact.first,
       'heater_incent'              => INCENTIVE[row['HELPHT']],
       'heater_incent_year'         => YEAR_INCENTIVIZED[row['HELPHTY']],
       'heater_maintained'          => BOOLEAN[row['MAINTHT']],
       'heater_portion'             => HEATER_PORTION[row['EQMAMT']],
       'heater_replaced'            => BOOLEAN[row['REPLCHT']],
       'heater_shared'              => BOOLEAN[row['HEATOTH']],
-      'heater_thermostats'         => numerize(row['NUMTHERM']),
-      'heater_unused'              => HEATER[row['EQUIPNOHEAT']],
-      'heater_unused_fuel'         => FUEL[row['FUELNOHEAT']],
-      'high_ceiling'               => BOOLEAN[row['HIGHCEIL']],
+      'heater_thermostats'         => numerize(row['NUMTHERM'], 0),
+      'heating'                    => BOOLEAN[row['HEATHOME']],
+      'high_ceiling'               => BOOLEAN_NO_NIL[row['HIGHCEIL']],
       'home_business'              => BOOLEAN[row['HBUSNESS']],
       'home_during_week'           => BOOLEAN[row['ATHOME']],
       'hot_tub_fuel'               => FUEL[row['FUELTUB']],
@@ -719,20 +730,20 @@ class Recs2009Response::Parser
       'insulation_added_year'      => year_improved(AGE[row['AGEINS']]),
       'insulation_incent'          => INCENTIVE[row['HELPINS']],
       'insulation_incent_year'     => YEAR_INCENTIVIZED[row['HELPINSY']],
-      'internet'                   => BOOLEAN[row['INTERNET']],
+      'internet'                   => BOOLEAN_NO_NIL[row['INTERNET']],
       'kerosene_heat'              => BOOLEAN[row['KRWARM']],
       'kerosene_heat_2'            => BOOLEAN[row['KEROAUX']],
       'kerosene_water'             => BOOLEAN[row['KRWATER']],
       'kerosene_other'             => BOOLEAN[row['KROTHER']],
       'latino'                     => BOOLEAN[row['SDESCENT']],
-      'levels'                     => [numerize(row['NAPTFLRS']), STORIES[row['STORIES']]].compact.first,
-      'lights_high_use_efficient'  => numerize(row['LGT12EE']),
+      'levels'                     => [numerize(row['NAPTFLRS'], nil), STORIES[row['STORIES']]].compact.first,
+      'lights_high_use_efficient'  => numerize(row['LGT12EE'], 0),
       'lights_incent'              => INCENTIVE[row['HELPCFL']],
       'lights_incent_year'         => YEAR_INCENTIVIZED[row['HELPCFLY']],
-      'lights_low_use_efficient'   => numerize(row['LGT1EE']),
-      'lights_med_use_efficient'   => numerize(row['LGT4EE']),
-      'lights_outdoor'             => numerize(row['NOUTLGTNT']),
-      'lights_outdoor_efficient'   => numerize(row['LGTOEE']),
+      'lights_low_use_efficient'   => numerize(row['LGT1EE'], 0),
+      'lights_med_use_efficient'   => numerize(row['LGT4EE'], 0),
+      'lights_outdoor'             => numerize(row['NOUTLGTNT'], 0),
+      'lights_outdoor_efficient'   => numerize(row['LGTOEE'], 0),
       'lights_replaced'            => BOOLEAN[row['INSTLCFL']],
       'low_rent'                   => BOOLEAN[row['RENTHELP']],
       'member_2_age'               => MEMBER_AGE[row['AGEHHMEMCAT2']],
@@ -776,10 +787,11 @@ class Recs2009Response::Parser
       'pays_natural_gas_other'     => payer(row['PUGOTH'], row['OTHERWAYNG']),
       'pays_fuel_oil'              => payer(row['FOPAY'], row['OTHERWAYFO']),
       'pays_propane'               => payer(row['LPGPAY'], row['OTHERWAYLPG']),
+      'pool'                       => BOOLEAN_NO_NIL[row['SWIMPOOL']],
       'pool_fuel'                  => FUEL[row['FUELPOOL']],
       'poverty_100'                => BOOLEAN[row['POVERTY100']],
       'poverty_150'                => BOOLEAN[row['POVERTY150']],
-      'printers'                   => numerize(row['PCPRINT']),
+      'printers'                   => numerize(row['PCPRINT'], 0),
       'propane_heat'               => BOOLEAN[row['LPWARM']],
       'propane_heat_2'             => BOOLEAN[row['LPGAUX']],
       'propane_water'              => BOOLEAN[row['LPWATER']],
@@ -791,7 +803,8 @@ class Recs2009Response::Parser
       'roof_material'              => ROOF_MATERIAL[row['ROOFTYPE']],
       'sex'                        => SEX[row['HHSEX']],
       'shaded'                     => BOOLEAN[row['TREESHAD']],
-      'slab'                       => BOOLEAN[row['CONCRETE']],
+      'slab'                       => BOOLEAN_NO_NIL[row['CONCRETE']],
+      'sliding_doors'              => numerize(row['DOOR1SUM'], 0),
       'solar_heat'                 => BOOLEAN[row['SOLWARM']],
       'solar_heat_2'               => BOOLEAN[row['SOLARAUX']],
       'solar_water'                => BOOLEAN[row['SOLWATER']],
@@ -799,10 +812,10 @@ class Recs2009Response::Parser
       'live_with_spouse'           => BOOLEAN[row['SPOUSE']],
       'stereo'                     => BOOLEAN[row['STEREO']],
       'stove_fuel'                 => FUEL[row['STOVENFUEL']],
-      'telecommuting'              => numerize(row['TELLDAYS']),
+      'telecommuting'              => numerize(row['TELLDAYS'], 0),
       'toaster'                    => BOOLEAN[row['TOASTER']],
       'tool_charging'              => CHARGING[row['BATCHRG']],
-      'tool_vampires'              => VAMPIRES[row['CHRGPLGT']],
+      'tool_vampires'              => vampires(row['BATCHRG'], row['CHRGPLGT']),
       'tools'                      => DEVICES[row['BATTOOLS']],
       'tv_size'                    => TV_SIZE[row['TVSIZE1']],
       'tv_theater'                 => BOOLEAN[row['TVAUDIOSYS1']],
@@ -822,7 +835,6 @@ class Recs2009Response::Parser
       'urban_rural'                => URBAN_RURAL[row['UR']],
       'unusual_activities'         => BOOLEAN[row['OTHWORK']],
       'wall_material'              => WALL_MATERIAL[row['WALLTYPE']],
-      'washer'                     => WASHER[row['TOPFRONT']],
       'washer_age'                 => AGE[row['AGECWASH']],
       'washer_energy_star'         => BOOLEAN[row['ESCWASH']],
       'washer_incent'              => INCENTIVE[row['HELPCW']],
@@ -830,6 +842,7 @@ class Recs2009Response::Parser
       'washer_replaced'            => BOOLEAN[row['REPLCCW']],
       'washer_temp_rinse'          => WASHER_TEMP[row['RNSETEMP']],
       'washer_temp_wash'           => WASHER_TEMP[row['WASHTEMP']],
+      'washer_type'                => WASHER_TYPE[row['TOPFRONT']],
       'washer_use'                 => WASHER_USE[row['WASHLOAD']],
       'water_heater'               => WATER_HEATER[row['H2OTYPE1']],
       'water_heater_age'           => AGE[row['WHEATAGE']],
@@ -843,6 +856,8 @@ class Recs2009Response::Parser
       'water_heater_2_age'         => AGE[row['WHEATAGE2']],
       'water_heater_2_fuel'        => FUEL[row['FUELH2O2']],
       'water_heater_2_size'        => WATER_HEATER_SIZE[row['WHEATSIZ2']],
+      'water_heaters_storage'      => row['NUMH2OHTRS'],
+      'water_heaters_tankless'     => row['NUMH2ONOTNK'],
       'well_pump'                  => BOOLEAN[row['WELLPUMP']],
       'window_panes'               => WINDOW_PANES[row['TYPEGLASS']],
       'windows'                    => WINDOWS[row['WINDOWS']],

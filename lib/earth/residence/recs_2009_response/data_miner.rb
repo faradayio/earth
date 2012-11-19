@@ -39,23 +39,18 @@ Recs2009Response.class_eval do
       store 'other_rooms'
       store 'attic_rooms'
       store 'basement_rooms'
-      store 'shaded'
-      
-      # outbuildings
-      store 'garage'
+      store 'garage_type'
       store 'garage_size'
-      store 'garage_heated'
-      store 'garage_cooled'
-      store 'pool_fuel'
-      store 'hot_tub_fuel'
+      store 'pool'
+      store 'shaded'
       
       # envelope
       store 'slab'
       store 'crawlspace'
-      store 'basement'
+      store 'basement_type'
+      store 'attic_type'
       store 'wall_material'
       store 'roof_material'
-      store 'attic'
       store 'windows'
       store 'window_panes'
       store 'sliding_doors'
@@ -64,6 +59,7 @@ Recs2009Response.class_eval do
       store 'high_ceiling'
       
       # HVAC
+      store 'heating'
       store 'heater'
       store 'heater_age'
       store 'heater_fuel'
@@ -80,28 +76,28 @@ Recs2009Response.class_eval do
       store 'heater_5_fuel'
       store 'heater_6'
       store 'heater_6_fuel'
-      store 'heater_unused'
-      store 'heater_unused_fuel'
+      store 'cooling'
       store 'cooler_central_age'
       store 'cooler_central_shared'
-      store 'cooler_acs'
+      store 'cooler_ac_units'
       store 'cooler_ac_age'
       store 'cooler_ac_energy_star'
-      store 'cooler_unused'
       store 'fans'
       
       # water heating
+      store 'water_heaters_storage'
+      store 'water_heaters_tankless'
       store 'water_heater'
       store 'water_heater_fuel'
-      store 'water_heater_size'
       store 'water_heater_age'
+      store 'water_heater_size'
       store 'water_heater_shared'
       store 'water_heater_2'
       store 'water_heater_2_fuel'
-      store 'water_heater_2_size'
       store 'water_heater_2_age'
-      store 'storage_water_heaters'
-      store 'tankless_water_heaters'
+      store 'water_heater_2_size'
+      store 'pool_fuel'
+      store 'hot_tub_fuel'
       
       # lighting
       store 'lights_high_use'
@@ -120,8 +116,8 @@ Recs2009Response.class_eval do
       store 'cooktops'
       store 'cooktop_fuel'
       store 'ovens'
-      store 'oven_type'
       store 'oven_fuel'
+      store 'oven_type'
       store 'outdoor_grill_fuel'
       store 'indoor_grill_fuel'
       store 'toaster'
@@ -155,7 +151,7 @@ Recs2009Response.class_eval do
       store 'freezer_2_age'
       store 'dishwasher_age'
       store 'dishwasher_energy_star'
-      store 'washer'
+      store 'washer_type'
       store 'washer_age'
       store 'washer_energy_star'
       store 'dryer_fuel'
@@ -201,6 +197,7 @@ Recs2009Response.class_eval do
       store 'heat_rooms'
       store 'heat_attic_portion'
       store 'heat_basement_portion'
+      store 'heat_garage'
       store 'heat_temp_day',         :units => :degrees_fahrenheit
       store 'heat_temp_night',       :units => :degrees_fahrenheit
       store 'heat_temp_away',        :units => :degrees_fahrenheit
@@ -210,6 +207,7 @@ Recs2009Response.class_eval do
       store 'cool_rooms'
       store 'cool_attic_portion'
       store 'cool_basement_portion'
+      store 'cool_garage'
       store 'cool_temp_day',         :units => :degrees_fahrenheit
       store 'cool_temp_night',       :units => :degrees_fahrenheit
       store 'cool_temp_away',        :units => :degrees_fahrenheit
@@ -218,14 +216,14 @@ Recs2009Response.class_eval do
       store 'cooler_central_use'
       store 'cooler_ac_use'
       store 'fan_use'
-      store 'humidifier_use',        :units => :months_per_year
-      store 'dehumidifier_use',      :units => :months_per_year
+      store 'humidifier_use',        :units => :months
+      store 'dehumidifier_use',      :units => :months
       store 'oven_use',              :units => :times_per_month
       store 'microwave_use'
       store 'microwave_defrost'
       store 'cooking_frequency',     :units => :times_per_month
-      store 'fridge_2_use',          :units => :months_per_year
-      store 'fridge_3_use',          :units => :months_per_year
+      store 'fridge_2_use',          :units => :months
+      store 'fridge_3_use',          :units => :months
       store 'dishwasher_use',        :units => :times_per_month
       store 'washer_use',            :units => :times_per_month
       store 'washer_temp_wash'
@@ -257,13 +255,13 @@ Recs2009Response.class_eval do
       store 'insulation_added_year'
       store 'insulation_incent'
       store 'insulation_incent_year'
-      store 'windows_replaced'
-      store 'windows_incent'
-      store 'windows_incent_year'
       store 'caulking_added'
       store 'caulking_added_year'
       store 'caulking_incent'
       store 'caulking_incent_year'
+      store 'windows_replaced'
+      store 'windows_incent'
+      store 'windows_incent_year'
       store 'heater_maintained'
       store 'heater_replaced'
       store 'heater_incent'
