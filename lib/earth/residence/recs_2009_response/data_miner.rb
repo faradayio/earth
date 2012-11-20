@@ -5,7 +5,7 @@ Recs2009Response.class_eval do
     import 'the 2009 EIA Residential Energy Consumption Survey microdata',
            # :url => "file:///Users/ian/Downloads/recs2009_test.csv",
            :url => "file:///Users/ian/Downloads/recs2009_public_v2.csv",
-           :transform => { :class => Recs2009Response::Parser } do
+           :transform => { :class => 'Recs2009Response::Parser' } do
       key   'id'
       store 'weighting'
       
