@@ -22,16 +22,17 @@ module Earth
       args = [glob, options]
       return if @require_glob.include?(args)
       @require_glob << args
-      data_miner_paths = []
+      require_later = []
       ::Dir[glob].each do |path|
-        if path.include?('data_miner')
-          data_miner_paths << path
+        # ugh
+        if path.include?('data_miner') or path.include?('parser')
+          require_later << path
         else
           require path
         end
       end
       # load data_miner blocks second to make sure they override
-      data_miner_paths.each do |path|
+      require_later.each do |path|
         require path
       end if options[:load_data_miner] || options[:mine_original_sources]
       nil
