@@ -489,7 +489,7 @@ class Recs2009Response::Parser
   end
   
   def vampires(charging, unplugging)
-    if charging = '1'
+    if charging == '1'
       'Chargers never unplugged'
     else
       case unplugging
