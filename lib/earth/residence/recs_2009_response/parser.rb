@@ -392,6 +392,11 @@ class Recs2009Response::Parser
     '7' => 2002, # 2000 to 2004
     '8' => 2007  # 2005 to 2009
   }
+
+  # required by remote_table transform
+  def initialize(*)
+    # nothing to see here
+  end
   
   def computer_idle(on_off, sleep)
     if BOOLEAN[on_off]
