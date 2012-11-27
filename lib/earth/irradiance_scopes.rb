@@ -1,5 +1,5 @@
 module Earth
-  module InsolationScopes
+  module IrradianceScopes
     def self.included(target)
       target.scope :at_lat_lon, lambda { |lat, lon|
         target.where('nw_lat > ? AND nw_lon > ? AND se_lat < ? AND se_lon < ?', lat, lon, lat, lon)

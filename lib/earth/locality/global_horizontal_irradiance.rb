@@ -1,12 +1,12 @@
 require 'earth/model'
-require 'earth/insolation_scopes'
+require 'earth/irradiance_scopes'
 
-class DirectNormalInsolation < ActiveRecord::Base
+class GlobalHorizontalIrradiance < ActiveRecord::Base
   extend Earth::Model
-  include Earth::InsolationScopes
+  include Earth::IrradianceScopes
 
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE direct_normal_insolations
+CREATE TABLE global_horizontal_irradiances
   (
      row_hash       CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      nw_lat         FLOAT,
@@ -32,6 +32,6 @@ EOS
 
   self.primary_key = 'row_hash'
 
-  warn_unless_size 90508
+  warn_unless_size 138970
   warn_if_any_nulls
 end

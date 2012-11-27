@@ -1,12 +1,12 @@
 require 'earth/model'
-require 'earth/insolation_scopes'
+require 'earth/irradiance_scopes'
 
-class PhotovoltaicInsolation < ActiveRecord::Base
+class PhotovoltaicIrradiance < ActiveRecord::Base
   extend Earth::Model
-  include Earth::InsolationScopes
+  include Earth::IrradianceScopes
 
   TABLE_STRUCTURE = <<-EOS
-CREATE TABLE photovoltaic_insolations
+CREATE TABLE photovoltaic_irradiances
   (
      row_hash       CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
      nw_lat         FLOAT,

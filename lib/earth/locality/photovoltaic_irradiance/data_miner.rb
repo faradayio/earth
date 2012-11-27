@@ -1,20 +1,20 @@
 begin
   require 'geo_ruby'
 rescue LoadError
-  puts '[Earth] You need to install the geo_ruby gem to mine Insolation from scratch'
+  puts '[Earth] You need to install the geo_ruby gem to mine PhotovoltaicIrradiance from scratch'
   exit
 end
 begin
   require 'dbf'
 rescue LoadError
-  puts '[Earth] You need to install the dbf gem to mine Insolation from scratch'
+  puts '[Earth] You need to install the dbf gem to mine PhotovoltaicIrradiance from scratch'
   exit
 end
 require 'unix_utils'
 
-PhotovoltaicInsolation.class_eval do
+PhotovoltaicIrradiance.class_eval do
   data_miner do
-    import 'Photovoltaic Insolation shapefile from NREL at http://www.nrel.gov/gis/data_solar.html',
+    import 'Photovoltaic Irradiance (tilt = latitude) shapefile from NREL at http://www.nrel.gov/gis/data_solar.html',
           :url => 'http://www.nrel.gov/gis/cfm/data/GIS_Data_Technology_Specific/United_States/Solar/High_Resolution/Lower_48_LATTILT_High_Resolution.zip',
           :format => :shp do
       key :row_hash
