@@ -1,36 +1,31 @@
 require 'earth/model'
-require 'earth/irradiance_scopes'
 
 class DirectNormalIrradiance < ActiveRecord::Base
   extend Earth::Model
-  include Earth::IrradianceScopes
 
   TABLE_STRUCTURE = <<-EOS
 CREATE TABLE direct_normal_irradiances
   (
-     row_hash       CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
-     nw_lat         FLOAT,
-     nw_lon         FLOAT,
-     se_lat         FLOAT,
-     se_lon         FLOAT,
-     jan_average    FLOAT,
-     feb_average    FLOAT,
-     mar_average    FLOAT,
-     apr_average    FLOAT,
-     may_average    FLOAT,
-     jun_average    FLOAT,
-     jul_average    FLOAT,
-     aug_average    FLOAT,
-     sep_average    FLOAT,
-     oct_average    FLOAT,
-     nov_average    FLOAT,
-     dec_average    FLOAT,
-     annual_average FLOAT,
-     units          CHARACTER VARYING(255)
+     id         INTEGER NOT NULL PRIMARY KEY,
+     jan_avg    FLOAT,
+     feb_avg    FLOAT,
+     mar_avg    FLOAT,
+     apr_avg    FLOAT,
+     may_avg    FLOAT,
+     jun_avg    FLOAT,
+     jul_avg    FLOAT,
+     aug_avg    FLOAT,
+     sep_avg    FLOAT,
+     oct_avg    FLOAT,
+     nov_avg    FLOAT,
+     dec_avg    FLOAT,
+     annual_avg FLOAT,
+     units      CHARACTER VARYING(255),
+     geometry   GEOMETRY
   );
 EOS
 
-  self.primary_key = 'row_hash'
+  self.primary_key = 'id'
 
   warn_unless_size 90508
   warn_if_any_nulls

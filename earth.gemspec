@@ -33,13 +33,12 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'bundler'
   s.add_development_dependency 'charisma'
   s.add_development_dependency 'cucumber'
-  s.add_development_dependency 'dbf'
   s.add_development_dependency 'factory_girl'
-  s.add_development_dependency 'georuby'
-  s.add_development_dependency 'mysql2' # for bin/earth_tester.rb; use mysql2 for utf-8 compatibility
+  s.add_development_dependency 'activerecord-mysql2spatial-adapter' # for utf-8 compatibility and spatial columns
   s.add_development_dependency 'pg'
   s.add_development_dependency 'rake'
   s.add_development_dependency 'rdoc'
+  s.add_development_dependency 'rgeo-shapefile'
   s.add_development_dependency 'rspec'
   s.add_development_dependency 'sandbox'
   s.add_development_dependency 'sqlite3'

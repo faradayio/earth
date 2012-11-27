@@ -69,7 +69,7 @@ class EarthTester < Thor
         system %{mysql -u root -ppassword -e "CREATE DATABASE test_earth CHARSET utf8"}
       end
       ActiveRecord::Base.establish_connection(
-        'adapter' => (RUBY_PLATFORM == 'java' ? 'mysql' : 'mysql2'),
+        'adapter' => (RUBY_PLATFORM == 'java' ? 'mysql' : 'mysql2spatial'),
         'encoding' => 'utf8',
         'database' => 'test_earth',
         'username' => 'root',

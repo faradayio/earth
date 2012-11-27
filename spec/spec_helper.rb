@@ -6,7 +6,7 @@ require 'data_miner'
 require 'factory_girl'
 
 ENV['EARTH_ENV'] ||= 'test'
-ENV['DATABASE_URL'] ||= 'mysql2://root:password@localhost/test_earth'
+ENV['DATABASE_URL'] ||= 'mysql2spatial://root:password@localhost/test_earth'
 
 require 'support/integration'
 include Integration

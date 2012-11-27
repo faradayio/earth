@@ -1,41 +1,39 @@
 begin
-  require 'geo_ruby'
+  require 'rgeo-shapefile'
 rescue LoadError
-  puts '[Earth] You need to install the geo_ruby gem to mine PhotovoltaicIrradiance from scratch'
-  exit
-end
-begin
-  require 'dbf'
-rescue LoadError
-  puts '[Earth] You need to install the dbf gem to mine PhotovoltaicIrradiance from scratch'
+  puts '[Earth] You need to install the rgeo-shapefile gem to mine PhotovoltaicIrradiance from scratch'
   exit
 end
 require 'unix_utils'
 
 PhotovoltaicIrradiance.class_eval do
   data_miner do
-    import 'Photovoltaic Irradiance (tilt = latitude) shapefile from NREL at http://www.nrel.gov/gis/data_solar.html',
-          :url => 'http://www.nrel.gov/gis/cfm/data/GIS_Data_Technology_Specific/United_States/Solar/High_Resolution/Lower_48_LATTILT_High_Resolution.zip',
-          :format => :shp do
-      key :row_hash
-      store 'nw_lat',         :field_name => 'upper_corner_y'
-      store 'nw_lon',         :field_name => 'upper_corner_x'
-      store 'se_lat',         :field_name => 'lower_corner_y'
-      store 'se_lon',         :field_name => 'lower_corner_x'
-      store 'jan_average',    :field_name => 'JAN'
-      store 'feb_average',    :field_name => 'FEB'
-      store 'mar_average',    :field_name => 'MAR'
-      store 'apr_average',    :field_name => 'APR'
-      store 'may_average',    :field_name => 'MAY'
-      store 'jun_average',    :field_name => 'JUN'
-      store 'jul_average',    :field_name => 'JUL'
-      store 'aug_average',    :field_name => 'AUG'
-      store 'sep_average',    :field_name => 'SEP'
-      store 'oct_average',    :field_name => 'OCT'
-      store 'nov_average',    :field_name => 'NOV'
-      store 'dec_average',    :field_name => 'DEC'
-      store 'annual_average', :field_name => 'ANNUAL'
-      store 'units', :static => 'kilowatt_hours_per_square_metre_per_day'
+    process 'Import the NREL Lower 48 Global Horizontal Irradiance shapefile' do
+      zip = UnixUtils.curl 'http://www.nrel.gov/gis/cfm/data/GIS_Data_Technology_Specific/United_States/Solar/High_Resolution/Lower_48_LATTILT_High_Resolution.zip'
+      Dir.chdir UnixUtils.unzip(zip) do
+        RGeo::Shapefile::Reader.open('us9805_latilt.shp') do |shapefile|
+          shapefile.each do |record|
+            data = record.attributes
+            pvi = PhotovoltaicIrradiance.new :jan_avg => data['JAN'],
+              :feb_avg => data['FEB'],
+              :mar_avg => data['MAR'],
+              :apr_avg => data['APR'],
+              :may_avg => data['MAY'],
+              :jun_avg => data['JUN'],
+              :jul_avg => data['JUL'],
+              :aug_avg => data['AUG'],
+              :sep_avg => data['SEP'],
+              :oct_avg => data['OCT'],
+              :nov_avg => data['NOV'],
+              :dec_avg => data['DEC'],
+              :annual_avg => data['ANNUAL'],
+              :units => 'kilowatt_hours_per_square_metre_per_day',
+              :geometry => record.geometry
+            pvi.id = data['ID']
+            pvi.save!
+          end
+        end
+      end
     end
   end
 end

@@ -1,41 +1,39 @@
 begin
-  require 'geo_ruby'
+  require 'rgeo-shapefile'
 rescue LoadError
-  puts '[Earth] You need to install the geo_ruby gem to mine GlobalHorizontalIrradiance from scratch'
-  exit
-end
-begin
-  require 'dbf'
-rescue LoadError
-  puts '[Earth] You need to install the dbf gem to mine GlobalHorizontalIrradiance from scratch'
+  puts '[Earth] You need to install the rgeo-shapefile gem to mine GlobalHorizontalIrradiance from scratch'
   exit
 end
 require 'unix_utils'
 
 GlobalHorizontalIrradiance.class_eval do
   data_miner do
-    import 'Global Horizontal Irradiance shapefile from NREL at http://www.nrel.gov/gis/data_solar.html',
-          :url => 'http://www.nrel.gov/gis/cfm/data/GIS_Data_Technology_Specific/United_States/Solar/High_Resolution/Lower_48_GHI_High_Resolution.zip',
-          :format => :shp do
-      key :row_hash
-      store 'nw_lat',         :field_name => 'upper_corner_y'
-      store 'nw_lon',         :field_name => 'upper_corner_x'
-      store 'se_lat',         :field_name => 'lower_corner_y'
-      store 'se_lon',         :field_name => 'lower_corner_x'
-      store 'jan_average',    :field_name => 'GHI01'
-      store 'feb_average',    :field_name => 'GHI02'
-      store 'mar_average',    :field_name => 'GHI03'
-      store 'apr_average',    :field_name => 'GHI04'
-      store 'may_average',    :field_name => 'GHI05'
-      store 'jun_average',    :field_name => 'GHI06'
-      store 'jul_average',    :field_name => 'GHI07'
-      store 'aug_average',    :field_name => 'GHI08'
-      store 'sep_average',    :field_name => 'GHI09'
-      store 'oct_average',    :field_name => 'GHI10'
-      store 'nov_average',    :field_name => 'GHI11'
-      store 'dec_average',    :field_name => 'GHI12'
-      store 'annual_average', :field_name => 'GHIANN'
-      store 'units', :static => 'kilowatt_hours_per_square_metre_per_day'
+    process 'Import the NREL Lower 48 Global Horizontal Irradiance shapefile' do
+      zip = UnixUtils.curl 'http://www.nrel.gov/gis/cfm/data/GIS_Data_Technology_Specific/United_States/Solar/High_Resolution/Lower_48_GHI_High_Resolution.zip'
+      Dir.chdir UnixUtils.unzip(zip) do
+        RGeo::Shapefile::Reader.open('l48_ghi_10km.shp') do |shapefile|
+          shapefile.each do |record|
+            data = record.attributes
+            ghi = GlobalHorizontalIrradiance.new :jan_avg => data['GHI01'],
+              :feb_avg => data['GHI02'],
+              :mar_avg => data['GHI03'],
+              :apr_avg => data['GHI04'],
+              :may_avg => data['GHI05'],
+              :jun_avg => data['GHI06'],
+              :jul_avg => data['GHI07'],
+              :aug_avg => data['GHI08'],
+              :sep_avg => data['GHI09'],
+              :oct_avg => data['GHI10'],
+              :nov_avg => data['GHI11'],
+              :dec_avg => data['GHI12'],
+              :annual_avg => data['GHIANN'],
+              :units => 'kilowatt_hours_per_square_metre_per_day',
+              :geometry => record.geometry
+            ghi.id = data['ID']
+            ghi.save!
+          end
+        end
+      end
     end
   end
 end
