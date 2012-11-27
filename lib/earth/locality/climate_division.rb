@@ -1,5 +1,4 @@
 require 'earth/model'
-
 require 'earth/locality/state'
 require 'earth/locality/zip_code'
 
@@ -7,7 +6,6 @@ class ClimateDivision < ActiveRecord::Base
   extend Earth::Model
 
   TABLE_STRUCTURE = <<-EOS
-
 CREATE TABLE climate_divisions
   (
      name                      CHARACTER VARYING(255) NOT NULL PRIMARY KEY,
@@ -15,7 +13,9 @@ CREATE TABLE climate_divisions
      heating_degree_days_units CHARACTER VARYING(255),
      cooling_degree_days       FLOAT,
      cooling_degree_days_units CHARACTER VARYING(255),
-     state_postal_abbreviation CHARACTER VARYING(255)
+     state_postal_abbreviation CHARACTER VARYING(255),
+     geometry                  GEOMETRY,
+     division                  CHARACTER VARYING(255)
   );
 EOS
 
