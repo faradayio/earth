@@ -70,31 +70,41 @@ EOS
   def fuel_ratios
     # Don't return a ratio if reported total energy was withheld
     if energy.to_f > 0
+
       # Calculate the sum of all fuels and note if any were withheld
-      withheld = 0
+      withheld = false
       fuels_sum = MecsEnergy::FUELS.inject(0) do |sum, fuel|
-        (value = send("#{fuel}")).nil? ? withheld = 1 : sum += value
+        if (v = send(fuel)).nil?
+          withheld = true
+        else
+          sum += v
+        end
         sum
       end
       
-      # If energy > sum of all fuels and some fuels were withheld, calculate fuel ratios as fraction of energy
-      # and attribute the disparity between energy and sum of all fuels to the dirtiest fuel that was withheld
-      if energy > fuels_sum and withheld == 1
-        ratios = MecsEnergy::FUELS.inject({}) do |r, fuel|
-          fuel_use = send("#{fuel}")
-          r[fuel] = fuel_use.present? ? fuel_use / energy : nil
-          r
+      if energy > fuels_sum and withheld
+        # If energy > sum of all fuels and some fuels were withheld, calculate fuel ratios as fraction of energy
+        # and attribute the disparity between energy and sum of all fuels to the dirtiest fuel that was withheld
+        ratios = MecsEnergy::FUELS.inject({}) do |memo, fuel|
+          memo[fuel] = if (v = send(fuel)).present?
+            v / energy
+          else
+            nil
+          end
+          memo
         end
-        
         dirtiest_withheld = ([:coal, :other_fuel, :coke_and_breeze, :residual_fuel_oil, :distillate_fuel_oil, :lpg_and_ngl, :natural_gas] & ratios.select{|k,v| v.nil?}.keys).first
         ratios[dirtiest_withheld] = (energy - fuels_sum) / energy
-        ratios.delete_if{ |fuel, ratio| ratio.to_f == 0.0 }
-      # Otherwise calculate ratios as fraction of sum of all fuels, skipping any fuels that were withheld
+        ratios.delete_if do |fuel, ratio|
+          ratio.to_f == 0.0
+        end
       else
-        ratios = MecsEnergy::FUELS.inject({}) do |r, fuel|
-          fuel_use = send("#{fuel}")
-          r[fuel] = fuel_use / fuels_sum if fuel_use.to_f > 0
-          r
+        # Otherwise calculate ratios as fraction of sum of all fuels, skipping any fuels that were withheld
+        ratios = MecsEnergy::FUELS.inject({}) do |memo, fuel|
+          if (v = send(fuel).to_f) > 0
+            memo[fuel] = v / fuels_sum
+          end
+          memo 
         end
         ratios.keys.any? ? ratios : nil
       end

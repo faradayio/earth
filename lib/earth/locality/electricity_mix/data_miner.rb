@@ -64,10 +64,10 @@ ElectricityMix.class_eval do
         sub_pops = state.zip_codes.known_subregion.sum(:population, :group => :egrid_subregion)
         
         %w{ co2 ch4 n2o }.each do |gas|
-          ef = sub_pops.inject(0) do |memo, (subregion, population)|
-            memo += subregion.send("#{gas}_emission_factor") * population
-            memo
-          end / sub_pops.values.sum
+          ef = sub_pops.sum do |subregion, population|
+            subregion.send("#{gas}_emission_factor") * population
+          end
+          ef /= sub_pops.values.sum
           
           mix.update_attributes!(
             "#{gas}_emission_factor" => ef,
@@ -75,10 +75,10 @@ ElectricityMix.class_eval do
           )
         end
         
-        lf = sub_pops.inject(0) do |memo, (subregion, population)|
-          memo += subregion.egrid_region.loss_factor * population
-          memo
-        end / sub_pops.values.sum
+        lf = sub_pops.sum do |subregion, population|
+          subregion.egrid_region.loss_factor * population
+        end
+        lf /= sub_pops.values.sum
         
         mix.update_attributes! :loss_factor => lf
       end

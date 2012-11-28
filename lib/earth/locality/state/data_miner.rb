@@ -44,20 +44,20 @@ State.class_eval do
       safe_find_each do |state|
         sub_pops = state.zip_codes.known_subregion.sum(:population, :group => :egrid_subregion)
         
-        ef = sub_pops.inject(0) do |memo, (subregion, population)|
-          memo += subregion.electricity_emission_factor * population
-          memo
-        end / sub_pops.values.sum
+        ef = sub_pops.sum do |subregion, population|
+          subregion.electricity_emission_factor * population
+        end
+        ef /= sub_pops.values.sum
         
         state.update_attributes!(
           :electricity_emission_factor => ef,
           :electricity_emission_factor_units => 'kilograms_co2e_per_kilowatt_hour'
         )
         
-        loss_factor = sub_pops.inject(0) do |memo, (subregion, population)|
-          memo += subregion.egrid_region.loss_factor * population
-          memo
-        end / sub_pops.values.sum
+        loss_factor = sub_pops.sum do |subregion, population|
+          subregion.egrid_region.loss_factor * population
+        end
+        loss_factor /= sub_pops.values.sum
         
         state.update_attributes! :electricity_loss_factor => loss_factor
       end
