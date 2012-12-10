@@ -110,7 +110,7 @@ AutomobileMakeModelYearVariant.class_eval do
       2009 => { :url => 'http://www.fueleconomy.gov/FEG/epadata/09data.zip',   :filename => '2009_FE_guide for DOE_ALL-rel dates-no-sales-8-28-08download.csv' },
       2010 => { :url => 'http://www.fueleconomy.gov/FEG/epadata/10data.zip',   :filename => '2010FEGuide for DOE-all rel dates-no-sales-02-22-2011public.xlsx' },
       2011 => { :url => 'http://www.fueleconomy.gov/FEG/epadata/11data.zip',   :filename => '2011FEGuide-for DOE rel-dates before 1-23-2011-no-sales-01-10-2011_All_public.xlsx' },
-      2012 => { :url => 'http://www.fueleconomy.gov/feg/epadata/12data.zip',   :filename => '2012 FEGuide for DOE-rev99-rel dates before 3-13-2012-no-sales_public.xlsx' }
+      2012 => { :url => 'http://www.fueleconomy.gov/feg/epadata/12data.zip',   :filename => '2012 FEGuide-for DOE-OK to release-no-sales-11-13-2012public' }
     })
     
     fuel_economy_guides.each do |year, options|
