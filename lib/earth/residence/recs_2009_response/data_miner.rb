@@ -3,7 +3,7 @@ require 'earth/residence/recs_2009_response/parser'
 Recs2009Response.class_eval do
   data_miner do
     import 'the 2009 EIA Residential Energy Consumption Survey microdata',
-           :url => 'http://www.eia.gov/consumption/residential/data/2009/csv/recs2009_public_v2.csv',
+           :url => 'http://www.eia.gov/consumption/residential/data/2009/csv/recs2009_public_v3.csv',
            :transform => { :class => Recs2009Response::Parser } do
       key   'id'
       store 'weighting'
