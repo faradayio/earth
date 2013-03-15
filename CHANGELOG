@@ -1,3 +1,15 @@
+1.1.2 / 2013-03-15
+
+* Enhancements
+
+  * 2012 Fuel Economy Guide
+  * RECS 2009 microdata
+  * New ZCTA urls from census.gov
+
+* Bug fixes
+
+  * Fix esoteric regression with loading RECS 2009
+
 1.1.0 / 2012-10-18
 
 * Breaking changes

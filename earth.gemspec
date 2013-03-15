@@ -4,7 +4,7 @@ require File.expand_path("../lib/earth/version", __FILE__)
 Gem::Specification.new do |s|
   s.name        = "earth"
   s.version     = Earth::VERSION
-  s.authors = ["Seamus Abshere", "Derek Kastner", "Andy Rossmeissl"]
+  s.authors = ["Seamus Abshere", "Derek Kastner", "Andy Rossmeissl", "Ian Hough"]
   s.email = ['seamus@abshere.net', 'dkastner@gmail.com', 'andy@rossmeissl.net', 'ijhough@gmail.com']
   s.homepage    = "https://github.com/brighterplanet/earth"
   s.summary     = %Q{Land, sky, and sea}
