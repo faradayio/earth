@@ -26,7 +26,7 @@ ZipCode.class_eval do
     
     # NOTE: ZCTAs are not zip codes but are based on the most common zip code in the area they cover - see http://www.census.gov/geo/ZCTA/zcta.html
     import 'US Census 2010 zip code tabulation area populations',
-           :url => 'http://www.census.gov/geo/www/2010census/zcta_rel/zcta_county_rel_10.txt' do
+           :url => 'http://www.census.gov/geo/maps-data/data/docs/rel/zcta_county_rel_10.txt' do
       key 'name', :field_name => 'ZCTA5', :sprintf => '%05d'
       store 'population', :field_name => 'ZPOP'
     end
