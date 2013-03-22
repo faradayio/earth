@@ -110,18 +110,19 @@ ResidenceFuelPrice.class_eval do
 
   data_miner do
     # electricity in dollars per kWh
-    import 'residential electricity prices from the EIA',
-           :url => 'http://www.eia.doe.gov/cneaf/electricity/page/sales_revenue.xls',
-           :select => proc { |row| row['Year'].to_s.first(4).to_i > 1989 } do
-      key 'row_hash'
-      store 'residence_fuel_type_name', :static => 'electricity'
-      store 'locatable_id', :field_name => 'State' # postal abbrev
-      store 'locatable_type', :static => 'State'
-      store 'price', :field_name => 'Average Retail Price Residential (c/kWh)', :from_units => :cents, :to_units => :dollars
-      store 'price_description', :static => 'dollars_per_kilowatt_hour'
-      store 'year', :field_name => 'Year'
-      store 'month', :field_name => 'Month'
-    end
+    # @seamusabshere 3/22/13 this has gone missing - redirects to http://www.eia.gov/electricity/data/eia826/
+    # import 'residential electricity prices from the EIA',
+    #        :url => 'http://www.eia.doe.gov/cneaf/electricity/page/sales_revenue.xls',
+    #        :select => proc { |row| row['Year'].to_s.first(4).to_i > 1989 } do
+    #   key 'row_hash'
+    #   store 'residence_fuel_type_name', :static => 'electricity'
+    #   store 'locatable_id', :field_name => 'State' # postal abbrev
+    #   store 'locatable_type', :static => 'State'
+    #   store 'price', :field_name => 'Average Retail Price Residential (c/kWh)', :from_units => :cents, :to_units => :dollars
+    #   store 'price_description', :static => 'dollars_per_kilowatt_hour'
+    #   store 'year', :field_name => 'Year'
+    #   store 'month', :field_name => 'Month'
+    # end
     
     # natural gas in dollars per cubic metre
     # breaks if date-performance is enabled because DateTime.parse(...1899...) dies
