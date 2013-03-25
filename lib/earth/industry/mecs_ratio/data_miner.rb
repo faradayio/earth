@@ -28,7 +28,7 @@ MecsRatio.class_eval do
   data_miner do
     MecsRatio::CENSUS_REGIONS.each do |region, data|
       import( "MECS table 6.1 #{region}",
-        :url => "http://www.eia.gov/emeu/mecs/mecs2006/excel/Table6_1.xls",
+        :url => "http://www.eia.gov/consumption/manufacturing/data/2006/xls/Table6_1.xls",
         :crop => data[:crop],
         :headers => ["NAICS Code", "Subsector and Industry", "Consumption per Employee", "Consumption per Dollar of Value Added", "Consumption per Dollar of Value of Shipments"]) do
         key :name, :synthesize => proc { |row| "#{Industry.format_naics_code(row["NAICS Code"])}-#{data[:code]}" }

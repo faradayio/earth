@@ -28,7 +28,8 @@ MecsEnergy.class_eval do
   data_miner do
     MecsEnergy::CENSUS_REGIONS.each do |region, data|
       import("MECS table 3.2 #{region}",
-        :url => "http://www.eia.gov/emeu/mecs/mecs2006/excel/Table3_2.xls",
+        # @seamusabshere note 2010 is available
+        :url => "http://www.eia.gov/consumption/manufacturing/data/2006/xls/Table3_2.xls",
         :crop => data[:crop],
         :headers => ["NAICS Code", "Subsector and Industry", "Total", "BLANK", "Net Electricity", "BLANK", "Residual Fuel Oil", "Distillate Fuel Oil", "Natural Gas", "BLANK", "LPG and NGL", "BLANK", "Coal", "Coke and Breeze", "Other"]) do
         key :name, :synthesize => proc { |row| "#{Industry.format_naics_code(row['NAICS Code'])}-#{data[:code]}" }
