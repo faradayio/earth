@@ -1,3 +1,9 @@
+unreleased
+
+* Breaking changes
+
+  * got rid of geocoder, so if you want ZipCode#near or Airport#distance_to, please require/extend yourself
+
 1.1.2 / 2013-03-15
 
 * Enhancements

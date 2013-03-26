@@ -29,7 +29,6 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'to_regexp'
   s.add_runtime_dependency 'weighted_average', '>=1.0.2'
   s.add_runtime_dependency 'timeframe'
-  s.add_runtime_dependency 'geocoder'
   s.add_development_dependency 'bundler'
   s.add_development_dependency 'charisma'
   s.add_development_dependency 'cucumber'

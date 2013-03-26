@@ -8,8 +8,6 @@ require 'earth/locality/state'
 require 'earth/electricity/electric_market'
 require 'earth/electricity/electric_utility'
 
-require 'geocoder'
-
 class ZipCode < ActiveRecord::Base
   data_miner do
     process "Ensure Country is imported because it's like a belongs_to association" do
@@ -18,8 +16,6 @@ class ZipCode < ActiveRecord::Base
   end
 
   extend Earth::Model
-  extend Geocoder::Model::ActiveRecord
-  Geocoder::Configuration.units = :km
 
   TABLE_STRUCTURE = <<-EOS
 
@@ -46,8 +42,6 @@ EOS
   has_many :electric_utilities, :through => :electric_markets
   
   scope :known_subregion, where('egrid_subregion_abbreviation IS NOT NULL')
-
-  reverse_geocoded_by :latitude, :longitude
 
   def country
     Country.united_states

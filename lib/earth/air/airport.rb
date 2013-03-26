@@ -4,13 +4,9 @@ require 'earth/loader'
 require 'earth/locality/country'
 require 'earth/air/flight_segment'
 
-require 'geocoder'
-
 class Airport < ActiveRecord::Base
   extend Earth::Model
-  extend Geocoder::Model::ActiveRecord
-  Geocoder::Configuration.units = :km
-
+  
   TABLE_STRUCTURE = <<-EOS
 
 CREATE TABLE airports
@@ -38,7 +34,5 @@ EOS
     :class_name => 'FlightSegment',
     :foreign_key => :destination_airport_iata_code
 
-  reverse_geocoded_by :latitude, :longitude
-  
   warn_unless_size 5325
 end
