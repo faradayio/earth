@@ -1,110 +1,110 @@
 date,name,email,type,section,action,x,y,condition,notes
-5/15/12,Ian Hough,ian@brighterplanet.com,meta,Intended use,,http://www.transtats.bts.gov/Download_Lookup.asp?Lookup=L_UNIQUE_CARRIERS,,,
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Code,reject,0YQ,,,duplicate name; not the code we have flights for
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Code,reject,FDM,,,duplicate name; not the code we have flights for
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Code,reject,ISL,,,duplicate name; not the code we have flights for
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Code,reject,IS,,,duplicate name; not the code we have flights for
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Code,reject,4C,,,now LAN Colombia
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,delete,.,,,
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,delete,",",,,
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,delete,(
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,delete,)
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,delete,/ ca$/i,,,
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,delete,/ co(rp)?(oration)?$/i,,,
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,/ co /i, ,,
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,delete, GmbH,,,
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,delete,/ inc(orporated)?/i,,,
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,delete,/ llc/i,,,
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,delete,/ l(imi)?te?d/i,,,
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,delete,/ lt$/i,,,
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,delete,/ ltd$/i,,,
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,/ ltd /i, ,,
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,delete,/ nv$/i,,,
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,delete,/ plc( and)?/i,,,
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,delete,/ pty$/i,,,
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,delete,/ sa( de cv)?$/i,,,
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,delete,/ sa de cv/i,,,
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,delete,/ s a( aerogal)?$/i,,,
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,delete,/ spa$/i,,,
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,delete,/ merged with.+/i,,,
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,delete, and Everts Air Cargo,,,
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,/internat'l/i,international,,
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,/.+/i,Atlantic Southeast Airlines,bts EV,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,/.+/i,ExpressJet,bts XE,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,/.+/i,SkyWest Airlines USA,bts OO,match name for ICAO/IATA codes
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,AAA-Action Air Carrier,Action Air Carrier,,
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,ABC Aerolineas dba Interjet,Interjet,,match name for ICAO/IATA codes
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,ABSA-Aerolinhas Brasileiras,ABSA Cargo|Aerolineas Brasileiras,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Aeroenlaces Nacionales,vivaAerobus,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Aerolineas Galapagos,Aerogal,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Aerolitoral,Aeromexico Connect,,match name for ICAO/IATA codes
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Aeropostal Alas De Venezuel,Aeropostal Alas de Venezuela,,match name for ICAO/IATA codes
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Aerovias Nac'l De Colombia,Avianca|Aerovias Nacionales de Colombia,,
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Aerovias Venezolanas-Avensa,Avensa|Aerovias Venezolanas,,
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Aerosvit Ukranian Airlines,Aerosvit Airlines,,
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Air North,Air North Airlines,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Air Wisconsin Airlines,Air Wisconsin,,match name for ICAO/IATA codes
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Alia-The Royal Jordanian,Royal Jordanian|Alia,,
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Arik Air International,Arik Air,,match name for ICAO/IATA codes
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Arrow Air,Arrow Cargo,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Bahamasair Holding,Bahamasair,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Bemidji Airlines,Bemidji Aviation,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,British Midland Airways,British Midland International,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Britannia Airways,Thomson Airways,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Cargolux Airlines International,Cargolux,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Casino Express,Xtra Airways,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Cielos De Peru,Cielos Airlines,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Compagnia Aerea Italiana,Alitalia,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Compagnie Nat'l Air France,Air France,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Compania Panamena Copa,COPA Airlines,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Concesionaria Vuela Compania De Aviacion Volaris,Volaris,,match name for ICAO/IATA codes
-6/22/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Continental Air Lines,Continental Airlines,,typo
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Corsair International,Corsairfly,,match name for ICAO/IATA codes
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,China Cargo Airline,China Cargo Airlines,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Eva Airways,Eva Air,,match name for ICAO/IATA codes
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Federal Express,FedEx,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Finnair Oy,Finnair,,match name for ICAO/IATA codes
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,/Grand Canyon Airlines.+Scenic Airlines/i,Scenic Airways|Grand Canyon Airlines,,
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Great Lakes Airlines,Great Lakes Aviation,,match name for ICAO/IATA codes
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Great Wall Airlines Company,Great Wall Airlines,,
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Gulfstream Int,Gulfstream International Airlines,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Hainan Airlines Company,Hainan Airlines,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Iberia Air Lines Of Spain,Iberia,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Insel Air International B V,Insel Air,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Japan Air Lines,Japan Airlines International,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Jazz Aviation LP,Jazz Air,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Korean Air Lines,Korean Air,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Lan-Chile Airlines,LAN Airlines,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Lan Peru Airlines,Lan Peru,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Lufthansa German Airlines,Lufthansa,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Malaysian Airline System,Malaysia Airlines,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Meridiana,Meridiana Fly,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,National Aviation Company of India,Air India,,match name for ICAO/IATA codes
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Nippon Cargo Airlines,NCA|Nippon Cargo Airlines,,
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Olympic Airways,Olympic Air,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Pakistan International Airlines,PIA,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Pan American World Airways Dominicana,PAWA Dominicana,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Peninsula Airways,Penair,,match name for ICAO/IATA codes
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Polar Air Cargo Airways,Polar Air Cargo,,
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Polskie Linie Lotnicze,LOT Polish Airlines,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Qantas Airways,QANTAS,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Qatar Airways QCSC,Qatar Airways,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Santa Barbara Airlines,SBA Airlines,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Sata Internacional,SATA International,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Scandinavian Airlines Sys,SAS,,match name for ICAO/IATA codes
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Sociedad Aeronautica De Med,SAM|Sociedad Aeronautica De Medellin,,
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Spirit Air Lines,Spirit Airlines,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Swiss International Airlines,Swiss,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Tap-Portuguese Airlines,TAP Portugal,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Transportes Aereos De Cabo,TACV Cabo Verde Airlines,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Transportes Aeros Meridiona,TAM Linhas Aereas,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,TUI Airlines Belgium NV d/b/a Jetairfly,Jetairfly,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,TUI Airlines Nederland BV,Arkefly,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Turk Hava Yollari AO,Turkish Airlines,,match name for ICAO/IATA codes
-6/22/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,United Air Lines,United Airlines,,typo
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,USA 3000 Airlines,USA 3000,,match name for ICAO/IATA codes
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Varig Logistica S/A,VarigLog,,
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Virgin Blue International Airlines t/a V Australia,Virgin Australia,,match name for ICAO/IATA codes
-9/12/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Warbelow,Warbelows Air,,match name for ICAO/IATA codes
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Yangtze River Express Airlines Company,Yangtze River Express,,
-5/15/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,/ d\/b\/a /i,|,,
+2012/05/15,Ian Hough,ian@brighterplanet.com,meta,Intended use,,http://www.transtats.bts.gov/Download_Lookup.asp?Lookup=L_UNIQUE_CARRIERS,,,
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Code,reject,0YQ,,,duplicate name; not the code we have flights for
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Code,reject,FDM,,,duplicate name; not the code we have flights for
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Code,reject,ISL,,,duplicate name; not the code we have flights for
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Code,reject,IS,,,duplicate name; not the code we have flights for
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Code,reject,4C,,,now LAN Colombia
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Description,delete,.,,,
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Description,delete,",",,,
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,delete,(
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,delete,)
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Description,delete,/ ca$/i,,,
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Description,delete,/ co(rp)?(oration)?$/i,,,
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,/ co /i, ,,
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Description,delete, GmbH,,,
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Description,delete,/ inc(orporated)?/i,,,
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Description,delete,/ llc/i,,,
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Description,delete,/ l(imi)?te?d/i,,,
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Description,delete,/ lt$/i,,,
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,delete,/ ltd$/i,,,
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,/ ltd /i, ,,
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,delete,/ nv$/i,,,
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Description,delete,/ plc( and)?/i,,,
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,delete,/ pty$/i,,,
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Description,delete,/ sa( de cv)?$/i,,,
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Description,delete,/ sa de cv/i,,,
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Description,delete,/ s a( aerogal)?$/i,,,
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Description,delete,/ spa$/i,,,
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Description,delete,/ merged with.+/i,,,
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Description,delete, and Everts Air Cargo,,,
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,/internat'l/i,international,,
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,/.+/i,Atlantic Southeast Airlines,bts EV,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,/.+/i,ExpressJet,bts XE,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,/.+/i,SkyWest Airlines USA,bts OO,match name for ICAO/IATA codes
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,AAA-Action Air Carrier,Action Air Carrier,,
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,ABC Aerolineas dba Interjet,Interjet,,match name for ICAO/IATA codes
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,ABSA-Aerolinhas Brasileiras,ABSA Cargo|Aerolineas Brasileiras,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Aeroenlaces Nacionales,vivaAerobus,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Aerolineas Galapagos,Aerogal,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Aerolitoral,Aeromexico Connect,,match name for ICAO/IATA codes
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Aeropostal Alas De Venezuel,Aeropostal Alas de Venezuela,,match name for ICAO/IATA codes
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Aerovias Nac'l De Colombia,Avianca|Aerovias Nacionales de Colombia,,
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Aerovias Venezolanas-Avensa,Avensa|Aerovias Venezolanas,,
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Aerosvit Ukranian Airlines,Aerosvit Airlines,,
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Air North,Air North Airlines,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Air Wisconsin Airlines,Air Wisconsin,,match name for ICAO/IATA codes
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Alia-The Royal Jordanian,Royal Jordanian|Alia,,
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Arik Air International,Arik Air,,match name for ICAO/IATA codes
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Arrow Air,Arrow Cargo,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Bahamasair Holding,Bahamasair,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Bemidji Airlines,Bemidji Aviation,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,British Midland Airways,British Midland International,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Britannia Airways,Thomson Airways,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Cargolux Airlines International,Cargolux,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Casino Express,Xtra Airways,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Cielos De Peru,Cielos Airlines,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Compagnia Aerea Italiana,Alitalia,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Compagnie Nat'l Air France,Air France,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Compania Panamena Copa,COPA Airlines,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Concesionaria Vuela Compania De Aviacion Volaris,Volaris,,match name for ICAO/IATA codes
+2012/06/22,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Continental Air Lines,Continental Airlines,,typo
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Corsair International,Corsairfly,,match name for ICAO/IATA codes
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,China Cargo Airline,China Cargo Airlines,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Eva Airways,Eva Air,,match name for ICAO/IATA codes
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Federal Express,FedEx,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Finnair Oy,Finnair,,match name for ICAO/IATA codes
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,/Grand Canyon Airlines.+Scenic Airlines/i,Scenic Airways|Grand Canyon Airlines,,
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Great Lakes Airlines,Great Lakes Aviation,,match name for ICAO/IATA codes
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Great Wall Airlines Company,Great Wall Airlines,,
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Gulfstream Int,Gulfstream International Airlines,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Hainan Airlines Company,Hainan Airlines,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Iberia Air Lines Of Spain,Iberia,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Insel Air International B V,Insel Air,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Japan Air Lines,Japan Airlines International,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Jazz Aviation LP,Jazz Air,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Korean Air Lines,Korean Air,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Lan-Chile Airlines,LAN Airlines,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Lan Peru Airlines,Lan Peru,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Lufthansa German Airlines,Lufthansa,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Malaysian Airline System,Malaysia Airlines,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Meridiana,Meridiana Fly,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,National Aviation Company of India,Air India,,match name for ICAO/IATA codes
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Nippon Cargo Airlines,NCA|Nippon Cargo Airlines,,
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Olympic Airways,Olympic Air,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Pakistan International Airlines,PIA,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Pan American World Airways Dominicana,PAWA Dominicana,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Peninsula Airways,Penair,,match name for ICAO/IATA codes
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Polar Air Cargo Airways,Polar Air Cargo,,
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Polskie Linie Lotnicze,LOT Polish Airlines,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Qantas Airways,QANTAS,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Qatar Airways QCSC,Qatar Airways,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Santa Barbara Airlines,SBA Airlines,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Sata Internacional,SATA International,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Scandinavian Airlines Sys,SAS,,match name for ICAO/IATA codes
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Sociedad Aeronautica De Med,SAM|Sociedad Aeronautica De Medellin,,
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Spirit Air Lines,Spirit Airlines,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Swiss International Airlines,Swiss,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Tap-Portuguese Airlines,TAP Portugal,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Transportes Aereos De Cabo,TACV Cabo Verde Airlines,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Transportes Aeros Meridiona,TAM Linhas Aereas,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,TUI Airlines Belgium NV d/b/a Jetairfly,Jetairfly,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,TUI Airlines Nederland BV,Arkefly,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Turk Hava Yollari AO,Turkish Airlines,,match name for ICAO/IATA codes
+2012/06/22,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,United Air Lines,United Airlines,,typo
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,USA 3000 Airlines,USA 3000,,match name for ICAO/IATA codes
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Varig Logistica S/A,VarigLog,,
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Virgin Blue International Airlines t/a V Australia,Virgin Australia,,match name for ICAO/IATA codes
+2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Warbelow,Warbelows Air,,match name for ICAO/IATA codes
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Yangtze River Express Airlines Company,Yangtze River Express,,
+2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,/ d\/b\/a /i,|,,
