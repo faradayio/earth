@@ -102,6 +102,7 @@ date,name,email,type,section,action,x,y,condition,notes
 2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,TUI Airlines Nederland BV,Arkefly,,match name for ICAO/IATA codes
 2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Turk Hava Yollari AO,Turkish Airlines,,match name for ICAO/IATA codes
 2012/06/22,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,United Air Lines,United Airlines,,typo
+2013/04/03,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,United Parcel Service,UPS,,match name for ICAO/IATA codes
 2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,USA 3000 Airlines,USA 3000,,match name for ICAO/IATA codes
 2012/05/15,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Varig Logistica S/A,VarigLog,,
 2012/09/12,Ian Hough,ian@brighterplanet.com,editorial,Description,replace,Virgin Blue International Airlines t/a V Australia,Virgin Australia,,match name for ICAO/IATA codes
