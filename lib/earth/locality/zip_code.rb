@@ -18,8 +18,8 @@ class ZipCode < ActiveRecord::Base
   end
 
   extend Earth::Model
-  extend Geocoder::Model::ActiveRecord
-  Geocoder::Configuration.units = :km
+  # extend Geocoder::Model::ActiveRecord
+  # Geocoder::Configuration.units = :km
 
   TABLE_STRUCTURE = <<-EOS
 
@@ -47,7 +47,7 @@ EOS
   
   scope :known_subregion, where('egrid_subregion_abbreviation IS NOT NULL')
 
-  reverse_geocoded_by :latitude, :longitude
+  # reverse_geocoded_by :latitude, :longitude
 
   def country
     Country.united_states
